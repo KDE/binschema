@@ -63,8 +63,11 @@ public class JavaParserGenerator {
 		out.println("    " + name + " parse" + name
 				+ "(LEInputStream in) throws IOException  {");
 		out.println("        " + name + " _s = new " + name + "();");
-		if (hasArrayMember(e)) {
+		if (hasElementWithAttribute(e, "count")) {
 			out.println("        int _c;");
+		}
+		if (hasElementWithAttribute(e, "optional")) {
+			out.println("        Object _m;");
 		}
 		NodeList l = e.getChildNodes();
 		for (int i = 0; i < l.getLength(); ++i) {
@@ -83,7 +86,7 @@ public class JavaParserGenerator {
 			return e.getAttribute("type");
 		} else if ("uint4".equals(t) || "uint8".equals(t)) {
 			return "byte";
-		} else if ("uint12".equals(t)) {
+		} else if ("uint12".equals(t) || "int16".equals(t)) {
 			return "short";
 		} else if ("uint16".equals(t) || "uint32".equals(t)
 				|| "int32".equals(t)) {
@@ -154,17 +157,17 @@ public class JavaParserGenerator {
 		return expression;
 	}
 
-	boolean hasArrayMember(Element e) {
+	boolean hasElementWithAttribute(Element e, String attribute) {
 		NodeList l = e.getChildNodes();
 		for (int i = 0; i < l.getLength(); ++i) {
 			Node n = l.item(i);
-			if (n instanceof Element && ((Element) n).hasAttribute("count")) {
+			if (n instanceof Element && ((Element) n).hasAttribute(attribute)) {
 				return true;
 			}
 		}
-		return false;
+		return false;		
 	}
-
+	
 	void printStructureMemberParser(PrintWriter out, Element e) {
 		String s = "        ";
 		String condition = prependStructureToExpression(e
@@ -192,6 +195,10 @@ public class JavaParserGenerator {
 		if ("".equals(count) && !"".equals(array)) {
 			// array for which no size is given: parse items until one fails
 			printVariableArrayParser(out, s, e);
+			return;
+		}
+		if (!"".equals(e.getAttribute("optional"))) {
+			printOptionalMemberParser(out, s, e);
 			return;
 		}
 		if (count.length() > 0) {
@@ -263,15 +270,36 @@ public class JavaParserGenerator {
 		out.println(s + "}");
 	}
 
+	void printOptionalMemberParser(PrintWriter out, String s, Element e) {
+		String type = e.getAttribute("type");
+		String name = e.getAttribute("name");
+		out.println(s + "_m = in.setMark();");
+		out.println(s + "try {");
+		out.println(s + "    _s." + name + " = parse" + type + "(in);");
+		out.println(s + "} catch(IncorrectValueException _e) {");
+		out.println(s + "    in.rewind(_m);");
+		out.println(s + "} catch(java.io.EOFException _e) {");
+		out.println(s + "    in.rewind(_m);");
+		out.println(s + "} finally {");
+		out.println(s + "    in.releaseMark(_m);");
+		out.println(s + "}");
+	}
+
 	void printLimitationCheck(PrintWriter out, String s, String name, Element e) {
 		NodeList l = e.getElementsByTagName("limitation");
 		for (int i = 0; i < l.getLength(); ++i) {
 			Element se = (Element) l.item(i);
+			String mname = se.getAttribute("name");
+			if (!"".equals(mname)) {
+				mname = name + "." + mname;
+			} else {
+				mname = name;
+			}
 			String condition = se.getAttribute("expression");
 			if ("".equals(condition)) {
-				condition = getCondition(name, se);
+				condition = getCondition(mname, se);
 			} else {
-				condition = getCond(name, condition);
+				condition = getExpression(mname, condition);
 			}
 
 			out.println(s + "if (!(" + condition + ")) {");
@@ -282,7 +310,7 @@ public class JavaParserGenerator {
 		}
 	}
 
-	String getCond(String structure, String expression) {
+	String getExpression(String structure, String expression) {
 		if (Pattern.matches(".*[A-Za-z].*", expression)) {
 			return prependStructureToExpression(expression, structure);
 		}
@@ -290,10 +318,6 @@ public class JavaParserGenerator {
 	}
 
 	String getCondition(String name, Element e) {
-		String mname = e.getAttribute("name");
-		if (!"".equals(mname)) {
-			name = name + "." + mname;
-		}
 		String maxValue = e.getAttribute("maxValue");
 		if (!"".equals(maxValue)) {
 			return name + " <= " + maxValue;

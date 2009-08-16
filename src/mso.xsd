@@ -30,6 +30,8 @@
 		<complexContent>
 			<extension base="tns:msoMemberType">
 				<attribute name="type" type="NCName" use="required" />
+				<attribute name="optional" type="boolean" use="optional"
+					default="false" />
 			</extension>
 		</complexContent>
 	</complexType>
@@ -50,6 +52,7 @@
 	<complexType name="structType">
 		<sequence>
 			<choice maxOccurs="unbounded" minOccurs="0">
+				<element name="int16" type="tns:intType" />
 				<element name="int32" type="tns:intType" />
 				<element name="uint4" type="tns:intType" />
 				<element name="uint8" type="tns:intType" />
