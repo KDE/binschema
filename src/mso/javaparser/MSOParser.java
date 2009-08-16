@@ -31,6 +31,7 @@ public class MSOParser {
 				DocumentInputStream in = new DocumentInputStream(e);
 				LEInputStream le = new LEInputStream(in);
 				boolean parsed = parser.parse(e.getName(), le);
+				System.out.println((in.available()/0.01/e.getSize())+"% left");
 			//	if (parsed && in.available() > 0) {
 			//		throw new IOException("trailing data in stream " + in.available());
 			//	}
