@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/mso"
+	xmlns:tns="http://www.example.org/mso" elementFormDefault="qualified">
+	<complexType name="limitationType">
+		<attribute name="name" type="NCName" use="optional" />
+		<attribute name="value" type="string" use="optional" />
+		<attribute name="valueRef" type="string" use="optional" />
+		<attribute name="minValue" type="string" use="optional" />
+		<attribute name="maxValue" type="string" use="optional" />
+	</complexType>
+	<complexType name="msoMemberType" abstract="true">
+		<sequence>
+			<choice maxOccurs="unbounded" minOccurs="0">
+				<element name="limitation" type="tns:limitationType" />
+			</choice>
+		</sequence>
+		<attribute name="name" type="NCName" use="required" />
+		<attribute name="array" type="boolean" use="optional"
+			default="false" />
+		<attribute name="count" type="string" use="optional" />
+		<attribute name="condition" type="string" use="optional" />
+	</complexType>
+	<complexType name="intType">
+		<complexContent>
+			<extension base="tns:msoMemberType">
+				<attribute name="default" type="int" use="optional" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="typeType">
+		<complexContent>
+			<extension base="tns:msoMemberType">
+				<attribute name="type" type="NCName" use="required" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="vartypeType">
+		<complexContent>
+			<extension base="tns:msoMemberType">
+				<attribute name="type" type="NCName" use="required" />
+				<attribute name="size" type="string" use="required" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="choiceType">
+		<sequence>
+			<element name="type" minOccurs="2" maxOccurs="unbounded" />
+		</sequence>
+		<attribute name="name" type="NCName" use="required" />
+	</complexType>
+	<complexType name="structType">
+		<sequence>
+			<choice maxOccurs="unbounded" minOccurs="0">
+				<element name="int32" type="tns:intType" />
+				<element name="uint4" type="tns:intType" />
+				<element name="uint8" type="tns:intType" />
+				<element name="uint12" type="tns:intType" />
+				<element name="uint16" type="tns:intType" />
+				<element name="uint32" type="tns:intType" />
+				<element name="type" type="tns:typeType" />
+				<element name="vartype" type="tns:vartypeType" />
+				<element name="choice" type="tns:choiceType" />
+			</choice>
+		</sequence>
+		<attribute name="name" type="NCName" use="required" />
+	</complexType>
+	<complexType name="msoType">
+		<sequence>
+			<element name="const" minOccurs="0" maxOccurs="unbounded" />
+			<element name="struct" type="tns:structType" minOccurs="0"
+				maxOccurs="unbounded">
+				<unique name="uniqueMembers">
+					<selector xpath="*" />
+					<field xpath="@name" />
+				</unique>
+			</element>
+			<element name="stream" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+	<element name="mso" type="tns:msoType">
+		<key name="uniqueStructs">
+			<selector xpath="tns:struct" />
+			<field xpath="@name" />
+		</key>
+		<keyref name="structRef" refer="tns:uniqueStructs">
+			<selector xpath="tns:struct/tns:*" />
+			<field xpath="@type" />
+		</keyref>
+	</element>
+</schema>

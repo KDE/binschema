@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mso xmlns='http://www.example.org/mso' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.example.org/mso mso.xsd'>
+	<const name="RT_CurrentUserAtom" value="0x0FF6" />
+	<struct name="RecordHeader">
+		<uint4 name="recVer" />
+		<uint12 name="recInstance" />
+		<uint16 name="recType" />
+		<uint32 name="recLen" />
+	</struct>
+	<struct name="CurrentUserAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0FF6" />
+			<!--
+				valueRef="RT_CurrentUserAtom" />
+			-->
+		</type>
+		<uint32 name="size">
+			<limitation value="0x14" />
+		</uint32>
+		<uint32 name="headerToken">
+			<limitation value="0xE391C05F|0xF3D1C4DF" />
+		</uint32>
+		<uint32 name="offsetToCurrentEdit" />
+		<uint16 name="lenUserName">
+			<limitation maxValue="255" />
+		</uint16>
+		<uint16 name="docFileVersion">
+			<limitation value="0x03F4" />
+		</uint16>
+		<uint8 name="majorVersion">
+			<limitation value="0x03" />
+		</uint8>
+		<uint8 name="minorVersion">
+			<limitation value="0x00" />
+		</uint8>
+		<uint16 name="unused" />
+		<uint8 name="ansiUserName" count="lenUserName" />
+		<uint32 name="relVersion">
+			<limitation value="0x8|0x9" />
+		</uint32>
+		<uint8 name="unicodeUserName" count="2*lenUserName" condition="rh.recLen==3*lenUserName" />
+	</struct>
+	<struct name="CurrentUserStream">
+		<type name="anon1" type="CurrentUserAtom" />
+	</struct>
+	<struct name="PicturesStream">
+		<type name="anon1" type="OfficeArtBStoreDelay" />
+	</struct>
+	<struct name="OfficeArtBStoreDelay">
+		<type name="anon1" array="true" type="OfficeArtBStoreContainerFileBlock" />
+	</struct>
+	<struct name="OfficeArtRecordHeader">
+		<uint4 name="recVer" />
+		<uint12 name="recInstance" />
+		<uint16 name="recType" />
+		<uint32 name="recLen" />
+	</struct>
+	<struct name="OfficeArtFBSE">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0x2" />
+			<limitation name="recInstance"
+				value="0xF01A|0xF01B|0xF01C|0xF01D|0xF01E|0xF01F|0xF029" />
+			<limitation name="recType" value="0xF007" />
+		</type>
+		<uint8 name="btWin32" />
+		<uint8 name="btMacOS" />
+		<uint8 name="rgbUid" array="true" count="16" />
+		<uint16 name="tag" />
+		<uint32 name="size">
+			<limitation minValue="8" />
+		</uint32>
+		<uint32 name="cRef" />
+		<uint32 name="foDelay" />
+		<uint8 name="unused1" />
+		<uint8 name="cbName" />
+		<uint8 name="unused2" />
+		<uint8 name="unused3" />
+		<uint8 name="nameData" array="true" count="rh.recLen-size-36" />
+		<type name="embeddedBlip" type="OfficeArtBlip" condition="size > 0">
+			<!--
+				this limitation is currently not supported because it requires
+				dynamic introspection <limitation name="rh.recInstance"
+				value="rh.recInstance" />
+			-->
+		</type>
+	</struct>
+	<struct name="OfficeArtBlipEMF">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0x3D4|0x3D5" />
+			<limitation name="recType" value="0xF01A" />
+		</type>
+		<uint8 name="rgbUid1" array="true" count="16" />
+		<uint8 name="rgbUid2" array="true" count="16"
+			condition="rh.recInstance == 0x3D5" />
+		<type name="metafileHeader" type="OfficeArtMetafileHeader" />
+		<uint8 name="BLIPFileData" array="true"
+			count="rh.recLen-((rh.recInstance==0x3D4)?50:66)" />
+	</struct>
+	<struct name="OfficeArtBlipWMF">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0x216|0x217" />
+			<limitation name="recType" value="0xF01B" />
+		</type>
+		<uint8 name="rgbUid1" array="true" count="16" />
+		<uint8 name="rgbUid2" array="true" count="16"
+			condition="rh.recInstance == 0x217" />
+		<type name="metafileHeader" type="OfficeArtMetafileHeader" />
+		<uint8 name="BLIPFileData" array="true"
+			count="rh.recLen-((rh.recInstance==0x216)?50:66)" />
+	</struct>
+	<struct name="OfficeArtBlipPICT">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0x542|0x543" />
+			<limitation name="recType" value="0xF01C" />
+		</type>
+		<uint8 name="rgbUid1" array="true" count="16" />
+		<uint8 name="rgbUid2" array="true" count="16"
+			condition="rh.recInstance == 0x543" />
+		<type name="metafileHeader" type="OfficeArtMetafileHeader" />
+		<uint8 name="BLIPFileData" array="true"
+			count="rh.recLen-((rh.recInstance==0x542)?50:66)" />
+	</struct>
+	<struct name="OfficeArtBlipJPEG">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0x46A|0x46B|0x6E2|0x6E3" />
+			<limitation name="recType" value="0xF01D" />
+		</type>
+		<uint8 name="rgbUid1" array="true" count="16" />
+		<uint8 name="rgbUid2" array="true" count="16"
+			condition="rh.recInstance == 0x46B || rh.recInstance == 0x6E3" />
+		<uint8 name="tag" />
+		<uint8 name="BLIPFileData" array="true"
+			count="rh.recLen-((rh.recInstance == 0x46A || rh.recInstance == 0x6E2)?17:33)" />
+	</struct>
+	<struct name="OfficeArtBlipPNG">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0x6E0|0x6E1" />
+			<limitation name="recType" value="0xF01E" />
+		</type>
+		<uint8 name="rgbUid1" array="true" count="16" />
+		<uint8 name="rgbUid2" array="true" count="16"
+			condition="rh.recInstance == 0x6E1" />
+		<uint8 name="tag" />
+		<uint8 name="BLIPFileData" array="true"
+			count="rh.recLen-((rh.recInstance==0x6E0)?17:33)" />
+	</struct>
+	<struct name="OfficeArtBlipDIB">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0x7A8|0x7A9" />
+			<limitation name="recType" value="0xF01F" />
+		</type>
+		<uint8 name="rgbUid1" array="true" count="16" />
+		<uint8 name="rgbUid2" array="true" count="16"
+			condition="rh.recInstance == 0x7A9" />
+		<uint8 name="tag" />
+		<uint8 name="BLIPFileData" array="true"
+			count="rh.recLen-((rh.recInstance==0x7A8)?17:33)" />
+	</struct>
+	<struct name="OfficeArtBlipTIFF">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0x6E4|0x6E5" />
+			<limitation name="recType" value="0xF020" />
+		</type>
+		<uint8 name="rgbUid1" array="true" count="16" />
+		<uint8 name="rgbUid2" array="true" count="16"
+			condition="rh.recInstance == 0x6E5" />
+		<uint8 name="tag" />
+		<uint8 name="BLIPFileData" array="true"
+			count="rh.recLen-((rh.recInstance==0x6E4)?17:33)" />
+	</struct>
+	<struct name="OfficeArtMetafileHeader">
+		<uint32 name="cbSize" />
+		<type name="rcBounds" type="RECT" />
+		<type name="ptSize" type="POINT" />
+		<uint32 name="cbsave" />
+		<uint8 name="compression" />
+		<uint8 name="filter" />
+	</struct>
+	<struct name="RECT">
+		<int32 name="left" />
+		<int32 name="top" />
+		<int32 name="right" />
+		<int32 name="bottom" />
+	</struct>
+	<struct name="POINT">
+		<int32 name="x" />
+		<int32 name="y" />
+	</struct>
+	<struct name="OfficeArtBlip">
+		<choice name="anon">
+			<type type="OfficeArtBlipEMF" />
+			<type type="OfficeArtBlipWMF" />
+			<type type="OfficeArtBlipPICT" />
+			<type type="OfficeArtBlipJPEG" />
+			<type type="OfficeArtBlipPNG" />
+			<type type="OfficeArtBlipDIB" />
+			<type type="OfficeArtBlipTIFF" />
+		</choice>
+	</struct>
+	<struct name="OfficeArtBStoreContainerFileBlock">
+		<choice name="anon">
+			<type type="OfficeArtFBSE" />
+			<type type="OfficeArtBlip" />
+		</choice>
+	</struct>
+	<struct name="PowerPointStruct">
+		<type name="anon1" type="RecordHeader" array="true">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x03E8" />
+		</type>
+	</struct>
+	<stream name="PowerPointDocument" key="PowerPoint Document"
+		type="PowerPointStruct" />
+	<stream name="CurrentUser" key="Current User" type="CurrentUserAtom" />
+	<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
+	<!--
+		<documentType name="ppt"> <stream name="CurrentUser" key="" /> <stream
+		name="PowerPointDocument" key="PowerPoint Document" /> <stream
+		name="Pictures" key="Pictures" optional="true" /> <stream
+		name="SummaryInformation" key="\005Summary Information Stream"
+		optional="true" /> <stream name="DocumentSummaryInformation"
+		key="\005DocumentSummaryInformation" optional="true" /> <stream
+		name="EncryptedSummary" key="EncryptedSummary" /> </documentType>
+	-->
+</mso>
