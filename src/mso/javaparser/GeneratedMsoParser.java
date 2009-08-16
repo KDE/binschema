@@ -1,21 +1,25 @@
 package mso.javaparser;
 import java.io.IOException;
 public class GeneratedMsoParser {
-    boolean parse(String key, LEInputStream in) throws IOException {
+    void parse(String key, LEInputStream in) throws IOException {
         if ("PowerPoint Document".equals(key)) {
-            parseDocumentContainer(in);
-            return true;
+            parsePowerPointStructs(in);
         } else if ("Current User".equals(key)) {
             parseCurrentUserAtom(in);
-            return true;
+        } else if ("Pictures".equals(key)) {
+            parseOfficeArtBStoreDelay(in);
+        } else {
+            parseTODOS(in);
         }
-        return false;
     }
     RecordHeader parseRecordHeader(LEInputStream in) throws IOException  {
         RecordHeader _s = new RecordHeader();
         _s.recVer = in.readuint4();
         _s.recInstance = in.readuint12();
         _s.recType = in.readuint16();
+        if (!(_s.recType>0)) {
+            throw new IncorrectValueException("_s.recType>0 for value " + String.valueOf(_s.recType) );
+        }
         _s.recLen = in.readuint32();
         return _s;
     }
@@ -495,8 +499,13 @@ public class GeneratedMsoParser {
         } catch (IncorrectValueException _x) {
             System.out.println(_x.getMessage());
             in.rewind(_m);
+        try {
             _s.anon = parseMasterOrSlideContainer(in);
-        } finally {
+        } catch (IncorrectValueException _xx) {
+            System.out.println(_xx.getMessage());
+            in.rewind(_m);
+            _s.anon = parseTODO(in);
+        }} finally {
             in.releaseMark(_m);
         }
         return _s;
@@ -936,6 +945,39 @@ public class GeneratedMsoParser {
         _s.data = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
             _s.data[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    TODO parseTODO(LEInputStream in) throws IOException  {
+        TODO _s = new TODO();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        _c = _s.rh.recLen;
+        _s.anon = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.anon[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    TODOS parseTODOS(LEInputStream in) throws IOException  {
+        TODOS _s = new TODOS();
+        boolean _atend = false;
+        int i=0;
+        while (!_atend) {
+            System.out.println("round "+(i++));
+            Object _m = in.setMark();
+            try {
+                TODO _t = parseTODO(in);
+                _s.anon.add(_t);
+            } catch(IncorrectValueException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+            }
         }
         return _s;
     }
@@ -1495,6 +1537,24 @@ class MetafileBlob{
         _s = _s + "xExt: " + String.valueOf(xExt) + ", ";
         _s = _s + "yExt: " + String.valueOf(yExt) + ", ";
         _s = _s + "data: " + String.valueOf(data) + ", ";
+        return _s;
+    }
+}
+class TODO{
+    RecordHeader rh;
+    byte[] anon;
+    public String toString() {
+        String _s = "TODO:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
+class TODOS{
+    final java.util.List<TODO> anon = new java.util.ArrayList<TODO>();
+    public String toString() {
+        String _s = "TODOS:";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
         return _s;
     }
 }

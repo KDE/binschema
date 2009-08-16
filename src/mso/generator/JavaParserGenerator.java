@@ -21,7 +21,7 @@ public class JavaParserGenerator {
 		out.println("import java.io.IOException;");
 		out.println("public class " + classname + " {");
 		out
-				.println("    boolean parse(String key, LEInputStream in) throws IOException {");
+				.println("    void parse(String key, LEInputStream in) throws IOException {");
 		NodeList l = dom.getElementsByTagName("stream");
 		for (int i = 0; i < l.getLength(); ++i) {
 			Element e = (Element) l.item(i);
@@ -36,10 +36,10 @@ public class JavaParserGenerator {
 			// \001 and \005
 			// prefix
 			out.println("            parse" + type + "(in);");
-			out.println("            return true;");
 		}
+		out.println("        } else {");
+		out.println("            parseTODOS(in);");
 		out.println("        }");
-		out.println("        return false;");
 		out.println("    }");
 
 		l = dom.getElementsByTagName("struct");

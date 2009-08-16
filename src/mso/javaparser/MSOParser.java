@@ -1,6 +1,8 @@
 package mso.javaparser;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -13,9 +15,9 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 public class MSOParser {
 	@SuppressWarnings("unchecked")
 	public void parse(String filepath) throws IOException {
-		
-		//if (test()) return;
-		
+
+		// if (test()) return;
+
 		GeneratedMsoParser parser = new GeneratedMsoParser();
 		POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(filepath));
 		DirectoryEntry root = fs.getRoot();
@@ -26,17 +28,28 @@ public class MSOParser {
 				System.out.println("found dir entry: " + entry.getName());
 			} else if (entry instanceof DocumentEntry) {
 				DocumentEntry e = (DocumentEntry) entry;
+				save("/tmp", e);
 				System.out.println("found entry: " + e.getName() + " "
 						+ e.getSize());
 				DocumentInputStream in = new DocumentInputStream(e);
 				LEInputStream le = new LEInputStream(in);
-				boolean parsed = parser.parse(e.getName(), le);
-				System.out.println((in.available()/0.01/e.getSize())+"% left");
-			//	if (parsed && in.available() > 0) {
-			//		throw new IOException("trailing data in stream " + in.available());
-			//	}
+				parser.parse(e.getName(), le);
+				if (in.available() > 0) {
+					throw new IOException("trailing data in stream "
+							+ e.getName() + ": " + in.available() + " bytes");
+				}
 			}
 		}
+	}
+
+	public void save(String dir, DocumentEntry e) throws IOException {
+		FileOutputStream f = new FileOutputStream(dir + "/" + e.getName());
+		DocumentInputStream in = new DocumentInputStream(e);
+		while (in.available() > 0) {
+			f.write(in.read());
+		}
+		f.close();
+		in.close();
 	}
 
 	static boolean test() {

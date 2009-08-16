@@ -5,7 +5,12 @@
 	<struct name="RecordHeader">
 		<uint4 name="recVer" />
 		<uint12 name="recInstance" />
-		<uint16 name="recType" />
+		<uint16 name="recType">
+			<!--
+					this limitation helps debugging
+				-->
+			<limitation expression="&gt;0" />
+		</uint16>
 		<uint32 name="recLen" />
 	</struct>
 	<struct name="CurrentUserAtom">
@@ -220,6 +225,7 @@
 		<choice name="anon">
 			<type type="DocumentContainer" />
 			<type type="MasterOrSlideContainer" />
+			<type type="TODO" />
 		</choice>
 	</struct>
 	<struct name="DocumentContainer">
@@ -443,10 +449,24 @@
 		<int16 name="yExt" />
 		<uint8 name="data" count="rh.recLen-6" />
 	</struct>
+	<struct name="TODO">
+		<!--
+			a placeholder for structures that are not in the document
+			specification yet
+		-->
+		<type name="rh" type="RecordHeader">
+			<!--
+				disallow structures that are implemented <limitation name="recType"
+				value="!1000" />
+			-->
+		</type>
+		<uint8 name="anon" count="rh.recLen" />
+	</struct>
+	<struct name="TODOS">
+		<type name="anon" type="TODO" array="true" />
+	</struct>
 	<stream name="PowerPointDocument" key="PowerPoint Document"
-		type="DocumentContainer" /> <!-- should be PowerPointStructs -->
+		type="PowerPointStructs" />
 	<stream name="CurrentUser" key="Current User" type="CurrentUserAtom" />
-	<!--
-		<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
-	-->
+	<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
 </mso>
