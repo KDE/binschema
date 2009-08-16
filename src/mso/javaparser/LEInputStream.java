@@ -99,6 +99,10 @@ public class LEInputStream {
 		return s;
 	}
 
+	public short readint16() throws IOException {
+		return Short.reverseBytes(input.readShort());
+	}
+
 	public int readuint16() throws IOException {
 		int s = Short.reverseBytes(input.readShort());
 		if (s < 0)
