@@ -223,14 +223,5 @@
 	<stream name="PowerPointDocument" key="PowerPoint Document"
 		type="PowerPointStruct" />
 	<stream name="CurrentUser" key="Current User" type="CurrentUserAtom" />
-	<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
-	<!--
-		<documentType name="ppt"> <stream name="CurrentUser" key="" /> <stream
-		name="PowerPointDocument" key="PowerPoint Document" /> <stream
-		name="Pictures" key="Pictures" optional="true" /> <stream
-		name="SummaryInformation" key="\005Summary Information Stream"
-		optional="true" /> <stream name="DocumentSummaryInformation"
-		key="\005DocumentSummaryInformation" optional="true" /> <stream
-		name="EncryptedSummary" key="EncryptedSummary" /> </documentType>
-	-->
+	<!-- <stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" /> -->
 </mso>

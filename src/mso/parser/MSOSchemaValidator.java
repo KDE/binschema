@@ -1,4 +1,4 @@
-package mso;
+package mso.parser;
 
 import java.io.FileReader;
 

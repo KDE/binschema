@@ -1,4 +1,4 @@
-package mso;
+package mso.generator;
 import java.io.IOException;
 public class GeneratedMsoParser {
     boolean parse(String key, LEInputStream in) throws IOException {
@@ -7,9 +7,6 @@ public class GeneratedMsoParser {
             return true;
         } else if ("Current User".equals(key)) {
             parseCurrentUserAtom(in);
-            return true;
-        } else if ("Pictures".equals(key)) {
-            parseOfficeArtBStoreDelay(in);
             return true;
         }
         return false;

@@ -1,4 +1,4 @@
-package mso;
+package mso.generator;
 
 import java.awt.image.BufferedImage;
 import java.io.DataInputStream;

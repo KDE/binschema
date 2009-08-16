@@ -1,4 +1,4 @@
-package mso;
+package mso.generator;
 
 import java.io.DataInputStream;
 import java.io.IOException;
