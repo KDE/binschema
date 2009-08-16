@@ -8,9 +8,6 @@ public class GeneratedMsoParser {
         } else if ("Current User".equals(key)) {
             parseCurrentUserAtom(in);
             return true;
-        } else if ("Pictures".equals(key)) {
-            parseOfficeArtBStoreDelay(in);
-            return true;
         }
         return false;
     }
@@ -517,6 +514,47 @@ public class GeneratedMsoParser {
             throw new IncorrectValueException("_s.rh.recType == 0x03E8 for value " + String.valueOf(_s.rh) );
         }
         _s.documentAtom = parseDocumentAtom(in);
+        _s.exObjList = parseExObjListContainer(in);
+        _s.documentTextInfo = parseDocumentTextInfoContainer(in);
+        return _s;
+    }
+    DocumentTextInfoContainer parseDocumentTextInfoContainer(LEInputStream in) throws IOException  {
+        DocumentTextInfoContainer _s = new DocumentTextInfoContainer();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x03F2)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x03F2 for value " + String.valueOf(_s.rh) );
+        }
+        return _s;
+    }
+    ExOleEmbedAtom parseExOleEmbedAtom(LEInputStream in) throws IOException  {
+        ExOleEmbedAtom _s = new ExOleEmbedAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FCD)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FCD for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x8)) {
+            throw new IncorrectValueException("_s.rh.recLen == 0x8 for value " + String.valueOf(_s.rh) );
+        }
+        _s.exColorFollow = in.readuint32();
+        if (!(_s.exColorFollow == 0 || _s.exColorFollow == 1 || _s.exColorFollow == 2)) {
+            throw new IncorrectValueException("_s.exColorFollow == 0 || _s.exColorFollow == 1 || _s.exColorFollow == 2 for value " + String.valueOf(_s.exColorFollow) );
+        }
+        _s.fCantLockServer = in.readuint8();
+        _s.fNoSizeToServer = in.readuint8();
+        _s.fIsTable = in.readuint8();
+        _s.unused = in.readuint8();
         return _s;
     }
     DocumentAtom parseDocumentAtom(LEInputStream in) throws IOException  {
@@ -540,6 +578,20 @@ public class GeneratedMsoParser {
         if (!(_s.serverZoom.numer*_s.serverZoom.denom > 0)) {
             throw new IncorrectValueException("_s.serverZoom.numer*_s.serverZoom.denom > 0 for value " + String.valueOf(_s.serverZoom) );
         }
+        _s.notesMasterPersistIdRef = parsePersistIdRef(in);
+        _s.handoutMasterPersistIdRef = parsePersistIdRef(in);
+        _s.firstSlideNumber = in.readuint16();
+        if (!(_s.firstSlideNumber<10000)) {
+            throw new IncorrectValueException("_s.firstSlideNumber<10000 for value " + String.valueOf(_s.firstSlideNumber) );
+        }
+        _s.slideSizeType = in.readuint16();
+        if (!(_s.slideSizeType == 0 || _s.slideSizeType == 1 || _s.slideSizeType == 2 || _s.slideSizeType == 3 || _s.slideSizeType == 4 || _s.slideSizeType == 5 || _s.slideSizeType == 6)) {
+            throw new IncorrectValueException("_s.slideSizeType == 0 || _s.slideSizeType == 1 || _s.slideSizeType == 2 || _s.slideSizeType == 3 || _s.slideSizeType == 4 || _s.slideSizeType == 5 || _s.slideSizeType == 6 for value " + String.valueOf(_s.slideSizeType) );
+        }
+        _s.fSaveWithFonts = in.readuint8();
+        _s.fOmitTitlePlace = in.readuint8();
+        _s.fRightToLeft = in.readuint8();
+        _s.fShowComments = in.readuint8();
         return _s;
     }
     PointStruct parsePointStruct(LEInputStream in) throws IOException  {
@@ -557,6 +609,11 @@ public class GeneratedMsoParser {
         }
         return _s;
     }
+    PersistIdRef parsePersistIdRef(LEInputStream in) throws IOException  {
+        PersistIdRef _s = new PersistIdRef();
+        _s.anon = in.readuint32();
+        return _s;
+    }
     MasterOrSlideContainer parseMasterOrSlideContainer(LEInputStream in) throws IOException  {
         MasterOrSlideContainer _s = new MasterOrSlideContainer();
         _s.rh = parseRecordHeader(in);
@@ -568,6 +625,317 @@ public class GeneratedMsoParser {
         }
         if (!(_s.rh.recType == 0x03EE || _s.rh.recType == 0x03F8)) {
             throw new IncorrectValueException("_s.rh.recType == 0x03EE || _s.rh.recType == 0x03F8 for value " + String.valueOf(_s.rh) );
+        }
+        return _s;
+    }
+    ExObjListContainer parseExObjListContainer(LEInputStream in) throws IOException  {
+        ExObjListContainer _s = new ExObjListContainer();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0409)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0409 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen>=12)) {
+            throw new IncorrectValueException("_s.rh.recLen>=12 for value " + String.valueOf(_s.rh) );
+        }
+        _s.exObjListAtom = parseExObjListAtom(in);
+        _c = _s.rh.recLen-12;
+        _s.rgChildRec = new ExObjListSubContainer[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.rgChildRec[_i] = parseExObjListSubContainer(in);
+        }
+        return _s;
+    }
+    ExObjListAtom parseExObjListAtom(LEInputStream in) throws IOException  {
+        ExObjListAtom _s = new ExObjListAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x040A)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x040A for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 4)) {
+            throw new IncorrectValueException("_s.rh.recLen == 4 for value " + String.valueOf(_s.rh) );
+        }
+        _s.exObjIdSeed = in.readint32();
+        if (!(_s.exObjIdSeed>1)) {
+            throw new IncorrectValueException("_s.exObjIdSeed>1 for value " + String.valueOf(_s.exObjIdSeed) );
+        }
+        return _s;
+    }
+    ExObjListSubContainer parseExObjListSubContainer(LEInputStream in) throws IOException  {
+        ExObjListSubContainer _s = new ExObjListSubContainer();
+        Object _m = in.setMark();
+        try {
+            _s.anon = parseExOleLinkContainer(in);
+        } catch (IncorrectValueException _x) {
+            System.out.println(_x.getMessage());
+            in.rewind(_m);
+            _s.anon = parseExOleEmbedContainer(in);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    ExOleLinkContainer parseExOleLinkContainer(LEInputStream in) throws IOException  {
+        ExOleLinkContainer _s = new ExOleLinkContainer();
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FCE)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FCE for value " + String.valueOf(_s.rh) );
+        }
+        _s.exOleLinkAtom = parseExOleLinkAtom(in);
+        _s.exOleObjAtom = parseExOleObjAtom(in);
+        _m = in.setMark();
+        try {
+            _s.menuNameAtom = parseMenuNameAtom(in);
+        } catch(IncorrectValueException _e) {
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.progIdAtom = parseProgIDAtom(in);
+        } catch(IncorrectValueException _e) {
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.clipboardNameAtom = parseClipboardNameAtom(in);
+        } catch(IncorrectValueException _e) {
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.metafile = parseMetafileBlob(in);
+        } catch(IncorrectValueException _e) {
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    ExOleEmbedContainer parseExOleEmbedContainer(LEInputStream in) throws IOException  {
+        ExOleEmbedContainer _s = new ExOleEmbedContainer();
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FCC)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FCC for value " + String.valueOf(_s.rh) );
+        }
+        _s.exOleEmbedAtom = parseExOleEmbedAtom(in);
+        _s.exOleObjAtom = parseExOleObjAtom(in);
+        _m = in.setMark();
+        try {
+            _s.menuNameAtom = parseMenuNameAtom(in);
+        } catch(IncorrectValueException _e) {
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.progIdAtom = parseProgIDAtom(in);
+        } catch(IncorrectValueException _e) {
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.clipboardNameAtom = parseClipboardNameAtom(in);
+        } catch(IncorrectValueException _e) {
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.metafile = parseMetafileBlob(in);
+        } catch(IncorrectValueException _e) {
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    ExOleLinkAtom parseExOleLinkAtom(LEInputStream in) throws IOException  {
+        ExOleLinkAtom _s = new ExOleLinkAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FD1)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FD1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xC)) {
+            throw new IncorrectValueException("_s.rh.recType == 0xC for value " + String.valueOf(_s.rh) );
+        }
+        _s.slideIdRef = in.readuint32();
+        _s.oleUpdateMode = in.readuint32();
+        _s.unused = in.readuint32();
+        return _s;
+    }
+    ExOleObjAtom parseExOleObjAtom(LEInputStream in) throws IOException  {
+        ExOleObjAtom _s = new ExOleObjAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x1)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FC3)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FC3 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x18)) {
+            throw new IncorrectValueException("_s.rh.recLen == 0x18 for value " + String.valueOf(_s.rh) );
+        }
+        _s.drawAspect = in.readuint32();
+        _s.type = in.readuint32();
+        _s.exObjId = in.readuint32();
+        _s.subType = in.readuint32();
+        _s.persistIdRef = in.readuint32();
+        _s.unused = in.readuint32();
+        return _s;
+    }
+    MenuNameAtom parseMenuNameAtom(LEInputStream in) throws IOException  {
+        MenuNameAtom _s = new MenuNameAtom();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x1)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FBA)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FBA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen%2 == 0 )) {
+            throw new IncorrectValueException("_s.rh.recLen%2 == 0  for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.menuName = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.menuName[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    ProgIDAtom parseProgIDAtom(LEInputStream in) throws IOException  {
+        ProgIDAtom _s = new ProgIDAtom();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x2)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x2 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FBA)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FBA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen%2 == 0 )) {
+            throw new IncorrectValueException("_s.rh.recLen%2 == 0  for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.progId = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.progId[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    ClipboardNameAtom parseClipboardNameAtom(LEInputStream in) throws IOException  {
+        ClipboardNameAtom _s = new ClipboardNameAtom();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x3)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x3 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FBA)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FBA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen%2 == 0 )) {
+            throw new IncorrectValueException("_s.rh.recLen%2 == 0  for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.clipboardName = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.clipboardName[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    MetafileBlob parseMetafileBlob(LEInputStream in) throws IOException  {
+        MetafileBlob _s = new MetafileBlob();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FC1)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FC1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen>16)) {
+            throw new IncorrectValueException("_s.rh.recLen>16 for value " + String.valueOf(_s.rh) );
+        }
+        _s.mm = in.readint16();
+        _s.xExt = in.readint16();
+        _s.yExt = in.readint16();
+        _c = _s.rh.recLen-6;
+        _s.data = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.data[_i] = in.readuint8();
         }
         return _s;
     }
@@ -877,10 +1245,40 @@ class PowerPointStruct{
 class DocumentContainer{
     RecordHeader rh;
     DocumentAtom documentAtom;
+    ExObjListContainer exObjList;
+    DocumentTextInfoContainer documentTextInfo;
     public String toString() {
         String _s = "DocumentContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "documentAtom: " + String.valueOf(documentAtom) + ", ";
+        _s = _s + "exObjList: " + String.valueOf(exObjList) + ", ";
+        _s = _s + "documentTextInfo: " + String.valueOf(documentTextInfo) + ", ";
+        return _s;
+    }
+}
+class DocumentTextInfoContainer{
+    RecordHeader rh;
+    public String toString() {
+        String _s = "DocumentTextInfoContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        return _s;
+    }
+}
+class ExOleEmbedAtom{
+    RecordHeader rh;
+    int exColorFollow;
+    byte fCantLockServer;
+    byte fNoSizeToServer;
+    byte fIsTable;
+    byte unused;
+    public String toString() {
+        String _s = "ExOleEmbedAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "exColorFollow: " + String.valueOf(exColorFollow) + ", ";
+        _s = _s + "fCantLockServer: " + String.valueOf(fCantLockServer) + ", ";
+        _s = _s + "fNoSizeToServer: " + String.valueOf(fNoSizeToServer) + ", ";
+        _s = _s + "fIsTable: " + String.valueOf(fIsTable) + ", ";
+        _s = _s + "unused: " + String.valueOf(unused) + ", ";
         return _s;
     }
 }
@@ -889,12 +1287,28 @@ class DocumentAtom{
     PointStruct slideSize;
     PointStruct notesSize;
     RatioStruct serverZoom;
+    PersistIdRef notesMasterPersistIdRef;
+    PersistIdRef handoutMasterPersistIdRef;
+    int firstSlideNumber;
+    int slideSizeType;
+    byte fSaveWithFonts;
+    byte fOmitTitlePlace;
+    byte fRightToLeft;
+    byte fShowComments;
     public String toString() {
         String _s = "DocumentAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "slideSize: " + String.valueOf(slideSize) + ", ";
         _s = _s + "notesSize: " + String.valueOf(notesSize) + ", ";
         _s = _s + "serverZoom: " + String.valueOf(serverZoom) + ", ";
+        _s = _s + "notesMasterPersistIdRef: " + String.valueOf(notesMasterPersistIdRef) + ", ";
+        _s = _s + "handoutMasterPersistIdRef: " + String.valueOf(handoutMasterPersistIdRef) + ", ";
+        _s = _s + "firstSlideNumber: " + String.valueOf(firstSlideNumber) + ", ";
+        _s = _s + "slideSizeType: " + String.valueOf(slideSizeType) + ", ";
+        _s = _s + "fSaveWithFonts: " + String.valueOf(fSaveWithFonts) + ", ";
+        _s = _s + "fOmitTitlePlace: " + String.valueOf(fOmitTitlePlace) + ", ";
+        _s = _s + "fRightToLeft: " + String.valueOf(fRightToLeft) + ", ";
+        _s = _s + "fShowComments: " + String.valueOf(fShowComments) + ", ";
         return _s;
     }
 }
@@ -918,11 +1332,169 @@ class RatioStruct{
         return _s;
     }
 }
+class PersistIdRef{
+    int anon;
+    public String toString() {
+        String _s = "PersistIdRef:";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
 class MasterOrSlideContainer{
     RecordHeader rh;
     public String toString() {
         String _s = "MasterOrSlideContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        return _s;
+    }
+}
+class ExObjListContainer{
+    RecordHeader rh;
+    ExObjListAtom exObjListAtom;
+    ExObjListSubContainer[] rgChildRec;
+    public String toString() {
+        String _s = "ExObjListContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "exObjListAtom: " + String.valueOf(exObjListAtom) + ", ";
+        _s = _s + "rgChildRec: " + String.valueOf(rgChildRec) + ", ";
+        return _s;
+    }
+}
+class ExObjListAtom{
+    RecordHeader rh;
+    int exObjIdSeed;
+    public String toString() {
+        String _s = "ExObjListAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "exObjIdSeed: " + String.valueOf(exObjIdSeed) + ", ";
+        return _s;
+    }
+}
+class ExObjListSubContainer{
+    Object anon;
+    public String toString() {
+        String _s = "ExObjListSubContainer:";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
+class ExOleLinkContainer{
+    RecordHeader rh;
+    ExOleLinkAtom exOleLinkAtom;
+    ExOleObjAtom exOleObjAtom;
+    MenuNameAtom menuNameAtom;
+    ProgIDAtom progIdAtom;
+    ClipboardNameAtom clipboardNameAtom;
+    MetafileBlob metafile;
+    public String toString() {
+        String _s = "ExOleLinkContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "exOleLinkAtom: " + String.valueOf(exOleLinkAtom) + ", ";
+        _s = _s + "exOleObjAtom: " + String.valueOf(exOleObjAtom) + ", ";
+        _s = _s + "menuNameAtom: " + String.valueOf(menuNameAtom) + ", ";
+        _s = _s + "progIdAtom: " + String.valueOf(progIdAtom) + ", ";
+        _s = _s + "clipboardNameAtom: " + String.valueOf(clipboardNameAtom) + ", ";
+        _s = _s + "metafile: " + String.valueOf(metafile) + ", ";
+        return _s;
+    }
+}
+class ExOleEmbedContainer{
+    RecordHeader rh;
+    ExOleEmbedAtom exOleEmbedAtom;
+    ExOleObjAtom exOleObjAtom;
+    MenuNameAtom menuNameAtom;
+    ProgIDAtom progIdAtom;
+    ClipboardNameAtom clipboardNameAtom;
+    MetafileBlob metafile;
+    public String toString() {
+        String _s = "ExOleEmbedContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "exOleEmbedAtom: " + String.valueOf(exOleEmbedAtom) + ", ";
+        _s = _s + "exOleObjAtom: " + String.valueOf(exOleObjAtom) + ", ";
+        _s = _s + "menuNameAtom: " + String.valueOf(menuNameAtom) + ", ";
+        _s = _s + "progIdAtom: " + String.valueOf(progIdAtom) + ", ";
+        _s = _s + "clipboardNameAtom: " + String.valueOf(clipboardNameAtom) + ", ";
+        _s = _s + "metafile: " + String.valueOf(metafile) + ", ";
+        return _s;
+    }
+}
+class ExOleLinkAtom{
+    RecordHeader rh;
+    int slideIdRef;
+    int oleUpdateMode;
+    int unused;
+    public String toString() {
+        String _s = "ExOleLinkAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "slideIdRef: " + String.valueOf(slideIdRef) + ", ";
+        _s = _s + "oleUpdateMode: " + String.valueOf(oleUpdateMode) + ", ";
+        _s = _s + "unused: " + String.valueOf(unused) + ", ";
+        return _s;
+    }
+}
+class ExOleObjAtom{
+    RecordHeader rh;
+    int drawAspect;
+    int type;
+    int exObjId;
+    int subType;
+    int persistIdRef;
+    int unused;
+    public String toString() {
+        String _s = "ExOleObjAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "drawAspect: " + String.valueOf(drawAspect) + ", ";
+        _s = _s + "type: " + String.valueOf(type) + ", ";
+        _s = _s + "exObjId: " + String.valueOf(exObjId) + ", ";
+        _s = _s + "subType: " + String.valueOf(subType) + ", ";
+        _s = _s + "persistIdRef: " + String.valueOf(persistIdRef) + ", ";
+        _s = _s + "unused: " + String.valueOf(unused) + ", ";
+        return _s;
+    }
+}
+class MenuNameAtom{
+    RecordHeader rh;
+    byte[] menuName;
+    public String toString() {
+        String _s = "MenuNameAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "menuName: " + String.valueOf(menuName) + ", ";
+        return _s;
+    }
+}
+class ProgIDAtom{
+    RecordHeader rh;
+    byte[] progId;
+    public String toString() {
+        String _s = "ProgIDAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "progId: " + String.valueOf(progId) + ", ";
+        return _s;
+    }
+}
+class ClipboardNameAtom{
+    RecordHeader rh;
+    byte[] clipboardName;
+    public String toString() {
+        String _s = "ClipboardNameAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "clipboardName: " + String.valueOf(clipboardName) + ", ";
+        return _s;
+    }
+}
+class MetafileBlob{
+    RecordHeader rh;
+    short mm;
+    short xExt;
+    short yExt;
+    byte[] data;
+    public String toString() {
+        String _s = "MetafileBlob:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "mm: " + String.valueOf(mm) + ", ";
+        _s = _s + "xExt: " + String.valueOf(xExt) + ", ";
+        _s = _s + "yExt: " + String.valueOf(yExt) + ", ";
+        _s = _s + "data: " + String.valueOf(data) + ", ";
         return _s;
     }
 }

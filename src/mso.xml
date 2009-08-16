@@ -229,6 +229,33 @@
 			<limitation name="recType" value="0x03E8" />
 		</type>
 		<type name="documentAtom" type="DocumentAtom" />
+		<type name="exObjList" type="ExObjListContainer" />
+		<!--
+			optional="true" />
+		-->
+		<type name="documentTextInfo" type="DocumentTextInfoContainer" />
+	</struct>
+	<struct name="DocumentTextInfoContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x03F2" />
+		</type>
+	</struct>
+	<struct name="ExOleEmbedAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FCD" />
+			<limitation name="recLen" value="0x8" />
+		</type>
+		<uint32 name="exColorFollow">
+			<limitation value="0|1|2" />
+		</uint32>
+		<uint8 name="fCantLockServer" />
+		<uint8 name="fNoSizeToServer" />
+		<uint8 name="fIsTable" />
+		<uint8 name="unused" />
 	</struct>
 	<struct name="DocumentAtom">
 		<type name="rh" type="RecordHeader">
@@ -242,6 +269,18 @@
 		<type name="serverZoom" type="RatioStruct">
 			<limitation expression="numer*denom &gt; 0" />
 		</type>
+		<type name="notesMasterPersistIdRef" type="PersistIdRef" />
+		<type name="handoutMasterPersistIdRef" type="PersistIdRef" />
+		<uint16 name="firstSlideNumber">
+			<limitation expression="&lt;10000" />
+		</uint16>
+		<uint16 name="slideSizeType">
+			<limitation value="0|1|2|3|4|5|6" />
+		</uint16>
+		<uint8 name="fSaveWithFonts" />
+		<uint8 name="fOmitTitlePlace" />
+		<uint8 name="fRightToLeft" />
+		<uint8 name="fShowComments" />
 	</struct>
 	<struct name="PointStruct">
 		<int32 name="x" />
@@ -253,12 +292,156 @@
 			<limitation expression="!= 0" />
 		</int32>
 	</struct>
+	<struct name="PersistIdRef">
+		<uint32 name="anon">
+			<!--
+				TODO A 4-byte unsigned integer that specifies a reference to a
+				persist object. It MUST be 0x00000000 or equal to a persist object
+				identifier specified by a PersistDirectoryAtom record. The value
+				0x00000000 specifies a null reference.
+			-->
+		</uint32>
+	</struct>
 	<struct name="MasterOrSlideContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0x0" />
 			<limitation name="recType" value="0x03EE|0x03F8" />
 		</type>
+	</struct>
+	<struct name="ExObjListContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0409" />
+			<limitation name="recLen" expression="&gt;=12" />
+		</type>
+		<type name="exObjListAtom" type="ExObjListAtom" />
+		<type name="rgChildRec" type="ExObjListSubContainer" count="rh.recLen-12" />
+	</struct>
+	<struct name="ExObjListAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x040A" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<int32 name="exObjIdSeed">
+			<limitation expression="&gt;1" />
+			<!--
+				TODO:exObjIdSeed (4 bytes): A signed integer that specifies a seed
+				for creating a new ExObjId or ExHyperlinkId value. It MUST be
+				greater than or equal to the largest ExObjId value in the file as
+				specified by the ExMediaAtom record or ExOleObjAtom record and MUST
+				be greater than or equal to the largest ExHyperlinkId value in the
+				file as specified by the ExHyperlinkAtom record. It MUST be greater
+				than or equal to 0x00000001.
+			-->
+		</int32>
+	</struct>
+	<struct name="ExObjListSubContainer">
+		<choice name="anon">
+			<type name="anon" type="ExOleLinkContainer" />
+			<type name="anon" type="ExOleEmbedContainer" />
+			<!-- TODO: finish by adding the missing options-->
+		</choice>
+	</struct>
+	<struct name="ExOleLinkContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FCE" />
+		</type>
+		<type name="exOleLinkAtom" type="ExOleLinkAtom" />
+		<type name="exOleObjAtom" type="ExOleObjAtom" />
+		<type name="menuNameAtom" type="MenuNameAtom" optional="true" />
+		<type name="progIdAtom" type="ProgIDAtom" optional="true" />
+		<type name="clipboardNameAtom" type="ClipboardNameAtom" optional="true" />
+		<type name="metafile" type="MetafileBlob" optional="true" />
+	</struct>
+	<struct name="ExOleEmbedContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FCC" />
+		</type>
+		<type name="exOleEmbedAtom" type="ExOleEmbedAtom" />
+		<type name="exOleObjAtom" type="ExOleObjAtom" />
+		<type name="menuNameAtom" type="MenuNameAtom" optional="true" />
+		<type name="progIdAtom" type="ProgIDAtom" optional="true" />
+		<type name="clipboardNameAtom" type="ClipboardNameAtom" optional="true" />
+		<type name="metafile" type="MetafileBlob" optional="true" />
+	</struct>
+	<struct name="ExOleLinkAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FD1" />
+			<limitation name="recType" value="0xC" />
+		</type>
+		<uint32 name="slideIdRef">
+			<!--
+				A 4-byte unsigned integer that specifies a reference to a
+				presentation slide. It MUST be 0x00000000 or equal to the value of
+				the slideId field of a SlidePersistAtom record. The value 0x00000000
+				specifies a null reference.
+			-->
+		</uint32>
+		<uint32 name="oleUpdateMode" />
+		<uint32 name="unused" />
+	</struct>
+	<struct name="ExOleObjAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x1" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FC3" />
+			<limitation name="recLen" value="0x18" />
+		</type>
+		<uint32 name="drawAspect" />
+		<uint32 name="type" />
+		<uint32 name="exObjId" />
+		<uint32 name="subType" />
+		<uint32 name="persistIdRef" />
+		<uint32 name="unused" />
+	</struct>
+	<struct name="MenuNameAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x1" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" expression="%2 == 0 " />
+		</type>
+		<uint8 name="menuName" count="rh.recLen" />
+	</struct>
+	<struct name="ProgIDAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x2" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" expression="%2 == 0 " />
+		</type>
+		<uint8 name="progId" count="rh.recLen" />
+	</struct>
+	<struct name="ClipboardNameAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x3" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" expression="%2 == 0 " />
+		</type>
+		<uint8 name="clipboardName" count="rh.recLen" />
+	</struct>
+	<struct name="MetafileBlob">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FC1" />
+			<limitation name="recLen" expression="&gt;16" />
+		</type>
+		<int16 name="mm" />
+		<int16 name="xExt" />
+		<int16 name="yExt" />
+		<uint8 name="data" count="rh.recLen-6" />
 	</struct>
 	<stream name="PowerPointDocument" key="PowerPoint Document"
 		type="DocumentContainer" /> <!-- should be PowerPointStructs -->
