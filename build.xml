@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="msoparser" default="testJavaParser" basedir=".">
+
+	<target name="compileGenerator">
+		<mkdir dir="bin" />
+		<javac srcdir="src" destdir="bin" excludes="mso/javaparser/**" />
+	</target>
+
+	<target name="generateJavaParser" depends="compileGenerator" description="compile the source ">
+		<java classname="mso.generator.ParserGeneratorRunner" classpath="bin" />
+	</target>
+
+	<target name="compileJavaParser" depends="generateJavaParser" description="compile the source ">
+		<javac srcdir="src" destdir="bin" excludes="mso/javaparser" classpath="lib/poi-3.2-FINAL-20081019.jar" />
+	</target>
+
+	<target name="testJavaParser" depends="compileJavaParser" description="compile the source ">
+		<java classname="mso.javaparser.ParserTester" classpath="bin;lib/poi-3.2-FINAL-20081019.jar" />
+	</target>
+
+	<target name="clean">
+		<delete dir="bin" />
+	</target>
+</project>
