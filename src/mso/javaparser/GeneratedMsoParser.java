@@ -3,10 +3,13 @@ import java.io.IOException;
 public class GeneratedMsoParser {
     boolean parse(String key, LEInputStream in) throws IOException {
         if ("PowerPoint Document".equals(key)) {
-            parsePowerPointStruct(in);
+            parseDocumentContainer(in);
             return true;
         } else if ("Current User".equals(key)) {
             parseCurrentUserAtom(in);
+            return true;
+        } else if ("Pictures".equals(key)) {
+            parseOfficeArtBStoreDelay(in);
             return true;
         }
         return false;
@@ -42,8 +45,8 @@ public class GeneratedMsoParser {
         }
         _s.offsetToCurrentEdit = in.readuint32();
         _s.lenUserName = in.readuint16();
-        if (!(_s.lenUserName <= 255)) {
-            throw new IncorrectValueException("_s.lenUserName <= 255 for value " + String.valueOf(_s.lenUserName) );
+        if (!(_s.lenUserName<=255)) {
+            throw new IncorrectValueException("_s.lenUserName<=255 for value " + String.valueOf(_s.lenUserName) );
         }
         _s.docFileVersion = in.readuint16();
         if (!(_s.docFileVersion == 0x03F4)) {
@@ -138,8 +141,8 @@ public class GeneratedMsoParser {
         }
         _s.tag = in.readuint16();
         _s.size = in.readuint32();
-        if (!(_s.size >= 8)) {
-            throw new IncorrectValueException("_s.size >= 8 for value " + String.valueOf(_s.size) );
+        if (!(_s.size>=8)) {
+            throw new IncorrectValueException("_s.size>=8 for value " + String.valueOf(_s.size) );
         }
         _s.cRef = in.readuint32();
         _s.foDelay = in.readuint32();
@@ -465,16 +468,16 @@ public class GeneratedMsoParser {
         }
         return _s;
     }
-    PowerPointStruct parsePowerPointStruct(LEInputStream in) throws IOException  {
-        PowerPointStruct _s = new PowerPointStruct();
+    PowerPointStructs parsePowerPointStructs(LEInputStream in) throws IOException  {
+        PowerPointStructs _s = new PowerPointStructs();
         boolean _atend = false;
         int i=0;
         while (!_atend) {
             System.out.println("round "+(i++));
             Object _m = in.setMark();
             try {
-                RecordHeader _t = parseRecordHeader(in);
-                _s.anon1.add(_t);
+                PowerPointStruct _t = parsePowerPointStruct(in);
+                _s.anon.add(_t);
             } catch(IncorrectValueException _e) {
                 _atend = true;
                 in.rewind(_m);
@@ -484,6 +487,87 @@ public class GeneratedMsoParser {
             } finally {
                 in.releaseMark(_m);
             }
+        }
+        return _s;
+    }
+    PowerPointStruct parsePowerPointStruct(LEInputStream in) throws IOException  {
+        PowerPointStruct _s = new PowerPointStruct();
+        Object _m = in.setMark();
+        try {
+            _s.anon = parseDocumentContainer(in);
+        } catch (IncorrectValueException _x) {
+            System.out.println(_x.getMessage());
+            in.rewind(_m);
+            _s.anon = parseMasterOrSlideContainer(in);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    DocumentContainer parseDocumentContainer(LEInputStream in) throws IOException  {
+        DocumentContainer _s = new DocumentContainer();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x03E8)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x03E8 for value " + String.valueOf(_s.rh) );
+        }
+        _s.documentAtom = parseDocumentAtom(in);
+        return _s;
+    }
+    DocumentAtom parseDocumentAtom(LEInputStream in) throws IOException  {
+        DocumentAtom _s = new DocumentAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 1)) {
+            throw new IncorrectValueException("_s.rh.recVer == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x03E9)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x03E9 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x28)) {
+            throw new IncorrectValueException("_s.rh.recLen == 0x28 for value " + String.valueOf(_s.rh) );
+        }
+        _s.slideSize = parsePointStruct(in);
+        _s.notesSize = parsePointStruct(in);
+        _s.serverZoom = parseRatioStruct(in);
+        if (!(_s.serverZoom.numer*_s.serverZoom.denom > 0)) {
+            throw new IncorrectValueException("_s.serverZoom.numer*_s.serverZoom.denom > 0 for value " + String.valueOf(_s.serverZoom) );
+        }
+        return _s;
+    }
+    PointStruct parsePointStruct(LEInputStream in) throws IOException  {
+        PointStruct _s = new PointStruct();
+        _s.x = in.readint32();
+        _s.y = in.readint32();
+        return _s;
+    }
+    RatioStruct parseRatioStruct(LEInputStream in) throws IOException  {
+        RatioStruct _s = new RatioStruct();
+        _s.numer = in.readint32();
+        _s.denom = in.readint32();
+        if (!(_s.denom!= 0)) {
+            throw new IncorrectValueException("_s.denom!= 0 for value " + String.valueOf(_s.denom) );
+        }
+        return _s;
+    }
+    MasterOrSlideContainer parseMasterOrSlideContainer(LEInputStream in) throws IOException  {
+        MasterOrSlideContainer _s = new MasterOrSlideContainer();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x03EE || _s.rh.recType == 0x03F8)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x03EE || _s.rh.recType == 0x03F8 for value " + String.valueOf(_s.rh) );
         }
         return _s;
     }
@@ -774,11 +858,71 @@ class OfficeArtBStoreContainerFileBlock{
         return _s;
     }
 }
+class PowerPointStructs{
+    final java.util.List<PowerPointStruct> anon = new java.util.ArrayList<PowerPointStruct>();
+    public String toString() {
+        String _s = "PowerPointStructs:";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
 class PowerPointStruct{
-    final java.util.List<RecordHeader> anon1 = new java.util.ArrayList<RecordHeader>();
+    Object anon;
     public String toString() {
         String _s = "PowerPointStruct:";
-        _s = _s + "anon1: " + String.valueOf(anon1) + ", ";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
+class DocumentContainer{
+    RecordHeader rh;
+    DocumentAtom documentAtom;
+    public String toString() {
+        String _s = "DocumentContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "documentAtom: " + String.valueOf(documentAtom) + ", ";
+        return _s;
+    }
+}
+class DocumentAtom{
+    RecordHeader rh;
+    PointStruct slideSize;
+    PointStruct notesSize;
+    RatioStruct serverZoom;
+    public String toString() {
+        String _s = "DocumentAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "slideSize: " + String.valueOf(slideSize) + ", ";
+        _s = _s + "notesSize: " + String.valueOf(notesSize) + ", ";
+        _s = _s + "serverZoom: " + String.valueOf(serverZoom) + ", ";
+        return _s;
+    }
+}
+class PointStruct{
+    int x;
+    int y;
+    public String toString() {
+        String _s = "PointStruct:";
+        _s = _s + "x: " + String.valueOf(x) + ", ";
+        _s = _s + "y: " + String.valueOf(y) + ", ";
+        return _s;
+    }
+}
+class RatioStruct{
+    int numer;
+    int denom;
+    public String toString() {
+        String _s = "RatioStruct:";
+        _s = _s + "numer: " + String.valueOf(numer) + ", ";
+        _s = _s + "denom: " + String.valueOf(denom) + ", ";
+        return _s;
+    }
+}
+class MasterOrSlideContainer{
+    RecordHeader rh;
+    public String toString() {
+        String _s = "MasterOrSlideContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
         return _s;
     }
 }

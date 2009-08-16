@@ -25,7 +25,7 @@
 		</uint32>
 		<uint32 name="offsetToCurrentEdit" />
 		<uint16 name="lenUserName">
-			<limitation maxValue="255" />
+			<limitation expression="&lt;=255" />
 		</uint16>
 		<uint16 name="docFileVersion">
 			<limitation value="0x03F4" />
@@ -70,7 +70,7 @@
 		<uint8 name="rgbUid" array="true" count="16" />
 		<uint16 name="tag" />
 		<uint32 name="size">
-			<limitation minValue="8" />
+			<limitation expression="&gt;=8" />
 		</uint32>
 		<uint32 name="cRef" />
 		<uint32 name="foDelay" />
@@ -213,15 +213,57 @@
 			<type type="OfficeArtBlip" />
 		</choice>
 	</struct>
+	<struct name="PowerPointStructs">
+		<type name="anon" type="PowerPointStruct" array="true" />
+	</struct>
 	<struct name="PowerPointStruct">
-		<type name="anon1" type="RecordHeader" array="true">
-			<limitation name="recVer" value="0" />
+		<choice name="anon">
+			<type type="DocumentContainer" />
+			<type type="MasterOrSlideContainer" />
+		</choice>
+	</struct>
+	<struct name="DocumentContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0x0" />
 			<limitation name="recType" value="0x03E8" />
 		</type>
+		<type name="documentAtom" type="DocumentAtom" />
+	</struct>
+	<struct name="DocumentAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="1" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x03E9" />
+			<limitation name="recLen" value="0x28" />
+		</type>
+		<type name="slideSize" type="PointStruct" />
+		<type name="notesSize" type="PointStruct" />
+		<type name="serverZoom" type="RatioStruct">
+			<limitation expression="numer*denom &gt; 0" />
+		</type>
+	</struct>
+	<struct name="PointStruct">
+		<int32 name="x" />
+		<int32 name="y" />
+	</struct>
+	<struct name="RatioStruct">
+		<int32 name="numer" />
+		<int32 name="denom">
+			<limitation expression="!= 0" />
+		</int32>
+	</struct>
+	<struct name="MasterOrSlideContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x03EE|0x03F8" />
+		</type>
 	</struct>
 	<stream name="PowerPointDocument" key="PowerPoint Document"
-		type="PowerPointStruct" />
+		type="DocumentContainer" /> <!-- should be PowerPointStructs -->
 	<stream name="CurrentUser" key="Current User" type="CurrentUserAtom" />
-	<!-- <stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" /> -->
+	<!--
+		<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
+	-->
 </mso>

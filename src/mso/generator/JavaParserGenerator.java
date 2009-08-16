@@ -142,17 +142,16 @@ public class JavaParserGenerator {
 
 	}
 
-	String getSpecial(String name, Element e) {
-		String condition = e.getAttribute(name);
-		if (condition.length() > 0) {
+	String prependStructureToExpression(String expression, String structureName) {
+		if (expression.length() > 0) {
 			Pattern p = Pattern.compile("([^.\\w])([.a-zA-Z])");
-			Matcher m = p.matcher(condition);
-			condition = m.replaceAll("$1_s.$2");
+			Matcher m = p.matcher(expression);
+			expression = m.replaceAll("$1" + structureName + ".$2");
 			p = Pattern.compile("^([a-zA-Z])");
-			m = p.matcher(condition);
-			condition = m.replaceAll("_s.$1");
+			m = p.matcher(expression);
+			expression = m.replaceAll(structureName + ".$1");
 		}
-		return condition;
+		return expression;
 	}
 
 	boolean hasArrayMember(Element e) {
@@ -168,7 +167,8 @@ public class JavaParserGenerator {
 
 	void printStructureMemberParser(PrintWriter out, Element e) {
 		String s = "        ";
-		String condition = getSpecial("condition", e);
+		String condition = prependStructureToExpression(e
+				.getAttribute("condition"), "_s");
 		if (condition.length() > 0) {
 			s = s + "    ";
 			out.println("        if (" + condition + ") {");
@@ -176,7 +176,8 @@ public class JavaParserGenerator {
 		String name = e.getAttribute("name");
 		String type = e.getNodeName();
 		String array = e.getAttribute("array");
-		String count = getSpecial("count", e);
+		String count = prependStructureToExpression(e.getAttribute("count"),
+				"_s");
 		String parse;
 		if ("type".equals(type)) {
 			parse = "parse" + e.getAttribute("type") + "(in);";
@@ -266,13 +267,26 @@ public class JavaParserGenerator {
 		NodeList l = e.getElementsByTagName("limitation");
 		for (int i = 0; i < l.getLength(); ++i) {
 			Element se = (Element) l.item(i);
-			String condition = getCondition(name, se);
+			String condition = se.getAttribute("expression");
+			if ("".equals(condition)) {
+				condition = getCondition(name, se);
+			} else {
+				condition = getCond(name, condition);
+			}
+
 			out.println(s + "if (!(" + condition + ")) {");
 			out.println(s + "    throw new IncorrectValueException(\""
 					+ condition + " for value \" + String.valueOf(" + name
 					+ ") );");
 			out.println(s + "}");
 		}
+	}
+
+	String getCond(String structure, String expression) {
+		if (Pattern.matches(".*[A-Za-z].*", expression)) {
+			return prependStructureToExpression(expression, structure);
+		}
+		return structure + expression;
 	}
 
 	String getCondition(String name, Element e) {
@@ -289,16 +303,23 @@ public class JavaParserGenerator {
 			return name + " >= " + minValue;
 		}
 		String value = e.getAttribute("value");
+		String cmp = " == ";
+		String cmb = " || ";
+		if (value.startsWith("!")) {
+			value = value.substring(1);
+			cmp = " != ";
+			cmb = " && ";
+		}
 		if (value.contains("|")) {
 			String values[] = value.split("\\|");
-			String c = name + " == " + values[0];
+			String c = name + cmp + values[0];
 			for (int i = 1; i < values.length; ++i) {
-				c = c + " || " + name + " == " + values[i];
+				c = c + cmb + name + cmp + values[i];
 			}
 			return c;
 		}
 		if (!"".equals(value)) {
-			return name + " == " + value;
+			return name + cmp + value;
 		}
 		return e.getAttribute("value");
 	}
