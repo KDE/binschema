@@ -9,7 +9,6 @@ import java.util.LinkedList;
 /**
  * byte = int8 short = int16 char = uint16 int = int32 long = int64
  */
-
 public class LEInputStream {
 
 	class RewindableInputStream extends InputStream {
@@ -101,10 +100,6 @@ public class LEInputStream {
 
 	public void rewind(Object mark) throws IOException {
 		rewindableInputStream.rewind(mark);
-	}
-
-	public int getNumberOfMarks() {
-		return rewindableInputStream.marks.size();
 	}
 
 	public boolean atEnd() throws IOException {
