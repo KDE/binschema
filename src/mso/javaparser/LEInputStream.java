@@ -3,79 +3,108 @@ package mso.javaparser;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * byte = int8 short = int16 char = uint16 int = int32 long = int64
  */
 
 public class LEInputStream {
-	final DataInputStream originalinput;
-	DataInputStream input;
 
-	final LinkedList<ResettableInputStream> marks = new LinkedList<ResettableInputStream>();
+	class RewindableInputStream extends InputStream {
 
-	int uint4leftover;
+		int[] buffer = new int[64];
 
-	class ResettableInputStream extends InputStream {
-		final DataInputStream input;
-		int pos = 0;
-		List<Integer> buffer = new ArrayList<Integer>();
+		int pos;
 
-		ResettableInputStream(DataInputStream i) {
-			input = i;
+		int bytesInBuffer;
+
+		final LinkedList<Integer> marks = new LinkedList<Integer>();
+
+		final InputStream input;
+
+		RewindableInputStream(InputStream in) {
+			input = in;
+			pos = -1;
 		}
 
 		@Override
 		public int read() throws IOException {
-			if (pos == buffer.size()) {
-				buffer.add(input.read());
+			if (pos < 0)
+				// no mark is set and no data in the buffer
+				return input.read();
+
+			if (pos == bytesInBuffer) {
+				if (marks.size() == 0) {
+					// buffer is depleted, going back to passing data directly
+					pos = -1;
+					return input.read();
+				}
+				if (pos == buffer.length) {
+					buffer = Arrays.copyOf(buffer, 2 * buffer.length);
+				}
+				buffer[pos] = input.read();
+				bytesInBuffer++;
 			}
-			return buffer.get(pos++);
+
+			return buffer[pos++];
 		}
 
-		void resetStream() {
-			pos = 0;
+		public Object setMark() {
+			Integer mark;
+			if (marks.size() == 0) {
+				mark = pos = bytesInBuffer = 0;
+			} else {
+				mark = pos;
+			}
+			marks.add(mark);
+			return mark;
 		}
+
+		public void releaseMark(Object mark) {
+			Integer m = marks.removeLast();
+			if (m != mark) {
+				throw new Error("Logic error: mark was not set.");
+			}
+		}
+
+		public void rewind(Object mark) throws IOException {
+			Integer m = marks.getLast();
+			if (m != mark) {
+				System.out.println("marks size:" + marks.size());
+				throw new Error("Logic error: mark was not set. " + m + " "
+						+ mark);
+			}
+			pos = m;
+		}
+
 	}
 
+	final RewindableInputStream rewindableInputStream;
+	final DataInputStream input;
+
+	int uint4leftover;
+
 	public LEInputStream(InputStream i) {
-		if (i instanceof DataInputStream) {
-			originalinput = (DataInputStream) i;
-		} else {
-			originalinput = new DataInputStream(i);
-		}
-		input = originalinput;
+		rewindableInputStream = new RewindableInputStream(i);
+		input = new DataInputStream(rewindableInputStream);
 	}
 
 	public Object setMark() {
-		ResettableInputStream m = new ResettableInputStream(input);
-		marks.add(m);
-		input = new DataInputStream(m);
-		return m;
+		return rewindableInputStream.setMark();
 	}
 
 	public void releaseMark(Object mark) {
-		ResettableInputStream m = marks.removeLast();
-		if (m != mark) {
-			throw new Error("Logic error: mark was not set.");
-		}
-		input = m.input;
+		rewindableInputStream.releaseMark(mark);
 	}
 
 	public void rewind(Object mark) throws IOException {
-		ResettableInputStream m = marks.getLast();
-		if (m != mark) {
-			System.out.println("marks size:" + marks.size());
-			throw new Error("Logic error: mark was not set. " + m + " " + mark);
-		}
-		m.resetStream();
+		rewindableInputStream.rewind(mark);
 	}
 
 	public int getNumberOfMarks() {
-		return marks.size();
+		return rewindableInputStream.marks.size();
 	}
 
 	public boolean atEnd() throws IOException {
