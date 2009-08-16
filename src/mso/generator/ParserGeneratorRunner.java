@@ -1,4 +1,4 @@
-package mso.parser;
+package mso.generator;
 
 import java.io.FileReader;
 
@@ -11,7 +11,7 @@ import javax.xml.validation.Validator;
 
 import org.w3c.dom.Document;
 
-public class MSOSchemaValidator {
+public class ParserGeneratorRunner {
 
 	public static void main(String[] args) throws Exception {
 		final String xmlfilename = "src/mso.xml";
@@ -20,10 +20,10 @@ public class MSOSchemaValidator {
 		final Validator v = createValidator(xsdfilename);
 		v.validate(new StreamSource(new FileReader(xmlfilename)));
 
-		final JavaMsoParserGenerator g = new JavaMsoParserGenerator();
+		final JavaParserGenerator g = new JavaParserGenerator();
 		final Document dom = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder().parse(xmlfilename);
-		g.generate(dom, "src", "mso", "GeneratedMsoParser");
+		g.generate(dom, "src", "mso.javaparser", "GeneratedMsoParser");
 	}
 
 	static private Validator createValidator(String xsdfilename)

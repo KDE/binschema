@@ -1,4 +1,4 @@
-package mso.parser;
+package mso.generator;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,11 +11,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class JavaMsoParserGenerator {
+public class JavaParserGenerator {
 	void generate(Document dom, String dir, String packagename, String classname)
 			throws IOException {
-		FileWriter fout = new FileWriter(dir + "/" + packagename + "/"
-				+ classname + ".java");
+		FileWriter fout = new FileWriter(dir + "/"
+				+ packagename.replace('.', '/') + "/" + classname + ".java");
 		PrintWriter out = new PrintWriter(fout);
 		out.println("package " + packagename + ";");
 		out.println("import java.io.IOException;");

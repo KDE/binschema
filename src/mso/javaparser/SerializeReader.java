@@ -1,4 +1,4 @@
-package mso.generator;
+package mso.javaparser;
 
 import java.io.IOException;
 

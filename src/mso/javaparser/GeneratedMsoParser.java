@@ -1,4 +1,4 @@
-package mso.generator;
+package mso.javaparser;
 import java.io.IOException;
 public class GeneratedMsoParser {
     boolean parse(String key, LEInputStream in) throws IOException {
