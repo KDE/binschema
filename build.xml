@@ -8,6 +8,10 @@
 	</target>
 
 	<target name="generateJavaParser" depends="compileGenerator" description="compile the source ">
+		<dependset>
+			<srcfilelist dir="src" files="mso.xsd;mso.xml" />
+			<targetfilelist dir="src/mso/javaparser" files="GeneratedMsoParser.java"/>
+		</dependset>
 		<java classname="mso.generator.ParserGeneratorRunner" classpath="bin" />
 	</target>
 
