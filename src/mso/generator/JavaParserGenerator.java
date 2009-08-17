@@ -76,6 +76,9 @@ public class JavaParserGenerator {
 				printStructureMemberParser(out, (Element) n);
 			}
 		}
+		if ("RecordHeader".equals(name)) {
+			out.println("System.out.println(_s);");
+		}
 		out.println("        return _s;");
 		out.println("    }");
 	}
@@ -84,7 +87,10 @@ public class JavaParserGenerator {
 		String t = e.getNodeName();
 		if ("type".equals(t)) {
 			return e.getAttribute("type");
-		} else if ("uint4".equals(t) || "uint8".equals(t)) {
+		} else if ("bit".equals(t)) {
+			return "boolean";
+		} else if ("uint2".equals(t) || "uint4".equals(t) || "uint5".equals(t)
+				|| "uint6".equals(t) || "uint8".equals(t)) {
 			return "byte";
 		} else if ("uint12".equals(t) || "int16".equals(t)) {
 			return "short";
@@ -94,7 +100,7 @@ public class JavaParserGenerator {
 		} else if ("choice".equals(t)) {
 			return "Object";
 		} else {
-			return e.getNodeName();
+			return t;
 		}
 	}
 
@@ -165,9 +171,9 @@ public class JavaParserGenerator {
 				return true;
 			}
 		}
-		return false;		
+		return false;
 	}
-	
+
 	void printStructureMemberParser(PrintWriter out, Element e) {
 		String s = "        ";
 		String condition = prependStructureToExpression(e
@@ -235,6 +241,10 @@ public class JavaParserGenerator {
 					+ ") {");
 			out.println(s + "    System.out.println(" + exception
 					+ ".getMessage());");
+			out
+					.println(s
+							+ "    if (in.distanceFromMark(_m) > 16) throw new IOException("
+							+ exception + ");//onlyfordebug");
 			out.println(s + "    in.rewind(_m);");
 			exception = exception + "x";
 			closing = closing + "}";
@@ -259,6 +269,9 @@ public class JavaParserGenerator {
 		out.println(s + "        " + type + " _t = parse" + type + "(in);");
 		out.println(s + "        _s." + name + ".add(_t);");
 		out.println(s + "    } catch(IncorrectValueException _e) {");
+		out
+				.println(s
+						+ "    if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug");
 		out.println(s + "        _atend = true;");
 		out.println(s + "        in.rewind(_m);");
 		out.println(s + "    } catch(java.io.EOFException _e) {");
@@ -277,6 +290,9 @@ public class JavaParserGenerator {
 		out.println(s + "try {");
 		out.println(s + "    _s." + name + " = parse" + type + "(in);");
 		out.println(s + "} catch(IncorrectValueException _e) {");
+		out
+				.println(s
+						+ "    if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug");
 		out.println(s + "    in.rewind(_m);");
 		out.println(s + "} catch(java.io.EOFException _e) {");
 		out.println(s + "    in.rewind(_m);");
@@ -303,7 +319,15 @@ public class JavaParserGenerator {
 			}
 
 			out.println(s + "if (!(" + condition + ")) {");
-			out.println(s + "    throw new IncorrectValueException(\""
+			String exceptionType = "IncorrectValueException";
+			// if (!condition.contains(".recType")
+			// && !condition.contains(".recVer")
+			// && !condition.contains(".recInstance")) {
+			// // special value for debugging: we only have recoverable
+			// // exceptions in record headers, remove this in final code
+			// exceptionType = "IOException";
+			// }
+			out.println(s + "    throw new " + exceptionType + "(\""
 					+ condition + " for value \" + String.valueOf(" + name
 					+ ") );");
 			out.println(s + "}");

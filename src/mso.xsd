@@ -52,9 +52,13 @@
 	<complexType name="structType">
 		<sequence>
 			<choice maxOccurs="unbounded" minOccurs="0">
+				<element name="bit" type="tns:intType" />
 				<element name="int16" type="tns:intType" />
 				<element name="int32" type="tns:intType" />
+				<element name="uint2" type="tns:intType" />
 				<element name="uint4" type="tns:intType" />
+				<element name="uint5" type="tns:intType" />
+				<element name="uint6" type="tns:intType" />
 				<element name="uint8" type="tns:intType" />
 				<element name="uint12" type="tns:intType" />
 				<element name="uint16" type="tns:intType" />
