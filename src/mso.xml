@@ -239,6 +239,8 @@
 		<type name="exObjList" type="ExObjListContainer" optional="true" />
 
 		<type name="documentTextInfo" type="DocumentTextInfoContainer" />
+		<!-- TODO name="soundCollection" -->
+		<type name="drawingGroup" type="DrawingGroupContainer" />
 	</struct>
 	<struct name="DocumentTextInfoContainer">
 		<type name="rh" type="RecordHeader">
@@ -251,7 +253,9 @@
 			optional="true" />
 		<type name="textCFDefaultsAtom" type="TextCFExceptionAtom"
 			optional="true" />
-		<!--  TODO: add optional structs -->
+		<type name="textPFDefaultsAtom" type="TextPFExceptionAtom"
+			optional="true" />
+		<type name="defaultRulerAtom" type="DefaultRulerAtom" optional="true" />
 		<type name="textSIDefaultsAtom" type="TextSIExceptionAtom" />
 		<type name="textMasterStyleAtom" type="TextMasterStyleAtom" />
 	</struct>
@@ -263,17 +267,97 @@
 		</type>
 		<type name="cf" type="TextCFException" />
 	</struct>
+	<struct name="DefaultRulerAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FAB" />
+		</type>
+		<type name="defaultTextRuler" type="TextRuler">
+			<limitation name="fDefaultTabSize" value="true" />
+			<limitation name="fCLevels" value="true" />
+			<limitation name="fTabStops" value="true" />
+			<limitation name="fLeftMargin1" value="true" />
+			<limitation name="fLeftMargin2" value="true" />
+			<limitation name="fLeftMargin3" value="true" />
+			<limitation name="fLeftMargin4" value="true" />
+			<limitation name="fIndent1" value="true" />
+			<limitation name="fIndent2" value="true" />
+			<limitation name="fIndent3" value="true" />
+			<limitation name="fIndent4" value="true" />
+			<limitation name="fIndent5" value="true" />
+		</type>
+	</struct>
+	<struct name="TextRuler">
+		<bit name="fDefaultTabSize" />
+		<bit name="fCLevels" />
+		<bit name="fTabStops" />
+		<bit name="fLeftMargin1" />
+		<bit name="fLeftMargin2" />
+		<bit name="fLeftMargin3" />
+		<bit name="fLeftMargin4" />
+		<bit name="fLeftMargin5" />
+		<bit name="fIndent1" />
+		<bit name="fIndent2" />
+		<bit name="fIndent3" />
+		<bit name="fIndent4" />
+		<bit name="fIndent5" />
+		<uint3 name="reserved1" />
+		<uint16 name="reserved2" />
+		<int16 name="cLevels" condition="fCLevels" />
+		<uint16 name="defaultTabSize" condition="fDefaultTabSize" />
+		<type name="tabs" type="TabStops" condition="fTabStops" />
+		<uint16 name="leftMargin1" condition="fLeftMargin1" />
+		<uint16 name="indent1" condition="fIndent1" />
+		<uint16 name="leftMargin2" condition="fLeftMargin2" />
+		<uint16 name="indent2" condition="fIndent2" />
+		<uint16 name="leftMargin3" condition="fLeftMargin3" />
+		<uint16 name="indent3" condition="fIndent3" />
+		<uint16 name="leftMargin4" condition="fLeftMargin4" />
+		<uint16 name="indent4" condition="fIndent4" />
+		<uint16 name="leftMargin5" condition="fLeftMargin5" />
+		<uint16 name="indent5" condition="fIndent5" />
+	</struct>
+	<struct name="TabStops">
+		<uint16 name="count" />
+		<type name="rgTabStop" count="count" type="TabStop" />
+	</struct>
+	<struct name="TabStop">
+		<int16 name="position" />
+		<uint16 name="type" />
+	</struct>
+	<struct name="TextPFExceptionAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FA5" />
+		</type>
+		<uint16 name="reserved" />
+		<type name="pf" type="TextPFException" />
+	</struct>
 	<struct name="TextPFException">
 		<type name="masks" type="PFMasks">
+			<!--
+				it seems ppt files generated with OpenOffice Impress 3.0 can have
+				bulletBlip = true
+			-->
 			<limitation name="bulletBlip" value="false" />
+			<!--
+				it seems ppt files generated with OpenOffice Impress 3.0 can have
+				bulletHasScheme = true
+			-->
 			<limitation name="bulletHasScheme" value="false" />
+			<!--
+				it seems ppt files generated with OpenOffice Impress 3.0 can have
+				bulletScheme = true
+			-->
 			<limitation name="bulletScheme" value="false" />
 		</type>
-		<uint16 name="bulletFlags"
+		<type name="bulletFlags" type="BulletFlags"
 			condition="masks.hasBullet||masks.bulletHasFont||masks.bulletHasColor||masks.bulletHasSize" />
-		<uint16 name="bulletChar" condition="masks.bulletChar">
+		<int16 name="bulletChar" condition="masks.bulletChar">
 			<limitation value="!0" />
-		</uint16>
+		</int16>
 		<uint16 name="bulletFontRef" condition="masks.bulletFont" />
 		<uint16 name="bulletSize" condition="masks.bulletSize" />
 		<uint32 name="bulletColor" condition="masks.bulletColor" />
@@ -283,6 +367,18 @@
 		<uint16 name="spaceAfter" condition="masks.spaceAfter" />
 		<uint16 name="leftMargin" condition="masks.leftMargin" />
 		<uint16 name="indent" condition="masks.indent" />
+		<uint16 name="defaultTabSize" condition="masks.defaultTabSize" />
+		<type name="tabStops" type="TabStops" condition="masks.tabStops" />
+		<uint16 name="fontAlign" condition="masks.fontAlign" />
+		<uint16 name="wrapFlags" condition="masks.charWrap||masks.wordWrap||masks.overflow" />
+		<uint16 name="textDirection" condition="masks.textDirection" />
+	</struct>
+	<struct name="BulletFlags">
+		<bit name="fHasBullet" />
+		<bit name="fBulletHasFont" />
+		<bit name="fBulletHasColor" />
+		<bit name="fBulletHasSize" />
+		<uint12 name="reserved" />
 	</struct>
 	<struct name="PFMasks">
 		<bit name="hasBullet" />
@@ -434,15 +530,15 @@
 			depends on this structure and currently child access to parent
 			properties is not supported
 		-->
-		<uint16 name="lstLvl1level" condition="cLevels&gt;=5" />
+		<uint16 name="lstLvl1level" condition="rh.recInstance&gt;=5" />
 		<type name="lstLvl1" type="TextMasterStyleLevel" condition="cLevels&gt;0" />
-		<uint16 name="lstLvl2level" condition="cLevels&gt;=5" />
+		<uint16 name="lstLvl2level" condition="rh.recInstance&gt;=5" />
 		<type name="lstLvl2" type="TextMasterStyleLevel" condition="cLevels&gt;1" />
-		<uint16 name="lstLvl3level" condition="cLevels&gt;=5" />
+		<uint16 name="lstLvl3level" condition="rh.recInstance&gt;=5" />
 		<type name="lstLvl3" type="TextMasterStyleLevel" condition="cLevels&gt;2" />
-		<uint16 name="lstLvl4level" condition="cLevels&gt;=5" />
+		<uint16 name="lstLvl4level" condition="rh.recInstance&gt;=5" />
 		<type name="lstLvl4" type="TextMasterStyleLevel" condition="cLevels&gt;3" />
-		<uint16 name="lstLvl5level" condition="cLevels&gt;=5" />
+		<uint16 name="lstLvl5level" condition="rh.recInstance&gt;=5" />
 		<type name="lstLvl5" type="TextMasterStyleLevel" condition="cLevels&gt;4" />
 	</struct>
 	<struct name="TextMasterStyleLevel">
@@ -650,6 +746,113 @@
 		<int16 name="yExt" />
 		<uint8 name="data" count="rh.recLen-6" />
 	</struct>
+	<struct name="DrawingGroupContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x040B" />
+		</type>
+		<type name="OfficeArtDgg" type="OfficeArtDggContainer" />
+	</struct>
+	<struct name="OfficeArtDggContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0F000" />
+		</type>
+		<type name="drawingGroup" type="OfficeArtFDGGBlock" />
+		<type name="blipStore" type="OfficeArtBStoreContainer" />
+		<type name="drawingPrimaryOptions" type="OfficeArtFOPT" />
+		<type name="drawingTertiaryOptions" type="OfficeArtTertiaryFOPT" />
+		<type name="colorMRU" type="OfficeArtColorMRUContainer" />
+		<type name="splitColors" type="OfficeArtSplitMenuColorContainer" />
+	</struct>
+	<struct name="OfficeArtFDGGBlock">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0F006" />
+		</type>
+		<type name="head" type="OfficeArtFDGG">
+			<!-- <limitation expression="cidcl==rh.recLen/8.0-2" /> FIX!-->
+		</type>
+		<type name="Rgidcl" type="OfficeArtIDCL" count="head.cidcl" />
+	</struct>
+	<struct name="OfficeArtFDGG">
+		<uint32 name="spidMax">
+			<limitation expression="&lt;67098623" />
+		</uint32>
+		<uint32 name="cidcl">
+			<limitation expression="&lt;268435455" />
+		</uint32>
+		<uint32 name="cspSaved" />
+		<uint32 name="cdgSaved" />
+	</struct>
+	<struct name="OfficeArtIDCL">
+		<uint32 name="dgid" />
+		<uint32 name="cspidCur" />
+	</struct>
+	<struct name="OfficeArtBStoreContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recType" value="0x0F001" />
+		</type>
+		<type name="rgfb" type="OfficeArtBStoreContainerFileBlock" count="rh.recInstance" />
+	</struct>
+	<struct name="OfficeArtFOPT">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0x3" />
+			<limitation name="recType" value="0x0F008" />
+		</type>
+		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
+	</struct>
+	<struct name="OfficeArtFOPTE">
+		<type name="opid" type="OfficeArtFOPTEOPID" />
+		<int32 name="op" />
+		<uint8 name="complexData" count="(opid.fComplex)?op:0" />
+	</struct>
+	<struct name="OfficeArtFOPTEOPID">
+		<uint14 name="opid" />
+		<bit name="fBid" />
+		<bit name="fComplex" />
+	</struct>
+	<struct name="OfficeArtTertiaryFOPT">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0x3" />
+			<limitation name="recType" value="0x0F122" />
+		</type>
+		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
+	</struct>
+	<struct name="OfficeArtColorMRUContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recType" value="0xF11A" />
+			<limitation expression="recLen==4*recInstance" />
+		</type>
+		<type name="rgmsocr" type="MSOCR" count="rh.recInstance" />
+	</struct>
+	<struct name="MSOCR">
+		<uint8 name="red" />
+		<uint8 name="green" />
+		<uint8 name="blue" />
+		<uint3 name="unused1" />
+		<bit name="fSchemeIndex" />
+		<uint4 name="unused2" />
+		<!--
+			an addition limitation is needed that says that if fSchemeIndex ==1
+			then green and blue must be 0
+		-->
+	</struct>
+	<struct name="OfficeArtSplitMenuColorContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x4" />
+			<limitation name="recType" value="0xF11E" />
+			<limitation name="recLen" value="0x10" />
+		</type>
+		<type name="smca" type="MSOCR" count="4" />
+	</struct>
+
 	<struct name="TODO">
 		<!--
 			a placeholder for structures that are not in the document
