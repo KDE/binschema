@@ -111,7 +111,7 @@ public class LEInputStream {
 
 	public int distanceFromMark(Object mark) {
 		Mark m = (Mark) mark;
-		return m.pos - rewindableInputStream.pos;
+		return rewindableInputStream.pos - m.pos;
 	}
 
 	public void rewind(Object mark) throws IOException {
@@ -153,6 +153,11 @@ public class LEInputStream {
 		return (byte) v;
 	}
 
+	public byte readuint3() throws IOException {
+		int v = getBits(3) & 0x7;
+		return (byte) v;
+	}
+
 	public byte readuint4() throws IOException {
 		int v = getBits(4) & 0xF;
 		return (byte) v;
@@ -162,6 +167,7 @@ public class LEInputStream {
 		int v = getBits(5) & 0x1F;
 		return (byte) v;
 	}
+
 	public byte readuint6() throws IOException {
 		int v = getBits(6) & 0x3F;
 		return (byte) v;
@@ -169,6 +175,11 @@ public class LEInputStream {
 
 	public short readuint12() throws IOException {
 		int v = getBits(12) & 0xFFF;
+		return (short) v;
+	}
+
+	public short readuint14() throws IOException {
+		int v = getBits(14) & 0x3FFF;
 		return (short) v;
 	}
 

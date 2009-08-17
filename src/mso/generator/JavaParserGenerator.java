@@ -89,10 +89,10 @@ public class JavaParserGenerator {
 			return e.getAttribute("type");
 		} else if ("bit".equals(t)) {
 			return "boolean";
-		} else if ("uint2".equals(t) || "uint4".equals(t) || "uint5".equals(t)
-				|| "uint6".equals(t) || "uint8".equals(t)) {
+		} else if ("uint2".equals(t) || "uint3".equals(t) || "uint4".equals(t)
+				|| "uint5".equals(t) || "uint6".equals(t) || "uint8".equals(t)) {
 			return "byte";
-		} else if ("uint12".equals(t) || "int16".equals(t)) {
+		} else if ("uint12".equals(t) || "uint14".equals(t) || "int16".equals(t)) {
 			return "short";
 		} else if ("uint16".equals(t) || "uint32".equals(t)
 				|| "int32".equals(t)) {
