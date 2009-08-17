@@ -124,15 +124,15 @@ public class LEInputStream {
 
 	private int getBits(int n) throws IOException {
 		if (bitfieldpos < 0) {
-			bitfield = Short.reverseBytes(input.readShort());
+			bitfield = input.readByte();
 			bitfieldpos = 0;
 		}
 		int v = bitfield >> bitfieldpos;
 		bitfieldpos += n;
-		if (bitfieldpos == 16) {
+		if (bitfieldpos == 8) {
 			bitfieldpos = -1;
-		} else if (bitfieldpos > 16) {
-			throw new IOException("bifield does not have enough bits left");
+		} else if (bitfieldpos > 8) {
+			throw new IOException("bitfield does not have enough bits left");
 		}
 		return v;
 	}
@@ -174,12 +174,18 @@ public class LEInputStream {
 	}
 
 	public short readuint12() throws IOException {
-		int v = getBits(12) & 0xFFF;
+		// we assume there are 4 bits left
+		int a = getBits(4) & 0xF;
+		int b = input.readByte();
+		int v = (b << 4) | a;
 		return (short) v;
 	}
 
 	public short readuint14() throws IOException {
-		int v = getBits(14) & 0x3FFF;
+		checkForLeftOverBits();
+		int a = input.readByte();
+		int b = getBits(6) & 0x3F;
+		int v = (b << 8) | a;
 		return (short) v;
 	}
 

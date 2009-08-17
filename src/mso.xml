@@ -872,9 +872,9 @@
 		<type name="anon" type="TODO" array="true" />
 	</struct>
 	<stream name="PowerPointDocument" key="PowerPoint Document"
-		type="PowerPointStructs" />
+		type="PowerPointStructs" /> 
 	<stream name="CurrentUser" key="Current User" type="CurrentUserAtom" />
-	<!--
-		<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
-	-->
+	<!-- 
+		<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />-->
+	
 </mso>
