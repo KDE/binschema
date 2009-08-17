@@ -68,7 +68,9 @@
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0x2" />
 			<limitation name="recInstance"
-				value="0xF01A|0xF01B|0xF01C|0xF01D|0xF01E|0xF01F|0xF029" />
+				value="0|1|2|3|4|5|6|7|0x11|0x12" />
+			<!-- <limitation name="recInstance"
+				value="0xF01A|0xF01B|0xF01C|0xF01D|0xF01E|0xF01F|0xF029" /> -->
 			<limitation name="recType" value="0xF007" />
 		</type>
 		<uint8 name="btWin32" />
@@ -84,8 +86,8 @@
 		<uint8 name="cbName" />
 		<uint8 name="unused2" />
 		<uint8 name="unused3" />
-		<uint8 name="nameData" array="true" count="rh.recLen-size-36" />
-		<type name="embeddedBlip" type="OfficeArtBlip" condition="size > 0">
+		<uint8 name="nameData" array="true" count="cbName" />
+		<type name="embeddedBlip" type="OfficeArtBlip" condition="rh.recLen > 36 + cbName">
 			<!--
 				this limitation is currently not supported because it requires
 				dynamic introspection <limitation name="rh.recInstance"
@@ -763,20 +765,20 @@
 		<type name="drawingGroup" type="OfficeArtFDGGBlock" />
 		<type name="blipStore" type="OfficeArtBStoreContainer" />
 		<type name="drawingPrimaryOptions" type="OfficeArtFOPT" />
-		<type name="drawingTertiaryOptions" type="OfficeArtTertiaryFOPT" />
-		<type name="colorMRU" type="OfficeArtColorMRUContainer" />
+		<type name="drawingTertiaryOptions" type="OfficeArtTertiaryFOPT" optional="true" /><!-- MS docs do not list drawingTertiaryOptions as optional -->
+		<type name="colorMRU" type="OfficeArtColorMRUContainer" optional="true" /><!-- MS docs do not list drawingTertiaryOptions as optional -->
 		<type name="splitColors" type="OfficeArtSplitMenuColorContainer" />
 	</struct>
 	<struct name="OfficeArtFDGGBlock">
 		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="0xF" />
+			<limitation name="recVer" value="0x0" />
 			<limitation name="recInstance" value="0x0" />
 			<limitation name="recType" value="0x0F006" />
 		</type>
 		<type name="head" type="OfficeArtFDGG">
 			<!-- <limitation expression="cidcl==rh.recLen/8.0-2" /> FIX!-->
 		</type>
-		<type name="Rgidcl" type="OfficeArtIDCL" count="head.cidcl" />
+		<type name="Rgidcl" type="OfficeArtIDCL" count="head.cidcl-1" />
 	</struct>
 	<struct name="OfficeArtFDGG">
 		<uint32 name="spidMax">
@@ -802,7 +804,7 @@
 	<struct name="OfficeArtFOPT">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0x3" />
-			<limitation name="recType" value="0x0F008" />
+			<limitation name="recType" value="0x0F00B" />
 		</type>
 		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
 	</struct>

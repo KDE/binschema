@@ -127,8 +127,8 @@ System.out.println(_s);
         if (!(_s.rh.recVer == 0x2)) {
             throw new IncorrectValueException("_s.rh.recVer == 0x2 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recInstance == 0xF01A || _s.rh.recInstance == 0xF01B || _s.rh.recInstance == 0xF01C || _s.rh.recInstance == 0xF01D || _s.rh.recInstance == 0xF01E || _s.rh.recInstance == 0xF01F || _s.rh.recInstance == 0xF029)) {
-            throw new IncorrectValueException("_s.rh.recInstance == 0xF01A || _s.rh.recInstance == 0xF01B || _s.rh.recInstance == 0xF01C || _s.rh.recInstance == 0xF01D || _s.rh.recInstance == 0xF01E || _s.rh.recInstance == 0xF01F || _s.rh.recInstance == 0xF029 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1 || _s.rh.recInstance == 2 || _s.rh.recInstance == 3 || _s.rh.recInstance == 4 || _s.rh.recInstance == 5 || _s.rh.recInstance == 6 || _s.rh.recInstance == 7 || _s.rh.recInstance == 0x11 || _s.rh.recInstance == 0x12)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0 || _s.rh.recInstance == 1 || _s.rh.recInstance == 2 || _s.rh.recInstance == 3 || _s.rh.recInstance == 4 || _s.rh.recInstance == 5 || _s.rh.recInstance == 6 || _s.rh.recInstance == 7 || _s.rh.recInstance == 0x11 || _s.rh.recInstance == 0x12 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recType == 0xF007)) {
             throw new IncorrectValueException("_s.rh.recType == 0xF007 for value " + String.valueOf(_s.rh) );
@@ -151,12 +151,12 @@ System.out.println(_s);
         _s.cbName = in.readuint8();
         _s.unused2 = in.readuint8();
         _s.unused3 = in.readuint8();
-        _c = _s.rh.recLen-_s.size-36;
+        _c = _s.cbName;
         _s.nameData = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
             _s.nameData[_i] = in.readuint8();
         }
-        if (_s.size > 0) {
+        if (_s.rh.recLen > 36 + _s.cbName) {
             _s.embeddedBlip = parseOfficeArtBlip(in);
         }
         return _s;
@@ -1534,6 +1534,7 @@ System.out.println(_s);
     }
     OfficeArtDggContainer parseOfficeArtDggContainer(LEInputStream in) throws IOException  {
         OfficeArtDggContainer _s = new OfficeArtDggContainer();
+        Object _m;
         _s.rh = parseOfficeArtRecordHeader(in);
         if (!(_s.rh.recVer == 0xF)) {
             throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
@@ -1547,8 +1548,28 @@ System.out.println(_s);
         _s.drawingGroup = parseOfficeArtFDGGBlock(in);
         _s.blipStore = parseOfficeArtBStoreContainer(in);
         _s.drawingPrimaryOptions = parseOfficeArtFOPT(in);
-        _s.drawingTertiaryOptions = parseOfficeArtTertiaryFOPT(in);
-        _s.colorMRU = parseOfficeArtColorMRUContainer(in);
+        _m = in.setMark();
+        try {
+            _s.drawingTertiaryOptions = parseOfficeArtTertiaryFOPT(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.colorMRU = parseOfficeArtColorMRUContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
         _s.splitColors = parseOfficeArtSplitMenuColorContainer(in);
         return _s;
     }
@@ -1556,8 +1577,8 @@ System.out.println(_s);
         OfficeArtFDGGBlock _s = new OfficeArtFDGGBlock();
         int _c;
         _s.rh = parseOfficeArtRecordHeader(in);
-        if (!(_s.rh.recVer == 0xF)) {
-            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recInstance == 0x0)) {
             throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
@@ -1566,7 +1587,7 @@ System.out.println(_s);
             throw new IncorrectValueException("_s.rh.recType == 0x0F006 for value " + String.valueOf(_s.rh) );
         }
         _s.head = parseOfficeArtFDGG(in);
-        _c = _s.head.cidcl;
+        _c = _s.head.cidcl-1;
         _s.Rgidcl = new OfficeArtIDCL[_c];
         for (int _i=0; _i<_c; ++_i) {
             _s.Rgidcl[_i] = parseOfficeArtIDCL(in);
@@ -1617,8 +1638,8 @@ System.out.println(_s);
         if (!(_s.rh.recVer == 0x3)) {
             throw new IncorrectValueException("_s.rh.recVer == 0x3 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0x0F008)) {
-            throw new IncorrectValueException("_s.rh.recType == 0x0F008 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0x0F00B)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0F00B for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recInstance;
         _s.fopt = new OfficeArtFOPTE[_c];
