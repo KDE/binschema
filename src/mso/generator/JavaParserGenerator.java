@@ -122,7 +122,7 @@ public class JavaParserGenerator {
 
 	void printStructureClass(PrintWriter out, Element e) {
 		String name = e.getAttribute("name");
-		out.println("class " + name + "{");
+		out.println("class " + name + " {");
 		NodeList l = e.getChildNodes();
 		for (int i = 0; i < l.getLength(); ++i) {
 			Node n = l.item(i);
