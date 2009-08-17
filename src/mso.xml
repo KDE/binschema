@@ -240,13 +240,95 @@
 		</type>
 		<type name="documentAtom" type="DocumentAtom" />
 		<type name="exObjList" type="ExObjListContainer" optional="true" />
-
 		<type name="documentTextInfo" type="DocumentTextInfoContainer" />
 		<!-- TODO name="soundCollection" -->
 		<type name="drawingGroup" type="DrawingGroupContainer" />
 		<type name="masterList" type="MasterListWithTextContainer" />
+		<type name="docInfoList" type="DocInfoListContainer" optional="true" />
 		<type name="slideList" type="SlideListWithTextContainer"
 			optional="true" />
+		<!--  todo: some optional fields -->
+		<type name="endDocumentAtom" type="EndDocumentAtom" />
+	</struct>
+	<struct name="EndDocumentAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0	" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x3EA" />
+			<limitation name="recLen" value="0" />
+		</type>
+	</struct>
+	<struct name="DocInfoListContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x7D0" />
+		</type>
+		<type name="rgChildRec" type="DocInfoListSubContainerOrAtom"
+			array="true" />
+	</struct>
+	<struct name="DocInfoListSubContainerOrAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0|0xF" />
+			<limitation name="recInstance" value="0|1" />
+			<limitation name="recType"
+				value="0x414|0x3FA|0x413|0x415|0x1388|0x407|0x408" />
+		</type>
+		<uint8 name="wrong" count="rh.recLen" />
+		<!--
+			TODO <choice name="anon"> <type type="NormalViewSetInfoContainer" />
+			<type type="SlideViewInfoInstance" /> </choice>
+		-->
+	</struct>
+	<struct name="SlideViewInfoInstance">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0|1" />
+			<limitation name="recType" value="0x3FA" />
+		</type>
+		<!--  TODO -->
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="NormalViewSetInfoContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0x414" />
+			<limitation name="recLen" value="0x1C" />
+		</type>
+		<type name="normalViewSetInfoAtom" type="NormalViewSetInfoAtom" />
+	</struct>
+	<struct name="NormalViewSetInfoAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x415" />
+			<limitation name="recLen" value="0x14" />
+		</type>
+		<type name="leftPortion" type="RatioStruct">
+			<!--
+				This is not true in a sample doc <limitation
+				expression="numer*denom&gt;=0" /> <limitation
+				expression="denom/numer&gt;=1" />
+			-->
+		</type>
+		<type name="topPortion" type="RatioStruct">
+			<!--
+				This is not true in a sample doc <limitation
+				expression="numer*denom&gt;=0" /> <limitation
+				expression="denom/numer&gt;=1" />
+			-->
+		</type>
+		<uint8 name="vertBarState" />
+		<uint8 name="horizBarState" />
+		<uint8 name="fPreferSingleSet">
+			<limitation value="0|1" />
+		</uint8>
+		<bit name="fHideThumbnails" />
+		<bit name="fBarSnapped" />
+		<uint6 name="reserved">
+			<limitation value="0" />
+		</uint6>
 	</struct>
 	<struct name="MasterListWithTextContainer">
 		<type name="rh" type="RecordHeader">

@@ -544,6 +544,17 @@ System.out.println(_s);
         _s.masterList = parseMasterListWithTextContainer(in);
         _m = in.setMark();
         try {
+            _s.docInfoList = parseDocInfoListContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
             _s.slideList = parseSlideListWithTextContainer(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
@@ -552,6 +563,146 @@ System.out.println(_s);
             in.rewind(_m);
         } finally {
             in.releaseMark(_m);
+        }
+        _s.endDocumentAtom = parseEndDocumentAtom(in);
+        return _s;
+    }
+    EndDocumentAtom parseEndDocumentAtom(LEInputStream in) throws IOException  {
+        EndDocumentAtom _s = new EndDocumentAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0 )) {
+            throw new IncorrectValueException("_s.rh.recVer == 0  for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x3EA)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x3EA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0)) {
+            throw new IncorrectValueException("_s.rh.recLen == 0 for value " + String.valueOf(_s.rh) );
+        }
+        return _s;
+    }
+    DocInfoListContainer parseDocInfoListContainer(LEInputStream in) throws IOException  {
+        DocInfoListContainer _s = new DocInfoListContainer();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x7D0)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x7D0 for value " + String.valueOf(_s.rh) );
+        }
+        boolean _atend = false;
+        int i=0;
+        while (!_atend) {
+            System.out.println("round "+(i++));
+            Object _m = in.setMark();
+            try {
+                DocInfoListSubContainerOrAtom _t = parseDocInfoListSubContainerOrAtom(in);
+                _s.rgChildRec.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+            }
+        }
+        return _s;
+    }
+    DocInfoListSubContainerOrAtom parseDocInfoListSubContainerOrAtom(LEInputStream in) throws IOException  {
+        DocInfoListSubContainerOrAtom _s = new DocInfoListSubContainerOrAtom();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0 || _s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0 || _s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0 || _s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x414 || _s.rh.recType == 0x3FA || _s.rh.recType == 0x413 || _s.rh.recType == 0x415 || _s.rh.recType == 0x1388 || _s.rh.recType == 0x407 || _s.rh.recType == 0x408)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x414 || _s.rh.recType == 0x3FA || _s.rh.recType == 0x413 || _s.rh.recType == 0x415 || _s.rh.recType == 0x1388 || _s.rh.recType == 0x407 || _s.rh.recType == 0x408 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.wrong = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.wrong[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    SlideViewInfoInstance parseSlideViewInfoInstance(LEInputStream in) throws IOException  {
+        SlideViewInfoInstance _s = new SlideViewInfoInstance();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0 || _s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x3FA)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x3FA for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.todo = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.todo[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    NormalViewSetInfoContainer parseNormalViewSetInfoContainer(LEInputStream in) throws IOException  {
+        NormalViewSetInfoContainer _s = new NormalViewSetInfoContainer();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 1)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x414)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x414 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x1C)) {
+            throw new IncorrectValueException("_s.rh.recLen == 0x1C for value " + String.valueOf(_s.rh) );
+        }
+        _s.normalViewSetInfoAtom = parseNormalViewSetInfoAtom(in);
+        return _s;
+    }
+    NormalViewSetInfoAtom parseNormalViewSetInfoAtom(LEInputStream in) throws IOException  {
+        NormalViewSetInfoAtom _s = new NormalViewSetInfoAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x415)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x415 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x14)) {
+            throw new IncorrectValueException("_s.rh.recLen == 0x14 for value " + String.valueOf(_s.rh) );
+        }
+        _s.leftPortion = parseRatioStruct(in);
+        _s.topPortion = parseRatioStruct(in);
+        _s.vertBarState = in.readuint8();
+        _s.horizBarState = in.readuint8();
+        _s.fPreferSingleSet = in.readuint8();
+        if (!(_s.fPreferSingleSet == 0 || _s.fPreferSingleSet == 1)) {
+            throw new IncorrectValueException("_s.fPreferSingleSet == 0 || _s.fPreferSingleSet == 1 for value " + String.valueOf(_s.fPreferSingleSet) );
+        }
+        _s.fHideThumbnails = in.readbit();
+        _s.fBarSnapped = in.readbit();
+        _s.reserved = in.readuint6();
+        if (!(_s.reserved == 0)) {
+            throw new IncorrectValueException("_s.reserved == 0 for value " + String.valueOf(_s.reserved) );
         }
         return _s;
     }
@@ -2639,7 +2790,9 @@ class DocumentContainer {
     DocumentTextInfoContainer documentTextInfo;
     DrawingGroupContainer drawingGroup;
     MasterListWithTextContainer masterList;
+    DocInfoListContainer docInfoList;
     SlideListWithTextContainer slideList;
+    EndDocumentAtom endDocumentAtom;
     public String toString() {
         String _s = "DocumentContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -2648,7 +2801,81 @@ class DocumentContainer {
         _s = _s + "documentTextInfo: " + String.valueOf(documentTextInfo) + ", ";
         _s = _s + "drawingGroup: " + String.valueOf(drawingGroup) + ", ";
         _s = _s + "masterList: " + String.valueOf(masterList) + ", ";
+        _s = _s + "docInfoList: " + String.valueOf(docInfoList) + ", ";
         _s = _s + "slideList: " + String.valueOf(slideList) + ", ";
+        _s = _s + "endDocumentAtom: " + String.valueOf(endDocumentAtom) + ", ";
+        return _s;
+    }
+}
+class EndDocumentAtom {
+    RecordHeader rh;
+    public String toString() {
+        String _s = "EndDocumentAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        return _s;
+    }
+}
+class DocInfoListContainer {
+    RecordHeader rh;
+    final java.util.List<DocInfoListSubContainerOrAtom> rgChildRec = new java.util.ArrayList<DocInfoListSubContainerOrAtom>();
+    public String toString() {
+        String _s = "DocInfoListContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "rgChildRec: " + String.valueOf(rgChildRec) + ", ";
+        return _s;
+    }
+}
+class DocInfoListSubContainerOrAtom {
+    RecordHeader rh;
+    byte[] wrong;
+    public String toString() {
+        String _s = "DocInfoListSubContainerOrAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "wrong: " + String.valueOf(wrong) + ", ";
+        return _s;
+    }
+}
+class SlideViewInfoInstance {
+    RecordHeader rh;
+    byte[] todo;
+    public String toString() {
+        String _s = "SlideViewInfoInstance:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        return _s;
+    }
+}
+class NormalViewSetInfoContainer {
+    RecordHeader rh;
+    NormalViewSetInfoAtom normalViewSetInfoAtom;
+    public String toString() {
+        String _s = "NormalViewSetInfoContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "normalViewSetInfoAtom: " + String.valueOf(normalViewSetInfoAtom) + ", ";
+        return _s;
+    }
+}
+class NormalViewSetInfoAtom {
+    RecordHeader rh;
+    RatioStruct leftPortion;
+    RatioStruct topPortion;
+    byte vertBarState;
+    byte horizBarState;
+    byte fPreferSingleSet;
+    boolean fHideThumbnails;
+    boolean fBarSnapped;
+    byte reserved;
+    public String toString() {
+        String _s = "NormalViewSetInfoAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "leftPortion: " + String.valueOf(leftPortion) + ", ";
+        _s = _s + "topPortion: " + String.valueOf(topPortion) + ", ";
+        _s = _s + "vertBarState: " + String.valueOf(vertBarState) + ", ";
+        _s = _s + "horizBarState: " + String.valueOf(horizBarState) + ", ";
+        _s = _s + "fPreferSingleSet: " + String.valueOf(fPreferSingleSet) + ", ";
+        _s = _s + "fHideThumbnails: " + String.valueOf(fHideThumbnails) + ", ";
+        _s = _s + "fBarSnapped: " + String.valueOf(fBarSnapped) + ", ";
+        _s = _s + "reserved: " + String.valueOf(reserved) + ", ";
         return _s;
     }
 }
