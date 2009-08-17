@@ -67,10 +67,11 @@
 	<struct name="OfficeArtFBSE">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0x2" />
-			<limitation name="recInstance"
-				value="0|1|2|3|4|5|6|7|0x11|0x12" />
-			<!-- <limitation name="recInstance"
-				value="0xF01A|0xF01B|0xF01C|0xF01D|0xF01E|0xF01F|0xF029" /> -->
+			<limitation name="recInstance" value="0|1|2|3|4|5|6|7|0x11|0x12" />
+			<!--
+				<limitation name="recInstance"
+				value="0xF01A|0xF01B|0xF01C|0xF01D|0xF01E|0xF01F|0xF029" />
+			-->
 			<limitation name="recType" value="0xF007" />
 		</type>
 		<uint8 name="btWin32" />
@@ -243,6 +244,215 @@
 		<type name="documentTextInfo" type="DocumentTextInfoContainer" />
 		<!-- TODO name="soundCollection" -->
 		<type name="drawingGroup" type="DrawingGroupContainer" />
+		<type name="slideList" type="SlideListWithTextContainer"
+			optional="true" />
+	</struct>
+	<struct name="SlideListWithTextContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FF0" />
+		</type>
+		<type name="rgChildRec" type="SlideListWithTextSubContainerOrAtom"
+			array="true" />
+	</struct>
+	<struct name="SlideListWithTextSubContainerOrAtom">
+		<!--  we ignore the details of the order of slides required here -->
+		<choice name="anon">
+			<type type="SlidePersistAtom" />
+			<type type="TextHeaderAtom" />
+			<type type="TextCharsAtom" />
+			<type type="TextBytesAtom" />
+			<type type="StyleTextPropAtom" />
+			<type type="SlideNumberMCAtom" />
+			<type type="DateTimeMCAtom" />
+			<type type="GenericDateMCAtom" />
+			<type type="HeaderMCAtom" />
+			<type type="FooterMCAtom" />
+			<type type="RTFDateTimeMCAtom" />
+			<type type="TextBookmarkAtom" />
+			<type type="TextSpecialInfoAtom" />
+			<type type="InteractiveInfoInstance" />
+			<type type="TextInteractiveInfoInstance" />
+		</choice>
+	</struct>
+	<struct name="SlidePersistAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x3F3" />
+			<limitation name="recLen" value="0x14" />
+		</type>
+		<type name="persistIdRef" type="PersistIdRef" />
+		<bit name="reserved1">
+			<limitation value="false" />
+		</bit>
+		<bit name="fShouldCollapse" />
+		<bit name="fNonOutlineData" />
+		<uint5 name="reserved2">
+			<limitation value="0" />
+		</uint5>
+		<uint8 name="reserved3">
+			<limitation value="0" />
+		</uint8>
+		<uint16 name="reserved4">
+			<limitation value="0" />
+		</uint16>
+		<int32 name="cTexts">
+			<limitation expression="&gt;=0" />
+			<limitation expression="&lt;=8" />
+		</int32>
+		<type name="slideId" type="SlideId" />
+		<uint32 name="reserved5">
+			<limitation value="0" />
+		</uint32>
+	</struct>
+	<struct name="TextHeaderAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0|1|2|3|4|5" />
+			<limitation name="recType" value="0xF9F" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint32 name="textType" />
+	</struct>
+	<struct name="TextCharsAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFA0" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint16 name="textChars" count="rh.recLen/2">
+			<limitation value="!0" />
+		</uint16>
+	</struct>
+	<struct name="TextBytesAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFA8" />
+		</type>
+		<uint8 name="textChars" count="rh.recLen">
+			<limitation value="!0" />
+		</uint8>
+	</struct>
+	<struct name="StyleTextPropAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFA0" />
+		</type>
+		<!-- this one seems very hard to do -->
+		<uint8 name="wrong" count="rh.recLen" />
+	</struct>
+	<struct name="SlideNumberMCAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFD8" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<int32 name="position" />
+	</struct>
+	<struct name="DateTimeMCAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFF7" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<int32 name="position" />
+		<uint8 name="index" />
+		<uint8 name="unused" count="3" />
+	</struct>
+	<struct name="GenericDateMCAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFF8" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<int32 name="position" />
+	</struct>
+	<struct name="HeaderMCAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFF9" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<int32 name="position" />
+	</struct>
+	<struct name="FooterMCAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFFA" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<int32 name="position" />
+	</struct>
+	<struct name="RTFDateTimeMCAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x1015" />
+			<limitation name="recLen" value="0x84" />
+		</type>
+		<int32 name="position" />
+		<uint8 name="format" count="128" />
+	</struct>
+	<struct name="TextBookmarkAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFA7" />
+			<limitation name="recLen" value="0xC" />
+		</type>
+		<int32 name="begin" />
+		<int32 name="end">
+			<!--
+				TODO: figure out how to do this <limitation expression="&gt; begin"
+				/> <limitation expression="&lt;= begin+255" />
+			-->
+		</int32>
+		<int32 name="bookmarkID" />
+	</struct>
+	<struct name="TextSpecialInfoAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFAA" />
+		</type>
+		<!-- this one seems impossible to do -->
+		<uint8 name="wrong" count="rh.recLen" />
+	</struct>
+	<struct name="InteractiveInfoInstance">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0|1" />
+			<limitation name="recType" value="0xFF2" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<!-- TODO either mouseover or mouseclick -->
+		<uint8 name="range" count="8" />
+	</struct>
+	<struct name="TextInteractiveInfoInstance">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFDF" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<!-- TODO either mouseover or mouseclick -->
+		<uint8 name="range" count="8" />
+	</struct>
+	<struct name="SlideId">
+		<uint32 name="slideId">
+			<limitation expression="&gt;=100" />
+			<limitation expression="&lt;2147483647" />
+		</uint32>
 	</struct>
 	<struct name="DocumentTextInfoContainer">
 		<type name="rh" type="RecordHeader">
@@ -765,8 +975,15 @@
 		<type name="drawingGroup" type="OfficeArtFDGGBlock" />
 		<type name="blipStore" type="OfficeArtBStoreContainer" />
 		<type name="drawingPrimaryOptions" type="OfficeArtFOPT" />
-		<type name="drawingTertiaryOptions" type="OfficeArtTertiaryFOPT" optional="true" /><!-- MS docs do not list drawingTertiaryOptions as optional -->
-		<type name="colorMRU" type="OfficeArtColorMRUContainer" optional="true" /><!-- MS docs do not list drawingTertiaryOptions as optional -->
+		<type name="drawingTertiaryOptions" type="OfficeArtTertiaryFOPT"
+			optional="true" />
+		<!--
+			MS docs do not list drawingTertiaryOptions as optional
+		-->
+		<type name="colorMRU" type="OfficeArtColorMRUContainer" optional="true" />
+		<!--
+			MS docs do not list drawingTertiaryOptions as optional
+		-->
 		<type name="splitColors" type="OfficeArtSplitMenuColorContainer" />
 	</struct>
 	<struct name="OfficeArtFDGGBlock">
@@ -872,9 +1089,10 @@
 		<type name="anon" type="TODO" array="true" />
 	</struct>
 	<stream name="PowerPointDocument" key="PowerPoint Document"
-		type="PowerPointStructs" /> 
+		type="PowerPointStructs" />
 	<stream name="CurrentUser" key="Current User" type="CurrentUserAtom" />
-	<!-- 
-		<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />-->
-	
+	<!--
+		<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
+	-->
+
 </mso>
