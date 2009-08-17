@@ -244,8 +244,47 @@
 		<type name="documentTextInfo" type="DocumentTextInfoContainer" />
 		<!-- TODO name="soundCollection" -->
 		<type name="drawingGroup" type="DrawingGroupContainer" />
+		<type name="masterList" type="MasterListWithTextContainer" />
 		<type name="slideList" type="SlideListWithTextContainer"
 			optional="true" />
+	</struct>
+	<struct name="MasterListWithTextContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x1" />
+			<limitation name="recType" value="0x0FF0" />
+			<limitation name="recLen" expression="%28==0" />
+		</type>
+		<type name="rgMasterPersistAtom" type="MasterPersistAtom" count="rh.recLen/28" />
+	</struct>
+	<struct name="MasterPersistAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x3F3" />
+			<limitation name="recLen" value="0x14" />
+		</type>
+		<type name="persistIdRef" type="PersistIdRef" />
+		<uint2 name="reserved1">
+			<limitation value="0" />
+		</uint2>
+		<bit name="fNonOutLineData" />
+		<uint5 name="reserved2">
+			<limitation value="0" />
+		</uint5>
+		<uint8 name="reserved3">
+			<limitation value="0" />
+		</uint8>
+		<uint16 name="reserved4">
+			<limitation value="0" />
+		</uint16>
+		<uint32 name="reserved5">
+			<limitation value="0" />
+		</uint32>
+		<uint32 name="masterId" />
+		<uint32 name="reserved6">
+			<limitation value="0" />
+		</uint32>
 	</struct>
 	<struct name="SlideListWithTextContainer">
 		<type name="rh" type="RecordHeader">

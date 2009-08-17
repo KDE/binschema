@@ -541,6 +541,7 @@ System.out.println(_s);
         }
         _s.documentTextInfo = parseDocumentTextInfoContainer(in);
         _s.drawingGroup = parseDrawingGroupContainer(in);
+        _s.masterList = parseMasterListWithTextContainer(in);
         _m = in.setMark();
         try {
             _s.slideList = parseSlideListWithTextContainer(in);
@@ -551,6 +552,73 @@ System.out.println(_s);
             in.rewind(_m);
         } finally {
             in.releaseMark(_m);
+        }
+        return _s;
+    }
+    MasterListWithTextContainer parseMasterListWithTextContainer(LEInputStream in) throws IOException  {
+        MasterListWithTextContainer _s = new MasterListWithTextContainer();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x1)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FF0)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FF0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen%28==0)) {
+            throw new IncorrectValueException("_s.rh.recLen%28==0 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen/28;
+        _s.rgMasterPersistAtom = new MasterPersistAtom[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.rgMasterPersistAtom[_i] = parseMasterPersistAtom(in);
+        }
+        return _s;
+    }
+    MasterPersistAtom parseMasterPersistAtom(LEInputStream in) throws IOException  {
+        MasterPersistAtom _s = new MasterPersistAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x3F3)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x3F3 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x14)) {
+            throw new IncorrectValueException("_s.rh.recLen == 0x14 for value " + String.valueOf(_s.rh) );
+        }
+        _s.persistIdRef = parsePersistIdRef(in);
+        _s.reserved1 = in.readuint2();
+        if (!(_s.reserved1 == 0)) {
+            throw new IncorrectValueException("_s.reserved1 == 0 for value " + String.valueOf(_s.reserved1) );
+        }
+        _s.fNonOutLineData = in.readbit();
+        _s.reserved2 = in.readuint5();
+        if (!(_s.reserved2 == 0)) {
+            throw new IncorrectValueException("_s.reserved2 == 0 for value " + String.valueOf(_s.reserved2) );
+        }
+        _s.reserved3 = in.readuint8();
+        if (!(_s.reserved3 == 0)) {
+            throw new IncorrectValueException("_s.reserved3 == 0 for value " + String.valueOf(_s.reserved3) );
+        }
+        _s.reserved4 = in.readuint16();
+        if (!(_s.reserved4 == 0)) {
+            throw new IncorrectValueException("_s.reserved4 == 0 for value " + String.valueOf(_s.reserved4) );
+        }
+        _s.reserved5 = in.readuint32();
+        if (!(_s.reserved5 == 0)) {
+            throw new IncorrectValueException("_s.reserved5 == 0 for value " + String.valueOf(_s.reserved5) );
+        }
+        _s.masterId = in.readuint32();
+        _s.reserved6 = in.readuint32();
+        if (!(_s.reserved6 == 0)) {
+            throw new IncorrectValueException("_s.reserved6 == 0 for value " + String.valueOf(_s.reserved6) );
         }
         return _s;
     }
@@ -2570,6 +2638,7 @@ class DocumentContainer {
     ExObjListContainer exObjList;
     DocumentTextInfoContainer documentTextInfo;
     DrawingGroupContainer drawingGroup;
+    MasterListWithTextContainer masterList;
     SlideListWithTextContainer slideList;
     public String toString() {
         String _s = "DocumentContainer:";
@@ -2578,7 +2647,44 @@ class DocumentContainer {
         _s = _s + "exObjList: " + String.valueOf(exObjList) + ", ";
         _s = _s + "documentTextInfo: " + String.valueOf(documentTextInfo) + ", ";
         _s = _s + "drawingGroup: " + String.valueOf(drawingGroup) + ", ";
+        _s = _s + "masterList: " + String.valueOf(masterList) + ", ";
         _s = _s + "slideList: " + String.valueOf(slideList) + ", ";
+        return _s;
+    }
+}
+class MasterListWithTextContainer {
+    RecordHeader rh;
+    MasterPersistAtom[] rgMasterPersistAtom;
+    public String toString() {
+        String _s = "MasterListWithTextContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "rgMasterPersistAtom: " + String.valueOf(rgMasterPersistAtom) + ", ";
+        return _s;
+    }
+}
+class MasterPersistAtom {
+    RecordHeader rh;
+    PersistIdRef persistIdRef;
+    byte reserved1;
+    boolean fNonOutLineData;
+    byte reserved2;
+    byte reserved3;
+    int reserved4;
+    int reserved5;
+    int masterId;
+    int reserved6;
+    public String toString() {
+        String _s = "MasterPersistAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "persistIdRef: " + String.valueOf(persistIdRef) + ", ";
+        _s = _s + "reserved1: " + String.valueOf(reserved1) + ", ";
+        _s = _s + "fNonOutLineData: " + String.valueOf(fNonOutLineData) + ", ";
+        _s = _s + "reserved2: " + String.valueOf(reserved2) + ", ";
+        _s = _s + "reserved3: " + String.valueOf(reserved3) + ", ";
+        _s = _s + "reserved4: " + String.valueOf(reserved4) + ", ";
+        _s = _s + "reserved5: " + String.valueOf(reserved5) + ", ";
+        _s = _s + "masterId: " + String.valueOf(masterId) + ", ";
+        _s = _s + "reserved6: " + String.valueOf(reserved6) + ", ";
         return _s;
     }
 }
