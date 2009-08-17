@@ -6,8 +6,6 @@ public class GeneratedMsoParser {
             parsePowerPointStructs(in);
         } else if ("Current User".equals(key)) {
             parseCurrentUserAtom(in);
-        } else if ("Pictures".equals(key)) {
-            parseOfficeArtBStoreDelay(in);
         } else {
             parseTODOS(in);
         }
@@ -21,6 +19,7 @@ public class GeneratedMsoParser {
             throw new IncorrectValueException("_s.recType>0 for value " + String.valueOf(_s.recType) );
         }
         _s.recLen = in.readuint32();
+System.out.println(_s);
         return _s;
     }
     CurrentUserAtom parseCurrentUserAtom(LEInputStream in) throws IOException  {
@@ -71,7 +70,7 @@ public class GeneratedMsoParser {
         if (!(_s.relVersion == 0x8 || _s.relVersion == 0x9)) {
             throw new IncorrectValueException("_s.relVersion == 0x8 || _s.relVersion == 0x9 for value " + String.valueOf(_s.relVersion) );
         }
-        if (_s.rh.recLen==3*_s.lenUserName) {
+        if (_s.rh.recLen==3*_s.lenUserName+0x14) {
             _c = 2*_s.lenUserName;
             _s.unicodeUserName = new byte[_c];
             for (int _i=0; _i<_c; ++_i) {
@@ -101,6 +100,7 @@ public class GeneratedMsoParser {
                 OfficeArtBStoreContainerFileBlock _t = parseOfficeArtBStoreContainerFileBlock(in);
                 _s.anon1.add(_t);
             } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -423,31 +423,37 @@ public class GeneratedMsoParser {
             _s.anon = parseOfficeArtBlipEMF(in);
         } catch (IncorrectValueException _x) {
             System.out.println(_x.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipWMF(in);
         } catch (IncorrectValueException _xx) {
             System.out.println(_xx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipPICT(in);
         } catch (IncorrectValueException _xxx) {
             System.out.println(_xxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipJPEG(in);
         } catch (IncorrectValueException _xxxx) {
             System.out.println(_xxxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipPNG(in);
         } catch (IncorrectValueException _xxxxx) {
             System.out.println(_xxxxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipDIB(in);
         } catch (IncorrectValueException _xxxxxx) {
             System.out.println(_xxxxxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseOfficeArtBlipTIFF(in);
         }}}}}} finally {
@@ -462,6 +468,7 @@ public class GeneratedMsoParser {
             _s.anon = parseOfficeArtFBSE(in);
         } catch (IncorrectValueException _x) {
             System.out.println(_x.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseOfficeArtBlip(in);
         } finally {
@@ -480,6 +487,7 @@ public class GeneratedMsoParser {
                 PowerPointStruct _t = parsePowerPointStruct(in);
                 _s.anon.add(_t);
             } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -498,20 +506,17 @@ public class GeneratedMsoParser {
             _s.anon = parseDocumentContainer(in);
         } catch (IncorrectValueException _x) {
             System.out.println(_x.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
-        try {
             _s.anon = parseMasterOrSlideContainer(in);
-        } catch (IncorrectValueException _xx) {
-            System.out.println(_xx.getMessage());
-            in.rewind(_m);
-            _s.anon = parseTODO(in);
-        }} finally {
+        } finally {
             in.releaseMark(_m);
         }
         return _s;
     }
     DocumentContainer parseDocumentContainer(LEInputStream in) throws IOException  {
         DocumentContainer _s = new DocumentContainer();
+        Object _m;
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0xF)) {
             throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
@@ -523,12 +528,23 @@ public class GeneratedMsoParser {
             throw new IncorrectValueException("_s.rh.recType == 0x03E8 for value " + String.valueOf(_s.rh) );
         }
         _s.documentAtom = parseDocumentAtom(in);
-        _s.exObjList = parseExObjListContainer(in);
+        _m = in.setMark();
+        try {
+            _s.exObjList = parseExObjListContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
         _s.documentTextInfo = parseDocumentTextInfoContainer(in);
         return _s;
     }
     DocumentTextInfoContainer parseDocumentTextInfoContainer(LEInputStream in) throws IOException  {
         DocumentTextInfoContainer _s = new DocumentTextInfoContainer();
+        Object _m;
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0xF)) {
             throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
@@ -539,6 +555,361 @@ public class GeneratedMsoParser {
         if (!(_s.rh.recType == 0x03F2)) {
             throw new IncorrectValueException("_s.rh.recType == 0x03F2 for value " + String.valueOf(_s.rh) );
         }
+        _m = in.setMark();
+        try {
+            _s.kinsoku = parseKinsokuContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.fontCollection = parseFontCollectionContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.textCFDefaultsAtom = parseTextCFExceptionAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _s.textSIDefaultsAtom = parseTextSIExceptionAtom(in);
+        _s.textMasterStyleAtom = parseTextMasterStyleAtom(in);
+        return _s;
+    }
+    TextCFExceptionAtom parseTextCFExceptionAtom(LEInputStream in) throws IOException  {
+        TextCFExceptionAtom _s = new TextCFExceptionAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FA4)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FA4 for value " + String.valueOf(_s.rh) );
+        }
+        _s.cf = parseTextCFException(in);
+        return _s;
+    }
+    TextPFException parseTextPFException(LEInputStream in) throws IOException  {
+        TextPFException _s = new TextPFException();
+        _s.masks = parsePFMasks(in);
+        if (!(_s.masks.bulletBlip == false)) {
+            throw new IncorrectValueException("_s.masks.bulletBlip == false for value " + String.valueOf(_s.masks) );
+        }
+        if (!(_s.masks.bulletHasScheme == false)) {
+            throw new IncorrectValueException("_s.masks.bulletHasScheme == false for value " + String.valueOf(_s.masks) );
+        }
+        if (!(_s.masks.bulletScheme == false)) {
+            throw new IncorrectValueException("_s.masks.bulletScheme == false for value " + String.valueOf(_s.masks) );
+        }
+        if (_s.masks.hasBullet||_s.masks.bulletHasFont||_s.masks.bulletHasColor||_s.masks.bulletHasSize) {
+            _s.bulletFlags = in.readuint16();
+        }
+        if (_s.masks.bulletChar) {
+            _s.bulletChar = in.readuint16();
+        if (!(_s.bulletChar != 0)) {
+            throw new IncorrectValueException("_s.bulletChar != 0 for value " + String.valueOf(_s.bulletChar) );
+        }
+        }
+        if (_s.masks.bulletFont) {
+            _s.bulletFontRef = in.readuint16();
+        }
+        if (_s.masks.bulletSize) {
+            _s.bulletSize = in.readuint16();
+        }
+        if (_s.masks.bulletColor) {
+            _s.bulletColor = in.readuint32();
+        }
+        if (_s.masks.align) {
+            _s.textAlignment = in.readuint16();
+        }
+        if (_s.masks.lineSpacing) {
+            _s.lineSpacing = in.readuint16();
+        }
+        if (_s.masks.spaceBefore) {
+            _s.spaceBefore = in.readuint16();
+        }
+        if (_s.masks.spaceAfter) {
+            _s.spaceAfter = in.readuint16();
+        }
+        if (_s.masks.leftMargin) {
+            _s.leftMargin = in.readuint16();
+        }
+        if (_s.masks.indent) {
+            _s.indent = in.readuint16();
+        }
+        return _s;
+    }
+    PFMasks parsePFMasks(LEInputStream in) throws IOException  {
+        PFMasks _s = new PFMasks();
+        _s.hasBullet = in.readbit();
+        _s.bulletHasFont = in.readbit();
+        _s.bulletHasColor = in.readbit();
+        _s.bulletHasSize = in.readbit();
+        _s.bulletFont = in.readbit();
+        _s.bulletColor = in.readbit();
+        _s.bulletSize = in.readbit();
+        _s.bulletChar = in.readbit();
+        _s.leftMargin = in.readbit();
+        _s.unused = in.readbit();
+        _s.indent = in.readbit();
+        _s.align = in.readbit();
+        _s.lineSpacing = in.readbit();
+        _s.spaceBefore = in.readbit();
+        _s.spaceAfter = in.readbit();
+        _s.defaultTabSize = in.readbit();
+        _s.fontAlign = in.readbit();
+        _s.charWrap = in.readbit();
+        _s.wordWrap = in.readbit();
+        _s.overflow = in.readbit();
+        _s.tabStops = in.readbit();
+        _s.textDirection = in.readbit();
+        _s.reserved = in.readbit();
+        _s.bulletBlip = in.readbit();
+        _s.bulletScheme = in.readbit();
+        _s.bulletHasScheme = in.readbit();
+        _s.reserved2 = in.readuint6();
+        return _s;
+    }
+    TextCFException parseTextCFException(LEInputStream in) throws IOException  {
+        TextCFException _s = new TextCFException();
+        _s.masks = parseCFMasks(in);
+        if (!(_s.masks.pp10ext == false)) {
+            throw new IncorrectValueException("_s.masks.pp10ext == false for value " + String.valueOf(_s.masks) );
+        }
+        if (!(_s.masks.newEATypeface == false)) {
+            throw new IncorrectValueException("_s.masks.newEATypeface == false for value " + String.valueOf(_s.masks) );
+        }
+        if (!(_s.masks.csTypeface == false)) {
+            throw new IncorrectValueException("_s.masks.csTypeface == false for value " + String.valueOf(_s.masks) );
+        }
+        if (!(_s.masks.pp11ext == false)) {
+            throw new IncorrectValueException("_s.masks.pp11ext == false for value " + String.valueOf(_s.masks) );
+        }
+        if (_s.masks.bold || _s.masks.italic || _s.masks.underline || _s.masks.shadow || _s.masks.fehint || _s.masks.kumi || _s.masks.emboss || _s.masks.fHasStyle != 0) {
+            _s.fontStyle = parseCFStyle(in);
+        }
+        if (_s.masks.typeface) {
+            _s.fontRef = in.readuint16();
+        }
+        if (_s.masks.oldEATypeface) {
+            _s.oldEAFontRef = in.readuint16();
+        }
+        if (_s.masks.ansiTypeface) {
+            _s.ansiFontRef = in.readuint16();
+        }
+        if (_s.masks.symbolTypeface) {
+            _s.symbolFontRef = in.readuint16();
+        }
+        if (_s.masks.size) {
+            _s.fontSize = in.readuint16();
+        if (!(_s.fontSize>=1)) {
+            throw new IncorrectValueException("_s.fontSize>=1 for value " + String.valueOf(_s.fontSize) );
+        }
+        if (!(_s.fontSize<=4000)) {
+            throw new IncorrectValueException("_s.fontSize<=4000 for value " + String.valueOf(_s.fontSize) );
+        }
+        }
+        if (_s.masks.color) {
+            _s.color = in.readuint32();
+        }
+        if (_s.masks.position) {
+            _s.position = in.readuint16();
+        if (!(_s.position>=-100)) {
+            throw new IncorrectValueException("_s.position>=-100 for value " + String.valueOf(_s.position) );
+        }
+        if (!(_s.position<=100)) {
+            throw new IncorrectValueException("_s.position<=100 for value " + String.valueOf(_s.position) );
+        }
+        }
+        return _s;
+    }
+    CFMasks parseCFMasks(LEInputStream in) throws IOException  {
+        CFMasks _s = new CFMasks();
+        _s.bold = in.readbit();
+        _s.italic = in.readbit();
+        _s.underline = in.readbit();
+        _s.unused1 = in.readbit();
+        _s.shadow = in.readbit();
+        _s.fehint = in.readbit();
+        _s.unused2 = in.readbit();
+        _s.kumi = in.readbit();
+        _s.unused3 = in.readbit();
+        _s.emboss = in.readbit();
+        _s.fHasStyle = in.readuint4();
+        _s.unused4 = in.readuint2();
+        _s.typeface = in.readbit();
+        _s.size = in.readbit();
+        _s.color = in.readbit();
+        _s.position = in.readbit();
+        _s.pp10ext = in.readbit();
+        _s.oldEATypeface = in.readbit();
+        _s.ansiTypeface = in.readbit();
+        _s.symbolTypeface = in.readbit();
+        _s.newEATypeface = in.readbit();
+        _s.csTypeface = in.readbit();
+        _s.pp11ext = in.readbit();
+        _s.reserved = in.readuint5();
+        return _s;
+    }
+    CFStyle parseCFStyle(LEInputStream in) throws IOException  {
+        CFStyle _s = new CFStyle();
+        _s.bold = in.readbit();
+        _s.italic = in.readbit();
+        _s.underline = in.readbit();
+        _s.unused1 = in.readbit();
+        _s.shadow = in.readbit();
+        _s.fehint = in.readbit();
+        _s.unused2 = in.readbit();
+        _s.kumi = in.readbit();
+        _s.unused3 = in.readbit();
+        _s.emboss = in.readbit();
+        _s.pp9rt = in.readuint4();
+        _s.unused4 = in.readuint2();
+        return _s;
+    }
+    FontCollectionContainer parseFontCollectionContainer(LEInputStream in) throws IOException  {
+        FontCollectionContainer _s = new FontCollectionContainer();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x07D5)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x07D5 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.rgFontCollectionEntry = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.rgFontCollectionEntry[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    KinsokuContainer parseKinsokuContainer(LEInputStream in) throws IOException  {
+        KinsokuContainer _s = new KinsokuContainer();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x2)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x2 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FC8)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FC8 for value " + String.valueOf(_s.rh) );
+        }
+        _s.kinsokuAtom = parseKinsokuAtom(in);
+        return _s;
+    }
+    KinsokuAtom parseKinsokuAtom(LEInputStream in) throws IOException  {
+        KinsokuAtom _s = new KinsokuAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x3)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x3 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FD2)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FD2 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 4)) {
+            throw new IncorrectValueException("_s.rh.recLen == 4 for value " + String.valueOf(_s.rh) );
+        }
+        _s.level = in.readuint32();
+        if (!(_s.level == 0 || _s.level == 1 || _s.level == 2)) {
+            throw new IncorrectValueException("_s.level == 0 || _s.level == 1 || _s.level == 2 for value " + String.valueOf(_s.level) );
+        }
+        return _s;
+    }
+    TextSIExceptionAtom parseTextSIExceptionAtom(LEInputStream in) throws IOException  {
+        TextSIExceptionAtom _s = new TextSIExceptionAtom();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FA9)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FA9 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.textSIException = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.textSIException[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    TextMasterStyleAtom parseTextMasterStyleAtom(LEInputStream in) throws IOException  {
+        TextMasterStyleAtom _s = new TextMasterStyleAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1 || _s.rh.recInstance == 2 || _s.rh.recInstance == 3 || _s.rh.recInstance == 4 || _s.rh.recInstance == 5 || _s.rh.recInstance == 6 || _s.rh.recInstance == 7 || _s.rh.recInstance == 8)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0 || _s.rh.recInstance == 1 || _s.rh.recInstance == 2 || _s.rh.recInstance == 3 || _s.rh.recInstance == 4 || _s.rh.recInstance == 5 || _s.rh.recInstance == 6 || _s.rh.recInstance == 7 || _s.rh.recInstance == 8 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FA3)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x0FA3 for value " + String.valueOf(_s.rh) );
+        }
+        _s.cLevels = in.readuint16();
+        if (_s.cLevels>=5) {
+            _s.lstLvl1level = in.readuint16();
+        }
+        if (_s.cLevels>0) {
+            _s.lstLvl1 = parseTextMasterStyleLevel(in);
+        }
+        if (_s.cLevels>=5) {
+            _s.lstLvl2level = in.readuint16();
+        }
+        if (_s.cLevels>1) {
+            _s.lstLvl2 = parseTextMasterStyleLevel(in);
+        }
+        if (_s.cLevels>=5) {
+            _s.lstLvl3level = in.readuint16();
+        }
+        if (_s.cLevels>2) {
+            _s.lstLvl3 = parseTextMasterStyleLevel(in);
+        }
+        if (_s.cLevels>=5) {
+            _s.lstLvl4level = in.readuint16();
+        }
+        if (_s.cLevels>3) {
+            _s.lstLvl4 = parseTextMasterStyleLevel(in);
+        }
+        if (_s.cLevels>=5) {
+            _s.lstLvl5level = in.readuint16();
+        }
+        if (_s.cLevels>4) {
+            _s.lstLvl5 = parseTextMasterStyleLevel(in);
+        }
+        return _s;
+    }
+    TextMasterStyleLevel parseTextMasterStyleLevel(LEInputStream in) throws IOException  {
+        TextMasterStyleLevel _s = new TextMasterStyleLevel();
+        _s.pf = parseTextPFException(in);
+        _s.cf = parseTextCFException(in);
         return _s;
     }
     ExOleEmbedAtom parseExOleEmbedAtom(LEInputStream in) throws IOException  {
@@ -689,6 +1060,7 @@ public class GeneratedMsoParser {
             _s.anon = parseExOleLinkContainer(in);
         } catch (IncorrectValueException _x) {
             System.out.println(_x.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseExOleEmbedContainer(in);
         } finally {
@@ -715,6 +1087,7 @@ public class GeneratedMsoParser {
         try {
             _s.menuNameAtom = parseMenuNameAtom(in);
         } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
         } catch(java.io.EOFException _e) {
             in.rewind(_m);
@@ -725,6 +1098,7 @@ public class GeneratedMsoParser {
         try {
             _s.progIdAtom = parseProgIDAtom(in);
         } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
         } catch(java.io.EOFException _e) {
             in.rewind(_m);
@@ -735,6 +1109,7 @@ public class GeneratedMsoParser {
         try {
             _s.clipboardNameAtom = parseClipboardNameAtom(in);
         } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
         } catch(java.io.EOFException _e) {
             in.rewind(_m);
@@ -745,6 +1120,7 @@ public class GeneratedMsoParser {
         try {
             _s.metafile = parseMetafileBlob(in);
         } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
         } catch(java.io.EOFException _e) {
             in.rewind(_m);
@@ -772,6 +1148,7 @@ public class GeneratedMsoParser {
         try {
             _s.menuNameAtom = parseMenuNameAtom(in);
         } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
         } catch(java.io.EOFException _e) {
             in.rewind(_m);
@@ -782,6 +1159,7 @@ public class GeneratedMsoParser {
         try {
             _s.progIdAtom = parseProgIDAtom(in);
         } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
         } catch(java.io.EOFException _e) {
             in.rewind(_m);
@@ -792,6 +1170,7 @@ public class GeneratedMsoParser {
         try {
             _s.clipboardNameAtom = parseClipboardNameAtom(in);
         } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
         } catch(java.io.EOFException _e) {
             in.rewind(_m);
@@ -802,6 +1181,7 @@ public class GeneratedMsoParser {
         try {
             _s.metafile = parseMetafileBlob(in);
         } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
         } catch(java.io.EOFException _e) {
             in.rewind(_m);
@@ -970,6 +1350,7 @@ public class GeneratedMsoParser {
                 TODO _t = parseTODO(in);
                 _s.anon.add(_t);
             } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -1300,9 +1681,307 @@ class DocumentContainer{
 }
 class DocumentTextInfoContainer{
     RecordHeader rh;
+    KinsokuContainer kinsoku;
+    FontCollectionContainer fontCollection;
+    TextCFExceptionAtom textCFDefaultsAtom;
+    TextSIExceptionAtom textSIDefaultsAtom;
+    TextMasterStyleAtom textMasterStyleAtom;
     public String toString() {
         String _s = "DocumentTextInfoContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "kinsoku: " + String.valueOf(kinsoku) + ", ";
+        _s = _s + "fontCollection: " + String.valueOf(fontCollection) + ", ";
+        _s = _s + "textCFDefaultsAtom: " + String.valueOf(textCFDefaultsAtom) + ", ";
+        _s = _s + "textSIDefaultsAtom: " + String.valueOf(textSIDefaultsAtom) + ", ";
+        _s = _s + "textMasterStyleAtom: " + String.valueOf(textMasterStyleAtom) + ", ";
+        return _s;
+    }
+}
+class TextCFExceptionAtom{
+    RecordHeader rh;
+    TextCFException cf;
+    public String toString() {
+        String _s = "TextCFExceptionAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "cf: " + String.valueOf(cf) + ", ";
+        return _s;
+    }
+}
+class TextPFException{
+    PFMasks masks;
+    int bulletFlags;
+    int bulletChar;
+    int bulletFontRef;
+    int bulletSize;
+    int bulletColor;
+    int textAlignment;
+    int lineSpacing;
+    int spaceBefore;
+    int spaceAfter;
+    int leftMargin;
+    int indent;
+    public String toString() {
+        String _s = "TextPFException:";
+        _s = _s + "masks: " + String.valueOf(masks) + ", ";
+        _s = _s + "bulletFlags: " + String.valueOf(bulletFlags) + ", ";
+        _s = _s + "bulletChar: " + String.valueOf(bulletChar) + ", ";
+        _s = _s + "bulletFontRef: " + String.valueOf(bulletFontRef) + ", ";
+        _s = _s + "bulletSize: " + String.valueOf(bulletSize) + ", ";
+        _s = _s + "bulletColor: " + String.valueOf(bulletColor) + ", ";
+        _s = _s + "textAlignment: " + String.valueOf(textAlignment) + ", ";
+        _s = _s + "lineSpacing: " + String.valueOf(lineSpacing) + ", ";
+        _s = _s + "spaceBefore: " + String.valueOf(spaceBefore) + ", ";
+        _s = _s + "spaceAfter: " + String.valueOf(spaceAfter) + ", ";
+        _s = _s + "leftMargin: " + String.valueOf(leftMargin) + ", ";
+        _s = _s + "indent: " + String.valueOf(indent) + ", ";
+        return _s;
+    }
+}
+class PFMasks{
+    boolean hasBullet;
+    boolean bulletHasFont;
+    boolean bulletHasColor;
+    boolean bulletHasSize;
+    boolean bulletFont;
+    boolean bulletColor;
+    boolean bulletSize;
+    boolean bulletChar;
+    boolean leftMargin;
+    boolean unused;
+    boolean indent;
+    boolean align;
+    boolean lineSpacing;
+    boolean spaceBefore;
+    boolean spaceAfter;
+    boolean defaultTabSize;
+    boolean fontAlign;
+    boolean charWrap;
+    boolean wordWrap;
+    boolean overflow;
+    boolean tabStops;
+    boolean textDirection;
+    boolean reserved;
+    boolean bulletBlip;
+    boolean bulletScheme;
+    boolean bulletHasScheme;
+    byte reserved2;
+    public String toString() {
+        String _s = "PFMasks:";
+        _s = _s + "hasBullet: " + String.valueOf(hasBullet) + ", ";
+        _s = _s + "bulletHasFont: " + String.valueOf(bulletHasFont) + ", ";
+        _s = _s + "bulletHasColor: " + String.valueOf(bulletHasColor) + ", ";
+        _s = _s + "bulletHasSize: " + String.valueOf(bulletHasSize) + ", ";
+        _s = _s + "bulletFont: " + String.valueOf(bulletFont) + ", ";
+        _s = _s + "bulletColor: " + String.valueOf(bulletColor) + ", ";
+        _s = _s + "bulletSize: " + String.valueOf(bulletSize) + ", ";
+        _s = _s + "bulletChar: " + String.valueOf(bulletChar) + ", ";
+        _s = _s + "leftMargin: " + String.valueOf(leftMargin) + ", ";
+        _s = _s + "unused: " + String.valueOf(unused) + ", ";
+        _s = _s + "indent: " + String.valueOf(indent) + ", ";
+        _s = _s + "align: " + String.valueOf(align) + ", ";
+        _s = _s + "lineSpacing: " + String.valueOf(lineSpacing) + ", ";
+        _s = _s + "spaceBefore: " + String.valueOf(spaceBefore) + ", ";
+        _s = _s + "spaceAfter: " + String.valueOf(spaceAfter) + ", ";
+        _s = _s + "defaultTabSize: " + String.valueOf(defaultTabSize) + ", ";
+        _s = _s + "fontAlign: " + String.valueOf(fontAlign) + ", ";
+        _s = _s + "charWrap: " + String.valueOf(charWrap) + ", ";
+        _s = _s + "wordWrap: " + String.valueOf(wordWrap) + ", ";
+        _s = _s + "overflow: " + String.valueOf(overflow) + ", ";
+        _s = _s + "tabStops: " + String.valueOf(tabStops) + ", ";
+        _s = _s + "textDirection: " + String.valueOf(textDirection) + ", ";
+        _s = _s + "reserved: " + String.valueOf(reserved) + ", ";
+        _s = _s + "bulletBlip: " + String.valueOf(bulletBlip) + ", ";
+        _s = _s + "bulletScheme: " + String.valueOf(bulletScheme) + ", ";
+        _s = _s + "bulletHasScheme: " + String.valueOf(bulletHasScheme) + ", ";
+        _s = _s + "reserved2: " + String.valueOf(reserved2) + ", ";
+        return _s;
+    }
+}
+class TextCFException{
+    CFMasks masks;
+    CFStyle fontStyle;
+    int fontRef;
+    int oldEAFontRef;
+    int ansiFontRef;
+    int symbolFontRef;
+    int fontSize;
+    int color;
+    int position;
+    public String toString() {
+        String _s = "TextCFException:";
+        _s = _s + "masks: " + String.valueOf(masks) + ", ";
+        _s = _s + "fontStyle: " + String.valueOf(fontStyle) + ", ";
+        _s = _s + "fontRef: " + String.valueOf(fontRef) + ", ";
+        _s = _s + "oldEAFontRef: " + String.valueOf(oldEAFontRef) + ", ";
+        _s = _s + "ansiFontRef: " + String.valueOf(ansiFontRef) + ", ";
+        _s = _s + "symbolFontRef: " + String.valueOf(symbolFontRef) + ", ";
+        _s = _s + "fontSize: " + String.valueOf(fontSize) + ", ";
+        _s = _s + "color: " + String.valueOf(color) + ", ";
+        _s = _s + "position: " + String.valueOf(position) + ", ";
+        return _s;
+    }
+}
+class CFMasks{
+    boolean bold;
+    boolean italic;
+    boolean underline;
+    boolean unused1;
+    boolean shadow;
+    boolean fehint;
+    boolean unused2;
+    boolean kumi;
+    boolean unused3;
+    boolean emboss;
+    byte fHasStyle;
+    byte unused4;
+    boolean typeface;
+    boolean size;
+    boolean color;
+    boolean position;
+    boolean pp10ext;
+    boolean oldEATypeface;
+    boolean ansiTypeface;
+    boolean symbolTypeface;
+    boolean newEATypeface;
+    boolean csTypeface;
+    boolean pp11ext;
+    byte reserved;
+    public String toString() {
+        String _s = "CFMasks:";
+        _s = _s + "bold: " + String.valueOf(bold) + ", ";
+        _s = _s + "italic: " + String.valueOf(italic) + ", ";
+        _s = _s + "underline: " + String.valueOf(underline) + ", ";
+        _s = _s + "unused1: " + String.valueOf(unused1) + ", ";
+        _s = _s + "shadow: " + String.valueOf(shadow) + ", ";
+        _s = _s + "fehint: " + String.valueOf(fehint) + ", ";
+        _s = _s + "unused2: " + String.valueOf(unused2) + ", ";
+        _s = _s + "kumi: " + String.valueOf(kumi) + ", ";
+        _s = _s + "unused3: " + String.valueOf(unused3) + ", ";
+        _s = _s + "emboss: " + String.valueOf(emboss) + ", ";
+        _s = _s + "fHasStyle: " + String.valueOf(fHasStyle) + ", ";
+        _s = _s + "unused4: " + String.valueOf(unused4) + ", ";
+        _s = _s + "typeface: " + String.valueOf(typeface) + ", ";
+        _s = _s + "size: " + String.valueOf(size) + ", ";
+        _s = _s + "color: " + String.valueOf(color) + ", ";
+        _s = _s + "position: " + String.valueOf(position) + ", ";
+        _s = _s + "pp10ext: " + String.valueOf(pp10ext) + ", ";
+        _s = _s + "oldEATypeface: " + String.valueOf(oldEATypeface) + ", ";
+        _s = _s + "ansiTypeface: " + String.valueOf(ansiTypeface) + ", ";
+        _s = _s + "symbolTypeface: " + String.valueOf(symbolTypeface) + ", ";
+        _s = _s + "newEATypeface: " + String.valueOf(newEATypeface) + ", ";
+        _s = _s + "csTypeface: " + String.valueOf(csTypeface) + ", ";
+        _s = _s + "pp11ext: " + String.valueOf(pp11ext) + ", ";
+        _s = _s + "reserved: " + String.valueOf(reserved) + ", ";
+        return _s;
+    }
+}
+class CFStyle{
+    boolean bold;
+    boolean italic;
+    boolean underline;
+    boolean unused1;
+    boolean shadow;
+    boolean fehint;
+    boolean unused2;
+    boolean kumi;
+    boolean unused3;
+    boolean emboss;
+    byte pp9rt;
+    byte unused4;
+    public String toString() {
+        String _s = "CFStyle:";
+        _s = _s + "bold: " + String.valueOf(bold) + ", ";
+        _s = _s + "italic: " + String.valueOf(italic) + ", ";
+        _s = _s + "underline: " + String.valueOf(underline) + ", ";
+        _s = _s + "unused1: " + String.valueOf(unused1) + ", ";
+        _s = _s + "shadow: " + String.valueOf(shadow) + ", ";
+        _s = _s + "fehint: " + String.valueOf(fehint) + ", ";
+        _s = _s + "unused2: " + String.valueOf(unused2) + ", ";
+        _s = _s + "kumi: " + String.valueOf(kumi) + ", ";
+        _s = _s + "unused3: " + String.valueOf(unused3) + ", ";
+        _s = _s + "emboss: " + String.valueOf(emboss) + ", ";
+        _s = _s + "pp9rt: " + String.valueOf(pp9rt) + ", ";
+        _s = _s + "unused4: " + String.valueOf(unused4) + ", ";
+        return _s;
+    }
+}
+class FontCollectionContainer{
+    RecordHeader rh;
+    byte[] rgFontCollectionEntry;
+    public String toString() {
+        String _s = "FontCollectionContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "rgFontCollectionEntry: " + String.valueOf(rgFontCollectionEntry) + ", ";
+        return _s;
+    }
+}
+class KinsokuContainer{
+    RecordHeader rh;
+    KinsokuAtom kinsokuAtom;
+    public String toString() {
+        String _s = "KinsokuContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "kinsokuAtom: " + String.valueOf(kinsokuAtom) + ", ";
+        return _s;
+    }
+}
+class KinsokuAtom{
+    RecordHeader rh;
+    int level;
+    public String toString() {
+        String _s = "KinsokuAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "level: " + String.valueOf(level) + ", ";
+        return _s;
+    }
+}
+class TextSIExceptionAtom{
+    RecordHeader rh;
+    byte[] textSIException;
+    public String toString() {
+        String _s = "TextSIExceptionAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "textSIException: " + String.valueOf(textSIException) + ", ";
+        return _s;
+    }
+}
+class TextMasterStyleAtom{
+    RecordHeader rh;
+    int cLevels;
+    int lstLvl1level;
+    TextMasterStyleLevel lstLvl1;
+    int lstLvl2level;
+    TextMasterStyleLevel lstLvl2;
+    int lstLvl3level;
+    TextMasterStyleLevel lstLvl3;
+    int lstLvl4level;
+    TextMasterStyleLevel lstLvl4;
+    int lstLvl5level;
+    TextMasterStyleLevel lstLvl5;
+    public String toString() {
+        String _s = "TextMasterStyleAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "cLevels: " + String.valueOf(cLevels) + ", ";
+        _s = _s + "lstLvl1level: " + String.valueOf(lstLvl1level) + ", ";
+        _s = _s + "lstLvl1: " + String.valueOf(lstLvl1) + ", ";
+        _s = _s + "lstLvl2level: " + String.valueOf(lstLvl2level) + ", ";
+        _s = _s + "lstLvl2: " + String.valueOf(lstLvl2) + ", ";
+        _s = _s + "lstLvl3level: " + String.valueOf(lstLvl3level) + ", ";
+        _s = _s + "lstLvl3: " + String.valueOf(lstLvl3) + ", ";
+        _s = _s + "lstLvl4level: " + String.valueOf(lstLvl4level) + ", ";
+        _s = _s + "lstLvl4: " + String.valueOf(lstLvl4) + ", ";
+        _s = _s + "lstLvl5level: " + String.valueOf(lstLvl5level) + ", ";
+        _s = _s + "lstLvl5: " + String.valueOf(lstLvl5) + ", ";
+        return _s;
+    }
+}
+class TextMasterStyleLevel{
+    TextPFException pf;
+    TextCFException cf;
+    public String toString() {
+        String _s = "TextMasterStyleLevel:";
+        _s = _s + "pf: " + String.valueOf(pf) + ", ";
+        _s = _s + "cf: " + String.valueOf(cf) + ", ";
         return _s;
     }
 }

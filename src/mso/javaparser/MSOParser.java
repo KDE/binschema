@@ -1,7 +1,6 @@
 package mso.javaparser;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
@@ -33,8 +32,9 @@ public class MSOParser {
 						+ e.getSize());
 				DocumentInputStream in = new DocumentInputStream(e);
 				LEInputStream le = new LEInputStream(in);
-				parser.parse(e.getName(), le);
-				if (in.available() > 0) {
+				String name = e.getName();
+				parser.parse(name, le);
+				if (in.available() > 0 && name.charAt(0) > 10) {
 					throw new IOException("trailing data in stream "
 							+ e.getName() + ": " + in.available() + " bytes");
 				}
