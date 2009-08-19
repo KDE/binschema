@@ -508,8 +508,14 @@ System.out.println(_s);
             System.out.println(_x.getMessage());
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
+        try {
             _s.anon = parseMasterOrSlideContainer(in);
-        } finally {
+        } catch (IncorrectValueException _xx) {
+            System.out.println(_xx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
+            in.rewind(_m);
+            _s.anon = parsePersistDirectoryAtom(in);
+        }} finally {
             in.releaseMark(_m);
         }
         return _s;
@@ -1887,6 +1893,56 @@ System.out.println(_s);
         }
         return _s;
     }
+    PersistDirectoryAtom parsePersistDirectoryAtom(LEInputStream in) throws IOException  {
+        PersistDirectoryAtom _s = new PersistDirectoryAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x1772)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x1772 for value " + String.valueOf(_s.rh) );
+        }
+        boolean _atend = false;
+        int i=0;
+        while (!_atend) {
+            System.out.println("round "+(i++));
+            Object _m = in.setMark();
+            try {
+                PersistDirectoryEntry _t = parsePersistDirectoryEntry(in);
+                _s.rgPersistDirEntry.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+            }
+        }
+        return _s;
+    }
+    PersistDirectoryEntry parsePersistDirectoryEntry(LEInputStream in) throws IOException  {
+        PersistDirectoryEntry _s = new PersistDirectoryEntry();
+        int _c;
+        _s.persistId = in.readuint20();
+        _s.cPersist = in.readuint12();
+        _c = _s.cPersist;
+        _s.rgPersistOffset = new PersistOffsetEntry[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.rgPersistOffset[_i] = parsePersistOffsetEntry(in);
+        }
+        return _s;
+    }
+    PersistOffsetEntry parsePersistOffsetEntry(LEInputStream in) throws IOException  {
+        PersistOffsetEntry _s = new PersistOffsetEntry();
+        _s.anon = in.readuint32();
+        return _s;
+    }
     PersistIdRef parsePersistIdRef(LEInputStream in) throws IOException  {
         PersistIdRef _s = new PersistIdRef();
         _s.anon = in.readuint32();
@@ -1894,16 +1950,199 @@ System.out.println(_s);
     }
     MasterOrSlideContainer parseMasterOrSlideContainer(LEInputStream in) throws IOException  {
         MasterOrSlideContainer _s = new MasterOrSlideContainer();
+        Object _m = in.setMark();
+        try {
+            _s.anon = parseMainMasterContainer(in);
+        } catch (IncorrectValueException _x) {
+            System.out.println(_x.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
+            in.rewind(_m);
+            _s.anon = parseSlideContainer(in);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    MainMasterContainer parseMainMasterContainer(LEInputStream in) throws IOException  {
+        MainMasterContainer _s = new MainMasterContainer();
+        int _c;
         _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0)) {
-            throw new IncorrectValueException("_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recInstance == 0x0)) {
             throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0x03EE || _s.rh.recType == 0x03F8)) {
-            throw new IncorrectValueException("_s.rh.recType == 0x03EE || _s.rh.recType == 0x03F8 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0x03F8)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x03F8 for value " + String.valueOf(_s.rh) );
         }
+        _c = _s.rh.recLen;
+        _s.todo = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.todo[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    SlideContainer parseSlideContainer(LEInputStream in) throws IOException  {
+        SlideContainer _s = new SlideContainer();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x03EE)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x03EE for value " + String.valueOf(_s.rh) );
+        }
+        _s.slideAtom = parseSlideAtom(in);
+        _s.slideShowSlideInfoAtom = parseSlideShowSlideInfoAtom(in);
+        _s.drawing = parseDrawingContainer(in);
+        _s.slideSchemeColorSchemeAtom = parseSlideSchemeColorSchemeAtom(in);
+        boolean _atend = false;
+        int i=0;
+        while (!_atend) {
+            System.out.println("round "+(i++));
+            Object _m = in.setMark();
+            try {
+                RoundTripSlideRecord _t = parseRoundTripSlideRecord(in);
+                _s.rgRoundTripSlide.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+            }
+        }
+        return _s;
+    }
+    SlideAtom parseSlideAtom(LEInputStream in) throws IOException  {
+        SlideAtom _s = new SlideAtom();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x2)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0x2 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x03EF)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x03EF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x18)) {
+            throw new IncorrectValueException("_s.rh.recLen == 0x18 for value " + String.valueOf(_s.rh) );
+        }
+        _s.geom = in.readuint32();
+        _c = 8;
+        _s.rgPlaceholderTypes = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.rgPlaceholderTypes[_i] = in.readuint8();
+        }
+        _s.masterIdRef = in.readuint32();
+        _s.notesIdRef = in.readuint32();
+        _s.slideFlags = in.readuint16();
+        _s.unused = in.readuint16();
+        return _s;
+    }
+    SlideShowSlideInfoAtom parseSlideShowSlideInfoAtom(LEInputStream in) throws IOException  {
+        SlideShowSlideInfoAtom _s = new SlideShowSlideInfoAtom();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x03F9)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x03F9 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x10)) {
+            throw new IncorrectValueException("_s.rh.recLen == 0x10 for value " + String.valueOf(_s.rh) );
+        }
+        _s.slidetime = in.readuint32();
+        _s.slideIdRef = in.readuint32();
+        _s.effectDirection = in.readuint8();
+        _s.effectType = in.readuint8();
+        _s.fManualAdvance = in.readbit();
+        _s.reserved = in.readbit();
+        _s.fHidden = in.readbit();
+        _s.reserved2 = in.readbit();
+        _s.fSound = in.readbit();
+        _s.reserved3 = in.readbit();
+        _s.fLoopSound = in.readbit();
+        _s.reserved4 = in.readbit();
+        _s.fStopSound = in.readbit();
+        _s.freserved5 = in.readbit();
+        _s.fAutoAdvance = in.readbit();
+        _s.reserved6 = in.readbit();
+        _s.fCursorVisible = in.readbit();
+        _s.reserved7 = in.readuint3();
+        _s.speed = in.readuint8();
+        _c = 3;
+        _s.unused = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.unused[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    DrawingContainer parseDrawingContainer(LEInputStream in) throws IOException  {
+        DrawingContainer _s = new DrawingContainer();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x040B)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x040B for value " + String.valueOf(_s.rh) );
+        }
+        _s.OfficeArtDgg = parseOfficeArtDggContainer(in);
+        return _s;
+    }
+    SlideSchemeColorSchemeAtom parseSlideSchemeColorSchemeAtom(LEInputStream in) throws IOException  {
+        SlideSchemeColorSchemeAtom _s = new SlideSchemeColorSchemeAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException("_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 1)) {
+            throw new IncorrectValueException("_s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x07F0)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x07F0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x20)) {
+            throw new IncorrectValueException("_s.rh.recLen == 0x20 for value " + String.valueOf(_s.rh) );
+        }
+        _s.rgSchemeColor = parseColorStruct(in);
+        return _s;
+    }
+    RoundTripSlideRecord parseRoundTripSlideRecord(LEInputStream in) throws IOException  {
+        RoundTripSlideRecord _s = new RoundTripSlideRecord();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recType == 0x40E || _s.rh.recType == 0x40F || _s.rh.recType == 0x41C || _s.rh.recType == 0x41D || _s.rh.recType == 0x41E || _s.rh.recType == 0x41F || _s.rh.recType == 0x420 || _s.rh.recType == 0x422 || _s.rh.recType == 0x423 || _s.rh.recType == 0x425 || _s.rh.recType == 0x426 || _s.rh.recType == 0x427 || _s.rh.recType == 0x428)) {
+            throw new IncorrectValueException("_s.rh.recType == 0x40E || _s.rh.recType == 0x40F || _s.rh.recType == 0x41C || _s.rh.recType == 0x41D || _s.rh.recType == 0x41E || _s.rh.recType == 0x41F || _s.rh.recType == 0x420 || _s.rh.recType == 0x422 || _s.rh.recType == 0x423 || _s.rh.recType == 0x425 || _s.rh.recType == 0x426 || _s.rh.recType == 0x427 || _s.rh.recType == 0x428 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.todo = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.todo[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    ColorStruct parseColorStruct(LEInputStream in) throws IOException  {
+        ColorStruct _s = new ColorStruct();
+        _s.red = in.readuint8();
+        _s.green = in.readuint8();
+        _s.blue = in.readuint8();
+        _s.unused = in.readuint8();
         return _s;
     }
     ExObjListContainer parseExObjListContainer(LEInputStream in) throws IOException  {
@@ -3627,6 +3866,36 @@ class RatioStruct {
         return _s;
     }
 }
+class PersistDirectoryAtom {
+    RecordHeader rh;
+    final java.util.List<PersistDirectoryEntry> rgPersistDirEntry = new java.util.ArrayList<PersistDirectoryEntry>();
+    public String toString() {
+        String _s = "PersistDirectoryAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "rgPersistDirEntry: " + String.valueOf(rgPersistDirEntry) + ", ";
+        return _s;
+    }
+}
+class PersistDirectoryEntry {
+    int persistId;
+    short cPersist;
+    PersistOffsetEntry[] rgPersistOffset;
+    public String toString() {
+        String _s = "PersistDirectoryEntry:";
+        _s = _s + "persistId: " + String.valueOf(persistId) + ", ";
+        _s = _s + "cPersist: " + String.valueOf(cPersist) + ", ";
+        _s = _s + "rgPersistOffset: " + String.valueOf(rgPersistOffset) + ", ";
+        return _s;
+    }
+}
+class PersistOffsetEntry {
+    int anon;
+    public String toString() {
+        String _s = "PersistOffsetEntry:";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
 class PersistIdRef {
     int anon;
     public String toString() {
@@ -3636,10 +3905,150 @@ class PersistIdRef {
     }
 }
 class MasterOrSlideContainer {
-    RecordHeader rh;
+    Object anon;
     public String toString() {
         String _s = "MasterOrSlideContainer:";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
+class MainMasterContainer {
+    RecordHeader rh;
+    byte[] todo;
+    public String toString() {
+        String _s = "MainMasterContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        return _s;
+    }
+}
+class SlideContainer {
+    RecordHeader rh;
+    SlideAtom slideAtom;
+    SlideShowSlideInfoAtom slideShowSlideInfoAtom;
+    DrawingContainer drawing;
+    SlideSchemeColorSchemeAtom slideSchemeColorSchemeAtom;
+    final java.util.List<RoundTripSlideRecord> rgRoundTripSlide = new java.util.ArrayList<RoundTripSlideRecord>();
+    public String toString() {
+        String _s = "SlideContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "slideAtom: " + String.valueOf(slideAtom) + ", ";
+        _s = _s + "slideShowSlideInfoAtom: " + String.valueOf(slideShowSlideInfoAtom) + ", ";
+        _s = _s + "drawing: " + String.valueOf(drawing) + ", ";
+        _s = _s + "slideSchemeColorSchemeAtom: " + String.valueOf(slideSchemeColorSchemeAtom) + ", ";
+        _s = _s + "rgRoundTripSlide: " + String.valueOf(rgRoundTripSlide) + ", ";
+        return _s;
+    }
+}
+class SlideAtom {
+    RecordHeader rh;
+    int geom;
+    byte[] rgPlaceholderTypes;
+    int masterIdRef;
+    int notesIdRef;
+    int slideFlags;
+    int unused;
+    public String toString() {
+        String _s = "SlideAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "geom: " + String.valueOf(geom) + ", ";
+        _s = _s + "rgPlaceholderTypes: " + String.valueOf(rgPlaceholderTypes) + ", ";
+        _s = _s + "masterIdRef: " + String.valueOf(masterIdRef) + ", ";
+        _s = _s + "notesIdRef: " + String.valueOf(notesIdRef) + ", ";
+        _s = _s + "slideFlags: " + String.valueOf(slideFlags) + ", ";
+        _s = _s + "unused: " + String.valueOf(unused) + ", ";
+        return _s;
+    }
+}
+class SlideShowSlideInfoAtom {
+    RecordHeader rh;
+    int slidetime;
+    int slideIdRef;
+    byte effectDirection;
+    byte effectType;
+    boolean fManualAdvance;
+    boolean reserved;
+    boolean fHidden;
+    boolean reserved2;
+    boolean fSound;
+    boolean reserved3;
+    boolean fLoopSound;
+    boolean reserved4;
+    boolean fStopSound;
+    boolean freserved5;
+    boolean fAutoAdvance;
+    boolean reserved6;
+    boolean fCursorVisible;
+    byte reserved7;
+    byte speed;
+    byte[] unused;
+    public String toString() {
+        String _s = "SlideShowSlideInfoAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "slidetime: " + String.valueOf(slidetime) + ", ";
+        _s = _s + "slideIdRef: " + String.valueOf(slideIdRef) + ", ";
+        _s = _s + "effectDirection: " + String.valueOf(effectDirection) + ", ";
+        _s = _s + "effectType: " + String.valueOf(effectType) + ", ";
+        _s = _s + "fManualAdvance: " + String.valueOf(fManualAdvance) + ", ";
+        _s = _s + "reserved: " + String.valueOf(reserved) + ", ";
+        _s = _s + "fHidden: " + String.valueOf(fHidden) + ", ";
+        _s = _s + "reserved2: " + String.valueOf(reserved2) + ", ";
+        _s = _s + "fSound: " + String.valueOf(fSound) + ", ";
+        _s = _s + "reserved3: " + String.valueOf(reserved3) + ", ";
+        _s = _s + "fLoopSound: " + String.valueOf(fLoopSound) + ", ";
+        _s = _s + "reserved4: " + String.valueOf(reserved4) + ", ";
+        _s = _s + "fStopSound: " + String.valueOf(fStopSound) + ", ";
+        _s = _s + "freserved5: " + String.valueOf(freserved5) + ", ";
+        _s = _s + "fAutoAdvance: " + String.valueOf(fAutoAdvance) + ", ";
+        _s = _s + "reserved6: " + String.valueOf(reserved6) + ", ";
+        _s = _s + "fCursorVisible: " + String.valueOf(fCursorVisible) + ", ";
+        _s = _s + "reserved7: " + String.valueOf(reserved7) + ", ";
+        _s = _s + "speed: " + String.valueOf(speed) + ", ";
+        _s = _s + "unused: " + String.valueOf(unused) + ", ";
+        return _s;
+    }
+}
+class DrawingContainer {
+    RecordHeader rh;
+    OfficeArtDggContainer OfficeArtDgg;
+    public String toString() {
+        String _s = "DrawingContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "OfficeArtDgg: " + String.valueOf(OfficeArtDgg) + ", ";
+        return _s;
+    }
+}
+class SlideSchemeColorSchemeAtom {
+    RecordHeader rh;
+    ColorStruct rgSchemeColor;
+    public String toString() {
+        String _s = "SlideSchemeColorSchemeAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "rgSchemeColor: " + String.valueOf(rgSchemeColor) + ", ";
+        return _s;
+    }
+}
+class RoundTripSlideRecord {
+    RecordHeader rh;
+    byte[] todo;
+    public String toString() {
+        String _s = "RoundTripSlideRecord:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        return _s;
+    }
+}
+class ColorStruct {
+    byte red;
+    byte green;
+    byte blue;
+    byte unused;
+    public String toString() {
+        String _s = "ColorStruct:";
+        _s = _s + "red: " + String.valueOf(red) + ", ";
+        _s = _s + "green: " + String.valueOf(green) + ", ";
+        _s = _s + "blue: " + String.valueOf(blue) + ", ";
+        _s = _s + "unused: " + String.valueOf(unused) + ", ";
         return _s;
     }
 }

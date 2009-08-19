@@ -76,7 +76,7 @@
 		</type>
 		<uint8 name="btWin32" />
 		<uint8 name="btMacOS" />
-		<uint8 name="rgbUid" array="true" count="16" />
+		<uint8 name="rgbUid" count="16" />
 		<uint16 name="tag" />
 		<uint32 name="size">
 			<limitation expression="&gt;=8" />
@@ -87,7 +87,7 @@
 		<uint8 name="cbName" />
 		<uint8 name="unused2" />
 		<uint8 name="unused3" />
-		<uint8 name="nameData" array="true" count="cbName" />
+		<uint8 name="nameData" count="cbName" />
 		<type name="embeddedBlip" type="OfficeArtBlip" condition="rh.recLen > 36 + cbName">
 			<!--
 				this limitation is currently not supported because it requires
@@ -102,12 +102,10 @@
 			<limitation name="recInstance" value="0x3D4|0x3D5" />
 			<limitation name="recType" value="0xF01A" />
 		</type>
-		<uint8 name="rgbUid1" array="true" count="16" />
-		<uint8 name="rgbUid2" array="true" count="16"
-			condition="rh.recInstance == 0x3D5" />
+		<uint8 name="rgbUid1" count="16" />
+		<uint8 name="rgbUid2" count="16" condition="rh.recInstance == 0x3D5" />
 		<type name="metafileHeader" type="OfficeArtMetafileHeader" />
-		<uint8 name="BLIPFileData" array="true"
-			count="rh.recLen-((rh.recInstance==0x3D4)?50:66)" />
+		<uint8 name="BLIPFileData" count="rh.recLen-((rh.recInstance==0x3D4)?50:66)" />
 	</struct>
 	<struct name="OfficeArtBlipWMF">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -115,12 +113,10 @@
 			<limitation name="recInstance" value="0x216|0x217" />
 			<limitation name="recType" value="0xF01B" />
 		</type>
-		<uint8 name="rgbUid1" array="true" count="16" />
-		<uint8 name="rgbUid2" array="true" count="16"
-			condition="rh.recInstance == 0x217" />
+		<uint8 name="rgbUid1" count="16" />
+		<uint8 name="rgbUid2" count="16" condition="rh.recInstance == 0x217" />
 		<type name="metafileHeader" type="OfficeArtMetafileHeader" />
-		<uint8 name="BLIPFileData" array="true"
-			count="rh.recLen-((rh.recInstance==0x216)?50:66)" />
+		<uint8 name="BLIPFileData" count="rh.recLen-((rh.recInstance==0x216)?50:66)" />
 	</struct>
 	<struct name="OfficeArtBlipPICT">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -128,12 +124,10 @@
 			<limitation name="recInstance" value="0x542|0x543" />
 			<limitation name="recType" value="0xF01C" />
 		</type>
-		<uint8 name="rgbUid1" array="true" count="16" />
-		<uint8 name="rgbUid2" array="true" count="16"
-			condition="rh.recInstance == 0x543" />
+		<uint8 name="rgbUid1" count="16" />
+		<uint8 name="rgbUid2" count="16" condition="rh.recInstance == 0x543" />
 		<type name="metafileHeader" type="OfficeArtMetafileHeader" />
-		<uint8 name="BLIPFileData" array="true"
-			count="rh.recLen-((rh.recInstance==0x542)?50:66)" />
+		<uint8 name="BLIPFileData" count="rh.recLen-((rh.recInstance==0x542)?50:66)" />
 	</struct>
 	<struct name="OfficeArtBlipJPEG">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -141,11 +135,11 @@
 			<limitation name="recInstance" value="0x46A|0x46B|0x6E2|0x6E3" />
 			<limitation name="recType" value="0xF01D" />
 		</type>
-		<uint8 name="rgbUid1" array="true" count="16" />
-		<uint8 name="rgbUid2" array="true" count="16"
+		<uint8 name="rgbUid1" count="16" />
+		<uint8 name="rgbUid2" count="16"
 			condition="rh.recInstance == 0x46B || rh.recInstance == 0x6E3" />
 		<uint8 name="tag" />
-		<uint8 name="BLIPFileData" array="true"
+		<uint8 name="BLIPFileData"
 			count="rh.recLen-((rh.recInstance == 0x46A || rh.recInstance == 0x6E2)?17:33)" />
 	</struct>
 	<struct name="OfficeArtBlipPNG">
@@ -154,12 +148,10 @@
 			<limitation name="recInstance" value="0x6E0|0x6E1" />
 			<limitation name="recType" value="0xF01E" />
 		</type>
-		<uint8 name="rgbUid1" array="true" count="16" />
-		<uint8 name="rgbUid2" array="true" count="16"
-			condition="rh.recInstance == 0x6E1" />
+		<uint8 name="rgbUid1" count="16" />
+		<uint8 name="rgbUid2" count="16" condition="rh.recInstance == 0x6E1" />
 		<uint8 name="tag" />
-		<uint8 name="BLIPFileData" array="true"
-			count="rh.recLen-((rh.recInstance==0x6E0)?17:33)" />
+		<uint8 name="BLIPFileData" count="rh.recLen-((rh.recInstance==0x6E0)?17:33)" />
 	</struct>
 	<struct name="OfficeArtBlipDIB">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -167,12 +159,10 @@
 			<limitation name="recInstance" value="0x7A8|0x7A9" />
 			<limitation name="recType" value="0xF01F" />
 		</type>
-		<uint8 name="rgbUid1" array="true" count="16" />
-		<uint8 name="rgbUid2" array="true" count="16"
-			condition="rh.recInstance == 0x7A9" />
+		<uint8 name="rgbUid1" count="16" />
+		<uint8 name="rgbUid2" count="16" condition="rh.recInstance == 0x7A9" />
 		<uint8 name="tag" />
-		<uint8 name="BLIPFileData" array="true"
-			count="rh.recLen-((rh.recInstance==0x7A8)?17:33)" />
+		<uint8 name="BLIPFileData" count="rh.recLen-((rh.recInstance==0x7A8)?17:33)" />
 	</struct>
 	<struct name="OfficeArtBlipTIFF">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -180,12 +170,10 @@
 			<limitation name="recInstance" value="0x6E4|0x6E5" />
 			<limitation name="recType" value="0xF020" />
 		</type>
-		<uint8 name="rgbUid1" array="true" count="16" />
-		<uint8 name="rgbUid2" array="true" count="16"
-			condition="rh.recInstance == 0x6E5" />
+		<uint8 name="rgbUid1" count="16" />
+		<uint8 name="rgbUid2" count="16" condition="rh.recInstance == 0x6E5" />
 		<uint8 name="tag" />
-		<uint8 name="BLIPFileData" array="true"
-			count="rh.recLen-((rh.recInstance==0x6E4)?17:33)" />
+		<uint8 name="BLIPFileData" count="rh.recLen-((rh.recInstance==0x6E4)?17:33)" />
 	</struct>
 	<struct name="OfficeArtMetafileHeader">
 		<uint32 name="cbSize" />
@@ -229,6 +217,7 @@
 		<choice name="anon">
 			<type type="DocumentContainer" />
 			<type type="MasterOrSlideContainer" />
+			<type type="PersistDirectoryAtom" />
 			<!-- <type type="TODO" /> -->
 		</choice>
 	</struct>
@@ -928,6 +917,23 @@
 			<limitation expression="!= 0" />
 		</int32>
 	</struct>
+	<struct name="PersistDirectoryAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x1772" />
+		</type>
+		<type name="rgPersistDirEntry" type="PersistDirectoryEntry"
+			array="true" />
+	</struct>
+	<struct name="PersistDirectoryEntry">
+		<uint20 name="persistId" />
+		<uint12 name="cPersist" />
+		<type name="rgPersistOffset" type="PersistOffsetEntry" count="cPersist" />
+	</struct>
+	<struct name="PersistOffsetEntry">
+		<uint32 name="anon" />
+	</struct>
 	<struct name="PersistIdRef">
 		<uint32 name="anon">
 			<!--
@@ -939,11 +945,114 @@
 		</uint32>
 	</struct>
 	<struct name="MasterOrSlideContainer">
+		<choice name="anon">
+			<type type="MainMasterContainer" />
+			<type type="SlideContainer" />
+		</choice>
+	</struct>
+	<struct name="MainMasterContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x03F8" />
+		</type>
+		<!--  TODO -->
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="SlideContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x03EE" />
+		</type>
+		<type name="slideAtom" type="SlideAtom" />
+		<type name="slideShowSlideInfoAtom" type="SlideShowSlideInfoAtom" />
+		<!--
+			<type name="perSlideHFContainer"
+			type="PerSlideHeadersFootersContainer" optional="true" /> <type
+			name="rtSlideSyncInfo12" type="RoundTripSlideSyncInfo12Container"
+			optional="true" />
+		-->
+		<type name="drawing" type="DrawingContainer" />
+		<type name="slideSchemeColorSchemeAtom" type="SlideSchemeColorSchemeAtom" />
+		<!--
+			<type name="slideNameAtom" type="SlideNameAtom" optional="true" />
+			<type name="slideProgTagsContainer" type="SlideProgTagscontainer"
+			optional="true" />
+		-->
+		<type name="rgRoundTripSlide" type="RoundTripSlideRecord" array="true" />
+	</struct>
+	<struct name="SlideAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x2" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x03EF" />
+			<limitation name="recLen" value="0x18" />
+		</type>
+		<uint32 name="geom" />
+		<uint8 name="rgPlaceholderTypes" count="8" />
+		<uint32 name="masterIdRef" />
+		<uint32 name="notesIdRef" />
+		<uint16 name="slideFlags" />
+		<uint16 name="unused" />
+	</struct>
+	<struct name="SlideShowSlideInfoAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
-			<limitation name="recInstance" value="0x0" />
-			<limitation name="recType" value="0x03EE|0x03F8" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x03F9" />
+			<limitation name="recLen" value="0x10" />
 		</type>
+		<uint32 name="slidetime" />
+		<uint32 name="slideIdRef" />
+		<uint8 name="effectDirection" />
+		<uint8 name="effectType" />
+		<bit name="fManualAdvance" />
+		<bit name="reserved" />
+		<bit name="fHidden" />
+		<bit name="reserved2" />
+		<bit name="fSound" />
+		<bit name="reserved3" />
+		<bit name="fLoopSound" />
+		<bit name="reserved4" />
+		<bit name="fStopSound" />
+		<bit name="freserved5" />
+		<bit name="fAutoAdvance" />
+		<bit name="reserved6" />
+		<bit name="fCursorVisible" />
+		<uint3 name="reserved7" />
+		<uint8 name="speed" />
+		<uint8 name="unused" count="3" />
+	</struct>
+	<struct name="DrawingContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x040B" />
+		</type>
+		<type name="OfficeArtDgg" type="OfficeArtDggContainer" />
+	</struct>
+	<struct name="SlideSchemeColorSchemeAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0x07F0" />
+			<limitation name="recLen" value="0x20" />
+		</type>
+		<type name="rgSchemeColor" type="ColorStruct" />
+	</struct>
+	<struct name="RoundTripSlideRecord">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recType"
+				value="0x40E|0x40F|0x41C|0x41D|0x41E|0x41F|0x420|0x422|0x423|0x425|0x426|0x427|0x428" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ColorStruct">
+		<uint8 name="red" />
+		<uint8 name="green" />
+		<uint8 name="blue" />
+		<uint8 name="unused" />
 	</struct>
 	<struct name="ExObjListContainer">
 		<type name="rh" type="RecordHeader">
