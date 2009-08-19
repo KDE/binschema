@@ -96,7 +96,8 @@ public class JavaParserGenerator {
 				|| "int16".equals(t)) {
 			return "short";
 		} else if ("uint16".equals(t) || "uint20".equals(t)
-				|| "uint32".equals(t) || "int32".equals(t)) {
+				|| "uint30".equals(t) || "uint32".equals(t)
+				|| "int32".equals(t)) {
 			return "int";
 		} else if ("choice".equals(t)) {
 			return "Object";

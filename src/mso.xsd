@@ -65,6 +65,7 @@
 				<element name="uint14" type="tns:intType" />
 				<element name="uint16" type="tns:intType" />
 				<element name="uint20" type="tns:intType" />
+				<element name="uint30" type="tns:intType" />
 				<element name="uint32" type="tns:intType" />
 				<element name="type" type="tns:typeType" />
 				<element name="vartype" type="tns:vartypeType" />

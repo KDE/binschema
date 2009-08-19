@@ -198,6 +198,16 @@ public class LEInputStream {
 		return v;
 	}
 
+	public int readuint30() throws IOException {
+		checkForLeftOverBits();
+		int a = input.readByte();
+		int b = input.readByte();
+		int c = input.readByte();
+		int d = getBits(6) & 0x3F;
+		int v = (d << 24) | (c << 16) | (b << 8) | a;
+		return v;
+	}
+
 	public byte readuint8() throws IOException {
 		checkForLeftOverBits();
 		return input.readByte();
