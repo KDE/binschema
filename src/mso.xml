@@ -966,9 +966,9 @@
 			<limitation name="recType" value="0x03EE" />
 		</type>
 		<type name="slideAtom" type="SlideAtom" />
-		<type name="slideShowSlideInfoAtom" type="SlideShowSlideInfoAtom" />
 		<!--
-			<type name="perSlideHFContainer"
+			<type name="slideShowSlideInfoAtom" type="SlideShowSlideInfoAtom"
+			optional="true" /> <type name="perSlideHFContainer"
 			type="PerSlideHeadersFootersContainer" optional="true" /> <type
 			name="rtSlideSyncInfo12" type="RoundTripSlideSyncInfo12Container"
 			optional="true" />
@@ -1024,13 +1024,21 @@
 		<uint8 name="speed" />
 		<uint8 name="unused" count="3" />
 	</struct>
-	<struct name="DrawingContainer">
+	<struct name="DrawingGroupContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x040B" />
 		</type>
 		<type name="OfficeArtDgg" type="OfficeArtDggContainer" />
+	</struct>
+	<struct name="DrawingContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x040C" />
+		</type>
+		<type name="OfficeArtDg" type="OfficeArtDgContainer" />
 	</struct>
 	<struct name="SlideSchemeColorSchemeAtom">
 		<type name="rh" type="RecordHeader">
@@ -1188,14 +1196,6 @@
 		<int16 name="yExt" />
 		<uint8 name="data" count="rh.recLen-6" />
 	</struct>
-	<struct name="DrawingGroupContainer">
-		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0xF" />
-			<limitation name="recInstance" value="0x0" />
-			<limitation name="recType" value="0x040B" />
-		</type>
-		<type name="OfficeArtDgg" type="OfficeArtDggContainer" />
-	</struct>
 	<struct name="OfficeArtDggContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0xF" />
@@ -1215,6 +1215,20 @@
 			MS docs do not list drawingTertiaryOptions as optional
 		-->
 		<type name="splitColors" type="OfficeArtSplitMenuColorContainer" />
+	</struct>
+	<struct name="OfficeArtDgContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0xF002" />
+		</type>
+		<type name="drawingData" type="OfficeArtFDG" />
+		<type name="regroupItems" type="OfficeArtFRITContainer" />
+		<type name="groupShape" type="OfficeArtSpgrContainer" />
+		<type name="shape" type="OfficeArtSpContainer" />
+		<type name="deletedShapes" type="OfficeArtSpgrContainerFileBlock"
+			array="true" />
+		<type name="solvers" type="OfficeArtSolverContainer" />
 	</struct>
 	<struct name="OfficeArtFDGGBlock">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -1236,6 +1250,189 @@
 		</uint32>
 		<uint32 name="cspSaved" />
 		<uint32 name="cdgSaved" />
+	</struct>
+	<struct name="OfficeArtFDG">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" expression="&lt;=4094" />
+			<limitation name="recType" value="0x0F008" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<uint32 name="csp" />
+		<uint32 name="spidCur" />
+	</struct>
+	<struct name="OfficeArtFRITContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recType" value="0x0F118" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<type name="rgfrit" type="OfficeArtFRIT" count="rh.recInstance" />
+	</struct>
+	<struct name="OfficeArtFRIT">
+		<uint16 name="fridNew" />
+		<uint16 name="fridOld" />
+	</struct>
+	<struct name="OfficeArtSpgrContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0F003" />
+		</type>
+		<type name="rgfb" type="OfficeArtSpgrContainerFileBlock" array="true" />
+	</struct>
+	<struct name="OfficeArtSpgrContainerFileBlock">
+		<choice name="anon">
+			<type type="OfficeArtSpContainer" />
+			<type type="OfficeArtSpgrContainer" />
+		</choice>
+	</struct>
+	<struct name="OfficeArtSpContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0F004" />
+		</type>
+		<type name="shapeGroup" type="OfficeArtFSPGR" />
+		<type name="shapeProp" type="OfficeArtFSP" />
+		<type name="deletedshape" type="OfficeArtFPSPL" />
+		<type name="shapePrimaryOptions" type="OfficeArtFOPT" />
+		<type name="shapeSecondaryOptions1" type="OfficeArtSecondaryFOPT" />
+		<type name="shapeTertiaryOptions1" type="OfficeArtTertiaryFOPT" />
+		<type name="childAnchor" type="OfficeArtChildAnchor" />
+		<type name="clientAnchor" type="OfficeArtClientAnchor" />
+		<type name="clientData" type="OfficeArtClientData" />
+		<type name="clientTextbox" type="OfficeArtClientTextBox" />
+		<!--
+			Only exists if shapeSecondaryOptions1 does not. <type
+			name="shapeSecondaryOptions2" type="OfficeArtSecondaryFOPT" />
+		-->
+		<!--
+			Only exists if shapeTertiaryOptions1 does not. <type
+			name="shapeTertiaryOptions2" type="OfficeArtTertiaryFOPT" />
+		-->
+	</struct>
+	<struct name="OfficeArtFSPGR">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0x1" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0F009" />
+			<limitation name="recLen" value="0x10" />
+		</type>
+		<int32 name="xLeft" />
+		<int32 name="yTop" />
+		<int32 name="xRight" />
+		<int32 name="yBottom" />
+	</struct>
+	<struct name="OfficeArtFSP">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0x2" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0F00A" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<uint32 name="spid" />
+		<bit name="fGroup" />
+		<bit name="fChild" />
+		<bit name="fPatriarch" />
+		<bit name="fDeleted" />
+		<bit name="fOleShape" />
+		<bit name="fHaveMaster" />
+		<bit name="fFlipH" />
+		<bit name="fFlipV" />
+		<bit name="fConnector" />
+		<bit name="fHaveAnchor" />
+		<bit name="fBackground" />
+		<bit name="fHaveSpt" />
+		<uint20 name="unused1" />
+	</struct>
+	<struct name="OfficeArtFPSPL">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0F11D" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint30 name="spid" />
+		<bit name="reserved1" />
+		<bit name="fLast" />
+	</struct>
+	<struct name="OfficeArtSolverContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recType" value="0x0F005" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="OfficeArtSecondaryFOPT">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="3" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF121" />
+		</type>
+		<!--  todo
+		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
+		<uint8 name="fopt" count="rh.recLen" />
+	</struct>
+	<struct name="OfficeArtTertiaryFOPT">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="3" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF122" />
+		</type>
+		<!--  todo
+		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
+		<uint8 name="fopt" count="rh.recLen" />
+	</struct>
+	<struct name="OfficeArtChildAnchor">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF00F" />
+			<limitation name="recLen" value="0x10" />
+		</type>
+		<int32 name="xLeft" />
+		<int32 name="yTop" />
+		<int32 name="xRight" />
+		<int32 name="yBottom" />
+	</struct>
+	<struct name="OfficeArtClientAnchor">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF010" />
+			<limitation name="recLen" value="0x8|0x10" />
+		</type>
+		<type name="rect1" type="SmallRectStruct" condition="rh.recLen==0x8" />
+		<type name="rect2" type="RectStruct" condition="rh.recLen==0x10" />
+	</struct>
+	<struct name="RectStruct">
+		<int32 name="top" />
+		<int32 name="left" />
+		<int32 name="right" />
+		<int32 name="bottom" />
+	</struct>
+	<struct name="SmallRectStruct">
+		<int16 name="top" />
+		<int16 name="left" />
+		<int16 name="right" />
+		<int16 name="bottom" />
+	</struct>
+	<struct name="OfficeArtClientData">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF011" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="OfficeArtClientTextBox">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF00D" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="OfficeArtIDCL">
 		<uint32 name="dgid" />
@@ -1264,13 +1461,6 @@
 		<uint14 name="opid" />
 		<bit name="fBid" />
 		<bit name="fComplex" />
-	</struct>
-	<struct name="OfficeArtTertiaryFOPT">
-		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="0x3" />
-			<limitation name="recType" value="0x0F122" />
-		</type>
-		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
 	</struct>
 	<struct name="OfficeArtColorMRUContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
