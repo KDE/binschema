@@ -966,9 +966,10 @@
 			<limitation name="recType" value="0x03EE" />
 		</type>
 		<type name="slideAtom" type="SlideAtom" />
+		<type name="slideShowSlideInfoAtom" type="SlideShowSlideInfoAtom"
+			optional="true" />
 		<!--
-			<type name="slideShowSlideInfoAtom" type="SlideShowSlideInfoAtom"
-			optional="true" /> <type name="perSlideHFContainer"
+			<type name="perSlideHFContainer"
 			type="PerSlideHeadersFootersContainer" optional="true" /> <type
 			name="rtSlideSyncInfo12" type="RoundTripSlideSyncInfo12Container"
 			optional="true" />
@@ -1223,12 +1224,14 @@
 			<limitation name="recType" value="0xF002" />
 		</type>
 		<type name="drawingData" type="OfficeArtFDG" />
-		<type name="regroupItems" type="OfficeArtFRITContainer" />
+		<!-- MS documentation does not say regroupItems is optional -->
+		<type name="regroupItems" type="OfficeArtFRITContainer" optional="true" />
 		<type name="groupShape" type="OfficeArtSpgrContainer" />
 		<type name="shape" type="OfficeArtSpContainer" />
 		<type name="deletedShapes" type="OfficeArtSpgrContainerFileBlock"
 			array="true" />
-		<type name="solvers" type="OfficeArtSolverContainer" />
+		<!--  according to ms spec, solvers is not optional -->
+		<type name="solvers" type="OfficeArtSolverContainer" optional="true" />
 	</struct>
 	<struct name="OfficeArtFDGGBlock">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -1279,7 +1282,8 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x0F003" />
 		</type>
-		<type name="rgfb" type="OfficeArtSpgrContainerFileBlock" array="true" />
+		<type name="rgfb" type="OfficeArtSpgrContainerFileBlock"
+			arraysize="th.recLen" />
 	</struct>
 	<struct name="OfficeArtSpgrContainerFileBlock">
 		<choice name="anon">
@@ -1293,16 +1297,19 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x0F004" />
 		</type>
-		<type name="shapeGroup" type="OfficeArtFSPGR" />
+		<type name="shapeGroup" type="OfficeArtFSPGR" optional="true" />
 		<type name="shapeProp" type="OfficeArtFSP" />
-		<type name="deletedshape" type="OfficeArtFPSPL" />
-		<type name="shapePrimaryOptions" type="OfficeArtFOPT" />
-		<type name="shapeSecondaryOptions1" type="OfficeArtSecondaryFOPT" />
-		<type name="shapeTertiaryOptions1" type="OfficeArtTertiaryFOPT" />
-		<type name="childAnchor" type="OfficeArtChildAnchor" />
-		<type name="clientAnchor" type="OfficeArtClientAnchor" />
-		<type name="clientData" type="OfficeArtClientData" />
-		<type name="clientTextbox" type="OfficeArtClientTextBox" />
+		<type name="deletedshape" type="OfficeArtFPSPL" optional="true" />
+		<type name="shapePrimaryOptions" type="OfficeArtFOPT" optional="true" />
+		<type name="shapeSecondaryOptions1" type="OfficeArtSecondaryFOPT"
+			optional="true" />
+		<type name="shapeTertiaryOptions1" type="OfficeArtTertiaryFOPT"
+			optional="true" />
+		<type name="childAnchor" type="OfficeArtChildAnchor" optional="true" />
+		<type name="clientAnchor" type="OfficeArtClientAnchor" optional="true" />
+		<type name="clientData" type="OfficeArtClientData" optional="true" />
+		<type name="clientTextbox" type="OfficeArtClientTextBox"
+			optional="true" />
 		<!--
 			Only exists if shapeSecondaryOptions1 does not. <type
 			name="shapeSecondaryOptions2" type="OfficeArtSecondaryFOPT" />
@@ -1327,7 +1334,6 @@
 	<struct name="OfficeArtFSP">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0x2" />
-			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x0F00A" />
 			<limitation name="recLen" value="8" />
 		</type>

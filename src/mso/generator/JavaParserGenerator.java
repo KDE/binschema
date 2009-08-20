@@ -66,7 +66,8 @@ public class JavaParserGenerator {
 		if (hasElementWithAttribute(e, "count")) {
 			out.println("        int _c;");
 		}
-		if (hasElementWithAttribute(e, "optional")) {
+		if (hasElementWithAttribute(e, "optional")
+				|| hasElementWithAttribute(e, "array")) {
 			out.println("        Object _m;");
 		}
 		NodeList l = e.getChildNodes();
@@ -76,8 +77,8 @@ public class JavaParserGenerator {
 				printStructureMemberParser(out, (Element) n);
 			}
 		}
-		if ("RecordHeader".equals(name)) {
-			out.println("System.out.println(_s);");
+		if (name.contains("RecordHeader")) {
+			out.println("System.out.println(in.getPosition()+\" \"+_s);");
 		}
 		out.println("        return _s;");
 		out.println("    }");
@@ -141,9 +142,16 @@ public class JavaParserGenerator {
 		for (int i = 0; i < l.getLength(); ++i) {
 			Node n = l.item(i);
 			if (n instanceof Element) {
-				String mn = ((Element) n).getAttribute("name");
-				out.println("        _s = _s + \"" + mn
-						+ ": \" + String.valueOf(" + mn + ") + \", \";");
+				Element se = (Element) n;
+				String mn = se.getAttribute("name");
+				out.print("        _s = _s + \"" + mn
+						+ ": \" + String.valueOf(" + mn + ") + \"");
+				if (se.getNodeName().contains("int")
+						&& !se.hasAttribute("count")) {
+					out.print("(\" + Integer.toHexString(" + mn
+							+ ").toUpperCase() + \")");
+				}
+				out.println(", \";");
 			}
 
 		}
@@ -265,8 +273,10 @@ public class JavaParserGenerator {
 		out.println(s + "boolean _atend = false;");
 		out.println(s + "int i=0;");
 		out.println(s + "while (!_atend) {");
-		out.println(s + "    System.out.println(\"round \"+(i++));");
-		out.println(s + "    Object _m = in.setMark();");
+		out
+				.println(s
+						+ "    System.out.println(\"round \"+(i++) + \" \" + in.getPosition());");
+		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
 		out.println(s + "        " + type + " _t = parse" + type + "(in);");
 		out.println(s + "        _s." + name + ".add(_t);");
@@ -329,9 +339,9 @@ public class JavaParserGenerator {
 			// // exceptions in record headers, remove this in final code
 			// exceptionType = "IOException";
 			// }
-			out.println(s + "    throw new " + exceptionType + "(\""
-					+ condition + " for value \" + String.valueOf(" + name
-					+ ") );");
+			out.println(s + "    throw new " + exceptionType
+					+ "(in.getPosition() + \"" + condition
+					+ " for value \" + String.valueOf(" + name + ") );");
 			out.println(s + "}");
 		}
 	}
