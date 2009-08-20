@@ -82,6 +82,7 @@ public class LEInputStream {
 
 	final RewindableInputStream rewindableInputStream;
 	final DataInputStream input;
+	int pos;
 
 	private class Mark {
 		final public Integer pos;
@@ -98,6 +99,7 @@ public class LEInputStream {
 		rewindableInputStream = new RewindableInputStream(i);
 		input = new DataInputStream(rewindableInputStream);
 		bitfieldpos = -1;
+		pos = 0;
 	}
 
 	public Mark setMark() {
@@ -114,8 +116,10 @@ public class LEInputStream {
 		return rewindableInputStream.pos - m.pos;
 	}
 
-	public void rewind(Object mark) throws IOException {
-		rewindableInputStream.rewind(((Mark) mark).pos);
+	public void rewind(Object m) throws IOException {
+		Mark mark = (Mark) m;
+		pos -= rewindableInputStream.pos - mark.pos;
+		rewindableInputStream.rewind(mark.pos);
 	}
 
 	public boolean atEnd() throws IOException {
@@ -125,6 +129,7 @@ public class LEInputStream {
 	private int getBits(int n) throws IOException {
 		if (bitfieldpos < 0) {
 			bitfield = input.readByte();
+			pos++;
 			bitfieldpos = 0;
 		}
 		int v = bitfield >> bitfieldpos;
@@ -177,24 +182,48 @@ public class LEInputStream {
 		// we assume there are 4 bits left
 		int a = getBits(4) & 0xF;
 		int b = input.readByte();
+		pos++;
 		int v = (b << 4) | a;
 		return (short) v;
 	}
 
 	public short readuint14() throws IOException {
-		checkForLeftOverBits();
-		int a = input.readByte();
-		int b = getBits(6) & 0x3F;
-		int v = (b << 8) | a;
+		int v;
+		if (bitfieldpos < 0) {
+			int a = input.readByte();
+			pos++;
+			int b = getBits(6) & 0x3F;
+			v = (b << 8) | a;
+		} else if (bitfieldpos == 2) {
+			int a = getBits(6) & 0x3F;
+			int b = input.readByte();
+			pos++;
+			v = (b << 6) | a;
+		} else {
+			throw new IOException(
+					"Cannot read this type halfway through a bit operation.");
+		}
 		return (short) v;
 	}
 
 	public int readuint20() throws IOException {
-		checkForLeftOverBits();
-		int a = input.readByte();
-		int b = input.readByte();
-		int c = getBits(4) & 0xF;
-		int v = (c << 16) | (b << 8) | a;
+		int v;
+		if (bitfieldpos < 0) {
+			int a = input.readByte();
+			int b = input.readByte();
+			pos += 2;
+			int c = getBits(4) & 0xF;
+			v = (c << 16) | (b << 8) | a;
+		} else if (bitfieldpos == 4) {
+			int a = getBits(4) & 0xF;
+			int b = input.readByte();
+			int c = input.readByte();
+			pos += 2;
+			v = (c << 12) | (b << 4) | a;
+		} else {
+			throw new IOException(
+					"Cannot read this type halfway through a bit operation.");
+		}
 		return v;
 	}
 
@@ -203,6 +232,7 @@ public class LEInputStream {
 		int a = input.readByte();
 		int b = input.readByte();
 		int c = input.readByte();
+		pos += 3;
 		int d = getBits(6) & 0x3F;
 		int v = (d << 24) | (c << 16) | (b << 8) | a;
 		return v;
@@ -210,16 +240,19 @@ public class LEInputStream {
 
 	public byte readuint8() throws IOException {
 		checkForLeftOverBits();
+		pos++;
 		return input.readByte();
 	}
 
 	public short readint16() throws IOException {
 		checkForLeftOverBits();
+		pos += 2;
 		return Short.reverseBytes(input.readShort());
 	}
 
 	public int readuint16() throws IOException {
 		checkForLeftOverBits();
+		pos += 2;
 		int s = Short.reverseBytes(input.readShort());
 		if (s < 0)
 			s = 0x10000 + s;
@@ -228,11 +261,17 @@ public class LEInputStream {
 
 	public int readuint32() throws IOException {
 		checkForLeftOverBits();
+		pos += 4;
 		return Integer.reverseBytes(input.readInt());
 	}
 
 	public int readint32() throws IOException {
 		checkForLeftOverBits();
+		pos += 4;
 		return Integer.reverseBytes(input.readInt());
+	}
+
+	public int getPosition() {
+		return pos;
 	}
 }
