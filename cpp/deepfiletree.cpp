@@ -6,6 +6,9 @@
 #include <QVariant>
 #include <QXmlQuery>
 #include <QDebug>
+#include "pole.h"
+
+using namespace std;
 
 /** This XML model spans the file system, OLE streams in OLE files and data structures in some
  *  OLE streams.
@@ -26,7 +29,7 @@ public:
 
 class OleStreamElementNode : public ElementNode {
 public:
-    QString streamname;
+    string streamname;
     int size;
     bool isdir;
 };
@@ -133,19 +136,29 @@ public:
     }
 
     void loadStreamSiblings(const QFileInfo& info, int parentIndex, ElementNode& parent) {
-        if (info.suffix().toLower() != "ppt") return;
+//        if (info.suffix().toLower() != "ppt") return;
+        POLE::Storage storage(info.absoluteFilePath().toLocal8Bit());
+        if (!storage.open()) return;
         int offset = olestreams.count();
-        parent.firstSiblingId = getId(OLEStream, offset);
-        const char* names[3] = {"A", "Current User", "PowerPoint Document"};
-        for (int i=0; i<3; ++i) {
-            OleStreamElementNode n;
-            n.streamname = names[i];
-            n.size = 10;
-            n.isdir = false;
-            n.parentId = getId(File, parentIndex);
-            n.previousId = (i) ?getId(OLEStream, offset + i - 1) :-1;
-            n.nextId = (i == 2) ?-1 :getId(OLEStream, offset + i + 1);
-            olestreams.append(n);
+        int count = 0;
+        list<string> entries = storage.entries();
+        for (list<string>::const_iterator i=entries.begin(); i!=entries.end(); ++i) {
+            if (!storage.isDirectory(*i)) {
+                POLE::Stream stream(&storage, "/"+*i);
+                OleStreamElementNode n;
+                n.streamname = *i;
+                n.size = stream.size();
+                n.isdir = false;
+                n.parentId = getId(File, parentIndex);
+                n.previousId = (count) ?getId(OLEStream, offset + count - 1) :-1;
+                n.nextId = getId(OLEStream, offset + count + 1);
+                olestreams.append(n);
+                count++;
+            }
+        }
+        if (count) {
+            parent.firstSiblingId = getId(OLEStream, offset);
+            olestreams[olestreams.count()-1].nextId = -1;
         }
     }
 };
@@ -280,7 +293,7 @@ DeepFileTree::typedValue(const QXmlNodeModelIndex& n) const {
     switch ((Kind)n.additionalData()) {
         case AttributeName:
             if (info) return info->fileName();
-            return ((const OleStreamElementNode&)d->getElementNode(n.data())).streamname;
+            return ((const OleStreamElementNode&)d->getElementNode(n.data())).streamname.c_str();
         case AttributeSize:
             if (info) return info->size();
             return ((const OleStreamElementNode&)d->getElementNode(n.data())).size;
