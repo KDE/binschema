@@ -15,7 +15,7 @@ main(int argc, char** argv) {
     const QXmlNamePool namePool;
     DeepFileTree fileTreeModel(namePool);
     QXmlNodeModelIndex fileTree = fileTreeModel.toNodeIndex(
-        QFileInfo("/home/oever/workspace/msoparser/cpp/"));
+        QFileInfo("/home/oever/workspace/msoparser/tests/"));
     //QXmlNodeModelIndex fileTree = fileTreeModel.nodeFor("/home/oever/workspace/msoparser/cpp/");
 
     QXmlQuery query(namePool);
