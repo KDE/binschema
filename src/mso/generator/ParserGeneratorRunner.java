@@ -1,6 +1,7 @@
 package mso.generator;
 
 import java.io.FileReader;
+import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
@@ -20,10 +21,20 @@ public class ParserGeneratorRunner {
 		final Validator v = createValidator(xsdfilename);
 		v.validate(new StreamSource(new FileReader(xmlfilename)));
 
-		final JavaParserGenerator g = new JavaParserGenerator();
 		final Document dom = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder().parse(xmlfilename);
+		generateJavaParser(dom);
+		generateQtParser(dom);
+	}
+
+	static void generateJavaParser(Document dom) throws IOException {
+		final JavaParserGenerator g = new JavaParserGenerator();
 		g.generate(dom, "src", "mso.javaparser", "GeneratedMsoParser");
+	}
+
+	static void generateQtParser(Document dom) throws IOException {
+		final QtParserGenerator g = new QtParserGenerator();
+		g.generate(dom, "cpp");
 	}
 
 	static private Validator createValidator(String xsdfilename)

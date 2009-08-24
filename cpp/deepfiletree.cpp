@@ -1,3 +1,4 @@
+#include "generatedclasses.cpp"
 #include "deepfiletree.h"
 #include <QUrl>
 #include <QFileInfo>
