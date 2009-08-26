@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mso xmlns='http://www.example.org/mso' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.example.org/mso mso.xsd'>
-	<const name="RT_CurrentUserAtom" value="0x0FF6" />
 	<struct name="RecordHeader">
 		<uint4 name="recVer" />
 		<uint12 name="recInstance" />
@@ -18,9 +17,6 @@
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x0FF6" />
-			<!--
-				valueRef="RT_CurrentUserAtom" />
-			-->
 		</type>
 		<uint32 name="size">
 			<limitation value="0x14" />
@@ -51,6 +47,7 @@
 	</struct>
 	<struct name="CurrentUserStream">
 		<type name="anon1" type="CurrentUserAtom" />
+		<uint8 name="trailing" count="78-anon1.rh.recLen" />
 	</struct>
 	<struct name="PicturesStream">
 		<type name="anon1" type="OfficeArtBStoreDelay" />
@@ -978,10 +975,21 @@
 		<type name="slideSchemeColorSchemeAtom" type="SlideSchemeColorSchemeAtom" />
 		<!--
 			<type name="slideNameAtom" type="SlideNameAtom" optional="true" />
-			<type name="slideProgTagsContainer" type="SlideProgTagscontainer"
-			optional="true" />
 		-->
-		<type name="rgRoundTripSlide" type="RoundTripSlideRecord" array="true" />
+		<type name="slideProgTagsContainer" type="SlideProgTagscontainer"
+			optional="true" />
+		<!--
+			<type name="rgRoundTripSlide" type="RoundTripSlideRecord"
+			array="true" />
+		-->
+	</struct>
+	<struct name="SlideProgTagscontainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x1388" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="SlideAtom">
 		<type name="rh" type="RecordHeader">
@@ -1048,7 +1056,7 @@
 			<limitation name="recType" value="0x07F0" />
 			<limitation name="recLen" value="0x20" />
 		</type>
-		<type name="rgSchemeColor" type="ColorStruct" />
+		<type name="rgSchemeColor" type="ColorStruct" count="8" />
 	</struct>
 	<struct name="RoundTripSlideRecord">
 		<type name="rh" type="RecordHeader">
@@ -1282,8 +1290,7 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x0F003" />
 		</type>
-		<type name="rgfb" type="OfficeArtSpgrContainerFileBlock"
-			arraysize="th.recLen" />
+		<type name="rgfb" type="OfficeArtSpgrContainerFileBlock" array="true" size="th.recLen" />
 	</struct>
 	<struct name="OfficeArtSpgrContainerFileBlock">
 		<choice name="anon">
@@ -1334,6 +1341,7 @@
 	<struct name="OfficeArtFSP">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0x2" />
+			<limitation name="recInstance" expression="&lt;=0xCA"/>
 			<limitation name="recType" value="0x0F00A" />
 			<limitation name="recLen" value="8" />
 		</type>
@@ -1516,9 +1524,7 @@
 	</struct>
 	<stream name="PowerPointDocument" key="PowerPoint Document"
 		type="PowerPointStructs" />
-	<stream name="CurrentUser" key="Current User" type="CurrentUserAtom" />
-	<!--
-		<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
-	-->
+	<stream name="CurrentUser" key="Current User" type="CurrentUserStream" />
+	<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
 
 </mso>
