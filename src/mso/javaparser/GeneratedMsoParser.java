@@ -5,7 +5,9 @@ public class GeneratedMsoParser {
         if ("PowerPoint Document".equals(key)) {
             parsePowerPointStructs(in);
         } else if ("Current User".equals(key)) {
-            parseCurrentUserAtom(in);
+            parseCurrentUserStream(in);
+        } else if ("Pictures".equals(key)) {
+            parseOfficeArtBStoreDelay(in);
         } else {
             parseTODOS(in);
         }
@@ -81,7 +83,13 @@ System.out.println(in.getPosition()+" "+_s);
     }
     CurrentUserStream parseCurrentUserStream(LEInputStream in) throws IOException  {
         CurrentUserStream _s = new CurrentUserStream();
+        int _c;
         _s.anon1 = parseCurrentUserAtom(in);
+        _c = 78-_s.anon1.rh.recLen;
+        _s.trailing = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.trailing[_i] = in.readuint8();
+        }
         return _s;
     }
     PicturesStream parsePicturesStream(LEInputStream in) throws IOException  {
@@ -2016,24 +2024,36 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.drawing = parseDrawingContainer(in);
         _s.slideSchemeColorSchemeAtom = parseSlideSchemeColorSchemeAtom(in);
-        boolean _atend = false;
-        int i=0;
-        while (!_atend) {
-            System.out.println("round "+(i++) + " " + in.getPosition());
-            _m = in.setMark();
-            try {
-                RoundTripSlideRecord _t = parseRoundTripSlideRecord(in);
-                _s.rgRoundTripSlide.add(_t);
-            } catch(IncorrectValueException _e) {
+        _m = in.setMark();
+        try {
+            _s.slideProgTagsContainer = parseSlideProgTagscontainer(in);
+        } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-                _atend = true;
-                in.rewind(_m);
-            } catch(java.io.EOFException _e) {
-                _atend = true;
-                in.rewind(_m);
-            } finally {
-                in.releaseMark(_m);
-            }
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    SlideProgTagscontainer parseSlideProgTagscontainer(LEInputStream in) throws IOException  {
+        SlideProgTagscontainer _s = new SlideProgTagscontainer();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x1388)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1388 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.todo = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.todo[_i] = in.readuint8();
         }
         return _s;
     }
@@ -2139,6 +2159,7 @@ System.out.println(in.getPosition()+" "+_s);
     }
     SlideSchemeColorSchemeAtom parseSlideSchemeColorSchemeAtom(LEInputStream in) throws IOException  {
         SlideSchemeColorSchemeAtom _s = new SlideSchemeColorSchemeAtom();
+        int _c;
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
@@ -2152,7 +2173,11 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recLen == 0x20)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x20 for value " + String.valueOf(_s.rh) );
         }
-        _s.rgSchemeColor = parseColorStruct(in);
+        _c = 8;
+        _s.rgSchemeColor = new ColorStruct[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.rgSchemeColor[_i] = parseColorStruct(in);
+        }
         return _s;
     }
     RoundTripSlideRecord parseRoundTripSlideRecord(LEInputStream in) throws IOException  {
@@ -2679,6 +2704,7 @@ System.out.println(in.getPosition()+" "+_s);
     }
     OfficeArtSpgrContainer parseOfficeArtSpgrContainer(LEInputStream in) throws IOException  {
         OfficeArtSpgrContainer _s = new OfficeArtSpgrContainer();
+        Object _m;
         _s.rh = parseOfficeArtRecordHeader(in);
         if (!(_s.rh.recVer == 0xF)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
@@ -2689,7 +2715,25 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recType == 0x0F003)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0F003 for value " + String.valueOf(_s.rh) );
         }
-        _s.rgfb = parseOfficeArtSpgrContainerFileBlock(in);
+        boolean _atend = false;
+        int i=0;
+        while (!_atend) {
+            System.out.println("round "+(i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                OfficeArtSpgrContainerFileBlock _t = parseOfficeArtSpgrContainerFileBlock(in);
+                _s.rgfb.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+            }
+        }
         return _s;
     }
     OfficeArtSpgrContainerFileBlock parseOfficeArtSpgrContainerFileBlock(LEInputStream in) throws IOException  {
@@ -2848,6 +2892,9 @@ System.out.println(in.getPosition()+" "+_s);
         _s.rh = parseOfficeArtRecordHeader(in);
         if (!(_s.rh.recVer == 0x2)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0x2 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(<=0xCA)) {
+            throw new IncorrectValueException(in.getPosition() + "<=0xCA for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recType == 0x0F00A)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0F00A for value " + String.valueOf(_s.rh) );
@@ -3242,9 +3289,11 @@ class CurrentUserAtom {
 }
 class CurrentUserStream {
     CurrentUserAtom anon1;
+    byte[] trailing;
     public String toString() {
         String _s = "CurrentUserStream:";
         _s = _s + "anon1: " + String.valueOf(anon1) + ", ";
+        _s = _s + "trailing: " + String.valueOf(trailing) + ", ";
         return _s;
     }
 }
@@ -4404,7 +4453,7 @@ class SlideContainer {
     SlideShowSlideInfoAtom slideShowSlideInfoAtom;
     DrawingContainer drawing;
     SlideSchemeColorSchemeAtom slideSchemeColorSchemeAtom;
-    final java.util.List<RoundTripSlideRecord> rgRoundTripSlide = new java.util.ArrayList<RoundTripSlideRecord>();
+    SlideProgTagscontainer slideProgTagsContainer;
     public String toString() {
         String _s = "SlideContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -4412,7 +4461,17 @@ class SlideContainer {
         _s = _s + "slideShowSlideInfoAtom: " + String.valueOf(slideShowSlideInfoAtom) + ", ";
         _s = _s + "drawing: " + String.valueOf(drawing) + ", ";
         _s = _s + "slideSchemeColorSchemeAtom: " + String.valueOf(slideSchemeColorSchemeAtom) + ", ";
-        _s = _s + "rgRoundTripSlide: " + String.valueOf(rgRoundTripSlide) + ", ";
+        _s = _s + "slideProgTagsContainer: " + String.valueOf(slideProgTagsContainer) + ", ";
+        return _s;
+    }
+}
+class SlideProgTagscontainer {
+    RecordHeader rh;
+    byte[] todo;
+    public String toString() {
+        String _s = "SlideProgTagscontainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
         return _s;
     }
 }
@@ -4506,7 +4565,7 @@ class DrawingContainer {
 }
 class SlideSchemeColorSchemeAtom {
     RecordHeader rh;
-    ColorStruct rgSchemeColor;
+    ColorStruct[] rgSchemeColor;
     public String toString() {
         String _s = "SlideSchemeColorSchemeAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -4788,7 +4847,7 @@ class OfficeArtFRIT {
 }
 class OfficeArtSpgrContainer {
     OfficeArtRecordHeader rh;
-    OfficeArtSpgrContainerFileBlock rgfb;
+    final java.util.List<OfficeArtSpgrContainerFileBlock> rgfb = new java.util.ArrayList<OfficeArtSpgrContainerFileBlock>();
     public String toString() {
         String _s = "OfficeArtSpgrContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";

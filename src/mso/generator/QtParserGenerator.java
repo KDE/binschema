@@ -3,7 +3,9 @@ package mso.generator;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -17,23 +19,47 @@ public class QtParserGenerator {
 	void generate(Document dom, String dir) throws IOException {
 		FileWriter fout = new FileWriter(dir + "/generatedclasses.cpp");
 		PrintWriter out = new PrintWriter(fout);
-		out.println("#include <QObject>");
 		out.println("#include <QString>");
 		out.println("#include <QByteArray>");
 		out.println("#include <QVector>");
 		out.println("namespace {");
 
+		List<Element> todolist = new ArrayList<Element>();
+		List<String> done = new ArrayList<String>();
+
 		NodeList l = dom.getElementsByTagName("struct");
 		for (int i = 0; i < l.getLength(); ++i) {
-			out.println("class " + ((Element) l.item(i)).getAttribute("name")
-					+ ";");
-		}
-
-		for (int i = 0; i < l.getLength(); ++i) {
 			Element e = (Element) l.item(i);
-			printStructureClassDeclaration(out, e);
+			out.println("class " + e.getAttribute("name") + ";");
+			todolist.add(e);
 		}
 
+		while (todolist.size() > 0) {
+			int count = todolist.size();
+			for (int i = 0; i < todolist.size(); ++i) {
+				Element e = todolist.get(i);
+				Collection<String> deps = getDependencies(e);
+				deps.removeAll(done);
+				if (deps.size() == 0) {
+					printStructureClassDeclaration(out, e);
+					done.add(e.getAttribute("name"));
+					todolist.remove(e);
+					i = todolist.size();
+				}
+			}
+			if (count == todolist.size()) {
+				for (Element e : todolist) {
+					Collection<String> deps = getDependencies(e);
+					deps.removeAll(done);
+					System.err.println(e.getAttribute("name") + ": " + deps);
+				}
+				throw new IOException("" + count);
+			}
+		}
+		/*
+		 * for (int i = 0; i < l.getLength(); ++i) { Element e = (Element)
+		 * l.item(i); printStructureClassDeclaration(out, e); }
+		 */
 		for (int i = 0; i < l.getLength(); ++i) {
 			Element e = (Element) l.item(i);
 			printStructureClassImplementation(out, e);
@@ -64,7 +90,7 @@ public class QtParserGenerator {
 		} else if ("int32".equals(t)) {
 			return "qint32";
 		} else if ("choice".equals(t)) {
-			return "QObject";
+			return "void *";
 		} else {
 			return t;
 		}
@@ -76,9 +102,8 @@ public class QtParserGenerator {
 		String array = e.getAttribute("array");
 		if ("".equals(count)) {
 			if (!"".equals(array)) {
-				String type = e.getAttribute("type") + "*";
-				return "final java.util.List<" + type + "> " + name
-						+ " = new java.util.ArrayList<" + type + ">()";
+				String type = e.getAttribute("type");
+				return "QList<" + type + "> " + name;
 			}
 			return getTypeName(e) + " " + name;
 		} else if ("quint8".equals(getTypeName(e))) {
@@ -90,7 +115,7 @@ public class QtParserGenerator {
 
 	void printStructureClassDeclaration(PrintWriter out, Element e) {
 		String name = e.getAttribute("name");
-		out.println("class " + name + " : public QObject {");
+		out.println("class " + name + " {");
 		out.println("public:");
 		NodeList l = e.getChildNodes();
 		for (int i = 0; i < l.getLength(); ++i) {
@@ -129,9 +154,11 @@ public class QtParserGenerator {
 		Set<String> deps = new TreeSet<String>();
 		NodeList l = e.getElementsByTagName("type");
 		for (int i = 0; i < l.getLength(); ++i) {
-			deps.add(((Element) l.item(i)).getAttribute("type"));
+			Element se = (Element) l.item(i);
+			if (!se.hasAttribute("count") && !se.hasAttribute("array")) {
+				deps.add(se.getAttribute("type"));
+			}
 		}
 		return deps;
 	}
-
 }
