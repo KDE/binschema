@@ -6,8 +6,9 @@
 #include <QVector>
 #include <QVariant>
 #include <QXmlQuery>
-#include <QDebug>
+#include <QDomElement>
 #include "pole.h"
+#include <QDebug>
 
 using namespace std;
 
@@ -35,12 +36,18 @@ public:
     bool isdir;
 };
 
-enum Type {
-    File,
-    OLEStream
+class XmlElementNode : public ElementNode {
+public:
+    QDomElement element;
 };
 
-const int typeSize = 2;
+enum Type {
+    File,
+    OLEStream,
+    XmlElement
+};
+
+const int typeSize = 3;
 const int indexSize = sizeof(int)*8 - typeSize;
 
 Type getType(int id) {
@@ -68,6 +75,8 @@ public:
     QList<ElementNode> fileinfonodes;
     QList<QFileInfo> fileinfos;
     QList<OleStreamElementNode> olestreams;
+    QList<XmlElementNode> xmlelements;
+    QDomDocument doc;
     const QXmlName directory;
     const QXmlName file;
     const QXmlName olestream;
@@ -89,6 +98,7 @@ public:
         switch (getType(id)) {
             case File: return fileinfonodes[index];
             case OLEStream: return olestreams[index];
+            case XmlElement: return xmlelements[index];
         }
     }
     QFileInfo* getFileInfo(int id) {
@@ -162,6 +172,49 @@ public:
             olestreams[olestreams.count()-1].nextId = -1;
         }
     }
+
+    QDomElement createTestElement() {
+        QDomElement e(doc.createElement("TESTING"));
+        e.setAttribute("e", "E");
+        QDomElement a(doc.createElement("suba"));
+        a.setAttribute("a", "A");
+        QDomElement b(doc.createElement("subb"));
+        b.setAttribute("b", "B");
+        b.setAttribute("c", "C");
+        e.appendChild(a);
+        e.appendChild(b);
+        return e;
+    }
+
+    void loadStreamAsXmlElements(int parentId, ElementNode& parent) {
+        parent.firstSiblingId = getId(XmlElement, xmlelements.count());
+        QDomElement e = createTestElement();
+        XmlElementNode& en = addXmlElement(e);
+        en.parentId = parentId;
+        en.nextId = -1;
+        en.previousId = -1;
+    }
+
+    XmlElementNode& addXmlElement(const QDomElement& e) {
+        int eindex = xmlelements.count();
+        xmlelements.append(XmlElementNode());
+        XmlElementNode& xe = xmlelements[eindex];
+        xe.element = e;
+
+        int eid = getId(XmlElement, eindex);
+        int count = 0;
+        QDomElement ce = e.firstChildElement();
+        while (!ce.isNull()) {
+            count++;
+            XmlElementNode& cen = addXmlElement(ce);
+            cen.parentId = eid; 
+            cen.previousId = (count) ?eid + count - 1:-1;
+            ce = ce.nextSiblingElement();
+            cen.nextId = (ce.isNull()) ?-1 :eid + count + 1;
+        }
+        xe.firstSiblingId = (count > 0) ?eid + 1 :-1;
+        return xe;
+    }
 };
 
 DeepFileTree::DeepFileTree(const QXmlNamePool& pool) :d(new Private(pool)) {
@@ -183,17 +236,31 @@ DeepFileTree::toNodeIndex(const QFileInfo& fileinfo) const {
 QVector<QXmlNodeModelIndex>
 DeepFileTree::attributes(const QXmlNodeModelIndex& element) const {
     QVector<QXmlNodeModelIndex> v;
-    const QFileInfo* info = d->getFileInfo(element.data());
-    v.append(createIndex(element.data(), AttributeName));
-    if (info) {
+    Type type = getType(element.data());
+    switch (type) {
+    case File: {
+        v.append(createIndex(element.data(), AttributeName));
+        const QFileInfo* info = d->getFileInfo(element.data());
         if (info->isFile()) {
             v.append(createIndex(element.data(), AttributeSize));
         }
-    } else { // OLEStream
+        break;
+    }
+    case OLEStream: {
+        v.append(createIndex(element.data(), AttributeName));
         const OleStreamElementNode& e = (const OleStreamElementNode&)d->getElementNode(element.data());
         if (!e.isdir) {
             v.append(createIndex(element.data(), AttributeSize));
         }
+        break;
+    }
+    case XmlElement: {
+        QDomElement e = d->xmlelements[getIndex(element.data())].element;
+        QDomNamedNodeMap attributes = e.attributes();
+        for (int i=0; i<attributes.length(); ++i) {
+             v.append(createIndex(element.data(), i+1));
+        }
+    }
     }
     return v;
 }
@@ -214,6 +281,8 @@ DeepFileTree::nextFromSimpleAxis(SimpleAxis axis, const QXmlNodeModelIndex& orig
                     d->loadFileSiblings(info->filePath(), origin.data(), node);
                 } else if (info && info->isFile()) {
                     d->loadStreamSiblings(info->filePath(), origin.data(), node);
+                } else if (getType(origin.data()) == OLEStream) {
+                    d->loadStreamAsXmlElements(origin.data(), node);
                 }
                 if (node.firstSiblingId == -2) {
                     node.firstSiblingId = -1;
@@ -241,6 +310,7 @@ DeepFileTree::compareOrder(const QXmlNodeModelIndex& ni1, const QXmlNodeModelInd
 }
 QUrl
 DeepFileTree::documentUri(const QXmlNodeModelIndex& n) const {
+    // TODO: find root and get uri from that
     const QFileInfo& fileinfo = d->fileinfos[n.data()];
     return QUrl::fromLocalFile(fileinfo.filePath());
 }
@@ -254,16 +324,33 @@ DeepFileTree::kind(const QXmlNodeModelIndex& ni) const {
 }
 QXmlName
 DeepFileTree::name(const QXmlNodeModelIndex& ni) const {
-    switch ((Kind)ni.additionalData()) {
-        case Element: {
-            const QFileInfo* info = d->getFileInfo(ni.data());
-            if (info) return info->isFile() ?d->file :d->directory;
-            const OleStreamElementNode& e
-                = (const OleStreamElementNode&)d->getElementNode(ni.data());
-            return (e.isdir) ?d->olestreamdir :d->olestream;
+    QVector<QXmlNodeModelIndex> v;
+    Type type = getType(ni.data());
+    switch (type) {
+        case File:
+            switch ((Kind)ni.additionalData()) {
+                case Element: return d->getFileInfo(ni.data())->isFile() ?d->file :d->directory;
+                case AttributeName: return d->name;
+                case AttributeSize: return d->size;
+            }
+        case OLEStream:
+            switch ((Kind)ni.additionalData()) {
+                case Element: {
+                    const OleStreamElementNode& e
+                         = (const OleStreamElementNode&)d->getElementNode(ni.data());
+                    return (e.isdir) ?d->olestreamdir :d->olestream;
+                }
+                case AttributeName: return d->name;
+                case AttributeSize: return d->size;
+            }
+        case XmlElement: {
+            QDomElement e = d->xmlelements[getIndex(ni.data())].element;
+            if (ni.additionalData() == 0) {
+                return QXmlName(d->namepool, e.nodeName());
+            } else {
+                return QXmlName(d->namepool, e.attributes().item(ni.additionalData()-1).nodeName());
+            }
         }
-        case AttributeName: return d->name;
-        case AttributeSize: return d->size;
     }
 }
 QVector<QXmlName>
@@ -290,15 +377,31 @@ DeepFileTree::stringValue(const QXmlNodeModelIndex& n) const {
 }
 QVariant
 DeepFileTree::typedValue(const QXmlNodeModelIndex& n) const {
-    const QFileInfo* info = d->getFileInfo(n.data());
-    switch ((Kind)n.additionalData()) {
-        case AttributeName:
-            if (info) return info->fileName();
-            return ((const OleStreamElementNode&)d->getElementNode(n.data())).streamname.c_str();
-        case AttributeSize:
-            if (info) return info->size();
-            return ((const OleStreamElementNode&)d->getElementNode(n.data())).size;
-        default:
-            return QVariant();
+    Type type = getType(n.data());
+    switch (type) {
+        case File: {
+            const QFileInfo* info = d->getFileInfo(n.data());
+            switch ((Kind)n.additionalData()) {
+                case AttributeName: return info->fileName();
+                case AttributeSize: return info->size();
+                default:;
+            }
+        }
+        case OLEStream: {
+            const OleStreamElementNode& e
+                = (const OleStreamElementNode&)d->getElementNode(n.data());
+            switch ((Kind)n.additionalData()) {
+                case AttributeName: return e.streamname.c_str();
+                case AttributeSize: return e.size;
+                default:;
+            }
+        }
+        case XmlElement: {
+            if (n.additionalData() > 0) {
+                QDomElement e = d->xmlelements[getIndex(n.data())].element;
+                return e.attributes().item(n.additionalData()-1).nodeValue();
+            }
+        }
     }
+    return QVariant();
 }
