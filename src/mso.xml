@@ -1290,7 +1290,8 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x0F003" />
 		</type>
-		<type name="rgfb" type="OfficeArtSpgrContainerFileBlock" array="true" size="th.recLen" />
+		<type name="rgfb" type="OfficeArtSpgrContainerFileBlock" array="true"
+			size="th.recLen" />
 	</struct>
 	<struct name="OfficeArtSpgrContainerFileBlock">
 		<choice name="anon">
@@ -1341,7 +1342,7 @@
 	<struct name="OfficeArtFSP">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0x2" />
-			<limitation name="recInstance" expression="&lt;=0xCA"/>
+			<limitation name="recInstance" expression="&lt;= 202" />
 			<limitation name="recType" value="0x0F00A" />
 			<limitation name="recLen" value="8" />
 		</type>
