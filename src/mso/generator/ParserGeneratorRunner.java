@@ -29,12 +29,12 @@ public class ParserGeneratorRunner {
 
 	static void generateJavaParser(Document dom) throws IOException {
 		final JavaParserGenerator g = new JavaParserGenerator();
-		g.generate(dom, "src", "mso.javaparser", "GeneratedMsoParser");
+		g.generate(new MSO(dom), "src", "mso.javaparser", "GeneratedMsoParser");
 	}
 
 	static void generateQtParser(Document dom) throws IOException {
 		final QtParserGenerator g = new QtParserGenerator();
-		g.generate(dom, "cpp");
+		g.generate(new MSO(dom), "cpp");
 	}
 
 	static private Validator createValidator(String xsdfilename)
