@@ -6,13 +6,8 @@ import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 public class JavaParserGenerator {
-	void generate(Document dom, String dir, String packagename, String classname)
+	void generate(MSO mso, String dir, String packagename, String classname)
 			throws IOException {
 		FileWriter fout = new FileWriter(dir + "/"
 				+ packagename.replace('.', '/') + "/" + classname + ".java");
@@ -22,72 +17,63 @@ public class JavaParserGenerator {
 		out.println("public class " + classname + " {");
 		out
 				.println("    void parse(String key, LEInputStream in) throws IOException {");
-		NodeList l = dom.getElementsByTagName("stream");
-		for (int i = 0; i < l.getLength(); ++i) {
-			Element e = (Element) l.item(i);
-			// String name = e.getAttribute("name");
-			String key = e.getAttribute("key");
-			String type = e.getAttribute("type");
+		boolean first = true;
+		for (Stream s : mso.streams) {
 			out.print("        ");
-			if (i > 0) {
+			if (first) {
+				first = false;
+			} else {
 				out.print("} else ");
 			}
-			out.println("if (\"" + key + "\".equals(key)) {"); // TODO: fix for
+			out.println("if (\"" + s.key + "\".equals(key)) {"); // TODO: fix
+			// for
 			// \001 and \005
 			// prefix
-			out.println("            parse" + type + "(in);");
+			out.println("            parse" + s.type + "(in);");
 		}
 		out.println("        } else {");
 		out.println("            parseTODOS(in);");
 		out.println("        }");
 		out.println("    }");
 
-		l = dom.getElementsByTagName("struct");
-		for (int i = 0; i < l.getLength(); ++i) {
-			printStructureParser(out, (Element) l.item(i));
+		for (Struct s : mso.structs) {
+			printStructureParser(out, s);
 		}
 
 		out.println("}");
 
-		l = dom.getElementsByTagName("struct");
-		for (int i = 0; i < l.getLength(); ++i) {
-			printStructureClass(out, (Element) l.item(i));
+		for (Struct s : mso.structs) {
+			printStructureClass(out, s);
 		}
 
 		out.close();
 		fout.close();
 	}
 
-	void printStructureParser(PrintWriter out, Element e) {
-		String name = e.getAttribute("name");
-		out.println("    " + name + " parse" + name
+	void printStructureParser(PrintWriter out, Struct s) {
+		out.println("    " + s.name + " parse" + s.name
 				+ "(LEInputStream in) throws IOException  {");
-		out.println("        " + name + " _s = new " + name + "();");
-		if (hasElementWithAttribute(e, "count")) {
+		out.println("        " + s.name + " _s = new " + s.name + "();");
+		if (s.containsArrayMember) {
 			out.println("        int _c;");
 		}
-		if (hasElementWithAttribute(e, "optional")
-				|| hasElementWithAttribute(e, "array")) {
+		if (s.containsOptionalMember || s.containsArrayMember) {
 			out.println("        Object _m;");
 		}
-		NodeList l = e.getChildNodes();
-		for (int i = 0; i < l.getLength(); ++i) {
-			Node n = l.item(i);
-			if (n instanceof Element) {
-				printStructureMemberParser(out, (Element) n);
-			}
+		for (Member m : s.members) {
+			printStructureMemberParser(out, m);
 		}
-		if (name.contains("RecordHeader")) {
+		if (s.name.contains("RecordHeader")) {
 			out.println("System.out.println(in.getPosition()+\" \"+_s);");
 		}
 		out.println("        return _s;");
 		out.println("    }");
 	}
 
-	String getTypeName(Element e) {
-		String t = e.getNodeName();
-		if ("type".equals(t)) {
-			return e.getAttribute("type");
+	String getTypeName(Member m) {
+		String t = m.type;
+		if (m.isComplex) {
+			return t;
 		} else if ("bit".equals(t)) {
 			return "boolean";
 		} else if ("uint2".equals(t) || "uint3".equals(t) || "uint4".equals(t)
@@ -107,53 +93,37 @@ public class JavaParserGenerator {
 		}
 	}
 
-	String getMemberDeclaration(Element e) {
-		String name = e.getAttribute("name");
-		String count = e.getAttribute("count");
-		String array = e.getAttribute("array");
-		String type = e.getAttribute("type");
-		if ("".equals(count)) {
-			if (!"".equals(array)) {
-				return "final java.util.List<" + type + "> " + name
-						+ " = new java.util.ArrayList<" + type + ">()";
+	String getMemberDeclaration(Member m) {
+		if (m.isArray) {
+			if (m.count == null) {
+				return "final java.util.List<" + m.type + "> " + m.name
+						+ " = new java.util.ArrayList<" + m.type + ">()";
+			} else {
+				return getTypeName(m) + "[] " + m.name;
 			}
-			return getTypeName(e) + " " + name;
 		} else {
-			return getTypeName(e) + "[] " + name;
+			return getTypeName(m) + " " + m.name;
 		}
 	}
 
-	void printStructureClass(PrintWriter out, Element e) {
-		String name = e.getAttribute("name");
-		out.println("class " + name + " {");
-		NodeList l = e.getChildNodes();
-		for (int i = 0; i < l.getLength(); ++i) {
-			Node n = l.item(i);
-			if (n instanceof Element) {
-				Element se = (Element) n;
-				String d = getMemberDeclaration(se);
-				out.println("    " + d + ";");
-			}
+	void printStructureClass(PrintWriter out, Struct s) {
+		out.println("class " + s.name + " {");
+		for (Member m : s.members) {
+			String d = getMemberDeclaration(m);
+			out.println("    " + d + ";");
 		}
 
 		// function toString
 		out.println("    public String toString() {");
-		out.println("        String _s = \"" + name + ":\";");
-		for (int i = 0; i < l.getLength(); ++i) {
-			Node n = l.item(i);
-			if (n instanceof Element) {
-				Element se = (Element) n;
-				String mn = se.getAttribute("name");
-				out.print("        _s = _s + \"" + mn
-						+ ": \" + String.valueOf(" + mn + ") + \"");
-				if (se.getNodeName().contains("int")
-						&& !se.hasAttribute("count")) {
-					out.print("(\" + Integer.toHexString(" + mn
-							+ ").toUpperCase() + \")");
-				}
-				out.println(", \";");
+		out.println("        String _s = \"" + s.name + ":\";");
+		for (Member m : s.members) {
+			out.print("        _s = _s + \"" + m.name
+					+ ": \" + String.valueOf(" + m.name + ") + \"");
+			if (m.isInteger && !m.isArray) {
+				out.print("(\" + Integer.toHexString(" + m.name
+						+ ").toUpperCase() + \")");
 			}
-
+			out.println(", \";");
 		}
 		out.println("        return _s;");
 		out.println("    }");
@@ -173,80 +143,66 @@ public class JavaParserGenerator {
 		return expression;
 	}
 
-	boolean hasElementWithAttribute(Element e, String attribute) {
-		NodeList l = e.getChildNodes();
-		for (int i = 0; i < l.getLength(); ++i) {
-			Node n = l.item(i);
-			if (n instanceof Element && ((Element) n).hasAttribute(attribute)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	void printStructureMemberParser(PrintWriter out, Element e) {
+	void printStructureMemberParser(PrintWriter out, Member m) {
 		String s = "        ";
-		String condition = prependStructureToExpression(e
-				.getAttribute("condition"), "_s");
-		if (condition.length() > 0) {
+		String condition = null;
+		if (m.condition != null) {
+			condition = prependStructureToExpression(m.condition, "_s");
 			s = s + "    ";
 			out.println("        if (" + condition + ") {");
 		}
-		String name = e.getAttribute("name");
-		String type = e.getNodeName();
-		String array = e.getAttribute("array");
-		String count = prependStructureToExpression(e.getAttribute("count"),
-				"_s");
+		String count = null;
+		if (m.count != null) {
+			count = prependStructureToExpression(m.count, "_s");
+		}
 		String parse;
-		if ("type".equals(type)) {
-			parse = "parse" + e.getAttribute("type") + "(in);";
+		if (m.isComplex) {
+			parse = "parse" + m.type + "(in);";
 		} else {
-			parse = "in.read" + type + "();";
+			parse = "in.read" + m.type + "();";
 		}
 
-		if ("choice".equals(type)) {
-			printChoiceParser(out, s, e);
+		if (m.choices != null) {
+			printChoiceParser(out, s, m);
 			return;
 		}
-		if ("".equals(count) && !"".equals(array)) {
+		if (m.isArray && m.count == null) {
 			// array for which no size is given: parse items until one fails
-			printVariableArrayParser(out, s, e);
+			printVariableArrayParser(out, s, m);
 			return;
 		}
-		if (!"".equals(e.getAttribute("optional"))) {
-			printOptionalMemberParser(out, s, e);
+		if (m.isOptional) {
+			printOptionalMemberParser(out, s, m);
 			return;
 		}
-		if (count.length() > 0) {
+		if (count != null) {
 			out.println(s + "_c = " + count + ";");
 		}
-		out.print(s + "_s." + name + " = ");
-		if (count.length() > 0) {
-			out.println("new " + getTypeName(e) + "[_c];");
+		out.print(s + "_s." + m.name + " = ");
+		if (count != null) {
+			out.println("new " + getTypeName(m) + "[_c];");
 			out.println(s + "for (int _i=0; _i<_c; ++_i) {");
-			out.println(s + "    _s." + name + "[_i] = " + parse);
-			printLimitationCheck(out, "            ", "_s." + name + "[_i]", e);
+			out.println(s + "    _s." + m.name + "[_i] = " + parse);
+			printLimitationCheck(out, "            ", "_s." + m.name + "[_i]",
+					m);
 			out.println(s + "}");
 		} else {
 			out.println(parse);
-			printLimitationCheck(out, "        ", "_s." + name, e);
+			printLimitationCheck(out, "        ", "_s." + m.name, m);
 		}
-		if (condition.length() > 0) {
+		if (condition != null) {
 			out.println("        }");
 		}
 	}
 
-	void printChoiceParser(PrintWriter out, String s, Element e) {
-		String name = e.getAttribute("name");
+	void printChoiceParser(PrintWriter out, String s, Member m) {
 		String closing = "";
 		String exception = "_x";
 		out.println(s + "Object _m = in.setMark();");
-		NodeList l = e.getElementsByTagName("type");
-		for (int i = 0; i < l.getLength() - 1; ++i) {
-			Element se = (Element) l.item(i);
+		for (int i = 0; i < m.choices.length - 1; ++i) {
 			out.println(s + "try {");
-			out.println(s + "    _s." + name + " = parse"
-					+ se.getAttribute("type") + "(in);");
+			out.println(s + "    _s." + m.name + " = parse" + m.choices[i]
+					+ "(in);");
 			out.println(s + "} catch (IncorrectValueException " + exception
 					+ ") {");
 			out.println(s + "    System.out.println(" + exception
@@ -259,17 +215,14 @@ public class JavaParserGenerator {
 			exception = exception + "x";
 			closing = closing + "}";
 		}
-		Element se = (Element) l.item(l.getLength() - 1);
-		out.println(s + "    _s." + name + " = parse" + se.getAttribute("type")
-				+ "(in);");
+		out.println(s + "    _s." + m.name + " = parse"
+				+ m.choices[m.choices.length - 1] + "(in);");
 		out.println(s + closing + " finally {");
 		out.println(s + "    in.releaseMark(_m);");
 		out.println(s + "}");
 	}
 
-	void printVariableArrayParser(PrintWriter out, String s, Element e) {
-		String type = e.getAttribute("type");
-		String name = e.getAttribute("name");
+	void printVariableArrayParser(PrintWriter out, String s, Member m) {
 		out.println(s + "boolean _atend = false;");
 		out.println(s + "int i=0;");
 		out.println(s + "while (!_atend) {");
@@ -278,8 +231,8 @@ public class JavaParserGenerator {
 						+ "    System.out.println(\"round \"+(i++) + \" \" + in.getPosition());");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
-		out.println(s + "        " + type + " _t = parse" + type + "(in);");
-		out.println(s + "        _s." + name + ".add(_t);");
+		out.println(s + "        " + m.type + " _t = parse" + m.type + "(in);");
+		out.println(s + "        _s." + m.name + ".add(_t);");
 		out.println(s + "    } catch(IncorrectValueException _e) {");
 		out
 				.println(s
@@ -295,12 +248,10 @@ public class JavaParserGenerator {
 		out.println(s + "}");
 	}
 
-	void printOptionalMemberParser(PrintWriter out, String s, Element e) {
-		String type = e.getAttribute("type");
-		String name = e.getAttribute("name");
+	void printOptionalMemberParser(PrintWriter out, String s, Member m) {
 		out.println(s + "_m = in.setMark();");
 		out.println(s + "try {");
-		out.println(s + "    _s." + name + " = parse" + type + "(in);");
+		out.println(s + "    _s." + m.name + " = parse" + m.type + "(in);");
 		out.println(s + "} catch(IncorrectValueException _e) {");
 		out
 				.println(s
@@ -313,21 +264,19 @@ public class JavaParserGenerator {
 		out.println(s + "}");
 	}
 
-	void printLimitationCheck(PrintWriter out, String s, String name, Element e) {
-		NodeList l = e.getElementsByTagName("limitation");
-		for (int i = 0; i < l.getLength(); ++i) {
-			Element se = (Element) l.item(i);
-			String mname = se.getAttribute("name");
+	void printLimitationCheck(PrintWriter out, String s, String name, Member m) {
+		for (Limitation l : m.limitations) {
+			String mname = l.name;
 			if (!"".equals(mname)) {
 				mname = name + "." + mname;
 			} else {
 				mname = name;
 			}
-			String condition = se.getAttribute("expression");
-			if ("".equals(condition)) {
-				condition = getCondition(mname, se);
+			String condition;
+			if (l.expression == null) {
+				condition = getCondition(mname, l);
 			} else {
-				condition = getExpression(mname, condition);
+				condition = getExpression(mname, l.expression);
 			}
 
 			out.println(s + "if (!(" + condition + ")) {");
@@ -353,16 +302,8 @@ public class JavaParserGenerator {
 		return structure + expression;
 	}
 
-	String getCondition(String name, Element e) {
-		String maxValue = e.getAttribute("maxValue");
-		if (!"".equals(maxValue)) {
-			return name + " <= " + maxValue;
-		}
-		String minValue = e.getAttribute("minValue");
-		if (!"".equals(minValue)) {
-			return name + " >= " + minValue;
-		}
-		String value = e.getAttribute("value");
+	String getCondition(String name, Limitation l) {
+		String value = l.value;
 		String cmp = " == ";
 		String cmb = " || ";
 		if (value.startsWith("!")) {
@@ -378,9 +319,6 @@ public class JavaParserGenerator {
 			}
 			return c;
 		}
-		if (!"".equals(value)) {
-			return name + cmp + value;
-		}
-		return e.getAttribute("value");
+		return name + cmp + value;
 	}
 }
