@@ -7,5 +7,5 @@ SET(QT_USE_QTXML 1)
 SET(QT_USE_QTXMLPATTERNS 1)
 INCLUDE(${QT_USE_FILE})
 
-ADD_EXECUTABLE(qtpptxml qtpptxml.cpp deepfiletree.cpp pole.cpp)
+ADD_EXECUTABLE(qtpptxml qtpptxml.cpp deepfiletree.cpp pole.cpp leinputstream.cpp)
 TARGET_LINK_LIBRARIES(qtpptxml ${QT_LIBRARIES})
