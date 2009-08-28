@@ -210,7 +210,7 @@ public class ParserGeneratorUtils {
 		Map<Integer, String> map = new HashMap<Integer, String>();
 
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "/mso/struct/type/limitation[@name='recType']";
+		String expression = "/mso/struct/type[@name='rh']/limitation[@name='recType']";
 		NodeList list = (NodeList) xpath.evaluate(expression, dom,
 				XPathConstants.NODESET);
 
