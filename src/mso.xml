@@ -1523,9 +1523,154 @@
 	<struct name="TODOS">
 		<type name="anon" type="TODO" array="true" />
 	</struct>
+	<struct name="WordDocument">
+		<type name="fib" type="Fib" />
+	</struct>
+	<struct name="Fib">
+		<type name="base" type="FibBase" />
+		<uint16 name="csw">
+			<limitation value="14" />
+		</uint16>
+		<type name="fibRgW" type="FibRgW97" />
+		<uint16 name="cslw">
+			<limitation value="22" />
+		</uint16>
+		<type name="fibRgLw" type="FibRgLw97" />
+		<uint16 name="cbRgFcLcb">
+			<limitation value="0x5D|0x6C|0x88|0xA4|0xB7" />
+		</uint16>
+		<uint8 name="fibRgFcLcbBlob" count="8*cbRgFcLcb" />
+		<!-- 
+		<type name="fibRgFcLcbBlob" type="FibRgFcLcb" /> -->
+		<uint16 name="cswNew">
+			<limitation value="0|2|5" />
+		</uint16>
+		<uint8 name="fibRgCswNew" count="2*cswNew" />
+		<!--  <type name="fibRgCswNew" type="fibRgCswNew" />-->
+		<uint8 name="trail" count="fibRgLw.cbMac-156-8*cbRgFcLcb-2*cswNew" />
+	</struct>
+	<struct name="FibBase">
+		<uint16 name="wIdent">
+			<limitation value="0xA5EC" />
+		</uint16>
+		<uint16 name="nFib">
+			<limitation value="0xC0|0xC1|0xC2|0x101|0x10B|0x10C|0x112" />
+		</uint16>
+		<uint16 name="unused" />
+		<uint16 name="lid" />
+		<uint16 name="pnNext" />
+		<bit name="fDot" />
+		<bit name="fGlsy" />
+		<bit name="fComplex" />
+		<bit name="fHasPic" />
+		<uint4 name="cQuickSaves" />
+		<bit name="fEncrypted" />
+		<bit name="fWhichTblStm" />
+		<bit name="fReadOnlyRecommended" />
+		<bit name="fWriteReservation" />
+		<bit name="fExtChar" />
+		<bit name="fLoadOverride" />
+		<bit name="fFarEast" />
+		<bit name="fObfuscated" />
+		<uint16 name="nFibBack">
+			<limitation value="0xBF|0xC1" />
+		</uint16>
+		<uint32 name="IKey" />
+		<uint8 name="envr">
+			<limitation value="0" />
+		</uint8>
+		<bit name="fMac">
+			<limitation value="false" />
+		</bit>
+		<bit name="fEmptySpecial" />
+		<bit name="fLoadOverridePage" />
+		<bit name="reserved1" />
+		<bit name="reserved2" />
+		<uint3 name="fSpare0" />
+		<uint16 name="reserved3">
+			<limitation value="0" />
+		</uint16>
+		<uint16 name="reserved4">
+			<limitation value="0" />
+		</uint16>
+		<uint32 name="reserved5" />
+		<uint32 name="reserved6" />
+	</struct>
+	<struct name="FibRgW97">
+		<uint16 name="reserved1" />
+		<uint16 name="reserved2" />
+		<uint16 name="reserved3" />
+		<uint16 name="reserved4" />
+		<uint16 name="reserved5" />
+		<uint16 name="reserved6" />
+		<uint16 name="reserved7" />
+		<uint16 name="reserved8" />
+		<uint16 name="reserved9" />
+		<uint16 name="reserved10" />
+		<uint16 name="reserved11" />
+		<uint16 name="reserved12" />
+		<uint16 name="reserved13" />
+		<uint16 name="lidFE" />
+	</struct>
+	<struct name="FibRgLw97">
+		<uint32 name="cbMac" />
+		<uint32 name="reserved1" />
+		<uint32 name="reserved2" />
+		<int32 name="ccpText">
+			<limitation expression="&gt;=0" />
+		</int32>
+		<int32 name="ccpFtn">
+			<limitation expression="&gt;=0" />
+		</int32>
+		<int32 name="ccpHdd">
+			<limitation expression="&gt;=0" />
+		</int32>
+		<uint32 name="reserved3">
+			<limitation value="0" />
+		</uint32>
+		<int32 name="ccpAtn">
+			<limitation expression="&gt;=0" />
+		</int32>
+		<int32 name="ccpEdn">
+			<limitation expression="&gt;=0" />
+		</int32>
+		<int32 name="ccpTxbx">
+			<limitation expression="&gt;=0" />
+		</int32>
+		<int32 name="ccpHdrTxbx">
+			<limitation expression="&gt;=0" />
+		</int32>
+		<uint32 name="reserved4" />
+		<uint32 name="reserved5" />
+		<uint32 name="reserved6" />
+		<uint32 name="reserved7" />
+		<uint32 name="reserved8" />
+		<uint32 name="reserved9" />
+		<uint32 name="reserved10" />
+		<uint32 name="reserved11" />
+		<uint32 name="reserved12" />
+		<uint32 name="reserved13">
+			<limitation value="0" />
+		</uint32>
+		<uint32 name="reserved14">
+			<limitation value="0" />
+		</uint32>
+	</struct>
+	<struct name="FibRgFcLcb">
+		<type name="anon" type="FibRgFcLcb2002" />
+		<!--  todo: implement other FibRgFcLcbs -->
+	</struct>
+	<struct name="FibRgFcLcb97">
+	</struct>
+	<struct name="FibRgFcLcb2000">
+		<type name="rgFcLcb97" type="FibRgFcLcb97" />
+	</struct>
+	<struct name="FibRgFcLcb2002">
+		<type name="rgFcLcb2000" type="FibRgFcLcb2000" />
+	</struct>
 	<stream name="PowerPointDocument" key="PowerPoint Document"
 		type="PowerPointStructs" />
 	<stream name="CurrentUser" key="Current User" type="CurrentUserStream" />
 	<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
-
+	<stream name="WordDocument" key="WordDocument" type="WordDocument" />
 </mso>
