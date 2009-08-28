@@ -3,9 +3,16 @@ package mso.generator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -196,6 +203,31 @@ public class ParserGeneratorUtils {
 			}
 		}
 		return false;
+	}
+
+	static Map<Integer, String> getRecordTypeNames(Document dom)
+			throws XPathExpressionException {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "/mso/struct/type/limitation[@name='recType']";
+		NodeList list = (NodeList) xpath.evaluate(expression, dom,
+				XPathConstants.NODESET);
+
+		for (int i = 0; i < list.getLength(); ++i) {
+			Element e = (Element) list.item(i);
+			String type = e.getAttribute("value").replace("0x", "");
+			for (String s : type.split("\\|")) {
+				int typeNumber = Integer.parseInt(s, 16);
+				String name = ((Element) e.getParentNode().getParentNode())
+						.getAttribute("name");
+				if (map.containsKey(typeNumber)) {
+					name = map.get(typeNumber) + "/" + name;
+				}
+				map.put(typeNumber, name);
+			}
+		}
+		return map;
 	}
 
 }

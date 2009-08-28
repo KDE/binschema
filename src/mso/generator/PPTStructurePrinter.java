@@ -3,6 +3,9 @@ package mso.generator;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import mso.javaparser.LEInputStream;
 
@@ -11,20 +14,29 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.Entry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.w3c.dom.Document;
 
 public class PPTStructurePrinter {
 
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) throws IOException {
-		String testfile = "tests/data/Important.ppt";
+	public static void main(String[] args) throws Exception {
+		final String xmlfilename = "src/mso.xml";
+		String testfile = "tests/data/charttest.ppt";
 		PPTStructurePrinter p = new PPTStructurePrinter();
-		p.parse(testfile);
+
+		final Document dom = DocumentBuilderFactory.newInstance()
+				.newDocumentBuilder().parse(xmlfilename);
+		Map<Integer, String> recordTypeNames = ParserGeneratorUtils
+				.getRecordTypeNames(dom);
+
+		p.parse(testfile, recordTypeNames);
 	}
 
 	@SuppressWarnings("unchecked")
-	public void parse(String filepath) throws IOException {
+	public void parse(String filepath, Map<Integer, String> recordTypeNames)
+			throws IOException {
 		POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(filepath));
 		DirectoryEntry root = fs.getRoot();
 
@@ -41,7 +53,7 @@ public class PPTStructurePrinter {
 						+ " of length " + e.getSize());
 				try {
 					while (le.getPosition() != e.getSize()) {
-						printStructure(le, 0);
+						printStructure(le, 0, recordTypeNames);
 					}
 				} catch (IOException ex) {
 					System.out.println("abrupt end");
@@ -50,7 +62,8 @@ public class PPTStructurePrinter {
 		}
 	}
 
-	void printStructure(LEInputStream in, int depth) throws IOException {
+	void printStructure(LEInputStream in, int depth,
+			Map<Integer, String> recordTypeNames) throws IOException {
 		int recVer = in.readuint4();
 		int recInstance = in.readuint12();
 		int recType = in.readuint16();
@@ -60,8 +73,10 @@ public class PPTStructurePrinter {
 		String hextype = Integer.toHexString(recType).toUpperCase();
 
 		String t = "\t\t";
+		String name = recordTypeNames.containsKey(recType) ? recordTypeNames
+				.get(recType) : "";
 		System.out.println(depth + t + recVer + t + hexinstance + t + hextype
-				+ t + recLen + t + in.getPosition());
+				+ t + recLen + t + in.getPosition() + t + name);
 		if (recVer == 0xF) {
 			int end = in.getPosition() + recLen;
 			while (in.getPosition() != end) {
@@ -70,7 +85,7 @@ public class PPTStructurePrinter {
 					System.out.println(msg);
 					throw new IOException(msg);
 				}
-				printStructure(in, depth + 1);
+				printStructure(in, depth + 1, recordTypeNames);
 			}
 		} else {
 			for (int i = 0; i < recLen; ++i) {
