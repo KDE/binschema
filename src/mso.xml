@@ -1928,9 +1928,130 @@
 		<uint32 name="fcPlcffactoid" />
 		<uint32 name="lcbPlcffactoid" />
 	</struct>
+	<struct name="Table">
+		<type name="stsh" type="STSH" size="468" />
+		<type name="plcfSed" type="PlcfSed" size="20" />
+		<!--
+			size should be gotten from lcbPlcfSed
+		-->
+		<type name="plcfHdd" type="Plcfhdd" size="52" />
+		<type name="plcfBteChpx" type="PlcBteChpx" size="12" />
+		<type name="plcfBtePapx" type="PlcfBtePapx" size="12" />
+		<type name="cmds" type="Tcg" size="12" />
+		<type name="clx" type="Clx" size="21" />
+		<uint8 name="sttbfFfn" count="246" />
+		<uint8 name="dop" count="600" />
+	</struct>
+	<struct name="STSH">
+		<type name="lpstshi" type="LPStshi" />
+		<type name="rglpstd" type="LPStd" count="20" />
+	</struct>
+	<struct name="LPStshi">
+		<uint16 name="cbSthi" />
+		<uint8 name="stshi" count="cbSthi" />
+	</struct>
+	<struct name="LPStd">
+		<uint16 name="cbStd" />
+		<uint8 name="std" count="cbStd" />
+		<uint8 name="padding" condition="cbStd%2==1" />
+	</struct>
+	<struct name="PlcfSed">
+		<uint32 name="aCP" count="2" />
+		<type name="aSed" type="Sed" count="1" />
+	</struct>
+	<struct name="Sed">
+		<uint16 name="fn" />
+		<int32 name="fcSepx" />
+		<uint16 name="fnMpr" />
+		<uint32 name="fcMpr" />
+	</struct>
+	<struct name="Plcfhdd">
+		<uint32 name="aCP" count="13" />
+	</struct>
+	<struct name="PlcBteChpx">
+		<uint32 name="aCP" count="2" />
+		<uint32 name="aPnBteChpx" count="1" />
+	</struct>
+	<struct name="PlcfBtePapx">
+		<uint32 name="aCP" count="2" />
+		<uint32 name="aPnBteChpx" count="1" />
+	</struct>
+	<struct name="Tcg">
+		<uint8 name="nTcgVer">
+			<limitation value="0" />
+		</uint8>
+		<uint8 name="todo" count="11" />
+	</struct>
+	<struct name="Clx">
+		<type name="RgPrc" type="Pcr" array="true" />
+		<type name="pcdt" type="Pcdt" />
+	</struct>
+	<struct name="Pcr">
+		<uint8 name="clxt">
+			<limitation value="1" />
+		</uint8>
+		<type name="prcData" type="PrcData" />
+	</struct>
+	<struct name="PrcData">
+		<int16 name="cbGrpprl">
+			<limitation expression="&gt;=0" />
+			<limitation expression="&lt;=16290" />
+			<limitation expression="%2==0" />
+		</int16>
+		<type name="GrpPrl" type="Sprm" count="cbGrpprl/2" />
+	</struct>
+	<struct name="Sprm">
+		<uint9 name="ispmd" />
+		<bit name="fSpec" />
+		<uint3 name="sgc" />
+		<uint3 name="spra" />
+	</struct>
+	<struct name="Pcdt">
+		<uint8 name="clxt">
+			<limitation value="2" />
+		</uint8>
+		<uint32 name="lcb" />
+		<type name="PlcPcd" type="Pcd" count="lcb/8" />
+	</struct>
+	<struct name="Pcd">
+		<bit name="fNoParaLast" />
+		<bit name="fR1" />
+		<bit name="fDirtly">
+			<limitation value="false" />
+		</bit>
+		<bit name="fR2" />
+		<uint12 name="fR3" />
+		<type name="fc" type="FCompressed" />
+		<type name="prm" type="Prm" />
+	</struct>
+	<struct name="FCompressed">
+		<uint30 name="fc" />
+		<bit name="fCompressed" />
+		<bit name="r1" />
+	</struct>
+	<struct name="Prm">
+		<choice name="prm">
+			<type type="Prm0" />
+			<type type="Prm1" />
+		</choice>
+	</struct>
+	<struct name="Prm0">
+		<bit name="fComplex">
+			<limitation value="false" />
+		</bit>
+		<uint7 name="isprm" />
+		<uint8 name="val" />
+	</struct>
+	<struct name="Prm1">
+		<bit name="fComplex">
+			<limitation value="true" />
+		</bit>
+		<uint15 name="igrpprl" />
+	</struct>
 	<stream name="PowerPointDocument" key="PowerPoint Document"
 		type="PowerPointStructs" />
 	<stream name="CurrentUser" key="Current User" type="CurrentUserStream" />
 	<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
 	<stream name="WordDocument" key="WordDocument" type="WordDocument" />
+	<stream name="1Table" key="1Table" type="Table" />
 </mso>

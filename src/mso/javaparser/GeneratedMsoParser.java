@@ -8,6 +8,10 @@ public class GeneratedMsoParser {
             parseCurrentUserStream(in);
         } else if ("Pictures".equals(key)) {
             parseOfficeArtBStoreDelay(in);
+        } else if ("WordDocument".equals(key)) {
+            parseWordDocument(in);
+        } else if ("1Table".equals(key)) {
+            parseTable(in);
         } else {
             parseTODOS(in);
         }
@@ -1803,6 +1807,594 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    FibBase parseFibBase(LEInputStream in) throws IOException  {
+        FibBase _s = new FibBase();
+        _s.wIdent = in.readuint16();
+        if (!(_s.wIdent == 0xA5EC)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.wIdent == 0xA5EC for value " + String.valueOf(_s.wIdent) );
+        }
+        _s.nFib = in.readuint16();
+        if (!(_s.nFib == 0xC0 || _s.nFib == 0xC1 || _s.nFib == 0xC2 || _s.nFib == 0x101 || _s.nFib == 0x10B || _s.nFib == 0x10C || _s.nFib == 0x112)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.nFib == 0xC0 || _s.nFib == 0xC1 || _s.nFib == 0xC2 || _s.nFib == 0x101 || _s.nFib == 0x10B || _s.nFib == 0x10C || _s.nFib == 0x112 for value " + String.valueOf(_s.nFib) );
+        }
+        _s.unused = in.readuint16();
+        _s.lid = in.readuint16();
+        _s.pnNext = in.readuint16();
+        _s.fDot = in.readbit();
+        _s.fGlsy = in.readbit();
+        _s.fComplex = in.readbit();
+        _s.fHasPic = in.readbit();
+        _s.cQuickSaves = in.readuint4();
+        _s.fEncrypted = in.readbit();
+        _s.fWhichTblStm = in.readbit();
+        _s.fReadOnlyRecommended = in.readbit();
+        _s.fWriteReservation = in.readbit();
+        _s.fExtChar = in.readbit();
+        _s.fLoadOverride = in.readbit();
+        _s.fFarEast = in.readbit();
+        _s.fObfuscated = in.readbit();
+        _s.nFibBack = in.readuint16();
+        if (!(_s.nFibBack == 0xBF || _s.nFibBack == 0xC1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.nFibBack == 0xBF || _s.nFibBack == 0xC1 for value " + String.valueOf(_s.nFibBack) );
+        }
+        _s.IKey = in.readuint32();
+        _s.envr = in.readuint8();
+        if (!(_s.envr == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.envr == 0 for value " + String.valueOf(_s.envr) );
+        }
+        _s.fMac = in.readbit();
+        if (!(_s.fMac == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.fMac == false for value " + String.valueOf(_s.fMac) );
+        }
+        _s.fEmptySpecial = in.readbit();
+        _s.fLoadOverridePage = in.readbit();
+        _s.reserved1 = in.readbit();
+        _s.reserved2 = in.readbit();
+        _s.fSpare0 = in.readuint3();
+        _s.reserved3 = in.readuint16();
+        if (!(_s.reserved3 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved3 == 0 for value " + String.valueOf(_s.reserved3) );
+        }
+        _s.reserved4 = in.readuint16();
+        if (!(_s.reserved4 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved4 == 0 for value " + String.valueOf(_s.reserved4) );
+        }
+        _s.reserved5 = in.readuint32();
+        _s.reserved6 = in.readuint32();
+        return _s;
+    }
+    FibRgW97 parseFibRgW97(LEInputStream in) throws IOException  {
+        FibRgW97 _s = new FibRgW97();
+        _s.reserved1 = in.readuint16();
+        _s.reserved2 = in.readuint16();
+        _s.reserved3 = in.readuint16();
+        _s.reserved4 = in.readuint16();
+        _s.reserved5 = in.readuint16();
+        _s.reserved6 = in.readuint16();
+        _s.reserved7 = in.readuint16();
+        _s.reserved8 = in.readuint16();
+        _s.reserved9 = in.readuint16();
+        _s.reserved10 = in.readuint16();
+        _s.reserved11 = in.readuint16();
+        _s.reserved12 = in.readuint16();
+        _s.reserved13 = in.readuint16();
+        _s.lidFE = in.readuint16();
+        return _s;
+    }
+    FibRgLw97 parseFibRgLw97(LEInputStream in) throws IOException  {
+        FibRgLw97 _s = new FibRgLw97();
+        _s.cbMac = in.readuint32();
+        _s.reserved1 = in.readuint32();
+        _s.reserved2 = in.readuint32();
+        _s.ccpText = in.readint32();
+        if (!(_s.ccpText>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.ccpText>=0 for value " + String.valueOf(_s.ccpText) );
+        }
+        _s.ccpFtn = in.readint32();
+        if (!(_s.ccpFtn>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.ccpFtn>=0 for value " + String.valueOf(_s.ccpFtn) );
+        }
+        _s.ccpHdd = in.readint32();
+        if (!(_s.ccpHdd>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.ccpHdd>=0 for value " + String.valueOf(_s.ccpHdd) );
+        }
+        _s.reserved3 = in.readuint32();
+        if (!(_s.reserved3 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved3 == 0 for value " + String.valueOf(_s.reserved3) );
+        }
+        _s.ccpAtn = in.readint32();
+        if (!(_s.ccpAtn>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.ccpAtn>=0 for value " + String.valueOf(_s.ccpAtn) );
+        }
+        _s.ccpEdn = in.readint32();
+        if (!(_s.ccpEdn>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.ccpEdn>=0 for value " + String.valueOf(_s.ccpEdn) );
+        }
+        _s.ccpTxbx = in.readint32();
+        if (!(_s.ccpTxbx>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.ccpTxbx>=0 for value " + String.valueOf(_s.ccpTxbx) );
+        }
+        _s.ccpHdrTxbx = in.readint32();
+        if (!(_s.ccpHdrTxbx>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.ccpHdrTxbx>=0 for value " + String.valueOf(_s.ccpHdrTxbx) );
+        }
+        _s.reserved4 = in.readuint32();
+        _s.reserved5 = in.readuint32();
+        _s.reserved6 = in.readuint32();
+        _s.reserved7 = in.readuint32();
+        _s.reserved8 = in.readuint32();
+        _s.reserved9 = in.readuint32();
+        _s.reserved10 = in.readuint32();
+        _s.reserved11 = in.readuint32();
+        _s.reserved12 = in.readuint32();
+        _s.reserved13 = in.readuint32();
+        if (!(_s.reserved13 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved13 == 0 for value " + String.valueOf(_s.reserved13) );
+        }
+        _s.reserved14 = in.readuint32();
+        if (!(_s.reserved14 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved14 == 0 for value " + String.valueOf(_s.reserved14) );
+        }
+        return _s;
+    }
+    FibRgFcLcb97 parseFibRgFcLcb97(LEInputStream in) throws IOException  {
+        FibRgFcLcb97 _s = new FibRgFcLcb97();
+        _s.fcStshfOrig = in.readuint32();
+        _s.lcbStshfOrig = in.readuint32();
+        _s.fcStshf = in.readuint32();
+        _s.lcbStshf = in.readuint32();
+        _s.fcPlcffndRef = in.readuint32();
+        _s.lcbPlcffndRef = in.readuint32();
+        _s.fcPlcffndTxt = in.readuint32();
+        _s.lcbPlcffndTxt = in.readuint32();
+        _s.fcPlcfandRef = in.readuint32();
+        _s.lcbPlcfandRef = in.readuint32();
+        _s.fcPlcfandTxt = in.readuint32();
+        _s.lcbPlcfandTxt = in.readuint32();
+        _s.fcPlcfSed = in.readuint32();
+        _s.lcbPlcfSed = in.readuint32();
+        _s.fcPlcPad = in.readuint32();
+        _s.lcbPlcPad = in.readuint32();
+        _s.fcPlcfPhe = in.readuint32();
+        _s.lcbPlcfPhe = in.readuint32();
+        _s.fcSttbfGlsy = in.readuint32();
+        _s.lcbSttbfGlsy = in.readuint32();
+        _s.fcPlcfGlsy = in.readuint32();
+        _s.lcbPlcfGlsy = in.readuint32();
+        _s.fcPlcfHdd = in.readuint32();
+        _s.lcbPlcfHdd = in.readuint32();
+        _s.fcPlcfBteChpx = in.readuint32();
+        _s.lcbPlcfBteChpx = in.readuint32();
+        _s.fcPlcfBtePapx = in.readuint32();
+        _s.lcbPlcfBtePapx = in.readuint32();
+        _s.fcPlcfSea = in.readuint32();
+        _s.lcbPlcfSea = in.readuint32();
+        _s.fcSttbfFfn = in.readuint32();
+        _s.lcbSttbfFfn = in.readuint32();
+        _s.fcPlcfFldMom = in.readuint32();
+        _s.lcbPlcfFldMom = in.readuint32();
+        _s.fcPlcfFldHdr = in.readuint32();
+        _s.lcbPlcfFldHdr = in.readuint32();
+        _s.fcPlcfFldFtn = in.readuint32();
+        _s.lcbPlcfFldFtn = in.readuint32();
+        _s.fcPlcfFldAtn = in.readuint32();
+        _s.lcbPlcfFldAtn = in.readuint32();
+        _s.fcPlcfFldMcr = in.readuint32();
+        _s.lcbPlcfFldMcr = in.readuint32();
+        _s.fcSttbfBkmk = in.readuint32();
+        _s.lcbSttbfBkmk = in.readuint32();
+        _s.fcPlcfBkf = in.readuint32();
+        _s.lcbPlcfBkf = in.readuint32();
+        _s.fcPlcfBkl = in.readuint32();
+        _s.lcbPlcfBkl = in.readuint32();
+        _s.fcCmds = in.readuint32();
+        _s.lcbCmds = in.readuint32();
+        _s.fcUnused1 = in.readuint32();
+        _s.lcbUnused1 = in.readuint32();
+        _s.fcSttbfMcr = in.readuint32();
+        _s.lcbSttbfMcr = in.readuint32();
+        _s.fcPrDrvr = in.readuint32();
+        _s.lcbPrDrvr = in.readuint32();
+        _s.fcPrEnvPort = in.readuint32();
+        _s.lcbPrEnvPort = in.readuint32();
+        _s.fcPrEnvLand = in.readuint32();
+        _s.lcbPrEnvLand = in.readuint32();
+        _s.fcWss = in.readuint32();
+        _s.lcbWss = in.readuint32();
+        _s.fcDop = in.readuint32();
+        _s.lcbDop = in.readuint32();
+        _s.fcSttbfAssoc = in.readuint32();
+        _s.lcbSttbfAssoc = in.readuint32();
+        _s.fcClx = in.readuint32();
+        _s.lcbClx = in.readuint32();
+        _s.fcPlcfPgdFtn = in.readuint32();
+        _s.lcbPlcfPgdFtn = in.readuint32();
+        _s.fcAutosaveSource = in.readuint32();
+        _s.lcbAutosaveSource = in.readuint32();
+        _s.fcGrpXstAtnOwners = in.readuint32();
+        _s.lcbGrpXstAtnOwners = in.readuint32();
+        _s.fcSttbfAtnBkmk = in.readuint32();
+        _s.lcbSttbfAtnBkmk = in.readuint32();
+        _s.fcUnused2 = in.readuint32();
+        _s.lcbUnused2 = in.readuint32();
+        _s.fcUnused3 = in.readuint32();
+        _s.lcbUnused3 = in.readuint32();
+        _s.fcPlcSpaMom = in.readuint32();
+        _s.lcbPlcSpaMom = in.readuint32();
+        _s.fcPlcSpaHdr = in.readuint32();
+        _s.lcbPlcSpaHdr = in.readuint32();
+        _s.fcPlcfAtnBkf = in.readuint32();
+        _s.lcbPlcfAtnBkf = in.readuint32();
+        _s.fcPlcfAtnBkl = in.readuint32();
+        _s.lcbPlcfAtnBkl = in.readuint32();
+        _s.fcPms = in.readuint32();
+        _s.lcbPms = in.readuint32();
+        _s.fcFormFldSttbs = in.readuint32();
+        _s.lcbFormFldSttbs = in.readuint32();
+        _s.fcPlcfendRef = in.readuint32();
+        _s.lcbPlcfendRef = in.readuint32();
+        _s.fcPlcfendTxt = in.readuint32();
+        _s.lcbPlcfendTxt = in.readuint32();
+        _s.fcPlcfFldEdn = in.readuint32();
+        _s.lcbPlcfFldEdn = in.readuint32();
+        _s.fcUnused4 = in.readuint32();
+        _s.lcbUnused4 = in.readuint32();
+        _s.fcDggInfo = in.readuint32();
+        _s.lcbDggInfo = in.readuint32();
+        _s.fcSttbfRMark = in.readuint32();
+        _s.lcbSttbfRMark = in.readuint32();
+        _s.fcSttbfCaption = in.readuint32();
+        _s.lcbSttbfCaption = in.readuint32();
+        _s.fcSttbfAutoCaption = in.readuint32();
+        _s.lcbSttbfAutoCaption = in.readuint32();
+        _s.fcPlcfWkb = in.readuint32();
+        _s.lcbPlcfWkb = in.readuint32();
+        _s.fcPlcfSpl = in.readuint32();
+        _s.lcbPlcfSpl = in.readuint32();
+        _s.fcPlcftxbxTxt = in.readuint32();
+        _s.lcbPlcftxbxTxt = in.readuint32();
+        _s.fcPlcfFldTxbx = in.readuint32();
+        _s.lcbPlcfFldTxbx = in.readuint32();
+        _s.fcPlcfHdrtxbxTxt = in.readuint32();
+        _s.lcbPlcfHdrtxbxTxt = in.readuint32();
+        _s.fcPlcffldHdrTxbx = in.readuint32();
+        _s.lcbPlcffldHdrTxbx = in.readuint32();
+        _s.fcStwUser = in.readuint32();
+        _s.lcbStwUser = in.readuint32();
+        _s.fcSttbTtmbd = in.readuint32();
+        _s.lcbSttbTtmbd = in.readuint32();
+        _s.fcCookieData = in.readuint32();
+        _s.lcbCookieData = in.readuint32();
+        _s.fcPgdMotherOldOld = in.readuint32();
+        _s.lcbPgdMotherOldOld = in.readuint32();
+        _s.fcBkdMotherOldOld = in.readuint32();
+        _s.lcbBkdMotherOldOld = in.readuint32();
+        _s.fcPgdFtnOldOld = in.readuint32();
+        _s.lcbPgdFtnOldOld = in.readuint32();
+        _s.fcBkdFtnOldOld = in.readuint32();
+        _s.lcbBkdFtnOldOld = in.readuint32();
+        _s.fcPgdEdnOldOld = in.readuint32();
+        _s.lcbPgdEdnOldOld = in.readuint32();
+        _s.fcBkdEdnOldOld = in.readuint32();
+        _s.lcbBkdEdnOldOld = in.readuint32();
+        _s.fcSttbfIntlFld = in.readuint32();
+        _s.lcbSttbfIntlFld = in.readuint32();
+        _s.fcRouteSlip = in.readuint32();
+        _s.lcbRouteSlip = in.readuint32();
+        _s.fcSttbSavedBy = in.readuint32();
+        _s.lcbSttbSavedBy = in.readuint32();
+        _s.fcSttbFnm = in.readuint32();
+        _s.lcbSttbFnm = in.readuint32();
+        _s.fcPlfLst = in.readuint32();
+        _s.lcbPlfLst = in.readuint32();
+        _s.fcPlfLfo = in.readuint32();
+        _s.lcbPlfLfo = in.readuint32();
+        _s.fcPlcfTxbxBkd = in.readuint32();
+        _s.lcbPlcfTxbxBkd = in.readuint32();
+        _s.fcPlcfTxbxHdrBkd = in.readuint32();
+        _s.lcbPlcfTxbxHdrBkd = in.readuint32();
+        _s.fcDocUndoWord9 = in.readuint32();
+        _s.lcbDocUndoWord9 = in.readuint32();
+        _s.fcRgbUse = in.readuint32();
+        _s.lcbRgbUse = in.readuint32();
+        _s.fcUsp = in.readuint32();
+        _s.lcbUsp = in.readuint32();
+        _s.fcUskf = in.readuint32();
+        _s.lcbUskf = in.readuint32();
+        _s.fcPlcupcRgbUse = in.readuint32();
+        _s.lcbPlcupcRgbUse = in.readuint32();
+        _s.fcPlcupcUsp = in.readuint32();
+        _s.lcbPlcupcUsp = in.readuint32();
+        _s.fcSttbGlsyStyle = in.readuint32();
+        _s.lcbSttbGlsyStyle = in.readuint32();
+        _s.fcPlgosl = in.readuint32();
+        _s.lcbPlgosl = in.readuint32();
+        _s.fcPlcocx = in.readuint32();
+        _s.lcbPlcocx = in.readuint32();
+        _s.fcPlcfBteLvc = in.readuint32();
+        _s.lcbPlcfBteLvc = in.readuint32();
+        _s.dwLowDateTime = in.readuint32();
+        _s.dwHighDateTime = in.readuint32();
+        _s.fcPlcfLvcPre10 = in.readuint32();
+        _s.lcbPlcfLvcPre10 = in.readuint32();
+        _s.fcPlcfAsumy = in.readuint32();
+        _s.lcbPlcfAsumy = in.readuint32();
+        _s.fcPlcfGram = in.readuint32();
+        _s.lcbPlcfGram = in.readuint32();
+        _s.fcSttbListNames = in.readuint32();
+        _s.lcbSttbListNames = in.readuint32();
+        _s.fcSttbfUssr = in.readuint32();
+        _s.lcbSttbfUssr = in.readuint32();
+        return _s;
+    }
+    FibRgFcLcb2000 parseFibRgFcLcb2000(LEInputStream in) throws IOException  {
+        FibRgFcLcb2000 _s = new FibRgFcLcb2000();
+        _s.fcPlcfTch = in.readuint32();
+        _s.lcbPlcfTch = in.readuint32();
+        _s.fcRmdThreading = in.readuint32();
+        _s.lcbRmdThreading = in.readuint32();
+        _s.fcMid = in.readuint32();
+        _s.lcbMid = in.readuint32();
+        _s.fcSttbRgtplc = in.readuint32();
+        _s.lcbSttbRgtplc = in.readuint32();
+        _s.fcMsoEnvelope = in.readuint32();
+        _s.lcbMsoEnvelope = in.readuint32();
+        _s.fcPlcfLad = in.readuint32();
+        _s.lcbPlcfLad = in.readuint32();
+        _s.fcRgDofr = in.readuint32();
+        _s.lcbRgDofr = in.readuint32();
+        _s.fcPlcosl = in.readuint32();
+        _s.lcbPlcosl = in.readuint32();
+        _s.fcPlcfCookieOld = in.readuint32();
+        _s.lcbPlcfCookieOld = in.readuint32();
+        _s.fcPgdMotherOld = in.readuint32();
+        _s.lcbPgdMotherOld = in.readuint32();
+        _s.fcBkdMotherOld = in.readuint32();
+        _s.lcbBkdMotherOld = in.readuint32();
+        _s.fcPgdFtnOld = in.readuint32();
+        _s.lcbPgdFtnOld = in.readuint32();
+        _s.fcBkdFtnOld = in.readuint32();
+        _s.lcbBkdFtnOld = in.readuint32();
+        _s.fcPgdEdnOld = in.readuint32();
+        _s.lcbPgdEdnOld = in.readuint32();
+        _s.fcBkdEdnOld = in.readuint32();
+        _s.lcbBkdEdnOld = in.readuint32();
+        return _s;
+    }
+    FibRgFcLcb2002 parseFibRgFcLcb2002(LEInputStream in) throws IOException  {
+        FibRgFcLcb2002 _s = new FibRgFcLcb2002();
+        _s.fcUnused1 = in.readuint32();
+        _s.lcbUnused1 = in.readuint32();
+        _s.fcPlcfPgp = in.readuint32();
+        _s.lcbPlcfPgp = in.readuint32();
+        _s.fcPlcfuim = in.readuint32();
+        _s.lcbPlcfuim = in.readuint32();
+        _s.fcPlfguidUim = in.readuint32();
+        _s.lcbPlfguidUim = in.readuint32();
+        _s.fcAtrdExtra = in.readuint32();
+        _s.lcbAtrdExtra = in.readuint32();
+        _s.fcPlrsid = in.readuint32();
+        _s.lcbPlrsid = in.readuint32();
+        _s.fcSttbfBkmkFactoid = in.readuint32();
+        _s.lcbSttbfBkmkFactoid = in.readuint32();
+        _s.fcPlcfBkfFactoid = in.readuint32();
+        _s.lcbPlcfBkfFactoid = in.readuint32();
+        _s.fcPlcfcookie = in.readuint32();
+        _s.lcbPlcfcookie = in.readuint32();
+        _s.fcPlcfBklFactoid = in.readuint32();
+        _s.lcbPlcfBklFactoid = in.readuint32();
+        _s.fcFactoidData = in.readuint32();
+        _s.lcbFactoidData = in.readuint32();
+        _s.fcDocUndo = in.readuint32();
+        _s.lcbDocUndo = in.readuint32();
+        _s.fcSttbfBkmkFcc = in.readuint32();
+        _s.lcbSttbfBkmkFcc = in.readuint32();
+        _s.fcPlcfBkfFcc = in.readuint32();
+        _s.lcbPlcfBkfFcc = in.readuint32();
+        _s.fcPlcfBklFcc = in.readuint32();
+        _s.lcbPlcfBklFcc = in.readuint32();
+        _s.fcSttbfbkmkBPRepairs = in.readuint32();
+        _s.lcbSttbfbkmkBPRepairs = in.readuint32();
+        _s.fcPlcfbkfBPRepairs = in.readuint32();
+        _s.lcbPlcfbkfBPRepairs = in.readuint32();
+        _s.fcPlcfbklBPRepairs = in.readuint32();
+        _s.lcbPlcfbklBPRepairs = in.readuint32();
+        _s.fcPmsNew = in.readuint32();
+        _s.lcbPmsNew = in.readuint32();
+        _s.fcODSO = in.readuint32();
+        _s.lcbODSO = in.readuint32();
+        _s.fcPlcfpmiOldXP = in.readuint32();
+        _s.lcbPlcfpmiOldXP = in.readuint32();
+        _s.fcPlcfpmiNewXP = in.readuint32();
+        _s.lcbPlcfpmiNewXP = in.readuint32();
+        _s.fcPlcfpmiMixedXP = in.readuint32();
+        _s.lcbPlcfpmiMixedXP = in.readuint32();
+        _s.fcUnused2 = in.readuint32();
+        _s.lcbUnused2 = in.readuint32();
+        _s.fcPlcffactoid = in.readuint32();
+        _s.lcbPlcffactoid = in.readuint32();
+        return _s;
+    }
+    LPStshi parseLPStshi(LEInputStream in) throws IOException  {
+        LPStshi _s = new LPStshi();
+        int _c;
+        Object _m;
+        _s.cbSthi = in.readuint16();
+        _c = _s.cbSthi;
+        _s.stshi = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.stshi[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    LPStd parseLPStd(LEInputStream in) throws IOException  {
+        LPStd _s = new LPStd();
+        int _c;
+        Object _m;
+        _s.cbStd = in.readuint16();
+        _c = _s.cbStd;
+        _s.std = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.std[_i] = in.readuint8();
+        }
+        if (_s.cbStd%2==1) {
+            _s.padding = in.readuint8();
+        }
+        return _s;
+    }
+    PlcfSed parsePlcfSed(LEInputStream in) throws IOException  {
+        PlcfSed _s = new PlcfSed();
+        int _c;
+        Object _m;
+        _c = 2;
+        _s.aCP = new int[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.aCP[_i] = in.readuint32();
+        }
+        _c = 1;
+        _s.aSed = new Sed[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.aSed[_i] = parseSed(in);
+        }
+        return _s;
+    }
+    Sed parseSed(LEInputStream in) throws IOException  {
+        Sed _s = new Sed();
+        _s.fn = in.readuint16();
+        _s.fcSepx = in.readint32();
+        _s.fnMpr = in.readuint16();
+        _s.fcMpr = in.readuint32();
+        return _s;
+    }
+    Plcfhdd parsePlcfhdd(LEInputStream in) throws IOException  {
+        Plcfhdd _s = new Plcfhdd();
+        int _c;
+        Object _m;
+        _c = 13;
+        _s.aCP = new int[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.aCP[_i] = in.readuint32();
+        }
+        return _s;
+    }
+    PlcBteChpx parsePlcBteChpx(LEInputStream in) throws IOException  {
+        PlcBteChpx _s = new PlcBteChpx();
+        int _c;
+        Object _m;
+        _c = 2;
+        _s.aCP = new int[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.aCP[_i] = in.readuint32();
+        }
+        _c = 1;
+        _s.aPnBteChpx = new int[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.aPnBteChpx[_i] = in.readuint32();
+        }
+        return _s;
+    }
+    PlcfBtePapx parsePlcfBtePapx(LEInputStream in) throws IOException  {
+        PlcfBtePapx _s = new PlcfBtePapx();
+        int _c;
+        Object _m;
+        _c = 2;
+        _s.aCP = new int[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.aCP[_i] = in.readuint32();
+        }
+        _c = 1;
+        _s.aPnBteChpx = new int[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.aPnBteChpx[_i] = in.readuint32();
+        }
+        return _s;
+    }
+    Tcg parseTcg(LEInputStream in) throws IOException  {
+        Tcg _s = new Tcg();
+        int _c;
+        Object _m;
+        _s.nTcgVer = in.readuint8();
+        if (!(_s.nTcgVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.nTcgVer == 0 for value " + String.valueOf(_s.nTcgVer) );
+        }
+        _c = 11;
+        _s.todo = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.todo[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    PrcData parsePrcData(LEInputStream in) throws IOException  {
+        PrcData _s = new PrcData();
+        int _c;
+        Object _m;
+        _s.cbGrpprl = in.readint16();
+        if (!(_s.cbGrpprl>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.cbGrpprl>=0 for value " + String.valueOf(_s.cbGrpprl) );
+        }
+        if (!(_s.cbGrpprl<=16290)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.cbGrpprl<=16290 for value " + String.valueOf(_s.cbGrpprl) );
+        }
+        if (!(_s.cbGrpprl%2==0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.cbGrpprl%2==0 for value " + String.valueOf(_s.cbGrpprl) );
+        }
+        _c = _s.cbGrpprl/2;
+        _s.GrpPrl = new Sprm[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.GrpPrl[_i] = parseSprm(in);
+        }
+        return _s;
+    }
+    Sprm parseSprm(LEInputStream in) throws IOException  {
+        Sprm _s = new Sprm();
+        _s.ispmd = in.readuint9();
+        _s.fSpec = in.readbit();
+        _s.sgc = in.readuint3();
+        _s.spra = in.readuint3();
+        return _s;
+    }
+    Pcdt parsePcdt(LEInputStream in) throws IOException  {
+        Pcdt _s = new Pcdt();
+        int _c;
+        Object _m;
+        _s.clxt = in.readuint8();
+        if (!(_s.clxt == 2)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.clxt == 2 for value " + String.valueOf(_s.clxt) );
+        }
+        _s.lcb = in.readuint32();
+        _c = _s.lcb/8;
+        _s.PlcPcd = new Pcd[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.PlcPcd[_i] = parsePcd(in);
+        }
+        return _s;
+    }
+    FCompressed parseFCompressed(LEInputStream in) throws IOException  {
+        FCompressed _s = new FCompressed();
+        _s.fc = in.readuint30();
+        _s.fCompressed = in.readbit();
+        _s.r1 = in.readbit();
+        return _s;
+    }
+    Prm0 parsePrm0(LEInputStream in) throws IOException  {
+        Prm0 _s = new Prm0();
+        _s.fComplex = in.readbit();
+        if (!(_s.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.fComplex == false for value " + String.valueOf(_s.fComplex) );
+        }
+        _s.isprm = in.readuint7();
+        _s.val = in.readuint8();
+        return _s;
+    }
+    Prm1 parsePrm1(LEInputStream in) throws IOException  {
+        Prm1 _s = new Prm1();
+        _s.fComplex = in.readbit();
+        if (!(_s.fComplex == true)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.fComplex == true for value " + String.valueOf(_s.fComplex) );
+        }
+        _s.igrpprl = in.readuint15();
+        return _s;
+    }
     PicturesStream parsePicturesStream(LEInputStream in) throws IOException  {
         PicturesStream _s = new PicturesStream();
         _s.anon1 = parseOfficeArtBStoreDelay(in);
@@ -2380,6 +2972,110 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    Fib parseFib(LEInputStream in) throws IOException  {
+        Fib _s = new Fib();
+        int _c;
+        Object _m;
+        _s.base = parseFibBase(in);
+        _s.csw = in.readuint16();
+        if (!(_s.csw == 14)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.csw == 14 for value " + String.valueOf(_s.csw) );
+        }
+        _s.fibRgW = parseFibRgW97(in);
+        _s.cslw = in.readuint16();
+        if (!(_s.cslw == 22)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.cslw == 22 for value " + String.valueOf(_s.cslw) );
+        }
+        _s.fibRgLw = parseFibRgLw97(in);
+        _s.cbRgFcLcb = in.readuint16();
+        if (!(_s.cbRgFcLcb == 0x5D || _s.cbRgFcLcb == 0x6C || _s.cbRgFcLcb == 0x88 || _s.cbRgFcLcb == 0xA4 || _s.cbRgFcLcb == 0xB7)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.cbRgFcLcb == 0x5D || _s.cbRgFcLcb == 0x6C || _s.cbRgFcLcb == 0x88 || _s.cbRgFcLcb == 0xA4 || _s.cbRgFcLcb == 0xB7 for value " + String.valueOf(_s.cbRgFcLcb) );
+        }
+        _s.fibRgFcLcbBlob = parseFibRgFcLcb97(in);
+        if (_s.cbRgFcLcb>=0x6C) {
+            _s.fibRgFcLcbBlob2 = parseFibRgFcLcb2000(in);
+        }
+        if (_s.cbRgFcLcb>=0x88) {
+            _s.fibRgFcLcbBlob3 = parseFibRgFcLcb2002(in);
+        }
+        _s.cswNew = in.readuint16();
+        if (!(_s.cswNew == 0 || _s.cswNew == 2 || _s.cswNew == 5)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.cswNew == 0 || _s.cswNew == 2 || _s.cswNew == 5 for value " + String.valueOf(_s.cswNew) );
+        }
+        _c = 2*_s.cswNew;
+        _s.fibRgCswNew = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.fibRgCswNew[_i] = in.readuint8();
+        }
+        _c = _s.fibRgLw.cbMac-156-8*_s.cbRgFcLcb-2*_s.cswNew;
+        _s.trail = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.trail[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    STSH parseSTSH(LEInputStream in) throws IOException  {
+        STSH _s = new STSH();
+        int _c;
+        Object _m;
+        _s.lpstshi = parseLPStshi(in);
+        _c = 20;
+        _s.rglpstd = new LPStd[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.rglpstd[_i] = parseLPStd(in);
+        }
+        return _s;
+    }
+    Clx parseClx(LEInputStream in) throws IOException  {
+        Clx _s = new Clx();
+        int _c;
+        Object _m;
+        boolean _atend = false;
+        int i=0;
+        while (!_atend) {
+            System.out.println("round "+(i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                Pcr _t = parsePcr(in);
+                _s.RgPrc.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+            }
+        }
+        _s.pcdt = parsePcdt(in);
+        return _s;
+    }
+    Pcr parsePcr(LEInputStream in) throws IOException  {
+        Pcr _s = new Pcr();
+        _s.clxt = in.readuint8();
+        if (!(_s.clxt == 1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.clxt == 1 for value " + String.valueOf(_s.clxt) );
+        }
+        _s.prcData = parsePrcData(in);
+        return _s;
+    }
+    Prm parsePrm(LEInputStream in) throws IOException  {
+        Prm _s = new Prm();
+        Object _m = in.setMark();
+        try {
+            _s.prm = parsePrm0(in);
+        } catch (IncorrectValueException _x) {
+            System.out.println(_x.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
+            in.rewind(_m);
+            _s.prm = parsePrm1(in);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
     OfficeArtBlipEMF parseOfficeArtBlipEMF(LEInputStream in) throws IOException  {
         OfficeArtBlipEMF _s = new OfficeArtBlipEMF();
         int _c;
@@ -2934,6 +3630,48 @@ System.out.println(in.getPosition()+" "+_s);
         } finally {
             in.releaseMark(_m);
         }
+        return _s;
+    }
+    WordDocument parseWordDocument(LEInputStream in) throws IOException  {
+        WordDocument _s = new WordDocument();
+        _s.fib = parseFib(in);
+        return _s;
+    }
+    Table parseTable(LEInputStream in) throws IOException  {
+        Table _s = new Table();
+        int _c;
+        Object _m;
+        _s.stsh = parseSTSH(in);
+        _s.plcfSed = parsePlcfSed(in);
+        _s.plcfHdd = parsePlcfhdd(in);
+        _s.plcfBteChpx = parsePlcBteChpx(in);
+        _s.plcfBtePapx = parsePlcfBtePapx(in);
+        _s.cmds = parseTcg(in);
+        _s.clx = parseClx(in);
+        _c = 246;
+        _s.sttbfFfn = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.sttbfFfn[_i] = in.readuint8();
+        }
+        _c = 600;
+        _s.dop = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.dop[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    Pcd parsePcd(LEInputStream in) throws IOException  {
+        Pcd _s = new Pcd();
+        _s.fNoParaLast = in.readbit();
+        _s.fR1 = in.readbit();
+        _s.fDirtly = in.readbit();
+        if (!(_s.fDirtly == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.fDirtly == false for value " + String.valueOf(_s.fDirtly) );
+        }
+        _s.fR2 = in.readbit();
+        _s.fR3 = in.readuint12();
+        _s.fc = parseFCompressed(in);
+        _s.prm = parsePrm(in);
         return _s;
     }
     OfficeArtFBSE parseOfficeArtFBSE(LEInputStream in) throws IOException  {
@@ -4500,6 +5238,862 @@ class TODOS {
         return _s;
     }
 }
+class FibBase {
+    int wIdent;
+    int nFib;
+    int unused;
+    int lid;
+    int pnNext;
+    boolean fDot;
+    boolean fGlsy;
+    boolean fComplex;
+    boolean fHasPic;
+    byte cQuickSaves;
+    boolean fEncrypted;
+    boolean fWhichTblStm;
+    boolean fReadOnlyRecommended;
+    boolean fWriteReservation;
+    boolean fExtChar;
+    boolean fLoadOverride;
+    boolean fFarEast;
+    boolean fObfuscated;
+    int nFibBack;
+    int IKey;
+    byte envr;
+    boolean fMac;
+    boolean fEmptySpecial;
+    boolean fLoadOverridePage;
+    boolean reserved1;
+    boolean reserved2;
+    byte fSpare0;
+    int reserved3;
+    int reserved4;
+    int reserved5;
+    int reserved6;
+    public String toString() {
+        String _s = "FibBase:";
+        _s = _s + "wIdent: " + String.valueOf(wIdent) + "(" + Integer.toHexString(wIdent).toUpperCase() + "), ";
+        _s = _s + "nFib: " + String.valueOf(nFib) + "(" + Integer.toHexString(nFib).toUpperCase() + "), ";
+        _s = _s + "unused: " + String.valueOf(unused) + "(" + Integer.toHexString(unused).toUpperCase() + "), ";
+        _s = _s + "lid: " + String.valueOf(lid) + "(" + Integer.toHexString(lid).toUpperCase() + "), ";
+        _s = _s + "pnNext: " + String.valueOf(pnNext) + "(" + Integer.toHexString(pnNext).toUpperCase() + "), ";
+        _s = _s + "fDot: " + String.valueOf(fDot) + ", ";
+        _s = _s + "fGlsy: " + String.valueOf(fGlsy) + ", ";
+        _s = _s + "fComplex: " + String.valueOf(fComplex) + ", ";
+        _s = _s + "fHasPic: " + String.valueOf(fHasPic) + ", ";
+        _s = _s + "cQuickSaves: " + String.valueOf(cQuickSaves) + "(" + Integer.toHexString(cQuickSaves).toUpperCase() + "), ";
+        _s = _s + "fEncrypted: " + String.valueOf(fEncrypted) + ", ";
+        _s = _s + "fWhichTblStm: " + String.valueOf(fWhichTblStm) + ", ";
+        _s = _s + "fReadOnlyRecommended: " + String.valueOf(fReadOnlyRecommended) + ", ";
+        _s = _s + "fWriteReservation: " + String.valueOf(fWriteReservation) + ", ";
+        _s = _s + "fExtChar: " + String.valueOf(fExtChar) + ", ";
+        _s = _s + "fLoadOverride: " + String.valueOf(fLoadOverride) + ", ";
+        _s = _s + "fFarEast: " + String.valueOf(fFarEast) + ", ";
+        _s = _s + "fObfuscated: " + String.valueOf(fObfuscated) + ", ";
+        _s = _s + "nFibBack: " + String.valueOf(nFibBack) + "(" + Integer.toHexString(nFibBack).toUpperCase() + "), ";
+        _s = _s + "IKey: " + String.valueOf(IKey) + "(" + Integer.toHexString(IKey).toUpperCase() + "), ";
+        _s = _s + "envr: " + String.valueOf(envr) + "(" + Integer.toHexString(envr).toUpperCase() + "), ";
+        _s = _s + "fMac: " + String.valueOf(fMac) + ", ";
+        _s = _s + "fEmptySpecial: " + String.valueOf(fEmptySpecial) + ", ";
+        _s = _s + "fLoadOverridePage: " + String.valueOf(fLoadOverridePage) + ", ";
+        _s = _s + "reserved1: " + String.valueOf(reserved1) + ", ";
+        _s = _s + "reserved2: " + String.valueOf(reserved2) + ", ";
+        _s = _s + "fSpare0: " + String.valueOf(fSpare0) + "(" + Integer.toHexString(fSpare0).toUpperCase() + "), ";
+        _s = _s + "reserved3: " + String.valueOf(reserved3) + "(" + Integer.toHexString(reserved3).toUpperCase() + "), ";
+        _s = _s + "reserved4: " + String.valueOf(reserved4) + "(" + Integer.toHexString(reserved4).toUpperCase() + "), ";
+        _s = _s + "reserved5: " + String.valueOf(reserved5) + "(" + Integer.toHexString(reserved5).toUpperCase() + "), ";
+        _s = _s + "reserved6: " + String.valueOf(reserved6) + "(" + Integer.toHexString(reserved6).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class FibRgW97 {
+    int reserved1;
+    int reserved2;
+    int reserved3;
+    int reserved4;
+    int reserved5;
+    int reserved6;
+    int reserved7;
+    int reserved8;
+    int reserved9;
+    int reserved10;
+    int reserved11;
+    int reserved12;
+    int reserved13;
+    int lidFE;
+    public String toString() {
+        String _s = "FibRgW97:";
+        _s = _s + "reserved1: " + String.valueOf(reserved1) + "(" + Integer.toHexString(reserved1).toUpperCase() + "), ";
+        _s = _s + "reserved2: " + String.valueOf(reserved2) + "(" + Integer.toHexString(reserved2).toUpperCase() + "), ";
+        _s = _s + "reserved3: " + String.valueOf(reserved3) + "(" + Integer.toHexString(reserved3).toUpperCase() + "), ";
+        _s = _s + "reserved4: " + String.valueOf(reserved4) + "(" + Integer.toHexString(reserved4).toUpperCase() + "), ";
+        _s = _s + "reserved5: " + String.valueOf(reserved5) + "(" + Integer.toHexString(reserved5).toUpperCase() + "), ";
+        _s = _s + "reserved6: " + String.valueOf(reserved6) + "(" + Integer.toHexString(reserved6).toUpperCase() + "), ";
+        _s = _s + "reserved7: " + String.valueOf(reserved7) + "(" + Integer.toHexString(reserved7).toUpperCase() + "), ";
+        _s = _s + "reserved8: " + String.valueOf(reserved8) + "(" + Integer.toHexString(reserved8).toUpperCase() + "), ";
+        _s = _s + "reserved9: " + String.valueOf(reserved9) + "(" + Integer.toHexString(reserved9).toUpperCase() + "), ";
+        _s = _s + "reserved10: " + String.valueOf(reserved10) + "(" + Integer.toHexString(reserved10).toUpperCase() + "), ";
+        _s = _s + "reserved11: " + String.valueOf(reserved11) + "(" + Integer.toHexString(reserved11).toUpperCase() + "), ";
+        _s = _s + "reserved12: " + String.valueOf(reserved12) + "(" + Integer.toHexString(reserved12).toUpperCase() + "), ";
+        _s = _s + "reserved13: " + String.valueOf(reserved13) + "(" + Integer.toHexString(reserved13).toUpperCase() + "), ";
+        _s = _s + "lidFE: " + String.valueOf(lidFE) + "(" + Integer.toHexString(lidFE).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class FibRgLw97 {
+    int cbMac;
+    int reserved1;
+    int reserved2;
+    int ccpText;
+    int ccpFtn;
+    int ccpHdd;
+    int reserved3;
+    int ccpAtn;
+    int ccpEdn;
+    int ccpTxbx;
+    int ccpHdrTxbx;
+    int reserved4;
+    int reserved5;
+    int reserved6;
+    int reserved7;
+    int reserved8;
+    int reserved9;
+    int reserved10;
+    int reserved11;
+    int reserved12;
+    int reserved13;
+    int reserved14;
+    public String toString() {
+        String _s = "FibRgLw97:";
+        _s = _s + "cbMac: " + String.valueOf(cbMac) + "(" + Integer.toHexString(cbMac).toUpperCase() + "), ";
+        _s = _s + "reserved1: " + String.valueOf(reserved1) + "(" + Integer.toHexString(reserved1).toUpperCase() + "), ";
+        _s = _s + "reserved2: " + String.valueOf(reserved2) + "(" + Integer.toHexString(reserved2).toUpperCase() + "), ";
+        _s = _s + "ccpText: " + String.valueOf(ccpText) + "(" + Integer.toHexString(ccpText).toUpperCase() + "), ";
+        _s = _s + "ccpFtn: " + String.valueOf(ccpFtn) + "(" + Integer.toHexString(ccpFtn).toUpperCase() + "), ";
+        _s = _s + "ccpHdd: " + String.valueOf(ccpHdd) + "(" + Integer.toHexString(ccpHdd).toUpperCase() + "), ";
+        _s = _s + "reserved3: " + String.valueOf(reserved3) + "(" + Integer.toHexString(reserved3).toUpperCase() + "), ";
+        _s = _s + "ccpAtn: " + String.valueOf(ccpAtn) + "(" + Integer.toHexString(ccpAtn).toUpperCase() + "), ";
+        _s = _s + "ccpEdn: " + String.valueOf(ccpEdn) + "(" + Integer.toHexString(ccpEdn).toUpperCase() + "), ";
+        _s = _s + "ccpTxbx: " + String.valueOf(ccpTxbx) + "(" + Integer.toHexString(ccpTxbx).toUpperCase() + "), ";
+        _s = _s + "ccpHdrTxbx: " + String.valueOf(ccpHdrTxbx) + "(" + Integer.toHexString(ccpHdrTxbx).toUpperCase() + "), ";
+        _s = _s + "reserved4: " + String.valueOf(reserved4) + "(" + Integer.toHexString(reserved4).toUpperCase() + "), ";
+        _s = _s + "reserved5: " + String.valueOf(reserved5) + "(" + Integer.toHexString(reserved5).toUpperCase() + "), ";
+        _s = _s + "reserved6: " + String.valueOf(reserved6) + "(" + Integer.toHexString(reserved6).toUpperCase() + "), ";
+        _s = _s + "reserved7: " + String.valueOf(reserved7) + "(" + Integer.toHexString(reserved7).toUpperCase() + "), ";
+        _s = _s + "reserved8: " + String.valueOf(reserved8) + "(" + Integer.toHexString(reserved8).toUpperCase() + "), ";
+        _s = _s + "reserved9: " + String.valueOf(reserved9) + "(" + Integer.toHexString(reserved9).toUpperCase() + "), ";
+        _s = _s + "reserved10: " + String.valueOf(reserved10) + "(" + Integer.toHexString(reserved10).toUpperCase() + "), ";
+        _s = _s + "reserved11: " + String.valueOf(reserved11) + "(" + Integer.toHexString(reserved11).toUpperCase() + "), ";
+        _s = _s + "reserved12: " + String.valueOf(reserved12) + "(" + Integer.toHexString(reserved12).toUpperCase() + "), ";
+        _s = _s + "reserved13: " + String.valueOf(reserved13) + "(" + Integer.toHexString(reserved13).toUpperCase() + "), ";
+        _s = _s + "reserved14: " + String.valueOf(reserved14) + "(" + Integer.toHexString(reserved14).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class FibRgFcLcb97 {
+    int fcStshfOrig;
+    int lcbStshfOrig;
+    int fcStshf;
+    int lcbStshf;
+    int fcPlcffndRef;
+    int lcbPlcffndRef;
+    int fcPlcffndTxt;
+    int lcbPlcffndTxt;
+    int fcPlcfandRef;
+    int lcbPlcfandRef;
+    int fcPlcfandTxt;
+    int lcbPlcfandTxt;
+    int fcPlcfSed;
+    int lcbPlcfSed;
+    int fcPlcPad;
+    int lcbPlcPad;
+    int fcPlcfPhe;
+    int lcbPlcfPhe;
+    int fcSttbfGlsy;
+    int lcbSttbfGlsy;
+    int fcPlcfGlsy;
+    int lcbPlcfGlsy;
+    int fcPlcfHdd;
+    int lcbPlcfHdd;
+    int fcPlcfBteChpx;
+    int lcbPlcfBteChpx;
+    int fcPlcfBtePapx;
+    int lcbPlcfBtePapx;
+    int fcPlcfSea;
+    int lcbPlcfSea;
+    int fcSttbfFfn;
+    int lcbSttbfFfn;
+    int fcPlcfFldMom;
+    int lcbPlcfFldMom;
+    int fcPlcfFldHdr;
+    int lcbPlcfFldHdr;
+    int fcPlcfFldFtn;
+    int lcbPlcfFldFtn;
+    int fcPlcfFldAtn;
+    int lcbPlcfFldAtn;
+    int fcPlcfFldMcr;
+    int lcbPlcfFldMcr;
+    int fcSttbfBkmk;
+    int lcbSttbfBkmk;
+    int fcPlcfBkf;
+    int lcbPlcfBkf;
+    int fcPlcfBkl;
+    int lcbPlcfBkl;
+    int fcCmds;
+    int lcbCmds;
+    int fcUnused1;
+    int lcbUnused1;
+    int fcSttbfMcr;
+    int lcbSttbfMcr;
+    int fcPrDrvr;
+    int lcbPrDrvr;
+    int fcPrEnvPort;
+    int lcbPrEnvPort;
+    int fcPrEnvLand;
+    int lcbPrEnvLand;
+    int fcWss;
+    int lcbWss;
+    int fcDop;
+    int lcbDop;
+    int fcSttbfAssoc;
+    int lcbSttbfAssoc;
+    int fcClx;
+    int lcbClx;
+    int fcPlcfPgdFtn;
+    int lcbPlcfPgdFtn;
+    int fcAutosaveSource;
+    int lcbAutosaveSource;
+    int fcGrpXstAtnOwners;
+    int lcbGrpXstAtnOwners;
+    int fcSttbfAtnBkmk;
+    int lcbSttbfAtnBkmk;
+    int fcUnused2;
+    int lcbUnused2;
+    int fcUnused3;
+    int lcbUnused3;
+    int fcPlcSpaMom;
+    int lcbPlcSpaMom;
+    int fcPlcSpaHdr;
+    int lcbPlcSpaHdr;
+    int fcPlcfAtnBkf;
+    int lcbPlcfAtnBkf;
+    int fcPlcfAtnBkl;
+    int lcbPlcfAtnBkl;
+    int fcPms;
+    int lcbPms;
+    int fcFormFldSttbs;
+    int lcbFormFldSttbs;
+    int fcPlcfendRef;
+    int lcbPlcfendRef;
+    int fcPlcfendTxt;
+    int lcbPlcfendTxt;
+    int fcPlcfFldEdn;
+    int lcbPlcfFldEdn;
+    int fcUnused4;
+    int lcbUnused4;
+    int fcDggInfo;
+    int lcbDggInfo;
+    int fcSttbfRMark;
+    int lcbSttbfRMark;
+    int fcSttbfCaption;
+    int lcbSttbfCaption;
+    int fcSttbfAutoCaption;
+    int lcbSttbfAutoCaption;
+    int fcPlcfWkb;
+    int lcbPlcfWkb;
+    int fcPlcfSpl;
+    int lcbPlcfSpl;
+    int fcPlcftxbxTxt;
+    int lcbPlcftxbxTxt;
+    int fcPlcfFldTxbx;
+    int lcbPlcfFldTxbx;
+    int fcPlcfHdrtxbxTxt;
+    int lcbPlcfHdrtxbxTxt;
+    int fcPlcffldHdrTxbx;
+    int lcbPlcffldHdrTxbx;
+    int fcStwUser;
+    int lcbStwUser;
+    int fcSttbTtmbd;
+    int lcbSttbTtmbd;
+    int fcCookieData;
+    int lcbCookieData;
+    int fcPgdMotherOldOld;
+    int lcbPgdMotherOldOld;
+    int fcBkdMotherOldOld;
+    int lcbBkdMotherOldOld;
+    int fcPgdFtnOldOld;
+    int lcbPgdFtnOldOld;
+    int fcBkdFtnOldOld;
+    int lcbBkdFtnOldOld;
+    int fcPgdEdnOldOld;
+    int lcbPgdEdnOldOld;
+    int fcBkdEdnOldOld;
+    int lcbBkdEdnOldOld;
+    int fcSttbfIntlFld;
+    int lcbSttbfIntlFld;
+    int fcRouteSlip;
+    int lcbRouteSlip;
+    int fcSttbSavedBy;
+    int lcbSttbSavedBy;
+    int fcSttbFnm;
+    int lcbSttbFnm;
+    int fcPlfLst;
+    int lcbPlfLst;
+    int fcPlfLfo;
+    int lcbPlfLfo;
+    int fcPlcfTxbxBkd;
+    int lcbPlcfTxbxBkd;
+    int fcPlcfTxbxHdrBkd;
+    int lcbPlcfTxbxHdrBkd;
+    int fcDocUndoWord9;
+    int lcbDocUndoWord9;
+    int fcRgbUse;
+    int lcbRgbUse;
+    int fcUsp;
+    int lcbUsp;
+    int fcUskf;
+    int lcbUskf;
+    int fcPlcupcRgbUse;
+    int lcbPlcupcRgbUse;
+    int fcPlcupcUsp;
+    int lcbPlcupcUsp;
+    int fcSttbGlsyStyle;
+    int lcbSttbGlsyStyle;
+    int fcPlgosl;
+    int lcbPlgosl;
+    int fcPlcocx;
+    int lcbPlcocx;
+    int fcPlcfBteLvc;
+    int lcbPlcfBteLvc;
+    int dwLowDateTime;
+    int dwHighDateTime;
+    int fcPlcfLvcPre10;
+    int lcbPlcfLvcPre10;
+    int fcPlcfAsumy;
+    int lcbPlcfAsumy;
+    int fcPlcfGram;
+    int lcbPlcfGram;
+    int fcSttbListNames;
+    int lcbSttbListNames;
+    int fcSttbfUssr;
+    int lcbSttbfUssr;
+    public String toString() {
+        String _s = "FibRgFcLcb97:";
+        _s = _s + "fcStshfOrig: " + String.valueOf(fcStshfOrig) + "(" + Integer.toHexString(fcStshfOrig).toUpperCase() + "), ";
+        _s = _s + "lcbStshfOrig: " + String.valueOf(lcbStshfOrig) + "(" + Integer.toHexString(lcbStshfOrig).toUpperCase() + "), ";
+        _s = _s + "fcStshf: " + String.valueOf(fcStshf) + "(" + Integer.toHexString(fcStshf).toUpperCase() + "), ";
+        _s = _s + "lcbStshf: " + String.valueOf(lcbStshf) + "(" + Integer.toHexString(lcbStshf).toUpperCase() + "), ";
+        _s = _s + "fcPlcffndRef: " + String.valueOf(fcPlcffndRef) + "(" + Integer.toHexString(fcPlcffndRef).toUpperCase() + "), ";
+        _s = _s + "lcbPlcffndRef: " + String.valueOf(lcbPlcffndRef) + "(" + Integer.toHexString(lcbPlcffndRef).toUpperCase() + "), ";
+        _s = _s + "fcPlcffndTxt: " + String.valueOf(fcPlcffndTxt) + "(" + Integer.toHexString(fcPlcffndTxt).toUpperCase() + "), ";
+        _s = _s + "lcbPlcffndTxt: " + String.valueOf(lcbPlcffndTxt) + "(" + Integer.toHexString(lcbPlcffndTxt).toUpperCase() + "), ";
+        _s = _s + "fcPlcfandRef: " + String.valueOf(fcPlcfandRef) + "(" + Integer.toHexString(fcPlcfandRef).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfandRef: " + String.valueOf(lcbPlcfandRef) + "(" + Integer.toHexString(lcbPlcfandRef).toUpperCase() + "), ";
+        _s = _s + "fcPlcfandTxt: " + String.valueOf(fcPlcfandTxt) + "(" + Integer.toHexString(fcPlcfandTxt).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfandTxt: " + String.valueOf(lcbPlcfandTxt) + "(" + Integer.toHexString(lcbPlcfandTxt).toUpperCase() + "), ";
+        _s = _s + "fcPlcfSed: " + String.valueOf(fcPlcfSed) + "(" + Integer.toHexString(fcPlcfSed).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfSed: " + String.valueOf(lcbPlcfSed) + "(" + Integer.toHexString(lcbPlcfSed).toUpperCase() + "), ";
+        _s = _s + "fcPlcPad: " + String.valueOf(fcPlcPad) + "(" + Integer.toHexString(fcPlcPad).toUpperCase() + "), ";
+        _s = _s + "lcbPlcPad: " + String.valueOf(lcbPlcPad) + "(" + Integer.toHexString(lcbPlcPad).toUpperCase() + "), ";
+        _s = _s + "fcPlcfPhe: " + String.valueOf(fcPlcfPhe) + "(" + Integer.toHexString(fcPlcfPhe).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfPhe: " + String.valueOf(lcbPlcfPhe) + "(" + Integer.toHexString(lcbPlcfPhe).toUpperCase() + "), ";
+        _s = _s + "fcSttbfGlsy: " + String.valueOf(fcSttbfGlsy) + "(" + Integer.toHexString(fcSttbfGlsy).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfGlsy: " + String.valueOf(lcbSttbfGlsy) + "(" + Integer.toHexString(lcbSttbfGlsy).toUpperCase() + "), ";
+        _s = _s + "fcPlcfGlsy: " + String.valueOf(fcPlcfGlsy) + "(" + Integer.toHexString(fcPlcfGlsy).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfGlsy: " + String.valueOf(lcbPlcfGlsy) + "(" + Integer.toHexString(lcbPlcfGlsy).toUpperCase() + "), ";
+        _s = _s + "fcPlcfHdd: " + String.valueOf(fcPlcfHdd) + "(" + Integer.toHexString(fcPlcfHdd).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfHdd: " + String.valueOf(lcbPlcfHdd) + "(" + Integer.toHexString(lcbPlcfHdd).toUpperCase() + "), ";
+        _s = _s + "fcPlcfBteChpx: " + String.valueOf(fcPlcfBteChpx) + "(" + Integer.toHexString(fcPlcfBteChpx).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfBteChpx: " + String.valueOf(lcbPlcfBteChpx) + "(" + Integer.toHexString(lcbPlcfBteChpx).toUpperCase() + "), ";
+        _s = _s + "fcPlcfBtePapx: " + String.valueOf(fcPlcfBtePapx) + "(" + Integer.toHexString(fcPlcfBtePapx).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfBtePapx: " + String.valueOf(lcbPlcfBtePapx) + "(" + Integer.toHexString(lcbPlcfBtePapx).toUpperCase() + "), ";
+        _s = _s + "fcPlcfSea: " + String.valueOf(fcPlcfSea) + "(" + Integer.toHexString(fcPlcfSea).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfSea: " + String.valueOf(lcbPlcfSea) + "(" + Integer.toHexString(lcbPlcfSea).toUpperCase() + "), ";
+        _s = _s + "fcSttbfFfn: " + String.valueOf(fcSttbfFfn) + "(" + Integer.toHexString(fcSttbfFfn).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfFfn: " + String.valueOf(lcbSttbfFfn) + "(" + Integer.toHexString(lcbSttbfFfn).toUpperCase() + "), ";
+        _s = _s + "fcPlcfFldMom: " + String.valueOf(fcPlcfFldMom) + "(" + Integer.toHexString(fcPlcfFldMom).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfFldMom: " + String.valueOf(lcbPlcfFldMom) + "(" + Integer.toHexString(lcbPlcfFldMom).toUpperCase() + "), ";
+        _s = _s + "fcPlcfFldHdr: " + String.valueOf(fcPlcfFldHdr) + "(" + Integer.toHexString(fcPlcfFldHdr).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfFldHdr: " + String.valueOf(lcbPlcfFldHdr) + "(" + Integer.toHexString(lcbPlcfFldHdr).toUpperCase() + "), ";
+        _s = _s + "fcPlcfFldFtn: " + String.valueOf(fcPlcfFldFtn) + "(" + Integer.toHexString(fcPlcfFldFtn).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfFldFtn: " + String.valueOf(lcbPlcfFldFtn) + "(" + Integer.toHexString(lcbPlcfFldFtn).toUpperCase() + "), ";
+        _s = _s + "fcPlcfFldAtn: " + String.valueOf(fcPlcfFldAtn) + "(" + Integer.toHexString(fcPlcfFldAtn).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfFldAtn: " + String.valueOf(lcbPlcfFldAtn) + "(" + Integer.toHexString(lcbPlcfFldAtn).toUpperCase() + "), ";
+        _s = _s + "fcPlcfFldMcr: " + String.valueOf(fcPlcfFldMcr) + "(" + Integer.toHexString(fcPlcfFldMcr).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfFldMcr: " + String.valueOf(lcbPlcfFldMcr) + "(" + Integer.toHexString(lcbPlcfFldMcr).toUpperCase() + "), ";
+        _s = _s + "fcSttbfBkmk: " + String.valueOf(fcSttbfBkmk) + "(" + Integer.toHexString(fcSttbfBkmk).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfBkmk: " + String.valueOf(lcbSttbfBkmk) + "(" + Integer.toHexString(lcbSttbfBkmk).toUpperCase() + "), ";
+        _s = _s + "fcPlcfBkf: " + String.valueOf(fcPlcfBkf) + "(" + Integer.toHexString(fcPlcfBkf).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfBkf: " + String.valueOf(lcbPlcfBkf) + "(" + Integer.toHexString(lcbPlcfBkf).toUpperCase() + "), ";
+        _s = _s + "fcPlcfBkl: " + String.valueOf(fcPlcfBkl) + "(" + Integer.toHexString(fcPlcfBkl).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfBkl: " + String.valueOf(lcbPlcfBkl) + "(" + Integer.toHexString(lcbPlcfBkl).toUpperCase() + "), ";
+        _s = _s + "fcCmds: " + String.valueOf(fcCmds) + "(" + Integer.toHexString(fcCmds).toUpperCase() + "), ";
+        _s = _s + "lcbCmds: " + String.valueOf(lcbCmds) + "(" + Integer.toHexString(lcbCmds).toUpperCase() + "), ";
+        _s = _s + "fcUnused1: " + String.valueOf(fcUnused1) + "(" + Integer.toHexString(fcUnused1).toUpperCase() + "), ";
+        _s = _s + "lcbUnused1: " + String.valueOf(lcbUnused1) + "(" + Integer.toHexString(lcbUnused1).toUpperCase() + "), ";
+        _s = _s + "fcSttbfMcr: " + String.valueOf(fcSttbfMcr) + "(" + Integer.toHexString(fcSttbfMcr).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfMcr: " + String.valueOf(lcbSttbfMcr) + "(" + Integer.toHexString(lcbSttbfMcr).toUpperCase() + "), ";
+        _s = _s + "fcPrDrvr: " + String.valueOf(fcPrDrvr) + "(" + Integer.toHexString(fcPrDrvr).toUpperCase() + "), ";
+        _s = _s + "lcbPrDrvr: " + String.valueOf(lcbPrDrvr) + "(" + Integer.toHexString(lcbPrDrvr).toUpperCase() + "), ";
+        _s = _s + "fcPrEnvPort: " + String.valueOf(fcPrEnvPort) + "(" + Integer.toHexString(fcPrEnvPort).toUpperCase() + "), ";
+        _s = _s + "lcbPrEnvPort: " + String.valueOf(lcbPrEnvPort) + "(" + Integer.toHexString(lcbPrEnvPort).toUpperCase() + "), ";
+        _s = _s + "fcPrEnvLand: " + String.valueOf(fcPrEnvLand) + "(" + Integer.toHexString(fcPrEnvLand).toUpperCase() + "), ";
+        _s = _s + "lcbPrEnvLand: " + String.valueOf(lcbPrEnvLand) + "(" + Integer.toHexString(lcbPrEnvLand).toUpperCase() + "), ";
+        _s = _s + "fcWss: " + String.valueOf(fcWss) + "(" + Integer.toHexString(fcWss).toUpperCase() + "), ";
+        _s = _s + "lcbWss: " + String.valueOf(lcbWss) + "(" + Integer.toHexString(lcbWss).toUpperCase() + "), ";
+        _s = _s + "fcDop: " + String.valueOf(fcDop) + "(" + Integer.toHexString(fcDop).toUpperCase() + "), ";
+        _s = _s + "lcbDop: " + String.valueOf(lcbDop) + "(" + Integer.toHexString(lcbDop).toUpperCase() + "), ";
+        _s = _s + "fcSttbfAssoc: " + String.valueOf(fcSttbfAssoc) + "(" + Integer.toHexString(fcSttbfAssoc).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfAssoc: " + String.valueOf(lcbSttbfAssoc) + "(" + Integer.toHexString(lcbSttbfAssoc).toUpperCase() + "), ";
+        _s = _s + "fcClx: " + String.valueOf(fcClx) + "(" + Integer.toHexString(fcClx).toUpperCase() + "), ";
+        _s = _s + "lcbClx: " + String.valueOf(lcbClx) + "(" + Integer.toHexString(lcbClx).toUpperCase() + "), ";
+        _s = _s + "fcPlcfPgdFtn: " + String.valueOf(fcPlcfPgdFtn) + "(" + Integer.toHexString(fcPlcfPgdFtn).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfPgdFtn: " + String.valueOf(lcbPlcfPgdFtn) + "(" + Integer.toHexString(lcbPlcfPgdFtn).toUpperCase() + "), ";
+        _s = _s + "fcAutosaveSource: " + String.valueOf(fcAutosaveSource) + "(" + Integer.toHexString(fcAutosaveSource).toUpperCase() + "), ";
+        _s = _s + "lcbAutosaveSource: " + String.valueOf(lcbAutosaveSource) + "(" + Integer.toHexString(lcbAutosaveSource).toUpperCase() + "), ";
+        _s = _s + "fcGrpXstAtnOwners: " + String.valueOf(fcGrpXstAtnOwners) + "(" + Integer.toHexString(fcGrpXstAtnOwners).toUpperCase() + "), ";
+        _s = _s + "lcbGrpXstAtnOwners: " + String.valueOf(lcbGrpXstAtnOwners) + "(" + Integer.toHexString(lcbGrpXstAtnOwners).toUpperCase() + "), ";
+        _s = _s + "fcSttbfAtnBkmk: " + String.valueOf(fcSttbfAtnBkmk) + "(" + Integer.toHexString(fcSttbfAtnBkmk).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfAtnBkmk: " + String.valueOf(lcbSttbfAtnBkmk) + "(" + Integer.toHexString(lcbSttbfAtnBkmk).toUpperCase() + "), ";
+        _s = _s + "fcUnused2: " + String.valueOf(fcUnused2) + "(" + Integer.toHexString(fcUnused2).toUpperCase() + "), ";
+        _s = _s + "lcbUnused2: " + String.valueOf(lcbUnused2) + "(" + Integer.toHexString(lcbUnused2).toUpperCase() + "), ";
+        _s = _s + "fcUnused3: " + String.valueOf(fcUnused3) + "(" + Integer.toHexString(fcUnused3).toUpperCase() + "), ";
+        _s = _s + "lcbUnused3: " + String.valueOf(lcbUnused3) + "(" + Integer.toHexString(lcbUnused3).toUpperCase() + "), ";
+        _s = _s + "fcPlcSpaMom: " + String.valueOf(fcPlcSpaMom) + "(" + Integer.toHexString(fcPlcSpaMom).toUpperCase() + "), ";
+        _s = _s + "lcbPlcSpaMom: " + String.valueOf(lcbPlcSpaMom) + "(" + Integer.toHexString(lcbPlcSpaMom).toUpperCase() + "), ";
+        _s = _s + "fcPlcSpaHdr: " + String.valueOf(fcPlcSpaHdr) + "(" + Integer.toHexString(fcPlcSpaHdr).toUpperCase() + "), ";
+        _s = _s + "lcbPlcSpaHdr: " + String.valueOf(lcbPlcSpaHdr) + "(" + Integer.toHexString(lcbPlcSpaHdr).toUpperCase() + "), ";
+        _s = _s + "fcPlcfAtnBkf: " + String.valueOf(fcPlcfAtnBkf) + "(" + Integer.toHexString(fcPlcfAtnBkf).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfAtnBkf: " + String.valueOf(lcbPlcfAtnBkf) + "(" + Integer.toHexString(lcbPlcfAtnBkf).toUpperCase() + "), ";
+        _s = _s + "fcPlcfAtnBkl: " + String.valueOf(fcPlcfAtnBkl) + "(" + Integer.toHexString(fcPlcfAtnBkl).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfAtnBkl: " + String.valueOf(lcbPlcfAtnBkl) + "(" + Integer.toHexString(lcbPlcfAtnBkl).toUpperCase() + "), ";
+        _s = _s + "fcPms: " + String.valueOf(fcPms) + "(" + Integer.toHexString(fcPms).toUpperCase() + "), ";
+        _s = _s + "lcbPms: " + String.valueOf(lcbPms) + "(" + Integer.toHexString(lcbPms).toUpperCase() + "), ";
+        _s = _s + "fcFormFldSttbs: " + String.valueOf(fcFormFldSttbs) + "(" + Integer.toHexString(fcFormFldSttbs).toUpperCase() + "), ";
+        _s = _s + "lcbFormFldSttbs: " + String.valueOf(lcbFormFldSttbs) + "(" + Integer.toHexString(lcbFormFldSttbs).toUpperCase() + "), ";
+        _s = _s + "fcPlcfendRef: " + String.valueOf(fcPlcfendRef) + "(" + Integer.toHexString(fcPlcfendRef).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfendRef: " + String.valueOf(lcbPlcfendRef) + "(" + Integer.toHexString(lcbPlcfendRef).toUpperCase() + "), ";
+        _s = _s + "fcPlcfendTxt: " + String.valueOf(fcPlcfendTxt) + "(" + Integer.toHexString(fcPlcfendTxt).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfendTxt: " + String.valueOf(lcbPlcfendTxt) + "(" + Integer.toHexString(lcbPlcfendTxt).toUpperCase() + "), ";
+        _s = _s + "fcPlcfFldEdn: " + String.valueOf(fcPlcfFldEdn) + "(" + Integer.toHexString(fcPlcfFldEdn).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfFldEdn: " + String.valueOf(lcbPlcfFldEdn) + "(" + Integer.toHexString(lcbPlcfFldEdn).toUpperCase() + "), ";
+        _s = _s + "fcUnused4: " + String.valueOf(fcUnused4) + "(" + Integer.toHexString(fcUnused4).toUpperCase() + "), ";
+        _s = _s + "lcbUnused4: " + String.valueOf(lcbUnused4) + "(" + Integer.toHexString(lcbUnused4).toUpperCase() + "), ";
+        _s = _s + "fcDggInfo: " + String.valueOf(fcDggInfo) + "(" + Integer.toHexString(fcDggInfo).toUpperCase() + "), ";
+        _s = _s + "lcbDggInfo: " + String.valueOf(lcbDggInfo) + "(" + Integer.toHexString(lcbDggInfo).toUpperCase() + "), ";
+        _s = _s + "fcSttbfRMark: " + String.valueOf(fcSttbfRMark) + "(" + Integer.toHexString(fcSttbfRMark).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfRMark: " + String.valueOf(lcbSttbfRMark) + "(" + Integer.toHexString(lcbSttbfRMark).toUpperCase() + "), ";
+        _s = _s + "fcSttbfCaption: " + String.valueOf(fcSttbfCaption) + "(" + Integer.toHexString(fcSttbfCaption).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfCaption: " + String.valueOf(lcbSttbfCaption) + "(" + Integer.toHexString(lcbSttbfCaption).toUpperCase() + "), ";
+        _s = _s + "fcSttbfAutoCaption: " + String.valueOf(fcSttbfAutoCaption) + "(" + Integer.toHexString(fcSttbfAutoCaption).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfAutoCaption: " + String.valueOf(lcbSttbfAutoCaption) + "(" + Integer.toHexString(lcbSttbfAutoCaption).toUpperCase() + "), ";
+        _s = _s + "fcPlcfWkb: " + String.valueOf(fcPlcfWkb) + "(" + Integer.toHexString(fcPlcfWkb).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfWkb: " + String.valueOf(lcbPlcfWkb) + "(" + Integer.toHexString(lcbPlcfWkb).toUpperCase() + "), ";
+        _s = _s + "fcPlcfSpl: " + String.valueOf(fcPlcfSpl) + "(" + Integer.toHexString(fcPlcfSpl).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfSpl: " + String.valueOf(lcbPlcfSpl) + "(" + Integer.toHexString(lcbPlcfSpl).toUpperCase() + "), ";
+        _s = _s + "fcPlcftxbxTxt: " + String.valueOf(fcPlcftxbxTxt) + "(" + Integer.toHexString(fcPlcftxbxTxt).toUpperCase() + "), ";
+        _s = _s + "lcbPlcftxbxTxt: " + String.valueOf(lcbPlcftxbxTxt) + "(" + Integer.toHexString(lcbPlcftxbxTxt).toUpperCase() + "), ";
+        _s = _s + "fcPlcfFldTxbx: " + String.valueOf(fcPlcfFldTxbx) + "(" + Integer.toHexString(fcPlcfFldTxbx).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfFldTxbx: " + String.valueOf(lcbPlcfFldTxbx) + "(" + Integer.toHexString(lcbPlcfFldTxbx).toUpperCase() + "), ";
+        _s = _s + "fcPlcfHdrtxbxTxt: " + String.valueOf(fcPlcfHdrtxbxTxt) + "(" + Integer.toHexString(fcPlcfHdrtxbxTxt).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfHdrtxbxTxt: " + String.valueOf(lcbPlcfHdrtxbxTxt) + "(" + Integer.toHexString(lcbPlcfHdrtxbxTxt).toUpperCase() + "), ";
+        _s = _s + "fcPlcffldHdrTxbx: " + String.valueOf(fcPlcffldHdrTxbx) + "(" + Integer.toHexString(fcPlcffldHdrTxbx).toUpperCase() + "), ";
+        _s = _s + "lcbPlcffldHdrTxbx: " + String.valueOf(lcbPlcffldHdrTxbx) + "(" + Integer.toHexString(lcbPlcffldHdrTxbx).toUpperCase() + "), ";
+        _s = _s + "fcStwUser: " + String.valueOf(fcStwUser) + "(" + Integer.toHexString(fcStwUser).toUpperCase() + "), ";
+        _s = _s + "lcbStwUser: " + String.valueOf(lcbStwUser) + "(" + Integer.toHexString(lcbStwUser).toUpperCase() + "), ";
+        _s = _s + "fcSttbTtmbd: " + String.valueOf(fcSttbTtmbd) + "(" + Integer.toHexString(fcSttbTtmbd).toUpperCase() + "), ";
+        _s = _s + "lcbSttbTtmbd: " + String.valueOf(lcbSttbTtmbd) + "(" + Integer.toHexString(lcbSttbTtmbd).toUpperCase() + "), ";
+        _s = _s + "fcCookieData: " + String.valueOf(fcCookieData) + "(" + Integer.toHexString(fcCookieData).toUpperCase() + "), ";
+        _s = _s + "lcbCookieData: " + String.valueOf(lcbCookieData) + "(" + Integer.toHexString(lcbCookieData).toUpperCase() + "), ";
+        _s = _s + "fcPgdMotherOldOld: " + String.valueOf(fcPgdMotherOldOld) + "(" + Integer.toHexString(fcPgdMotherOldOld).toUpperCase() + "), ";
+        _s = _s + "lcbPgdMotherOldOld: " + String.valueOf(lcbPgdMotherOldOld) + "(" + Integer.toHexString(lcbPgdMotherOldOld).toUpperCase() + "), ";
+        _s = _s + "fcBkdMotherOldOld: " + String.valueOf(fcBkdMotherOldOld) + "(" + Integer.toHexString(fcBkdMotherOldOld).toUpperCase() + "), ";
+        _s = _s + "lcbBkdMotherOldOld: " + String.valueOf(lcbBkdMotherOldOld) + "(" + Integer.toHexString(lcbBkdMotherOldOld).toUpperCase() + "), ";
+        _s = _s + "fcPgdFtnOldOld: " + String.valueOf(fcPgdFtnOldOld) + "(" + Integer.toHexString(fcPgdFtnOldOld).toUpperCase() + "), ";
+        _s = _s + "lcbPgdFtnOldOld: " + String.valueOf(lcbPgdFtnOldOld) + "(" + Integer.toHexString(lcbPgdFtnOldOld).toUpperCase() + "), ";
+        _s = _s + "fcBkdFtnOldOld: " + String.valueOf(fcBkdFtnOldOld) + "(" + Integer.toHexString(fcBkdFtnOldOld).toUpperCase() + "), ";
+        _s = _s + "lcbBkdFtnOldOld: " + String.valueOf(lcbBkdFtnOldOld) + "(" + Integer.toHexString(lcbBkdFtnOldOld).toUpperCase() + "), ";
+        _s = _s + "fcPgdEdnOldOld: " + String.valueOf(fcPgdEdnOldOld) + "(" + Integer.toHexString(fcPgdEdnOldOld).toUpperCase() + "), ";
+        _s = _s + "lcbPgdEdnOldOld: " + String.valueOf(lcbPgdEdnOldOld) + "(" + Integer.toHexString(lcbPgdEdnOldOld).toUpperCase() + "), ";
+        _s = _s + "fcBkdEdnOldOld: " + String.valueOf(fcBkdEdnOldOld) + "(" + Integer.toHexString(fcBkdEdnOldOld).toUpperCase() + "), ";
+        _s = _s + "lcbBkdEdnOldOld: " + String.valueOf(lcbBkdEdnOldOld) + "(" + Integer.toHexString(lcbBkdEdnOldOld).toUpperCase() + "), ";
+        _s = _s + "fcSttbfIntlFld: " + String.valueOf(fcSttbfIntlFld) + "(" + Integer.toHexString(fcSttbfIntlFld).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfIntlFld: " + String.valueOf(lcbSttbfIntlFld) + "(" + Integer.toHexString(lcbSttbfIntlFld).toUpperCase() + "), ";
+        _s = _s + "fcRouteSlip: " + String.valueOf(fcRouteSlip) + "(" + Integer.toHexString(fcRouteSlip).toUpperCase() + "), ";
+        _s = _s + "lcbRouteSlip: " + String.valueOf(lcbRouteSlip) + "(" + Integer.toHexString(lcbRouteSlip).toUpperCase() + "), ";
+        _s = _s + "fcSttbSavedBy: " + String.valueOf(fcSttbSavedBy) + "(" + Integer.toHexString(fcSttbSavedBy).toUpperCase() + "), ";
+        _s = _s + "lcbSttbSavedBy: " + String.valueOf(lcbSttbSavedBy) + "(" + Integer.toHexString(lcbSttbSavedBy).toUpperCase() + "), ";
+        _s = _s + "fcSttbFnm: " + String.valueOf(fcSttbFnm) + "(" + Integer.toHexString(fcSttbFnm).toUpperCase() + "), ";
+        _s = _s + "lcbSttbFnm: " + String.valueOf(lcbSttbFnm) + "(" + Integer.toHexString(lcbSttbFnm).toUpperCase() + "), ";
+        _s = _s + "fcPlfLst: " + String.valueOf(fcPlfLst) + "(" + Integer.toHexString(fcPlfLst).toUpperCase() + "), ";
+        _s = _s + "lcbPlfLst: " + String.valueOf(lcbPlfLst) + "(" + Integer.toHexString(lcbPlfLst).toUpperCase() + "), ";
+        _s = _s + "fcPlfLfo: " + String.valueOf(fcPlfLfo) + "(" + Integer.toHexString(fcPlfLfo).toUpperCase() + "), ";
+        _s = _s + "lcbPlfLfo: " + String.valueOf(lcbPlfLfo) + "(" + Integer.toHexString(lcbPlfLfo).toUpperCase() + "), ";
+        _s = _s + "fcPlcfTxbxBkd: " + String.valueOf(fcPlcfTxbxBkd) + "(" + Integer.toHexString(fcPlcfTxbxBkd).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfTxbxBkd: " + String.valueOf(lcbPlcfTxbxBkd) + "(" + Integer.toHexString(lcbPlcfTxbxBkd).toUpperCase() + "), ";
+        _s = _s + "fcPlcfTxbxHdrBkd: " + String.valueOf(fcPlcfTxbxHdrBkd) + "(" + Integer.toHexString(fcPlcfTxbxHdrBkd).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfTxbxHdrBkd: " + String.valueOf(lcbPlcfTxbxHdrBkd) + "(" + Integer.toHexString(lcbPlcfTxbxHdrBkd).toUpperCase() + "), ";
+        _s = _s + "fcDocUndoWord9: " + String.valueOf(fcDocUndoWord9) + "(" + Integer.toHexString(fcDocUndoWord9).toUpperCase() + "), ";
+        _s = _s + "lcbDocUndoWord9: " + String.valueOf(lcbDocUndoWord9) + "(" + Integer.toHexString(lcbDocUndoWord9).toUpperCase() + "), ";
+        _s = _s + "fcRgbUse: " + String.valueOf(fcRgbUse) + "(" + Integer.toHexString(fcRgbUse).toUpperCase() + "), ";
+        _s = _s + "lcbRgbUse: " + String.valueOf(lcbRgbUse) + "(" + Integer.toHexString(lcbRgbUse).toUpperCase() + "), ";
+        _s = _s + "fcUsp: " + String.valueOf(fcUsp) + "(" + Integer.toHexString(fcUsp).toUpperCase() + "), ";
+        _s = _s + "lcbUsp: " + String.valueOf(lcbUsp) + "(" + Integer.toHexString(lcbUsp).toUpperCase() + "), ";
+        _s = _s + "fcUskf: " + String.valueOf(fcUskf) + "(" + Integer.toHexString(fcUskf).toUpperCase() + "), ";
+        _s = _s + "lcbUskf: " + String.valueOf(lcbUskf) + "(" + Integer.toHexString(lcbUskf).toUpperCase() + "), ";
+        _s = _s + "fcPlcupcRgbUse: " + String.valueOf(fcPlcupcRgbUse) + "(" + Integer.toHexString(fcPlcupcRgbUse).toUpperCase() + "), ";
+        _s = _s + "lcbPlcupcRgbUse: " + String.valueOf(lcbPlcupcRgbUse) + "(" + Integer.toHexString(lcbPlcupcRgbUse).toUpperCase() + "), ";
+        _s = _s + "fcPlcupcUsp: " + String.valueOf(fcPlcupcUsp) + "(" + Integer.toHexString(fcPlcupcUsp).toUpperCase() + "), ";
+        _s = _s + "lcbPlcupcUsp: " + String.valueOf(lcbPlcupcUsp) + "(" + Integer.toHexString(lcbPlcupcUsp).toUpperCase() + "), ";
+        _s = _s + "fcSttbGlsyStyle: " + String.valueOf(fcSttbGlsyStyle) + "(" + Integer.toHexString(fcSttbGlsyStyle).toUpperCase() + "), ";
+        _s = _s + "lcbSttbGlsyStyle: " + String.valueOf(lcbSttbGlsyStyle) + "(" + Integer.toHexString(lcbSttbGlsyStyle).toUpperCase() + "), ";
+        _s = _s + "fcPlgosl: " + String.valueOf(fcPlgosl) + "(" + Integer.toHexString(fcPlgosl).toUpperCase() + "), ";
+        _s = _s + "lcbPlgosl: " + String.valueOf(lcbPlgosl) + "(" + Integer.toHexString(lcbPlgosl).toUpperCase() + "), ";
+        _s = _s + "fcPlcocx: " + String.valueOf(fcPlcocx) + "(" + Integer.toHexString(fcPlcocx).toUpperCase() + "), ";
+        _s = _s + "lcbPlcocx: " + String.valueOf(lcbPlcocx) + "(" + Integer.toHexString(lcbPlcocx).toUpperCase() + "), ";
+        _s = _s + "fcPlcfBteLvc: " + String.valueOf(fcPlcfBteLvc) + "(" + Integer.toHexString(fcPlcfBteLvc).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfBteLvc: " + String.valueOf(lcbPlcfBteLvc) + "(" + Integer.toHexString(lcbPlcfBteLvc).toUpperCase() + "), ";
+        _s = _s + "dwLowDateTime: " + String.valueOf(dwLowDateTime) + "(" + Integer.toHexString(dwLowDateTime).toUpperCase() + "), ";
+        _s = _s + "dwHighDateTime: " + String.valueOf(dwHighDateTime) + "(" + Integer.toHexString(dwHighDateTime).toUpperCase() + "), ";
+        _s = _s + "fcPlcfLvcPre10: " + String.valueOf(fcPlcfLvcPre10) + "(" + Integer.toHexString(fcPlcfLvcPre10).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfLvcPre10: " + String.valueOf(lcbPlcfLvcPre10) + "(" + Integer.toHexString(lcbPlcfLvcPre10).toUpperCase() + "), ";
+        _s = _s + "fcPlcfAsumy: " + String.valueOf(fcPlcfAsumy) + "(" + Integer.toHexString(fcPlcfAsumy).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfAsumy: " + String.valueOf(lcbPlcfAsumy) + "(" + Integer.toHexString(lcbPlcfAsumy).toUpperCase() + "), ";
+        _s = _s + "fcPlcfGram: " + String.valueOf(fcPlcfGram) + "(" + Integer.toHexString(fcPlcfGram).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfGram: " + String.valueOf(lcbPlcfGram) + "(" + Integer.toHexString(lcbPlcfGram).toUpperCase() + "), ";
+        _s = _s + "fcSttbListNames: " + String.valueOf(fcSttbListNames) + "(" + Integer.toHexString(fcSttbListNames).toUpperCase() + "), ";
+        _s = _s + "lcbSttbListNames: " + String.valueOf(lcbSttbListNames) + "(" + Integer.toHexString(lcbSttbListNames).toUpperCase() + "), ";
+        _s = _s + "fcSttbfUssr: " + String.valueOf(fcSttbfUssr) + "(" + Integer.toHexString(fcSttbfUssr).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfUssr: " + String.valueOf(lcbSttbfUssr) + "(" + Integer.toHexString(lcbSttbfUssr).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class FibRgFcLcb2000 {
+    int fcPlcfTch;
+    int lcbPlcfTch;
+    int fcRmdThreading;
+    int lcbRmdThreading;
+    int fcMid;
+    int lcbMid;
+    int fcSttbRgtplc;
+    int lcbSttbRgtplc;
+    int fcMsoEnvelope;
+    int lcbMsoEnvelope;
+    int fcPlcfLad;
+    int lcbPlcfLad;
+    int fcRgDofr;
+    int lcbRgDofr;
+    int fcPlcosl;
+    int lcbPlcosl;
+    int fcPlcfCookieOld;
+    int lcbPlcfCookieOld;
+    int fcPgdMotherOld;
+    int lcbPgdMotherOld;
+    int fcBkdMotherOld;
+    int lcbBkdMotherOld;
+    int fcPgdFtnOld;
+    int lcbPgdFtnOld;
+    int fcBkdFtnOld;
+    int lcbBkdFtnOld;
+    int fcPgdEdnOld;
+    int lcbPgdEdnOld;
+    int fcBkdEdnOld;
+    int lcbBkdEdnOld;
+    public String toString() {
+        String _s = "FibRgFcLcb2000:";
+        _s = _s + "fcPlcfTch: " + String.valueOf(fcPlcfTch) + "(" + Integer.toHexString(fcPlcfTch).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfTch: " + String.valueOf(lcbPlcfTch) + "(" + Integer.toHexString(lcbPlcfTch).toUpperCase() + "), ";
+        _s = _s + "fcRmdThreading: " + String.valueOf(fcRmdThreading) + "(" + Integer.toHexString(fcRmdThreading).toUpperCase() + "), ";
+        _s = _s + "lcbRmdThreading: " + String.valueOf(lcbRmdThreading) + "(" + Integer.toHexString(lcbRmdThreading).toUpperCase() + "), ";
+        _s = _s + "fcMid: " + String.valueOf(fcMid) + "(" + Integer.toHexString(fcMid).toUpperCase() + "), ";
+        _s = _s + "lcbMid: " + String.valueOf(lcbMid) + "(" + Integer.toHexString(lcbMid).toUpperCase() + "), ";
+        _s = _s + "fcSttbRgtplc: " + String.valueOf(fcSttbRgtplc) + "(" + Integer.toHexString(fcSttbRgtplc).toUpperCase() + "), ";
+        _s = _s + "lcbSttbRgtplc: " + String.valueOf(lcbSttbRgtplc) + "(" + Integer.toHexString(lcbSttbRgtplc).toUpperCase() + "), ";
+        _s = _s + "fcMsoEnvelope: " + String.valueOf(fcMsoEnvelope) + "(" + Integer.toHexString(fcMsoEnvelope).toUpperCase() + "), ";
+        _s = _s + "lcbMsoEnvelope: " + String.valueOf(lcbMsoEnvelope) + "(" + Integer.toHexString(lcbMsoEnvelope).toUpperCase() + "), ";
+        _s = _s + "fcPlcfLad: " + String.valueOf(fcPlcfLad) + "(" + Integer.toHexString(fcPlcfLad).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfLad: " + String.valueOf(lcbPlcfLad) + "(" + Integer.toHexString(lcbPlcfLad).toUpperCase() + "), ";
+        _s = _s + "fcRgDofr: " + String.valueOf(fcRgDofr) + "(" + Integer.toHexString(fcRgDofr).toUpperCase() + "), ";
+        _s = _s + "lcbRgDofr: " + String.valueOf(lcbRgDofr) + "(" + Integer.toHexString(lcbRgDofr).toUpperCase() + "), ";
+        _s = _s + "fcPlcosl: " + String.valueOf(fcPlcosl) + "(" + Integer.toHexString(fcPlcosl).toUpperCase() + "), ";
+        _s = _s + "lcbPlcosl: " + String.valueOf(lcbPlcosl) + "(" + Integer.toHexString(lcbPlcosl).toUpperCase() + "), ";
+        _s = _s + "fcPlcfCookieOld: " + String.valueOf(fcPlcfCookieOld) + "(" + Integer.toHexString(fcPlcfCookieOld).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfCookieOld: " + String.valueOf(lcbPlcfCookieOld) + "(" + Integer.toHexString(lcbPlcfCookieOld).toUpperCase() + "), ";
+        _s = _s + "fcPgdMotherOld: " + String.valueOf(fcPgdMotherOld) + "(" + Integer.toHexString(fcPgdMotherOld).toUpperCase() + "), ";
+        _s = _s + "lcbPgdMotherOld: " + String.valueOf(lcbPgdMotherOld) + "(" + Integer.toHexString(lcbPgdMotherOld).toUpperCase() + "), ";
+        _s = _s + "fcBkdMotherOld: " + String.valueOf(fcBkdMotherOld) + "(" + Integer.toHexString(fcBkdMotherOld).toUpperCase() + "), ";
+        _s = _s + "lcbBkdMotherOld: " + String.valueOf(lcbBkdMotherOld) + "(" + Integer.toHexString(lcbBkdMotherOld).toUpperCase() + "), ";
+        _s = _s + "fcPgdFtnOld: " + String.valueOf(fcPgdFtnOld) + "(" + Integer.toHexString(fcPgdFtnOld).toUpperCase() + "), ";
+        _s = _s + "lcbPgdFtnOld: " + String.valueOf(lcbPgdFtnOld) + "(" + Integer.toHexString(lcbPgdFtnOld).toUpperCase() + "), ";
+        _s = _s + "fcBkdFtnOld: " + String.valueOf(fcBkdFtnOld) + "(" + Integer.toHexString(fcBkdFtnOld).toUpperCase() + "), ";
+        _s = _s + "lcbBkdFtnOld: " + String.valueOf(lcbBkdFtnOld) + "(" + Integer.toHexString(lcbBkdFtnOld).toUpperCase() + "), ";
+        _s = _s + "fcPgdEdnOld: " + String.valueOf(fcPgdEdnOld) + "(" + Integer.toHexString(fcPgdEdnOld).toUpperCase() + "), ";
+        _s = _s + "lcbPgdEdnOld: " + String.valueOf(lcbPgdEdnOld) + "(" + Integer.toHexString(lcbPgdEdnOld).toUpperCase() + "), ";
+        _s = _s + "fcBkdEdnOld: " + String.valueOf(fcBkdEdnOld) + "(" + Integer.toHexString(fcBkdEdnOld).toUpperCase() + "), ";
+        _s = _s + "lcbBkdEdnOld: " + String.valueOf(lcbBkdEdnOld) + "(" + Integer.toHexString(lcbBkdEdnOld).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class FibRgFcLcb2002 {
+    int fcUnused1;
+    int lcbUnused1;
+    int fcPlcfPgp;
+    int lcbPlcfPgp;
+    int fcPlcfuim;
+    int lcbPlcfuim;
+    int fcPlfguidUim;
+    int lcbPlfguidUim;
+    int fcAtrdExtra;
+    int lcbAtrdExtra;
+    int fcPlrsid;
+    int lcbPlrsid;
+    int fcSttbfBkmkFactoid;
+    int lcbSttbfBkmkFactoid;
+    int fcPlcfBkfFactoid;
+    int lcbPlcfBkfFactoid;
+    int fcPlcfcookie;
+    int lcbPlcfcookie;
+    int fcPlcfBklFactoid;
+    int lcbPlcfBklFactoid;
+    int fcFactoidData;
+    int lcbFactoidData;
+    int fcDocUndo;
+    int lcbDocUndo;
+    int fcSttbfBkmkFcc;
+    int lcbSttbfBkmkFcc;
+    int fcPlcfBkfFcc;
+    int lcbPlcfBkfFcc;
+    int fcPlcfBklFcc;
+    int lcbPlcfBklFcc;
+    int fcSttbfbkmkBPRepairs;
+    int lcbSttbfbkmkBPRepairs;
+    int fcPlcfbkfBPRepairs;
+    int lcbPlcfbkfBPRepairs;
+    int fcPlcfbklBPRepairs;
+    int lcbPlcfbklBPRepairs;
+    int fcPmsNew;
+    int lcbPmsNew;
+    int fcODSO;
+    int lcbODSO;
+    int fcPlcfpmiOldXP;
+    int lcbPlcfpmiOldXP;
+    int fcPlcfpmiNewXP;
+    int lcbPlcfpmiNewXP;
+    int fcPlcfpmiMixedXP;
+    int lcbPlcfpmiMixedXP;
+    int fcUnused2;
+    int lcbUnused2;
+    int fcPlcffactoid;
+    int lcbPlcffactoid;
+    public String toString() {
+        String _s = "FibRgFcLcb2002:";
+        _s = _s + "fcUnused1: " + String.valueOf(fcUnused1) + "(" + Integer.toHexString(fcUnused1).toUpperCase() + "), ";
+        _s = _s + "lcbUnused1: " + String.valueOf(lcbUnused1) + "(" + Integer.toHexString(lcbUnused1).toUpperCase() + "), ";
+        _s = _s + "fcPlcfPgp: " + String.valueOf(fcPlcfPgp) + "(" + Integer.toHexString(fcPlcfPgp).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfPgp: " + String.valueOf(lcbPlcfPgp) + "(" + Integer.toHexString(lcbPlcfPgp).toUpperCase() + "), ";
+        _s = _s + "fcPlcfuim: " + String.valueOf(fcPlcfuim) + "(" + Integer.toHexString(fcPlcfuim).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfuim: " + String.valueOf(lcbPlcfuim) + "(" + Integer.toHexString(lcbPlcfuim).toUpperCase() + "), ";
+        _s = _s + "fcPlfguidUim: " + String.valueOf(fcPlfguidUim) + "(" + Integer.toHexString(fcPlfguidUim).toUpperCase() + "), ";
+        _s = _s + "lcbPlfguidUim: " + String.valueOf(lcbPlfguidUim) + "(" + Integer.toHexString(lcbPlfguidUim).toUpperCase() + "), ";
+        _s = _s + "fcAtrdExtra: " + String.valueOf(fcAtrdExtra) + "(" + Integer.toHexString(fcAtrdExtra).toUpperCase() + "), ";
+        _s = _s + "lcbAtrdExtra: " + String.valueOf(lcbAtrdExtra) + "(" + Integer.toHexString(lcbAtrdExtra).toUpperCase() + "), ";
+        _s = _s + "fcPlrsid: " + String.valueOf(fcPlrsid) + "(" + Integer.toHexString(fcPlrsid).toUpperCase() + "), ";
+        _s = _s + "lcbPlrsid: " + String.valueOf(lcbPlrsid) + "(" + Integer.toHexString(lcbPlrsid).toUpperCase() + "), ";
+        _s = _s + "fcSttbfBkmkFactoid: " + String.valueOf(fcSttbfBkmkFactoid) + "(" + Integer.toHexString(fcSttbfBkmkFactoid).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfBkmkFactoid: " + String.valueOf(lcbSttbfBkmkFactoid) + "(" + Integer.toHexString(lcbSttbfBkmkFactoid).toUpperCase() + "), ";
+        _s = _s + "fcPlcfBkfFactoid: " + String.valueOf(fcPlcfBkfFactoid) + "(" + Integer.toHexString(fcPlcfBkfFactoid).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfBkfFactoid: " + String.valueOf(lcbPlcfBkfFactoid) + "(" + Integer.toHexString(lcbPlcfBkfFactoid).toUpperCase() + "), ";
+        _s = _s + "fcPlcfcookie: " + String.valueOf(fcPlcfcookie) + "(" + Integer.toHexString(fcPlcfcookie).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfcookie: " + String.valueOf(lcbPlcfcookie) + "(" + Integer.toHexString(lcbPlcfcookie).toUpperCase() + "), ";
+        _s = _s + "fcPlcfBklFactoid: " + String.valueOf(fcPlcfBklFactoid) + "(" + Integer.toHexString(fcPlcfBklFactoid).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfBklFactoid: " + String.valueOf(lcbPlcfBklFactoid) + "(" + Integer.toHexString(lcbPlcfBklFactoid).toUpperCase() + "), ";
+        _s = _s + "fcFactoidData: " + String.valueOf(fcFactoidData) + "(" + Integer.toHexString(fcFactoidData).toUpperCase() + "), ";
+        _s = _s + "lcbFactoidData: " + String.valueOf(lcbFactoidData) + "(" + Integer.toHexString(lcbFactoidData).toUpperCase() + "), ";
+        _s = _s + "fcDocUndo: " + String.valueOf(fcDocUndo) + "(" + Integer.toHexString(fcDocUndo).toUpperCase() + "), ";
+        _s = _s + "lcbDocUndo: " + String.valueOf(lcbDocUndo) + "(" + Integer.toHexString(lcbDocUndo).toUpperCase() + "), ";
+        _s = _s + "fcSttbfBkmkFcc: " + String.valueOf(fcSttbfBkmkFcc) + "(" + Integer.toHexString(fcSttbfBkmkFcc).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfBkmkFcc: " + String.valueOf(lcbSttbfBkmkFcc) + "(" + Integer.toHexString(lcbSttbfBkmkFcc).toUpperCase() + "), ";
+        _s = _s + "fcPlcfBkfFcc: " + String.valueOf(fcPlcfBkfFcc) + "(" + Integer.toHexString(fcPlcfBkfFcc).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfBkfFcc: " + String.valueOf(lcbPlcfBkfFcc) + "(" + Integer.toHexString(lcbPlcfBkfFcc).toUpperCase() + "), ";
+        _s = _s + "fcPlcfBklFcc: " + String.valueOf(fcPlcfBklFcc) + "(" + Integer.toHexString(fcPlcfBklFcc).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfBklFcc: " + String.valueOf(lcbPlcfBklFcc) + "(" + Integer.toHexString(lcbPlcfBklFcc).toUpperCase() + "), ";
+        _s = _s + "fcSttbfbkmkBPRepairs: " + String.valueOf(fcSttbfbkmkBPRepairs) + "(" + Integer.toHexString(fcSttbfbkmkBPRepairs).toUpperCase() + "), ";
+        _s = _s + "lcbSttbfbkmkBPRepairs: " + String.valueOf(lcbSttbfbkmkBPRepairs) + "(" + Integer.toHexString(lcbSttbfbkmkBPRepairs).toUpperCase() + "), ";
+        _s = _s + "fcPlcfbkfBPRepairs: " + String.valueOf(fcPlcfbkfBPRepairs) + "(" + Integer.toHexString(fcPlcfbkfBPRepairs).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfbkfBPRepairs: " + String.valueOf(lcbPlcfbkfBPRepairs) + "(" + Integer.toHexString(lcbPlcfbkfBPRepairs).toUpperCase() + "), ";
+        _s = _s + "fcPlcfbklBPRepairs: " + String.valueOf(fcPlcfbklBPRepairs) + "(" + Integer.toHexString(fcPlcfbklBPRepairs).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfbklBPRepairs: " + String.valueOf(lcbPlcfbklBPRepairs) + "(" + Integer.toHexString(lcbPlcfbklBPRepairs).toUpperCase() + "), ";
+        _s = _s + "fcPmsNew: " + String.valueOf(fcPmsNew) + "(" + Integer.toHexString(fcPmsNew).toUpperCase() + "), ";
+        _s = _s + "lcbPmsNew: " + String.valueOf(lcbPmsNew) + "(" + Integer.toHexString(lcbPmsNew).toUpperCase() + "), ";
+        _s = _s + "fcODSO: " + String.valueOf(fcODSO) + "(" + Integer.toHexString(fcODSO).toUpperCase() + "), ";
+        _s = _s + "lcbODSO: " + String.valueOf(lcbODSO) + "(" + Integer.toHexString(lcbODSO).toUpperCase() + "), ";
+        _s = _s + "fcPlcfpmiOldXP: " + String.valueOf(fcPlcfpmiOldXP) + "(" + Integer.toHexString(fcPlcfpmiOldXP).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfpmiOldXP: " + String.valueOf(lcbPlcfpmiOldXP) + "(" + Integer.toHexString(lcbPlcfpmiOldXP).toUpperCase() + "), ";
+        _s = _s + "fcPlcfpmiNewXP: " + String.valueOf(fcPlcfpmiNewXP) + "(" + Integer.toHexString(fcPlcfpmiNewXP).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfpmiNewXP: " + String.valueOf(lcbPlcfpmiNewXP) + "(" + Integer.toHexString(lcbPlcfpmiNewXP).toUpperCase() + "), ";
+        _s = _s + "fcPlcfpmiMixedXP: " + String.valueOf(fcPlcfpmiMixedXP) + "(" + Integer.toHexString(fcPlcfpmiMixedXP).toUpperCase() + "), ";
+        _s = _s + "lcbPlcfpmiMixedXP: " + String.valueOf(lcbPlcfpmiMixedXP) + "(" + Integer.toHexString(lcbPlcfpmiMixedXP).toUpperCase() + "), ";
+        _s = _s + "fcUnused2: " + String.valueOf(fcUnused2) + "(" + Integer.toHexString(fcUnused2).toUpperCase() + "), ";
+        _s = _s + "lcbUnused2: " + String.valueOf(lcbUnused2) + "(" + Integer.toHexString(lcbUnused2).toUpperCase() + "), ";
+        _s = _s + "fcPlcffactoid: " + String.valueOf(fcPlcffactoid) + "(" + Integer.toHexString(fcPlcffactoid).toUpperCase() + "), ";
+        _s = _s + "lcbPlcffactoid: " + String.valueOf(lcbPlcffactoid) + "(" + Integer.toHexString(lcbPlcffactoid).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class LPStshi {
+    int cbSthi;
+    byte[] stshi;
+    public String toString() {
+        String _s = "LPStshi:";
+        _s = _s + "cbSthi: " + String.valueOf(cbSthi) + "(" + Integer.toHexString(cbSthi).toUpperCase() + "), ";
+        _s = _s + "stshi: " + String.valueOf(stshi) + ", ";
+        return _s;
+    }
+}
+class LPStd {
+    int cbStd;
+    byte[] std;
+    byte padding;
+    public String toString() {
+        String _s = "LPStd:";
+        _s = _s + "cbStd: " + String.valueOf(cbStd) + "(" + Integer.toHexString(cbStd).toUpperCase() + "), ";
+        _s = _s + "std: " + String.valueOf(std) + ", ";
+        _s = _s + "padding: " + String.valueOf(padding) + "(" + Integer.toHexString(padding).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class PlcfSed {
+    int[] aCP;
+    Sed[] aSed;
+    public String toString() {
+        String _s = "PlcfSed:";
+        _s = _s + "aCP: " + String.valueOf(aCP) + ", ";
+        _s = _s + "aSed: " + String.valueOf(aSed) + ", ";
+        return _s;
+    }
+}
+class Sed {
+    int fn;
+    int fcSepx;
+    int fnMpr;
+    int fcMpr;
+    public String toString() {
+        String _s = "Sed:";
+        _s = _s + "fn: " + String.valueOf(fn) + "(" + Integer.toHexString(fn).toUpperCase() + "), ";
+        _s = _s + "fcSepx: " + String.valueOf(fcSepx) + "(" + Integer.toHexString(fcSepx).toUpperCase() + "), ";
+        _s = _s + "fnMpr: " + String.valueOf(fnMpr) + "(" + Integer.toHexString(fnMpr).toUpperCase() + "), ";
+        _s = _s + "fcMpr: " + String.valueOf(fcMpr) + "(" + Integer.toHexString(fcMpr).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class Plcfhdd {
+    int[] aCP;
+    public String toString() {
+        String _s = "Plcfhdd:";
+        _s = _s + "aCP: " + String.valueOf(aCP) + ", ";
+        return _s;
+    }
+}
+class PlcBteChpx {
+    int[] aCP;
+    int[] aPnBteChpx;
+    public String toString() {
+        String _s = "PlcBteChpx:";
+        _s = _s + "aCP: " + String.valueOf(aCP) + ", ";
+        _s = _s + "aPnBteChpx: " + String.valueOf(aPnBteChpx) + ", ";
+        return _s;
+    }
+}
+class PlcfBtePapx {
+    int[] aCP;
+    int[] aPnBteChpx;
+    public String toString() {
+        String _s = "PlcfBtePapx:";
+        _s = _s + "aCP: " + String.valueOf(aCP) + ", ";
+        _s = _s + "aPnBteChpx: " + String.valueOf(aPnBteChpx) + ", ";
+        return _s;
+    }
+}
+class Tcg {
+    byte nTcgVer;
+    byte[] todo;
+    public String toString() {
+        String _s = "Tcg:";
+        _s = _s + "nTcgVer: " + String.valueOf(nTcgVer) + "(" + Integer.toHexString(nTcgVer).toUpperCase() + "), ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        return _s;
+    }
+}
+class PrcData {
+    short cbGrpprl;
+    Sprm[] GrpPrl;
+    public String toString() {
+        String _s = "PrcData:";
+        _s = _s + "cbGrpprl: " + String.valueOf(cbGrpprl) + "(" + Integer.toHexString(cbGrpprl).toUpperCase() + "), ";
+        _s = _s + "GrpPrl: " + String.valueOf(GrpPrl) + ", ";
+        return _s;
+    }
+}
+class Sprm {
+    short ispmd;
+    boolean fSpec;
+    byte sgc;
+    byte spra;
+    public String toString() {
+        String _s = "Sprm:";
+        _s = _s + "ispmd: " + String.valueOf(ispmd) + "(" + Integer.toHexString(ispmd).toUpperCase() + "), ";
+        _s = _s + "fSpec: " + String.valueOf(fSpec) + ", ";
+        _s = _s + "sgc: " + String.valueOf(sgc) + "(" + Integer.toHexString(sgc).toUpperCase() + "), ";
+        _s = _s + "spra: " + String.valueOf(spra) + "(" + Integer.toHexString(spra).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class Pcdt {
+    byte clxt;
+    int lcb;
+    Pcd[] PlcPcd;
+    public String toString() {
+        String _s = "Pcdt:";
+        _s = _s + "clxt: " + String.valueOf(clxt) + "(" + Integer.toHexString(clxt).toUpperCase() + "), ";
+        _s = _s + "lcb: " + String.valueOf(lcb) + "(" + Integer.toHexString(lcb).toUpperCase() + "), ";
+        _s = _s + "PlcPcd: " + String.valueOf(PlcPcd) + ", ";
+        return _s;
+    }
+}
+class FCompressed {
+    int fc;
+    boolean fCompressed;
+    boolean r1;
+    public String toString() {
+        String _s = "FCompressed:";
+        _s = _s + "fc: " + String.valueOf(fc) + "(" + Integer.toHexString(fc).toUpperCase() + "), ";
+        _s = _s + "fCompressed: " + String.valueOf(fCompressed) + ", ";
+        _s = _s + "r1: " + String.valueOf(r1) + ", ";
+        return _s;
+    }
+}
+class Prm0 {
+    boolean fComplex;
+    byte isprm;
+    byte val;
+    public String toString() {
+        String _s = "Prm0:";
+        _s = _s + "fComplex: " + String.valueOf(fComplex) + ", ";
+        _s = _s + "isprm: " + String.valueOf(isprm) + "(" + Integer.toHexString(isprm).toUpperCase() + "), ";
+        _s = _s + "val: " + String.valueOf(val) + "(" + Integer.toHexString(val).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class Prm1 {
+    boolean fComplex;
+    short igrpprl;
+    public String toString() {
+        String _s = "Prm1:";
+        _s = _s + "fComplex: " + String.valueOf(fComplex) + ", ";
+        _s = _s + "igrpprl: " + String.valueOf(igrpprl) + "(" + Integer.toHexString(igrpprl).toUpperCase() + "), ";
+        return _s;
+    }
+}
 class PicturesStream {
     OfficeArtBStoreDelay anon1;
     public String toString() {
@@ -4868,6 +6462,74 @@ class OfficeArtFOPTE {
         return _s;
     }
 }
+class Fib {
+    FibBase base;
+    int csw;
+    FibRgW97 fibRgW;
+    int cslw;
+    FibRgLw97 fibRgLw;
+    int cbRgFcLcb;
+    FibRgFcLcb97 fibRgFcLcbBlob;
+    FibRgFcLcb2000 fibRgFcLcbBlob2;
+    FibRgFcLcb2002 fibRgFcLcbBlob3;
+    int cswNew;
+    byte[] fibRgCswNew;
+    byte[] trail;
+    public String toString() {
+        String _s = "Fib:";
+        _s = _s + "base: " + String.valueOf(base) + ", ";
+        _s = _s + "csw: " + String.valueOf(csw) + "(" + Integer.toHexString(csw).toUpperCase() + "), ";
+        _s = _s + "fibRgW: " + String.valueOf(fibRgW) + ", ";
+        _s = _s + "cslw: " + String.valueOf(cslw) + "(" + Integer.toHexString(cslw).toUpperCase() + "), ";
+        _s = _s + "fibRgLw: " + String.valueOf(fibRgLw) + ", ";
+        _s = _s + "cbRgFcLcb: " + String.valueOf(cbRgFcLcb) + "(" + Integer.toHexString(cbRgFcLcb).toUpperCase() + "), ";
+        _s = _s + "fibRgFcLcbBlob: " + String.valueOf(fibRgFcLcbBlob) + ", ";
+        _s = _s + "fibRgFcLcbBlob2: " + String.valueOf(fibRgFcLcbBlob2) + ", ";
+        _s = _s + "fibRgFcLcbBlob3: " + String.valueOf(fibRgFcLcbBlob3) + ", ";
+        _s = _s + "cswNew: " + String.valueOf(cswNew) + "(" + Integer.toHexString(cswNew).toUpperCase() + "), ";
+        _s = _s + "fibRgCswNew: " + String.valueOf(fibRgCswNew) + ", ";
+        _s = _s + "trail: " + String.valueOf(trail) + ", ";
+        return _s;
+    }
+}
+class STSH {
+    LPStshi lpstshi;
+    LPStd[] rglpstd;
+    public String toString() {
+        String _s = "STSH:";
+        _s = _s + "lpstshi: " + String.valueOf(lpstshi) + ", ";
+        _s = _s + "rglpstd: " + String.valueOf(rglpstd) + ", ";
+        return _s;
+    }
+}
+class Clx {
+    final java.util.List<Pcr> RgPrc = new java.util.ArrayList<Pcr>();
+    Pcdt pcdt;
+    public String toString() {
+        String _s = "Clx:";
+        _s = _s + "RgPrc: " + String.valueOf(RgPrc) + ", ";
+        _s = _s + "pcdt: " + String.valueOf(pcdt) + ", ";
+        return _s;
+    }
+}
+class Pcr {
+    byte clxt;
+    PrcData prcData;
+    public String toString() {
+        String _s = "Pcr:";
+        _s = _s + "clxt: " + String.valueOf(clxt) + "(" + Integer.toHexString(clxt).toUpperCase() + "), ";
+        _s = _s + "prcData: " + String.valueOf(prcData) + ", ";
+        return _s;
+    }
+}
+class Prm {
+    Object prm;
+    public String toString() {
+        String _s = "Prm:";
+        _s = _s + "prm: " + String.valueOf(prm) + ", ";
+        return _s;
+    }
+}
 class OfficeArtBlipEMF {
     OfficeArtRecordHeader rh;
     byte[] rgbUid1;
@@ -5057,6 +6719,58 @@ class OfficeArtSpContainer {
         _s = _s + "clientAnchor: " + String.valueOf(clientAnchor) + ", ";
         _s = _s + "clientData: " + String.valueOf(clientData) + ", ";
         _s = _s + "clientTextbox: " + String.valueOf(clientTextbox) + ", ";
+        return _s;
+    }
+}
+class WordDocument {
+    Fib fib;
+    public String toString() {
+        String _s = "WordDocument:";
+        _s = _s + "fib: " + String.valueOf(fib) + ", ";
+        return _s;
+    }
+}
+class Table {
+    STSH stsh;
+    PlcfSed plcfSed;
+    Plcfhdd plcfHdd;
+    PlcBteChpx plcfBteChpx;
+    PlcfBtePapx plcfBtePapx;
+    Tcg cmds;
+    Clx clx;
+    byte[] sttbfFfn;
+    byte[] dop;
+    public String toString() {
+        String _s = "Table:";
+        _s = _s + "stsh: " + String.valueOf(stsh) + ", ";
+        _s = _s + "plcfSed: " + String.valueOf(plcfSed) + ", ";
+        _s = _s + "plcfHdd: " + String.valueOf(plcfHdd) + ", ";
+        _s = _s + "plcfBteChpx: " + String.valueOf(plcfBteChpx) + ", ";
+        _s = _s + "plcfBtePapx: " + String.valueOf(plcfBtePapx) + ", ";
+        _s = _s + "cmds: " + String.valueOf(cmds) + ", ";
+        _s = _s + "clx: " + String.valueOf(clx) + ", ";
+        _s = _s + "sttbfFfn: " + String.valueOf(sttbfFfn) + ", ";
+        _s = _s + "dop: " + String.valueOf(dop) + ", ";
+        return _s;
+    }
+}
+class Pcd {
+    boolean fNoParaLast;
+    boolean fR1;
+    boolean fDirtly;
+    boolean fR2;
+    short fR3;
+    FCompressed fc;
+    Prm prm;
+    public String toString() {
+        String _s = "Pcd:";
+        _s = _s + "fNoParaLast: " + String.valueOf(fNoParaLast) + ", ";
+        _s = _s + "fR1: " + String.valueOf(fR1) + ", ";
+        _s = _s + "fDirtly: " + String.valueOf(fDirtly) + ", ";
+        _s = _s + "fR2: " + String.valueOf(fR2) + ", ";
+        _s = _s + "fR3: " + String.valueOf(fR3) + "(" + Integer.toHexString(fR3).toUpperCase() + "), ";
+        _s = _s + "fc: " + String.valueOf(fc) + ", ";
+        _s = _s + "prm: " + String.valueOf(prm) + ", ";
         return _s;
     }
 }

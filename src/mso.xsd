@@ -62,9 +62,12 @@
 				<element name="uint4" type="tns:intType" />
 				<element name="uint5" type="tns:intType" />
 				<element name="uint6" type="tns:intType" />
+				<element name="uint7" type="tns:intType" />
 				<element name="uint8" type="tns:intType" />
+				<element name="uint9" type="tns:intType" />
 				<element name="uint12" type="tns:intType" />
 				<element name="uint14" type="tns:intType" />
+				<element name="uint15" type="tns:intType" />
 				<element name="uint16" type="tns:intType" />
 				<element name="uint20" type="tns:intType" />
 				<element name="uint30" type="tns:intType" />

@@ -178,6 +178,19 @@ public class LEInputStream {
 		return (byte) v;
 	}
 
+	public byte readuint7() throws IOException {
+		int v = getBits(7) & 0x7F;
+		return (byte) v;
+	}
+
+	public short readuint9() throws IOException {
+		int a = input.readByte();
+		int b = getBits(1) & 0x1;
+		pos++;
+		int v = (b << 8) | a;
+		return (short) v;
+	}
+
 	public short readuint12() throws IOException {
 		// we assume there are 4 bits left
 		int a = getBits(4) & 0xF;
@@ -203,6 +216,15 @@ public class LEInputStream {
 			throw new IOException(
 					"Cannot read this type halfway through a bit operation.");
 		}
+		return (short) v;
+	}
+
+	public short readuint15() throws IOException {
+		// we assume there are 7 bits left
+		int a = getBits(7) & 0x7F;
+		int b = input.readByte();
+		pos++;
+		int v = (b << 7) | a;
 		return (short) v;
 	}
 
