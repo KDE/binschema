@@ -231,14 +231,36 @@
 		<type name="drawingGroup" type="DrawingGroupContainer" />
 		<type name="masterList" type="MasterListWithTextContainer" />
 		<type name="docInfoList" type="DocInfoListContainer" optional="true" />
+		<type name="slideHF" type="SlideHeadersFootersContainer"
+			optional="true" />
+		<type name="notesHF" type="NotesHeadersFootersContainer"
+			optional="true" />
 		<type name="slideList" type="SlideListWithTextContainer"
+			optional="true" />
+		<type name="notesList" type="NotesListWithTextContainer"
 			optional="true" />
 		<!--  todo: some optional fields -->
 		<type name="endDocumentAtom" type="EndDocumentAtom" />
 	</struct>
+	<struct name="SlideHeadersFootersContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="3" />
+			<limitation name="recType" value="0xFD9" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
+	</struct>
+	<struct name="NotesHeadersFootersContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="4" />
+			<limitation name="recType" value="0xFD9" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
+	</struct>
 	<struct name="EndDocumentAtom">
 		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0	" />
+			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x3EA" />
 			<limitation name="recLen" value="0" />
@@ -258,7 +280,7 @@
 			<limitation name="recVer" value="0|0xF" />
 			<limitation name="recInstance" value="0|1" />
 			<limitation name="recType"
-				value="0x414|0x3FA|0x413|0x415|0x1388|0x407|0x408" />
+				value="0x1388|0x414|0x413|0x407|0x3FA|0x408|0x3FF" />
 		</type>
 		<uint8 name="wrong" count="rh.recLen" />
 		<!--
@@ -363,6 +385,14 @@
 		<type name="rgChildRec" type="SlideListWithTextSubContainerOrAtom"
 			array="true" />
 	</struct>
+	<struct name="NotesListWithTextContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="2" />
+			<limitation name="recType" value="0x0FF0" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
+	</struct>
 	<struct name="SlideListWithTextSubContainerOrAtom">
 		<!--  we ignore the details of the order of slides required here -->
 		<choice name="anon">
@@ -448,7 +478,7 @@
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0xFA0" />
+			<limitation name="recType" value="0xFA1" />
 		</type>
 		<!-- this one seems very hard to do -->
 		<uint8 name="wrong" count="rh.recLen" />
@@ -1212,7 +1242,7 @@
 			<limitation name="recType" value="0x0F000" />
 		</type>
 		<type name="drawingGroup" type="OfficeArtFDGGBlock" />
-		<type name="blipStore" type="OfficeArtBStoreContainer" />
+		<type name="blipStore" type="OfficeArtBStoreContainer" optional="true" /> <!--  different from spec -->
 		<type name="drawingPrimaryOptions" type="OfficeArtFOPT" />
 		<type name="drawingTertiaryOptions" type="OfficeArtTertiaryFOPT"
 			optional="true" />
@@ -1291,7 +1321,7 @@
 			<limitation name="recType" value="0x0F003" />
 		</type>
 		<type name="rgfb" type="OfficeArtSpgrContainerFileBlock" array="true"
-			size="th.recLen" />
+			size="rh.recLen" />
 	</struct>
 	<struct name="OfficeArtSpgrContainerFileBlock">
 		<choice name="anon">
@@ -1392,12 +1422,12 @@
 	<struct name="OfficeArtTertiaryFOPT">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="3" />
-			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xF122" />
 		</type>
 		<!--  todo
 		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
-		<uint8 name="fopt" count="rh.recLen" />
+		<!--  <uint8 name="fopt" count="rh.recLen" /> --> 
+		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance"/>
 	</struct>
 	<struct name="OfficeArtChildAnchor">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -1443,7 +1473,7 @@
 	</struct>
 	<struct name="OfficeArtClientTextBox">
 		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="0" />
+			<limitation name="recVer" value="0|0xF" /> <!--  documentations says value should be 0 -->
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xF00D" />
 		</type>
