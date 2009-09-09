@@ -1939,7 +1939,7 @@
 		<type name="plcfBtePapx" type="PlcfBtePapx" size="12" />
 		<type name="cmds" type="Tcg" size="12" />
 		<type name="clx" type="Clx" size="21" />
-		<uint8 name="sttbfFfn" count="246" />
+		<type name="sttbfFfn" type="SttbfFfn" size="246" />
 		<uint8 name="dop" count="600" />
 	</struct>
 	<struct name="STSH">
@@ -2047,6 +2047,17 @@
 			<limitation value="true" />
 		</bit>
 		<uint15 name="igrpprl" />
+	</struct>
+	<struct name="SttbfFfn">
+		<uint16 name="cData" />
+		<uint16 name="cbExtra">
+			<limitation value="0" />
+		</uint16>
+		<type name="data" type="SttbfFfnEntry" count="cData" />
+	</struct>
+	<struct name="SttbfFfnEntry">
+		<uint8 name="cchData" />
+		<uint8 name="Data" count="cchData" />
 	</struct>
 	<stream name="PowerPointDocument" key="PowerPoint Document"
 		type="PowerPointStructs" />
