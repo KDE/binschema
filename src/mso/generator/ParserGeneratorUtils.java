@@ -58,6 +58,7 @@ class Member {
 	final String name;
 	final String type;
 	final String count;
+	final String size;
 	final String condition;
 	final boolean isArray;
 	final boolean isOptional;
@@ -71,6 +72,7 @@ class Member {
 		condition = (e.hasAttribute("condition")) ? e.getAttribute("condition")
 				: null;
 		count = (e.hasAttribute("count")) ? e.getAttribute("count") : null;
+		size = (e.hasAttribute("size")) ? e.getAttribute("size") : null;
 
 		List<String> _choices = null;
 		isOptional = e.hasAttribute("optional");
