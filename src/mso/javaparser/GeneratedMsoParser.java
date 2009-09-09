@@ -104,6 +104,7 @@ System.out.println(in.getPosition()+" "+_s);
         Object _m;
         boolean _atend = false;
         int i=0;
+        int _startPos = in.getPosition();
         while (!_atend) {
             System.out.println("round "+(i++) + " " + in.getPosition());
             _m = in.setMark();
@@ -119,7 +120,7 @@ System.out.println(in.getPosition()+" "+_s);
                 in.rewind(_m);
             } finally {
                 in.releaseMark(_m);
-            }
+           }
         }
         return _s;
     }
@@ -288,6 +289,7 @@ System.out.println(in.getPosition()+" "+_s);
         Object _m;
         boolean _atend = false;
         int i=0;
+        int _startPos = in.getPosition();
         while (!_atend) {
             System.out.println("round "+(i++) + " " + in.getPosition());
             _m = in.setMark();
@@ -303,15 +305,57 @@ System.out.println(in.getPosition()+" "+_s);
                 in.rewind(_m);
             } finally {
                 in.releaseMark(_m);
-            }
+           }
+        }
+        return _s;
+    }
+    SlideHeadersFootersContainer parseSlideHeadersFootersContainer(LEInputStream in) throws IOException  {
+        SlideHeadersFootersContainer _s = new SlideHeadersFootersContainer();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 3)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 3 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFD9)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    NotesHeadersFootersContainer parseNotesHeadersFootersContainer(LEInputStream in) throws IOException  {
+        NotesHeadersFootersContainer _s = new NotesHeadersFootersContainer();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 4)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 4 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFD9)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
         }
         return _s;
     }
     EndDocumentAtom parseEndDocumentAtom(LEInputStream in) throws IOException  {
         EndDocumentAtom _s = new EndDocumentAtom();
         _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0 )) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0  for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recInstance == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
@@ -340,6 +384,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         boolean _atend = false;
         int i=0;
+        int _startPos = in.getPosition();
         while (!_atend) {
             System.out.println("round "+(i++) + " " + in.getPosition());
             _m = in.setMark();
@@ -355,7 +400,7 @@ System.out.println(in.getPosition()+" "+_s);
                 in.rewind(_m);
             } finally {
                 in.releaseMark(_m);
-            }
+           }
         }
         return _s;
     }
@@ -370,8 +415,8 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 || _s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0x414 || _s.rh.recType == 0x3FA || _s.rh.recType == 0x413 || _s.rh.recType == 0x415 || _s.rh.recType == 0x1388 || _s.rh.recType == 0x407 || _s.rh.recType == 0x408)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x414 || _s.rh.recType == 0x3FA || _s.rh.recType == 0x413 || _s.rh.recType == 0x415 || _s.rh.recType == 0x1388 || _s.rh.recType == 0x407 || _s.rh.recType == 0x408 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0x1388 || _s.rh.recType == 0x414 || _s.rh.recType == 0x413 || _s.rh.recType == 0x407 || _s.rh.recType == 0x3FA || _s.rh.recType == 0x408 || _s.rh.recType == 0x3FF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1388 || _s.rh.recType == 0x414 || _s.rh.recType == 0x413 || _s.rh.recType == 0x407 || _s.rh.recType == 0x3FA || _s.rh.recType == 0x408 || _s.rh.recType == 0x3FF for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
         _s.wrong = new byte[_c];
@@ -441,6 +486,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         boolean _atend = false;
         int i=0;
+        int _startPos = in.getPosition();
         while (!_atend) {
             System.out.println("round "+(i++) + " " + in.getPosition());
             _m = in.setMark();
@@ -456,7 +502,28 @@ System.out.println(in.getPosition()+" "+_s);
                 in.rewind(_m);
             } finally {
                 in.releaseMark(_m);
-            }
+           }
+        }
+        return _s;
+    }
+    NotesListWithTextContainer parseNotesListWithTextContainer(LEInputStream in) throws IOException  {
+        NotesListWithTextContainer _s = new NotesListWithTextContainer();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 2)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 2 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FF0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0FF0 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
         }
         return _s;
     }
@@ -540,8 +607,8 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recInstance == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0xFA0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFA0 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0xFA1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFA1 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
         _s.wrong = new byte[_c];
@@ -994,6 +1061,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         boolean _atend = false;
         int i=0;
+        int _startPos = in.getPosition();
         while (!_atend) {
             System.out.println("round "+(i++) + " " + in.getPosition());
             _m = in.setMark();
@@ -1009,7 +1077,7 @@ System.out.println(in.getPosition()+" "+_s);
                 in.rewind(_m);
             } finally {
                 in.releaseMark(_m);
-            }
+           }
         }
         return _s;
     }
@@ -1436,6 +1504,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         boolean _atend = false;
         int i=0;
+        int _startPos = in.getPosition();
         while (!_atend) {
             System.out.println("round "+(i++) + " " + in.getPosition());
             _m = in.setMark();
@@ -1451,7 +1520,8 @@ System.out.println(in.getPosition()+" "+_s);
                 in.rewind(_m);
             } finally {
                 in.releaseMark(_m);
-            }
+           }
+           _atend = in.getPosition() - _startPos >= _s.rh.recLen;
         }
         return _s;
     }
@@ -1574,16 +1644,13 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recVer == 3)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 3 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recInstance == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
-        }
         if (!(_s.rh.recType == 0xF122)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF122 for value " + String.valueOf(_s.rh) );
         }
-        _c = _s.rh.recLen;
-        _s.fopt = new byte[_c];
+        _c = _s.rh.recInstance;
+        _s.fopt = new OfficeArtFOPTE[_c];
         for (int _i=0; _i<_c; ++_i) {
-            _s.fopt[_i] = in.readuint8();
+            _s.fopt[_i] = parseOfficeArtFOPTE(in);
         }
         return _s;
     }
@@ -1650,8 +1717,8 @@ System.out.println(in.getPosition()+" "+_s);
         int _c;
         Object _m;
         _s.rh = parseOfficeArtRecordHeader(in);
-        if (!(_s.rh.recVer == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recVer == 0 || _s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 || _s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recInstance == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
@@ -1788,6 +1855,7 @@ System.out.println(in.getPosition()+" "+_s);
         Object _m;
         boolean _atend = false;
         int i=0;
+        int _startPos = in.getPosition();
         while (!_atend) {
             System.out.println("round "+(i++) + " " + in.getPosition());
             _m = in.setMark();
@@ -1803,7 +1871,7 @@ System.out.println(in.getPosition()+" "+_s);
                 in.rewind(_m);
             } finally {
                 in.releaseMark(_m);
-            }
+           }
         }
         return _s;
     }
@@ -2393,6 +2461,34 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.fComplex == true for value " + String.valueOf(_s.fComplex) );
         }
         _s.igrpprl = in.readuint15();
+        return _s;
+    }
+    SttbfFfn parseSttbfFfn(LEInputStream in) throws IOException  {
+        SttbfFfn _s = new SttbfFfn();
+        int _c;
+        Object _m;
+        _s.cData = in.readuint16();
+        _s.cbExtra = in.readuint16();
+        if (!(_s.cbExtra == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.cbExtra == 0 for value " + String.valueOf(_s.cbExtra) );
+        }
+        _c = _s.cData;
+        _s.data = new SttbfFfnEntry[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.data[_i] = parseSttbfFfnEntry(in);
+        }
+        return _s;
+    }
+    SttbfFfnEntry parseSttbfFfnEntry(LEInputStream in) throws IOException  {
+        SttbfFfnEntry _s = new SttbfFfnEntry();
+        int _c;
+        Object _m;
+        _s.cchData = in.readuint8();
+        _c = _s.cchData;
+        _s.Data = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.Data[_i] = in.readuint8();
+        }
         return _s;
     }
     PicturesStream parsePicturesStream(LEInputStream in) throws IOException  {
@@ -3032,6 +3128,7 @@ System.out.println(in.getPosition()+" "+_s);
         Object _m;
         boolean _atend = false;
         int i=0;
+        int _startPos = in.getPosition();
         while (!_atend) {
             System.out.println("round "+(i++) + " " + in.getPosition());
             _m = in.setMark();
@@ -3047,7 +3144,7 @@ System.out.println(in.getPosition()+" "+_s);
                 in.rewind(_m);
             } finally {
                 in.releaseMark(_m);
-            }
+           }
         }
         _s.pcdt = parsePcdt(in);
         return _s;
@@ -3490,7 +3587,17 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0F000 for value " + String.valueOf(_s.rh) );
         }
         _s.drawingGroup = parseOfficeArtFDGGBlock(in);
-        _s.blipStore = parseOfficeArtBStoreContainer(in);
+        _m = in.setMark();
+        try {
+            _s.blipStore = parseOfficeArtBStoreContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
         _s.drawingPrimaryOptions = parseOfficeArtFOPT(in);
         _m = in.setMark();
         try {
@@ -3648,11 +3755,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.plcfBtePapx = parsePlcfBtePapx(in);
         _s.cmds = parseTcg(in);
         _s.clx = parseClx(in);
-        _c = 246;
-        _s.sttbfFfn = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.sttbfFfn[_i] = in.readuint8();
-        }
+        _s.sttbfFfn = parseSttbfFfn(in);
         _c = 600;
         _s.dop = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
@@ -3848,6 +3951,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.shape = parseOfficeArtSpContainer(in);
         boolean _atend = false;
         int i=0;
+        int _startPos = in.getPosition();
         while (!_atend) {
             System.out.println("round "+(i++) + " " + in.getPosition());
             _m = in.setMark();
@@ -3863,7 +3967,7 @@ System.out.println(in.getPosition()+" "+_s);
                 in.rewind(_m);
             } finally {
                 in.releaseMark(_m);
-            }
+           }
         }
         _m = in.setMark();
         try {
@@ -3934,7 +4038,40 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _m = in.setMark();
         try {
+            _s.slideHF = parseSlideHeadersFootersContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.notesHF = parseNotesHeadersFootersContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
             _s.slideList = parseSlideListWithTextContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.notesList = parseNotesListWithTextContainer(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
@@ -4210,6 +4347,26 @@ class PowerPointStructs {
         return _s;
     }
 }
+class SlideHeadersFootersContainer {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "SlideHeadersFootersContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
+        return _s;
+    }
+}
+class NotesHeadersFootersContainer {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "NotesHeadersFootersContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
+        return _s;
+    }
+}
 class EndDocumentAtom {
     RecordHeader rh;
     public String toString() {
@@ -4265,6 +4422,16 @@ class SlideListWithTextContainer {
         String _s = "SlideListWithTextContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "rgChildRec: " + String.valueOf(rgChildRec) + ", ";
+        return _s;
+    }
+}
+class NotesListWithTextContainer {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "NotesListWithTextContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
         return _s;
     }
 }
@@ -5068,7 +5235,7 @@ class OfficeArtSecondaryFOPT {
 }
 class OfficeArtTertiaryFOPT {
     OfficeArtRecordHeader rh;
-    byte[] fopt;
+    OfficeArtFOPTE[] fopt;
     public String toString() {
         String _s = "OfficeArtTertiaryFOPT:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -6094,6 +6261,28 @@ class Prm1 {
         return _s;
     }
 }
+class SttbfFfn {
+    int cData;
+    int cbExtra;
+    SttbfFfnEntry[] data;
+    public String toString() {
+        String _s = "SttbfFfn:";
+        _s = _s + "cData: " + String.valueOf(cData) + "(" + Integer.toHexString(cData).toUpperCase() + "), ";
+        _s = _s + "cbExtra: " + String.valueOf(cbExtra) + "(" + Integer.toHexString(cbExtra).toUpperCase() + "), ";
+        _s = _s + "data: " + String.valueOf(data) + ", ";
+        return _s;
+    }
+}
+class SttbfFfnEntry {
+    byte cchData;
+    byte[] Data;
+    public String toString() {
+        String _s = "SttbfFfnEntry:";
+        _s = _s + "cchData: " + String.valueOf(cchData) + "(" + Integer.toHexString(cchData).toUpperCase() + "), ";
+        _s = _s + "Data: " + String.valueOf(Data) + ", ";
+        return _s;
+    }
+}
 class PicturesStream {
     OfficeArtBStoreDelay anon1;
     public String toString() {
@@ -6738,7 +6927,7 @@ class Table {
     PlcfBtePapx plcfBtePapx;
     Tcg cmds;
     Clx clx;
-    byte[] sttbfFfn;
+    SttbfFfn sttbfFfn;
     byte[] dop;
     public String toString() {
         String _s = "Table:";
@@ -6884,7 +7073,10 @@ class DocumentContainer {
     DrawingGroupContainer drawingGroup;
     MasterListWithTextContainer masterList;
     DocInfoListContainer docInfoList;
+    SlideHeadersFootersContainer slideHF;
+    NotesHeadersFootersContainer notesHF;
     SlideListWithTextContainer slideList;
+    NotesListWithTextContainer notesList;
     EndDocumentAtom endDocumentAtom;
     public String toString() {
         String _s = "DocumentContainer:";
@@ -6895,7 +7087,10 @@ class DocumentContainer {
         _s = _s + "drawingGroup: " + String.valueOf(drawingGroup) + ", ";
         _s = _s + "masterList: " + String.valueOf(masterList) + ", ";
         _s = _s + "docInfoList: " + String.valueOf(docInfoList) + ", ";
+        _s = _s + "slideHF: " + String.valueOf(slideHF) + ", ";
+        _s = _s + "notesHF: " + String.valueOf(notesHF) + ", ";
         _s = _s + "slideList: " + String.valueOf(slideList) + ", ";
+        _s = _s + "notesList: " + String.valueOf(notesList) + ", ";
         _s = _s + "endDocumentAtom: " + String.valueOf(endDocumentAtom) + ", ";
         return _s;
     }

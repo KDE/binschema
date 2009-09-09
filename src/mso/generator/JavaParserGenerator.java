@@ -227,6 +227,7 @@ public class JavaParserGenerator {
 	void printVariableArrayParser(PrintWriter out, String s, Member m) {
 		out.println(s + "boolean _atend = false;");
 		out.println(s + "int i=0;");
+		out.println(s + "int _startPos = in.getPosition();");
 		out.println(s + "while (!_atend) {");
 		out
 				.println(s
@@ -246,7 +247,11 @@ public class JavaParserGenerator {
 		out.println(s + "        in.rewind(_m);");
 		out.println(s + "    } finally {");
 		out.println(s + "        in.releaseMark(_m);");
-		out.println(s + "    }");
+		out.println(s + "   }");
+		if (m.size != null) {
+			out.println(s + "   _atend = in.getPosition() - _startPos >= "
+					+ getExpression("_s", m.size) + ";");
+		}
 		out.println(s + "}");
 	}
 
