@@ -1626,6 +1626,17 @@
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
+	<struct name="OutlineTextRefAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF9E" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<int32 name="index">
+			<limitation expression="&gt;=0" />
+		</int32>
+	</struct>
 	<struct name="ShapeClientRoundtripDataSubcontainerOrAtom">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recType" value="0x1388|0xBDD|0x41F|0x420|0x426" />

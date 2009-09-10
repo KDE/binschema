@@ -2039,6 +2039,27 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    OutlineTextRefAtom parseOutlineTextRefAtom(LEInputStream in) throws IOException  {
+        OutlineTextRefAtom _s = new OutlineTextRefAtom();
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xF9E)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF9E for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 4)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 4 for value " + String.valueOf(_s.rh) );
+        }
+        _s.index = in.readint32();
+        if (!(_s.index>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.index>=0 for value " + String.valueOf(_s.index) );
+        }
+        return _s;
+    }
     ShapeClientRoundtripDataSubcontainerOrAtom parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream in) throws IOException  {
         ShapeClientRoundtripDataSubcontainerOrAtom _s = new ShapeClientRoundtripDataSubcontainerOrAtom();
         int _c;
@@ -6003,6 +6024,16 @@ class RecolorInfoAtom {
         String _s = "RecolorInfoAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        return _s;
+    }
+}
+class OutlineTextRefAtom {
+    OfficeArtRecordHeader rh;
+    int index;
+    public String toString() {
+        String _s = "OutlineTextRefAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "index: " + String.valueOf(index) + "(" + Integer.toHexString(index).toUpperCase() + "), ";
         return _s;
     }
 }
