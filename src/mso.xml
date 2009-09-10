@@ -246,6 +246,8 @@
 			optional="true" />
 		<type name="notesList" type="NotesListWithTextContainer"
 			optional="true" />
+		<type name="slideShowDocInfoAtom" type="SlideShowDocInfoAtom"
+			optional="true" />
 		<!--  todo: some optional fields -->
 		<type name="endDocumentAtom" type="EndDocumentAtom" />
 	</struct>
@@ -855,6 +857,16 @@
 			TODO implement
 		-->
 	</struct>
+	<struct name="FontEntityAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" expression="&gt;=0" />
+			<limitation name="recInstance" expression="&lt;=128" />
+			<limitation name="recType" value="0xFB7" />
+			<limitation name="recLen" value="0x44" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
 	<struct name="KinsokuContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
@@ -1134,6 +1146,15 @@
 		<uint3 name="reserved7" />
 		<uint8 name="speed" />
 		<uint8 name="unused" count="3" />
+	</struct>
+	<struct name="SlideShowDocInfoAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="1" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0401" />
+			<limitation name="recLen" value="0x50" />
+		</type>
+		<uint8 name="todo" count="0x50" />
 	</struct>
 	<struct name="DrawingGroupContainer">
 		<type name="rh" type="RecordHeader">
@@ -1666,7 +1687,11 @@
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recType" value="0x0F001" />
 		</type>
-		<type name="rgfb" type="OfficeArtBStoreContainerFileBlock" count="rh.recInstance" />
+		<!--
+			OOo can set number of instances to a wrong value, so use rh.recLen
+		-->
+		<type name="rgfb" type="OfficeArtBStoreContainerFileBlock" array="true"
+			size="rh.recLen" />
 	</struct>
 	<struct name="OfficeArtFOPT">
 		<type name="rh" type="OfficeArtRecordHeader">

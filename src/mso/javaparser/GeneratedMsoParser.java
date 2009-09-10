@@ -1005,6 +1005,33 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    FontEntityAtom parseFontEntityAtom(LEInputStream in) throws IOException  {
+        FontEntityAtom _s = new FontEntityAtom();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance>=0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance<=128)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance<=128 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFB7)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFB7 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x44)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x44 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.todo = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.todo[_i] = in.readuint8();
+        }
+        return _s;
+    }
     KinsokuAtom parseKinsokuAtom(LEInputStream in) throws IOException  {
         KinsokuAtom _s = new KinsokuAtom();
         _s.rh = parseRecordHeader(in);
@@ -1386,6 +1413,30 @@ System.out.println(in.getPosition()+" "+_s);
         _s.unused = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
             _s.unused[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    SlideShowDocInfoAtom parseSlideShowDocInfoAtom(LEInputStream in) throws IOException  {
+        SlideShowDocInfoAtom _s = new SlideShowDocInfoAtom();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0401)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0401 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x50)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x50 for value " + String.valueOf(_s.rh) );
+        }
+        _c = 0x50;
+        _s.todo = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.todo[_i] = in.readuint8();
         }
         return _s;
     }
@@ -2141,10 +2192,26 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recType == 0x0F001)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0F001 for value " + String.valueOf(_s.rh) );
         }
-        _c = _s.rh.recInstance;
-        _s.rgfb = new OfficeArtBStoreContainerFileBlock[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgfb[_i] = parseOfficeArtBStoreContainerFileBlock(in);
+        boolean _atend = false;
+        int i=0;
+        int _startPos = in.getPosition();
+        while (!_atend) {
+            System.out.println("round "+(i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                OfficeArtBStoreContainerFileBlock _t = parseOfficeArtBStoreContainerFileBlock(in);
+                _s.rgfb.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+           _atend = in.getPosition() - _startPos >= _s.rh.recLen;
         }
         return _s;
     }
@@ -4595,6 +4662,17 @@ System.out.println(in.getPosition()+" "+_s);
         } finally {
             in.releaseMark(_m);
         }
+        _m = in.setMark();
+        try {
+            _s.slideShowDocInfoAtom = parseSlideShowDocInfoAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
         _s.endDocumentAtom = parseEndDocumentAtom(in);
         return _s;
     }
@@ -5377,6 +5455,16 @@ class FontCollectionContainer {
         return _s;
     }
 }
+class FontEntityAtom {
+    RecordHeader rh;
+    byte[] todo;
+    public String toString() {
+        String _s = "FontEntityAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        return _s;
+    }
+}
 class KinsokuAtom {
     RecordHeader rh;
     int level;
@@ -5618,6 +5706,16 @@ class SlideShowSlideInfoAtom {
         _s = _s + "reserved7: " + String.valueOf(reserved7) + "(" + Integer.toHexString(reserved7).toUpperCase() + "), ";
         _s = _s + "speed: " + String.valueOf(speed) + "(" + Integer.toHexString(speed).toUpperCase() + "), ";
         _s = _s + "unused: " + String.valueOf(unused) + ", ";
+        return _s;
+    }
+}
+class SlideShowDocInfoAtom {
+    RecordHeader rh;
+    byte[] todo;
+    public String toString() {
+        String _s = "SlideShowDocInfoAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
         return _s;
     }
 }
@@ -6079,7 +6177,7 @@ class OfficeArtIDCL {
 }
 class OfficeArtBStoreContainer {
     OfficeArtRecordHeader rh;
-    OfficeArtBStoreContainerFileBlock[] rgfb;
+    final java.util.List<OfficeArtBStoreContainerFileBlock> rgfb = new java.util.ArrayList<OfficeArtBStoreContainerFileBlock>();
     public String toString() {
         String _s = "OfficeArtBStoreContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -7863,6 +7961,7 @@ class DocumentContainer {
     NotesHeadersFootersContainer notesHF;
     SlideListWithTextContainer slideList;
     NotesListWithTextContainer notesList;
+    SlideShowDocInfoAtom slideShowDocInfoAtom;
     EndDocumentAtom endDocumentAtom;
     public String toString() {
         String _s = "DocumentContainer:";
@@ -7877,6 +7976,7 @@ class DocumentContainer {
         _s = _s + "notesHF: " + String.valueOf(notesHF) + ", ";
         _s = _s + "slideList: " + String.valueOf(slideList) + ", ";
         _s = _s + "notesList: " + String.valueOf(notesList) + ", ";
+        _s = _s + "slideShowDocInfoAtom: " + String.valueOf(slideShowDocInfoAtom) + ", ";
         _s = _s + "endDocumentAtom: " + String.valueOf(endDocumentAtom) + ", ";
         return _s;
     }
