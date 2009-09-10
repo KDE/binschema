@@ -351,6 +351,27 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    PerSlideHeadersFootersContainer parsePerSlideHeadersFootersContainer(LEInputStream in) throws IOException  {
+        PerSlideHeadersFootersContainer _s = new PerSlideHeadersFootersContainer();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFD9)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
+        }
+        return _s;
+    }
     EndDocumentAtom parseEndDocumentAtom(LEInputStream in) throws IOException  {
         EndDocumentAtom _s = new EndDocumentAtom();
         _s.rh = parseRecordHeader(in);
@@ -1122,6 +1143,135 @@ System.out.println(in.getPosition()+" "+_s);
         _s.todo = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
             _s.todo[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    NotesContainer parseNotesContainer(LEInputStream in) throws IOException  {
+        NotesContainer _s = new NotesContainer();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x03F0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x03F0 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    HandoutContainer parseHandoutContainer(LEInputStream in) throws IOException  {
+        HandoutContainer _s = new HandoutContainer();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FC9)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0FC9 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    ExControlStg parseExControlStg(LEInputStream in) throws IOException  {
+        ExControlStg _s = new ExControlStg();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 || _s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x1011)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1011 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    ExOleObjStg parseExOleObjStg(LEInputStream in) throws IOException  {
+        ExOleObjStg _s = new ExOleObjStg();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x1011)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1011 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    UserEditAtom parseUserEditAtom(LEInputStream in) throws IOException  {
+        UserEditAtom _s = new UserEditAtom();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FF5)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0FF5 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x1C || _s.rh.recLen == 0x20)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x1C || _s.rh.recLen == 0x20 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    VbaProjectStg parseVbaProjectStg(LEInputStream in) throws IOException  {
+        VbaProjectStg _s = new VbaProjectStg();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 || _s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x1011)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1011 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
         }
         return _s;
     }
@@ -4123,6 +4273,17 @@ System.out.println(in.getPosition()+" "+_s);
         } finally {
             in.releaseMark(_m);
         }
+        _m = in.setMark();
+        try {
+            _s.perSlideHFContainer = parsePerSlideHeadersFootersContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
         _s.drawing = parseDrawingContainer(in);
         _s.slideSchemeColorSchemeAtom = parseSlideSchemeColorSchemeAtom(in);
         _m = in.setMark();
@@ -4168,8 +4329,56 @@ System.out.println(in.getPosition()+" "+_s);
             System.out.println(_xx.getMessage());
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
+        try {
             _s.anon = parsePersistDirectoryAtom(in);
-        }} finally {
+        } catch (IncorrectValueException _xxx) {
+            System.out.println(_xxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseNotesContainer(in);
+        } catch (IncorrectValueException _xxxx) {
+            System.out.println(_xxxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseHandoutContainer(in);
+        } catch (IncorrectValueException _xxxxx) {
+            System.out.println(_xxxxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseSlideContainer(in);
+        } catch (IncorrectValueException _xxxxxx) {
+            System.out.println(_xxxxxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseExOleObjStg(in);
+        } catch (IncorrectValueException _xxxxxxx) {
+            System.out.println(_xxxxxxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseExControlStg(in);
+        } catch (IncorrectValueException _xxxxxxxx) {
+            System.out.println(_xxxxxxxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseVbaProjectStg(in);
+        } catch (IncorrectValueException _xxxxxxxxx) {
+            System.out.println(_xxxxxxxxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parsePersistDirectoryAtom(in);
+        } catch (IncorrectValueException _xxxxxxxxxx) {
+            System.out.println(_xxxxxxxxxx.getMessage());
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+            _s.anon = parseUserEditAtom(in);
+        }}}}}}}}}} finally {
             in.releaseMark(_m);
         }
         return _s;
@@ -4362,6 +4571,16 @@ class NotesHeadersFootersContainer {
     byte[] TODO;
     public String toString() {
         String _s = "NotesHeadersFootersContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
+        return _s;
+    }
+}
+class PerSlideHeadersFootersContainer {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "PerSlideHeadersFootersContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
         return _s;
@@ -4886,6 +5105,66 @@ class MainMasterContainer {
         String _s = "MainMasterContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        return _s;
+    }
+}
+class NotesContainer {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "NotesContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
+        return _s;
+    }
+}
+class HandoutContainer {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "HandoutContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
+        return _s;
+    }
+}
+class ExControlStg {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "ExControlStg:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
+        return _s;
+    }
+}
+class ExOleObjStg {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "ExOleObjStg:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
+        return _s;
+    }
+}
+class UserEditAtom {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "UserEditAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
+        return _s;
+    }
+}
+class VbaProjectStg {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "VbaProjectStg:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
         return _s;
     }
 }
@@ -7109,6 +7388,7 @@ class SlideContainer {
     RecordHeader rh;
     SlideAtom slideAtom;
     SlideShowSlideInfoAtom slideShowSlideInfoAtom;
+    PerSlideHeadersFootersContainer perSlideHFContainer;
     DrawingContainer drawing;
     SlideSchemeColorSchemeAtom slideSchemeColorSchemeAtom;
     SlideProgTagscontainer slideProgTagsContainer;
@@ -7117,6 +7397,7 @@ class SlideContainer {
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "slideAtom: " + String.valueOf(slideAtom) + ", ";
         _s = _s + "slideShowSlideInfoAtom: " + String.valueOf(slideShowSlideInfoAtom) + ", ";
+        _s = _s + "perSlideHFContainer: " + String.valueOf(perSlideHFContainer) + ", ";
         _s = _s + "drawing: " + String.valueOf(drawing) + ", ";
         _s = _s + "slideSchemeColorSchemeAtom: " + String.valueOf(slideSchemeColorSchemeAtom) + ", ";
         _s = _s + "slideProgTagsContainer: " + String.valueOf(slideProgTagsContainer) + ", ";

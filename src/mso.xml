@@ -215,7 +215,14 @@
 			<type type="DocumentContainer" />
 			<type type="MasterOrSlideContainer" />
 			<type type="PersistDirectoryAtom" />
-			<!-- <type type="TODO" /> -->
+			<type type="NotesContainer" />
+			<type type="HandoutContainer" />
+			<type type="SlideContainer" />
+			<type type="ExOleObjStg" />
+			<type type="ExControlStg" />
+			<type type="VbaProjectStg" />
+			<type type="PersistDirectoryAtom" />
+			<type type="UserEditAtom" />
 		</choice>
 	</struct>
 	<struct name="DocumentContainer">
@@ -254,6 +261,14 @@
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="4" />
+			<limitation name="recType" value="0xFD9" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
+	</struct>
+	<struct name="PerSlideHeadersFootersContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFD9" />
 		</type>
 		<uint8 name="TODO" count="rh.recLen" />
@@ -995,11 +1010,11 @@
 		<type name="slideAtom" type="SlideAtom" />
 		<type name="slideShowSlideInfoAtom" type="SlideShowSlideInfoAtom"
 			optional="true" />
-		<!--
-			<type name="perSlideHFContainer"
-			type="PerSlideHeadersFootersContainer" optional="true" /> <type
-			name="rtSlideSyncInfo12" type="RoundTripSlideSyncInfo12Container"
+		<type name="perSlideHFContainer" type="PerSlideHeadersFootersContainer"
 			optional="true" />
+		<!--
+			<type name="rtSlideSyncInfo12"
+			type="RoundTripSlideSyncInfo12Container" optional="true" />
 		-->
 		<type name="drawing" type="DrawingContainer" />
 		<type name="slideSchemeColorSchemeAtom" type="SlideSchemeColorSchemeAtom" />
@@ -1012,6 +1027,55 @@
 			<type name="rgRoundTripSlide" type="RoundTripSlideRecord"
 			array="true" />
 		-->
+	</struct>
+	<struct name="NotesContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x03F0" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
+	</struct>
+	<struct name="HandoutContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0FC9" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
+	</struct>
+	<struct name="ExControlStg">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0|1" />
+			<limitation name="recType" value="0x1011" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
+	</struct>
+	<struct name="ExOleObjStg">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x1011" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
+	</struct>
+	<struct name="UserEditAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0FF5" />
+			<limitation name="recLen" value="0x1C|0x20" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
+	</struct>
+	<struct name="VbaProjectStg">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0|1" />
+			<limitation name="recType" value="0x1011" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
 	</struct>
 	<struct name="SlideProgTagscontainer">
 		<type name="rh" type="RecordHeader">
@@ -1426,8 +1490,8 @@
 		</type>
 		<!--  todo
 		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
-		<!--  <uint8 name="fopt" count="rh.recLen" /> --> 
-		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance"/>
+		<!--  <uint8 name="fopt" count="rh.recLen" /> -->
+		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
 	</struct>
 	<struct name="OfficeArtChildAnchor">
 		<type name="rh" type="OfficeArtRecordHeader">
