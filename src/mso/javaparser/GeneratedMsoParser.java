@@ -617,6 +617,27 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    MasterTextPropAtom parseMasterTextPropAtom(LEInputStream in) throws IOException  {
+        MasterTextPropAtom _s = new MasterTextPropAtom();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFA2)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFA2 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.TODO = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.TODO[_i] = in.readuint8();
+        }
+        return _s;
+    }
     StyleTextPropAtom parseStyleTextPropAtom(LEInputStream in) throws IOException  {
         StyleTextPropAtom _s = new StyleTextPropAtom();
         int _c;
@@ -632,9 +653,9 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFA1 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.wrong = new byte[_c];
+        _s.TODO = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
-            _s.wrong[_i] = in.readuint8();
+            _s.TODO[_i] = in.readuint8();
         }
         return _s;
     }
@@ -1876,6 +1897,34 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recType == 0xF00D)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF00D for value " + String.valueOf(_s.rh) );
         }
+        boolean _atend = false;
+        int i=0;
+        int _startPos = in.getPosition();
+        while (!_atend) {
+            System.out.println("round "+(i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                TextClientDataSubContainerOrAtom _t = parseTextClientDataSubContainerOrAtom(in);
+                _s.rgChildRec.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+           _atend = in.getPosition() - _startPos >= _s.rh.recLen;
+        }
+        return _s;
+    }
+    TextClientDataSubContainerOrAtom parseTextClientDataSubContainerOrAtom(LEInputStream in) throws IOException  {
+        TextClientDataSubContainerOrAtom _s = new TextClientDataSubContainerOrAtom();
+        int _c;
+        Object _m;
+        _s.rh = parseOfficeArtRecordHeader(in);
         _c = _s.rh.recLen;
         _s.todo = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
@@ -4684,13 +4733,23 @@ class TextBytesAtom {
         return _s;
     }
 }
+class MasterTextPropAtom {
+    RecordHeader rh;
+    byte[] TODO;
+    public String toString() {
+        String _s = "MasterTextPropAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
+        return _s;
+    }
+}
 class StyleTextPropAtom {
     RecordHeader rh;
-    byte[] wrong;
+    byte[] TODO;
     public String toString() {
         String _s = "StyleTextPropAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "wrong: " + String.valueOf(wrong) + ", ";
+        _s = _s + "TODO: " + String.valueOf(TODO) + ", ";
         return _s;
     }
 }
@@ -5578,9 +5637,19 @@ class OfficeArtClientData {
 }
 class OfficeArtClientTextBox {
     OfficeArtRecordHeader rh;
-    byte[] todo;
+    final java.util.List<TextClientDataSubContainerOrAtom> rgChildRec = new java.util.ArrayList<TextClientDataSubContainerOrAtom>();
     public String toString() {
         String _s = "OfficeArtClientTextBox:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "rgChildRec: " + String.valueOf(rgChildRec) + ", ";
+        return _s;
+    }
+}
+class TextClientDataSubContainerOrAtom {
+    OfficeArtRecordHeader rh;
+    byte[] todo;
+    public String toString() {
+        String _s = "TextClientDataSubContainerOrAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "todo: " + String.valueOf(todo) + ", ";
         return _s;

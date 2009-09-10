@@ -489,6 +489,14 @@
 			<limitation value="!0" />
 		</uint8>
 	</struct>
+	<struct name="MasterTextPropAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFA2" />
+		</type>
+		<uint8 name="TODO" count="rh.recLen" />
+	</struct>
 	<struct name="StyleTextPropAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
@@ -496,7 +504,7 @@
 			<limitation name="recType" value="0xFA1" />
 		</type>
 		<!-- this one seems very hard to do -->
-		<uint8 name="wrong" count="rh.recLen" />
+		<uint8 name="TODO" count="rh.recLen" />
 	</struct>
 	<struct name="SlideNumberMCAtom">
 		<type name="rh" type="RecordHeader">
@@ -1540,6 +1548,12 @@
 			<limitation name="recVer" value="0|0xF" /> <!--  documentations says value should be 0 -->
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xF00D" />
+		</type>
+		<type name="rgChildRec" array="true" size="rh.recLen"
+			type="TextClientDataSubContainerOrAtom" />
+	</struct>
+	<struct name="TextClientDataSubContainerOrAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
