@@ -1541,6 +1541,95 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xF011" />
 		</type>
+		<type name="shapeFlagsAtom" type="ShapeFlagsAtom" optional="true" />
+		<type name="shapeFlags10Atom" type="ShapeFlags10Atom" optional="true" />
+		<type name="exObjRefAtom" type="ExObjRefAtom" optional="true" />
+		<type name="animationInfo" type="AnimationInfoContainer"
+			optional="true" />
+		<type name="mouseClickInteractiveInfo" type="MouseClickInteractiveInfoContainer"
+			optional="true" />
+		<type name="mouseOverInteractiveInfo" type="MouseOverInteractiveInfoContainer"
+			optional="true" />
+		<type name="placeholderAtom" type="PlaceholderAtom" optional="true" />
+		<type name="recolorInfoAtom" type="RecolorInfoAtom" optional="true" />
+		<type name="rgShapeClientRoundtripData" type="ShapeClientRoundtripDataSubcontainerOrAtom"
+			array="true" />
+	</struct>
+	<struct name="ShapeFlagsAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xBDB" />
+			<limitation name="recLen" value="1" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ShapeFlags10Atom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xBDC" />
+			<limitation name="recLen" value="1" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ExObjRefAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xBC1" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="AnimationInfoContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFF1" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="MouseClickInteractiveInfoContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFF2" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="MouseOverInteractiveInfoContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0xFF2" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="PlaceholderAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xBC3" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<int32 name="position" />
+		<uint8 name="placementId" />
+		<uint8 name="size" />
+		<uint16 name="unused" />
+	</struct>
+	<struct name="RecolorInfoAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFE7" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ShapeClientRoundtripDataSubcontainerOrAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recType" value="0x1388|0xBDD|0x41F|0x420|0x426" />
+		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="OfficeArtClientTextBox">
