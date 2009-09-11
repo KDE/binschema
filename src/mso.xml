@@ -45,9 +45,12 @@
 		<uint8 name="unicodeUserName" count="2*lenUserName"
 			condition="rh.recLen==3*lenUserName+0x14" />
 	</struct>
+	<struct name="Byte">
+		<uint8 name="b" />
+	</struct>
 	<struct name="CurrentUserStream">
 		<type name="anon1" type="CurrentUserAtom" />
-		<uint8 name="trailing" count="78-anon1.rh.recLen" />
+		<type name="trailing" type="Byte" array="true" />
 	</struct>
 	<struct name="PicturesStream">
 		<type name="anon1" type="OfficeArtBStoreDelay" />
