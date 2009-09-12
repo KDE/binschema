@@ -8121,7 +8121,8 @@ void parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
         _s.anon.usereditatom = QSharedPointer<UserEditAtom>(new UserEditAtom(_t));
     }}}}}}}}}
 }
-void parse(QString key, LEInputStream& in) {
+}
+void parse(const QString& key, LEInputStream& in) {
     if ("PowerPoint Document" == key) {
         PowerPointStructs _t;
         parsePowerPointStructs(in, _t);
@@ -8141,5 +8142,4 @@ void parse(QString key, LEInputStream& in) {
         TODOS _t;
         parseTODOS(in, _t);
     }
-}
 }

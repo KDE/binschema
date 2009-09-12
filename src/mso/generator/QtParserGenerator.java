@@ -36,7 +36,9 @@ public class QtParserGenerator {
 			printStructureParser(out, s);
 		}
 
-		out.println("void parse(QString key, LEInputStream& in) {");
+		out.println("}");
+
+		out.println("void parse(const QString& key, LEInputStream& in) {");
 		boolean first = true;
 		for (Stream s : mso.streams) {
 			out.print("    ");
@@ -57,7 +59,6 @@ public class QtParserGenerator {
 		out.println("    }");
 		out.println("}");
 
-		out.println("}");
 		out.close();
 		fout.close();
 	}
