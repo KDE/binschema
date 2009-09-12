@@ -224,7 +224,6 @@
 			<type type="ExOleObjStg" />
 			<type type="ExControlStg" />
 			<type type="VbaProjectStg" />
-			<type type="PersistDirectoryAtom" />
 			<type type="UserEditAtom" />
 		</choice>
 	</struct>
@@ -1410,6 +1409,17 @@
 		<uint16 name="fridNew" />
 		<uint16 name="fridOld" />
 	</struct>
+	<struct name="OfficeArtBStoreContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recType" value="0x0F001" />
+		</type>
+		<!--
+			OOo can set number of instances to a wrong value, so use rh.recLen
+		-->
+		<type name="rgfb" type="OfficeArtBStoreContainerFileBlock" array="true"
+			size="rh.recLen" />
+	</struct>
 	<struct name="OfficeArtSpgrContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0xF" />
@@ -1453,6 +1463,13 @@
 			name="shapeTertiaryOptions2" type="OfficeArtTertiaryFOPT" />
 		-->
 	</struct>
+	<struct name="OfficeArtSolverContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recType" value="0xF005" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
 	<struct name="OfficeArtFSPGR">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0x1" />
@@ -1487,42 +1504,11 @@
 		<bit name="fHaveSpt" />
 		<uint20 name="unused1" />
 	</struct>
-	<struct name="OfficeArtFPSPL">
+	<struct name="OfficeArtFOPT">
 		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="0" />
-			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0x0F11D" />
-			<limitation name="recLen" value="4" />
+			<limitation name="recVer" value="0x3" />
+			<limitation name="recType" value="0x0F00B" />
 		</type>
-		<uint30 name="spid" />
-		<bit name="reserved1" />
-		<bit name="fLast" />
-	</struct>
-	<struct name="OfficeArtSolverContainer">
-		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="0xF" />
-			<limitation name="recType" value="0x0F005" />
-		</type>
-		<uint8 name="todo" count="rh.recLen" />
-	</struct>
-	<struct name="OfficeArtSecondaryFOPT">
-		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="3" />
-			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0xF121" />
-		</type>
-		<!--  todo
-		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
-		<uint8 name="fopt" count="rh.recLen" />
-	</struct>
-	<struct name="OfficeArtTertiaryFOPT">
-		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="3" />
-			<limitation name="recType" value="0xF122" />
-		</type>
-		<!--  todo
-		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
-		<!--  <uint8 name="fopt" count="rh.recLen" /> -->
 		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
 	</struct>
 	<struct name="OfficeArtChildAnchor">
@@ -1546,6 +1532,37 @@
 		</type>
 		<type name="rect1" type="SmallRectStruct" condition="rh.recLen==0x8" />
 		<type name="rect2" type="RectStruct" condition="rh.recLen==0x10" />
+	</struct>
+	<struct name="OfficeArtFPSPL">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF11D" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint30 name="spid" />
+		<bit name="reserved1" />
+		<bit name="fLast" />
+	</struct>
+	<struct name="OfficeArtSecondaryFOPT">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="3" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF121" />
+		</type>
+		<!--  todo
+		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
+		<uint8 name="fopt" count="rh.recLen" />
+	</struct>
+	<struct name="OfficeArtTertiaryFOPT">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="3" />
+			<limitation name="recType" value="0xF122" />
+		</type>
+		<!--  todo
+		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
+		<!--  <uint8 name="fopt" count="rh.recLen" /> -->
+		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
 	</struct>
 	<struct name="RectStruct">
 		<int32 name="top" />
@@ -1684,24 +1701,6 @@
 	<struct name="OfficeArtIDCL">
 		<uint32 name="dgid" />
 		<uint32 name="cspidCur" />
-	</struct>
-	<struct name="OfficeArtBStoreContainer">
-		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="0xF" />
-			<limitation name="recType" value="0x0F001" />
-		</type>
-		<!--
-			OOo can set number of instances to a wrong value, so use rh.recLen
-		-->
-		<type name="rgfb" type="OfficeArtBStoreContainerFileBlock" array="true"
-			size="rh.recLen" />
-	</struct>
-	<struct name="OfficeArtFOPT">
-		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="0x3" />
-			<limitation name="recType" value="0x0F00B" />
-		</type>
-		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
 	</struct>
 	<struct name="OfficeArtFOPTE">
 		<type name="opid" type="OfficeArtFOPTEOPID" />
