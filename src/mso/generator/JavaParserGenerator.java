@@ -54,10 +54,10 @@ public class JavaParserGenerator {
 		out.println("    " + s.name + " parse" + s.name
 				+ "(LEInputStream in) throws IOException  {");
 		out.println("        " + s.name + " _s = new " + s.name + "();");
-		if (s.containsArrayMember) {
+		if (s.containsKnownLengthArrayMember) {
 			out.println("        int _c;");
 		}
-		if (s.containsOptionalMember || s.containsArrayMember) {
+		if (s.containsOptionalMember || s.containsUnknownLengthArrayMember) {
 			out.println("        Object _m;");
 		}
 		for (Member m : s.members) {
@@ -227,7 +227,9 @@ public class JavaParserGenerator {
 	void printVariableArrayParser(PrintWriter out, String s, Member m) {
 		out.println(s + "boolean _atend = false;");
 		out.println(s + "int i=0;");
-		out.println(s + "int _startPos = in.getPosition();");
+		if (m.size != null) {
+			out.println(s + "int _startPos = in.getPosition();");
+		}
 		out.println(s + "while (!_atend) {");
 		out
 				.println(s
