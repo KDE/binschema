@@ -65,9 +65,9 @@ public class QtParserGenerator {
 	void printStructureParser(PrintWriter out, Struct s) {
 		out.println("void parse" + s.name + "(LEInputStream& in, " + s.name
 				+ "& _s) {");
-		// if (hasElementWithAttribute(e, "count")) {
-		out.println("    int _c;");
-		// }
+		if (s.containsKnownLengthArrayMember) {
+			out.println("    int _c;");
+		}
 		if (s.containsArrayMember || s.containsOptionalMember) {
 			out.println("    LEInputStream::Mark _m;");
 		}
@@ -278,7 +278,6 @@ public class QtParserGenerator {
 
 	void printVariableArrayParser(PrintWriter out, String s, Member m) {
 		out.println(s + "bool _atend = false;");
-		out.println(s + "int i=0;");
 		out.println(s + "while (!_atend) {");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
