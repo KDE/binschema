@@ -1,4 +1,3 @@
-#include "generatedclasses.cpp"
 #include "deepfiletree.h"
 #include <QUrl>
 #include <QFileInfo>
@@ -98,7 +97,9 @@ public:
         switch (getType(id)) {
             case File: return fileinfonodes[index];
             case OLEStream: return olestreams[index];
-            case XmlElement: return xmlelements[index];
+            case XmlElement:
+            default:
+            return xmlelements[index];
         }
     }
     QFileInfo* getFileInfo(int id) {
@@ -257,7 +258,7 @@ DeepFileTree::attributes(const QXmlNodeModelIndex& element) const {
     case XmlElement: {
         QDomElement e = d->xmlelements[getIndex(element.data())].element;
         QDomNamedNodeMap attributes = e.attributes();
-        for (int i=0; i<attributes.length(); ++i) {
+        for (uint i=0; i<attributes.length(); ++i) {
              v.append(createIndex(element.data(), i+1));
         }
     }
@@ -343,7 +344,8 @@ DeepFileTree::name(const QXmlNodeModelIndex& ni) const {
                 case AttributeName: return d->name;
                 case AttributeSize: return d->size;
             }
-        case XmlElement: {
+        case XmlElement:
+        default: {
             QDomElement e = d->xmlelements[getIndex(ni.data())].element;
             if (ni.additionalData() == 0) {
                 return QXmlName(d->namepool, e.nodeName());
