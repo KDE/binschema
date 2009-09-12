@@ -8,6 +8,7 @@
 class IOException : public std::exception {
 public:
     const QString msg;
+    IOException() {}
     IOException(const QString& m) :msg(m) {}
     ~IOException() throw() {}
 };
@@ -20,7 +21,7 @@ public:
 
 class EOFException : public IOException {
 public:
-    EOFException(const QString& msg) :IOException(msg) {}
+    EOFException() :IOException() {}
     ~EOFException() throw() {}
 };
 
@@ -29,15 +30,12 @@ private:
     QIODevice* input;
     QDataStream data;
 
-    quint8 bitfieldpos;
+    qint8 bitfieldpos;
     quint8 bitfield;
 
     quint8 getBits(quint8 n) {
         if (bitfieldpos < 0) {
-            data >> bitfield;
-            if (data.status() != QDataStream::Ok) {
-                throw IOException("Cannot read byte.");
-            }
+            bitfield = readuint8();
             bitfieldpos = 0;
         }
         quint8 v = bitfield >> bitfieldpos;
@@ -49,9 +47,17 @@ private:
         }
         return v;
     }
-    void checkForLeftOverBits() {
+    void checkForLeftOverBits() const {
         if (bitfieldpos >= 0) {
             throw IOException("Cannot read this type halfway through a bit operation.");
+        }
+    }
+    void checkStatus() const {
+        if (data.status() != QDataStream::Ok) {
+            if (data.status() == QDataStream::ReadPastEnd) {
+                throw EOFException();
+            }
+            throw IOException("Error reading data at position " + QString::number(input->pos()) + ".");
         }
     }
 
@@ -67,6 +73,8 @@ public:
     };
 
     LEInputStream(QIODevice* in) :input(in), data(in) {
+        bitfield = 0;
+        bitfieldpos = -1;
         data.setByteOrder(QDataStream::LittleEndian);
     }
 
@@ -174,7 +182,7 @@ public:
         checkForLeftOverBits();
         quint8 a;
         data >> a;
-        if (data.status() != QDataStream::Ok) { throw IOException("Error reading data."); }
+        checkStatus();
         return a;
     }
 
@@ -182,7 +190,7 @@ public:
         checkForLeftOverBits();
         qint16 v;
         data >> v;
-        if (data.status() != QDataStream::Ok) { throw IOException("Error reading data."); }
+        checkStatus();
         return v;
     }
 
@@ -190,7 +198,7 @@ public:
         checkForLeftOverBits();
         quint16 v;
         data >> v;
-        if (data.status() != QDataStream::Ok) { throw IOException("Error reading data."); }
+        checkStatus();
         return v;
     }
 
@@ -198,7 +206,7 @@ public:
         checkForLeftOverBits();
         quint32 v;
         data >> v;
-        if (data.status() != QDataStream::Ok) { throw IOException("Error reading data."); }
+        checkStatus();
         return v;
     }
 
@@ -206,7 +214,7 @@ public:
         checkForLeftOverBits();
         qint32 v;
         data >> v;
-        if (data.status() != QDataStream::Ok) { throw IOException("Error reading data."); }
+        checkStatus();
         return v;
     }
 
