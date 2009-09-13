@@ -16,6 +16,7 @@ public class QtParserGenerator {
 		out.println("#include <QVector>");
 		out.println("#include <QSharedPointer>");
 		out.println("#include \"leinputstream.h\"");
+		out.println("#include \"introspection.h\"");
 		out.println("namespace {");
 
 		for (Struct s : mso.structs) {
@@ -38,7 +39,9 @@ public class QtParserGenerator {
 
 		out.println("}");
 
-		out.println("void parse(const QString& key, LEInputStream& in) {");
+		out
+				.println("const Introspectable* parse(const QString& key, LEInputStream& in) {");
+		out.println("    const Introspectable* i = 0;");
 		boolean first = true;
 		for (Stream s : mso.streams) {
 			out.print("    ");
@@ -52,11 +55,14 @@ public class QtParserGenerator {
 			// prefix
 			out.println("        " + s.type + " _t;");
 			out.println("        parse" + s.type + "(in, _t);");
+			out.println("        i = new " + s.type + "(_t);");
 		}
 		out.println("    } else {");
 		out.println("        TODOS _t;");
 		out.println("        parseTODOS(in, _t);");
+		out.println("        i = new TODOS(_t);");
 		out.println("    }");
+		out.println("    return i;");
 		out.println("}");
 
 		out.close();
@@ -222,12 +228,29 @@ public class QtParserGenerator {
 	}
 
 	void printStructureClassDeclaration(PrintWriter out, Struct s) {
-		out.println("class " + s.name + " {");
+		out.println("class " + s.name + " : public Introspectable {");
+		out.println("private:");
+		out.println("    class _Introspection;");
 		out.println("public:");
+		out.println("    static const Introspection _introspection;");
 		for (Member m : s.members) {
 			String d = getMemberDeclaration(m);
 			out.println("    " + d + ";");
 		}
+		out.print("    " + s.name + "() ");
+		boolean first = true;
+		for (Member m : s.members) {
+			if ((m.isInteger || m.type.equals("bit")) && !m.isArray) {
+				if (first) {
+					out.print(":" + m.name + "(0)");
+					first = false;
+				} else {
+					out.print(", " + m.name + "(0)");
+				}
+			}
+		}
+		out.println(" {");
+		out.println("    }");
 
 		// function toString
 
@@ -241,12 +264,120 @@ public class QtParserGenerator {
 		out.println("        return _s;");
 		out.println("    }");
 
+		out
+				.println("    const Introspection* getIntrospection() const { return &_introspection; }");
+
 		out.println("};");
 
 	}
 
 	void printStructureClassImplementation(PrintWriter out, Struct s) {
-
+		final int nm = s.members.size();
+		final String ns = s.name + "::_Introspection";
+		out.println("class " + ns + " {");
+		out.println("public:");
+		out.println("    static const QString name;");
+		out.println("    static const int numberOfMembers;");
+		out.println("    static const QString names[" + nm + "];");
+		// out.println("    static const Introspection* const introspections["
+		// + nm + "];");
+		out.println("    static int (* const numberOfInstances[" + nm
+				+ "])(const Introspectable*);");
+		out.println("    static QVariant (* const value[" + nm
+				+ "])(const Introspectable*, int position);");
+		out.println("    static const Introspectable* (* const introspectable["
+				+ nm + "])(const Introspectable*, int position);");
+		for (Member m : s.members) {
+			if (m.type.equals("uint8")) {
+			} else if (m.isOptional) {
+				out.println("    static int count_" + m.name
+						+ "(const Introspectable* i) {");
+				out.println("        return static_cast<const " + s.name
+						+ "*>(i)->" + m.name + " ?1 :0;");
+				out.println("    }");
+			} else if (m.isArray) {
+				out.println("    static int count_" + m.name
+						+ "(const Introspectable* i) {");
+				out.println("        return static_cast<const " + s.name
+						+ "*>(i)->" + m.name + ".size();");
+				out.println("    }");
+			}
+			if (m.isComplex || m.choices != null) {
+				out.println("    static const Introspectable* get_" + m.name
+						+ "(const Introspectable* i, int j) {");
+			} else {
+				out.println("    static QVariant get_" + m.name
+						+ "(const Introspectable* i, int j) {");
+			}
+			if (m.choices == null) {
+				out.print("        return ");
+				if (!m.isOptional && m.isComplex) {
+					out.print("&");
+				}
+				out.print("(static_cast<const " + s.name + "*>(i)->" + m.name);
+				if (!m.type.equals("uint8") && m.isArray) {
+					out.print("[j]");
+				} else if (m.isOptional) {
+					out.print(".data()");
+				}
+				out.println(");");
+			} else {
+				out.println("        const Introspectable* k = 0;");
+				for (String c : m.choices) {
+					out.println("        if (k == 0) k = static_cast<const "
+							+ s.name + "*>(i)->" + m.name + "."
+							+ c.toLowerCase() + ".data();");
+				}
+				out.println("        return k;");
+			}
+			out.println("    }");
+		}
+		out.println("};");
+		out.println("const QString " + ns + "::name(\"" + s.name + "\");");
+		out.println("const int " + ns + "::numberOfMembers(" + nm + ");");
+		out.println("const QString " + ns + "::names[" + nm + "] = {");
+		for (Member m : s.members) {
+			out.println("    \"" + m.name + "\",");
+		}
+		out.println("};");
+		out.println("int (* const " + ns + "::numberOfInstances[" + nm
+				+ "])(const Introspectable*) = {");
+		for (Member m : s.members) {
+			if (!m.type.equals("uint8") && (m.isOptional || m.isArray)) {
+				out.println("    _Introspection::count_" + m.name + ",");
+			} else {
+				out.println("    Introspection::one,");
+			}
+		}
+		out.println("};");
+		out.println("QVariant (* const " + ns + "::value[" + nm
+				+ "])(const Introspectable*, int position) = {");
+		for (Member m : s.members) {
+			if (m.isComplex || m.choices != null) {
+				out.println("    Introspection::nullValue,");
+			} else {
+				out.println("    _Introspection::get_" + m.name + ",");
+			}
+		}
+		out.println("};");
+		out.println("const Introspectable* (* const " + ns
+				+ "::introspectable[" + nm
+				+ "])(const Introspectable*, int position) = {");
+		for (Member m : s.members) {
+			if (m.isComplex || m.choices != null) {
+				out.println("    _Introspection::get_" + m.name + ",");
+			} else {
+				out.println("    Introspection::null,");
+			}
+		}
+		out.println("};");
+		out.println("const Introspection " + s.name + "::_introspection(");
+		out
+				.println("    \""
+						+ s.name
+						+ "\", "
+						+ s.members.size()
+						+ ", _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);");
 	}
 
 	void printChoiceParser(PrintWriter out, String s, Member m) {
@@ -282,9 +413,9 @@ public class QtParserGenerator {
 		out.println(s + "while (!_atend) {");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
-		out.println(s + "        _s." + m.name + ".append(" + m.type + "());");
-		out.println(s + "        parse" + m.type + "(in, _s." + m.name
-				+ ".last());");
+		out.println(s + "        " + m.type + " _t;");
+		out.println(s + "        parse" + m.type + "(in, _t);");
+		out.println(s + "        _s." + m.name + ".append(_t);");
 		out.println(s + "    } catch(IncorrectValueException _e) {");
 		out.println(s + "        _atend = true;");
 		out.println(s + "        in.rewind(_m);");
