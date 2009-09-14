@@ -78,6 +78,9 @@ public class QtParserGenerator {
 		if (s.containsArrayMember || s.containsOptionalMember) {
 			out.println("    LEInputStream::Mark _m;");
 		}
+		if (s.containsUnknownLengthArrayMember) {
+			out.println("        bool _atend;");
+		}
 		for (Member m : s.members) {
 			printStructureMemberParser(out, m);
 		}
@@ -409,7 +412,7 @@ public class QtParserGenerator {
 	}
 
 	void printVariableArrayParser(PrintWriter out, String s, Member m) {
-		out.println(s + "bool _atend = false;");
+		out.println(s + "_atend = false;");
 		out.println(s + "while (!_atend) {");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");

@@ -60,6 +60,10 @@ public class JavaParserGenerator {
 		if (s.containsOptionalMember || s.containsUnknownLengthArrayMember) {
 			out.println("        Object _m;");
 		}
+		if (s.containsUnknownLengthArrayMember) {
+			out.println("        boolean _atend;");
+			out.println("        int _i;");
+		}
 		for (Member m : s.members) {
 			printStructureMemberParser(out, m);
 		}
@@ -225,15 +229,15 @@ public class JavaParserGenerator {
 	}
 
 	void printVariableArrayParser(PrintWriter out, String s, Member m) {
-		out.println(s + "boolean _atend = false;");
-		out.println(s + "int i=0;");
+		out.println(s + "_atend = false;");
+		out.println(s + "_i=0;");
 		if (m.size != null) {
 			out.println(s + "int _startPos = in.getPosition();");
 		}
 		out.println(s + "while (!_atend) {");
 		out
 				.println(s
-						+ "    System.out.println(\"round \"+(i++) + \" \" + in.getPosition());");
+						+ "    System.out.println(\"round \"+(_i++) + \" \" + in.getPosition());");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
 		out.println(s + "        " + m.type + " _t = parse" + m.type + "(in);");
