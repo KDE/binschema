@@ -1383,13 +1383,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray textSIException;
+    QByteArray todo;
     TextSIExceptionAtom()  {
     }
     QString toString() {
         QString _s = "TextSIExceptionAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "textSIException: " + "[array of textSIException]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -2291,13 +2291,13 @@ private:
 public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
-    QByteArray fopt;
+    QByteArray todo;
     OfficeArtSecondaryFOPT()  {
     }
     QString toString() {
         QString _s = "OfficeArtSecondaryFOPT:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "fopt: " + "[array of fopt]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -7378,15 +7378,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const TextSIExceptionAtom*>(i)->rh);
     }
-    static QVariant get_textSIException(const Introspectable* i, int j) {
-        return (static_cast<const TextSIExceptionAtom*>(i)->textSIException);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const TextSIExceptionAtom*>(i)->todo);
     }
 };
 const QString TextSIExceptionAtom::_Introspection::name("TextSIExceptionAtom");
 const int TextSIExceptionAtom::_Introspection::numberOfMembers(2);
 const QString TextSIExceptionAtom::_Introspection::names[2] = {
     "rh",
-    "textSIException",
+    "todo",
 };
 int (* const TextSIExceptionAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -7394,7 +7394,7 @@ int (* const TextSIExceptionAtom::_Introspection::numberOfInstances[2])(const In
 };
 QVariant (* const TextSIExceptionAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_textSIException,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const TextSIExceptionAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -9450,15 +9450,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtSecondaryFOPT*>(i)->rh);
     }
-    static QVariant get_fopt(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSecondaryFOPT*>(i)->fopt);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const OfficeArtSecondaryFOPT*>(i)->todo);
     }
 };
 const QString OfficeArtSecondaryFOPT::_Introspection::name("OfficeArtSecondaryFOPT");
 const int OfficeArtSecondaryFOPT::_Introspection::numberOfMembers(2);
 const QString OfficeArtSecondaryFOPT::_Introspection::names[2] = {
     "rh",
-    "fopt",
+    "todo",
 };
 int (* const OfficeArtSecondaryFOPT::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -9466,7 +9466,7 @@ int (* const OfficeArtSecondaryFOPT::_Introspection::numberOfInstances[2])(const
 };
 QVariant (* const OfficeArtSecondaryFOPT::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_fopt,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const OfficeArtSecondaryFOPT::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -17830,9 +17830,9 @@ void parseTextSIExceptionAtom(LEInputStream& in, TextSIExceptionAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x0FA9 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.textSIException.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.textSIException[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseExOleEmbedAtom(LEInputStream& in, ExOleEmbedAtom& _s) {
@@ -18686,9 +18686,9 @@ void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) 
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xF121 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.fopt.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.fopt[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {

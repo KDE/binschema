@@ -1063,9 +1063,9 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0FA9 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.textSIException = new byte[_c];
+        _s.todo = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
-            _s.textSIException[_i] = in.readuint8();
+            _s.todo[_i] = in.readuint8();
         }
         return _s;
     }
@@ -2003,9 +2003,9 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF121 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.fopt = new byte[_c];
+        _s.todo = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
-            _s.fopt[_i] = in.readuint8();
+            _s.todo[_i] = in.readuint8();
         }
         return _s;
     }
@@ -5670,11 +5670,11 @@ class KinsokuAtom {
 }
 class TextSIExceptionAtom {
     RecordHeader rh;
-    byte[] textSIException;
+    byte[] todo;
     public String toString() {
         String _s = "TextSIExceptionAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "textSIException: " + String.valueOf(textSIException) + ", ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
         return _s;
     }
 }
@@ -6256,11 +6256,11 @@ class OfficeArtFPSPL {
 }
 class OfficeArtSecondaryFOPT {
     OfficeArtRecordHeader rh;
-    byte[] fopt;
+    byte[] todo;
     public String toString() {
         String _s = "OfficeArtSecondaryFOPT:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "fopt: " + String.valueOf(fopt) + ", ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
         return _s;
     }
 }

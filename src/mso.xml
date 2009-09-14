@@ -899,9 +899,9 @@
 			<limitation name="recInstance" value="0x0" />
 			<limitation name="recType" value="0x0FA9" />
 		</type>
-		<uint8 name="textSIException" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 		<!--
-			TODO implement
+			TODO implement textSIException
 		-->
 	</struct>
 	<struct name="TextMasterStyleAtom">
@@ -1620,16 +1620,13 @@
 		</type>
 		<!--  todo
 		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
-		<uint8 name="fopt" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="OfficeArtTertiaryFOPT">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="3" />
 			<limitation name="recType" value="0xF122" />
 		</type>
-		<!--  todo
-		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
-		<!--  <uint8 name="fopt" count="rh.recLen" /> -->
 		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
 	</struct>
 	<struct name="RectStruct">
