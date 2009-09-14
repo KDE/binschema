@@ -45,6 +45,9 @@
 		<uint8 name="unicodeUserName" count="2*lenUserName"
 			condition="rh.recLen==3*lenUserName+0x14" />
 	</struct>
+	<struct name="TODOS">
+		<type name="anon" type="Byte" array="true" />
+	</struct>
 	<struct name="Byte">
 		<uint8 name="b" />
 	</struct>
@@ -1692,7 +1695,7 @@
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0xFF1" />
+			<limitation name="recType" value="0x1014" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
@@ -1819,9 +1822,6 @@
 			-->
 		</type>
 		<uint8 name="anon" count="rh.recLen" />
-	</struct>
-	<struct name="TODOS">
-		<type name="anon" type="todo" array="true" />
 	</struct>
 	<struct name="WordDocument">
 		<type name="fib" type="Fib" />
