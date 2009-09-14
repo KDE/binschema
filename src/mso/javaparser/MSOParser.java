@@ -1,8 +1,10 @@
 package mso.javaparser;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Iterator;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -31,15 +33,47 @@ public class MSOParser {
 				System.out.println("found entry: " + e.getName() + " "
 						+ e.getSize());
 				DocumentInputStream in = new DocumentInputStream(e);
-				LEInputStream le = new LEInputStream(in);
+				byte datain[] = new byte[e.getSize()];
+				if (datain.length != in.read(datain, 0, datain.length)) {
+					throw new IOException("could not read all data");
+				}
+				in.close();
+				LEInputStream lei = new LEInputStream(datain);
 				String name = e.getName();
-				parser.parse(name, le);
-				if (in.available() > 0 && name.charAt(0) > 10) {
+				Object mso = parser.parse(name, lei);
+				if (lei.getPosition() != lei.getSize()) {
+					// try {
 					throw new IOException("trailing data in stream "
 							+ e.getName() + ": " + in.available() + " bytes");
+					// } catch (Exception ex) {
+					// System.out.println(ex.getMessage());
+					// }
+				}
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				LEOutputStream leo = new LEOutputStream(out);
+				parser.serialize(name, mso, leo);
+				leo.close();
+				out.close();
+				byte dataout[] = out.toByteArray();
+				writeData("/tmp/datain", datain);
+				writeData("/tmp/dataout", dataout);
+				int diffpos = 0;
+				while (diffpos < datain.length
+						&& datain[diffpos] == dataout[diffpos])
+					diffpos++;
+				if (diffpos < datain.length || diffpos < dataout.length) {
+					System.err.println("in: " + e.getSize() + " out: "
+							+ dataout.length + " diff at: " + diffpos);
+					throw new IOException("missing data when writing stream.");
 				}
 			}
 		}
+	}
+
+	private void writeData(String name, byte data[]) throws IOException {
+		OutputStream out = new FileOutputStream(name);
+		out.write(data);
+		out.close();
 	}
 
 	public void save(String dir, DocumentEntry e) throws IOException {

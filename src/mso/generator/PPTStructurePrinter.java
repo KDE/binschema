@@ -25,7 +25,7 @@ public class PPTStructurePrinter {
 	 */
 	public static void main(String[] args) throws Exception {
 		final String xmlfilename = "src/mso.xml";
-		String testfile = "/tmp/b.ppt";
+		String testfile = "tests/data/b.ppt";
 		PPTStructurePrinter p = new PPTStructurePrinter();
 
 		final Document dom = DocumentBuilderFactory.newInstance()
@@ -50,7 +50,12 @@ public class PPTStructurePrinter {
 			} else if (entry instanceof DocumentEntry) {
 				DocumentEntry e = (DocumentEntry) entry;
 				DocumentInputStream in = new DocumentInputStream(e);
-				LEInputStream le = new LEInputStream(in);
+				byte datain[] = new byte[e.getSize()];
+				if (datain.length != in.read(datain, 0, datain.length)) {
+					throw new IOException("could not read all data");
+				}
+				in.close();
+				LEInputStream le = new LEInputStream(datain);
 
 				out.println("found document entry: " + entry.getName()
 						+ " of length " + e.getSize());
