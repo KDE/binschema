@@ -93,66 +93,10 @@ parse(const QString& file) {
     return true;
 }
 
-class Test : public Introspectable {
-private:
-    class _Introspection {
-    private:
-        static const QString name;
-        static const int numberOfMembers;
-        static const QString names[2];
-        static const Introspection* const introspections[2];
-        static int (*numberOfInstances[2])(const Introspectable*);
-        static QVariant (*value[2])(const Introspectable*, int position);
-        static const Introspectable* (* introspectable[2])(const Introspectable*, int position);
-
-        static int countBElements(const Introspectable* i) {
-            return static_cast<const Test*>(i)->b.size();
-        }
-        static QVariant getAElements(const Introspectable* i, int  ) {
-            return static_cast<const Test*>(i)->a;
-        }
-        static QVariant getBElements(const Introspectable* i, int p) {
-            return static_cast<const Test*>(i)->b[p];
-        }
-    public:
-        static const Introspection introspection;
-    };
-public:
-    int a;
-    std::vector<float> b;
-
-    Test() :a(0) {}
-    const Introspection* getIntrospection() const { return &_Introspection::introspection; }
-};
-
-const QString Test::_Introspection::name = "Test";
-const int Test::_Introspection::numberOfMembers = 2;
-const QString Test::_Introspection::names[2] = { "a", "b" };
-const Introspection* const Test::_Introspection::introspections[2] = { 0, 0 };
-int (*Test::_Introspection::numberOfInstances[2])(const Introspectable*) = {Introspection::one, countBElements};
-QVariant (*Test::_Introspection::value[2])(const Introspectable*, int p) = {getAElements, getBElements};
-const Introspectable* (*Test::_Introspection::introspectable[2])(const Introspectable*, int position) = { Introspection::null, Introspection::null };
-
-const Introspection Test::_Introspection::introspection(
-    "Test", 2, names, numberOfInstances, value, introspectable);
-
 int
 main(int argc, char** argv) {
     QCoreApplication app(argc, argv);
     if (argc < 2) return -1;
-
-    int (*memberCounter[2])(const Introspectable*) = {Introspection::one, Introspection::one};
-    qDebug() << memberCounter[0](0);
-
-    Test test;
-    test.b.resize(3);
-    const Introspection* introspection = test.getIntrospection();
-    for (int i=0; i<introspection->numberOfMembers; ++i) {
-        qDebug() << introspection->numberOfInstances[i](&test);
-        for (int j=0; j<introspection->numberOfInstances[i](&test); ++j) {
-            qDebug() << introspection->names[i] << "\t" << introspection->value[i](&test, j);
-        }
-    }
 
     for (int i=1; i<argc; ++i) {
         QString file(argv[i]);
