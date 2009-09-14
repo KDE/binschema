@@ -910,21 +910,23 @@
 			<limitation name="recInstance" value="0|1|2|3|4|5|6|7|8" />
 			<limitation name="recType" value="0x0FA3" />
 		</type>
-		<uint16 name="cLevels" />
+		<uint16 name="cLevels">
+			<limitation expression="&lt;=5" />
+		</uint16>
 		<!--
 			level field of TextMasterStyleLevel is put here, because its presence
 			depends on this structure and currently child access to parent
 			properties is not supported
 		-->
-		<uint16 name="lstLvl1level" condition="rh.recInstance&gt;=5" />
+		<uint16 name="lstLvl1level" condition="cLevels&gt;0 &amp;&amp; rh.recInstance&gt;=5" />
 		<type name="lstLvl1" type="TextMasterStyleLevel" condition="cLevels&gt;0" />
-		<uint16 name="lstLvl2level" condition="rh.recInstance&gt;=5" />
+		<uint16 name="lstLvl2level" condition="cLevels&gt;1 &amp;&amp; rh.recInstance&gt;=5" />
 		<type name="lstLvl2" type="TextMasterStyleLevel" condition="cLevels&gt;1" />
-		<uint16 name="lstLvl3level" condition="rh.recInstance&gt;=5" />
+		<uint16 name="lstLvl3level" condition="cLevels&gt;2 &amp;&amp; rh.recInstance&gt;=5" />
 		<type name="lstLvl3" type="TextMasterStyleLevel" condition="cLevels&gt;2" />
-		<uint16 name="lstLvl4level" condition="rh.recInstance&gt;=5" />
+		<uint16 name="lstLvl4level" condition="cLevels&gt;3 &amp;&amp; rh.recInstance&gt;=5" />
 		<type name="lstLvl4" type="TextMasterStyleLevel" condition="cLevels&gt;3" />
-		<uint16 name="lstLvl5level" condition="rh.recInstance&gt;=5" />
+		<uint16 name="lstLvl5level" condition="cLevels&gt;4 &amp;&amp; rh.recInstance&gt;=5" />
 		<type name="lstLvl5" type="TextMasterStyleLevel" condition="cLevels&gt;4" />
 	</struct>
 	<struct name="TextMasterStyleLevel">
@@ -1020,7 +1022,73 @@
 			<limitation name="recInstance" value="0x0" />
 			<limitation name="recType" value="0x03F8" />
 		</type>
-		<!--  TODO -->
+		<type name="slideAtom" type="SlideAtom" />
+		<type name="rgSchemeListElementColorScheme" type="SchemeListElementColorSchemeAtom"
+			array="true" />
+		<type name="rgTextMasterStyle" type="TextMasterStyleAtom" array="true" />
+		<type name="roundTripOArtTextSTyles12Atom" type="RoundTripOArtTextStyles12Atom"
+			optional="true" />
+		<type name="slideShowInfoAtom" type="SlideShowSlideInfoAtom"
+			optional="true" />
+		<type name="perSlideHeadersFootersContainer" type="PerSlideHeadersFootersContainer"
+			optional="true" />
+		<type name="drawing" type="DrawingContainer" />
+		<type name="slideSchemeColorSchemeAtom" type="SlideSchemeColorSchemeAtom" />
+		<type name="slideNameAtom" type="SlideNameAtom" optional="true" />
+		<type name="slideProgTagsContainer" type="SlideProgTagsContainer"
+			optional="true" />
+		<type name="rgRoundTripMainMaster" type="RoundTripMainMasterRecord"
+			array="true" />
+		<type name="templateNameAtom" type="TemplateNameAtom" optional="true" />
+	</struct>
+	<struct name="SchemeListElementColorSchemeAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="6" />
+			<limitation name="recType" value="0x7F0" />
+			<limitation name="recLen" value="0x20" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="RoundTripOArtTextStyles12Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x423" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="SlideNameAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="3" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="SlideProgTagsContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x1388" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="RoundTripMainMasterRecord">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recType"
+				value="0x41C|0x40E|0x040F|0x41E|0x0423|0x2B0D|0x2B0B|0x041D" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="TemplateNameAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="2" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="SlideContainer">
