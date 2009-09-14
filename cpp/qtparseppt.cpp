@@ -13,6 +13,18 @@ const Introspectable* parse(const QString& key, LEInputStream& in);
 
 using namespace std;
 
+QVariant
+escapeByteArray(const QByteArray& b) {
+    // we escape all non printable byte values
+    // printable is 9, 10, 13, 32-126
+    QByteArray exclude(97, ' ');
+    exclude[0] = 9; exclude[1] = 10; exclude[2] = 13;
+    for (int i=3; i<97; ++i) {
+        exclude[i] = i+29;
+    }
+    return b.toPercentEncoding(exclude);
+}
+
 void
 print(QXmlStreamWriter& out, const Introspectable* i) {
     const Introspection* is = i->getIntrospection();
@@ -25,6 +37,9 @@ print(QXmlStreamWriter& out, const Introspectable* i) {
                 print(out, ci);
             } else {
                 QVariant v(is->value[j](i, k));
+                if (v.type() == QVariant::ByteArray) {
+                    v = escapeByteArray(v.toByteArray());
+                }
                 out.writeCharacters(v.toString());
             }
             out.writeEndElement();
