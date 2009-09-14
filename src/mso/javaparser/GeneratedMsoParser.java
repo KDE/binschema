@@ -1,19 +1,34 @@
 package mso.javaparser;
 import java.io.IOException;
 public class GeneratedMsoParser {
-    void parse(String key, LEInputStream in) throws IOException {
+    Object parse(String key, LEInputStream in) throws IOException {
         if ("PowerPoint Document".equals(key)) {
-            parsePowerPointStructs(in);
+            return parsePowerPointStructs(in);
         } else if ("Current User".equals(key)) {
-            parseCurrentUserStream(in);
+            return parseCurrentUserStream(in);
         } else if ("Pictures".equals(key)) {
-            parseOfficeArtBStoreDelay(in);
+            return parseOfficeArtBStoreDelay(in);
         } else if ("WordDocument".equals(key)) {
-            parseWordDocument(in);
+            return parseWordDocument(in);
         } else if ("1Table".equals(key)) {
-            parseTable(in);
+            return parseTable(in);
         } else {
-            parseTODOS(in);
+            return parseTODOS(in);
+        }
+    }
+    void serialize(String key, Object o, LEOutputStream out) throws IOException {
+        if ("PowerPoint Document".equals(key)) {
+            write((PowerPointStructs)o, out);
+        } else if ("Current User".equals(key)) {
+            write((CurrentUserStream)o, out);
+        } else if ("Pictures".equals(key)) {
+            write((OfficeArtBStoreDelay)o, out);
+        } else if ("WordDocument".equals(key)) {
+            write((WordDocument)o, out);
+        } else if ("1Table".equals(key)) {
+            write((Table)o, out);
+        } else {
+            write((TODOS)o, out);
         }
     }
     RecordHeader parseRecordHeader(LEInputStream in) throws IOException  {
@@ -27,6 +42,12 @@ public class GeneratedMsoParser {
         _s.recLen = in.readuint32();
 System.out.println(in.getPosition()+" "+_s);
         return _s;
+    }
+    void write(RecordHeader _s, LEOutputStream out) throws IOException  {
+        out.writeuint4(_s.recVer);
+        out.writeuint12(_s.recInstance);
+        out.writeuint16(_s.recType);
+        out.writeuint32(_s.recLen);
     }
     CurrentUserAtom parseCurrentUserAtom(LEInputStream in) throws IOException  {
         CurrentUserAtom _s = new CurrentUserAtom();
@@ -85,10 +106,64 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(CurrentUserAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.size);
+        out.writeuint32(_s.headerToken);
+        out.writeuint32(_s.offsetToCurrentEdit);
+        out.writeuint16(_s.lenUserName);
+        out.writeuint16(_s.docFileVersion);
+        out.writeuint8(_s.majorVersion);
+        out.writeuint8(_s.minorVersion);
+        out.writeuint16(_s.unused);
+        for (byte _i: _s.ansiUserName) {
+            out.writeuint8(_i);
+        }
+        out.writeuint32(_s.relVersion);
+        if (_s.rh.recLen==3*_s.lenUserName+0x14) {
+            for (byte _i: _s.unicodeUserName) {
+                out.writeuint8(_i);
+            }
+        }
+    }
+    TODOS parseTODOS(LEInputStream in) throws IOException  {
+        TODOS _s = new TODOS();
+        Object _m;
+        boolean _atend;
+        int _i;
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                Byte _t = parseByte(in);
+                _s.anon.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
+        return _s;
+    }
+    void write(TODOS _s, LEOutputStream out) throws IOException  {
+        for (Byte _i: _s.anon) {
+            write(_i, out);
+        }
+    }
     Byte parseByte(LEInputStream in) throws IOException  {
         Byte _s = new Byte();
         _s.b = in.readuint8();
         return _s;
+    }
+    void write(Byte _s, LEOutputStream out) throws IOException  {
+        out.writeuint8(_s.b);
     }
     CurrentUserStream parseCurrentUserStream(LEInputStream in) throws IOException  {
         CurrentUserStream _s = new CurrentUserStream();
@@ -117,6 +192,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(CurrentUserStream _s, LEOutputStream out) throws IOException  {
+        write(_s.anon1, out);
+        for (Byte _i: _s.trailing) {
+            write(_i, out);
+        }
+    }
     OfficeArtBStoreDelay parseOfficeArtBStoreDelay(LEInputStream in) throws IOException  {
         OfficeArtBStoreDelay _s = new OfficeArtBStoreDelay();
         Object _m;
@@ -143,6 +224,11 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtBStoreDelay _s, LEOutputStream out) throws IOException  {
+        for (OfficeArtBStoreContainerFileBlock _i: _s.anon1) {
+            write(_i, out);
+        }
+    }
     OfficeArtRecordHeader parseOfficeArtRecordHeader(LEInputStream in) throws IOException  {
         OfficeArtRecordHeader _s = new OfficeArtRecordHeader();
         _s.recVer = in.readuint4();
@@ -151,6 +237,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.recLen = in.readuint32();
 System.out.println(in.getPosition()+" "+_s);
         return _s;
+    }
+    void write(OfficeArtRecordHeader _s, LEOutputStream out) throws IOException  {
+        out.writeuint4(_s.recVer);
+        out.writeuint12(_s.recInstance);
+        out.writeuint16(_s.recType);
+        out.writeuint32(_s.recLen);
     }
     OfficeArtBlipJPEG parseOfficeArtBlipJPEG(LEInputStream in) throws IOException  {
         OfficeArtBlipJPEG _s = new OfficeArtBlipJPEG();
@@ -185,6 +277,21 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtBlipJPEG _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.rgbUid1) {
+            out.writeuint8(_i);
+        }
+        if (_s.rh.recInstance == 0x46B || _s.rh.recInstance == 0x6E3) {
+            for (byte _i: _s.rgbUid2) {
+                out.writeuint8(_i);
+            }
+        }
+        out.writeuint8(_s.tag);
+        for (byte _i: _s.BLIPFileData) {
+            out.writeuint8(_i);
+        }
+    }
     OfficeArtBlipPNG parseOfficeArtBlipPNG(LEInputStream in) throws IOException  {
         OfficeArtBlipPNG _s = new OfficeArtBlipPNG();
         int _c;
@@ -217,6 +324,21 @@ System.out.println(in.getPosition()+" "+_s);
             _s.BLIPFileData[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(OfficeArtBlipPNG _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.rgbUid1) {
+            out.writeuint8(_i);
+        }
+        if (_s.rh.recInstance == 0x6E1) {
+            for (byte _i: _s.rgbUid2) {
+                out.writeuint8(_i);
+            }
+        }
+        out.writeuint8(_s.tag);
+        for (byte _i: _s.BLIPFileData) {
+            out.writeuint8(_i);
+        }
     }
     OfficeArtBlipDIB parseOfficeArtBlipDIB(LEInputStream in) throws IOException  {
         OfficeArtBlipDIB _s = new OfficeArtBlipDIB();
@@ -251,6 +373,21 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtBlipDIB _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.rgbUid1) {
+            out.writeuint8(_i);
+        }
+        if (_s.rh.recInstance == 0x7A9) {
+            for (byte _i: _s.rgbUid2) {
+                out.writeuint8(_i);
+            }
+        }
+        out.writeuint8(_s.tag);
+        for (byte _i: _s.BLIPFileData) {
+            out.writeuint8(_i);
+        }
+    }
     OfficeArtBlipTIFF parseOfficeArtBlipTIFF(LEInputStream in) throws IOException  {
         OfficeArtBlipTIFF _s = new OfficeArtBlipTIFF();
         int _c;
@@ -284,6 +421,21 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtBlipTIFF _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.rgbUid1) {
+            out.writeuint8(_i);
+        }
+        if (_s.rh.recInstance == 0x6E5) {
+            for (byte _i: _s.rgbUid2) {
+                out.writeuint8(_i);
+            }
+        }
+        out.writeuint8(_s.tag);
+        for (byte _i: _s.BLIPFileData) {
+            out.writeuint8(_i);
+        }
+    }
     RECT parseRECT(LEInputStream in) throws IOException  {
         RECT _s = new RECT();
         _s.left = in.readint32();
@@ -292,11 +444,21 @@ System.out.println(in.getPosition()+" "+_s);
         _s.bottom = in.readint32();
         return _s;
     }
+    void write(RECT _s, LEOutputStream out) throws IOException  {
+        out.writeint32(_s.left);
+        out.writeint32(_s.top);
+        out.writeint32(_s.right);
+        out.writeint32(_s.bottom);
+    }
     POINT parsePOINT(LEInputStream in) throws IOException  {
         POINT _s = new POINT();
         _s.x = in.readint32();
         _s.y = in.readint32();
         return _s;
+    }
+    void write(POINT _s, LEOutputStream out) throws IOException  {
+        out.writeint32(_s.x);
+        out.writeint32(_s.y);
     }
     PowerPointStructs parsePowerPointStructs(LEInputStream in) throws IOException  {
         PowerPointStructs _s = new PowerPointStructs();
@@ -324,6 +486,11 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(PowerPointStructs _s, LEOutputStream out) throws IOException  {
+        for (PowerPointStruct _i: _s.anon) {
+            write(_i, out);
+        }
+    }
     SlideHeadersFootersContainer parseSlideHeadersFootersContainer(LEInputStream in) throws IOException  {
         SlideHeadersFootersContainer _s = new SlideHeadersFootersContainer();
         int _c;
@@ -343,6 +510,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(SlideHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     NotesHeadersFootersContainer parseNotesHeadersFootersContainer(LEInputStream in) throws IOException  {
         NotesHeadersFootersContainer _s = new NotesHeadersFootersContainer();
@@ -364,6 +537,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(NotesHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     PerSlideHeadersFootersContainer parsePerSlideHeadersFootersContainer(LEInputStream in) throws IOException  {
         PerSlideHeadersFootersContainer _s = new PerSlideHeadersFootersContainer();
         int _c;
@@ -384,6 +563,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(PerSlideHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     EndDocumentAtom parseEndDocumentAtom(LEInputStream in) throws IOException  {
         EndDocumentAtom _s = new EndDocumentAtom();
         _s.rh = parseRecordHeader(in);
@@ -400,6 +585,9 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0 for value " + String.valueOf(_s.rh) );
         }
         return _s;
+    }
+    void write(EndDocumentAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
     }
     DocInfoListContainer parseDocInfoListContainer(LEInputStream in) throws IOException  {
         DocInfoListContainer _s = new DocInfoListContainer();
@@ -437,6 +625,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(DocInfoListContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (DocInfoListSubContainerOrAtom _i: _s.rgChildRec) {
+            write(_i, out);
+        }
+    }
     DocInfoListSubContainerOrAtom parseDocInfoListSubContainerOrAtom(LEInputStream in) throws IOException  {
         DocInfoListSubContainerOrAtom _s = new DocInfoListSubContainerOrAtom();
         int _c;
@@ -457,6 +651,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(DocInfoListSubContainerOrAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     SlideViewInfoInstance parseSlideViewInfoInstance(LEInputStream in) throws IOException  {
         SlideViewInfoInstance _s = new SlideViewInfoInstance();
         int _c;
@@ -476,6 +676,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(SlideViewInfoInstance _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     MasterListWithTextContainer parseMasterListWithTextContainer(LEInputStream in) throws IOException  {
         MasterListWithTextContainer _s = new MasterListWithTextContainer();
@@ -499,6 +705,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.rgMasterPersistAtom[_i] = parseMasterPersistAtom(in);
         }
         return _s;
+    }
+    void write(MasterListWithTextContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (MasterPersistAtom _i: _s.rgMasterPersistAtom) {
+            write(_i, out);
+        }
     }
     SlideListWithTextContainer parseSlideListWithTextContainer(LEInputStream in) throws IOException  {
         SlideListWithTextContainer _s = new SlideListWithTextContainer();
@@ -536,6 +748,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(SlideListWithTextContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (SlideListWithTextSubContainerOrAtom _i: _s.rgChildRec) {
+            write(_i, out);
+        }
+    }
     NotesListWithTextContainer parseNotesListWithTextContainer(LEInputStream in) throws IOException  {
         NotesListWithTextContainer _s = new NotesListWithTextContainer();
         int _c;
@@ -556,6 +774,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(NotesListWithTextContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     TextHeaderAtom parseTextHeaderAtom(LEInputStream in) throws IOException  {
         TextHeaderAtom _s = new TextHeaderAtom();
         _s.rh = parseRecordHeader(in);
@@ -573,6 +797,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.textType = in.readuint32();
         return _s;
+    }
+    void write(TextHeaderAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.textType);
     }
     TextCharsAtom parseTextCharsAtom(LEInputStream in) throws IOException  {
         TextCharsAtom _s = new TextCharsAtom();
@@ -600,6 +828,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(TextCharsAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (int _i: _s.textChars) {
+            out.writeuint16(_i);
+        }
+    }
     TextBytesAtom parseTextBytesAtom(LEInputStream in) throws IOException  {
         TextBytesAtom _s = new TextBytesAtom();
         int _c;
@@ -623,6 +857,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(TextBytesAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.textChars) {
+            out.writeuint8(_i);
+        }
+    }
     MasterTextPropAtom parseMasterTextPropAtom(LEInputStream in) throws IOException  {
         MasterTextPropAtom _s = new MasterTextPropAtom();
         int _c;
@@ -642,6 +882,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(MasterTextPropAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     StyleTextPropAtom parseStyleTextPropAtom(LEInputStream in) throws IOException  {
         StyleTextPropAtom _s = new StyleTextPropAtom();
@@ -663,6 +909,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(StyleTextPropAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     SlideNumberMCAtom parseSlideNumberMCAtom(LEInputStream in) throws IOException  {
         SlideNumberMCAtom _s = new SlideNumberMCAtom();
         _s.rh = parseRecordHeader(in);
@@ -680,6 +932,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.position = in.readint32();
         return _s;
+    }
+    void write(SlideNumberMCAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.position);
     }
     DateTimeMCAtom parseDateTimeMCAtom(LEInputStream in) throws IOException  {
         DateTimeMCAtom _s = new DateTimeMCAtom();
@@ -706,6 +962,14 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(DateTimeMCAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.position);
+        out.writeuint8(_s.index);
+        for (byte _i: _s.unused) {
+            out.writeuint8(_i);
+        }
+    }
     GenericDateMCAtom parseGenericDateMCAtom(LEInputStream in) throws IOException  {
         GenericDateMCAtom _s = new GenericDateMCAtom();
         _s.rh = parseRecordHeader(in);
@@ -723,6 +987,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.position = in.readint32();
         return _s;
+    }
+    void write(GenericDateMCAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.position);
     }
     HeaderMCAtom parseHeaderMCAtom(LEInputStream in) throws IOException  {
         HeaderMCAtom _s = new HeaderMCAtom();
@@ -742,6 +1010,10 @@ System.out.println(in.getPosition()+" "+_s);
         _s.position = in.readint32();
         return _s;
     }
+    void write(HeaderMCAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.position);
+    }
     FooterMCAtom parseFooterMCAtom(LEInputStream in) throws IOException  {
         FooterMCAtom _s = new FooterMCAtom();
         _s.rh = parseRecordHeader(in);
@@ -759,6 +1031,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.position = in.readint32();
         return _s;
+    }
+    void write(FooterMCAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.position);
     }
     RTFDateTimeMCAtom parseRTFDateTimeMCAtom(LEInputStream in) throws IOException  {
         RTFDateTimeMCAtom _s = new RTFDateTimeMCAtom();
@@ -784,6 +1060,13 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(RTFDateTimeMCAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.position);
+        for (byte _i: _s.format) {
+            out.writeuint8(_i);
+        }
+    }
     TextBookmarkAtom parseTextBookmarkAtom(LEInputStream in) throws IOException  {
         TextBookmarkAtom _s = new TextBookmarkAtom();
         _s.rh = parseRecordHeader(in);
@@ -804,6 +1087,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.bookmarkID = in.readint32();
         return _s;
     }
+    void write(TextBookmarkAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.begin);
+        out.writeint32(_s.end);
+        out.writeint32(_s.bookmarkID);
+    }
     TextSpecialInfoAtom parseTextSpecialInfoAtom(LEInputStream in) throws IOException  {
         TextSpecialInfoAtom _s = new TextSpecialInfoAtom();
         int _c;
@@ -823,6 +1112,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(TextSpecialInfoAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     InteractiveInfoInstance parseInteractiveInfoInstance(LEInputStream in) throws IOException  {
         InteractiveInfoInstance _s = new InteractiveInfoInstance();
@@ -847,6 +1142,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(InteractiveInfoInstance _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.range) {
+            out.writeuint8(_i);
+        }
+    }
     TextInteractiveInfoInstance parseTextInteractiveInfoInstance(LEInputStream in) throws IOException  {
         TextInteractiveInfoInstance _s = new TextInteractiveInfoInstance();
         int _c;
@@ -870,6 +1171,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(TextInteractiveInfoInstance _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.range) {
+            out.writeuint8(_i);
+        }
+    }
     SlideId parseSlideId(LEInputStream in) throws IOException  {
         SlideId _s = new SlideId();
         _s.slideId = in.readuint32();
@@ -880,6 +1187,9 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.slideId<2147483647 for value " + String.valueOf(_s.slideId) );
         }
         return _s;
+    }
+    void write(SlideId _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.slideId);
     }
     TabStops parseTabStops(LEInputStream in) throws IOException  {
         TabStops _s = new TabStops();
@@ -892,11 +1202,21 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(TabStops _s, LEOutputStream out) throws IOException  {
+        out.writeuint16(_s.count);
+        for (TabStop _i: _s.rgTabStop) {
+            write(_i, out);
+        }
+    }
     TabStop parseTabStop(LEInputStream in) throws IOException  {
         TabStop _s = new TabStop();
         _s.position = in.readint16();
         _s.type = in.readuint16();
         return _s;
+    }
+    void write(TabStop _s, LEOutputStream out) throws IOException  {
+        out.writeint16(_s.position);
+        out.writeuint16(_s.type);
     }
     BulletFlags parseBulletFlags(LEInputStream in) throws IOException  {
         BulletFlags _s = new BulletFlags();
@@ -906,6 +1226,13 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fBulletHasSize = in.readbit();
         _s.reserved = in.readuint12();
         return _s;
+    }
+    void write(BulletFlags _s, LEOutputStream out) throws IOException  {
+        out.writebit(_s.fHasBullet);
+        out.writebit(_s.fBulletHasFont);
+        out.writebit(_s.fBulletHasColor);
+        out.writebit(_s.fBulletHasSize);
+        out.writeuint12(_s.reserved);
     }
     PFMasks parsePFMasks(LEInputStream in) throws IOException  {
         PFMasks _s = new PFMasks();
@@ -938,6 +1265,35 @@ System.out.println(in.getPosition()+" "+_s);
         _s.reserved2 = in.readuint6();
         return _s;
     }
+    void write(PFMasks _s, LEOutputStream out) throws IOException  {
+        out.writebit(_s.hasBullet);
+        out.writebit(_s.bulletHasFont);
+        out.writebit(_s.bulletHasColor);
+        out.writebit(_s.bulletHasSize);
+        out.writebit(_s.bulletFont);
+        out.writebit(_s.bulletColor);
+        out.writebit(_s.bulletSize);
+        out.writebit(_s.bulletChar);
+        out.writebit(_s.leftMargin);
+        out.writebit(_s.unused);
+        out.writebit(_s.indent);
+        out.writebit(_s.align);
+        out.writebit(_s.lineSpacing);
+        out.writebit(_s.spaceBefore);
+        out.writebit(_s.spaceAfter);
+        out.writebit(_s.defaultTabSize);
+        out.writebit(_s.fontAlign);
+        out.writebit(_s.charWrap);
+        out.writebit(_s.wordWrap);
+        out.writebit(_s.overflow);
+        out.writebit(_s.tabStops);
+        out.writebit(_s.textDirection);
+        out.writebit(_s.reserved);
+        out.writebit(_s.bulletBlip);
+        out.writebit(_s.bulletScheme);
+        out.writebit(_s.bulletHasScheme);
+        out.writeuint6(_s.reserved2);
+    }
     CFMasks parseCFMasks(LEInputStream in) throws IOException  {
         CFMasks _s = new CFMasks();
         _s.bold = in.readbit();
@@ -966,6 +1322,32 @@ System.out.println(in.getPosition()+" "+_s);
         _s.reserved = in.readuint5();
         return _s;
     }
+    void write(CFMasks _s, LEOutputStream out) throws IOException  {
+        out.writebit(_s.bold);
+        out.writebit(_s.italic);
+        out.writebit(_s.underline);
+        out.writebit(_s.unused1);
+        out.writebit(_s.shadow);
+        out.writebit(_s.fehint);
+        out.writebit(_s.unused2);
+        out.writebit(_s.kumi);
+        out.writebit(_s.unused3);
+        out.writebit(_s.emboss);
+        out.writeuint4(_s.fHasStyle);
+        out.writeuint2(_s.unused4);
+        out.writebit(_s.typeface);
+        out.writebit(_s.size);
+        out.writebit(_s.color);
+        out.writebit(_s.position);
+        out.writebit(_s.pp10ext);
+        out.writebit(_s.oldEATypeface);
+        out.writebit(_s.ansiTypeface);
+        out.writebit(_s.symbolTypeface);
+        out.writebit(_s.newEATypeface);
+        out.writebit(_s.csTypeface);
+        out.writebit(_s.pp11ext);
+        out.writeuint5(_s.reserved);
+    }
     CFStyle parseCFStyle(LEInputStream in) throws IOException  {
         CFStyle _s = new CFStyle();
         _s.bold = in.readbit();
@@ -981,6 +1363,20 @@ System.out.println(in.getPosition()+" "+_s);
         _s.pp9rt = in.readuint4();
         _s.unused4 = in.readuint2();
         return _s;
+    }
+    void write(CFStyle _s, LEOutputStream out) throws IOException  {
+        out.writebit(_s.bold);
+        out.writebit(_s.italic);
+        out.writebit(_s.underline);
+        out.writebit(_s.unused1);
+        out.writebit(_s.shadow);
+        out.writebit(_s.fehint);
+        out.writebit(_s.unused2);
+        out.writebit(_s.kumi);
+        out.writebit(_s.unused3);
+        out.writebit(_s.emboss);
+        out.writeuint4(_s.pp9rt);
+        out.writeuint2(_s.unused4);
     }
     FontCollectionContainer parseFontCollectionContainer(LEInputStream in) throws IOException  {
         FontCollectionContainer _s = new FontCollectionContainer();
@@ -1001,6 +1397,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.rgFontCollectionEntry[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(FontCollectionContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.rgFontCollectionEntry) {
+            out.writeuint8(_i);
+        }
     }
     FontEntityAtom parseFontEntityAtom(LEInputStream in) throws IOException  {
         FontEntityAtom _s = new FontEntityAtom();
@@ -1028,6 +1430,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(FontEntityAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     KinsokuAtom parseKinsokuAtom(LEInputStream in) throws IOException  {
         KinsokuAtom _s = new KinsokuAtom();
         _s.rh = parseRecordHeader(in);
@@ -1049,6 +1457,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(KinsokuAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.level);
+    }
     TextSIExceptionAtom parseTextSIExceptionAtom(LEInputStream in) throws IOException  {
         TextSIExceptionAtom _s = new TextSIExceptionAtom();
         int _c;
@@ -1068,6 +1480,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(TextSIExceptionAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     ExOleEmbedAtom parseExOleEmbedAtom(LEInputStream in) throws IOException  {
         ExOleEmbedAtom _s = new ExOleEmbedAtom();
@@ -1094,11 +1512,23 @@ System.out.println(in.getPosition()+" "+_s);
         _s.unused = in.readuint8();
         return _s;
     }
+    void write(ExOleEmbedAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.exColorFollow);
+        out.writeuint8(_s.fCantLockServer);
+        out.writeuint8(_s.fNoSizeToServer);
+        out.writeuint8(_s.fIsTable);
+        out.writeuint8(_s.unused);
+    }
     PointStruct parsePointStruct(LEInputStream in) throws IOException  {
         PointStruct _s = new PointStruct();
         _s.x = in.readint32();
         _s.y = in.readint32();
         return _s;
+    }
+    void write(PointStruct _s, LEOutputStream out) throws IOException  {
+        out.writeint32(_s.x);
+        out.writeint32(_s.y);
     }
     RatioStruct parseRatioStruct(LEInputStream in) throws IOException  {
         RatioStruct _s = new RatioStruct();
@@ -1108,6 +1538,10 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.denom!= 0 for value " + String.valueOf(_s.denom) );
         }
         return _s;
+    }
+    void write(RatioStruct _s, LEOutputStream out) throws IOException  {
+        out.writeint32(_s.numer);
+        out.writeint32(_s.denom);
     }
     PersistDirectoryAtom parsePersistDirectoryAtom(LEInputStream in) throws IOException  {
         PersistDirectoryAtom _s = new PersistDirectoryAtom();
@@ -1145,6 +1579,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(PersistDirectoryAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (PersistDirectoryEntry _i: _s.rgPersistDirEntry) {
+            write(_i, out);
+        }
+    }
     PersistDirectoryEntry parsePersistDirectoryEntry(LEInputStream in) throws IOException  {
         PersistDirectoryEntry _s = new PersistDirectoryEntry();
         int _c;
@@ -1157,15 +1597,28 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(PersistDirectoryEntry _s, LEOutputStream out) throws IOException  {
+        out.writeuint20(_s.persistId);
+        out.writeuint12(_s.cPersist);
+        for (PersistOffsetEntry _i: _s.rgPersistOffset) {
+            write(_i, out);
+        }
+    }
     PersistOffsetEntry parsePersistOffsetEntry(LEInputStream in) throws IOException  {
         PersistOffsetEntry _s = new PersistOffsetEntry();
         _s.anon = in.readuint32();
         return _s;
     }
+    void write(PersistOffsetEntry _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.anon);
+    }
     PersistIdRef parsePersistIdRef(LEInputStream in) throws IOException  {
         PersistIdRef _s = new PersistIdRef();
         _s.anon = in.readuint32();
         return _s;
+    }
+    void write(PersistIdRef _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.anon);
     }
     SchemeListElementColorSchemeAtom parseSchemeListElementColorSchemeAtom(LEInputStream in) throws IOException  {
         SchemeListElementColorSchemeAtom _s = new SchemeListElementColorSchemeAtom();
@@ -1190,6 +1643,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(SchemeListElementColorSchemeAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     RoundTripOArtTextStyles12Atom parseRoundTripOArtTextStyles12Atom(LEInputStream in) throws IOException  {
         RoundTripOArtTextStyles12Atom _s = new RoundTripOArtTextStyles12Atom();
         int _c;
@@ -1209,6 +1668,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(RoundTripOArtTextStyles12Atom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     SlideNameAtom parseSlideNameAtom(LEInputStream in) throws IOException  {
         SlideNameAtom _s = new SlideNameAtom();
@@ -1233,6 +1698,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(SlideNameAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     SlideProgTagsContainer parseSlideProgTagsContainer(LEInputStream in) throws IOException  {
         SlideProgTagsContainer _s = new SlideProgTagsContainer();
         int _c;
@@ -1253,6 +1724,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(SlideProgTagsContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     RoundTripMainMasterRecord parseRoundTripMainMasterRecord(LEInputStream in) throws IOException  {
         RoundTripMainMasterRecord _s = new RoundTripMainMasterRecord();
         int _c;
@@ -1266,6 +1743,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(RoundTripMainMasterRecord _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     TemplateNameAtom parseTemplateNameAtom(LEInputStream in) throws IOException  {
         TemplateNameAtom _s = new TemplateNameAtom();
@@ -1290,6 +1773,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(TemplateNameAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     NotesContainer parseNotesContainer(LEInputStream in) throws IOException  {
         NotesContainer _s = new NotesContainer();
         int _c;
@@ -1309,6 +1798,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(NotesContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     HandoutContainer parseHandoutContainer(LEInputStream in) throws IOException  {
         HandoutContainer _s = new HandoutContainer();
@@ -1330,6 +1825,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(HandoutContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     ExControlStg parseExControlStg(LEInputStream in) throws IOException  {
         ExControlStg _s = new ExControlStg();
         int _c;
@@ -1350,6 +1851,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(ExControlStg _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     ExOleObjStg parseExOleObjStg(LEInputStream in) throws IOException  {
         ExOleObjStg _s = new ExOleObjStg();
         int _c;
@@ -1369,6 +1876,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(ExOleObjStg _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     UserEditAtom parseUserEditAtom(LEInputStream in) throws IOException  {
         UserEditAtom _s = new UserEditAtom();
@@ -1393,6 +1906,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(UserEditAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     VbaProjectStg parseVbaProjectStg(LEInputStream in) throws IOException  {
         VbaProjectStg _s = new VbaProjectStg();
         int _c;
@@ -1413,6 +1932,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(VbaProjectStg _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     SlideProgTagscontainer parseSlideProgTagscontainer(LEInputStream in) throws IOException  {
         SlideProgTagscontainer _s = new SlideProgTagscontainer();
         int _c;
@@ -1432,6 +1957,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(SlideProgTagscontainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     SlideAtom parseSlideAtom(LEInputStream in) throws IOException  {
         SlideAtom _s = new SlideAtom();
@@ -1460,6 +1991,17 @@ System.out.println(in.getPosition()+" "+_s);
         _s.slideFlags = in.readuint16();
         _s.unused = in.readuint16();
         return _s;
+    }
+    void write(SlideAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.geom);
+        for (byte _i: _s.rgPlaceholderTypes) {
+            out.writeuint8(_i);
+        }
+        out.writeuint32(_s.masterIdRef);
+        out.writeuint32(_s.notesIdRef);
+        out.writeuint16(_s.slideFlags);
+        out.writeuint16(_s.unused);
     }
     SlideShowSlideInfoAtom parseSlideShowSlideInfoAtom(LEInputStream in) throws IOException  {
         SlideShowSlideInfoAtom _s = new SlideShowSlideInfoAtom();
@@ -1503,6 +2045,31 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(SlideShowSlideInfoAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.slidetime);
+        out.writeuint32(_s.slideIdRef);
+        out.writeuint8(_s.effectDirection);
+        out.writeuint8(_s.effectType);
+        out.writebit(_s.fManualAdvance);
+        out.writebit(_s.reserved);
+        out.writebit(_s.fHidden);
+        out.writebit(_s.reserved2);
+        out.writebit(_s.fSound);
+        out.writebit(_s.reserved3);
+        out.writebit(_s.fLoopSound);
+        out.writebit(_s.reserved4);
+        out.writebit(_s.fStopSound);
+        out.writebit(_s.freserved5);
+        out.writebit(_s.fAutoAdvance);
+        out.writebit(_s.reserved6);
+        out.writebit(_s.fCursorVisible);
+        out.writeuint3(_s.reserved7);
+        out.writeuint8(_s.speed);
+        for (byte _i: _s.unused) {
+            out.writeuint8(_i);
+        }
+    }
     SlideShowDocInfoAtom parseSlideShowDocInfoAtom(LEInputStream in) throws IOException  {
         SlideShowDocInfoAtom _s = new SlideShowDocInfoAtom();
         int _c;
@@ -1525,6 +2092,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(SlideShowDocInfoAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     SlideSchemeColorSchemeAtom parseSlideSchemeColorSchemeAtom(LEInputStream in) throws IOException  {
         SlideSchemeColorSchemeAtom _s = new SlideSchemeColorSchemeAtom();
@@ -1549,6 +2122,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(SlideSchemeColorSchemeAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (ColorStruct _i: _s.rgSchemeColor) {
+            write(_i, out);
+        }
+    }
     RoundTripSlideRecord parseRoundTripSlideRecord(LEInputStream in) throws IOException  {
         RoundTripSlideRecord _s = new RoundTripSlideRecord();
         int _c;
@@ -1563,6 +2142,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(RoundTripSlideRecord _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     ColorStruct parseColorStruct(LEInputStream in) throws IOException  {
         ColorStruct _s = new ColorStruct();
         _s.red = in.readuint8();
@@ -1570,6 +2155,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.blue = in.readuint8();
         _s.unused = in.readuint8();
         return _s;
+    }
+    void write(ColorStruct _s, LEOutputStream out) throws IOException  {
+        out.writeuint8(_s.red);
+        out.writeuint8(_s.green);
+        out.writeuint8(_s.blue);
+        out.writeuint8(_s.unused);
     }
     ExObjListAtom parseExObjListAtom(LEInputStream in) throws IOException  {
         ExObjListAtom _s = new ExObjListAtom();
@@ -1592,6 +2183,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(ExObjListAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.exObjIdSeed);
+    }
     ExOleLinkAtom parseExOleLinkAtom(LEInputStream in) throws IOException  {
         ExOleLinkAtom _s = new ExOleLinkAtom();
         _s.rh = parseRecordHeader(in);
@@ -1611,6 +2206,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.oleUpdateMode = in.readuint32();
         _s.unused = in.readuint32();
         return _s;
+    }
+    void write(ExOleLinkAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.slideIdRef);
+        out.writeuint32(_s.oleUpdateMode);
+        out.writeuint32(_s.unused);
     }
     ExOleObjAtom parseExOleObjAtom(LEInputStream in) throws IOException  {
         ExOleObjAtom _s = new ExOleObjAtom();
@@ -1635,6 +2236,15 @@ System.out.println(in.getPosition()+" "+_s);
         _s.unused = in.readuint32();
         return _s;
     }
+    void write(ExOleObjAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.drawAspect);
+        out.writeuint32(_s.type);
+        out.writeuint32(_s.exObjId);
+        out.writeuint32(_s.subType);
+        out.writeuint32(_s.persistIdRef);
+        out.writeuint32(_s.unused);
+    }
     MenuNameAtom parseMenuNameAtom(LEInputStream in) throws IOException  {
         MenuNameAtom _s = new MenuNameAtom();
         int _c;
@@ -1657,6 +2267,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.menuName[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(MenuNameAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.menuName) {
+            out.writeuint8(_i);
+        }
     }
     ProgIDAtom parseProgIDAtom(LEInputStream in) throws IOException  {
         ProgIDAtom _s = new ProgIDAtom();
@@ -1681,6 +2297,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(ProgIDAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.progId) {
+            out.writeuint8(_i);
+        }
+    }
     ClipboardNameAtom parseClipboardNameAtom(LEInputStream in) throws IOException  {
         ClipboardNameAtom _s = new ClipboardNameAtom();
         int _c;
@@ -1703,6 +2325,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.clipboardName[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(ClipboardNameAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.clipboardName) {
+            out.writeuint8(_i);
+        }
     }
     MetafileBlob parseMetafileBlob(LEInputStream in) throws IOException  {
         MetafileBlob _s = new MetafileBlob();
@@ -1730,6 +2358,15 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(MetafileBlob _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint16(_s.mm);
+        out.writeint16(_s.xExt);
+        out.writeint16(_s.yExt);
+        for (byte _i: _s.data) {
+            out.writeuint8(_i);
+        }
+    }
     OfficeArtFDGG parseOfficeArtFDGG(LEInputStream in) throws IOException  {
         OfficeArtFDGG _s = new OfficeArtFDGG();
         _s.spidMax = in.readuint32();
@@ -1743,6 +2380,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.cspSaved = in.readuint32();
         _s.cdgSaved = in.readuint32();
         return _s;
+    }
+    void write(OfficeArtFDGG _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.spidMax);
+        out.writeuint32(_s.cidcl);
+        out.writeuint32(_s.cspSaved);
+        out.writeuint32(_s.cdgSaved);
     }
     OfficeArtFDG parseOfficeArtFDG(LEInputStream in) throws IOException  {
         OfficeArtFDG _s = new OfficeArtFDG();
@@ -1762,6 +2405,11 @@ System.out.println(in.getPosition()+" "+_s);
         _s.csp = in.readuint32();
         _s.spidCur = in.readuint32();
         return _s;
+    }
+    void write(OfficeArtFDG _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.csp);
+        out.writeuint32(_s.spidCur);
     }
     OfficeArtFRITContainer parseOfficeArtFRITContainer(LEInputStream in) throws IOException  {
         OfficeArtFRITContainer _s = new OfficeArtFRITContainer();
@@ -1783,11 +2431,21 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtFRITContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (OfficeArtFRIT _i: _s.rgfrit) {
+            write(_i, out);
+        }
+    }
     OfficeArtFRIT parseOfficeArtFRIT(LEInputStream in) throws IOException  {
         OfficeArtFRIT _s = new OfficeArtFRIT();
         _s.fridNew = in.readuint16();
         _s.fridOld = in.readuint16();
         return _s;
+    }
+    void write(OfficeArtFRIT _s, LEOutputStream out) throws IOException  {
+        out.writeuint16(_s.fridNew);
+        out.writeuint16(_s.fridOld);
     }
     OfficeArtBStoreContainer parseOfficeArtBStoreContainer(LEInputStream in) throws IOException  {
         OfficeArtBStoreContainer _s = new OfficeArtBStoreContainer();
@@ -1823,6 +2481,12 @@ System.out.println(in.getPosition()+" "+_s);
            _atend = in.getPosition() - _startPos >= _s.rh.recLen;
         }
         return _s;
+    }
+    void write(OfficeArtBStoreContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (OfficeArtBStoreContainerFileBlock _i: _s.rgfb) {
+            write(_i, out);
+        }
     }
     OfficeArtSpgrContainer parseOfficeArtSpgrContainer(LEInputStream in) throws IOException  {
         OfficeArtSpgrContainer _s = new OfficeArtSpgrContainer();
@@ -1862,6 +2526,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtSpgrContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (OfficeArtSpgrContainerFileBlock _i: _s.rgfb) {
+            write(_i, out);
+        }
+    }
     OfficeArtSolverContainer parseOfficeArtSolverContainer(LEInputStream in) throws IOException  {
         OfficeArtSolverContainer _s = new OfficeArtSolverContainer();
         int _c;
@@ -1878,6 +2548,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(OfficeArtSolverContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     OfficeArtFSPGR parseOfficeArtFSPGR(LEInputStream in) throws IOException  {
         OfficeArtFSPGR _s = new OfficeArtFSPGR();
@@ -1899,6 +2575,13 @@ System.out.println(in.getPosition()+" "+_s);
         _s.xRight = in.readint32();
         _s.yBottom = in.readint32();
         return _s;
+    }
+    void write(OfficeArtFSPGR _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.xLeft);
+        out.writeint32(_s.yTop);
+        out.writeint32(_s.xRight);
+        out.writeint32(_s.yBottom);
     }
     OfficeArtFSP parseOfficeArtFSP(LEInputStream in) throws IOException  {
         OfficeArtFSP _s = new OfficeArtFSP();
@@ -1931,6 +2614,23 @@ System.out.println(in.getPosition()+" "+_s);
         _s.unused1 = in.readuint20();
         return _s;
     }
+    void write(OfficeArtFSP _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.spid);
+        out.writebit(_s.fGroup);
+        out.writebit(_s.fChild);
+        out.writebit(_s.fPatriarch);
+        out.writebit(_s.fDeleted);
+        out.writebit(_s.fOleShape);
+        out.writebit(_s.fHaveMaster);
+        out.writebit(_s.fFlipH);
+        out.writebit(_s.fFlipV);
+        out.writebit(_s.fConnector);
+        out.writebit(_s.fHaveAnchor);
+        out.writebit(_s.fBackground);
+        out.writebit(_s.fHaveSpt);
+        out.writeuint20(_s.unused1);
+    }
     OfficeArtFOPT parseOfficeArtFOPT(LEInputStream in) throws IOException  {
         OfficeArtFOPT _s = new OfficeArtFOPT();
         int _c;
@@ -1947,6 +2647,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.fopt[_i] = parseOfficeArtFOPTE(in);
         }
         return _s;
+    }
+    void write(OfficeArtFOPT _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (OfficeArtFOPTE _i: _s.fopt) {
+            write(_i, out);
+        }
     }
     OfficeArtChildAnchor parseOfficeArtChildAnchor(LEInputStream in) throws IOException  {
         OfficeArtChildAnchor _s = new OfficeArtChildAnchor();
@@ -1969,6 +2675,13 @@ System.out.println(in.getPosition()+" "+_s);
         _s.yBottom = in.readint32();
         return _s;
     }
+    void write(OfficeArtChildAnchor _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.xLeft);
+        out.writeint32(_s.yTop);
+        out.writeint32(_s.xRight);
+        out.writeint32(_s.yBottom);
+    }
     OfficeArtFPSPL parseOfficeArtFPSPL(LEInputStream in) throws IOException  {
         OfficeArtFPSPL _s = new OfficeArtFPSPL();
         _s.rh = parseOfficeArtRecordHeader(in);
@@ -1988,6 +2701,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.reserved1 = in.readbit();
         _s.fLast = in.readbit();
         return _s;
+    }
+    void write(OfficeArtFPSPL _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint30(_s.spid);
+        out.writebit(_s.reserved1);
+        out.writebit(_s.fLast);
     }
     OfficeArtSecondaryFOPT parseOfficeArtSecondaryFOPT(LEInputStream in) throws IOException  {
         OfficeArtSecondaryFOPT _s = new OfficeArtSecondaryFOPT();
@@ -2009,6 +2728,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtSecondaryFOPT _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     OfficeArtTertiaryFOPT parseOfficeArtTertiaryFOPT(LEInputStream in) throws IOException  {
         OfficeArtTertiaryFOPT _s = new OfficeArtTertiaryFOPT();
         int _c;
@@ -2026,6 +2751,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtTertiaryFOPT _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (OfficeArtFOPTE _i: _s.fopt) {
+            write(_i, out);
+        }
+    }
     RectStruct parseRectStruct(LEInputStream in) throws IOException  {
         RectStruct _s = new RectStruct();
         _s.top = in.readint32();
@@ -2034,6 +2765,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.bottom = in.readint32();
         return _s;
     }
+    void write(RectStruct _s, LEOutputStream out) throws IOException  {
+        out.writeint32(_s.top);
+        out.writeint32(_s.left);
+        out.writeint32(_s.right);
+        out.writeint32(_s.bottom);
+    }
     SmallRectStruct parseSmallRectStruct(LEInputStream in) throws IOException  {
         SmallRectStruct _s = new SmallRectStruct();
         _s.top = in.readint16();
@@ -2041,6 +2778,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.right = in.readint16();
         _s.bottom = in.readint16();
         return _s;
+    }
+    void write(SmallRectStruct _s, LEOutputStream out) throws IOException  {
+        out.writeint16(_s.top);
+        out.writeint16(_s.left);
+        out.writeint16(_s.right);
+        out.writeint16(_s.bottom);
     }
     ShapeFlagsAtom parseShapeFlagsAtom(LEInputStream in) throws IOException  {
         ShapeFlagsAtom _s = new ShapeFlagsAtom();
@@ -2065,6 +2808,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(ShapeFlagsAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     ShapeFlags10Atom parseShapeFlags10Atom(LEInputStream in) throws IOException  {
         ShapeFlags10Atom _s = new ShapeFlags10Atom();
         int _c;
@@ -2087,6 +2836,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(ShapeFlags10Atom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     ExObjRefAtom parseExObjRefAtom(LEInputStream in) throws IOException  {
         ExObjRefAtom _s = new ExObjRefAtom();
@@ -2111,6 +2866,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(ExObjRefAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     AnimationInfoContainer parseAnimationInfoContainer(LEInputStream in) throws IOException  {
         AnimationInfoContainer _s = new AnimationInfoContainer();
         int _c;
@@ -2121,8 +2882,8 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recInstance == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0xFF1)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFF1 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0x1014)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1014 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
         _s.todo = new byte[_c];
@@ -2130,6 +2891,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(AnimationInfoContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     MouseClickInteractiveInfoContainer parseMouseClickInteractiveInfoContainer(LEInputStream in) throws IOException  {
         MouseClickInteractiveInfoContainer _s = new MouseClickInteractiveInfoContainer();
@@ -2151,6 +2918,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(MouseClickInteractiveInfoContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     MouseOverInteractiveInfoContainer parseMouseOverInteractiveInfoContainer(LEInputStream in) throws IOException  {
         MouseOverInteractiveInfoContainer _s = new MouseOverInteractiveInfoContainer();
         int _c;
@@ -2170,6 +2943,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(MouseOverInteractiveInfoContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     PlaceholderAtom parsePlaceholderAtom(LEInputStream in) throws IOException  {
         PlaceholderAtom _s = new PlaceholderAtom();
@@ -2192,6 +2971,13 @@ System.out.println(in.getPosition()+" "+_s);
         _s.unused = in.readuint16();
         return _s;
     }
+    void write(PlaceholderAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.position);
+        out.writeuint8(_s.placementId);
+        out.writeuint8(_s.size);
+        out.writeuint16(_s.unused);
+    }
     RecolorInfoAtom parseRecolorInfoAtom(LEInputStream in) throws IOException  {
         RecolorInfoAtom _s = new RecolorInfoAtom();
         int _c;
@@ -2211,6 +2997,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(RecolorInfoAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     OutlineTextRefAtom parseOutlineTextRefAtom(LEInputStream in) throws IOException  {
         OutlineTextRefAtom _s = new OutlineTextRefAtom();
@@ -2233,6 +3025,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OutlineTextRefAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint32(_s.index);
+    }
     ShapeClientRoundtripDataSubcontainerOrAtom parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream in) throws IOException  {
         ShapeClientRoundtripDataSubcontainerOrAtom _s = new ShapeClientRoundtripDataSubcontainerOrAtom();
         int _c;
@@ -2246,6 +3042,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(ShapeClientRoundtripDataSubcontainerOrAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     OfficeArtClientTextBox parseOfficeArtClientTextBox(LEInputStream in) throws IOException  {
         OfficeArtClientTextBox _s = new OfficeArtClientTextBox();
@@ -2285,6 +3087,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtClientTextBox _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (TextClientDataSubContainerOrAtom _i: _s.rgChildRec) {
+            write(_i, out);
+        }
+    }
     TextClientDataSubContainerOrAtom parseTextClientDataSubContainerOrAtom(LEInputStream in) throws IOException  {
         TextClientDataSubContainerOrAtom _s = new TextClientDataSubContainerOrAtom();
         int _c;
@@ -2296,11 +3104,21 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(TextClientDataSubContainerOrAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     OfficeArtIDCL parseOfficeArtIDCL(LEInputStream in) throws IOException  {
         OfficeArtIDCL _s = new OfficeArtIDCL();
         _s.dgid = in.readuint32();
         _s.cspidCur = in.readuint32();
         return _s;
+    }
+    void write(OfficeArtIDCL _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.dgid);
+        out.writeuint32(_s.cspidCur);
     }
     OfficeArtFOPTEOPID parseOfficeArtFOPTEOPID(LEInputStream in) throws IOException  {
         OfficeArtFOPTEOPID _s = new OfficeArtFOPTEOPID();
@@ -2308,6 +3126,11 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fBid = in.readbit();
         _s.fComplex = in.readbit();
         return _s;
+    }
+    void write(OfficeArtFOPTEOPID _s, LEOutputStream out) throws IOException  {
+        out.writeuint14(_s.opid);
+        out.writebit(_s.fBid);
+        out.writebit(_s.fComplex);
     }
     OfficeArtColorMRUContainer parseOfficeArtColorMRUContainer(LEInputStream in) throws IOException  {
         OfficeArtColorMRUContainer _s = new OfficeArtColorMRUContainer();
@@ -2329,6 +3152,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtColorMRUContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (MSOCR _i: _s.rgmsocr) {
+            write(_i, out);
+        }
+    }
     MSOCR parseMSOCR(LEInputStream in) throws IOException  {
         MSOCR _s = new MSOCR();
         _s.red = in.readuint8();
@@ -2338,6 +3167,14 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fSchemeIndex = in.readbit();
         _s.unused2 = in.readuint4();
         return _s;
+    }
+    void write(MSOCR _s, LEOutputStream out) throws IOException  {
+        out.writeuint8(_s.red);
+        out.writeuint8(_s.green);
+        out.writeuint8(_s.blue);
+        out.writeuint3(_s.unused1);
+        out.writebit(_s.fSchemeIndex);
+        out.writeuint4(_s.unused2);
     }
     OfficeArtSplitMenuColorContainer parseOfficeArtSplitMenuColorContainer(LEInputStream in) throws IOException  {
         OfficeArtSplitMenuColorContainer _s = new OfficeArtSplitMenuColorContainer();
@@ -2362,6 +3199,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtSplitMenuColorContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (MSOCR _i: _s.smca) {
+            write(_i, out);
+        }
+    }
     todo parsetodo(LEInputStream in) throws IOException  {
         todo _s = new todo();
         int _c;
@@ -2373,31 +3216,11 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
-    TODOS parseTODOS(LEInputStream in) throws IOException  {
-        TODOS _s = new TODOS();
-        Object _m;
-        boolean _atend;
-        int _i;
-        _atend = false;
-        _i=0;
-        while (!_atend) {
-            System.out.println("round "+(_i++) + " " + in.getPosition());
-            _m = in.setMark();
-            try {
-                todo _t = parsetodo(in);
-                _s.anon.add(_t);
-            } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-                _atend = true;
-                in.rewind(_m);
-            } catch(java.io.EOFException _e) {
-                _atend = true;
-                in.rewind(_m);
-            } finally {
-                in.releaseMark(_m);
-           }
+    void write(todo _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.anon) {
+            out.writeuint8(_i);
         }
-        return _s;
     }
     FibBase parseFibBase(LEInputStream in) throws IOException  {
         FibBase _s = new FibBase();
@@ -2455,6 +3278,39 @@ System.out.println(in.getPosition()+" "+_s);
         _s.reserved6 = in.readuint32();
         return _s;
     }
+    void write(FibBase _s, LEOutputStream out) throws IOException  {
+        out.writeuint16(_s.wIdent);
+        out.writeuint16(_s.nFib);
+        out.writeuint16(_s.unused);
+        out.writeuint16(_s.lid);
+        out.writeuint16(_s.pnNext);
+        out.writebit(_s.fDot);
+        out.writebit(_s.fGlsy);
+        out.writebit(_s.fComplex);
+        out.writebit(_s.fHasPic);
+        out.writeuint4(_s.cQuickSaves);
+        out.writebit(_s.fEncrypted);
+        out.writebit(_s.fWhichTblStm);
+        out.writebit(_s.fReadOnlyRecommended);
+        out.writebit(_s.fWriteReservation);
+        out.writebit(_s.fExtChar);
+        out.writebit(_s.fLoadOverride);
+        out.writebit(_s.fFarEast);
+        out.writebit(_s.fObfuscated);
+        out.writeuint16(_s.nFibBack);
+        out.writeuint32(_s.IKey);
+        out.writeuint8(_s.envr);
+        out.writebit(_s.fMac);
+        out.writebit(_s.fEmptySpecial);
+        out.writebit(_s.fLoadOverridePage);
+        out.writebit(_s.reserved1);
+        out.writebit(_s.reserved2);
+        out.writeuint3(_s.fSpare0);
+        out.writeuint16(_s.reserved3);
+        out.writeuint16(_s.reserved4);
+        out.writeuint32(_s.reserved5);
+        out.writeuint32(_s.reserved6);
+    }
     FibRgW97 parseFibRgW97(LEInputStream in) throws IOException  {
         FibRgW97 _s = new FibRgW97();
         _s.reserved1 = in.readuint16();
@@ -2472,6 +3328,22 @@ System.out.println(in.getPosition()+" "+_s);
         _s.reserved13 = in.readuint16();
         _s.lidFE = in.readuint16();
         return _s;
+    }
+    void write(FibRgW97 _s, LEOutputStream out) throws IOException  {
+        out.writeuint16(_s.reserved1);
+        out.writeuint16(_s.reserved2);
+        out.writeuint16(_s.reserved3);
+        out.writeuint16(_s.reserved4);
+        out.writeuint16(_s.reserved5);
+        out.writeuint16(_s.reserved6);
+        out.writeuint16(_s.reserved7);
+        out.writeuint16(_s.reserved8);
+        out.writeuint16(_s.reserved9);
+        out.writeuint16(_s.reserved10);
+        out.writeuint16(_s.reserved11);
+        out.writeuint16(_s.reserved12);
+        out.writeuint16(_s.reserved13);
+        out.writeuint16(_s.lidFE);
     }
     FibRgLw97 parseFibRgLw97(LEInputStream in) throws IOException  {
         FibRgLw97 _s = new FibRgLw97();
@@ -2528,6 +3400,30 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.reserved14 == 0 for value " + String.valueOf(_s.reserved14) );
         }
         return _s;
+    }
+    void write(FibRgLw97 _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.cbMac);
+        out.writeuint32(_s.reserved1);
+        out.writeuint32(_s.reserved2);
+        out.writeint32(_s.ccpText);
+        out.writeint32(_s.ccpFtn);
+        out.writeint32(_s.ccpHdd);
+        out.writeuint32(_s.reserved3);
+        out.writeint32(_s.ccpAtn);
+        out.writeint32(_s.ccpEdn);
+        out.writeint32(_s.ccpTxbx);
+        out.writeint32(_s.ccpHdrTxbx);
+        out.writeuint32(_s.reserved4);
+        out.writeuint32(_s.reserved5);
+        out.writeuint32(_s.reserved6);
+        out.writeuint32(_s.reserved7);
+        out.writeuint32(_s.reserved8);
+        out.writeuint32(_s.reserved9);
+        out.writeuint32(_s.reserved10);
+        out.writeuint32(_s.reserved11);
+        out.writeuint32(_s.reserved12);
+        out.writeuint32(_s.reserved13);
+        out.writeuint32(_s.reserved14);
     }
     FibRgFcLcb97 parseFibRgFcLcb97(LEInputStream in) throws IOException  {
         FibRgFcLcb97 _s = new FibRgFcLcb97();
@@ -2719,6 +3615,194 @@ System.out.println(in.getPosition()+" "+_s);
         _s.lcbSttbfUssr = in.readuint32();
         return _s;
     }
+    void write(FibRgFcLcb97 _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.fcStshfOrig);
+        out.writeuint32(_s.lcbStshfOrig);
+        out.writeuint32(_s.fcStshf);
+        out.writeuint32(_s.lcbStshf);
+        out.writeuint32(_s.fcPlcffndRef);
+        out.writeuint32(_s.lcbPlcffndRef);
+        out.writeuint32(_s.fcPlcffndTxt);
+        out.writeuint32(_s.lcbPlcffndTxt);
+        out.writeuint32(_s.fcPlcfandRef);
+        out.writeuint32(_s.lcbPlcfandRef);
+        out.writeuint32(_s.fcPlcfandTxt);
+        out.writeuint32(_s.lcbPlcfandTxt);
+        out.writeuint32(_s.fcPlcfSed);
+        out.writeuint32(_s.lcbPlcfSed);
+        out.writeuint32(_s.fcPlcPad);
+        out.writeuint32(_s.lcbPlcPad);
+        out.writeuint32(_s.fcPlcfPhe);
+        out.writeuint32(_s.lcbPlcfPhe);
+        out.writeuint32(_s.fcSttbfGlsy);
+        out.writeuint32(_s.lcbSttbfGlsy);
+        out.writeuint32(_s.fcPlcfGlsy);
+        out.writeuint32(_s.lcbPlcfGlsy);
+        out.writeuint32(_s.fcPlcfHdd);
+        out.writeuint32(_s.lcbPlcfHdd);
+        out.writeuint32(_s.fcPlcfBteChpx);
+        out.writeuint32(_s.lcbPlcfBteChpx);
+        out.writeuint32(_s.fcPlcfBtePapx);
+        out.writeuint32(_s.lcbPlcfBtePapx);
+        out.writeuint32(_s.fcPlcfSea);
+        out.writeuint32(_s.lcbPlcfSea);
+        out.writeuint32(_s.fcSttbfFfn);
+        out.writeuint32(_s.lcbSttbfFfn);
+        out.writeuint32(_s.fcPlcfFldMom);
+        out.writeuint32(_s.lcbPlcfFldMom);
+        out.writeuint32(_s.fcPlcfFldHdr);
+        out.writeuint32(_s.lcbPlcfFldHdr);
+        out.writeuint32(_s.fcPlcfFldFtn);
+        out.writeuint32(_s.lcbPlcfFldFtn);
+        out.writeuint32(_s.fcPlcfFldAtn);
+        out.writeuint32(_s.lcbPlcfFldAtn);
+        out.writeuint32(_s.fcPlcfFldMcr);
+        out.writeuint32(_s.lcbPlcfFldMcr);
+        out.writeuint32(_s.fcSttbfBkmk);
+        out.writeuint32(_s.lcbSttbfBkmk);
+        out.writeuint32(_s.fcPlcfBkf);
+        out.writeuint32(_s.lcbPlcfBkf);
+        out.writeuint32(_s.fcPlcfBkl);
+        out.writeuint32(_s.lcbPlcfBkl);
+        out.writeuint32(_s.fcCmds);
+        out.writeuint32(_s.lcbCmds);
+        out.writeuint32(_s.fcUnused1);
+        out.writeuint32(_s.lcbUnused1);
+        out.writeuint32(_s.fcSttbfMcr);
+        out.writeuint32(_s.lcbSttbfMcr);
+        out.writeuint32(_s.fcPrDrvr);
+        out.writeuint32(_s.lcbPrDrvr);
+        out.writeuint32(_s.fcPrEnvPort);
+        out.writeuint32(_s.lcbPrEnvPort);
+        out.writeuint32(_s.fcPrEnvLand);
+        out.writeuint32(_s.lcbPrEnvLand);
+        out.writeuint32(_s.fcWss);
+        out.writeuint32(_s.lcbWss);
+        out.writeuint32(_s.fcDop);
+        out.writeuint32(_s.lcbDop);
+        out.writeuint32(_s.fcSttbfAssoc);
+        out.writeuint32(_s.lcbSttbfAssoc);
+        out.writeuint32(_s.fcClx);
+        out.writeuint32(_s.lcbClx);
+        out.writeuint32(_s.fcPlcfPgdFtn);
+        out.writeuint32(_s.lcbPlcfPgdFtn);
+        out.writeuint32(_s.fcAutosaveSource);
+        out.writeuint32(_s.lcbAutosaveSource);
+        out.writeuint32(_s.fcGrpXstAtnOwners);
+        out.writeuint32(_s.lcbGrpXstAtnOwners);
+        out.writeuint32(_s.fcSttbfAtnBkmk);
+        out.writeuint32(_s.lcbSttbfAtnBkmk);
+        out.writeuint32(_s.fcUnused2);
+        out.writeuint32(_s.lcbUnused2);
+        out.writeuint32(_s.fcUnused3);
+        out.writeuint32(_s.lcbUnused3);
+        out.writeuint32(_s.fcPlcSpaMom);
+        out.writeuint32(_s.lcbPlcSpaMom);
+        out.writeuint32(_s.fcPlcSpaHdr);
+        out.writeuint32(_s.lcbPlcSpaHdr);
+        out.writeuint32(_s.fcPlcfAtnBkf);
+        out.writeuint32(_s.lcbPlcfAtnBkf);
+        out.writeuint32(_s.fcPlcfAtnBkl);
+        out.writeuint32(_s.lcbPlcfAtnBkl);
+        out.writeuint32(_s.fcPms);
+        out.writeuint32(_s.lcbPms);
+        out.writeuint32(_s.fcFormFldSttbs);
+        out.writeuint32(_s.lcbFormFldSttbs);
+        out.writeuint32(_s.fcPlcfendRef);
+        out.writeuint32(_s.lcbPlcfendRef);
+        out.writeuint32(_s.fcPlcfendTxt);
+        out.writeuint32(_s.lcbPlcfendTxt);
+        out.writeuint32(_s.fcPlcfFldEdn);
+        out.writeuint32(_s.lcbPlcfFldEdn);
+        out.writeuint32(_s.fcUnused4);
+        out.writeuint32(_s.lcbUnused4);
+        out.writeuint32(_s.fcDggInfo);
+        out.writeuint32(_s.lcbDggInfo);
+        out.writeuint32(_s.fcSttbfRMark);
+        out.writeuint32(_s.lcbSttbfRMark);
+        out.writeuint32(_s.fcSttbfCaption);
+        out.writeuint32(_s.lcbSttbfCaption);
+        out.writeuint32(_s.fcSttbfAutoCaption);
+        out.writeuint32(_s.lcbSttbfAutoCaption);
+        out.writeuint32(_s.fcPlcfWkb);
+        out.writeuint32(_s.lcbPlcfWkb);
+        out.writeuint32(_s.fcPlcfSpl);
+        out.writeuint32(_s.lcbPlcfSpl);
+        out.writeuint32(_s.fcPlcftxbxTxt);
+        out.writeuint32(_s.lcbPlcftxbxTxt);
+        out.writeuint32(_s.fcPlcfFldTxbx);
+        out.writeuint32(_s.lcbPlcfFldTxbx);
+        out.writeuint32(_s.fcPlcfHdrtxbxTxt);
+        out.writeuint32(_s.lcbPlcfHdrtxbxTxt);
+        out.writeuint32(_s.fcPlcffldHdrTxbx);
+        out.writeuint32(_s.lcbPlcffldHdrTxbx);
+        out.writeuint32(_s.fcStwUser);
+        out.writeuint32(_s.lcbStwUser);
+        out.writeuint32(_s.fcSttbTtmbd);
+        out.writeuint32(_s.lcbSttbTtmbd);
+        out.writeuint32(_s.fcCookieData);
+        out.writeuint32(_s.lcbCookieData);
+        out.writeuint32(_s.fcPgdMotherOldOld);
+        out.writeuint32(_s.lcbPgdMotherOldOld);
+        out.writeuint32(_s.fcBkdMotherOldOld);
+        out.writeuint32(_s.lcbBkdMotherOldOld);
+        out.writeuint32(_s.fcPgdFtnOldOld);
+        out.writeuint32(_s.lcbPgdFtnOldOld);
+        out.writeuint32(_s.fcBkdFtnOldOld);
+        out.writeuint32(_s.lcbBkdFtnOldOld);
+        out.writeuint32(_s.fcPgdEdnOldOld);
+        out.writeuint32(_s.lcbPgdEdnOldOld);
+        out.writeuint32(_s.fcBkdEdnOldOld);
+        out.writeuint32(_s.lcbBkdEdnOldOld);
+        out.writeuint32(_s.fcSttbfIntlFld);
+        out.writeuint32(_s.lcbSttbfIntlFld);
+        out.writeuint32(_s.fcRouteSlip);
+        out.writeuint32(_s.lcbRouteSlip);
+        out.writeuint32(_s.fcSttbSavedBy);
+        out.writeuint32(_s.lcbSttbSavedBy);
+        out.writeuint32(_s.fcSttbFnm);
+        out.writeuint32(_s.lcbSttbFnm);
+        out.writeuint32(_s.fcPlfLst);
+        out.writeuint32(_s.lcbPlfLst);
+        out.writeuint32(_s.fcPlfLfo);
+        out.writeuint32(_s.lcbPlfLfo);
+        out.writeuint32(_s.fcPlcfTxbxBkd);
+        out.writeuint32(_s.lcbPlcfTxbxBkd);
+        out.writeuint32(_s.fcPlcfTxbxHdrBkd);
+        out.writeuint32(_s.lcbPlcfTxbxHdrBkd);
+        out.writeuint32(_s.fcDocUndoWord9);
+        out.writeuint32(_s.lcbDocUndoWord9);
+        out.writeuint32(_s.fcRgbUse);
+        out.writeuint32(_s.lcbRgbUse);
+        out.writeuint32(_s.fcUsp);
+        out.writeuint32(_s.lcbUsp);
+        out.writeuint32(_s.fcUskf);
+        out.writeuint32(_s.lcbUskf);
+        out.writeuint32(_s.fcPlcupcRgbUse);
+        out.writeuint32(_s.lcbPlcupcRgbUse);
+        out.writeuint32(_s.fcPlcupcUsp);
+        out.writeuint32(_s.lcbPlcupcUsp);
+        out.writeuint32(_s.fcSttbGlsyStyle);
+        out.writeuint32(_s.lcbSttbGlsyStyle);
+        out.writeuint32(_s.fcPlgosl);
+        out.writeuint32(_s.lcbPlgosl);
+        out.writeuint32(_s.fcPlcocx);
+        out.writeuint32(_s.lcbPlcocx);
+        out.writeuint32(_s.fcPlcfBteLvc);
+        out.writeuint32(_s.lcbPlcfBteLvc);
+        out.writeuint32(_s.dwLowDateTime);
+        out.writeuint32(_s.dwHighDateTime);
+        out.writeuint32(_s.fcPlcfLvcPre10);
+        out.writeuint32(_s.lcbPlcfLvcPre10);
+        out.writeuint32(_s.fcPlcfAsumy);
+        out.writeuint32(_s.lcbPlcfAsumy);
+        out.writeuint32(_s.fcPlcfGram);
+        out.writeuint32(_s.lcbPlcfGram);
+        out.writeuint32(_s.fcSttbListNames);
+        out.writeuint32(_s.lcbSttbListNames);
+        out.writeuint32(_s.fcSttbfUssr);
+        out.writeuint32(_s.lcbSttbfUssr);
+    }
     FibRgFcLcb2000 parseFibRgFcLcb2000(LEInputStream in) throws IOException  {
         FibRgFcLcb2000 _s = new FibRgFcLcb2000();
         _s.fcPlcfTch = in.readuint32();
@@ -2752,6 +3836,38 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fcBkdEdnOld = in.readuint32();
         _s.lcbBkdEdnOld = in.readuint32();
         return _s;
+    }
+    void write(FibRgFcLcb2000 _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.fcPlcfTch);
+        out.writeuint32(_s.lcbPlcfTch);
+        out.writeuint32(_s.fcRmdThreading);
+        out.writeuint32(_s.lcbRmdThreading);
+        out.writeuint32(_s.fcMid);
+        out.writeuint32(_s.lcbMid);
+        out.writeuint32(_s.fcSttbRgtplc);
+        out.writeuint32(_s.lcbSttbRgtplc);
+        out.writeuint32(_s.fcMsoEnvelope);
+        out.writeuint32(_s.lcbMsoEnvelope);
+        out.writeuint32(_s.fcPlcfLad);
+        out.writeuint32(_s.lcbPlcfLad);
+        out.writeuint32(_s.fcRgDofr);
+        out.writeuint32(_s.lcbRgDofr);
+        out.writeuint32(_s.fcPlcosl);
+        out.writeuint32(_s.lcbPlcosl);
+        out.writeuint32(_s.fcPlcfCookieOld);
+        out.writeuint32(_s.lcbPlcfCookieOld);
+        out.writeuint32(_s.fcPgdMotherOld);
+        out.writeuint32(_s.lcbPgdMotherOld);
+        out.writeuint32(_s.fcBkdMotherOld);
+        out.writeuint32(_s.lcbBkdMotherOld);
+        out.writeuint32(_s.fcPgdFtnOld);
+        out.writeuint32(_s.lcbPgdFtnOld);
+        out.writeuint32(_s.fcBkdFtnOld);
+        out.writeuint32(_s.lcbBkdFtnOld);
+        out.writeuint32(_s.fcPgdEdnOld);
+        out.writeuint32(_s.lcbPgdEdnOld);
+        out.writeuint32(_s.fcBkdEdnOld);
+        out.writeuint32(_s.lcbBkdEdnOld);
     }
     FibRgFcLcb2002 parseFibRgFcLcb2002(LEInputStream in) throws IOException  {
         FibRgFcLcb2002 _s = new FibRgFcLcb2002();
@@ -2807,6 +3923,58 @@ System.out.println(in.getPosition()+" "+_s);
         _s.lcbPlcffactoid = in.readuint32();
         return _s;
     }
+    void write(FibRgFcLcb2002 _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.fcUnused1);
+        out.writeuint32(_s.lcbUnused1);
+        out.writeuint32(_s.fcPlcfPgp);
+        out.writeuint32(_s.lcbPlcfPgp);
+        out.writeuint32(_s.fcPlcfuim);
+        out.writeuint32(_s.lcbPlcfuim);
+        out.writeuint32(_s.fcPlfguidUim);
+        out.writeuint32(_s.lcbPlfguidUim);
+        out.writeuint32(_s.fcAtrdExtra);
+        out.writeuint32(_s.lcbAtrdExtra);
+        out.writeuint32(_s.fcPlrsid);
+        out.writeuint32(_s.lcbPlrsid);
+        out.writeuint32(_s.fcSttbfBkmkFactoid);
+        out.writeuint32(_s.lcbSttbfBkmkFactoid);
+        out.writeuint32(_s.fcPlcfBkfFactoid);
+        out.writeuint32(_s.lcbPlcfBkfFactoid);
+        out.writeuint32(_s.fcPlcfcookie);
+        out.writeuint32(_s.lcbPlcfcookie);
+        out.writeuint32(_s.fcPlcfBklFactoid);
+        out.writeuint32(_s.lcbPlcfBklFactoid);
+        out.writeuint32(_s.fcFactoidData);
+        out.writeuint32(_s.lcbFactoidData);
+        out.writeuint32(_s.fcDocUndo);
+        out.writeuint32(_s.lcbDocUndo);
+        out.writeuint32(_s.fcSttbfBkmkFcc);
+        out.writeuint32(_s.lcbSttbfBkmkFcc);
+        out.writeuint32(_s.fcPlcfBkfFcc);
+        out.writeuint32(_s.lcbPlcfBkfFcc);
+        out.writeuint32(_s.fcPlcfBklFcc);
+        out.writeuint32(_s.lcbPlcfBklFcc);
+        out.writeuint32(_s.fcSttbfbkmkBPRepairs);
+        out.writeuint32(_s.lcbSttbfbkmkBPRepairs);
+        out.writeuint32(_s.fcPlcfbkfBPRepairs);
+        out.writeuint32(_s.lcbPlcfbkfBPRepairs);
+        out.writeuint32(_s.fcPlcfbklBPRepairs);
+        out.writeuint32(_s.lcbPlcfbklBPRepairs);
+        out.writeuint32(_s.fcPmsNew);
+        out.writeuint32(_s.lcbPmsNew);
+        out.writeuint32(_s.fcODSO);
+        out.writeuint32(_s.lcbODSO);
+        out.writeuint32(_s.fcPlcfpmiOldXP);
+        out.writeuint32(_s.lcbPlcfpmiOldXP);
+        out.writeuint32(_s.fcPlcfpmiNewXP);
+        out.writeuint32(_s.lcbPlcfpmiNewXP);
+        out.writeuint32(_s.fcPlcfpmiMixedXP);
+        out.writeuint32(_s.lcbPlcfpmiMixedXP);
+        out.writeuint32(_s.fcUnused2);
+        out.writeuint32(_s.lcbUnused2);
+        out.writeuint32(_s.fcPlcffactoid);
+        out.writeuint32(_s.lcbPlcffactoid);
+    }
     LPStshi parseLPStshi(LEInputStream in) throws IOException  {
         LPStshi _s = new LPStshi();
         int _c;
@@ -2817,6 +3985,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.stshi[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(LPStshi _s, LEOutputStream out) throws IOException  {
+        out.writeuint16(_s.cbSthi);
+        for (byte _i: _s.stshi) {
+            out.writeuint8(_i);
+        }
     }
     LPStd parseLPStd(LEInputStream in) throws IOException  {
         LPStd _s = new LPStd();
@@ -2831,6 +4005,15 @@ System.out.println(in.getPosition()+" "+_s);
             _s.padding = in.readuint8();
         }
         return _s;
+    }
+    void write(LPStd _s, LEOutputStream out) throws IOException  {
+        out.writeuint16(_s.cbStd);
+        for (byte _i: _s.std) {
+            out.writeuint8(_i);
+        }
+        if (_s.cbStd%2==1) {
+            out.writeuint8(_s.padding);
+        }
     }
     PlcfSed parsePlcfSed(LEInputStream in) throws IOException  {
         PlcfSed _s = new PlcfSed();
@@ -2847,6 +4030,14 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(PlcfSed _s, LEOutputStream out) throws IOException  {
+        for (int _i: _s.aCP) {
+            out.writeuint32(_i);
+        }
+        for (Sed _i: _s.aSed) {
+            write(_i, out);
+        }
+    }
     Sed parseSed(LEInputStream in) throws IOException  {
         Sed _s = new Sed();
         _s.fn = in.readuint16();
@@ -2854,6 +4045,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fnMpr = in.readuint16();
         _s.fcMpr = in.readuint32();
         return _s;
+    }
+    void write(Sed _s, LEOutputStream out) throws IOException  {
+        out.writeuint16(_s.fn);
+        out.writeint32(_s.fcSepx);
+        out.writeuint16(_s.fnMpr);
+        out.writeuint32(_s.fcMpr);
     }
     Plcfhdd parsePlcfhdd(LEInputStream in) throws IOException  {
         Plcfhdd _s = new Plcfhdd();
@@ -2864,6 +4061,11 @@ System.out.println(in.getPosition()+" "+_s);
             _s.aCP[_i] = in.readuint32();
         }
         return _s;
+    }
+    void write(Plcfhdd _s, LEOutputStream out) throws IOException  {
+        for (int _i: _s.aCP) {
+            out.writeuint32(_i);
+        }
     }
     PlcBteChpx parsePlcBteChpx(LEInputStream in) throws IOException  {
         PlcBteChpx _s = new PlcBteChpx();
@@ -2880,6 +4082,14 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(PlcBteChpx _s, LEOutputStream out) throws IOException  {
+        for (int _i: _s.aCP) {
+            out.writeuint32(_i);
+        }
+        for (int _i: _s.aPnBteChpx) {
+            out.writeuint32(_i);
+        }
+    }
     PlcfBtePapx parsePlcfBtePapx(LEInputStream in) throws IOException  {
         PlcfBtePapx _s = new PlcfBtePapx();
         int _c;
@@ -2895,6 +4105,14 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(PlcfBtePapx _s, LEOutputStream out) throws IOException  {
+        for (int _i: _s.aCP) {
+            out.writeuint32(_i);
+        }
+        for (int _i: _s.aPnBteChpx) {
+            out.writeuint32(_i);
+        }
+    }
     Tcg parseTcg(LEInputStream in) throws IOException  {
         Tcg _s = new Tcg();
         int _c;
@@ -2908,6 +4126,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.todo[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(Tcg _s, LEOutputStream out) throws IOException  {
+        out.writeuint8(_s.nTcgVer);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
     }
     PrcData parsePrcData(LEInputStream in) throws IOException  {
         PrcData _s = new PrcData();
@@ -2929,6 +4153,12 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(PrcData _s, LEOutputStream out) throws IOException  {
+        out.writeint16(_s.cbGrpprl);
+        for (Sprm _i: _s.GrpPrl) {
+            write(_i, out);
+        }
+    }
     Sprm parseSprm(LEInputStream in) throws IOException  {
         Sprm _s = new Sprm();
         _s.ispmd = in.readuint9();
@@ -2936,6 +4166,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.sgc = in.readuint3();
         _s.spra = in.readuint3();
         return _s;
+    }
+    void write(Sprm _s, LEOutputStream out) throws IOException  {
+        out.writeuint9(_s.ispmd);
+        out.writebit(_s.fSpec);
+        out.writeuint3(_s.sgc);
+        out.writeuint3(_s.spra);
     }
     Pcdt parsePcdt(LEInputStream in) throws IOException  {
         Pcdt _s = new Pcdt();
@@ -2952,12 +4188,24 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(Pcdt _s, LEOutputStream out) throws IOException  {
+        out.writeuint8(_s.clxt);
+        out.writeuint32(_s.lcb);
+        for (Pcd _i: _s.PlcPcd) {
+            write(_i, out);
+        }
+    }
     FCompressed parseFCompressed(LEInputStream in) throws IOException  {
         FCompressed _s = new FCompressed();
         _s.fc = in.readuint30();
         _s.fCompressed = in.readbit();
         _s.r1 = in.readbit();
         return _s;
+    }
+    void write(FCompressed _s, LEOutputStream out) throws IOException  {
+        out.writeuint30(_s.fc);
+        out.writebit(_s.fCompressed);
+        out.writebit(_s.r1);
     }
     Prm0 parsePrm0(LEInputStream in) throws IOException  {
         Prm0 _s = new Prm0();
@@ -2969,6 +4217,11 @@ System.out.println(in.getPosition()+" "+_s);
         _s.val = in.readuint8();
         return _s;
     }
+    void write(Prm0 _s, LEOutputStream out) throws IOException  {
+        out.writebit(_s.fComplex);
+        out.writeuint7(_s.isprm);
+        out.writeuint8(_s.val);
+    }
     Prm1 parsePrm1(LEInputStream in) throws IOException  {
         Prm1 _s = new Prm1();
         _s.fComplex = in.readbit();
@@ -2977,6 +4230,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.igrpprl = in.readuint15();
         return _s;
+    }
+    void write(Prm1 _s, LEOutputStream out) throws IOException  {
+        out.writebit(_s.fComplex);
+        out.writeuint15(_s.igrpprl);
     }
     SttbfFfn parseSttbfFfn(LEInputStream in) throws IOException  {
         SttbfFfn _s = new SttbfFfn();
@@ -2993,6 +4250,13 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(SttbfFfn _s, LEOutputStream out) throws IOException  {
+        out.writeuint16(_s.cData);
+        out.writeuint16(_s.cbExtra);
+        for (SttbfFfnEntry _i: _s.data) {
+            write(_i, out);
+        }
+    }
     SttbfFfnEntry parseSttbfFfnEntry(LEInputStream in) throws IOException  {
         SttbfFfnEntry _s = new SttbfFfnEntry();
         int _c;
@@ -3004,10 +4268,19 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(SttbfFfnEntry _s, LEOutputStream out) throws IOException  {
+        out.writeuint8(_s.cchData);
+        for (byte _i: _s.Data) {
+            out.writeuint8(_i);
+        }
+    }
     PicturesStream parsePicturesStream(LEInputStream in) throws IOException  {
         PicturesStream _s = new PicturesStream();
         _s.anon1 = parseOfficeArtBStoreDelay(in);
         return _s;
+    }
+    void write(PicturesStream _s, LEOutputStream out) throws IOException  {
+        write(_s.anon1, out);
     }
     OfficeArtMetafileHeader parseOfficeArtMetafileHeader(LEInputStream in) throws IOException  {
         OfficeArtMetafileHeader _s = new OfficeArtMetafileHeader();
@@ -3018,6 +4291,14 @@ System.out.println(in.getPosition()+" "+_s);
         _s.compression = in.readuint8();
         _s.filter = in.readuint8();
         return _s;
+    }
+    void write(OfficeArtMetafileHeader _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.cbSize);
+        write(_s.rcBounds, out);
+        write(_s.ptSize, out);
+        out.writeuint32(_s.cbsave);
+        out.writeuint8(_s.compression);
+        out.writeuint8(_s.filter);
     }
     NormalViewSetInfoAtom parseNormalViewSetInfoAtom(LEInputStream in) throws IOException  {
         NormalViewSetInfoAtom _s = new NormalViewSetInfoAtom();
@@ -3049,6 +4330,17 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.reserved == 0 for value " + String.valueOf(_s.reserved) );
         }
         return _s;
+    }
+    void write(NormalViewSetInfoAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.leftPortion, out);
+        write(_s.topPortion, out);
+        out.writeuint8(_s.vertBarState);
+        out.writeuint8(_s.horizBarState);
+        out.writeuint8(_s.fPreferSingleSet);
+        out.writebit(_s.fHideThumbnails);
+        out.writebit(_s.fBarSnapped);
+        out.writeuint6(_s.reserved);
     }
     MasterPersistAtom parseMasterPersistAtom(LEInputStream in) throws IOException  {
         MasterPersistAtom _s = new MasterPersistAtom();
@@ -3093,6 +4385,18 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.reserved6 == 0 for value " + String.valueOf(_s.reserved6) );
         }
         return _s;
+    }
+    void write(MasterPersistAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.persistIdRef, out);
+        out.writeuint2(_s.reserved1);
+        out.writebit(_s.fNonOutLineData);
+        out.writeuint5(_s.reserved2);
+        out.writeuint8(_s.reserved3);
+        out.writeuint16(_s.reserved4);
+        out.writeuint32(_s.reserved5);
+        out.writeuint32(_s.masterId);
+        out.writeuint32(_s.reserved6);
     }
     SlidePersistAtom parseSlidePersistAtom(LEInputStream in) throws IOException  {
         SlidePersistAtom _s = new SlidePersistAtom();
@@ -3141,6 +4445,19 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.reserved5 == 0 for value " + String.valueOf(_s.reserved5) );
         }
         return _s;
+    }
+    void write(SlidePersistAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.persistIdRef, out);
+        out.writebit(_s.reserved1);
+        out.writebit(_s.fShouldCollapse);
+        out.writebit(_s.fNonOutlineData);
+        out.writeuint5(_s.reserved2);
+        out.writeuint8(_s.reserved3);
+        out.writeuint16(_s.reserved4);
+        out.writeint32(_s.cTexts);
+        write(_s.slideId, out);
+        out.writeuint32(_s.reserved5);
     }
     TextRuler parseTextRuler(LEInputStream in) throws IOException  {
         TextRuler _s = new TextRuler();
@@ -3199,6 +4516,62 @@ System.out.println(in.getPosition()+" "+_s);
             _s.indent5 = in.readuint16();
         }
         return _s;
+    }
+    void write(TextRuler _s, LEOutputStream out) throws IOException  {
+        out.writebit(_s.fDefaultTabSize);
+        out.writebit(_s.fCLevels);
+        out.writebit(_s.fTabStops);
+        out.writebit(_s.fLeftMargin1);
+        out.writebit(_s.fLeftMargin2);
+        out.writebit(_s.fLeftMargin3);
+        out.writebit(_s.fLeftMargin4);
+        out.writebit(_s.fLeftMargin5);
+        out.writebit(_s.fIndent1);
+        out.writebit(_s.fIndent2);
+        out.writebit(_s.fIndent3);
+        out.writebit(_s.fIndent4);
+        out.writebit(_s.fIndent5);
+        out.writeuint3(_s.reserved1);
+        out.writeuint16(_s.reserved2);
+        if (_s.fCLevels) {
+            out.writeint16(_s.cLevels);
+        }
+        if (_s.fDefaultTabSize) {
+            out.writeuint16(_s.defaultTabSize);
+        }
+        if (_s.fTabStops) {
+            write(_s.tabs, out);
+        }
+        if (_s.fLeftMargin1) {
+            out.writeuint16(_s.leftMargin1);
+        }
+        if (_s.fIndent1) {
+            out.writeuint16(_s.indent1);
+        }
+        if (_s.fLeftMargin2) {
+            out.writeuint16(_s.leftMargin2);
+        }
+        if (_s.fIndent2) {
+            out.writeuint16(_s.indent2);
+        }
+        if (_s.fLeftMargin3) {
+            out.writeuint16(_s.leftMargin3);
+        }
+        if (_s.fIndent3) {
+            out.writeuint16(_s.indent3);
+        }
+        if (_s.fLeftMargin4) {
+            out.writeuint16(_s.leftMargin4);
+        }
+        if (_s.fIndent4) {
+            out.writeuint16(_s.indent4);
+        }
+        if (_s.fLeftMargin5) {
+            out.writeuint16(_s.leftMargin5);
+        }
+        if (_s.fIndent5) {
+            out.writeuint16(_s.indent5);
+        }
     }
     TextPFException parseTextPFException(LEInputStream in) throws IOException  {
         TextPFException _s = new TextPFException();
@@ -3265,6 +4638,57 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(TextPFException _s, LEOutputStream out) throws IOException  {
+        write(_s.masks, out);
+        if (_s.masks.hasBullet||_s.masks.bulletHasFont||_s.masks.bulletHasColor||_s.masks.bulletHasSize) {
+            write(_s.bulletFlags, out);
+        }
+        if (_s.masks.bulletChar) {
+            out.writeint16(_s.bulletChar);
+        }
+        if (_s.masks.bulletFont) {
+            out.writeuint16(_s.bulletFontRef);
+        }
+        if (_s.masks.bulletSize) {
+            out.writeuint16(_s.bulletSize);
+        }
+        if (_s.masks.bulletColor) {
+            out.writeuint32(_s.bulletColor);
+        }
+        if (_s.masks.align) {
+            out.writeuint16(_s.textAlignment);
+        }
+        if (_s.masks.lineSpacing) {
+            out.writeuint16(_s.lineSpacing);
+        }
+        if (_s.masks.spaceBefore) {
+            out.writeuint16(_s.spaceBefore);
+        }
+        if (_s.masks.spaceAfter) {
+            out.writeuint16(_s.spaceAfter);
+        }
+        if (_s.masks.leftMargin) {
+            out.writeuint16(_s.leftMargin);
+        }
+        if (_s.masks.indent) {
+            out.writeuint16(_s.indent);
+        }
+        if (_s.masks.defaultTabSize) {
+            out.writeuint16(_s.defaultTabSize);
+        }
+        if (_s.masks.tabStops) {
+            write(_s.tabStops, out);
+        }
+        if (_s.masks.fontAlign) {
+            out.writeuint16(_s.fontAlign);
+        }
+        if (_s.masks.charWrap||_s.masks.wordWrap||_s.masks.overflow) {
+            out.writeuint16(_s.wrapFlags);
+        }
+        if (_s.masks.textDirection) {
+            out.writeuint16(_s.textDirection);
+        }
+    }
     TextCFException parseTextCFException(LEInputStream in) throws IOException  {
         TextCFException _s = new TextCFException();
         _s.masks = parseCFMasks(in);
@@ -3318,6 +4742,33 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(TextCFException _s, LEOutputStream out) throws IOException  {
+        write(_s.masks, out);
+        if (_s.masks.bold || _s.masks.italic || _s.masks.underline || _s.masks.shadow || _s.masks.fehint || _s.masks.kumi || _s.masks.emboss || _s.masks.fHasStyle != 0) {
+            write(_s.fontStyle, out);
+        }
+        if (_s.masks.typeface) {
+            out.writeuint16(_s.fontRef);
+        }
+        if (_s.masks.oldEATypeface) {
+            out.writeuint16(_s.oldEAFontRef);
+        }
+        if (_s.masks.ansiTypeface) {
+            out.writeuint16(_s.ansiFontRef);
+        }
+        if (_s.masks.symbolTypeface) {
+            out.writeuint16(_s.symbolFontRef);
+        }
+        if (_s.masks.size) {
+            out.writeuint16(_s.fontSize);
+        }
+        if (_s.masks.color) {
+            out.writeuint32(_s.color);
+        }
+        if (_s.masks.position) {
+            out.writeuint16(_s.position);
+        }
+    }
     KinsokuContainer parseKinsokuContainer(LEInputStream in) throws IOException  {
         KinsokuContainer _s = new KinsokuContainer();
         _s.rh = parseRecordHeader(in);
@@ -3333,11 +4784,19 @@ System.out.println(in.getPosition()+" "+_s);
         _s.kinsokuAtom = parseKinsokuAtom(in);
         return _s;
     }
+    void write(KinsokuContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.kinsokuAtom, out);
+    }
     TextMasterStyleLevel parseTextMasterStyleLevel(LEInputStream in) throws IOException  {
         TextMasterStyleLevel _s = new TextMasterStyleLevel();
         _s.pf = parseTextPFException(in);
         _s.cf = parseTextCFException(in);
         return _s;
+    }
+    void write(TextMasterStyleLevel _s, LEOutputStream out) throws IOException  {
+        write(_s.pf, out);
+        write(_s.cf, out);
     }
     DocumentAtom parseDocumentAtom(LEInputStream in) throws IOException  {
         DocumentAtom _s = new DocumentAtom();
@@ -3376,6 +4835,20 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fShowComments = in.readuint8();
         return _s;
     }
+    void write(DocumentAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.slideSize, out);
+        write(_s.notesSize, out);
+        write(_s.serverZoom, out);
+        write(_s.notesMasterPersistIdRef, out);
+        write(_s.handoutMasterPersistIdRef, out);
+        out.writeuint16(_s.firstSlideNumber);
+        out.writeuint16(_s.slideSizeType);
+        out.writeuint8(_s.fSaveWithFonts);
+        out.writeuint8(_s.fOmitTitlePlace);
+        out.writeuint8(_s.fRightToLeft);
+        out.writeuint8(_s.fShowComments);
+    }
     ExObjListContainer parseExObjListContainer(LEInputStream in) throws IOException  {
         ExObjListContainer _s = new ExObjListContainer();
         int _c;
@@ -3399,6 +4872,13 @@ System.out.println(in.getPosition()+" "+_s);
             _s.rgChildRec[_i] = parseExObjListSubContainer(in);
         }
         return _s;
+    }
+    void write(ExObjListContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.exObjListAtom, out);
+        for (ExObjListSubContainer _i: _s.rgChildRec) {
+            write(_i, out);
+        }
     }
     ExOleLinkContainer parseExOleLinkContainer(LEInputStream in) throws IOException  {
         ExOleLinkContainer _s = new ExOleLinkContainer();
@@ -3461,6 +4941,15 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(ExOleLinkContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.exOleLinkAtom, out);
+        write(_s.exOleObjAtom, out);
+        if (_s.menuNameAtom != null) write(_s.menuNameAtom, out);
+        if (_s.progIdAtom != null) write(_s.progIdAtom, out);
+        if (_s.clipboardNameAtom != null) write(_s.clipboardNameAtom, out);
+        if (_s.metafile != null) write(_s.metafile, out);
+    }
     ExOleEmbedContainer parseExOleEmbedContainer(LEInputStream in) throws IOException  {
         ExOleEmbedContainer _s = new ExOleEmbedContainer();
         Object _m;
@@ -3522,6 +5011,15 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(ExOleEmbedContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.exOleEmbedAtom, out);
+        write(_s.exOleObjAtom, out);
+        if (_s.menuNameAtom != null) write(_s.menuNameAtom, out);
+        if (_s.progIdAtom != null) write(_s.progIdAtom, out);
+        if (_s.clipboardNameAtom != null) write(_s.clipboardNameAtom, out);
+        if (_s.metafile != null) write(_s.metafile, out);
+    }
     OfficeArtFDGGBlock parseOfficeArtFDGGBlock(LEInputStream in) throws IOException  {
         OfficeArtFDGGBlock _s = new OfficeArtFDGGBlock();
         int _c;
@@ -3542,6 +5040,13 @@ System.out.println(in.getPosition()+" "+_s);
             _s.Rgidcl[_i] = parseOfficeArtIDCL(in);
         }
         return _s;
+    }
+    void write(OfficeArtFDGGBlock _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.head, out);
+        for (OfficeArtIDCL _i: _s.Rgidcl) {
+            write(_i, out);
+        }
     }
     OfficeArtClientAnchor parseOfficeArtClientAnchor(LEInputStream in) throws IOException  {
         OfficeArtClientAnchor _s = new OfficeArtClientAnchor();
@@ -3565,6 +5070,15 @@ System.out.println(in.getPosition()+" "+_s);
             _s.rect2 = parseRectStruct(in);
         }
         return _s;
+    }
+    void write(OfficeArtClientAnchor _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        if (_s.rh.recLen==0x8) {
+            write(_s.rect1, out);
+        }
+        if (_s.rh.recLen==0x10) {
+            write(_s.rect2, out);
+        }
     }
     OfficeArtClientData parseOfficeArtClientData(LEInputStream in) throws IOException  {
         OfficeArtClientData _s = new OfficeArtClientData();
@@ -3690,6 +5204,20 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtClientData _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        if (_s.shapeFlagsAtom != null) write(_s.shapeFlagsAtom, out);
+        if (_s.shapeFlags10Atom != null) write(_s.shapeFlags10Atom, out);
+        if (_s.exObjRefAtom != null) write(_s.exObjRefAtom, out);
+        if (_s.animationInfo != null) write(_s.animationInfo, out);
+        if (_s.mouseClickInteractiveInfo != null) write(_s.mouseClickInteractiveInfo, out);
+        if (_s.mouseOverInteractiveInfo != null) write(_s.mouseOverInteractiveInfo, out);
+        if (_s.placeholderAtom != null) write(_s.placeholderAtom, out);
+        if (_s.recolorInfoAtom != null) write(_s.recolorInfoAtom, out);
+        for (ShapeClientRoundtripDataSubcontainerOrAtom _i: _s.rgShapeClientRoundtripData) {
+            write(_i, out);
+        }
+    }
     OfficeArtFOPTE parseOfficeArtFOPTE(LEInputStream in) throws IOException  {
         OfficeArtFOPTE _s = new OfficeArtFOPTE();
         int _c;
@@ -3701,6 +5229,13 @@ System.out.println(in.getPosition()+" "+_s);
             _s.complexData[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(OfficeArtFOPTE _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeint32(_s.op);
+        for (byte _i: _s.complexData) {
+            out.writeuint8(_i);
+        }
     }
     Fib parseFib(LEInputStream in) throws IOException  {
         Fib _s = new Fib();
@@ -3743,6 +5278,28 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(Fib _s, LEOutputStream out) throws IOException  {
+        write(_s.base, out);
+        out.writeuint16(_s.csw);
+        write(_s.fibRgW, out);
+        out.writeuint16(_s.cslw);
+        write(_s.fibRgLw, out);
+        out.writeuint16(_s.cbRgFcLcb);
+        write(_s.fibRgFcLcbBlob, out);
+        if (_s.cbRgFcLcb>=0x6C) {
+            write(_s.fibRgFcLcbBlob2, out);
+        }
+        if (_s.cbRgFcLcb>=0x88) {
+            write(_s.fibRgFcLcbBlob3, out);
+        }
+        out.writeuint16(_s.cswNew);
+        for (byte _i: _s.fibRgCswNew) {
+            out.writeuint8(_i);
+        }
+        for (byte _i: _s.trail) {
+            out.writeuint8(_i);
+        }
+    }
     STSH parseSTSH(LEInputStream in) throws IOException  {
         STSH _s = new STSH();
         int _c;
@@ -3753,6 +5310,12 @@ System.out.println(in.getPosition()+" "+_s);
             _s.rglpstd[_i] = parseLPStd(in);
         }
         return _s;
+    }
+    void write(STSH _s, LEOutputStream out) throws IOException  {
+        write(_s.lpstshi, out);
+        for (LPStd _i: _s.rglpstd) {
+            write(_i, out);
+        }
     }
     Clx parseClx(LEInputStream in) throws IOException  {
         Clx _s = new Clx();
@@ -3781,6 +5344,12 @@ System.out.println(in.getPosition()+" "+_s);
         _s.pcdt = parsePcdt(in);
         return _s;
     }
+    void write(Clx _s, LEOutputStream out) throws IOException  {
+        for (Pcr _i: _s.RgPrc) {
+            write(_i, out);
+        }
+        write(_s.pcdt, out);
+    }
     Pcr parsePcr(LEInputStream in) throws IOException  {
         Pcr _s = new Pcr();
         _s.clxt = in.readuint8();
@@ -3790,13 +5359,17 @@ System.out.println(in.getPosition()+" "+_s);
         _s.prcData = parsePrcData(in);
         return _s;
     }
+    void write(Pcr _s, LEOutputStream out) throws IOException  {
+        out.writeuint8(_s.clxt);
+        write(_s.prcData, out);
+    }
     Prm parsePrm(LEInputStream in) throws IOException  {
         Prm _s = new Prm();
         Object _m = in.setMark();
         try {
             _s.prm = parsePrm0(in);
-        } catch (IncorrectValueException _x) {
-            System.out.println(_x.getMessage());
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.prm = parsePrm1(in);
@@ -3804,6 +5377,13 @@ System.out.println(in.getPosition()+" "+_s);
             in.releaseMark(_m);
         }
         return _s;
+    }
+    void write(Prm _s, LEOutputStream out) throws IOException  {
+        if (_s.prm instanceof Prm0) {
+            write((Prm0)_s.prm, out);
+        } else if (_s.prm instanceof Prm1) {
+            write((Prm1)_s.prm, out);
+        }
     }
     OfficeArtBlipEMF parseOfficeArtBlipEMF(LEInputStream in) throws IOException  {
         OfficeArtBlipEMF _s = new OfficeArtBlipEMF();
@@ -3838,6 +5418,21 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtBlipEMF _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.rgbUid1) {
+            out.writeuint8(_i);
+        }
+        if (_s.rh.recInstance == 0x3D5) {
+            for (byte _i: _s.rgbUid2) {
+                out.writeuint8(_i);
+            }
+        }
+        write(_s.metafileHeader, out);
+        for (byte _i: _s.BLIPFileData) {
+            out.writeuint8(_i);
+        }
+    }
     OfficeArtBlipWMF parseOfficeArtBlipWMF(LEInputStream in) throws IOException  {
         OfficeArtBlipWMF _s = new OfficeArtBlipWMF();
         int _c;
@@ -3870,6 +5465,21 @@ System.out.println(in.getPosition()+" "+_s);
             _s.BLIPFileData[_i] = in.readuint8();
         }
         return _s;
+    }
+    void write(OfficeArtBlipWMF _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.rgbUid1) {
+            out.writeuint8(_i);
+        }
+        if (_s.rh.recInstance == 0x217) {
+            for (byte _i: _s.rgbUid2) {
+                out.writeuint8(_i);
+            }
+        }
+        write(_s.metafileHeader, out);
+        for (byte _i: _s.BLIPFileData) {
+            out.writeuint8(_i);
+        }
     }
     OfficeArtBlipPICT parseOfficeArtBlipPICT(LEInputStream in) throws IOException  {
         OfficeArtBlipPICT _s = new OfficeArtBlipPICT();
@@ -3904,43 +5514,58 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtBlipPICT _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.rgbUid1) {
+            out.writeuint8(_i);
+        }
+        if (_s.rh.recInstance == 0x543) {
+            for (byte _i: _s.rgbUid2) {
+                out.writeuint8(_i);
+            }
+        }
+        write(_s.metafileHeader, out);
+        for (byte _i: _s.BLIPFileData) {
+            out.writeuint8(_i);
+        }
+    }
     OfficeArtBlip parseOfficeArtBlip(LEInputStream in) throws IOException  {
         OfficeArtBlip _s = new OfficeArtBlip();
         Object _m = in.setMark();
         try {
             _s.anon = parseOfficeArtBlipEMF(in);
-        } catch (IncorrectValueException _x) {
-            System.out.println(_x.getMessage());
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipWMF(in);
-        } catch (IncorrectValueException _xx) {
-            System.out.println(_xx.getMessage());
+        } catch (IOException _xx) {
+            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipPICT(in);
-        } catch (IncorrectValueException _xxx) {
-            System.out.println(_xxx.getMessage());
+        } catch (IOException _xxx) {
+            if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipJPEG(in);
-        } catch (IncorrectValueException _xxxx) {
-            System.out.println(_xxxx.getMessage());
+        } catch (IOException _xxxx) {
+            if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipPNG(in);
-        } catch (IncorrectValueException _xxxxx) {
-            System.out.println(_xxxxx.getMessage());
+        } catch (IOException _xxxxx) {
+            if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipDIB(in);
-        } catch (IncorrectValueException _xxxxxx) {
-            System.out.println(_xxxxxx.getMessage());
+        } catch (IOException _xxxxxx) {
+            if (!(_xxxxxx instanceof IncorrectValueException) && !(_xxxxxx instanceof java.io.EOFException)) throw _xxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseOfficeArtBlipTIFF(in);
@@ -3948,6 +5573,23 @@ System.out.println(in.getPosition()+" "+_s);
             in.releaseMark(_m);
         }
         return _s;
+    }
+    void write(OfficeArtBlip _s, LEOutputStream out) throws IOException  {
+        if (_s.anon instanceof OfficeArtBlipEMF) {
+            write((OfficeArtBlipEMF)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtBlipWMF) {
+            write((OfficeArtBlipWMF)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtBlipPICT) {
+            write((OfficeArtBlipPICT)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtBlipJPEG) {
+            write((OfficeArtBlipJPEG)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtBlipPNG) {
+            write((OfficeArtBlipPNG)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtBlipDIB) {
+            write((OfficeArtBlipDIB)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtBlipTIFF) {
+            write((OfficeArtBlipTIFF)_s.anon, out);
+        }
     }
     NormalViewSetInfoContainer parseNormalViewSetInfoContainer(LEInputStream in) throws IOException  {
         NormalViewSetInfoContainer _s = new NormalViewSetInfoContainer();
@@ -3967,91 +5609,95 @@ System.out.println(in.getPosition()+" "+_s);
         _s.normalViewSetInfoAtom = parseNormalViewSetInfoAtom(in);
         return _s;
     }
+    void write(NormalViewSetInfoContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.normalViewSetInfoAtom, out);
+    }
     SlideListWithTextSubContainerOrAtom parseSlideListWithTextSubContainerOrAtom(LEInputStream in) throws IOException  {
         SlideListWithTextSubContainerOrAtom _s = new SlideListWithTextSubContainerOrAtom();
         Object _m = in.setMark();
         try {
             _s.anon = parseSlidePersistAtom(in);
-        } catch (IncorrectValueException _x) {
-            System.out.println(_x.getMessage());
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseTextHeaderAtom(in);
-        } catch (IncorrectValueException _xx) {
-            System.out.println(_xx.getMessage());
+        } catch (IOException _xx) {
+            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseTextCharsAtom(in);
-        } catch (IncorrectValueException _xxx) {
-            System.out.println(_xxx.getMessage());
+        } catch (IOException _xxx) {
+            if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseTextBytesAtom(in);
-        } catch (IncorrectValueException _xxxx) {
-            System.out.println(_xxxx.getMessage());
+        } catch (IOException _xxxx) {
+            if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseStyleTextPropAtom(in);
-        } catch (IncorrectValueException _xxxxx) {
-            System.out.println(_xxxxx.getMessage());
+        } catch (IOException _xxxxx) {
+            if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseSlideNumberMCAtom(in);
-        } catch (IncorrectValueException _xxxxxx) {
-            System.out.println(_xxxxxx.getMessage());
+        } catch (IOException _xxxxxx) {
+            if (!(_xxxxxx instanceof IncorrectValueException) && !(_xxxxxx instanceof java.io.EOFException)) throw _xxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseDateTimeMCAtom(in);
-        } catch (IncorrectValueException _xxxxxxx) {
-            System.out.println(_xxxxxxx.getMessage());
+        } catch (IOException _xxxxxxx) {
+            if (!(_xxxxxxx instanceof IncorrectValueException) && !(_xxxxxxx instanceof java.io.EOFException)) throw _xxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseGenericDateMCAtom(in);
-        } catch (IncorrectValueException _xxxxxxxx) {
-            System.out.println(_xxxxxxxx.getMessage());
+        } catch (IOException _xxxxxxxx) {
+            if (!(_xxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseHeaderMCAtom(in);
-        } catch (IncorrectValueException _xxxxxxxxx) {
-            System.out.println(_xxxxxxxxx.getMessage());
+        } catch (IOException _xxxxxxxxx) {
+            if (!(_xxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseFooterMCAtom(in);
-        } catch (IncorrectValueException _xxxxxxxxxx) {
-            System.out.println(_xxxxxxxxxx.getMessage());
+        } catch (IOException _xxxxxxxxxx) {
+            if (!(_xxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseRTFDateTimeMCAtom(in);
-        } catch (IncorrectValueException _xxxxxxxxxxx) {
-            System.out.println(_xxxxxxxxxxx.getMessage());
+        } catch (IOException _xxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseTextBookmarkAtom(in);
-        } catch (IncorrectValueException _xxxxxxxxxxxx) {
-            System.out.println(_xxxxxxxxxxxx.getMessage());
+        } catch (IOException _xxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseTextSpecialInfoAtom(in);
-        } catch (IncorrectValueException _xxxxxxxxxxxxx) {
-            System.out.println(_xxxxxxxxxxxxx.getMessage());
+        } catch (IOException _xxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseInteractiveInfoInstance(in);
-        } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
-            System.out.println(_xxxxxxxxxxxxxx.getMessage());
+        } catch (IOException _xxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseTextInteractiveInfoInstance(in);
@@ -4059,6 +5705,39 @@ System.out.println(in.getPosition()+" "+_s);
             in.releaseMark(_m);
         }
         return _s;
+    }
+    void write(SlideListWithTextSubContainerOrAtom _s, LEOutputStream out) throws IOException  {
+        if (_s.anon instanceof SlidePersistAtom) {
+            write((SlidePersistAtom)_s.anon, out);
+        } else if (_s.anon instanceof TextHeaderAtom) {
+            write((TextHeaderAtom)_s.anon, out);
+        } else if (_s.anon instanceof TextCharsAtom) {
+            write((TextCharsAtom)_s.anon, out);
+        } else if (_s.anon instanceof TextBytesAtom) {
+            write((TextBytesAtom)_s.anon, out);
+        } else if (_s.anon instanceof StyleTextPropAtom) {
+            write((StyleTextPropAtom)_s.anon, out);
+        } else if (_s.anon instanceof SlideNumberMCAtom) {
+            write((SlideNumberMCAtom)_s.anon, out);
+        } else if (_s.anon instanceof DateTimeMCAtom) {
+            write((DateTimeMCAtom)_s.anon, out);
+        } else if (_s.anon instanceof GenericDateMCAtom) {
+            write((GenericDateMCAtom)_s.anon, out);
+        } else if (_s.anon instanceof HeaderMCAtom) {
+            write((HeaderMCAtom)_s.anon, out);
+        } else if (_s.anon instanceof FooterMCAtom) {
+            write((FooterMCAtom)_s.anon, out);
+        } else if (_s.anon instanceof RTFDateTimeMCAtom) {
+            write((RTFDateTimeMCAtom)_s.anon, out);
+        } else if (_s.anon instanceof TextBookmarkAtom) {
+            write((TextBookmarkAtom)_s.anon, out);
+        } else if (_s.anon instanceof TextSpecialInfoAtom) {
+            write((TextSpecialInfoAtom)_s.anon, out);
+        } else if (_s.anon instanceof InteractiveInfoInstance) {
+            write((InteractiveInfoInstance)_s.anon, out);
+        } else if (_s.anon instanceof TextInteractiveInfoInstance) {
+            write((TextInteractiveInfoInstance)_s.anon, out);
+        }
     }
     TextCFExceptionAtom parseTextCFExceptionAtom(LEInputStream in) throws IOException  {
         TextCFExceptionAtom _s = new TextCFExceptionAtom();
@@ -4074,6 +5753,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.cf = parseTextCFException(in);
         return _s;
+    }
+    void write(TextCFExceptionAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.cf, out);
     }
     DefaultRulerAtom parseDefaultRulerAtom(LEInputStream in) throws IOException  {
         DefaultRulerAtom _s = new DefaultRulerAtom();
@@ -4126,6 +5809,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(DefaultRulerAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.defaultTextRuler, out);
+    }
     TextPFExceptionAtom parseTextPFExceptionAtom(LEInputStream in) throws IOException  {
         TextPFExceptionAtom _s = new TextPFExceptionAtom();
         _s.rh = parseRecordHeader(in);
@@ -4141,6 +5828,11 @@ System.out.println(in.getPosition()+" "+_s);
         _s.reserved = in.readuint16();
         _s.pf = parseTextPFException(in);
         return _s;
+    }
+    void write(TextPFExceptionAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint16(_s.reserved);
+        write(_s.pf, out);
     }
     TextMasterStyleAtom parseTextMasterStyleAtom(LEInputStream in) throws IOException  {
         TextMasterStyleAtom _s = new TextMasterStyleAtom();
@@ -4190,13 +5882,47 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(TextMasterStyleAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint16(_s.cLevels);
+        if (_s.cLevels>0 && _s.rh.recInstance>=5) {
+            out.writeuint16(_s.lstLvl1level);
+        }
+        if (_s.cLevels>0) {
+            write(_s.lstLvl1, out);
+        }
+        if (_s.cLevels>1 && _s.rh.recInstance>=5) {
+            out.writeuint16(_s.lstLvl2level);
+        }
+        if (_s.cLevels>1) {
+            write(_s.lstLvl2, out);
+        }
+        if (_s.cLevels>2 && _s.rh.recInstance>=5) {
+            out.writeuint16(_s.lstLvl3level);
+        }
+        if (_s.cLevels>2) {
+            write(_s.lstLvl3, out);
+        }
+        if (_s.cLevels>3 && _s.rh.recInstance>=5) {
+            out.writeuint16(_s.lstLvl4level);
+        }
+        if (_s.cLevels>3) {
+            write(_s.lstLvl4, out);
+        }
+        if (_s.cLevels>4 && _s.rh.recInstance>=5) {
+            out.writeuint16(_s.lstLvl5level);
+        }
+        if (_s.cLevels>4) {
+            write(_s.lstLvl5, out);
+        }
+    }
     ExObjListSubContainer parseExObjListSubContainer(LEInputStream in) throws IOException  {
         ExObjListSubContainer _s = new ExObjListSubContainer();
         Object _m = in.setMark();
         try {
             _s.anon = parseExOleLinkContainer(in);
-        } catch (IncorrectValueException _x) {
-            System.out.println(_x.getMessage());
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseExOleEmbedContainer(in);
@@ -4204,6 +5930,13 @@ System.out.println(in.getPosition()+" "+_s);
             in.releaseMark(_m);
         }
         return _s;
+    }
+    void write(ExObjListSubContainer _s, LEOutputStream out) throws IOException  {
+        if (_s.anon instanceof ExOleLinkContainer) {
+            write((ExOleLinkContainer)_s.anon, out);
+        } else if (_s.anon instanceof ExOleEmbedContainer) {
+            write((ExOleEmbedContainer)_s.anon, out);
+        }
     }
     OfficeArtDggContainer parseOfficeArtDggContainer(LEInputStream in) throws IOException  {
         OfficeArtDggContainer _s = new OfficeArtDggContainer();
@@ -4255,6 +5988,15 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.splitColors = parseOfficeArtSplitMenuColorContainer(in);
         return _s;
+    }
+    void write(OfficeArtDggContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.drawingGroup, out);
+        if (_s.blipStore != null) write(_s.blipStore, out);
+        write(_s.drawingPrimaryOptions, out);
+        if (_s.drawingTertiaryOptions != null) write(_s.drawingTertiaryOptions, out);
+        if (_s.colorMRU != null) write(_s.colorMRU, out);
+        write(_s.splitColors, out);
     }
     OfficeArtSpContainer parseOfficeArtSpContainer(LEInputStream in) throws IOException  {
         OfficeArtSpContainer _s = new OfficeArtSpContainer();
@@ -4371,10 +6113,26 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtSpContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        if (_s.shapeGroup != null) write(_s.shapeGroup, out);
+        write(_s.shapeProp, out);
+        if (_s.deletedshape != null) write(_s.deletedshape, out);
+        if (_s.shapePrimaryOptions != null) write(_s.shapePrimaryOptions, out);
+        if (_s.shapeSecondaryOptions1 != null) write(_s.shapeSecondaryOptions1, out);
+        if (_s.shapeTertiaryOptions1 != null) write(_s.shapeTertiaryOptions1, out);
+        if (_s.childAnchor != null) write(_s.childAnchor, out);
+        if (_s.clientAnchor != null) write(_s.clientAnchor, out);
+        if (_s.clientData != null) write(_s.clientData, out);
+        if (_s.clientTextbox != null) write(_s.clientTextbox, out);
+    }
     WordDocument parseWordDocument(LEInputStream in) throws IOException  {
         WordDocument _s = new WordDocument();
         _s.fib = parseFib(in);
         return _s;
+    }
+    void write(WordDocument _s, LEOutputStream out) throws IOException  {
+        write(_s.fib, out);
     }
     Table parseTable(LEInputStream in) throws IOException  {
         Table _s = new Table();
@@ -4394,6 +6152,19 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(Table _s, LEOutputStream out) throws IOException  {
+        write(_s.stsh, out);
+        write(_s.plcfSed, out);
+        write(_s.plcfHdd, out);
+        write(_s.plcfBteChpx, out);
+        write(_s.plcfBtePapx, out);
+        write(_s.cmds, out);
+        write(_s.clx, out);
+        write(_s.sttbfFfn, out);
+        for (byte _i: _s.dop) {
+            out.writeuint8(_i);
+        }
+    }
     Pcd parsePcd(LEInputStream in) throws IOException  {
         Pcd _s = new Pcd();
         _s.fNoParaLast = in.readbit();
@@ -4407,6 +6178,15 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fc = parseFCompressed(in);
         _s.prm = parsePrm(in);
         return _s;
+    }
+    void write(Pcd _s, LEOutputStream out) throws IOException  {
+        out.writebit(_s.fNoParaLast);
+        out.writebit(_s.fR1);
+        out.writebit(_s.fDirtly);
+        out.writebit(_s.fR2);
+        out.writeuint12(_s.fR3);
+        write(_s.fc, out);
+        write(_s.prm, out);
     }
     OfficeArtFBSE parseOfficeArtFBSE(LEInputStream in) throws IOException  {
         OfficeArtFBSE _s = new OfficeArtFBSE();
@@ -4449,13 +6229,35 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtFBSE _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint8(_s.btWin32);
+        out.writeuint8(_s.btMacOS);
+        for (byte _i: _s.rgbUid) {
+            out.writeuint8(_i);
+        }
+        out.writeuint16(_s.tag);
+        out.writeuint32(_s.size);
+        out.writeuint32(_s.cRef);
+        out.writeuint32(_s.foDelay);
+        out.writeuint8(_s.unused1);
+        out.writeuint8(_s.cbName);
+        out.writeuint8(_s.unused2);
+        out.writeuint8(_s.unused3);
+        for (byte _i: _s.nameData) {
+            out.writeuint8(_i);
+        }
+        if (_s.rh.recLen > 36 + _s.cbName) {
+            write(_s.embeddedBlip, out);
+        }
+    }
     OfficeArtBStoreContainerFileBlock parseOfficeArtBStoreContainerFileBlock(LEInputStream in) throws IOException  {
         OfficeArtBStoreContainerFileBlock _s = new OfficeArtBStoreContainerFileBlock();
         Object _m = in.setMark();
         try {
             _s.anon = parseOfficeArtFBSE(in);
-        } catch (IncorrectValueException _x) {
-            System.out.println(_x.getMessage());
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseOfficeArtBlip(in);
@@ -4463,6 +6265,13 @@ System.out.println(in.getPosition()+" "+_s);
             in.releaseMark(_m);
         }
         return _s;
+    }
+    void write(OfficeArtBStoreContainerFileBlock _s, LEOutputStream out) throws IOException  {
+        if (_s.anon instanceof OfficeArtFBSE) {
+            write((OfficeArtFBSE)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtBlip) {
+            write((OfficeArtBlip)_s.anon, out);
+        }
     }
     DocumentTextInfoContainer parseDocumentTextInfoContainer(LEInputStream in) throws IOException  {
         DocumentTextInfoContainer _s = new DocumentTextInfoContainer();
@@ -4536,6 +6345,16 @@ System.out.println(in.getPosition()+" "+_s);
         _s.textMasterStyleAtom = parseTextMasterStyleAtom(in);
         return _s;
     }
+    void write(DocumentTextInfoContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        if (_s.kinsoku != null) write(_s.kinsoku, out);
+        if (_s.fontCollection != null) write(_s.fontCollection, out);
+        if (_s.textCFDefaultsAtom != null) write(_s.textCFDefaultsAtom, out);
+        if (_s.textPFDefaultsAtom != null) write(_s.textPFDefaultsAtom, out);
+        if (_s.defaultRulerAtom != null) write(_s.defaultRulerAtom, out);
+        write(_s.textSIDefaultsAtom, out);
+        write(_s.textMasterStyleAtom, out);
+    }
     DrawingGroupContainer parseDrawingGroupContainer(LEInputStream in) throws IOException  {
         DrawingGroupContainer _s = new DrawingGroupContainer();
         _s.rh = parseRecordHeader(in);
@@ -4550,6 +6369,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.OfficeArtDgg = parseOfficeArtDggContainer(in);
         return _s;
+    }
+    void write(DrawingGroupContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.OfficeArtDgg, out);
     }
     OfficeArtDgContainer parseOfficeArtDgContainer(LEInputStream in) throws IOException  {
         OfficeArtDgContainer _s = new OfficeArtDgContainer();
@@ -4612,13 +6435,24 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(OfficeArtDgContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.drawingData, out);
+        if (_s.regroupItems != null) write(_s.regroupItems, out);
+        write(_s.groupShape, out);
+        write(_s.shape, out);
+        for (OfficeArtSpgrContainerFileBlock _i: _s.deletedShapes) {
+            write(_i, out);
+        }
+        if (_s.solvers != null) write(_s.solvers, out);
+    }
     OfficeArtSpgrContainerFileBlock parseOfficeArtSpgrContainerFileBlock(LEInputStream in) throws IOException  {
         OfficeArtSpgrContainerFileBlock _s = new OfficeArtSpgrContainerFileBlock();
         Object _m = in.setMark();
         try {
             _s.anon = parseOfficeArtSpContainer(in);
-        } catch (IncorrectValueException _x) {
-            System.out.println(_x.getMessage());
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseOfficeArtSpgrContainer(in);
@@ -4626,6 +6460,13 @@ System.out.println(in.getPosition()+" "+_s);
             in.releaseMark(_m);
         }
         return _s;
+    }
+    void write(OfficeArtSpgrContainerFileBlock _s, LEOutputStream out) throws IOException  {
+        if (_s.anon instanceof OfficeArtSpContainer) {
+            write((OfficeArtSpContainer)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtSpgrContainer) {
+            write((OfficeArtSpgrContainer)_s.anon, out);
+        }
     }
     DocumentContainer parseDocumentContainer(LEInputStream in) throws IOException  {
         DocumentContainer _s = new DocumentContainer();
@@ -4724,6 +6565,21 @@ System.out.println(in.getPosition()+" "+_s);
         _s.endDocumentAtom = parseEndDocumentAtom(in);
         return _s;
     }
+    void write(DocumentContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.documentAtom, out);
+        if (_s.exObjList != null) write(_s.exObjList, out);
+        write(_s.documentTextInfo, out);
+        write(_s.drawingGroup, out);
+        write(_s.masterList, out);
+        if (_s.docInfoList != null) write(_s.docInfoList, out);
+        if (_s.slideHF != null) write(_s.slideHF, out);
+        if (_s.notesHF != null) write(_s.notesHF, out);
+        if (_s.slideList != null) write(_s.slideList, out);
+        if (_s.notesList != null) write(_s.notesList, out);
+        if (_s.slideShowDocInfoAtom != null) write(_s.slideShowDocInfoAtom, out);
+        write(_s.endDocumentAtom, out);
+    }
     DrawingContainer parseDrawingContainer(LEInputStream in) throws IOException  {
         DrawingContainer _s = new DrawingContainer();
         _s.rh = parseRecordHeader(in);
@@ -4738,6 +6594,10 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.OfficeArtDg = parseOfficeArtDgContainer(in);
         return _s;
+    }
+    void write(DrawingContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.OfficeArtDg, out);
     }
     MainMasterContainer parseMainMasterContainer(LEInputStream in) throws IOException  {
         MainMasterContainer _s = new MainMasterContainer();
@@ -4882,6 +6742,27 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(MainMasterContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.slideAtom, out);
+        for (SchemeListElementColorSchemeAtom _i: _s.rgSchemeListElementColorScheme) {
+            write(_i, out);
+        }
+        for (TextMasterStyleAtom _i: _s.rgTextMasterStyle) {
+            write(_i, out);
+        }
+        if (_s.roundTripOArtTextSTyles12Atom != null) write(_s.roundTripOArtTextSTyles12Atom, out);
+        if (_s.slideShowInfoAtom != null) write(_s.slideShowInfoAtom, out);
+        if (_s.perSlideHeadersFootersContainer != null) write(_s.perSlideHeadersFootersContainer, out);
+        write(_s.drawing, out);
+        write(_s.slideSchemeColorSchemeAtom, out);
+        if (_s.slideNameAtom != null) write(_s.slideNameAtom, out);
+        if (_s.slideProgTagsContainer != null) write(_s.slideProgTagsContainer, out);
+        for (RoundTripMainMasterRecord _i: _s.rgRoundTripMainMaster) {
+            write(_i, out);
+        }
+        if (_s.templateNameAtom != null) write(_s.templateNameAtom, out);
+    }
     SlideContainer parseSlideContainer(LEInputStream in) throws IOException  {
         SlideContainer _s = new SlideContainer();
         Object _m;
@@ -4933,13 +6814,22 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(SlideContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.slideAtom, out);
+        if (_s.slideShowSlideInfoAtom != null) write(_s.slideShowSlideInfoAtom, out);
+        if (_s.perSlideHFContainer != null) write(_s.perSlideHFContainer, out);
+        write(_s.drawing, out);
+        write(_s.slideSchemeColorSchemeAtom, out);
+        if (_s.slideProgTagsContainer != null) write(_s.slideProgTagsContainer, out);
+    }
     MasterOrSlideContainer parseMasterOrSlideContainer(LEInputStream in) throws IOException  {
         MasterOrSlideContainer _s = new MasterOrSlideContainer();
         Object _m = in.setMark();
         try {
             _s.anon = parseMainMasterContainer(in);
-        } catch (IncorrectValueException _x) {
-            System.out.println(_x.getMessage());
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseSlideContainer(in);
@@ -4948,61 +6838,68 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
+    void write(MasterOrSlideContainer _s, LEOutputStream out) throws IOException  {
+        if (_s.anon instanceof MainMasterContainer) {
+            write((MainMasterContainer)_s.anon, out);
+        } else if (_s.anon instanceof SlideContainer) {
+            write((SlideContainer)_s.anon, out);
+        }
+    }
     PowerPointStruct parsePowerPointStruct(LEInputStream in) throws IOException  {
         PowerPointStruct _s = new PowerPointStruct();
         Object _m = in.setMark();
         try {
             _s.anon = parseDocumentContainer(in);
-        } catch (IncorrectValueException _x) {
-            System.out.println(_x.getMessage());
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseMasterOrSlideContainer(in);
-        } catch (IncorrectValueException _xx) {
-            System.out.println(_xx.getMessage());
+        } catch (IOException _xx) {
+            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parsePersistDirectoryAtom(in);
-        } catch (IncorrectValueException _xxx) {
-            System.out.println(_xxx.getMessage());
+        } catch (IOException _xxx) {
+            if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseNotesContainer(in);
-        } catch (IncorrectValueException _xxxx) {
-            System.out.println(_xxxx.getMessage());
+        } catch (IOException _xxxx) {
+            if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseHandoutContainer(in);
-        } catch (IncorrectValueException _xxxxx) {
-            System.out.println(_xxxxx.getMessage());
+        } catch (IOException _xxxxx) {
+            if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseSlideContainer(in);
-        } catch (IncorrectValueException _xxxxxx) {
-            System.out.println(_xxxxxx.getMessage());
+        } catch (IOException _xxxxxx) {
+            if (!(_xxxxxx instanceof IncorrectValueException) && !(_xxxxxx instanceof java.io.EOFException)) throw _xxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExOleObjStg(in);
-        } catch (IncorrectValueException _xxxxxxx) {
-            System.out.println(_xxxxxxx.getMessage());
+        } catch (IOException _xxxxxxx) {
+            if (!(_xxxxxxx instanceof IncorrectValueException) && !(_xxxxxxx instanceof java.io.EOFException)) throw _xxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExControlStg(in);
-        } catch (IncorrectValueException _xxxxxxxx) {
-            System.out.println(_xxxxxxxx.getMessage());
+        } catch (IOException _xxxxxxxx) {
+            if (!(_xxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseVbaProjectStg(in);
-        } catch (IncorrectValueException _xxxxxxxxx) {
-            System.out.println(_xxxxxxxxx.getMessage());
+        } catch (IOException _xxxxxxxxx) {
+            if (!(_xxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseUserEditAtom(in);
@@ -5010,6 +6907,29 @@ System.out.println(in.getPosition()+" "+_s);
             in.releaseMark(_m);
         }
         return _s;
+    }
+    void write(PowerPointStruct _s, LEOutputStream out) throws IOException  {
+        if (_s.anon instanceof DocumentContainer) {
+            write((DocumentContainer)_s.anon, out);
+        } else if (_s.anon instanceof MasterOrSlideContainer) {
+            write((MasterOrSlideContainer)_s.anon, out);
+        } else if (_s.anon instanceof PersistDirectoryAtom) {
+            write((PersistDirectoryAtom)_s.anon, out);
+        } else if (_s.anon instanceof NotesContainer) {
+            write((NotesContainer)_s.anon, out);
+        } else if (_s.anon instanceof HandoutContainer) {
+            write((HandoutContainer)_s.anon, out);
+        } else if (_s.anon instanceof SlideContainer) {
+            write((SlideContainer)_s.anon, out);
+        } else if (_s.anon instanceof ExOleObjStg) {
+            write((ExOleObjStg)_s.anon, out);
+        } else if (_s.anon instanceof ExControlStg) {
+            write((ExControlStg)_s.anon, out);
+        } else if (_s.anon instanceof VbaProjectStg) {
+            write((VbaProjectStg)_s.anon, out);
+        } else if (_s.anon instanceof UserEditAtom) {
+            write((UserEditAtom)_s.anon, out);
+        }
     }
 }
 class RecordHeader {
@@ -5053,6 +6973,14 @@ class CurrentUserAtom {
         _s = _s + "ansiUserName: " + String.valueOf(ansiUserName) + ", ";
         _s = _s + "relVersion: " + String.valueOf(relVersion) + "(" + Integer.toHexString(relVersion).toUpperCase() + "), ";
         _s = _s + "unicodeUserName: " + String.valueOf(unicodeUserName) + ", ";
+        return _s;
+    }
+}
+class TODOS {
+    final java.util.List<Byte> anon = new java.util.ArrayList<Byte>();
+    public String toString() {
+        String _s = "TODOS:";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
         return _s;
     }
 }
@@ -6494,14 +8422,6 @@ class todo {
     public String toString() {
         String _s = "todo:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "anon: " + String.valueOf(anon) + ", ";
-        return _s;
-    }
-}
-class TODOS {
-    final java.util.List<todo> anon = new java.util.ArrayList<todo>();
-    public String toString() {
-        String _s = "TODOS:";
         _s = _s + "anon: " + String.valueOf(anon) + ", ";
         return _s;
     }

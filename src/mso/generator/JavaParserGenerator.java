@@ -16,7 +16,7 @@ public class JavaParserGenerator {
 		out.println("import java.io.IOException;");
 		out.println("public class " + classname + " {");
 		out
-				.println("    void parse(String key, LEInputStream in) throws IOException {");
+				.println("    Object parse(String key, LEInputStream in) throws IOException {");
 		boolean first = true;
 		for (Stream s : mso.streams) {
 			out.print("        ");
@@ -29,15 +29,37 @@ public class JavaParserGenerator {
 			// for
 			// \001 and \005
 			// prefix
-			out.println("            parse" + s.type + "(in);");
+			out.println("            return parse" + s.type + "(in);");
 		}
 		out.println("        } else {");
-		out.println("            parseTODOS(in);");
+		out.println("            return parseTODOS(in);");
+		out.println("        }");
+		out.println("    }");
+
+		out
+				.println("    void serialize(String key, Object o, LEOutputStream out) throws IOException {");
+		first = true;
+		for (Stream s : mso.streams) {
+			out.print("        ");
+			if (first) {
+				first = false;
+			} else {
+				out.print("} else ");
+			}
+			out.println("if (\"" + s.key + "\".equals(key)) {"); // TODO: fix
+			// for
+			// \001 and \005
+			// prefix
+			out.println("            write((" + s.type + ")o, out);");
+		}
+		out.println("        } else {");
+		out.println("            write((TODOS)o, out);");
 		out.println("        }");
 		out.println("    }");
 
 		for (Struct s : mso.structs) {
 			printStructureParser(out, s);
+			printStructureWriter(out, s);
 		}
 
 		out.println("}");
@@ -72,6 +94,59 @@ public class JavaParserGenerator {
 		}
 		out.println("        return _s;");
 		out.println("    }");
+	}
+
+	void printStructureWriter(PrintWriter out, Struct s) {
+		out.println("    void write(" + s.name
+				+ " _s, LEOutputStream out) throws IOException  {");
+		for (Member m : s.members) {
+			printStructureMemberWriter(out, m);
+		}
+		out.println("    }");
+	}
+
+	void printStructureMemberWriter(PrintWriter out, Member m) {
+		String s = "        ";
+		if (m.condition != null) {
+			out.println("        if (" + getExpression("_s", m.condition)
+					+ ") {");
+			s = s + "    ";
+		}
+		if (m.choices != null) {
+			boolean first = true;
+			for (String t : m.choices) {
+				out.print(s);
+				if (!first) {
+					out.print("} else ");
+				}
+				first = false;
+				out.println("if (_s." + m.name + " instanceof " + t + ") {");
+				out
+						.println(s + "    write((" + t + ")_s." + m.name
+								+ ", out);");
+			}
+			out.println(s + "}");
+		} else if (m.isArray) {
+			String t = getTypeName(m);
+			out.println(s + "for (" + t + " _i: _s." + m.name + ") {");
+			if (m.isComplex) {
+				out.println(s + "    write(_i, out);");
+			} else {
+				out.println(s + "    out.write" + m.type + "(_i);");
+			}
+			out.println(s + "}");
+		} else if (m.isComplex) {
+			out.print(s);
+			if (m.isOptional) {
+				out.print("if (_s." + m.name + " != null) ");
+			}
+			out.println("write(_s." + m.name + ", out);");
+		} else {
+			out.println(s + "out.write" + m.type + "(_s." + m.name + ");");
+		}
+		if (m.condition != null) {
+			out.println("        }");
+		}
 	}
 
 	String getTypeName(Member m) {
@@ -209,10 +284,12 @@ public class JavaParserGenerator {
 			out.println(s + "try {");
 			out.println(s + "    _s." + m.name + " = parse" + m.choices[i]
 					+ "(in);");
-			out.println(s + "} catch (IncorrectValueException " + exception
+			out.println(s + "} catch (IOException " + exception
 					+ ") {");
-			out.println(s + "    System.out.println(" + exception
-					+ ".getMessage());");
+			 out.println(s + "    if (!(" + exception
+			 + " instanceof IncorrectValueException) && !(" + exception
+			 + " instanceof java.io.EOFException)) throw " + exception
+			 + ";");
 			out
 					.println(s
 							+ "    if (in.distanceFromMark(_m) > 16) throw new IOException("
