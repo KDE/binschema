@@ -259,7 +259,7 @@
 			<limitation name="recInstance" value="3" />
 			<limitation name="recType" value="0xFD9" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="NotesHeadersFootersContainer">
 		<type name="rh" type="RecordHeader">
@@ -267,7 +267,7 @@
 			<limitation name="recInstance" value="4" />
 			<limitation name="recType" value="0xFD9" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="PerSlideHeadersFootersContainer">
 		<type name="rh" type="RecordHeader">
@@ -275,7 +275,7 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFD9" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="EndDocumentAtom">
 		<type name="rh" type="RecordHeader">
@@ -301,7 +301,7 @@
 			<limitation name="recType"
 				value="0x1388|0x414|0x413|0x407|0x3FA|0x408|0x3FF" />
 		</type>
-		<uint8 name="wrong" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 		<!--
 			TODO <choice name="anon"> <type type="NormalViewSetInfoContainer" />
 			<type type="SlideViewInfoInstance" /> </choice>
@@ -410,7 +410,7 @@
 			<limitation name="recInstance" value="2" />
 			<limitation name="recType" value="0x0FF0" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="SlideListWithTextSubContainerOrAtom">
 		<!--  we ignore the details of the order of slides required here -->
@@ -499,7 +499,7 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFA2" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="StyleTextPropAtom">
 		<type name="rh" type="RecordHeader">
@@ -508,7 +508,7 @@
 			<limitation name="recType" value="0xFA1" />
 		</type>
 		<!-- this one seems very hard to do -->
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="SlideNumberMCAtom">
 		<type name="rh" type="RecordHeader">
@@ -590,7 +590,7 @@
 			<limitation name="recType" value="0xFAA" />
 		</type>
 		<!-- this one seems impossible to do -->
-		<uint8 name="wrong" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="InteractiveInfoInstance">
 		<type name="rh" type="RecordHeader">
@@ -1056,7 +1056,7 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x03F0" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="HandoutContainer">
 		<type name="rh" type="RecordHeader">
@@ -1064,7 +1064,7 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x0FC9" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="ExControlStg">
 		<type name="rh" type="RecordHeader">
@@ -1072,7 +1072,7 @@
 			<limitation name="recInstance" value="0|1" />
 			<limitation name="recType" value="0x1011" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="ExOleObjStg">
 		<type name="rh" type="RecordHeader">
@@ -1080,7 +1080,7 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x1011" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="UserEditAtom">
 		<type name="rh" type="RecordHeader">
@@ -1089,7 +1089,7 @@
 			<limitation name="recType" value="0x0FF5" />
 			<limitation name="recLen" value="0x1C|0x20" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="VbaProjectStg">
 		<type name="rh" type="RecordHeader">
@@ -1097,7 +1097,7 @@
 			<limitation name="recInstance" value="0|1" />
 			<limitation name="recType" value="0x1011" />
 		</type>
-		<uint8 name="TODO" count="rh.recLen" />
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="SlideProgTagscontainer">
 		<type name="rh" type="RecordHeader">
@@ -1742,7 +1742,7 @@
 		<type name="smca" type="MSOCR" count="4" />
 	</struct>
 
-	<struct name="TODO">
+	<struct name="todo">
 		<!--
 			a placeholder for structures that are not in the document
 			specification yet
@@ -1756,7 +1756,7 @@
 		<uint8 name="anon" count="rh.recLen" />
 	</struct>
 	<struct name="TODOS">
-		<type name="anon" type="TODO" array="true" />
+		<type name="anon" type="todo" array="true" />
 	</struct>
 	<struct name="WordDocument">
 		<type name="fib" type="Fib" />

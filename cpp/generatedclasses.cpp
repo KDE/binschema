@@ -225,8 +225,8 @@ class MSOCR;
 void parseMSOCR(LEInputStream& in, MSOCR& _s);
 class OfficeArtSplitMenuColorContainer;
 void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenuColorContainer& _s);
-class TODO;
-void parseTODO(LEInputStream& in, TODO& _s);
+class todo;
+void parsetodo(LEInputStream& in, todo& _s);
 class TODOS;
 void parseTODOS(LEInputStream& in, TODOS& _s);
 class FibBase;
@@ -650,13 +650,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     SlideHeadersFootersContainer()  {
     }
     QString toString() {
         QString _s = "SlideHeadersFootersContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -667,13 +667,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     NotesHeadersFootersContainer()  {
     }
     QString toString() {
         QString _s = "NotesHeadersFootersContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -684,13 +684,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     PerSlideHeadersFootersContainer()  {
     }
     QString toString() {
         QString _s = "PerSlideHeadersFootersContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -733,13 +733,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray wrong;
+    QByteArray todo;
     DocInfoListSubContainerOrAtom()  {
     }
     QString toString() {
         QString _s = "DocInfoListSubContainerOrAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "wrong: " + "[array of wrong]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -801,13 +801,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     NotesListWithTextContainer()  {
     }
     QString toString() {
         QString _s = "NotesListWithTextContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -869,13 +869,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     MasterTextPropAtom()  {
     }
     QString toString() {
         QString _s = "MasterTextPropAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -886,13 +886,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     StyleTextPropAtom()  {
     }
     QString toString() {
         QString _s = "StyleTextPropAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -1032,13 +1032,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray wrong;
+    QByteArray todo;
     TextSpecialInfoAtom()  {
     }
     QString toString() {
         QString _s = "TextSpecialInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "wrong: " + "[array of wrong]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -1530,13 +1530,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     NotesContainer()  {
     }
     QString toString() {
         QString _s = "NotesContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -1547,13 +1547,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     HandoutContainer()  {
     }
     QString toString() {
         QString _s = "HandoutContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -1564,13 +1564,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     ExControlStg()  {
     }
     QString toString() {
         QString _s = "ExControlStg:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -1581,13 +1581,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     ExOleObjStg()  {
     }
     QString toString() {
         QString _s = "ExOleObjStg:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -1598,13 +1598,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     UserEditAtom()  {
     }
     QString toString() {
         QString _s = "UserEditAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -1615,13 +1615,13 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray TODO;
+    QByteArray todo;
     VbaProjectStg()  {
     }
     QString toString() {
         QString _s = "VbaProjectStg:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "TODO: " + "[array of TODO]" + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -2569,17 +2569,17 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class TODO : public Introspectable {
+class todo : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray anon;
-    TODO()  {
+    todo()  {
     }
     QString toString() {
-        QString _s = "TODO:";
+        QString _s = "todo:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "anon: " + "[array of anon]" + ", ";
         return _s;
@@ -2591,7 +2591,7 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    QList<TODO> anon;
+    QList<todo> anon;
     TODOS()  {
     }
     QString toString() {
@@ -5561,15 +5561,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const SlideHeadersFootersContainer*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const SlideHeadersFootersContainer*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const SlideHeadersFootersContainer*>(i)->todo);
     }
 };
 const QString SlideHeadersFootersContainer::_Introspection::name("SlideHeadersFootersContainer");
 const int SlideHeadersFootersContainer::_Introspection::numberOfMembers(2);
 const QString SlideHeadersFootersContainer::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const SlideHeadersFootersContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -5577,7 +5577,7 @@ int (* const SlideHeadersFootersContainer::_Introspection::numberOfInstances[2])
 };
 QVariant (* const SlideHeadersFootersContainer::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const SlideHeadersFootersContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -5596,15 +5596,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const NotesHeadersFootersContainer*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const NotesHeadersFootersContainer*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const NotesHeadersFootersContainer*>(i)->todo);
     }
 };
 const QString NotesHeadersFootersContainer::_Introspection::name("NotesHeadersFootersContainer");
 const int NotesHeadersFootersContainer::_Introspection::numberOfMembers(2);
 const QString NotesHeadersFootersContainer::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const NotesHeadersFootersContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -5612,7 +5612,7 @@ int (* const NotesHeadersFootersContainer::_Introspection::numberOfInstances[2])
 };
 QVariant (* const NotesHeadersFootersContainer::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const NotesHeadersFootersContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -5631,15 +5631,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const PerSlideHeadersFootersContainer*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const PerSlideHeadersFootersContainer*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const PerSlideHeadersFootersContainer*>(i)->todo);
     }
 };
 const QString PerSlideHeadersFootersContainer::_Introspection::name("PerSlideHeadersFootersContainer");
 const int PerSlideHeadersFootersContainer::_Introspection::numberOfMembers(2);
 const QString PerSlideHeadersFootersContainer::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const PerSlideHeadersFootersContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -5647,7 +5647,7 @@ int (* const PerSlideHeadersFootersContainer::_Introspection::numberOfInstances[
 };
 QVariant (* const PerSlideHeadersFootersContainer::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const PerSlideHeadersFootersContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -5732,15 +5732,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const DocInfoListSubContainerOrAtom*>(i)->rh);
     }
-    static QVariant get_wrong(const Introspectable* i, int j) {
-        return (static_cast<const DocInfoListSubContainerOrAtom*>(i)->wrong);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const DocInfoListSubContainerOrAtom*>(i)->todo);
     }
 };
 const QString DocInfoListSubContainerOrAtom::_Introspection::name("DocInfoListSubContainerOrAtom");
 const int DocInfoListSubContainerOrAtom::_Introspection::numberOfMembers(2);
 const QString DocInfoListSubContainerOrAtom::_Introspection::names[2] = {
     "rh",
-    "wrong",
+    "todo",
 };
 int (* const DocInfoListSubContainerOrAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -5748,7 +5748,7 @@ int (* const DocInfoListSubContainerOrAtom::_Introspection::numberOfInstances[2]
 };
 QVariant (* const DocInfoListSubContainerOrAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_wrong,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const DocInfoListSubContainerOrAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -5878,15 +5878,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const NotesListWithTextContainer*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const NotesListWithTextContainer*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const NotesListWithTextContainer*>(i)->todo);
     }
 };
 const QString NotesListWithTextContainer::_Introspection::name("NotesListWithTextContainer");
 const int NotesListWithTextContainer::_Introspection::numberOfMembers(2);
 const QString NotesListWithTextContainer::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const NotesListWithTextContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -5894,7 +5894,7 @@ int (* const NotesListWithTextContainer::_Introspection::numberOfInstances[2])(c
 };
 QVariant (* const NotesListWithTextContainer::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const NotesListWithTextContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -6021,15 +6021,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const MasterTextPropAtom*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const MasterTextPropAtom*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const MasterTextPropAtom*>(i)->todo);
     }
 };
 const QString MasterTextPropAtom::_Introspection::name("MasterTextPropAtom");
 const int MasterTextPropAtom::_Introspection::numberOfMembers(2);
 const QString MasterTextPropAtom::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const MasterTextPropAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -6037,7 +6037,7 @@ int (* const MasterTextPropAtom::_Introspection::numberOfInstances[2])(const Int
 };
 QVariant (* const MasterTextPropAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const MasterTextPropAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -6056,15 +6056,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const StyleTextPropAtom*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const StyleTextPropAtom*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const StyleTextPropAtom*>(i)->todo);
     }
 };
 const QString StyleTextPropAtom::_Introspection::name("StyleTextPropAtom");
 const int StyleTextPropAtom::_Introspection::numberOfMembers(2);
 const QString StyleTextPropAtom::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const StyleTextPropAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -6072,7 +6072,7 @@ int (* const StyleTextPropAtom::_Introspection::numberOfInstances[2])(const Intr
 };
 QVariant (* const StyleTextPropAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const StyleTextPropAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -6371,15 +6371,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const TextSpecialInfoAtom*>(i)->rh);
     }
-    static QVariant get_wrong(const Introspectable* i, int j) {
-        return (static_cast<const TextSpecialInfoAtom*>(i)->wrong);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const TextSpecialInfoAtom*>(i)->todo);
     }
 };
 const QString TextSpecialInfoAtom::_Introspection::name("TextSpecialInfoAtom");
 const int TextSpecialInfoAtom::_Introspection::numberOfMembers(2);
 const QString TextSpecialInfoAtom::_Introspection::names[2] = {
     "rh",
-    "wrong",
+    "todo",
 };
 int (* const TextSpecialInfoAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -6387,7 +6387,7 @@ int (* const TextSpecialInfoAtom::_Introspection::numberOfInstances[2])(const In
 };
 QVariant (* const TextSpecialInfoAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_wrong,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const TextSpecialInfoAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -7584,15 +7584,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const NotesContainer*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const NotesContainer*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const NotesContainer*>(i)->todo);
     }
 };
 const QString NotesContainer::_Introspection::name("NotesContainer");
 const int NotesContainer::_Introspection::numberOfMembers(2);
 const QString NotesContainer::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const NotesContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -7600,7 +7600,7 @@ int (* const NotesContainer::_Introspection::numberOfInstances[2])(const Introsp
 };
 QVariant (* const NotesContainer::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const NotesContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -7619,15 +7619,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const HandoutContainer*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const HandoutContainer*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const HandoutContainer*>(i)->todo);
     }
 };
 const QString HandoutContainer::_Introspection::name("HandoutContainer");
 const int HandoutContainer::_Introspection::numberOfMembers(2);
 const QString HandoutContainer::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const HandoutContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -7635,7 +7635,7 @@ int (* const HandoutContainer::_Introspection::numberOfInstances[2])(const Intro
 };
 QVariant (* const HandoutContainer::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const HandoutContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -7654,15 +7654,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const ExControlStg*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const ExControlStg*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const ExControlStg*>(i)->todo);
     }
 };
 const QString ExControlStg::_Introspection::name("ExControlStg");
 const int ExControlStg::_Introspection::numberOfMembers(2);
 const QString ExControlStg::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const ExControlStg::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -7670,7 +7670,7 @@ int (* const ExControlStg::_Introspection::numberOfInstances[2])(const Introspec
 };
 QVariant (* const ExControlStg::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const ExControlStg::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -7689,15 +7689,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const ExOleObjStg*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const ExOleObjStg*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const ExOleObjStg*>(i)->todo);
     }
 };
 const QString ExOleObjStg::_Introspection::name("ExOleObjStg");
 const int ExOleObjStg::_Introspection::numberOfMembers(2);
 const QString ExOleObjStg::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const ExOleObjStg::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -7705,7 +7705,7 @@ int (* const ExOleObjStg::_Introspection::numberOfInstances[2])(const Introspect
 };
 QVariant (* const ExOleObjStg::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const ExOleObjStg::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -7724,15 +7724,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const UserEditAtom*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const UserEditAtom*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const UserEditAtom*>(i)->todo);
     }
 };
 const QString UserEditAtom::_Introspection::name("UserEditAtom");
 const int UserEditAtom::_Introspection::numberOfMembers(2);
 const QString UserEditAtom::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const UserEditAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -7740,7 +7740,7 @@ int (* const UserEditAtom::_Introspection::numberOfInstances[2])(const Introspec
 };
 QVariant (* const UserEditAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const UserEditAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -7759,15 +7759,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const VbaProjectStg*>(i)->rh);
     }
-    static QVariant get_TODO(const Introspectable* i, int j) {
-        return (static_cast<const VbaProjectStg*>(i)->TODO);
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const VbaProjectStg*>(i)->todo);
     }
 };
 const QString VbaProjectStg::_Introspection::name("VbaProjectStg");
 const int VbaProjectStg::_Introspection::numberOfMembers(2);
 const QString VbaProjectStg::_Introspection::names[2] = {
     "rh",
-    "TODO",
+    "todo",
 };
 int (* const VbaProjectStg::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -7775,7 +7775,7 @@ int (* const VbaProjectStg::_Introspection::numberOfInstances[2])(const Introspe
 };
 QVariant (* const VbaProjectStg::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_TODO,
+    _Introspection::get_todo,
 };
 const Introspectable* (* const VbaProjectStg::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -9959,7 +9959,7 @@ const Introspectable* (* const OfficeArtSplitMenuColorContainer::_Introspection:
 };
 const Introspection OfficeArtSplitMenuColorContainer::_introspection(
     "OfficeArtSplitMenuColorContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class TODO::_Introspection {
+class todo::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
@@ -9968,32 +9968,32 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const TODO*>(i)->rh);
+        return &(static_cast<const todo*>(i)->rh);
     }
     static QVariant get_anon(const Introspectable* i, int j) {
-        return (static_cast<const TODO*>(i)->anon);
+        return (static_cast<const todo*>(i)->anon);
     }
 };
-const QString TODO::_Introspection::name("TODO");
-const int TODO::_Introspection::numberOfMembers(2);
-const QString TODO::_Introspection::names[2] = {
+const QString todo::_Introspection::name("todo");
+const int todo::_Introspection::numberOfMembers(2);
+const QString todo::_Introspection::names[2] = {
     "rh",
     "anon",
 };
-int (* const TODO::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+int (* const todo::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const TODO::_Introspection::value[2])(const Introspectable*, int position) = {
+QVariant (* const todo::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
     _Introspection::get_anon,
 };
-const Introspectable* (* const TODO::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+const Introspectable* (* const todo::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     Introspection::null,
 };
-const Introspection TODO::_introspection(
-    "TODO", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+const Introspection todo::_introspection(
+    "todo", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class TODOS::_Introspection {
 public:
     static const QString name;
@@ -16713,9 +16713,9 @@ void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersCon
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFD9 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersContainer& _s) {
@@ -16732,9 +16732,9 @@ void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersCon
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFD9 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s) {
@@ -16751,9 +16751,9 @@ void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFoot
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFD9 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s) {
@@ -16813,9 +16813,9 @@ void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContain
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x1388 || _s.rh.recType == 0x414 || _s.rh.recType == 0x413 || _s.rh.recType == 0x407 || _s.rh.recType == 0x3FA || _s.rh.recType == 0x408 || _s.rh.recType == 0x3FF for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.wrong.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.wrong[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s) {
@@ -16901,9 +16901,9 @@ void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContain
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x0FF0 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseTextHeaderAtom(LEInputStream& in, TextHeaderAtom& _s) {
@@ -16983,9 +16983,9 @@ void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFA2 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s) {
@@ -17002,9 +17002,9 @@ void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFA1 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseSlideNumberMCAtom(LEInputStream& in, SlideNumberMCAtom& _s) {
@@ -17150,9 +17150,9 @@ void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFAA for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.wrong.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.wrong[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseInteractiveInfoInstance(LEInputStream& in, InteractiveInfoInstance& _s) {
@@ -17492,9 +17492,9 @@ void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x03F0 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s) {
@@ -17511,9 +17511,9 @@ void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x0FC9 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseExControlStg(LEInputStream& in, ExControlStg& _s) {
@@ -17530,9 +17530,9 @@ void parseExControlStg(LEInputStream& in, ExControlStg& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x1011 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s) {
@@ -17549,9 +17549,9 @@ void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x1011 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s) {
@@ -17571,9 +17571,9 @@ void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recLen == 0x1C || _s.rh.recLen == 0x20 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s) {
@@ -17590,9 +17590,9 @@ void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x1011 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
-    _s.TODO.resize(_c);
+    _s.todo.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.TODO[_i] = in.readuint8();
+        _s.todo[_i] = in.readuint8();
     }
 }
 void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s) {
@@ -18452,7 +18452,7 @@ void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenu
         parseMSOCR(in, _s.smca[_i]);
     }
 }
-void parseTODO(LEInputStream& in, TODO& _s) {
+void parsetodo(LEInputStream& in, todo& _s) {
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -18468,8 +18468,8 @@ void parseTODOS(LEInputStream& in, TODOS& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            TODO _t;
-            parseTODO(in, _t);
+            todo _t;
+            parsetodo(in, _t);
             _s.anon.append(_t);
         } catch(IncorrectValueException _e) {
             _atend = true;
