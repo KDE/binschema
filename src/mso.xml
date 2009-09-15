@@ -81,9 +81,7 @@
 		<uint8 name="btMacOS" />
 		<uint8 name="rgbUid" count="16" />
 		<uint16 name="tag" />
-		<uint32 name="size">
-			<limitation expression="&gt;=8" />
-		</uint32>
+		<uint32 name="size" />
 		<uint32 name="cRef" />
 		<uint32 name="foDelay" />
 		<uint8 name="unused1" />
@@ -993,7 +991,7 @@
 			<limitation name="recType" value="0x1772" />
 		</type>
 		<type name="rgPersistDirEntry" type="PersistDirectoryEntry"
-			array="true" />
+			array="true" size="rh.recLen" />
 	</struct>
 	<struct name="PersistDirectoryEntry">
 		<uint20 name="persistId" />
@@ -1580,7 +1578,9 @@
 			<limitation name="recVer" value="0x3" />
 			<limitation name="recType" value="0x0F00B" />
 		</type>
+		<!-- TODO: Add OfficeArtRGFOPTE somehow -->
 		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
+		<uint8 name="complexData" count="rh.recLen-6*rh.recInstance" />
 	</struct>
 	<struct name="OfficeArtChildAnchor">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -1762,7 +1762,31 @@
 			type="TextClientDataSubContainerOrAtom" />
 	</struct>
 	<struct name="TextClientDataSubContainerOrAtom">
-		<type name="rh" type="OfficeArtRecordHeader">
+		<choice name="anon">
+			<type type="OutlineTextRefAtom" />
+			<type type="TextHeaderAtom" />
+			<type type="TextCharsAtom" />
+			<type type="TextBytesAtom" />
+			<type type="StyleTextPropAtom" />
+			<type type="SlideNumberMCAtom" />
+			<type type="DateTimeMCAtom" />
+			<type type="GenericDateMCAtom" />
+			<type type="HeaderMCAtom" />
+			<type type="FooterMCAtom" />
+			<type type="RTFDateTimeMCAtom" />
+			<type type="TextBookmarkAtom" />
+			<type type="TextSpecialInfoAtom" />
+			<type type="InteractiveInfoInstance" />
+			<type type="TextInteractiveInfoInstance" />
+			<type type="TextRulerAtom" />
+			<type type="MasterTextPropAtom" />
+		</choice>
+	</struct>
+	<struct name="TextRulerAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFA6" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
@@ -1773,7 +1797,6 @@
 	<struct name="OfficeArtFOPTE">
 		<type name="opid" type="OfficeArtFOPTEOPID" />
 		<int32 name="op" />
-		<uint8 name="complexData" count="(opid.fComplex)?op:0" />
 	</struct>
 	<struct name="OfficeArtFOPTEOPID">
 		<uint14 name="opid" />
