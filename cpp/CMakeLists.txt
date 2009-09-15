@@ -1,4 +1,4 @@
-project(QtPptXml CXX Java)
+project(QtPptXml C CXX Java)
 cmake_minimum_required(VERSION 2.6)
 
 SET (CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fexceptions -Wall")
