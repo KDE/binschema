@@ -248,8 +248,12 @@ public class JavaParserGenerator {
 			return;
 		}
 		if (m.isArray && m.count == null) {
-			// array for which no size is given: parse items until one fails
-			printVariableArrayParser(out, s, m);
+			if (m.size != null) {
+				printFixedSizeArrayParser(out, s, m);
+			} else {
+				// array for which no size is given: parse items until one fails
+				printVariableArrayParser(out, s, m);
+			}
 			return;
 		}
 		if (m.isOptional) {
@@ -284,12 +288,11 @@ public class JavaParserGenerator {
 			out.println(s + "try {");
 			out.println(s + "    _s." + m.name + " = parse" + m.choices[i]
 					+ "(in);");
-			out.println(s + "} catch (IOException " + exception
-					+ ") {");
-			 out.println(s + "    if (!(" + exception
-			 + " instanceof IncorrectValueException) && !(" + exception
-			 + " instanceof java.io.EOFException)) throw " + exception
-			 + ";");
+			out.println(s + "} catch (IOException " + exception + ") {");
+			out.println(s + "    if (!(" + exception
+					+ " instanceof IncorrectValueException) && !(" + exception
+					+ " instanceof java.io.EOFException)) throw " + exception
+					+ ";");
 			out
 					.println(s
 							+ "    if (in.distanceFromMark(_m) > 16) throw new IOException("
@@ -305,12 +308,18 @@ public class JavaParserGenerator {
 		out.println(s + "}");
 	}
 
+	void printFixedSizeArrayParser(PrintWriter out, String s, Member m) {
+		out.println(s + "int _startPos = in.getPosition();");
+		out.println(s + "while (in.getPosition() - _startPos < "
+				+ getExpression("_s", m.size) + ") {");
+		out.println(s + "    " + m.type + " _t = parse" + m.type + "(in);");
+		out.println(s + "    _s." + m.name + ".add(_t);");
+		out.println(s + "}");
+	}
+
 	void printVariableArrayParser(PrintWriter out, String s, Member m) {
 		out.println(s + "_atend = false;");
 		out.println(s + "_i=0;");
-		if (m.size != null) {
-			out.println(s + "int _startPos = in.getPosition();");
-		}
 		out.println(s + "while (!_atend) {");
 		out
 				.println(s
@@ -331,10 +340,6 @@ public class JavaParserGenerator {
 		out.println(s + "    } finally {");
 		out.println(s + "        in.releaseMark(_m);");
 		out.println(s + "   }");
-		if (m.size != null) {
-			out.println(s + "   _atend = in.getPosition() - _startPos >= "
-					+ getExpression("_s", m.size) + ";");
-		}
 		out.println(s + "}");
 	}
 
