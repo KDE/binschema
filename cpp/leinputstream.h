@@ -156,7 +156,7 @@ public:
     }
 
     quint32 readuint20() {
-        quint8 v;
+        quint32 v;
         if (bitfieldpos < 0) {
             quint8 a = readuint8();
             quint8 b = readuint8();
