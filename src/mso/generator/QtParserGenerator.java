@@ -16,6 +16,7 @@ public class QtParserGenerator {
 		out.println("#include <QVector>");
 		out.println("#include <QSharedPointer>");
 		out.println("#include \"leinputstream.h\"");
+		out.println("#include \"leoutputstream.h\"");
 		out.println("#include \"introspection.h\"");
 		out.println("namespace {");
 
@@ -23,6 +24,8 @@ public class QtParserGenerator {
 			out.println("class " + s.name + ";");
 			out.println("void parse" + s.name + "(LEInputStream& in, " + s.name
 					+ "& _s);");
+			out.println("void write(const " + s.name
+					+ "& v, LEOutputStream& out);");
 		}
 
 		for (Struct s : mso.structs) {
@@ -35,6 +38,7 @@ public class QtParserGenerator {
 
 		for (Struct s : mso.structs) {
 			printStructureParser(out, s);
+			printStructureWriter(out, s);
 		}
 
 		out.println("}");
@@ -64,6 +68,26 @@ public class QtParserGenerator {
 		out.println("    }");
 		out.println("    return i;");
 		out.println("}");
+		out
+				.println("void serialize(const Introspectable* i, const QString& key, LEOutputStream& out)  {");
+		first = true;
+		for (Stream s : mso.streams) {
+			out.print("    ");
+			if (first) {
+				first = false;
+			} else {
+				out.print("} else ");
+			}
+			out.println("if (\"" + s.key + "\" == key) {"); // TODO: fix for
+			// \001 and \005
+			// prefix
+			out.println("        write(*static_cast<const " + s.type
+					+ "*>(i), out);");
+		}
+		out.println("    } else {");
+		out.println("        write(*static_cast<const TODOS*>(i), out);");
+		out.println("    }");
+		out.println("}");
 
 		out.close();
 		fout.close();
@@ -83,6 +107,10 @@ public class QtParserGenerator {
 		}
 		for (Member m : s.members) {
 			printStructureMemberParser(out, m);
+			// if (m.type.contains("RecordHeader")) {
+			// out.println("qDebug() << in.getPosition()<<\" \"<<\"" + s.name
+			// + "\"<<_s.rh.toString();");
+			// }
 		}
 		out.println("}");
 	}
@@ -106,12 +134,6 @@ public class QtParserGenerator {
 			out.println(s + "if (" + condition + ") {");
 			s = s + "    ";
 		}
-		/*
-		 * String parse;
-		 * 
-		 * if (m.isComplex) { parse = "parse" + m.type + "(in, _s." + m.name +
-		 * ");"; } else { parse = "in.read" + m.type + "();"; }
-		 */
 		String parse;
 		String index = (m.count == null) ? "" : "[_i]";
 		if (m.isComplex) {
@@ -124,8 +146,12 @@ public class QtParserGenerator {
 			return;
 		}
 		if (m.isArray && m.count == null) {
-			// array for which no size is given: parse items until one fails
-			printVariableArrayParser(out, s, m);
+			if (m.size != null) {
+				printFixedSizeArrayParser(out, s, m);
+			} else {
+				// array for which no size is given: parse items until one fails
+				printVariableArrayParser(out, s, m);
+			}
 			return;
 		}
 		if (m.isOptional) {
@@ -139,18 +165,77 @@ public class QtParserGenerator {
 		out.print(s);// + "_s." + name + " = ");
 		if (m.count != null) {
 			out.print("_s." + m.name);
-			// if (m.isComplex || m.type.equals("uint8")) {
 			out.println(".resize(_c);");
-			// } else {
-			// out.println(" = new " + getTypeName(m) + "[_c];");
-			// }
-			out.println(s + "for (int _i=0; _i<_c; ++_i) {");
-			out.println(s + "    " + parse);
-			printLimitationCheck(out, "        ", "_s." + m.name + "[_i]", m);
-			out.println(s + "}");
+			if (m.type.equals("uint8")) { // special case for reading bytearrays
+				// quickly
+				out.println(s + "in.readBytes(_s." + m.name + ");");
+			} else {
+				out.println(s + "for (int _i=0; _i<_c; ++_i) {");
+				out.println(s + "    " + parse);
+				printLimitationCheck(out, "        ", "_s." + m.name + "[_i]",
+						m);
+				out.println(s + "}");
+			}
 		} else {
 			out.println(parse);
 			printLimitationCheck(out, s, "_s." + m.name, m);
+		}
+		if (m.condition != null) {
+			out.println("    }");
+		}
+	}
+
+	void printStructureWriter(PrintWriter out, Struct s) {
+		out.println("void write(const " + s.name
+				+ "& _s, LEOutputStream& out) {");
+		for (Member m : s.members) {
+			printStructureMemberWriter(out, m);
+		}
+		out.println("}");
+	}
+
+	void printStructureMemberWriter(PrintWriter out, Member m) {
+		String s = "    ";
+		if (m.condition != null) {
+			out.println("    if (" + getExpression("_s", m.condition) + ") {");
+			s = s + "    ";
+		}
+		if (m.choices != null) {
+			boolean first = true;
+			for (String t : m.choices) {
+				out.print(s);
+				if (!first) {
+					out.print("} else ");
+				}
+				first = false;
+				out.println("if (_s." + m.name + "." + t.toLowerCase() + ") {");
+				out.println(s + "    write(*_s." + m.name + "."
+						+ t.toLowerCase() + ", out);");
+			}
+			out.println(s + "}");
+		} else if (m.isArray) {
+			if (m.type.equals("uint8")) {
+				out.println(s + "out.writeBytes(_s." + m.name + ");");
+			} else {
+				String t = getTypeName(m);
+				out.println(s + "foreach (" + t + " _i, _s." + m.name + ") {");
+				if (m.isComplex) {
+					out.println(s + "    write(_i, out);");
+				} else {
+					out.println(s + "    out.write" + m.type + "(_i);");
+				}
+				out.println(s + "}");
+			}
+		} else if (m.isComplex) {
+			out.print(s);
+			if (m.isOptional) {
+				out.print("if (_s." + m.name + ") write(*");
+			} else {
+				out.print("write(");
+			}
+			out.println("_s." + m.name + ", out);");
+		} else {
+			out.println(s + "out.write" + m.type + "(_s." + m.name + ");");
 		}
 		if (m.condition != null) {
 			out.println("    }");
@@ -409,6 +494,16 @@ public class QtParserGenerator {
 				+ " = QSharedPointer<" + choice + ">(" + "new " + choice
 				+ "(_t));");
 		out.println(s + closing);
+	}
+
+	void printFixedSizeArrayParser(PrintWriter out, String s, Member m) {
+		out.println(s + "int _startPos = in.getPosition();");
+		out.println(s + "while (in.getPosition() - _startPos < "
+				+ getExpression("_s", m.size) + ") {");
+		out.println(s + "    " + m.type + " _t;");
+		out.println(s + "    parse" + m.type + "(in, _t);");
+		out.println(s + "    _s." + m.name + ".append(_t);");
+		out.println(s + "}");
 	}
 
 	void printVariableArrayParser(PrintWriter out, String s, Member m) {

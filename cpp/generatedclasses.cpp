@@ -3,388 +3,609 @@
 #include <QVector>
 #include <QSharedPointer>
 #include "leinputstream.h"
+#include "leoutputstream.h"
 #include "introspection.h"
 namespace {
 class RecordHeader;
 void parseRecordHeader(LEInputStream& in, RecordHeader& _s);
+void write(const RecordHeader& v, LEOutputStream& out);
 class CurrentUserAtom;
 void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s);
-class Byte;
-void parseByte(LEInputStream& in, Byte& _s);
-class CurrentUserStream;
-void parseCurrentUserStream(LEInputStream& in, CurrentUserStream& _s);
-class OfficeArtBStoreDelay;
-void parseOfficeArtBStoreDelay(LEInputStream& in, OfficeArtBStoreDelay& _s);
-class OfficeArtRecordHeader;
-void parseOfficeArtRecordHeader(LEInputStream& in, OfficeArtRecordHeader& _s);
-class OfficeArtBlipJPEG;
-void parseOfficeArtBlipJPEG(LEInputStream& in, OfficeArtBlipJPEG& _s);
-class OfficeArtBlipPNG;
-void parseOfficeArtBlipPNG(LEInputStream& in, OfficeArtBlipPNG& _s);
-class OfficeArtBlipDIB;
-void parseOfficeArtBlipDIB(LEInputStream& in, OfficeArtBlipDIB& _s);
-class OfficeArtBlipTIFF;
-void parseOfficeArtBlipTIFF(LEInputStream& in, OfficeArtBlipTIFF& _s);
-class RECT;
-void parseRECT(LEInputStream& in, RECT& _s);
-class POINT;
-void parsePOINT(LEInputStream& in, POINT& _s);
-class PowerPointStructs;
-void parsePowerPointStructs(LEInputStream& in, PowerPointStructs& _s);
-class SlideHeadersFootersContainer;
-void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersContainer& _s);
-class NotesHeadersFootersContainer;
-void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersContainer& _s);
-class PerSlideHeadersFootersContainer;
-void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s);
-class EndDocumentAtom;
-void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s);
-class DocInfoListContainer;
-void parseDocInfoListContainer(LEInputStream& in, DocInfoListContainer& _s);
-class DocInfoListSubContainerOrAtom;
-void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContainerOrAtom& _s);
-class SlideViewInfoInstance;
-void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s);
-class MasterListWithTextContainer;
-void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextContainer& _s);
-class SlideListWithTextContainer;
-void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContainer& _s);
-class NotesListWithTextContainer;
-void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContainer& _s);
-class TextHeaderAtom;
-void parseTextHeaderAtom(LEInputStream& in, TextHeaderAtom& _s);
-class TextCharsAtom;
-void parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s);
-class TextBytesAtom;
-void parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s);
-class MasterTextPropAtom;
-void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s);
-class StyleTextPropAtom;
-void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s);
-class SlideNumberMCAtom;
-void parseSlideNumberMCAtom(LEInputStream& in, SlideNumberMCAtom& _s);
-class DateTimeMCAtom;
-void parseDateTimeMCAtom(LEInputStream& in, DateTimeMCAtom& _s);
-class GenericDateMCAtom;
-void parseGenericDateMCAtom(LEInputStream& in, GenericDateMCAtom& _s);
-class HeaderMCAtom;
-void parseHeaderMCAtom(LEInputStream& in, HeaderMCAtom& _s);
-class FooterMCAtom;
-void parseFooterMCAtom(LEInputStream& in, FooterMCAtom& _s);
-class RTFDateTimeMCAtom;
-void parseRTFDateTimeMCAtom(LEInputStream& in, RTFDateTimeMCAtom& _s);
-class TextBookmarkAtom;
-void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s);
-class TextSpecialInfoAtom;
-void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s);
-class InteractiveInfoInstance;
-void parseInteractiveInfoInstance(LEInputStream& in, InteractiveInfoInstance& _s);
-class TextInteractiveInfoInstance;
-void parseTextInteractiveInfoInstance(LEInputStream& in, TextInteractiveInfoInstance& _s);
-class SlideId;
-void parseSlideId(LEInputStream& in, SlideId& _s);
-class TabStops;
-void parseTabStops(LEInputStream& in, TabStops& _s);
-class TabStop;
-void parseTabStop(LEInputStream& in, TabStop& _s);
-class BulletFlags;
-void parseBulletFlags(LEInputStream& in, BulletFlags& _s);
-class PFMasks;
-void parsePFMasks(LEInputStream& in, PFMasks& _s);
-class CFMasks;
-void parseCFMasks(LEInputStream& in, CFMasks& _s);
-class CFStyle;
-void parseCFStyle(LEInputStream& in, CFStyle& _s);
-class FontCollectionContainer;
-void parseFontCollectionContainer(LEInputStream& in, FontCollectionContainer& _s);
-class FontEntityAtom;
-void parseFontEntityAtom(LEInputStream& in, FontEntityAtom& _s);
-class KinsokuAtom;
-void parseKinsokuAtom(LEInputStream& in, KinsokuAtom& _s);
-class TextSIExceptionAtom;
-void parseTextSIExceptionAtom(LEInputStream& in, TextSIExceptionAtom& _s);
-class ExOleEmbedAtom;
-void parseExOleEmbedAtom(LEInputStream& in, ExOleEmbedAtom& _s);
-class PointStruct;
-void parsePointStruct(LEInputStream& in, PointStruct& _s);
-class RatioStruct;
-void parseRatioStruct(LEInputStream& in, RatioStruct& _s);
-class PersistDirectoryAtom;
-void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s);
-class PersistDirectoryEntry;
-void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s);
-class PersistOffsetEntry;
-void parsePersistOffsetEntry(LEInputStream& in, PersistOffsetEntry& _s);
-class PersistIdRef;
-void parsePersistIdRef(LEInputStream& in, PersistIdRef& _s);
-class SchemeListElementColorSchemeAtom;
-void parseSchemeListElementColorSchemeAtom(LEInputStream& in, SchemeListElementColorSchemeAtom& _s);
-class RoundTripOArtTextStyles12Atom;
-void parseRoundTripOArtTextStyles12Atom(LEInputStream& in, RoundTripOArtTextStyles12Atom& _s);
-class SlideNameAtom;
-void parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s);
-class SlideProgTagsContainer;
-void parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s);
-class RoundTripMainMasterRecord;
-void parseRoundTripMainMasterRecord(LEInputStream& in, RoundTripMainMasterRecord& _s);
-class TemplateNameAtom;
-void parseTemplateNameAtom(LEInputStream& in, TemplateNameAtom& _s);
-class NotesContainer;
-void parseNotesContainer(LEInputStream& in, NotesContainer& _s);
-class HandoutContainer;
-void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s);
-class ExControlStg;
-void parseExControlStg(LEInputStream& in, ExControlStg& _s);
-class ExOleObjStg;
-void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s);
-class UserEditAtom;
-void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s);
-class VbaProjectStg;
-void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s);
-class SlideProgTagscontainer;
-void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s);
-class SlideAtom;
-void parseSlideAtom(LEInputStream& in, SlideAtom& _s);
-class SlideShowSlideInfoAtom;
-void parseSlideShowSlideInfoAtom(LEInputStream& in, SlideShowSlideInfoAtom& _s);
-class SlideShowDocInfoAtom;
-void parseSlideShowDocInfoAtom(LEInputStream& in, SlideShowDocInfoAtom& _s);
-class SlideSchemeColorSchemeAtom;
-void parseSlideSchemeColorSchemeAtom(LEInputStream& in, SlideSchemeColorSchemeAtom& _s);
-class RoundTripSlideRecord;
-void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s);
-class ColorStruct;
-void parseColorStruct(LEInputStream& in, ColorStruct& _s);
-class ExObjListAtom;
-void parseExObjListAtom(LEInputStream& in, ExObjListAtom& _s);
-class ExOleLinkAtom;
-void parseExOleLinkAtom(LEInputStream& in, ExOleLinkAtom& _s);
-class ExOleObjAtom;
-void parseExOleObjAtom(LEInputStream& in, ExOleObjAtom& _s);
-class MenuNameAtom;
-void parseMenuNameAtom(LEInputStream& in, MenuNameAtom& _s);
-class ProgIDAtom;
-void parseProgIDAtom(LEInputStream& in, ProgIDAtom& _s);
-class ClipboardNameAtom;
-void parseClipboardNameAtom(LEInputStream& in, ClipboardNameAtom& _s);
-class MetafileBlob;
-void parseMetafileBlob(LEInputStream& in, MetafileBlob& _s);
-class OfficeArtFDGG;
-void parseOfficeArtFDGG(LEInputStream& in, OfficeArtFDGG& _s);
-class OfficeArtFDG;
-void parseOfficeArtFDG(LEInputStream& in, OfficeArtFDG& _s);
-class OfficeArtFRITContainer;
-void parseOfficeArtFRITContainer(LEInputStream& in, OfficeArtFRITContainer& _s);
-class OfficeArtFRIT;
-void parseOfficeArtFRIT(LEInputStream& in, OfficeArtFRIT& _s);
-class OfficeArtBStoreContainer;
-void parseOfficeArtBStoreContainer(LEInputStream& in, OfficeArtBStoreContainer& _s);
-class OfficeArtSpgrContainer;
-void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s);
-class OfficeArtSolverContainer;
-void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s);
-class OfficeArtFSPGR;
-void parseOfficeArtFSPGR(LEInputStream& in, OfficeArtFSPGR& _s);
-class OfficeArtFSP;
-void parseOfficeArtFSP(LEInputStream& in, OfficeArtFSP& _s);
-class OfficeArtFOPT;
-void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s);
-class OfficeArtChildAnchor;
-void parseOfficeArtChildAnchor(LEInputStream& in, OfficeArtChildAnchor& _s);
-class OfficeArtFPSPL;
-void parseOfficeArtFPSPL(LEInputStream& in, OfficeArtFPSPL& _s);
-class OfficeArtSecondaryFOPT;
-void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s);
-class OfficeArtTertiaryFOPT;
-void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s);
-class RectStruct;
-void parseRectStruct(LEInputStream& in, RectStruct& _s);
-class SmallRectStruct;
-void parseSmallRectStruct(LEInputStream& in, SmallRectStruct& _s);
-class ShapeFlagsAtom;
-void parseShapeFlagsAtom(LEInputStream& in, ShapeFlagsAtom& _s);
-class ShapeFlags10Atom;
-void parseShapeFlags10Atom(LEInputStream& in, ShapeFlags10Atom& _s);
-class ExObjRefAtom;
-void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s);
-class AnimationInfoContainer;
-void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s);
-class MouseClickInteractiveInfoContainer;
-void parseMouseClickInteractiveInfoContainer(LEInputStream& in, MouseClickInteractiveInfoContainer& _s);
-class MouseOverInteractiveInfoContainer;
-void parseMouseOverInteractiveInfoContainer(LEInputStream& in, MouseOverInteractiveInfoContainer& _s);
-class PlaceholderAtom;
-void parsePlaceholderAtom(LEInputStream& in, PlaceholderAtom& _s);
-class RecolorInfoAtom;
-void parseRecolorInfoAtom(LEInputStream& in, RecolorInfoAtom& _s);
-class OutlineTextRefAtom;
-void parseOutlineTextRefAtom(LEInputStream& in, OutlineTextRefAtom& _s);
-class ShapeClientRoundtripDataSubcontainerOrAtom;
-void parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream& in, ShapeClientRoundtripDataSubcontainerOrAtom& _s);
-class OfficeArtClientTextBox;
-void parseOfficeArtClientTextBox(LEInputStream& in, OfficeArtClientTextBox& _s);
-class TextClientDataSubContainerOrAtom;
-void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s);
-class OfficeArtIDCL;
-void parseOfficeArtIDCL(LEInputStream& in, OfficeArtIDCL& _s);
-class OfficeArtFOPTEOPID;
-void parseOfficeArtFOPTEOPID(LEInputStream& in, OfficeArtFOPTEOPID& _s);
-class OfficeArtColorMRUContainer;
-void parseOfficeArtColorMRUContainer(LEInputStream& in, OfficeArtColorMRUContainer& _s);
-class MSOCR;
-void parseMSOCR(LEInputStream& in, MSOCR& _s);
-class OfficeArtSplitMenuColorContainer;
-void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenuColorContainer& _s);
-class todo;
-void parsetodo(LEInputStream& in, todo& _s);
+void write(const CurrentUserAtom& v, LEOutputStream& out);
 class TODOS;
 void parseTODOS(LEInputStream& in, TODOS& _s);
+void write(const TODOS& v, LEOutputStream& out);
+class Byte;
+void parseByte(LEInputStream& in, Byte& _s);
+void write(const Byte& v, LEOutputStream& out);
+class CurrentUserStream;
+void parseCurrentUserStream(LEInputStream& in, CurrentUserStream& _s);
+void write(const CurrentUserStream& v, LEOutputStream& out);
+class OfficeArtBStoreDelay;
+void parseOfficeArtBStoreDelay(LEInputStream& in, OfficeArtBStoreDelay& _s);
+void write(const OfficeArtBStoreDelay& v, LEOutputStream& out);
+class OfficeArtRecordHeader;
+void parseOfficeArtRecordHeader(LEInputStream& in, OfficeArtRecordHeader& _s);
+void write(const OfficeArtRecordHeader& v, LEOutputStream& out);
+class OfficeArtBlipJPEG;
+void parseOfficeArtBlipJPEG(LEInputStream& in, OfficeArtBlipJPEG& _s);
+void write(const OfficeArtBlipJPEG& v, LEOutputStream& out);
+class OfficeArtBlipPNG;
+void parseOfficeArtBlipPNG(LEInputStream& in, OfficeArtBlipPNG& _s);
+void write(const OfficeArtBlipPNG& v, LEOutputStream& out);
+class OfficeArtBlipDIB;
+void parseOfficeArtBlipDIB(LEInputStream& in, OfficeArtBlipDIB& _s);
+void write(const OfficeArtBlipDIB& v, LEOutputStream& out);
+class OfficeArtBlipTIFF;
+void parseOfficeArtBlipTIFF(LEInputStream& in, OfficeArtBlipTIFF& _s);
+void write(const OfficeArtBlipTIFF& v, LEOutputStream& out);
+class RECT;
+void parseRECT(LEInputStream& in, RECT& _s);
+void write(const RECT& v, LEOutputStream& out);
+class POINT;
+void parsePOINT(LEInputStream& in, POINT& _s);
+void write(const POINT& v, LEOutputStream& out);
+class PowerPointStructs;
+void parsePowerPointStructs(LEInputStream& in, PowerPointStructs& _s);
+void write(const PowerPointStructs& v, LEOutputStream& out);
+class SoundCollectionContainer;
+void parseSoundCollectionContainer(LEInputStream& in, SoundCollectionContainer& _s);
+void write(const SoundCollectionContainer& v, LEOutputStream& out);
+class SlideHeadersFootersContainer;
+void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersContainer& _s);
+void write(const SlideHeadersFootersContainer& v, LEOutputStream& out);
+class NotesHeadersFootersContainer;
+void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersContainer& _s);
+void write(const NotesHeadersFootersContainer& v, LEOutputStream& out);
+class PerSlideHeadersFootersContainer;
+void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s);
+void write(const PerSlideHeadersFootersContainer& v, LEOutputStream& out);
+class EndDocumentAtom;
+void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s);
+void write(const EndDocumentAtom& v, LEOutputStream& out);
+class DocInfoListContainer;
+void parseDocInfoListContainer(LEInputStream& in, DocInfoListContainer& _s);
+void write(const DocInfoListContainer& v, LEOutputStream& out);
+class DocInfoListSubContainerOrAtom;
+void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContainerOrAtom& _s);
+void write(const DocInfoListSubContainerOrAtom& v, LEOutputStream& out);
+class SlideViewInfoInstance;
+void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s);
+void write(const SlideViewInfoInstance& v, LEOutputStream& out);
+class MasterListWithTextContainer;
+void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextContainer& _s);
+void write(const MasterListWithTextContainer& v, LEOutputStream& out);
+class SlideListWithTextContainer;
+void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContainer& _s);
+void write(const SlideListWithTextContainer& v, LEOutputStream& out);
+class NotesListWithTextContainer;
+void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContainer& _s);
+void write(const NotesListWithTextContainer& v, LEOutputStream& out);
+class TextHeaderAtom;
+void parseTextHeaderAtom(LEInputStream& in, TextHeaderAtom& _s);
+void write(const TextHeaderAtom& v, LEOutputStream& out);
+class TextCharsAtom;
+void parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s);
+void write(const TextCharsAtom& v, LEOutputStream& out);
+class TextBytesAtom;
+void parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s);
+void write(const TextBytesAtom& v, LEOutputStream& out);
+class MasterTextPropAtom;
+void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s);
+void write(const MasterTextPropAtom& v, LEOutputStream& out);
+class StyleTextPropAtom;
+void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s);
+void write(const StyleTextPropAtom& v, LEOutputStream& out);
+class SlideNumberMCAtom;
+void parseSlideNumberMCAtom(LEInputStream& in, SlideNumberMCAtom& _s);
+void write(const SlideNumberMCAtom& v, LEOutputStream& out);
+class DateTimeMCAtom;
+void parseDateTimeMCAtom(LEInputStream& in, DateTimeMCAtom& _s);
+void write(const DateTimeMCAtom& v, LEOutputStream& out);
+class GenericDateMCAtom;
+void parseGenericDateMCAtom(LEInputStream& in, GenericDateMCAtom& _s);
+void write(const GenericDateMCAtom& v, LEOutputStream& out);
+class HeaderMCAtom;
+void parseHeaderMCAtom(LEInputStream& in, HeaderMCAtom& _s);
+void write(const HeaderMCAtom& v, LEOutputStream& out);
+class FooterMCAtom;
+void parseFooterMCAtom(LEInputStream& in, FooterMCAtom& _s);
+void write(const FooterMCAtom& v, LEOutputStream& out);
+class RTFDateTimeMCAtom;
+void parseRTFDateTimeMCAtom(LEInputStream& in, RTFDateTimeMCAtom& _s);
+void write(const RTFDateTimeMCAtom& v, LEOutputStream& out);
+class TextBookmarkAtom;
+void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s);
+void write(const TextBookmarkAtom& v, LEOutputStream& out);
+class TextSpecialInfoAtom;
+void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s);
+void write(const TextSpecialInfoAtom& v, LEOutputStream& out);
+class TextInteractiveInfoInstance;
+void parseTextInteractiveInfoInstance(LEInputStream& in, TextInteractiveInfoInstance& _s);
+void write(const TextInteractiveInfoInstance& v, LEOutputStream& out);
+class SlideId;
+void parseSlideId(LEInputStream& in, SlideId& _s);
+void write(const SlideId& v, LEOutputStream& out);
+class TabStops;
+void parseTabStops(LEInputStream& in, TabStops& _s);
+void write(const TabStops& v, LEOutputStream& out);
+class TabStop;
+void parseTabStop(LEInputStream& in, TabStop& _s);
+void write(const TabStop& v, LEOutputStream& out);
+class BulletFlags;
+void parseBulletFlags(LEInputStream& in, BulletFlags& _s);
+void write(const BulletFlags& v, LEOutputStream& out);
+class PFMasks;
+void parsePFMasks(LEInputStream& in, PFMasks& _s);
+void write(const PFMasks& v, LEOutputStream& out);
+class CFMasks;
+void parseCFMasks(LEInputStream& in, CFMasks& _s);
+void write(const CFMasks& v, LEOutputStream& out);
+class CFStyle;
+void parseCFStyle(LEInputStream& in, CFStyle& _s);
+void write(const CFStyle& v, LEOutputStream& out);
+class FontCollectionContainer;
+void parseFontCollectionContainer(LEInputStream& in, FontCollectionContainer& _s);
+void write(const FontCollectionContainer& v, LEOutputStream& out);
+class FontEntityAtom;
+void parseFontEntityAtom(LEInputStream& in, FontEntityAtom& _s);
+void write(const FontEntityAtom& v, LEOutputStream& out);
+class KinsokuAtom;
+void parseKinsokuAtom(LEInputStream& in, KinsokuAtom& _s);
+void write(const KinsokuAtom& v, LEOutputStream& out);
+class TextSIExceptionAtom;
+void parseTextSIExceptionAtom(LEInputStream& in, TextSIExceptionAtom& _s);
+void write(const TextSIExceptionAtom& v, LEOutputStream& out);
+class ExOleEmbedAtom;
+void parseExOleEmbedAtom(LEInputStream& in, ExOleEmbedAtom& _s);
+void write(const ExOleEmbedAtom& v, LEOutputStream& out);
+class PointStruct;
+void parsePointStruct(LEInputStream& in, PointStruct& _s);
+void write(const PointStruct& v, LEOutputStream& out);
+class RatioStruct;
+void parseRatioStruct(LEInputStream& in, RatioStruct& _s);
+void write(const RatioStruct& v, LEOutputStream& out);
+class PersistDirectoryAtom;
+void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s);
+void write(const PersistDirectoryAtom& v, LEOutputStream& out);
+class PersistDirectoryEntry;
+void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s);
+void write(const PersistDirectoryEntry& v, LEOutputStream& out);
+class PersistOffsetEntry;
+void parsePersistOffsetEntry(LEInputStream& in, PersistOffsetEntry& _s);
+void write(const PersistOffsetEntry& v, LEOutputStream& out);
+class PersistIdRef;
+void parsePersistIdRef(LEInputStream& in, PersistIdRef& _s);
+void write(const PersistIdRef& v, LEOutputStream& out);
+class SchemeListElementColorSchemeAtom;
+void parseSchemeListElementColorSchemeAtom(LEInputStream& in, SchemeListElementColorSchemeAtom& _s);
+void write(const SchemeListElementColorSchemeAtom& v, LEOutputStream& out);
+class RoundTripOArtTextStyles12Atom;
+void parseRoundTripOArtTextStyles12Atom(LEInputStream& in, RoundTripOArtTextStyles12Atom& _s);
+void write(const RoundTripOArtTextStyles12Atom& v, LEOutputStream& out);
+class SlideNameAtom;
+void parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s);
+void write(const SlideNameAtom& v, LEOutputStream& out);
+class SlideProgTagsContainer;
+void parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s);
+void write(const SlideProgTagsContainer& v, LEOutputStream& out);
+class RoundTripMainMasterRecord;
+void parseRoundTripMainMasterRecord(LEInputStream& in, RoundTripMainMasterRecord& _s);
+void write(const RoundTripMainMasterRecord& v, LEOutputStream& out);
+class TemplateNameAtom;
+void parseTemplateNameAtom(LEInputStream& in, TemplateNameAtom& _s);
+void write(const TemplateNameAtom& v, LEOutputStream& out);
+class NotesContainer;
+void parseNotesContainer(LEInputStream& in, NotesContainer& _s);
+void write(const NotesContainer& v, LEOutputStream& out);
+class HandoutContainer;
+void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s);
+void write(const HandoutContainer& v, LEOutputStream& out);
+class ExControlStg;
+void parseExControlStg(LEInputStream& in, ExControlStg& _s);
+void write(const ExControlStg& v, LEOutputStream& out);
+class ExOleObjStg;
+void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s);
+void write(const ExOleObjStg& v, LEOutputStream& out);
+class UserEditAtom;
+void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s);
+void write(const UserEditAtom& v, LEOutputStream& out);
+class VbaProjectStg;
+void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s);
+void write(const VbaProjectStg& v, LEOutputStream& out);
+class SlideProgTagscontainer;
+void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s);
+void write(const SlideProgTagscontainer& v, LEOutputStream& out);
+class SlideAtom;
+void parseSlideAtom(LEInputStream& in, SlideAtom& _s);
+void write(const SlideAtom& v, LEOutputStream& out);
+class SlideShowSlideInfoAtom;
+void parseSlideShowSlideInfoAtom(LEInputStream& in, SlideShowSlideInfoAtom& _s);
+void write(const SlideShowSlideInfoAtom& v, LEOutputStream& out);
+class SlideShowDocInfoAtom;
+void parseSlideShowDocInfoAtom(LEInputStream& in, SlideShowDocInfoAtom& _s);
+void write(const SlideShowDocInfoAtom& v, LEOutputStream& out);
+class SlideSchemeColorSchemeAtom;
+void parseSlideSchemeColorSchemeAtom(LEInputStream& in, SlideSchemeColorSchemeAtom& _s);
+void write(const SlideSchemeColorSchemeAtom& v, LEOutputStream& out);
+class RoundTripSlideRecord;
+void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s);
+void write(const RoundTripSlideRecord& v, LEOutputStream& out);
+class ColorStruct;
+void parseColorStruct(LEInputStream& in, ColorStruct& _s);
+void write(const ColorStruct& v, LEOutputStream& out);
+class ExObjListAtom;
+void parseExObjListAtom(LEInputStream& in, ExObjListAtom& _s);
+void write(const ExObjListAtom& v, LEOutputStream& out);
+class ExAviMovieContainer;
+void parseExAviMovieContainer(LEInputStream& in, ExAviMovieContainer& _s);
+void write(const ExAviMovieContainer& v, LEOutputStream& out);
+class ExCDAudioContainer;
+void parseExCDAudioContainer(LEInputStream& in, ExCDAudioContainer& _s);
+void write(const ExCDAudioContainer& v, LEOutputStream& out);
+class ExControlContainer;
+void parseExControlContainer(LEInputStream& in, ExControlContainer& _s);
+void write(const ExControlContainer& v, LEOutputStream& out);
+class ExHyperlinkContainer;
+void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s);
+void write(const ExHyperlinkContainer& v, LEOutputStream& out);
+class ExMCIMovieContainer;
+void parseExMCIMovieContainer(LEInputStream& in, ExMCIMovieContainer& _s);
+void write(const ExMCIMovieContainer& v, LEOutputStream& out);
+class ExMIDIAudioContainer;
+void parseExMIDIAudioContainer(LEInputStream& in, ExMIDIAudioContainer& _s);
+void write(const ExMIDIAudioContainer& v, LEOutputStream& out);
+class ExWAVAudioEmbeddedContainer;
+void parseExWAVAudioEmbeddedContainer(LEInputStream& in, ExWAVAudioEmbeddedContainer& _s);
+void write(const ExWAVAudioEmbeddedContainer& v, LEOutputStream& out);
+class ExWAVAudioLinkContainer;
+void parseExWAVAudioLinkContainer(LEInputStream& in, ExWAVAudioLinkContainer& _s);
+void write(const ExWAVAudioLinkContainer& v, LEOutputStream& out);
+class ExOleLinkAtom;
+void parseExOleLinkAtom(LEInputStream& in, ExOleLinkAtom& _s);
+void write(const ExOleLinkAtom& v, LEOutputStream& out);
+class ExOleObjAtom;
+void parseExOleObjAtom(LEInputStream& in, ExOleObjAtom& _s);
+void write(const ExOleObjAtom& v, LEOutputStream& out);
+class MenuNameAtom;
+void parseMenuNameAtom(LEInputStream& in, MenuNameAtom& _s);
+void write(const MenuNameAtom& v, LEOutputStream& out);
+class ProgIDAtom;
+void parseProgIDAtom(LEInputStream& in, ProgIDAtom& _s);
+void write(const ProgIDAtom& v, LEOutputStream& out);
+class ClipboardNameAtom;
+void parseClipboardNameAtom(LEInputStream& in, ClipboardNameAtom& _s);
+void write(const ClipboardNameAtom& v, LEOutputStream& out);
+class MetafileBlob;
+void parseMetafileBlob(LEInputStream& in, MetafileBlob& _s);
+void write(const MetafileBlob& v, LEOutputStream& out);
+class OfficeArtFDGG;
+void parseOfficeArtFDGG(LEInputStream& in, OfficeArtFDGG& _s);
+void write(const OfficeArtFDGG& v, LEOutputStream& out);
+class OfficeArtFDG;
+void parseOfficeArtFDG(LEInputStream& in, OfficeArtFDG& _s);
+void write(const OfficeArtFDG& v, LEOutputStream& out);
+class OfficeArtFRITContainer;
+void parseOfficeArtFRITContainer(LEInputStream& in, OfficeArtFRITContainer& _s);
+void write(const OfficeArtFRITContainer& v, LEOutputStream& out);
+class OfficeArtFRIT;
+void parseOfficeArtFRIT(LEInputStream& in, OfficeArtFRIT& _s);
+void write(const OfficeArtFRIT& v, LEOutputStream& out);
+class OfficeArtBStoreContainer;
+void parseOfficeArtBStoreContainer(LEInputStream& in, OfficeArtBStoreContainer& _s);
+void write(const OfficeArtBStoreContainer& v, LEOutputStream& out);
+class OfficeArtSpgrContainer;
+void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s);
+void write(const OfficeArtSpgrContainer& v, LEOutputStream& out);
+class OfficeArtSolverContainer;
+void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s);
+void write(const OfficeArtSolverContainer& v, LEOutputStream& out);
+class OfficeArtFSPGR;
+void parseOfficeArtFSPGR(LEInputStream& in, OfficeArtFSPGR& _s);
+void write(const OfficeArtFSPGR& v, LEOutputStream& out);
+class OfficeArtFSP;
+void parseOfficeArtFSP(LEInputStream& in, OfficeArtFSP& _s);
+void write(const OfficeArtFSP& v, LEOutputStream& out);
+class OfficeArtFOPT;
+void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s);
+void write(const OfficeArtFOPT& v, LEOutputStream& out);
+class OfficeArtChildAnchor;
+void parseOfficeArtChildAnchor(LEInputStream& in, OfficeArtChildAnchor& _s);
+void write(const OfficeArtChildAnchor& v, LEOutputStream& out);
+class OfficeArtFPSPL;
+void parseOfficeArtFPSPL(LEInputStream& in, OfficeArtFPSPL& _s);
+void write(const OfficeArtFPSPL& v, LEOutputStream& out);
+class OfficeArtSecondaryFOPT;
+void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s);
+void write(const OfficeArtSecondaryFOPT& v, LEOutputStream& out);
+class OfficeArtTertiaryFOPT;
+void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s);
+void write(const OfficeArtTertiaryFOPT& v, LEOutputStream& out);
+class RectStruct;
+void parseRectStruct(LEInputStream& in, RectStruct& _s);
+void write(const RectStruct& v, LEOutputStream& out);
+class SmallRectStruct;
+void parseSmallRectStruct(LEInputStream& in, SmallRectStruct& _s);
+void write(const SmallRectStruct& v, LEOutputStream& out);
+class ShapeFlagsAtom;
+void parseShapeFlagsAtom(LEInputStream& in, ShapeFlagsAtom& _s);
+void write(const ShapeFlagsAtom& v, LEOutputStream& out);
+class ShapeFlags10Atom;
+void parseShapeFlags10Atom(LEInputStream& in, ShapeFlags10Atom& _s);
+void write(const ShapeFlags10Atom& v, LEOutputStream& out);
+class ExObjRefAtom;
+void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s);
+void write(const ExObjRefAtom& v, LEOutputStream& out);
+class AnimationInfoContainer;
+void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s);
+void write(const AnimationInfoContainer& v, LEOutputStream& out);
+class MouseClickInteractiveInfoContainer;
+void parseMouseClickInteractiveInfoContainer(LEInputStream& in, MouseClickInteractiveInfoContainer& _s);
+void write(const MouseClickInteractiveInfoContainer& v, LEOutputStream& out);
+class MouseOverInteractiveInfoContainer;
+void parseMouseOverInteractiveInfoContainer(LEInputStream& in, MouseOverInteractiveInfoContainer& _s);
+void write(const MouseOverInteractiveInfoContainer& v, LEOutputStream& out);
+class PlaceholderAtom;
+void parsePlaceholderAtom(LEInputStream& in, PlaceholderAtom& _s);
+void write(const PlaceholderAtom& v, LEOutputStream& out);
+class RecolorInfoAtom;
+void parseRecolorInfoAtom(LEInputStream& in, RecolorInfoAtom& _s);
+void write(const RecolorInfoAtom& v, LEOutputStream& out);
+class OutlineTextRefAtom;
+void parseOutlineTextRefAtom(LEInputStream& in, OutlineTextRefAtom& _s);
+void write(const OutlineTextRefAtom& v, LEOutputStream& out);
+class ShapeClientRoundtripDataSubcontainerOrAtom;
+void parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream& in, ShapeClientRoundtripDataSubcontainerOrAtom& _s);
+void write(const ShapeClientRoundtripDataSubcontainerOrAtom& v, LEOutputStream& out);
+class OfficeArtClientTextBox;
+void parseOfficeArtClientTextBox(LEInputStream& in, OfficeArtClientTextBox& _s);
+void write(const OfficeArtClientTextBox& v, LEOutputStream& out);
+class TextRulerAtom;
+void parseTextRulerAtom(LEInputStream& in, TextRulerAtom& _s);
+void write(const TextRulerAtom& v, LEOutputStream& out);
+class OfficeArtIDCL;
+void parseOfficeArtIDCL(LEInputStream& in, OfficeArtIDCL& _s);
+void write(const OfficeArtIDCL& v, LEOutputStream& out);
+class OfficeArtFOPTEOPID;
+void parseOfficeArtFOPTEOPID(LEInputStream& in, OfficeArtFOPTEOPID& _s);
+void write(const OfficeArtFOPTEOPID& v, LEOutputStream& out);
+class OfficeArtColorMRUContainer;
+void parseOfficeArtColorMRUContainer(LEInputStream& in, OfficeArtColorMRUContainer& _s);
+void write(const OfficeArtColorMRUContainer& v, LEOutputStream& out);
+class MSOCR;
+void parseMSOCR(LEInputStream& in, MSOCR& _s);
+void write(const MSOCR& v, LEOutputStream& out);
+class OfficeArtSplitMenuColorContainer;
+void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenuColorContainer& _s);
+void write(const OfficeArtSplitMenuColorContainer& v, LEOutputStream& out);
+class todo;
+void parsetodo(LEInputStream& in, todo& _s);
+void write(const todo& v, LEOutputStream& out);
 class FibBase;
 void parseFibBase(LEInputStream& in, FibBase& _s);
+void write(const FibBase& v, LEOutputStream& out);
 class FibRgW97;
 void parseFibRgW97(LEInputStream& in, FibRgW97& _s);
+void write(const FibRgW97& v, LEOutputStream& out);
 class FibRgLw97;
 void parseFibRgLw97(LEInputStream& in, FibRgLw97& _s);
+void write(const FibRgLw97& v, LEOutputStream& out);
 class FibRgFcLcb97;
 void parseFibRgFcLcb97(LEInputStream& in, FibRgFcLcb97& _s);
+void write(const FibRgFcLcb97& v, LEOutputStream& out);
 class FibRgFcLcb2000;
 void parseFibRgFcLcb2000(LEInputStream& in, FibRgFcLcb2000& _s);
+void write(const FibRgFcLcb2000& v, LEOutputStream& out);
 class FibRgFcLcb2002;
 void parseFibRgFcLcb2002(LEInputStream& in, FibRgFcLcb2002& _s);
+void write(const FibRgFcLcb2002& v, LEOutputStream& out);
 class LPStshi;
 void parseLPStshi(LEInputStream& in, LPStshi& _s);
+void write(const LPStshi& v, LEOutputStream& out);
 class LPStd;
 void parseLPStd(LEInputStream& in, LPStd& _s);
+void write(const LPStd& v, LEOutputStream& out);
 class PlcfSed;
 void parsePlcfSed(LEInputStream& in, PlcfSed& _s);
+void write(const PlcfSed& v, LEOutputStream& out);
 class Sed;
 void parseSed(LEInputStream& in, Sed& _s);
+void write(const Sed& v, LEOutputStream& out);
 class Plcfhdd;
 void parsePlcfhdd(LEInputStream& in, Plcfhdd& _s);
+void write(const Plcfhdd& v, LEOutputStream& out);
 class PlcBteChpx;
 void parsePlcBteChpx(LEInputStream& in, PlcBteChpx& _s);
+void write(const PlcBteChpx& v, LEOutputStream& out);
 class PlcfBtePapx;
 void parsePlcfBtePapx(LEInputStream& in, PlcfBtePapx& _s);
+void write(const PlcfBtePapx& v, LEOutputStream& out);
 class Tcg;
 void parseTcg(LEInputStream& in, Tcg& _s);
+void write(const Tcg& v, LEOutputStream& out);
 class PrcData;
 void parsePrcData(LEInputStream& in, PrcData& _s);
+void write(const PrcData& v, LEOutputStream& out);
 class Sprm;
 void parseSprm(LEInputStream& in, Sprm& _s);
+void write(const Sprm& v, LEOutputStream& out);
 class Pcdt;
 void parsePcdt(LEInputStream& in, Pcdt& _s);
+void write(const Pcdt& v, LEOutputStream& out);
 class FCompressed;
 void parseFCompressed(LEInputStream& in, FCompressed& _s);
+void write(const FCompressed& v, LEOutputStream& out);
 class Prm0;
 void parsePrm0(LEInputStream& in, Prm0& _s);
+void write(const Prm0& v, LEOutputStream& out);
 class Prm1;
 void parsePrm1(LEInputStream& in, Prm1& _s);
+void write(const Prm1& v, LEOutputStream& out);
 class SttbfFfn;
 void parseSttbfFfn(LEInputStream& in, SttbfFfn& _s);
+void write(const SttbfFfn& v, LEOutputStream& out);
 class SttbfFfnEntry;
 void parseSttbfFfnEntry(LEInputStream& in, SttbfFfnEntry& _s);
+void write(const SttbfFfnEntry& v, LEOutputStream& out);
 class PicturesStream;
 void parsePicturesStream(LEInputStream& in, PicturesStream& _s);
+void write(const PicturesStream& v, LEOutputStream& out);
 class OfficeArtMetafileHeader;
 void parseOfficeArtMetafileHeader(LEInputStream& in, OfficeArtMetafileHeader& _s);
+void write(const OfficeArtMetafileHeader& v, LEOutputStream& out);
 class NormalViewSetInfoAtom;
 void parseNormalViewSetInfoAtom(LEInputStream& in, NormalViewSetInfoAtom& _s);
+void write(const NormalViewSetInfoAtom& v, LEOutputStream& out);
 class MasterPersistAtom;
 void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s);
+void write(const MasterPersistAtom& v, LEOutputStream& out);
 class SlidePersistAtom;
 void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s);
+void write(const SlidePersistAtom& v, LEOutputStream& out);
+class InteractiveInfoInstance;
+void parseInteractiveInfoInstance(LEInputStream& in, InteractiveInfoInstance& _s);
+void write(const InteractiveInfoInstance& v, LEOutputStream& out);
 class TextRuler;
 void parseTextRuler(LEInputStream& in, TextRuler& _s);
+void write(const TextRuler& v, LEOutputStream& out);
 class TextPFException;
 void parseTextPFException(LEInputStream& in, TextPFException& _s);
+void write(const TextPFException& v, LEOutputStream& out);
 class TextCFException;
 void parseTextCFException(LEInputStream& in, TextCFException& _s);
+void write(const TextCFException& v, LEOutputStream& out);
 class KinsokuContainer;
 void parseKinsokuContainer(LEInputStream& in, KinsokuContainer& _s);
+void write(const KinsokuContainer& v, LEOutputStream& out);
 class TextMasterStyleLevel;
 void parseTextMasterStyleLevel(LEInputStream& in, TextMasterStyleLevel& _s);
+void write(const TextMasterStyleLevel& v, LEOutputStream& out);
 class DocumentAtom;
 void parseDocumentAtom(LEInputStream& in, DocumentAtom& _s);
+void write(const DocumentAtom& v, LEOutputStream& out);
 class ExObjListContainer;
 void parseExObjListContainer(LEInputStream& in, ExObjListContainer& _s);
+void write(const ExObjListContainer& v, LEOutputStream& out);
 class ExOleLinkContainer;
 void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s);
+void write(const ExOleLinkContainer& v, LEOutputStream& out);
 class ExOleEmbedContainer;
 void parseExOleEmbedContainer(LEInputStream& in, ExOleEmbedContainer& _s);
+void write(const ExOleEmbedContainer& v, LEOutputStream& out);
 class OfficeArtFDGGBlock;
 void parseOfficeArtFDGGBlock(LEInputStream& in, OfficeArtFDGGBlock& _s);
+void write(const OfficeArtFDGGBlock& v, LEOutputStream& out);
 class OfficeArtClientAnchor;
 void parseOfficeArtClientAnchor(LEInputStream& in, OfficeArtClientAnchor& _s);
+void write(const OfficeArtClientAnchor& v, LEOutputStream& out);
 class OfficeArtClientData;
 void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s);
+void write(const OfficeArtClientData& v, LEOutputStream& out);
+class TextClientDataSubContainerOrAtom;
+void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s);
+void write(const TextClientDataSubContainerOrAtom& v, LEOutputStream& out);
 class OfficeArtFOPTE;
 void parseOfficeArtFOPTE(LEInputStream& in, OfficeArtFOPTE& _s);
+void write(const OfficeArtFOPTE& v, LEOutputStream& out);
 class Fib;
 void parseFib(LEInputStream& in, Fib& _s);
+void write(const Fib& v, LEOutputStream& out);
 class STSH;
 void parseSTSH(LEInputStream& in, STSH& _s);
+void write(const STSH& v, LEOutputStream& out);
 class Clx;
 void parseClx(LEInputStream& in, Clx& _s);
+void write(const Clx& v, LEOutputStream& out);
 class Pcr;
 void parsePcr(LEInputStream& in, Pcr& _s);
+void write(const Pcr& v, LEOutputStream& out);
 class Prm;
 void parsePrm(LEInputStream& in, Prm& _s);
+void write(const Prm& v, LEOutputStream& out);
 class OfficeArtBlipEMF;
 void parseOfficeArtBlipEMF(LEInputStream& in, OfficeArtBlipEMF& _s);
+void write(const OfficeArtBlipEMF& v, LEOutputStream& out);
 class OfficeArtBlipWMF;
 void parseOfficeArtBlipWMF(LEInputStream& in, OfficeArtBlipWMF& _s);
+void write(const OfficeArtBlipWMF& v, LEOutputStream& out);
 class OfficeArtBlipPICT;
 void parseOfficeArtBlipPICT(LEInputStream& in, OfficeArtBlipPICT& _s);
+void write(const OfficeArtBlipPICT& v, LEOutputStream& out);
 class OfficeArtBlip;
 void parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s);
+void write(const OfficeArtBlip& v, LEOutputStream& out);
 class NormalViewSetInfoContainer;
 void parseNormalViewSetInfoContainer(LEInputStream& in, NormalViewSetInfoContainer& _s);
+void write(const NormalViewSetInfoContainer& v, LEOutputStream& out);
 class SlideListWithTextSubContainerOrAtom;
 void parseSlideListWithTextSubContainerOrAtom(LEInputStream& in, SlideListWithTextSubContainerOrAtom& _s);
+void write(const SlideListWithTextSubContainerOrAtom& v, LEOutputStream& out);
 class TextCFExceptionAtom;
 void parseTextCFExceptionAtom(LEInputStream& in, TextCFExceptionAtom& _s);
+void write(const TextCFExceptionAtom& v, LEOutputStream& out);
 class DefaultRulerAtom;
 void parseDefaultRulerAtom(LEInputStream& in, DefaultRulerAtom& _s);
+void write(const DefaultRulerAtom& v, LEOutputStream& out);
 class TextPFExceptionAtom;
 void parseTextPFExceptionAtom(LEInputStream& in, TextPFExceptionAtom& _s);
+void write(const TextPFExceptionAtom& v, LEOutputStream& out);
 class TextMasterStyleAtom;
 void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s);
+void write(const TextMasterStyleAtom& v, LEOutputStream& out);
 class ExObjListSubContainer;
 void parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _s);
+void write(const ExObjListSubContainer& v, LEOutputStream& out);
 class OfficeArtDggContainer;
 void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s);
+void write(const OfficeArtDggContainer& v, LEOutputStream& out);
 class OfficeArtSpContainer;
 void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s);
+void write(const OfficeArtSpContainer& v, LEOutputStream& out);
 class WordDocument;
 void parseWordDocument(LEInputStream& in, WordDocument& _s);
+void write(const WordDocument& v, LEOutputStream& out);
 class Table;
 void parseTable(LEInputStream& in, Table& _s);
+void write(const Table& v, LEOutputStream& out);
 class Pcd;
 void parsePcd(LEInputStream& in, Pcd& _s);
+void write(const Pcd& v, LEOutputStream& out);
 class OfficeArtFBSE;
 void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s);
+void write(const OfficeArtFBSE& v, LEOutputStream& out);
 class OfficeArtBStoreContainerFileBlock;
 void parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBStoreContainerFileBlock& _s);
+void write(const OfficeArtBStoreContainerFileBlock& v, LEOutputStream& out);
 class DocumentTextInfoContainer;
 void parseDocumentTextInfoContainer(LEInputStream& in, DocumentTextInfoContainer& _s);
+void write(const DocumentTextInfoContainer& v, LEOutputStream& out);
 class DrawingGroupContainer;
 void parseDrawingGroupContainer(LEInputStream& in, DrawingGroupContainer& _s);
+void write(const DrawingGroupContainer& v, LEOutputStream& out);
 class OfficeArtDgContainer;
 void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s);
+void write(const OfficeArtDgContainer& v, LEOutputStream& out);
 class OfficeArtSpgrContainerFileBlock;
 void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContainerFileBlock& _s);
+void write(const OfficeArtSpgrContainerFileBlock& v, LEOutputStream& out);
 class DocumentContainer;
 void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s);
+void write(const DocumentContainer& v, LEOutputStream& out);
 class DrawingContainer;
 void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s);
+void write(const DrawingContainer& v, LEOutputStream& out);
 class MainMasterContainer;
 void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s);
+void write(const MainMasterContainer& v, LEOutputStream& out);
 class SlideContainer;
 void parseSlideContainer(LEInputStream& in, SlideContainer& _s);
+void write(const SlideContainer& v, LEOutputStream& out);
 class MasterOrSlideContainer;
 void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s);
+void write(const MasterOrSlideContainer& v, LEOutputStream& out);
 class PowerPointStruct;
 void parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s);
+void write(const PowerPointStruct& v, LEOutputStream& out);
 class RecordHeader : public Introspectable {
 private:
     class _Introspection;
@@ -439,6 +660,21 @@ public:
         _s = _s + "ansiUserName: " + "[array of ansiUserName]" + ", ";
         _s = _s + "relVersion: " + QString::number(relVersion) + "(" + QString::number(relVersion,16).toUpper() + ")" + ", ";
         _s = _s + "unicodeUserName: " + "[array of unicodeUserName]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class TODOS : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    QList<Byte> anon;
+    TODOS()  {
+    }
+    QString toString() {
+        QString _s = "TODOS:";
+        _s = _s + "anon: " + "[array of anon]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -652,6 +888,23 @@ public:
     QString toString() {
         QString _s = "PowerPointStructs:";
         _s = _s + "anon: " + "[array of anon]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class SoundCollectionContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    QByteArray todo;
+    SoundCollectionContainer()  {
+    }
+    QString toString() {
+        QString _s = "SoundCollectionContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -1051,23 +1304,6 @@ public:
         QString _s = "TextSpecialInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class InteractiveInfoInstance : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    RecordHeader rh;
-    QByteArray range;
-    InteractiveInfoInstance()  {
-    }
-    QString toString() {
-        QString _s = "InteractiveInfoInstance:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "range: " + "[array of range]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -1911,6 +2147,142 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class ExAviMovieContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QByteArray todo;
+    ExAviMovieContainer()  {
+    }
+    QString toString() {
+        QString _s = "ExAviMovieContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class ExCDAudioContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QByteArray todo;
+    ExCDAudioContainer()  {
+    }
+    QString toString() {
+        QString _s = "ExCDAudioContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class ExControlContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QByteArray todo;
+    ExControlContainer()  {
+    }
+    QString toString() {
+        QString _s = "ExControlContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class ExHyperlinkContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QByteArray todo;
+    ExHyperlinkContainer()  {
+    }
+    QString toString() {
+        QString _s = "ExHyperlinkContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class ExMCIMovieContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QByteArray todo;
+    ExMCIMovieContainer()  {
+    }
+    QString toString() {
+        QString _s = "ExMCIMovieContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class ExMIDIAudioContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QByteArray todo;
+    ExMIDIAudioContainer()  {
+    }
+    QString toString() {
+        QString _s = "ExMIDIAudioContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class ExWAVAudioEmbeddedContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QByteArray todo;
+    ExWAVAudioEmbeddedContainer()  {
+    }
+    QString toString() {
+        QString _s = "ExWAVAudioEmbeddedContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class ExWAVAudioLinkContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QByteArray todo;
+    ExWAVAudioLinkContainer()  {
+    }
+    QString toString() {
+        QString _s = "ExWAVAudioLinkContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class ExOleLinkAtom : public Introspectable {
 private:
     class _Introspection;
@@ -2231,12 +2603,14 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QVector<OfficeArtFOPTE> fopt;
+    QByteArray complexData;
     OfficeArtFOPT()  {
     }
     QString toString() {
         QString _s = "OfficeArtFOPT:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "fopt: " + "[array of fopt]" + ", ";
+        _s = _s + "complexData: " + "[array of complexData]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -2309,12 +2683,14 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QVector<OfficeArtFOPTE> fopt;
+    QByteArray complexData;
     OfficeArtTertiaryFOPT()  {
     }
     QString toString() {
         QString _s = "OfficeArtTertiaryFOPT:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "fopt: " + "[array of fopt]" + ", ";
+        _s = _s + "complexData: " + "[array of complexData]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -2554,17 +2930,17 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class TextClientDataSubContainerOrAtom : public Introspectable {
+class TextRulerAtom : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    OfficeArtRecordHeader rh;
+    RecordHeader rh;
     QByteArray todo;
-    TextClientDataSubContainerOrAtom()  {
+    TextRulerAtom()  {
     }
     QString toString() {
-        QString _s = "TextClientDataSubContainerOrAtom:";
+        QString _s = "TextRulerAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
@@ -2678,21 +3054,6 @@ public:
     QString toString() {
         QString _s = "todo:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "anon: " + "[array of anon]" + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class TODOS : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    QList<todo> anon;
-    TODOS()  {
-    }
-    QString toString() {
-        QString _s = "TODOS:";
         _s = _s + "anon: " + "[array of anon]" + ", ";
         return _s;
     }
@@ -3869,6 +4230,23 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class InteractiveInfoInstance : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    class anonChoice {public:QSharedPointer<MouseClickInteractiveInfoContainer> mouseclickinteractiveinfocontainer;
+QSharedPointer<MouseOverInteractiveInfoContainer> mouseoverinteractiveinfocontainer;
+}; anonChoice anon;
+    InteractiveInfoInstance()  {
+    }
+    QString toString() {
+        QString _s = "InteractiveInfoInstance:";
+        _s = _s + "anon: " + "<choice>" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class TextRuler : public Introspectable {
 private:
     class _Introspection;
@@ -4094,7 +4472,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     ExObjListAtom exObjListAtom;
-    QVector<ExObjListSubContainer> rgChildRec;
+    QList<ExObjListSubContainer> rgChildRec;
     ExObjListContainer()  {
     }
     QString toString() {
@@ -4231,6 +4609,38 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class TextClientDataSubContainerOrAtom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    class anonChoice {public:QSharedPointer<OutlineTextRefAtom> outlinetextrefatom;
+QSharedPointer<TextHeaderAtom> textheaderatom;
+QSharedPointer<TextCharsAtom> textcharsatom;
+QSharedPointer<TextBytesAtom> textbytesatom;
+QSharedPointer<StyleTextPropAtom> styletextpropatom;
+QSharedPointer<SlideNumberMCAtom> slidenumbermcatom;
+QSharedPointer<DateTimeMCAtom> datetimemcatom;
+QSharedPointer<GenericDateMCAtom> genericdatemcatom;
+QSharedPointer<HeaderMCAtom> headermcatom;
+QSharedPointer<FooterMCAtom> footermcatom;
+QSharedPointer<RTFDateTimeMCAtom> rtfdatetimemcatom;
+QSharedPointer<TextBookmarkAtom> textbookmarkatom;
+QSharedPointer<TextSpecialInfoAtom> textspecialinfoatom;
+QSharedPointer<InteractiveInfoInstance> interactiveinfoinstance;
+QSharedPointer<TextInteractiveInfoInstance> textinteractiveinfoinstance;
+QSharedPointer<TextRulerAtom> textruleratom;
+QSharedPointer<MasterTextPropAtom> mastertextpropatom;
+}; anonChoice anon;
+    TextClientDataSubContainerOrAtom()  {
+    }
+    QString toString() {
+        QString _s = "TextClientDataSubContainerOrAtom:";
+        _s = _s + "anon: " + "<choice>" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class OfficeArtFOPTE : public Introspectable {
 private:
     class _Introspection;
@@ -4238,14 +4648,12 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 op;
-    QByteArray complexData;
     OfficeArtFOPTE() :op(0) {
     }
     QString toString() {
         QString _s = "OfficeArtFOPTE:";
         _s = _s + "opid: " + opid.toString() + ", ";
         _s = _s + "op: " + QString::number(op) + "(" + QString::number(op,16).toUpper() + ")" + ", ";
-        _s = _s + "complexData: " + "[array of complexData]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -4588,8 +4996,16 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<ExOleLinkContainer> exolelinkcontainer;
+    class anonChoice {public:QSharedPointer<ExAviMovieContainer> exavimoviecontainer;
+QSharedPointer<ExCDAudioContainer> excdaudiocontainer;
+QSharedPointer<ExControlContainer> excontrolcontainer;
+QSharedPointer<ExHyperlinkContainer> exhyperlinkcontainer;
+QSharedPointer<ExMCIMovieContainer> exmcimoviecontainer;
+QSharedPointer<ExMIDIAudioContainer> exmidiaudiocontainer;
 QSharedPointer<ExOleEmbedContainer> exoleembedcontainer;
+QSharedPointer<ExOleLinkContainer> exolelinkcontainer;
+QSharedPointer<ExWAVAudioEmbeddedContainer> exwavaudioembeddedcontainer;
+QSharedPointer<ExWAVAudioLinkContainer> exwavaudiolinkcontainer;
 }; anonChoice anon;
     ExObjListSubContainer()  {
     }
@@ -4892,6 +5308,7 @@ public:
     DocumentAtom documentAtom;
     QSharedPointer<ExObjListContainer> exObjList;
     DocumentTextInfoContainer documentTextInfo;
+    QSharedPointer<SoundCollectionContainer> soundCollection;
     DrawingGroupContainer drawingGroup;
     MasterListWithTextContainer masterList;
     QSharedPointer<DocInfoListContainer> docInfoList;
@@ -4909,6 +5326,7 @@ public:
         _s = _s + "documentAtom: " + documentAtom.toString() + ", ";
         _s = _s + "exObjList: " + ((exObjList)?exObjList->toString() :"null") + ", ";
         _s = _s + "documentTextInfo: " + documentTextInfo.toString() + ", ";
+        _s = _s + "soundCollection: " + ((soundCollection)?soundCollection->toString() :"null") + ", ";
         _s = _s + "drawingGroup: " + drawingGroup.toString() + ", ";
         _s = _s + "masterList: " + masterList.toString() + ", ";
         _s = _s + "docInfoList: " + ((docInfoList)?docInfoList->toString() :"null") + ", ";
@@ -5201,6 +5619,37 @@ const Introspectable* (* const CurrentUserAtom::_Introspection::introspectable[1
 };
 const Introspection CurrentUserAtom::_introspection(
     "CurrentUserAtom", 12, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class TODOS::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[1];
+    static int (* const numberOfInstances[1])(const Introspectable*);
+    static QVariant (* const value[1])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
+    static int count_anon(const Introspectable* i) {
+        return static_cast<const TODOS*>(i)->anon.size();
+    }
+    static const Introspectable* get_anon(const Introspectable* i, int j) {
+        return &(static_cast<const TODOS*>(i)->anon[j]);
+    }
+};
+const QString TODOS::_Introspection::name("TODOS");
+const int TODOS::_Introspection::numberOfMembers(1);
+const QString TODOS::_Introspection::names[1] = {
+    "anon",
+};
+int (* const TODOS::_Introspection::numberOfInstances[1])(const Introspectable*) = {
+    _Introspection::count_anon,
+};
+QVariant (* const TODOS::_Introspection::value[1])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+};
+const Introspectable* (* const TODOS::_Introspection::introspectable[1])(const Introspectable*, int position) = {
+    _Introspection::get_anon,
+};
+const Introspection TODOS::_introspection(
+    "TODOS", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class Byte::_Introspection {
 public:
     static const QString name;
@@ -5686,6 +6135,41 @@ const Introspectable* (* const PowerPointStructs::_Introspection::introspectable
 };
 const Introspection PowerPointStructs::_introspection(
     "PowerPointStructs", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class SoundCollectionContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const SoundCollectionContainer*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const SoundCollectionContainer*>(i)->todo);
+    }
+};
+const QString SoundCollectionContainer::_Introspection::name("SoundCollectionContainer");
+const int SoundCollectionContainer::_Introspection::numberOfMembers(2);
+const QString SoundCollectionContainer::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const SoundCollectionContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const SoundCollectionContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const SoundCollectionContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection SoundCollectionContainer::_introspection(
+    "SoundCollectionContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class SlideHeadersFootersContainer::_Introspection {
 public:
     static const QString name;
@@ -6531,41 +7015,6 @@ const Introspectable* (* const TextSpecialInfoAtom::_Introspection::introspectab
 };
 const Introspection TextSpecialInfoAtom::_introspection(
     "TextSpecialInfoAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class InteractiveInfoInstance::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[2];
-    static int (* const numberOfInstances[2])(const Introspectable*);
-    static QVariant (* const value[2])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
-    static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const InteractiveInfoInstance*>(i)->rh);
-    }
-    static QVariant get_range(const Introspectable* i, int j) {
-        return (static_cast<const InteractiveInfoInstance*>(i)->range);
-    }
-};
-const QString InteractiveInfoInstance::_Introspection::name("InteractiveInfoInstance");
-const int InteractiveInfoInstance::_Introspection::numberOfMembers(2);
-const QString InteractiveInfoInstance::_Introspection::names[2] = {
-    "rh",
-    "range",
-};
-int (* const InteractiveInfoInstance::_Introspection::numberOfInstances[2])(const Introspectable*) = {
-    Introspection::one,
-    Introspection::one,
-};
-QVariant (* const InteractiveInfoInstance::_Introspection::value[2])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    _Introspection::get_range,
-};
-const Introspectable* (* const InteractiveInfoInstance::_Introspection::introspectable[2])(const Introspectable*, int position) = {
-    _Introspection::get_rh,
-    Introspection::null,
-};
-const Introspection InteractiveInfoInstance::_introspection(
-    "InteractiveInfoInstance", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class TextInteractiveInfoInstance::_Introspection {
 public:
     static const QString name;
@@ -8559,6 +9008,286 @@ const Introspectable* (* const ExObjListAtom::_Introspection::introspectable[2])
 };
 const Introspection ExObjListAtom::_introspection(
     "ExObjListAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ExAviMovieContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const ExAviMovieContainer*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const ExAviMovieContainer*>(i)->todo);
+    }
+};
+const QString ExAviMovieContainer::_Introspection::name("ExAviMovieContainer");
+const int ExAviMovieContainer::_Introspection::numberOfMembers(2);
+const QString ExAviMovieContainer::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const ExAviMovieContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ExAviMovieContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const ExAviMovieContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection ExAviMovieContainer::_introspection(
+    "ExAviMovieContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ExCDAudioContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const ExCDAudioContainer*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const ExCDAudioContainer*>(i)->todo);
+    }
+};
+const QString ExCDAudioContainer::_Introspection::name("ExCDAudioContainer");
+const int ExCDAudioContainer::_Introspection::numberOfMembers(2);
+const QString ExCDAudioContainer::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const ExCDAudioContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ExCDAudioContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const ExCDAudioContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection ExCDAudioContainer::_introspection(
+    "ExCDAudioContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ExControlContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const ExControlContainer*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const ExControlContainer*>(i)->todo);
+    }
+};
+const QString ExControlContainer::_Introspection::name("ExControlContainer");
+const int ExControlContainer::_Introspection::numberOfMembers(2);
+const QString ExControlContainer::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const ExControlContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ExControlContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const ExControlContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection ExControlContainer::_introspection(
+    "ExControlContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ExHyperlinkContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const ExHyperlinkContainer*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const ExHyperlinkContainer*>(i)->todo);
+    }
+};
+const QString ExHyperlinkContainer::_Introspection::name("ExHyperlinkContainer");
+const int ExHyperlinkContainer::_Introspection::numberOfMembers(2);
+const QString ExHyperlinkContainer::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const ExHyperlinkContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ExHyperlinkContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const ExHyperlinkContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection ExHyperlinkContainer::_introspection(
+    "ExHyperlinkContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ExMCIMovieContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const ExMCIMovieContainer*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const ExMCIMovieContainer*>(i)->todo);
+    }
+};
+const QString ExMCIMovieContainer::_Introspection::name("ExMCIMovieContainer");
+const int ExMCIMovieContainer::_Introspection::numberOfMembers(2);
+const QString ExMCIMovieContainer::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const ExMCIMovieContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ExMCIMovieContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const ExMCIMovieContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection ExMCIMovieContainer::_introspection(
+    "ExMCIMovieContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ExMIDIAudioContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const ExMIDIAudioContainer*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const ExMIDIAudioContainer*>(i)->todo);
+    }
+};
+const QString ExMIDIAudioContainer::_Introspection::name("ExMIDIAudioContainer");
+const int ExMIDIAudioContainer::_Introspection::numberOfMembers(2);
+const QString ExMIDIAudioContainer::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const ExMIDIAudioContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ExMIDIAudioContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const ExMIDIAudioContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection ExMIDIAudioContainer::_introspection(
+    "ExMIDIAudioContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ExWAVAudioEmbeddedContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const ExWAVAudioEmbeddedContainer*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const ExWAVAudioEmbeddedContainer*>(i)->todo);
+    }
+};
+const QString ExWAVAudioEmbeddedContainer::_Introspection::name("ExWAVAudioEmbeddedContainer");
+const int ExWAVAudioEmbeddedContainer::_Introspection::numberOfMembers(2);
+const QString ExWAVAudioEmbeddedContainer::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const ExWAVAudioEmbeddedContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ExWAVAudioEmbeddedContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const ExWAVAudioEmbeddedContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection ExWAVAudioEmbeddedContainer::_introspection(
+    "ExWAVAudioEmbeddedContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ExWAVAudioLinkContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const ExWAVAudioLinkContainer*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const ExWAVAudioLinkContainer*>(i)->todo);
+    }
+};
+const QString ExWAVAudioLinkContainer::_Introspection::name("ExWAVAudioLinkContainer");
+const int ExWAVAudioLinkContainer::_Introspection::numberOfMembers(2);
+const QString ExWAVAudioLinkContainer::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const ExWAVAudioLinkContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ExWAVAudioLinkContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const ExWAVAudioLinkContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection ExWAVAudioLinkContainer::_introspection(
+    "ExWAVAudioLinkContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class ExOleLinkAtom::_Introspection {
 public:
     static const QString name;
@@ -9300,10 +10029,10 @@ class OfficeArtFOPT::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[2];
-    static int (* const numberOfInstances[2])(const Introspectable*);
-    static QVariant (* const value[2])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const QString names[3];
+    static int (* const numberOfInstances[3])(const Introspectable*);
+    static QVariant (* const value[3])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtFOPT*>(i)->rh);
     }
@@ -9313,27 +10042,34 @@ public:
     static const Introspectable* get_fopt(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtFOPT*>(i)->fopt[j]);
     }
+    static QVariant get_complexData(const Introspectable* i, int j) {
+        return (static_cast<const OfficeArtFOPT*>(i)->complexData);
+    }
 };
 const QString OfficeArtFOPT::_Introspection::name("OfficeArtFOPT");
-const int OfficeArtFOPT::_Introspection::numberOfMembers(2);
-const QString OfficeArtFOPT::_Introspection::names[2] = {
+const int OfficeArtFOPT::_Introspection::numberOfMembers(3);
+const QString OfficeArtFOPT::_Introspection::names[3] = {
     "rh",
     "fopt",
+    "complexData",
 };
-int (* const OfficeArtFOPT::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+int (* const OfficeArtFOPT::_Introspection::numberOfInstances[3])(const Introspectable*) = {
     Introspection::one,
     _Introspection::count_fopt,
+    Introspection::one,
 };
-QVariant (* const OfficeArtFOPT::_Introspection::value[2])(const Introspectable*, int position) = {
+QVariant (* const OfficeArtFOPT::_Introspection::value[3])(const Introspectable*, int position) = {
     Introspection::nullValue,
     Introspection::nullValue,
+    _Introspection::get_complexData,
 };
-const Introspectable* (* const OfficeArtFOPT::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+const Introspectable* (* const OfficeArtFOPT::_Introspection::introspectable[3])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     _Introspection::get_fopt,
+    Introspection::null,
 };
 const Introspection OfficeArtFOPT::_introspection(
-    "OfficeArtFOPT", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "OfficeArtFOPT", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class OfficeArtChildAnchor::_Introspection {
 public:
     static const QString name;
@@ -9478,10 +10214,10 @@ class OfficeArtTertiaryFOPT::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[2];
-    static int (* const numberOfInstances[2])(const Introspectable*);
-    static QVariant (* const value[2])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const QString names[3];
+    static int (* const numberOfInstances[3])(const Introspectable*);
+    static QVariant (* const value[3])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtTertiaryFOPT*>(i)->rh);
     }
@@ -9491,27 +10227,34 @@ public:
     static const Introspectable* get_fopt(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtTertiaryFOPT*>(i)->fopt[j]);
     }
+    static QVariant get_complexData(const Introspectable* i, int j) {
+        return (static_cast<const OfficeArtTertiaryFOPT*>(i)->complexData);
+    }
 };
 const QString OfficeArtTertiaryFOPT::_Introspection::name("OfficeArtTertiaryFOPT");
-const int OfficeArtTertiaryFOPT::_Introspection::numberOfMembers(2);
-const QString OfficeArtTertiaryFOPT::_Introspection::names[2] = {
+const int OfficeArtTertiaryFOPT::_Introspection::numberOfMembers(3);
+const QString OfficeArtTertiaryFOPT::_Introspection::names[3] = {
     "rh",
     "fopt",
+    "complexData",
 };
-int (* const OfficeArtTertiaryFOPT::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+int (* const OfficeArtTertiaryFOPT::_Introspection::numberOfInstances[3])(const Introspectable*) = {
     Introspection::one,
     _Introspection::count_fopt,
+    Introspection::one,
 };
-QVariant (* const OfficeArtTertiaryFOPT::_Introspection::value[2])(const Introspectable*, int position) = {
+QVariant (* const OfficeArtTertiaryFOPT::_Introspection::value[3])(const Introspectable*, int position) = {
     Introspection::nullValue,
     Introspection::nullValue,
+    _Introspection::get_complexData,
 };
-const Introspectable* (* const OfficeArtTertiaryFOPT::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+const Introspectable* (* const OfficeArtTertiaryFOPT::_Introspection::introspectable[3])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     _Introspection::get_fopt,
+    Introspection::null,
 };
 const Introspection OfficeArtTertiaryFOPT::_introspection(
-    "OfficeArtTertiaryFOPT", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "OfficeArtTertiaryFOPT", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class RectStruct::_Introspection {
 public:
     static const QString name;
@@ -10019,7 +10762,7 @@ const Introspectable* (* const OfficeArtClientTextBox::_Introspection::introspec
 };
 const Introspection OfficeArtClientTextBox::_introspection(
     "OfficeArtClientTextBox", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class TextClientDataSubContainerOrAtom::_Introspection {
+class TextRulerAtom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
@@ -10028,32 +10771,32 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const TextClientDataSubContainerOrAtom*>(i)->rh);
+        return &(static_cast<const TextRulerAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const TextClientDataSubContainerOrAtom*>(i)->todo);
+        return (static_cast<const TextRulerAtom*>(i)->todo);
     }
 };
-const QString TextClientDataSubContainerOrAtom::_Introspection::name("TextClientDataSubContainerOrAtom");
-const int TextClientDataSubContainerOrAtom::_Introspection::numberOfMembers(2);
-const QString TextClientDataSubContainerOrAtom::_Introspection::names[2] = {
+const QString TextRulerAtom::_Introspection::name("TextRulerAtom");
+const int TextRulerAtom::_Introspection::numberOfMembers(2);
+const QString TextRulerAtom::_Introspection::names[2] = {
     "rh",
     "todo",
 };
-int (* const TextClientDataSubContainerOrAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+int (* const TextRulerAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const TextClientDataSubContainerOrAtom::_Introspection::value[2])(const Introspectable*, int position) = {
+QVariant (* const TextRulerAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
     _Introspection::get_todo,
 };
-const Introspectable* (* const TextClientDataSubContainerOrAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+const Introspectable* (* const TextRulerAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     Introspection::null,
 };
-const Introspection TextClientDataSubContainerOrAtom::_introspection(
-    "TextClientDataSubContainerOrAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+const Introspection TextRulerAtom::_introspection(
+    "TextRulerAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class OfficeArtIDCL::_Introspection {
 public:
     static const QString name;
@@ -10305,37 +11048,6 @@ const Introspectable* (* const todo::_Introspection::introspectable[2])(const In
 };
 const Introspection todo::_introspection(
     "todo", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class TODOS::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[1];
-    static int (* const numberOfInstances[1])(const Introspectable*);
-    static QVariant (* const value[1])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
-    static int count_anon(const Introspectable* i) {
-        return static_cast<const TODOS*>(i)->anon.size();
-    }
-    static const Introspectable* get_anon(const Introspectable* i, int j) {
-        return &(static_cast<const TODOS*>(i)->anon[j]);
-    }
-};
-const QString TODOS::_Introspection::name("TODOS");
-const int TODOS::_Introspection::numberOfMembers(1);
-const QString TODOS::_Introspection::names[1] = {
-    "anon",
-};
-int (* const TODOS::_Introspection::numberOfInstances[1])(const Introspectable*) = {
-    _Introspection::count_anon,
-};
-QVariant (* const TODOS::_Introspection::value[1])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-};
-const Introspectable* (* const TODOS::_Introspection::introspectable[1])(const Introspectable*, int position) = {
-    _Introspection::get_anon,
-};
-const Introspection TODOS::_introspection(
-    "TODOS", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class FibBase::_Introspection {
 public:
     static const QString name;
@@ -13803,6 +14515,37 @@ const Introspectable* (* const SlidePersistAtom::_Introspection::introspectable[
 };
 const Introspection SlidePersistAtom::_introspection(
     "SlidePersistAtom", 11, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class InteractiveInfoInstance::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[1];
+    static int (* const numberOfInstances[1])(const Introspectable*);
+    static QVariant (* const value[1])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
+    static const Introspectable* get_anon(const Introspectable* i, int j) {
+        const Introspectable* k = 0;
+        if (k == 0) k = static_cast<const InteractiveInfoInstance*>(i)->anon.mouseclickinteractiveinfocontainer.data();
+        if (k == 0) k = static_cast<const InteractiveInfoInstance*>(i)->anon.mouseoverinteractiveinfocontainer.data();
+        return k;
+    }
+};
+const QString InteractiveInfoInstance::_Introspection::name("InteractiveInfoInstance");
+const int InteractiveInfoInstance::_Introspection::numberOfMembers(1);
+const QString InteractiveInfoInstance::_Introspection::names[1] = {
+    "anon",
+};
+int (* const InteractiveInfoInstance::_Introspection::numberOfInstances[1])(const Introspectable*) = {
+    Introspection::one,
+};
+QVariant (* const InteractiveInfoInstance::_Introspection::value[1])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+};
+const Introspectable* (* const InteractiveInfoInstance::_Introspection::introspectable[1])(const Introspectable*, int position) = {
+    _Introspection::get_anon,
+};
+const Introspection InteractiveInfoInstance::_introspection(
+    "InteractiveInfoInstance", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class TextRuler::_Introspection {
 public:
     static const QString name;
@@ -14833,48 +15576,87 @@ const Introspectable* (* const OfficeArtClientData::_Introspection::introspectab
 };
 const Introspection OfficeArtClientData::_introspection(
     "OfficeArtClientData", 10, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class TextClientDataSubContainerOrAtom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[1];
+    static int (* const numberOfInstances[1])(const Introspectable*);
+    static QVariant (* const value[1])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
+    static const Introspectable* get_anon(const Introspectable* i, int j) {
+        const Introspectable* k = 0;
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.outlinetextrefatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textheaderatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textcharsatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textbytesatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.styletextpropatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.slidenumbermcatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.datetimemcatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.genericdatemcatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.headermcatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.footermcatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.rtfdatetimemcatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textbookmarkatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textspecialinfoatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.interactiveinfoinstance.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textinteractiveinfoinstance.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textruleratom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.mastertextpropatom.data();
+        return k;
+    }
+};
+const QString TextClientDataSubContainerOrAtom::_Introspection::name("TextClientDataSubContainerOrAtom");
+const int TextClientDataSubContainerOrAtom::_Introspection::numberOfMembers(1);
+const QString TextClientDataSubContainerOrAtom::_Introspection::names[1] = {
+    "anon",
+};
+int (* const TextClientDataSubContainerOrAtom::_Introspection::numberOfInstances[1])(const Introspectable*) = {
+    Introspection::one,
+};
+QVariant (* const TextClientDataSubContainerOrAtom::_Introspection::value[1])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+};
+const Introspectable* (* const TextClientDataSubContainerOrAtom::_Introspection::introspectable[1])(const Introspectable*, int position) = {
+    _Introspection::get_anon,
+};
+const Introspection TextClientDataSubContainerOrAtom::_introspection(
+    "TextClientDataSubContainerOrAtom", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class OfficeArtFOPTE::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[3];
-    static int (* const numberOfInstances[3])(const Introspectable*);
-    static QVariant (* const value[3])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static const Introspectable* get_opid(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtFOPTE*>(i)->opid);
     }
     static QVariant get_op(const Introspectable* i, int j) {
         return (static_cast<const OfficeArtFOPTE*>(i)->op);
     }
-    static QVariant get_complexData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFOPTE*>(i)->complexData);
-    }
 };
 const QString OfficeArtFOPTE::_Introspection::name("OfficeArtFOPTE");
-const int OfficeArtFOPTE::_Introspection::numberOfMembers(3);
-const QString OfficeArtFOPTE::_Introspection::names[3] = {
+const int OfficeArtFOPTE::_Introspection::numberOfMembers(2);
+const QString OfficeArtFOPTE::_Introspection::names[2] = {
     "opid",
     "op",
-    "complexData",
 };
-int (* const OfficeArtFOPTE::_Introspection::numberOfInstances[3])(const Introspectable*) = {
-    Introspection::one,
+int (* const OfficeArtFOPTE::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const OfficeArtFOPTE::_Introspection::value[3])(const Introspectable*, int position) = {
+QVariant (* const OfficeArtFOPTE::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
     _Introspection::get_op,
-    _Introspection::get_complexData,
 };
-const Introspectable* (* const OfficeArtFOPTE::_Introspection::introspectable[3])(const Introspectable*, int position) = {
+const Introspectable* (* const OfficeArtFOPTE::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_opid,
-    Introspection::null,
     Introspection::null,
 };
 const Introspection OfficeArtFOPTE::_introspection(
-    "OfficeArtFOPTE", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "OfficeArtFOPTE", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class Fib::_Introspection {
 public:
     static const QString name;
@@ -15632,8 +16414,16 @@ public:
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
         const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exolelinkcontainer.data();
+        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exavimoviecontainer.data();
+        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.excdaudiocontainer.data();
+        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.excontrolcontainer.data();
+        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exhyperlinkcontainer.data();
+        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exmcimoviecontainer.data();
+        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exmidiaudiocontainer.data();
         if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exoleembedcontainer.data();
+        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exolelinkcontainer.data();
+        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exwavaudioembeddedcontainer.data();
+        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exwavaudiolinkcontainer.data();
         return k;
     }
 };
@@ -16430,10 +17220,10 @@ class DocumentContainer::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[13];
-    static int (* const numberOfInstances[13])(const Introspectable*);
-    static QVariant (* const value[13])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[13])(const Introspectable*, int position);
+    static const QString names[14];
+    static int (* const numberOfInstances[14])(const Introspectable*);
+    static QVariant (* const value[14])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[14])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const DocumentContainer*>(i)->rh);
     }
@@ -16448,6 +17238,12 @@ public:
     }
     static const Introspectable* get_documentTextInfo(const Introspectable* i, int j) {
         return &(static_cast<const DocumentContainer*>(i)->documentTextInfo);
+    }
+    static int count_soundCollection(const Introspectable* i) {
+        return static_cast<const DocumentContainer*>(i)->soundCollection ?1 :0;
+    }
+    static const Introspectable* get_soundCollection(const Introspectable* i, int j) {
+        return (static_cast<const DocumentContainer*>(i)->soundCollection.data());
     }
     static const Introspectable* get_drawingGroup(const Introspectable* i, int j) {
         return &(static_cast<const DocumentContainer*>(i)->drawingGroup);
@@ -16496,12 +17292,13 @@ public:
     }
 };
 const QString DocumentContainer::_Introspection::name("DocumentContainer");
-const int DocumentContainer::_Introspection::numberOfMembers(13);
-const QString DocumentContainer::_Introspection::names[13] = {
+const int DocumentContainer::_Introspection::numberOfMembers(14);
+const QString DocumentContainer::_Introspection::names[14] = {
     "rh",
     "documentAtom",
     "exObjList",
     "documentTextInfo",
+    "soundCollection",
     "drawingGroup",
     "masterList",
     "docInfoList",
@@ -16512,11 +17309,12 @@ const QString DocumentContainer::_Introspection::names[13] = {
     "slideShowDocInfoAtom",
     "endDocumentAtom",
 };
-int (* const DocumentContainer::_Introspection::numberOfInstances[13])(const Introspectable*) = {
+int (* const DocumentContainer::_Introspection::numberOfInstances[14])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
     _Introspection::count_exObjList,
     Introspection::one,
+    _Introspection::count_soundCollection,
     Introspection::one,
     Introspection::one,
     _Introspection::count_docInfoList,
@@ -16527,7 +17325,8 @@ int (* const DocumentContainer::_Introspection::numberOfInstances[13])(const Int
     _Introspection::count_slideShowDocInfoAtom,
     Introspection::one,
 };
-QVariant (* const DocumentContainer::_Introspection::value[13])(const Introspectable*, int position) = {
+QVariant (* const DocumentContainer::_Introspection::value[14])(const Introspectable*, int position) = {
+    Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
@@ -16542,11 +17341,12 @@ QVariant (* const DocumentContainer::_Introspection::value[13])(const Introspect
     Introspection::nullValue,
     Introspection::nullValue,
 };
-const Introspectable* (* const DocumentContainer::_Introspection::introspectable[13])(const Introspectable*, int position) = {
+const Introspectable* (* const DocumentContainer::_Introspection::introspectable[14])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     _Introspection::get_documentAtom,
     _Introspection::get_exObjList,
     _Introspection::get_documentTextInfo,
+    _Introspection::get_soundCollection,
     _Introspection::get_drawingGroup,
     _Introspection::get_masterList,
     _Introspection::get_docInfoList,
@@ -16558,7 +17358,7 @@ const Introspectable* (* const DocumentContainer::_Introspection::introspectable
     _Introspection::get_endDocumentAtom,
 };
 const Introspection DocumentContainer::_introspection(
-    "DocumentContainer", 13, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "DocumentContainer", 14, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class DrawingContainer::_Introspection {
 public:
     static const QString name;
@@ -16891,6 +17691,12 @@ void parseRecordHeader(LEInputStream& in, RecordHeader& _s) {
     }
     _s.recLen = in.readuint32();
 }
+void write(const RecordHeader& _s, LEOutputStream& out) {
+    out.writeuint4(_s.recVer);
+    out.writeuint12(_s.recInstance);
+    out.writeuint16(_s.recType);
+    out.writeuint32(_s.recLen);
+}
 void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -16932,9 +17738,7 @@ void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s) {
     _s.unused = in.readuint16();
     _c = _s.lenUserName;
     _s.ansiUserName.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.ansiUserName[_i] = in.readuint8();
-    }
+    in.readBytes(_s.ansiUserName);
     _s.relVersion = in.readuint32();
     if (!(((quint32)_s.relVersion) == 0x8 || ((quint32)_s.relVersion) == 0x9)) {
         throw IncorrectValueException(in.getPosition() + QString("((quint32)_s.relVersion) == 0x8 || ((quint32)_s.relVersion) == 0x9 for value ") + QString::number(_s.relVersion) + "(" + QString::number(_s.relVersion,16).toUpper() + ")");
@@ -16942,13 +17746,54 @@ void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s) {
     if (_s.rh.recLen==3*_s.lenUserName+0x14) {
         _c = 2*_s.lenUserName;
         _s.unicodeUserName.resize(_c);
-        for (int _i=0; _i<_c; ++_i) {
-            _s.unicodeUserName[_i] = in.readuint8();
+        in.readBytes(_s.unicodeUserName);
+    }
+}
+void write(const CurrentUserAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.size);
+    out.writeuint32(_s.headerToken);
+    out.writeuint32(_s.offsetToCurrentEdit);
+    out.writeuint16(_s.lenUserName);
+    out.writeuint16(_s.docFileVersion);
+    out.writeuint8(_s.majorVersion);
+    out.writeuint8(_s.minorVersion);
+    out.writeuint16(_s.unused);
+    out.writeBytes(_s.ansiUserName);
+    out.writeuint32(_s.relVersion);
+    if (_s.rh.recLen==3*_s.lenUserName+0x14) {
+        out.writeBytes(_s.unicodeUserName);
+    }
+}
+void parseTODOS(LEInputStream& in, TODOS& _s) {
+    LEInputStream::Mark _m;
+        bool _atend;
+    _atend = false;
+    while (!_atend) {
+        _m = in.setMark();
+        try {
+            Byte _t;
+            parseByte(in, _t);
+            _s.anon.append(_t);
+        } catch(IncorrectValueException _e) {
+            _atend = true;
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _atend = true;
+            in.rewind(_m);
         }
+    }
+}
+void write(const TODOS& _s, LEOutputStream& out) {
+    foreach (Byte _i, _s.anon) {
+        write(_i, out);
     }
 }
 void parseByte(LEInputStream& in, Byte& _s) {
     _s.b = in.readuint8();
+}
+void write(const Byte& _s, LEOutputStream& out) {
+    out.writeuint8(_s.b);
 }
 void parseCurrentUserStream(LEInputStream& in, CurrentUserStream& _s) {
     LEInputStream::Mark _m;
@@ -16970,6 +17815,12 @@ void parseCurrentUserStream(LEInputStream& in, CurrentUserStream& _s) {
         }
     }
 }
+void write(const CurrentUserStream& _s, LEOutputStream& out) {
+    write(_s.anon1, out);
+    foreach (Byte _i, _s.trailing) {
+        write(_i, out);
+    }
+}
 void parseOfficeArtBStoreDelay(LEInputStream& in, OfficeArtBStoreDelay& _s) {
     LEInputStream::Mark _m;
         bool _atend;
@@ -16989,11 +17840,22 @@ void parseOfficeArtBStoreDelay(LEInputStream& in, OfficeArtBStoreDelay& _s) {
         }
     }
 }
+void write(const OfficeArtBStoreDelay& _s, LEOutputStream& out) {
+    foreach (OfficeArtBStoreContainerFileBlock _i, _s.anon1) {
+        write(_i, out);
+    }
+}
 void parseOfficeArtRecordHeader(LEInputStream& in, OfficeArtRecordHeader& _s) {
     _s.recVer = in.readuint4();
     _s.recInstance = in.readuint12();
     _s.recType = in.readuint16();
     _s.recLen = in.readuint32();
+}
+void write(const OfficeArtRecordHeader& _s, LEOutputStream& out) {
+    out.writeuint4(_s.recVer);
+    out.writeuint12(_s.recInstance);
+    out.writeuint16(_s.recType);
+    out.writeuint32(_s.recLen);
 }
 void parseOfficeArtBlipJPEG(LEInputStream& in, OfficeArtBlipJPEG& _s) {
     int _c;
@@ -17010,22 +17872,25 @@ void parseOfficeArtBlipJPEG(LEInputStream& in, OfficeArtBlipJPEG& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.rgbUid1[_i] = in.readuint8();
-    }
+    in.readBytes(_s.rgbUid1);
     if (_s.rh.recInstance == 0x46B || _s.rh.recInstance == 0x6E3) {
         _c = 16;
         _s.rgbUid2.resize(_c);
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid2[_i] = in.readuint8();
-        }
+        in.readBytes(_s.rgbUid2);
     }
     _s.tag = in.readuint8();
     _c = _s.rh.recLen-((_s.rh.recInstance == 0x46A || _s.rh.recInstance == 0x6E2)?17:33);
     _s.BLIPFileData.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.BLIPFileData[_i] = in.readuint8();
+    in.readBytes(_s.BLIPFileData);
+}
+void write(const OfficeArtBlipJPEG& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.rgbUid1);
+    if (_s.rh.recInstance == 0x46B || _s.rh.recInstance == 0x6E3) {
+        out.writeBytes(_s.rgbUid2);
     }
+    out.writeuint8(_s.tag);
+    out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipPNG(LEInputStream& in, OfficeArtBlipPNG& _s) {
     int _c;
@@ -17042,22 +17907,25 @@ void parseOfficeArtBlipPNG(LEInputStream& in, OfficeArtBlipPNG& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.rgbUid1[_i] = in.readuint8();
-    }
+    in.readBytes(_s.rgbUid1);
     if (_s.rh.recInstance == 0x6E1) {
         _c = 16;
         _s.rgbUid2.resize(_c);
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid2[_i] = in.readuint8();
-        }
+        in.readBytes(_s.rgbUid2);
     }
     _s.tag = in.readuint8();
     _c = _s.rh.recLen-((_s.rh.recInstance==0x6E0)?17:33);
     _s.BLIPFileData.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.BLIPFileData[_i] = in.readuint8();
+    in.readBytes(_s.BLIPFileData);
+}
+void write(const OfficeArtBlipPNG& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.rgbUid1);
+    if (_s.rh.recInstance == 0x6E1) {
+        out.writeBytes(_s.rgbUid2);
     }
+    out.writeuint8(_s.tag);
+    out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipDIB(LEInputStream& in, OfficeArtBlipDIB& _s) {
     int _c;
@@ -17074,22 +17942,25 @@ void parseOfficeArtBlipDIB(LEInputStream& in, OfficeArtBlipDIB& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.rgbUid1[_i] = in.readuint8();
-    }
+    in.readBytes(_s.rgbUid1);
     if (_s.rh.recInstance == 0x7A9) {
         _c = 16;
         _s.rgbUid2.resize(_c);
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid2[_i] = in.readuint8();
-        }
+        in.readBytes(_s.rgbUid2);
     }
     _s.tag = in.readuint8();
     _c = _s.rh.recLen-((_s.rh.recInstance==0x7A8)?17:33);
     _s.BLIPFileData.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.BLIPFileData[_i] = in.readuint8();
+    in.readBytes(_s.BLIPFileData);
+}
+void write(const OfficeArtBlipDIB& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.rgbUid1);
+    if (_s.rh.recInstance == 0x7A9) {
+        out.writeBytes(_s.rgbUid2);
     }
+    out.writeuint8(_s.tag);
+    out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipTIFF(LEInputStream& in, OfficeArtBlipTIFF& _s) {
     int _c;
@@ -17106,22 +17977,25 @@ void parseOfficeArtBlipTIFF(LEInputStream& in, OfficeArtBlipTIFF& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.rgbUid1[_i] = in.readuint8();
-    }
+    in.readBytes(_s.rgbUid1);
     if (_s.rh.recInstance == 0x6E5) {
         _c = 16;
         _s.rgbUid2.resize(_c);
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid2[_i] = in.readuint8();
-        }
+        in.readBytes(_s.rgbUid2);
     }
     _s.tag = in.readuint8();
     _c = _s.rh.recLen-((_s.rh.recInstance==0x6E4)?17:33);
     _s.BLIPFileData.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.BLIPFileData[_i] = in.readuint8();
+    in.readBytes(_s.BLIPFileData);
+}
+void write(const OfficeArtBlipTIFF& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.rgbUid1);
+    if (_s.rh.recInstance == 0x6E5) {
+        out.writeBytes(_s.rgbUid2);
     }
+    out.writeuint8(_s.tag);
+    out.writeBytes(_s.BLIPFileData);
 }
 void parseRECT(LEInputStream& in, RECT& _s) {
     _s.left = in.readint32();
@@ -17129,9 +18003,19 @@ void parseRECT(LEInputStream& in, RECT& _s) {
     _s.right = in.readint32();
     _s.bottom = in.readint32();
 }
+void write(const RECT& _s, LEOutputStream& out) {
+    out.writeint32(_s.left);
+    out.writeint32(_s.top);
+    out.writeint32(_s.right);
+    out.writeint32(_s.bottom);
+}
 void parsePOINT(LEInputStream& in, POINT& _s) {
     _s.x = in.readint32();
     _s.y = in.readint32();
+}
+void write(const POINT& _s, LEOutputStream& out) {
+    out.writeint32(_s.x);
+    out.writeint32(_s.y);
 }
 void parsePowerPointStructs(LEInputStream& in, PowerPointStructs& _s) {
     LEInputStream::Mark _m;
@@ -17152,6 +18036,32 @@ void parsePowerPointStructs(LEInputStream& in, PowerPointStructs& _s) {
         }
     }
 }
+void write(const PowerPointStructs& _s, LEOutputStream& out) {
+    foreach (PowerPointStruct _i, _s.anon) {
+        write(_i, out);
+    }
+}
+void parseSoundCollectionContainer(LEInputStream& in, SoundCollectionContainer& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 5)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 5 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0x7E4)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x7E4 for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const SoundCollectionContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
 void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -17167,9 +18077,11 @@ void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersCon
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const SlideHeadersFootersContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersContainer& _s) {
     int _c;
@@ -17186,9 +18098,11 @@ void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersCon
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const NotesHeadersFootersContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s) {
     int _c;
@@ -17205,9 +18119,11 @@ void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFoot
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const PerSlideHeadersFootersContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -17223,6 +18139,9 @@ void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s) {
     if (!(_s.rh.recLen == 0)) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recLen == 0 for value ") + _s.rh.toString());
     }
+}
+void write(const EndDocumentAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
 }
 void parseDocInfoListContainer(LEInputStream& in, DocInfoListContainer& _s) {
     LEInputStream::Mark _m;
@@ -17253,6 +18172,12 @@ void parseDocInfoListContainer(LEInputStream& in, DocInfoListContainer& _s) {
         }
     }
 }
+void write(const DocInfoListContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (DocInfoListSubContainerOrAtom _i, _s.rgChildRec) {
+        write(_i, out);
+    }
+}
 void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContainerOrAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -17268,9 +18193,11 @@ void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContain
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const DocInfoListSubContainerOrAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s) {
     int _c;
@@ -17287,9 +18214,11 @@ void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const SlideViewInfoInstance& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextContainer& _s) {
     int _c;
@@ -17311,6 +18240,12 @@ void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextConta
     _s.rgMasterPersistAtom.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
         parseMasterPersistAtom(in, _s.rgMasterPersistAtom[_i]);
+    }
+}
+void write(const MasterListWithTextContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (MasterPersistAtom _i, _s.rgMasterPersistAtom) {
+        write(_i, out);
     }
 }
 void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContainer& _s) {
@@ -17342,6 +18277,12 @@ void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContain
         }
     }
 }
+void write(const SlideListWithTextContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (SlideListWithTextSubContainerOrAtom _i, _s.rgChildRec) {
+        write(_i, out);
+    }
+}
 void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -17357,9 +18298,11 @@ void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContain
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const NotesListWithTextContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseTextHeaderAtom(LEInputStream& in, TextHeaderAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -17376,6 +18319,10 @@ void parseTextHeaderAtom(LEInputStream& in, TextHeaderAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recLen == 4 for value ") + _s.rh.toString());
     }
     _s.textType = in.readuint32();
+}
+void write(const TextHeaderAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.textType);
 }
 void parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s) {
     int _c;
@@ -17402,6 +18349,12 @@ void parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s) {
         }
     }
 }
+void write(const TextCharsAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (quint16 _i, _s.textChars) {
+        out.writeuint16(_i);
+    }
+}
 void parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -17417,12 +18370,11 @@ void parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.textChars.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.textChars[_i] = in.readuint8();
-        if (!(((quint8)_s.textChars[_i]) != 0)) {
-            throw IncorrectValueException(in.getPosition() + QString("((quint8)_s.textChars[_i]) != 0 for value ") + "[array of _s.textChars]");
-        }
-    }
+    in.readBytes(_s.textChars);
+}
+void write(const TextBytesAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.textChars);
 }
 void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s) {
     int _c;
@@ -17439,9 +18391,11 @@ void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const MasterTextPropAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s) {
     int _c;
@@ -17458,9 +18412,11 @@ void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const StyleTextPropAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseSlideNumberMCAtom(LEInputStream& in, SlideNumberMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -17477,6 +18433,10 @@ void parseSlideNumberMCAtom(LEInputStream& in, SlideNumberMCAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recLen == 4 for value ") + _s.rh.toString());
     }
     _s.position = in.readint32();
+}
+void write(const SlideNumberMCAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.position);
 }
 void parseDateTimeMCAtom(LEInputStream& in, DateTimeMCAtom& _s) {
     int _c;
@@ -17498,9 +18458,13 @@ void parseDateTimeMCAtom(LEInputStream& in, DateTimeMCAtom& _s) {
     _s.index = in.readuint8();
     _c = 3;
     _s.unused.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.unused[_i] = in.readuint8();
-    }
+    in.readBytes(_s.unused);
+}
+void write(const DateTimeMCAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.position);
+    out.writeuint8(_s.index);
+    out.writeBytes(_s.unused);
 }
 void parseGenericDateMCAtom(LEInputStream& in, GenericDateMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -17518,6 +18482,10 @@ void parseGenericDateMCAtom(LEInputStream& in, GenericDateMCAtom& _s) {
     }
     _s.position = in.readint32();
 }
+void write(const GenericDateMCAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.position);
+}
 void parseHeaderMCAtom(LEInputStream& in, HeaderMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -17534,6 +18502,10 @@ void parseHeaderMCAtom(LEInputStream& in, HeaderMCAtom& _s) {
     }
     _s.position = in.readint32();
 }
+void write(const HeaderMCAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.position);
+}
 void parseFooterMCAtom(LEInputStream& in, FooterMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -17549,6 +18521,10 @@ void parseFooterMCAtom(LEInputStream& in, FooterMCAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recLen == 4 for value ") + _s.rh.toString());
     }
     _s.position = in.readint32();
+}
+void write(const FooterMCAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.position);
 }
 void parseRTFDateTimeMCAtom(LEInputStream& in, RTFDateTimeMCAtom& _s) {
     int _c;
@@ -17569,9 +18545,12 @@ void parseRTFDateTimeMCAtom(LEInputStream& in, RTFDateTimeMCAtom& _s) {
     _s.position = in.readint32();
     _c = 128;
     _s.format.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.format[_i] = in.readuint8();
-    }
+    in.readBytes(_s.format);
+}
+void write(const RTFDateTimeMCAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.position);
+    out.writeBytes(_s.format);
 }
 void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -17591,6 +18570,12 @@ void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s) {
     _s.end = in.readint32();
     _s.bookmarkID = in.readint32();
 }
+void write(const TextBookmarkAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.begin);
+    out.writeint32(_s.end);
+    out.writeint32(_s.bookmarkID);
+}
 void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -17606,31 +18591,11 @@ void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
 }
-void parseInteractiveInfoInstance(LEInputStream& in, InteractiveInfoInstance& _s) {
-    int _c;
-    LEInputStream::Mark _m;
-    parseRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0)) {
-        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0 for value ") + _s.rh.toString());
-    }
-    if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
-        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 || _s.rh.recInstance == 1 for value ") + _s.rh.toString());
-    }
-    if (!(_s.rh.recType == 0xFF2)) {
-        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFF2 for value ") + _s.rh.toString());
-    }
-    if (!(_s.rh.recLen == 8)) {
-        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recLen == 8 for value ") + _s.rh.toString());
-    }
-    _c = 8;
-    _s.range.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.range[_i] = in.readuint8();
-    }
+void write(const TextSpecialInfoAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseTextInteractiveInfoInstance(LEInputStream& in, TextInteractiveInfoInstance& _s) {
     int _c;
@@ -17650,9 +18615,11 @@ void parseTextInteractiveInfoInstance(LEInputStream& in, TextInteractiveInfoInst
     }
     _c = 8;
     _s.range.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.range[_i] = in.readuint8();
-    }
+    in.readBytes(_s.range);
+}
+void write(const TextInteractiveInfoInstance& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.range);
 }
 void parseSlideId(LEInputStream& in, SlideId& _s) {
     _s.slideId = in.readuint32();
@@ -17662,6 +18629,9 @@ void parseSlideId(LEInputStream& in, SlideId& _s) {
     if (!(((quint32)_s.slideId)<2147483647)) {
         throw IncorrectValueException(in.getPosition() + QString("((quint32)_s.slideId)<2147483647 for value ") + QString::number(_s.slideId) + "(" + QString::number(_s.slideId,16).toUpper() + ")");
     }
+}
+void write(const SlideId& _s, LEOutputStream& out) {
+    out.writeuint32(_s.slideId);
 }
 void parseTabStops(LEInputStream& in, TabStops& _s) {
     int _c;
@@ -17673,9 +18643,19 @@ void parseTabStops(LEInputStream& in, TabStops& _s) {
         parseTabStop(in, _s.rgTabStop[_i]);
     }
 }
+void write(const TabStops& _s, LEOutputStream& out) {
+    out.writeuint16(_s.count);
+    foreach (TabStop _i, _s.rgTabStop) {
+        write(_i, out);
+    }
+}
 void parseTabStop(LEInputStream& in, TabStop& _s) {
     _s.position = in.readint16();
     _s.type = in.readuint16();
+}
+void write(const TabStop& _s, LEOutputStream& out) {
+    out.writeint16(_s.position);
+    out.writeuint16(_s.type);
 }
 void parseBulletFlags(LEInputStream& in, BulletFlags& _s) {
     _s.fHasBullet = in.readbit();
@@ -17683,6 +18663,13 @@ void parseBulletFlags(LEInputStream& in, BulletFlags& _s) {
     _s.fBulletHasColor = in.readbit();
     _s.fBulletHasSize = in.readbit();
     _s.reserved = in.readuint12();
+}
+void write(const BulletFlags& _s, LEOutputStream& out) {
+    out.writebit(_s.fHasBullet);
+    out.writebit(_s.fBulletHasFont);
+    out.writebit(_s.fBulletHasColor);
+    out.writebit(_s.fBulletHasSize);
+    out.writeuint12(_s.reserved);
 }
 void parsePFMasks(LEInputStream& in, PFMasks& _s) {
     _s.hasBullet = in.readbit();
@@ -17713,6 +18700,35 @@ void parsePFMasks(LEInputStream& in, PFMasks& _s) {
     _s.bulletHasScheme = in.readbit();
     _s.reserved2 = in.readuint6();
 }
+void write(const PFMasks& _s, LEOutputStream& out) {
+    out.writebit(_s.hasBullet);
+    out.writebit(_s.bulletHasFont);
+    out.writebit(_s.bulletHasColor);
+    out.writebit(_s.bulletHasSize);
+    out.writebit(_s.bulletFont);
+    out.writebit(_s.bulletColor);
+    out.writebit(_s.bulletSize);
+    out.writebit(_s.bulletChar);
+    out.writebit(_s.leftMargin);
+    out.writebit(_s.unused);
+    out.writebit(_s.indent);
+    out.writebit(_s.align);
+    out.writebit(_s.lineSpacing);
+    out.writebit(_s.spaceBefore);
+    out.writebit(_s.spaceAfter);
+    out.writebit(_s.defaultTabSize);
+    out.writebit(_s.fontAlign);
+    out.writebit(_s.charWrap);
+    out.writebit(_s.wordWrap);
+    out.writebit(_s.overflow);
+    out.writebit(_s.tabStops);
+    out.writebit(_s.textDirection);
+    out.writebit(_s.reserved);
+    out.writebit(_s.bulletBlip);
+    out.writebit(_s.bulletScheme);
+    out.writebit(_s.bulletHasScheme);
+    out.writeuint6(_s.reserved2);
+}
 void parseCFMasks(LEInputStream& in, CFMasks& _s) {
     _s.bold = in.readbit();
     _s.italic = in.readbit();
@@ -17739,6 +18755,32 @@ void parseCFMasks(LEInputStream& in, CFMasks& _s) {
     _s.pp11ext = in.readbit();
     _s.reserved = in.readuint5();
 }
+void write(const CFMasks& _s, LEOutputStream& out) {
+    out.writebit(_s.bold);
+    out.writebit(_s.italic);
+    out.writebit(_s.underline);
+    out.writebit(_s.unused1);
+    out.writebit(_s.shadow);
+    out.writebit(_s.fehint);
+    out.writebit(_s.unused2);
+    out.writebit(_s.kumi);
+    out.writebit(_s.unused3);
+    out.writebit(_s.emboss);
+    out.writeuint4(_s.fHasStyle);
+    out.writeuint2(_s.unused4);
+    out.writebit(_s.typeface);
+    out.writebit(_s.size);
+    out.writebit(_s.color);
+    out.writebit(_s.position);
+    out.writebit(_s.pp10ext);
+    out.writebit(_s.oldEATypeface);
+    out.writebit(_s.ansiTypeface);
+    out.writebit(_s.symbolTypeface);
+    out.writebit(_s.newEATypeface);
+    out.writebit(_s.csTypeface);
+    out.writebit(_s.pp11ext);
+    out.writeuint5(_s.reserved);
+}
 void parseCFStyle(LEInputStream& in, CFStyle& _s) {
     _s.bold = in.readbit();
     _s.italic = in.readbit();
@@ -17752,6 +18794,20 @@ void parseCFStyle(LEInputStream& in, CFStyle& _s) {
     _s.emboss = in.readbit();
     _s.pp9rt = in.readuint4();
     _s.unused4 = in.readuint2();
+}
+void write(const CFStyle& _s, LEOutputStream& out) {
+    out.writebit(_s.bold);
+    out.writebit(_s.italic);
+    out.writebit(_s.underline);
+    out.writebit(_s.unused1);
+    out.writebit(_s.shadow);
+    out.writebit(_s.fehint);
+    out.writebit(_s.unused2);
+    out.writebit(_s.kumi);
+    out.writebit(_s.unused3);
+    out.writebit(_s.emboss);
+    out.writeuint4(_s.pp9rt);
+    out.writeuint2(_s.unused4);
 }
 void parseFontCollectionContainer(LEInputStream& in, FontCollectionContainer& _s) {
     int _c;
@@ -17768,9 +18824,11 @@ void parseFontCollectionContainer(LEInputStream& in, FontCollectionContainer& _s
     }
     _c = _s.rh.recLen;
     _s.rgFontCollectionEntry.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.rgFontCollectionEntry[_i] = in.readuint8();
-    }
+    in.readBytes(_s.rgFontCollectionEntry);
+}
+void write(const FontCollectionContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.rgFontCollectionEntry);
 }
 void parseFontEntityAtom(LEInputStream& in, FontEntityAtom& _s) {
     int _c;
@@ -17793,9 +18851,11 @@ void parseFontEntityAtom(LEInputStream& in, FontEntityAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const FontEntityAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseKinsokuAtom(LEInputStream& in, KinsokuAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -17816,6 +18876,10 @@ void parseKinsokuAtom(LEInputStream& in, KinsokuAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("((quint32)_s.level) == 0 || ((quint32)_s.level) == 1 || ((quint32)_s.level) == 2 for value ") + QString::number(_s.level) + "(" + QString::number(_s.level,16).toUpper() + ")");
     }
 }
+void write(const KinsokuAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.level);
+}
 void parseTextSIExceptionAtom(LEInputStream& in, TextSIExceptionAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -17831,9 +18895,11 @@ void parseTextSIExceptionAtom(LEInputStream& in, TextSIExceptionAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const TextSIExceptionAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseExOleEmbedAtom(LEInputStream& in, ExOleEmbedAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -17858,9 +18924,21 @@ void parseExOleEmbedAtom(LEInputStream& in, ExOleEmbedAtom& _s) {
     _s.fIsTable = in.readuint8();
     _s.unused = in.readuint8();
 }
+void write(const ExOleEmbedAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.exColorFollow);
+    out.writeuint8(_s.fCantLockServer);
+    out.writeuint8(_s.fNoSizeToServer);
+    out.writeuint8(_s.fIsTable);
+    out.writeuint8(_s.unused);
+}
 void parsePointStruct(LEInputStream& in, PointStruct& _s) {
     _s.x = in.readint32();
     _s.y = in.readint32();
+}
+void write(const PointStruct& _s, LEOutputStream& out) {
+    out.writeint32(_s.x);
+    out.writeint32(_s.y);
 }
 void parseRatioStruct(LEInputStream& in, RatioStruct& _s) {
     _s.numer = in.readint32();
@@ -17868,6 +18946,10 @@ void parseRatioStruct(LEInputStream& in, RatioStruct& _s) {
     if (!(((qint32)_s.denom)!= 0)) {
         throw IncorrectValueException(in.getPosition() + QString("((qint32)_s.denom)!= 0 for value ") + QString::number(_s.denom) + "(" + QString::number(_s.denom,16).toUpper() + ")");
     }
+}
+void write(const RatioStruct& _s, LEOutputStream& out) {
+    out.writeint32(_s.numer);
+    out.writeint32(_s.denom);
 }
 void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s) {
     LEInputStream::Mark _m;
@@ -17882,20 +18964,17 @@ void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s) {
     if (!(_s.rh.recType == 0x1772)) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x1772 for value ") + _s.rh.toString());
     }
-    _atend = false;
-    while (!_atend) {
-        _m = in.setMark();
-        try {
-            PersistDirectoryEntry _t;
-            parsePersistDirectoryEntry(in, _t);
-            _s.rgPersistDirEntry.append(_t);
-        } catch(IncorrectValueException _e) {
-            _atend = true;
-            in.rewind(_m);
-        } catch(EOFException _e) {
-            _atend = true;
-            in.rewind(_m);
-        }
+    int _startPos = in.getPosition();
+    while (in.getPosition() - _startPos < _s.rh.recLen) {
+        PersistDirectoryEntry _t;
+        parsePersistDirectoryEntry(in, _t);
+        _s.rgPersistDirEntry.append(_t);
+    }
+}
+void write(const PersistDirectoryAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (PersistDirectoryEntry _i, _s.rgPersistDirEntry) {
+        write(_i, out);
     }
 }
 void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s) {
@@ -17909,11 +18988,24 @@ void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s) {
         parsePersistOffsetEntry(in, _s.rgPersistOffset[_i]);
     }
 }
+void write(const PersistDirectoryEntry& _s, LEOutputStream& out) {
+    out.writeuint20(_s.persistId);
+    out.writeuint12(_s.cPersist);
+    foreach (PersistOffsetEntry _i, _s.rgPersistOffset) {
+        write(_i, out);
+    }
+}
 void parsePersistOffsetEntry(LEInputStream& in, PersistOffsetEntry& _s) {
     _s.anon = in.readuint32();
 }
+void write(const PersistOffsetEntry& _s, LEOutputStream& out) {
+    out.writeuint32(_s.anon);
+}
 void parsePersistIdRef(LEInputStream& in, PersistIdRef& _s) {
     _s.anon = in.readuint32();
+}
+void write(const PersistIdRef& _s, LEOutputStream& out) {
+    out.writeuint32(_s.anon);
 }
 void parseSchemeListElementColorSchemeAtom(LEInputStream& in, SchemeListElementColorSchemeAtom& _s) {
     int _c;
@@ -17933,9 +19025,11 @@ void parseSchemeListElementColorSchemeAtom(LEInputStream& in, SchemeListElementC
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const SchemeListElementColorSchemeAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseRoundTripOArtTextStyles12Atom(LEInputStream& in, RoundTripOArtTextStyles12Atom& _s) {
     int _c;
@@ -17952,9 +19046,11 @@ void parseRoundTripOArtTextStyles12Atom(LEInputStream& in, RoundTripOArtTextStyl
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const RoundTripOArtTextStyles12Atom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s) {
     int _c;
@@ -17974,9 +19070,11 @@ void parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const SlideNameAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s) {
     int _c;
@@ -17993,9 +19091,11 @@ void parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s) 
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const SlideProgTagsContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseRoundTripMainMasterRecord(LEInputStream& in, RoundTripMainMasterRecord& _s) {
     int _c;
@@ -18006,9 +19106,11 @@ void parseRoundTripMainMasterRecord(LEInputStream& in, RoundTripMainMasterRecord
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const RoundTripMainMasterRecord& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseTemplateNameAtom(LEInputStream& in, TemplateNameAtom& _s) {
     int _c;
@@ -18028,9 +19130,11 @@ void parseTemplateNameAtom(LEInputStream& in, TemplateNameAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const TemplateNameAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
     int _c;
@@ -18047,9 +19151,11 @@ void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const NotesContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s) {
     int _c;
@@ -18066,9 +19172,11 @@ void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const HandoutContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseExControlStg(LEInputStream& in, ExControlStg& _s) {
     int _c;
@@ -18085,9 +19193,11 @@ void parseExControlStg(LEInputStream& in, ExControlStg& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const ExControlStg& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s) {
     int _c;
@@ -18104,9 +19214,11 @@ void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const ExOleObjStg& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s) {
     int _c;
@@ -18126,9 +19238,11 @@ void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const UserEditAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s) {
     int _c;
@@ -18145,9 +19259,11 @@ void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const VbaProjectStg& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s) {
     int _c;
@@ -18164,9 +19280,11 @@ void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s) 
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const SlideProgTagscontainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseSlideAtom(LEInputStream& in, SlideAtom& _s) {
     int _c;
@@ -18187,13 +19305,20 @@ void parseSlideAtom(LEInputStream& in, SlideAtom& _s) {
     _s.geom = in.readuint32();
     _c = 8;
     _s.rgPlaceholderTypes.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.rgPlaceholderTypes[_i] = in.readuint8();
-    }
+    in.readBytes(_s.rgPlaceholderTypes);
     _s.masterIdRef = in.readuint32();
     _s.notesIdRef = in.readuint32();
     _s.slideFlags = in.readuint16();
     _s.unused = in.readuint16();
+}
+void write(const SlideAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.geom);
+    out.writeBytes(_s.rgPlaceholderTypes);
+    out.writeuint32(_s.masterIdRef);
+    out.writeuint32(_s.notesIdRef);
+    out.writeuint16(_s.slideFlags);
+    out.writeuint16(_s.unused);
 }
 void parseSlideShowSlideInfoAtom(LEInputStream& in, SlideShowSlideInfoAtom& _s) {
     int _c;
@@ -18232,9 +19357,30 @@ void parseSlideShowSlideInfoAtom(LEInputStream& in, SlideShowSlideInfoAtom& _s) 
     _s.speed = in.readuint8();
     _c = 3;
     _s.unused.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.unused[_i] = in.readuint8();
-    }
+    in.readBytes(_s.unused);
+}
+void write(const SlideShowSlideInfoAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.slidetime);
+    out.writeuint32(_s.slideIdRef);
+    out.writeuint8(_s.effectDirection);
+    out.writeuint8(_s.effectType);
+    out.writebit(_s.fManualAdvance);
+    out.writebit(_s.reserved);
+    out.writebit(_s.fHidden);
+    out.writebit(_s.reserved2);
+    out.writebit(_s.fSound);
+    out.writebit(_s.reserved3);
+    out.writebit(_s.fLoopSound);
+    out.writebit(_s.reserved4);
+    out.writebit(_s.fStopSound);
+    out.writebit(_s.freserved5);
+    out.writebit(_s.fAutoAdvance);
+    out.writebit(_s.reserved6);
+    out.writebit(_s.fCursorVisible);
+    out.writeuint3(_s.reserved7);
+    out.writeuint8(_s.speed);
+    out.writeBytes(_s.unused);
 }
 void parseSlideShowDocInfoAtom(LEInputStream& in, SlideShowDocInfoAtom& _s) {
     int _c;
@@ -18254,9 +19400,11 @@ void parseSlideShowDocInfoAtom(LEInputStream& in, SlideShowDocInfoAtom& _s) {
     }
     _c = 0x50;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const SlideShowDocInfoAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseSlideSchemeColorSchemeAtom(LEInputStream& in, SlideSchemeColorSchemeAtom& _s) {
     int _c;
@@ -18280,6 +19428,12 @@ void parseSlideSchemeColorSchemeAtom(LEInputStream& in, SlideSchemeColorSchemeAt
         parseColorStruct(in, _s.rgSchemeColor[_i]);
     }
 }
+void write(const SlideSchemeColorSchemeAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (ColorStruct _i, _s.rgSchemeColor) {
+        write(_i, out);
+    }
+}
 void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -18289,15 +19443,23 @@ void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const RoundTripSlideRecord& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseColorStruct(LEInputStream& in, ColorStruct& _s) {
     _s.red = in.readuint8();
     _s.green = in.readuint8();
     _s.blue = in.readuint8();
     _s.unused = in.readuint8();
+}
+void write(const ColorStruct& _s, LEOutputStream& out) {
+    out.writeuint8(_s.red);
+    out.writeuint8(_s.green);
+    out.writeuint8(_s.blue);
+    out.writeuint8(_s.unused);
 }
 void parseExObjListAtom(LEInputStream& in, ExObjListAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -18318,6 +19480,178 @@ void parseExObjListAtom(LEInputStream& in, ExObjListAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("((qint32)_s.exObjIdSeed)>1 for value ") + QString::number(_s.exObjIdSeed) + "(" + QString::number(_s.exObjIdSeed,16).toUpper() + ")");
     }
 }
+void write(const ExObjListAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.exObjIdSeed);
+}
+void parseExAviMovieContainer(LEInputStream& in, ExAviMovieContainer& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0x1006)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x1006 for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const ExAviMovieContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
+void parseExCDAudioContainer(LEInputStream& in, ExCDAudioContainer& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0x100E)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x100E for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const ExCDAudioContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
+void parseExControlContainer(LEInputStream& in, ExControlContainer& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0xFEE)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFEE for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const ExControlContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
+void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0xFD7)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFD7 for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const ExHyperlinkContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
+void parseExMCIMovieContainer(LEInputStream& in, ExMCIMovieContainer& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0x1007)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x1007 for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const ExMCIMovieContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
+void parseExMIDIAudioContainer(LEInputStream& in, ExMIDIAudioContainer& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0x100D)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x100D for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const ExMIDIAudioContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
+void parseExWAVAudioEmbeddedContainer(LEInputStream& in, ExWAVAudioEmbeddedContainer& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0x100F)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x100F for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const ExWAVAudioEmbeddedContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
+void parseExWAVAudioLinkContainer(LEInputStream& in, ExWAVAudioLinkContainer& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0x1010)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x1010 for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const ExWAVAudioLinkContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
 void parseExOleLinkAtom(LEInputStream& in, ExOleLinkAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
@@ -18335,6 +19669,12 @@ void parseExOleLinkAtom(LEInputStream& in, ExOleLinkAtom& _s) {
     _s.slideIdRef = in.readuint32();
     _s.oleUpdateMode = in.readuint32();
     _s.unused = in.readuint32();
+}
+void write(const ExOleLinkAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.slideIdRef);
+    out.writeuint32(_s.oleUpdateMode);
+    out.writeuint32(_s.unused);
 }
 void parseExOleObjAtom(LEInputStream& in, ExOleObjAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -18357,6 +19697,15 @@ void parseExOleObjAtom(LEInputStream& in, ExOleObjAtom& _s) {
     _s.persistIdRef = in.readuint32();
     _s.unused = in.readuint32();
 }
+void write(const ExOleObjAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.drawAspect);
+    out.writeuint32(_s.type);
+    out.writeuint32(_s.exObjId);
+    out.writeuint32(_s.subType);
+    out.writeuint32(_s.persistIdRef);
+    out.writeuint32(_s.unused);
+}
 void parseMenuNameAtom(LEInputStream& in, MenuNameAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -18375,9 +19724,11 @@ void parseMenuNameAtom(LEInputStream& in, MenuNameAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.menuName.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.menuName[_i] = in.readuint8();
-    }
+    in.readBytes(_s.menuName);
+}
+void write(const MenuNameAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.menuName);
 }
 void parseProgIDAtom(LEInputStream& in, ProgIDAtom& _s) {
     int _c;
@@ -18397,9 +19748,11 @@ void parseProgIDAtom(LEInputStream& in, ProgIDAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.progId.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.progId[_i] = in.readuint8();
-    }
+    in.readBytes(_s.progId);
+}
+void write(const ProgIDAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.progId);
 }
 void parseClipboardNameAtom(LEInputStream& in, ClipboardNameAtom& _s) {
     int _c;
@@ -18419,9 +19772,11 @@ void parseClipboardNameAtom(LEInputStream& in, ClipboardNameAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.clipboardName.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.clipboardName[_i] = in.readuint8();
-    }
+    in.readBytes(_s.clipboardName);
+}
+void write(const ClipboardNameAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.clipboardName);
 }
 void parseMetafileBlob(LEInputStream& in, MetafileBlob& _s) {
     int _c;
@@ -18444,9 +19799,14 @@ void parseMetafileBlob(LEInputStream& in, MetafileBlob& _s) {
     _s.yExt = in.readint16();
     _c = _s.rh.recLen-6;
     _s.data.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.data[_i] = in.readuint8();
-    }
+    in.readBytes(_s.data);
+}
+void write(const MetafileBlob& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint16(_s.mm);
+    out.writeint16(_s.xExt);
+    out.writeint16(_s.yExt);
+    out.writeBytes(_s.data);
 }
 void parseOfficeArtFDGG(LEInputStream& in, OfficeArtFDGG& _s) {
     _s.spidMax = in.readuint32();
@@ -18459,6 +19819,12 @@ void parseOfficeArtFDGG(LEInputStream& in, OfficeArtFDGG& _s) {
     }
     _s.cspSaved = in.readuint32();
     _s.cdgSaved = in.readuint32();
+}
+void write(const OfficeArtFDGG& _s, LEOutputStream& out) {
+    out.writeuint32(_s.spidMax);
+    out.writeuint32(_s.cidcl);
+    out.writeuint32(_s.cspSaved);
+    out.writeuint32(_s.cdgSaved);
 }
 void parseOfficeArtFDG(LEInputStream& in, OfficeArtFDG& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -18477,18 +19843,23 @@ void parseOfficeArtFDG(LEInputStream& in, OfficeArtFDG& _s) {
     _s.csp = in.readuint32();
     _s.spidCur = in.readuint32();
 }
+void write(const OfficeArtFDG& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.csp);
+    out.writeuint32(_s.spidCur);
+}
 void parseOfficeArtFRITContainer(LEInputStream& in, OfficeArtFRITContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0x0)) {
-        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0x0 for value ") + _s.rh.toString());
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0 for value ") + _s.rh.toString());
     }
-    if (!(_s.rh.recType == 0x0F118)) {
-        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x0F118 for value ") + _s.rh.toString());
+    if (!(_s.rh.recType == 0xF118)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xF118 for value ") + _s.rh.toString());
     }
-    if (!(_s.rh.recLen == 8)) {
-        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recLen == 8 for value ") + _s.rh.toString());
+    if (!(_s.rh.recLen==4*_s.rh.recInstance)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recLen==4*_s.rh.recInstance for value ") + _s.rh.toString());
     }
     _c = _s.rh.recInstance;
     _s.rgfrit.resize(_c);
@@ -18496,9 +19867,19 @@ void parseOfficeArtFRITContainer(LEInputStream& in, OfficeArtFRITContainer& _s) 
         parseOfficeArtFRIT(in, _s.rgfrit[_i]);
     }
 }
+void write(const OfficeArtFRITContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (OfficeArtFRIT _i, _s.rgfrit) {
+        write(_i, out);
+    }
+}
 void parseOfficeArtFRIT(LEInputStream& in, OfficeArtFRIT& _s) {
     _s.fridNew = in.readuint16();
     _s.fridOld = in.readuint16();
+}
+void write(const OfficeArtFRIT& _s, LEOutputStream& out) {
+    out.writeuint16(_s.fridNew);
+    out.writeuint16(_s.fridOld);
 }
 void parseOfficeArtBStoreContainer(LEInputStream& in, OfficeArtBStoreContainer& _s) {
     LEInputStream::Mark _m;
@@ -18510,20 +19891,17 @@ void parseOfficeArtBStoreContainer(LEInputStream& in, OfficeArtBStoreContainer& 
     if (!(_s.rh.recType == 0x0F001)) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x0F001 for value ") + _s.rh.toString());
     }
-    _atend = false;
-    while (!_atend) {
-        _m = in.setMark();
-        try {
-            OfficeArtBStoreContainerFileBlock _t;
-            parseOfficeArtBStoreContainerFileBlock(in, _t);
-            _s.rgfb.append(_t);
-        } catch(IncorrectValueException _e) {
-            _atend = true;
-            in.rewind(_m);
-        } catch(EOFException _e) {
-            _atend = true;
-            in.rewind(_m);
-        }
+    int _startPos = in.getPosition();
+    while (in.getPosition() - _startPos < _s.rh.recLen) {
+        OfficeArtBStoreContainerFileBlock _t;
+        parseOfficeArtBStoreContainerFileBlock(in, _t);
+        _s.rgfb.append(_t);
+    }
+}
+void write(const OfficeArtBStoreContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (OfficeArtBStoreContainerFileBlock _i, _s.rgfb) {
+        write(_i, out);
     }
 }
 void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s) {
@@ -18539,20 +19917,17 @@ void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s) 
     if (!(_s.rh.recType == 0x0F003)) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x0F003 for value ") + _s.rh.toString());
     }
-    _atend = false;
-    while (!_atend) {
-        _m = in.setMark();
-        try {
-            OfficeArtSpgrContainerFileBlock _t;
-            parseOfficeArtSpgrContainerFileBlock(in, _t);
-            _s.rgfb.append(_t);
-        } catch(IncorrectValueException _e) {
-            _atend = true;
-            in.rewind(_m);
-        } catch(EOFException _e) {
-            _atend = true;
-            in.rewind(_m);
-        }
+    int _startPos = in.getPosition();
+    while (in.getPosition() - _startPos < _s.rh.recLen) {
+        OfficeArtSpgrContainerFileBlock _t;
+        parseOfficeArtSpgrContainerFileBlock(in, _t);
+        _s.rgfb.append(_t);
+    }
+}
+void write(const OfficeArtSpgrContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (OfficeArtSpgrContainerFileBlock _i, _s.rgfb) {
+        write(_i, out);
     }
 }
 void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s) {
@@ -18567,9 +19942,11 @@ void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& 
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const OfficeArtSolverContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseOfficeArtFSPGR(LEInputStream& in, OfficeArtFSPGR& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -18589,6 +19966,13 @@ void parseOfficeArtFSPGR(LEInputStream& in, OfficeArtFSPGR& _s) {
     _s.yTop = in.readint32();
     _s.xRight = in.readint32();
     _s.yBottom = in.readint32();
+}
+void write(const OfficeArtFSPGR& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.xLeft);
+    out.writeint32(_s.yTop);
+    out.writeint32(_s.xRight);
+    out.writeint32(_s.yBottom);
 }
 void parseOfficeArtFSP(LEInputStream& in, OfficeArtFSP& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -18619,6 +20003,23 @@ void parseOfficeArtFSP(LEInputStream& in, OfficeArtFSP& _s) {
     _s.fHaveSpt = in.readbit();
     _s.unused1 = in.readuint20();
 }
+void write(const OfficeArtFSP& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.spid);
+    out.writebit(_s.fGroup);
+    out.writebit(_s.fChild);
+    out.writebit(_s.fPatriarch);
+    out.writebit(_s.fDeleted);
+    out.writebit(_s.fOleShape);
+    out.writebit(_s.fHaveMaster);
+    out.writebit(_s.fFlipH);
+    out.writebit(_s.fFlipV);
+    out.writebit(_s.fConnector);
+    out.writebit(_s.fHaveAnchor);
+    out.writebit(_s.fBackground);
+    out.writebit(_s.fHaveSpt);
+    out.writeuint20(_s.unused1);
+}
 void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -18634,6 +20035,16 @@ void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s) {
     for (int _i=0; _i<_c; ++_i) {
         parseOfficeArtFOPTE(in, _s.fopt[_i]);
     }
+    _c = _s.rh.recLen-6*_s.rh.recInstance;
+    _s.complexData.resize(_c);
+    in.readBytes(_s.complexData);
+}
+void write(const OfficeArtFOPT& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (OfficeArtFOPTE _i, _s.fopt) {
+        write(_i, out);
+    }
+    out.writeBytes(_s.complexData);
 }
 void parseOfficeArtChildAnchor(LEInputStream& in, OfficeArtChildAnchor& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -18654,6 +20065,13 @@ void parseOfficeArtChildAnchor(LEInputStream& in, OfficeArtChildAnchor& _s) {
     _s.xRight = in.readint32();
     _s.yBottom = in.readint32();
 }
+void write(const OfficeArtChildAnchor& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.xLeft);
+    out.writeint32(_s.yTop);
+    out.writeint32(_s.xRight);
+    out.writeint32(_s.yBottom);
+}
 void parseOfficeArtFPSPL(LEInputStream& in, OfficeArtFPSPL& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -18672,6 +20090,12 @@ void parseOfficeArtFPSPL(LEInputStream& in, OfficeArtFPSPL& _s) {
     _s.reserved1 = in.readbit();
     _s.fLast = in.readbit();
 }
+void write(const OfficeArtFPSPL& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint30(_s.spid);
+    out.writebit(_s.reserved1);
+    out.writebit(_s.fLast);
+}
 void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -18687,9 +20111,11 @@ void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) 
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const OfficeArtSecondaryFOPT& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
     int _c;
@@ -18706,6 +20132,16 @@ void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
     for (int _i=0; _i<_c; ++_i) {
         parseOfficeArtFOPTE(in, _s.fopt[_i]);
     }
+    _c = _s.rh.recLen-6*_s.rh.recInstance;
+    _s.complexData.resize(_c);
+    in.readBytes(_s.complexData);
+}
+void write(const OfficeArtTertiaryFOPT& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (OfficeArtFOPTE _i, _s.fopt) {
+        write(_i, out);
+    }
+    out.writeBytes(_s.complexData);
 }
 void parseRectStruct(LEInputStream& in, RectStruct& _s) {
     _s.top = in.readint32();
@@ -18713,11 +20149,23 @@ void parseRectStruct(LEInputStream& in, RectStruct& _s) {
     _s.right = in.readint32();
     _s.bottom = in.readint32();
 }
+void write(const RectStruct& _s, LEOutputStream& out) {
+    out.writeint32(_s.top);
+    out.writeint32(_s.left);
+    out.writeint32(_s.right);
+    out.writeint32(_s.bottom);
+}
 void parseSmallRectStruct(LEInputStream& in, SmallRectStruct& _s) {
     _s.top = in.readint16();
     _s.left = in.readint16();
     _s.right = in.readint16();
     _s.bottom = in.readint16();
+}
+void write(const SmallRectStruct& _s, LEOutputStream& out) {
+    out.writeint16(_s.top);
+    out.writeint16(_s.left);
+    out.writeint16(_s.right);
+    out.writeint16(_s.bottom);
 }
 void parseShapeFlagsAtom(LEInputStream& in, ShapeFlagsAtom& _s) {
     int _c;
@@ -18737,9 +20185,11 @@ void parseShapeFlagsAtom(LEInputStream& in, ShapeFlagsAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const ShapeFlagsAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseShapeFlags10Atom(LEInputStream& in, ShapeFlags10Atom& _s) {
     int _c;
@@ -18759,9 +20209,11 @@ void parseShapeFlags10Atom(LEInputStream& in, ShapeFlags10Atom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const ShapeFlags10Atom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s) {
     int _c;
@@ -18781,9 +20233,11 @@ void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const ExObjRefAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) {
     int _c;
@@ -18795,14 +20249,16 @@ void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) 
     if (!(_s.rh.recInstance == 0)) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
     }
-    if (!(_s.rh.recType == 0xFF1)) {
-        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFF1 for value ") + _s.rh.toString());
+    if (!(_s.rh.recType == 0x1014)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x1014 for value ") + _s.rh.toString());
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const AnimationInfoContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseMouseClickInteractiveInfoContainer(LEInputStream& in, MouseClickInteractiveInfoContainer& _s) {
     int _c;
@@ -18819,9 +20275,11 @@ void parseMouseClickInteractiveInfoContainer(LEInputStream& in, MouseClickIntera
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const MouseClickInteractiveInfoContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseMouseOverInteractiveInfoContainer(LEInputStream& in, MouseOverInteractiveInfoContainer& _s) {
     int _c;
@@ -18838,9 +20296,11 @@ void parseMouseOverInteractiveInfoContainer(LEInputStream& in, MouseOverInteract
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const MouseOverInteractiveInfoContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parsePlaceholderAtom(LEInputStream& in, PlaceholderAtom& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -18861,6 +20321,13 @@ void parsePlaceholderAtom(LEInputStream& in, PlaceholderAtom& _s) {
     _s.size = in.readuint8();
     _s.unused = in.readuint16();
 }
+void write(const PlaceholderAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.position);
+    out.writeuint8(_s.placementId);
+    out.writeuint8(_s.size);
+    out.writeuint16(_s.unused);
+}
 void parseRecolorInfoAtom(LEInputStream& in, RecolorInfoAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -18876,9 +20343,11 @@ void parseRecolorInfoAtom(LEInputStream& in, RecolorInfoAtom& _s) {
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const RecolorInfoAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseOutlineTextRefAtom(LEInputStream& in, OutlineTextRefAtom& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -18899,6 +20368,10 @@ void parseOutlineTextRefAtom(LEInputStream& in, OutlineTextRefAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("((qint32)_s.index)>=0 for value ") + QString::number(_s.index) + "(" + QString::number(_s.index,16).toUpper() + ")");
     }
 }
+void write(const OutlineTextRefAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint32(_s.index);
+}
 void parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream& in, ShapeClientRoundtripDataSubcontainerOrAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -18908,9 +20381,11 @@ void parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream& in, ShapeCli
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const ShapeClientRoundtripDataSubcontainerOrAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseOfficeArtClientTextBox(LEInputStream& in, OfficeArtClientTextBox& _s) {
     LEInputStream::Mark _m;
@@ -18925,40 +20400,57 @@ void parseOfficeArtClientTextBox(LEInputStream& in, OfficeArtClientTextBox& _s) 
     if (!(_s.rh.recType == 0xF00D)) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xF00D for value ") + _s.rh.toString());
     }
-    _atend = false;
-    while (!_atend) {
-        _m = in.setMark();
-        try {
-            TextClientDataSubContainerOrAtom _t;
-            parseTextClientDataSubContainerOrAtom(in, _t);
-            _s.rgChildRec.append(_t);
-        } catch(IncorrectValueException _e) {
-            _atend = true;
-            in.rewind(_m);
-        } catch(EOFException _e) {
-            _atend = true;
-            in.rewind(_m);
-        }
+    int _startPos = in.getPosition();
+    while (in.getPosition() - _startPos < _s.rh.recLen) {
+        TextClientDataSubContainerOrAtom _t;
+        parseTextClientDataSubContainerOrAtom(in, _t);
+        _s.rgChildRec.append(_t);
     }
 }
-void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s) {
+void write(const OfficeArtClientTextBox& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (TextClientDataSubContainerOrAtom _i, _s.rgChildRec) {
+        write(_i, out);
+    }
+}
+void parseTextRulerAtom(LEInputStream& in, TextRulerAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
-    parseOfficeArtRecordHeader(in, _s.rh);
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0xFA6)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0xFA6 for value ") + _s.rh.toString());
+    }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const TextRulerAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
 }
 void parseOfficeArtIDCL(LEInputStream& in, OfficeArtIDCL& _s) {
     _s.dgid = in.readuint32();
     _s.cspidCur = in.readuint32();
 }
+void write(const OfficeArtIDCL& _s, LEOutputStream& out) {
+    out.writeuint32(_s.dgid);
+    out.writeuint32(_s.cspidCur);
+}
 void parseOfficeArtFOPTEOPID(LEInputStream& in, OfficeArtFOPTEOPID& _s) {
     _s.opid = in.readuint14();
     _s.fBid = in.readbit();
     _s.fComplex = in.readbit();
+}
+void write(const OfficeArtFOPTEOPID& _s, LEOutputStream& out) {
+    out.writeuint14(_s.opid);
+    out.writebit(_s.fBid);
+    out.writebit(_s.fComplex);
 }
 void parseOfficeArtColorMRUContainer(LEInputStream& in, OfficeArtColorMRUContainer& _s) {
     int _c;
@@ -18979,6 +20471,12 @@ void parseOfficeArtColorMRUContainer(LEInputStream& in, OfficeArtColorMRUContain
         parseMSOCR(in, _s.rgmsocr[_i]);
     }
 }
+void write(const OfficeArtColorMRUContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (MSOCR _i, _s.rgmsocr) {
+        write(_i, out);
+    }
+}
 void parseMSOCR(LEInputStream& in, MSOCR& _s) {
     _s.red = in.readuint8();
     _s.green = in.readuint8();
@@ -18986,6 +20484,14 @@ void parseMSOCR(LEInputStream& in, MSOCR& _s) {
     _s.unused1 = in.readuint3();
     _s.fSchemeIndex = in.readbit();
     _s.unused2 = in.readuint4();
+}
+void write(const MSOCR& _s, LEOutputStream& out) {
+    out.writeuint8(_s.red);
+    out.writeuint8(_s.green);
+    out.writeuint8(_s.blue);
+    out.writeuint3(_s.unused1);
+    out.writebit(_s.fSchemeIndex);
+    out.writeuint4(_s.unused2);
 }
 void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenuColorContainer& _s) {
     int _c;
@@ -19009,34 +20515,23 @@ void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenu
         parseMSOCR(in, _s.smca[_i]);
     }
 }
+void write(const OfficeArtSplitMenuColorContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (MSOCR _i, _s.smca) {
+        write(_i, out);
+    }
+}
 void parsetodo(LEInputStream& in, todo& _s) {
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     _c = _s.rh.recLen;
     _s.anon.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.anon[_i] = in.readuint8();
-    }
+    in.readBytes(_s.anon);
 }
-void parseTODOS(LEInputStream& in, TODOS& _s) {
-    LEInputStream::Mark _m;
-        bool _atend;
-    _atend = false;
-    while (!_atend) {
-        _m = in.setMark();
-        try {
-            todo _t;
-            parsetodo(in, _t);
-            _s.anon.append(_t);
-        } catch(IncorrectValueException _e) {
-            _atend = true;
-            in.rewind(_m);
-        } catch(EOFException _e) {
-            _atend = true;
-            in.rewind(_m);
-        }
-    }
+void write(const todo& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.anon);
 }
 void parseFibBase(LEInputStream& in, FibBase& _s) {
     _s.wIdent = in.readuint16();
@@ -19092,6 +20587,39 @@ void parseFibBase(LEInputStream& in, FibBase& _s) {
     _s.reserved5 = in.readuint32();
     _s.reserved6 = in.readuint32();
 }
+void write(const FibBase& _s, LEOutputStream& out) {
+    out.writeuint16(_s.wIdent);
+    out.writeuint16(_s.nFib);
+    out.writeuint16(_s.unused);
+    out.writeuint16(_s.lid);
+    out.writeuint16(_s.pnNext);
+    out.writebit(_s.fDot);
+    out.writebit(_s.fGlsy);
+    out.writebit(_s.fComplex);
+    out.writebit(_s.fHasPic);
+    out.writeuint4(_s.cQuickSaves);
+    out.writebit(_s.fEncrypted);
+    out.writebit(_s.fWhichTblStm);
+    out.writebit(_s.fReadOnlyRecommended);
+    out.writebit(_s.fWriteReservation);
+    out.writebit(_s.fExtChar);
+    out.writebit(_s.fLoadOverride);
+    out.writebit(_s.fFarEast);
+    out.writebit(_s.fObfuscated);
+    out.writeuint16(_s.nFibBack);
+    out.writeuint32(_s.IKey);
+    out.writeuint8(_s.envr);
+    out.writebit(_s.fMac);
+    out.writebit(_s.fEmptySpecial);
+    out.writebit(_s.fLoadOverridePage);
+    out.writebit(_s.reserved1);
+    out.writebit(_s.reserved2);
+    out.writeuint3(_s.fSpare0);
+    out.writeuint16(_s.reserved3);
+    out.writeuint16(_s.reserved4);
+    out.writeuint32(_s.reserved5);
+    out.writeuint32(_s.reserved6);
+}
 void parseFibRgW97(LEInputStream& in, FibRgW97& _s) {
     _s.reserved1 = in.readuint16();
     _s.reserved2 = in.readuint16();
@@ -19107,6 +20635,22 @@ void parseFibRgW97(LEInputStream& in, FibRgW97& _s) {
     _s.reserved12 = in.readuint16();
     _s.reserved13 = in.readuint16();
     _s.lidFE = in.readuint16();
+}
+void write(const FibRgW97& _s, LEOutputStream& out) {
+    out.writeuint16(_s.reserved1);
+    out.writeuint16(_s.reserved2);
+    out.writeuint16(_s.reserved3);
+    out.writeuint16(_s.reserved4);
+    out.writeuint16(_s.reserved5);
+    out.writeuint16(_s.reserved6);
+    out.writeuint16(_s.reserved7);
+    out.writeuint16(_s.reserved8);
+    out.writeuint16(_s.reserved9);
+    out.writeuint16(_s.reserved10);
+    out.writeuint16(_s.reserved11);
+    out.writeuint16(_s.reserved12);
+    out.writeuint16(_s.reserved13);
+    out.writeuint16(_s.lidFE);
 }
 void parseFibRgLw97(LEInputStream& in, FibRgLw97& _s) {
     _s.cbMac = in.readuint32();
@@ -19161,6 +20705,30 @@ void parseFibRgLw97(LEInputStream& in, FibRgLw97& _s) {
     if (!(((quint32)_s.reserved14) == 0)) {
         throw IncorrectValueException(in.getPosition() + QString("((quint32)_s.reserved14) == 0 for value ") + QString::number(_s.reserved14) + "(" + QString::number(_s.reserved14,16).toUpper() + ")");
     }
+}
+void write(const FibRgLw97& _s, LEOutputStream& out) {
+    out.writeuint32(_s.cbMac);
+    out.writeuint32(_s.reserved1);
+    out.writeuint32(_s.reserved2);
+    out.writeint32(_s.ccpText);
+    out.writeint32(_s.ccpFtn);
+    out.writeint32(_s.ccpHdd);
+    out.writeuint32(_s.reserved3);
+    out.writeint32(_s.ccpAtn);
+    out.writeint32(_s.ccpEdn);
+    out.writeint32(_s.ccpTxbx);
+    out.writeint32(_s.ccpHdrTxbx);
+    out.writeuint32(_s.reserved4);
+    out.writeuint32(_s.reserved5);
+    out.writeuint32(_s.reserved6);
+    out.writeuint32(_s.reserved7);
+    out.writeuint32(_s.reserved8);
+    out.writeuint32(_s.reserved9);
+    out.writeuint32(_s.reserved10);
+    out.writeuint32(_s.reserved11);
+    out.writeuint32(_s.reserved12);
+    out.writeuint32(_s.reserved13);
+    out.writeuint32(_s.reserved14);
 }
 void parseFibRgFcLcb97(LEInputStream& in, FibRgFcLcb97& _s) {
     _s.fcStshfOrig = in.readuint32();
@@ -19350,6 +20918,194 @@ void parseFibRgFcLcb97(LEInputStream& in, FibRgFcLcb97& _s) {
     _s.fcSttbfUssr = in.readuint32();
     _s.lcbSttbfUssr = in.readuint32();
 }
+void write(const FibRgFcLcb97& _s, LEOutputStream& out) {
+    out.writeuint32(_s.fcStshfOrig);
+    out.writeuint32(_s.lcbStshfOrig);
+    out.writeuint32(_s.fcStshf);
+    out.writeuint32(_s.lcbStshf);
+    out.writeuint32(_s.fcPlcffndRef);
+    out.writeuint32(_s.lcbPlcffndRef);
+    out.writeuint32(_s.fcPlcffndTxt);
+    out.writeuint32(_s.lcbPlcffndTxt);
+    out.writeuint32(_s.fcPlcfandRef);
+    out.writeuint32(_s.lcbPlcfandRef);
+    out.writeuint32(_s.fcPlcfandTxt);
+    out.writeuint32(_s.lcbPlcfandTxt);
+    out.writeuint32(_s.fcPlcfSed);
+    out.writeuint32(_s.lcbPlcfSed);
+    out.writeuint32(_s.fcPlcPad);
+    out.writeuint32(_s.lcbPlcPad);
+    out.writeuint32(_s.fcPlcfPhe);
+    out.writeuint32(_s.lcbPlcfPhe);
+    out.writeuint32(_s.fcSttbfGlsy);
+    out.writeuint32(_s.lcbSttbfGlsy);
+    out.writeuint32(_s.fcPlcfGlsy);
+    out.writeuint32(_s.lcbPlcfGlsy);
+    out.writeuint32(_s.fcPlcfHdd);
+    out.writeuint32(_s.lcbPlcfHdd);
+    out.writeuint32(_s.fcPlcfBteChpx);
+    out.writeuint32(_s.lcbPlcfBteChpx);
+    out.writeuint32(_s.fcPlcfBtePapx);
+    out.writeuint32(_s.lcbPlcfBtePapx);
+    out.writeuint32(_s.fcPlcfSea);
+    out.writeuint32(_s.lcbPlcfSea);
+    out.writeuint32(_s.fcSttbfFfn);
+    out.writeuint32(_s.lcbSttbfFfn);
+    out.writeuint32(_s.fcPlcfFldMom);
+    out.writeuint32(_s.lcbPlcfFldMom);
+    out.writeuint32(_s.fcPlcfFldHdr);
+    out.writeuint32(_s.lcbPlcfFldHdr);
+    out.writeuint32(_s.fcPlcfFldFtn);
+    out.writeuint32(_s.lcbPlcfFldFtn);
+    out.writeuint32(_s.fcPlcfFldAtn);
+    out.writeuint32(_s.lcbPlcfFldAtn);
+    out.writeuint32(_s.fcPlcfFldMcr);
+    out.writeuint32(_s.lcbPlcfFldMcr);
+    out.writeuint32(_s.fcSttbfBkmk);
+    out.writeuint32(_s.lcbSttbfBkmk);
+    out.writeuint32(_s.fcPlcfBkf);
+    out.writeuint32(_s.lcbPlcfBkf);
+    out.writeuint32(_s.fcPlcfBkl);
+    out.writeuint32(_s.lcbPlcfBkl);
+    out.writeuint32(_s.fcCmds);
+    out.writeuint32(_s.lcbCmds);
+    out.writeuint32(_s.fcUnused1);
+    out.writeuint32(_s.lcbUnused1);
+    out.writeuint32(_s.fcSttbfMcr);
+    out.writeuint32(_s.lcbSttbfMcr);
+    out.writeuint32(_s.fcPrDrvr);
+    out.writeuint32(_s.lcbPrDrvr);
+    out.writeuint32(_s.fcPrEnvPort);
+    out.writeuint32(_s.lcbPrEnvPort);
+    out.writeuint32(_s.fcPrEnvLand);
+    out.writeuint32(_s.lcbPrEnvLand);
+    out.writeuint32(_s.fcWss);
+    out.writeuint32(_s.lcbWss);
+    out.writeuint32(_s.fcDop);
+    out.writeuint32(_s.lcbDop);
+    out.writeuint32(_s.fcSttbfAssoc);
+    out.writeuint32(_s.lcbSttbfAssoc);
+    out.writeuint32(_s.fcClx);
+    out.writeuint32(_s.lcbClx);
+    out.writeuint32(_s.fcPlcfPgdFtn);
+    out.writeuint32(_s.lcbPlcfPgdFtn);
+    out.writeuint32(_s.fcAutosaveSource);
+    out.writeuint32(_s.lcbAutosaveSource);
+    out.writeuint32(_s.fcGrpXstAtnOwners);
+    out.writeuint32(_s.lcbGrpXstAtnOwners);
+    out.writeuint32(_s.fcSttbfAtnBkmk);
+    out.writeuint32(_s.lcbSttbfAtnBkmk);
+    out.writeuint32(_s.fcUnused2);
+    out.writeuint32(_s.lcbUnused2);
+    out.writeuint32(_s.fcUnused3);
+    out.writeuint32(_s.lcbUnused3);
+    out.writeuint32(_s.fcPlcSpaMom);
+    out.writeuint32(_s.lcbPlcSpaMom);
+    out.writeuint32(_s.fcPlcSpaHdr);
+    out.writeuint32(_s.lcbPlcSpaHdr);
+    out.writeuint32(_s.fcPlcfAtnBkf);
+    out.writeuint32(_s.lcbPlcfAtnBkf);
+    out.writeuint32(_s.fcPlcfAtnBkl);
+    out.writeuint32(_s.lcbPlcfAtnBkl);
+    out.writeuint32(_s.fcPms);
+    out.writeuint32(_s.lcbPms);
+    out.writeuint32(_s.fcFormFldSttbs);
+    out.writeuint32(_s.lcbFormFldSttbs);
+    out.writeuint32(_s.fcPlcfendRef);
+    out.writeuint32(_s.lcbPlcfendRef);
+    out.writeuint32(_s.fcPlcfendTxt);
+    out.writeuint32(_s.lcbPlcfendTxt);
+    out.writeuint32(_s.fcPlcfFldEdn);
+    out.writeuint32(_s.lcbPlcfFldEdn);
+    out.writeuint32(_s.fcUnused4);
+    out.writeuint32(_s.lcbUnused4);
+    out.writeuint32(_s.fcDggInfo);
+    out.writeuint32(_s.lcbDggInfo);
+    out.writeuint32(_s.fcSttbfRMark);
+    out.writeuint32(_s.lcbSttbfRMark);
+    out.writeuint32(_s.fcSttbfCaption);
+    out.writeuint32(_s.lcbSttbfCaption);
+    out.writeuint32(_s.fcSttbfAutoCaption);
+    out.writeuint32(_s.lcbSttbfAutoCaption);
+    out.writeuint32(_s.fcPlcfWkb);
+    out.writeuint32(_s.lcbPlcfWkb);
+    out.writeuint32(_s.fcPlcfSpl);
+    out.writeuint32(_s.lcbPlcfSpl);
+    out.writeuint32(_s.fcPlcftxbxTxt);
+    out.writeuint32(_s.lcbPlcftxbxTxt);
+    out.writeuint32(_s.fcPlcfFldTxbx);
+    out.writeuint32(_s.lcbPlcfFldTxbx);
+    out.writeuint32(_s.fcPlcfHdrtxbxTxt);
+    out.writeuint32(_s.lcbPlcfHdrtxbxTxt);
+    out.writeuint32(_s.fcPlcffldHdrTxbx);
+    out.writeuint32(_s.lcbPlcffldHdrTxbx);
+    out.writeuint32(_s.fcStwUser);
+    out.writeuint32(_s.lcbStwUser);
+    out.writeuint32(_s.fcSttbTtmbd);
+    out.writeuint32(_s.lcbSttbTtmbd);
+    out.writeuint32(_s.fcCookieData);
+    out.writeuint32(_s.lcbCookieData);
+    out.writeuint32(_s.fcPgdMotherOldOld);
+    out.writeuint32(_s.lcbPgdMotherOldOld);
+    out.writeuint32(_s.fcBkdMotherOldOld);
+    out.writeuint32(_s.lcbBkdMotherOldOld);
+    out.writeuint32(_s.fcPgdFtnOldOld);
+    out.writeuint32(_s.lcbPgdFtnOldOld);
+    out.writeuint32(_s.fcBkdFtnOldOld);
+    out.writeuint32(_s.lcbBkdFtnOldOld);
+    out.writeuint32(_s.fcPgdEdnOldOld);
+    out.writeuint32(_s.lcbPgdEdnOldOld);
+    out.writeuint32(_s.fcBkdEdnOldOld);
+    out.writeuint32(_s.lcbBkdEdnOldOld);
+    out.writeuint32(_s.fcSttbfIntlFld);
+    out.writeuint32(_s.lcbSttbfIntlFld);
+    out.writeuint32(_s.fcRouteSlip);
+    out.writeuint32(_s.lcbRouteSlip);
+    out.writeuint32(_s.fcSttbSavedBy);
+    out.writeuint32(_s.lcbSttbSavedBy);
+    out.writeuint32(_s.fcSttbFnm);
+    out.writeuint32(_s.lcbSttbFnm);
+    out.writeuint32(_s.fcPlfLst);
+    out.writeuint32(_s.lcbPlfLst);
+    out.writeuint32(_s.fcPlfLfo);
+    out.writeuint32(_s.lcbPlfLfo);
+    out.writeuint32(_s.fcPlcfTxbxBkd);
+    out.writeuint32(_s.lcbPlcfTxbxBkd);
+    out.writeuint32(_s.fcPlcfTxbxHdrBkd);
+    out.writeuint32(_s.lcbPlcfTxbxHdrBkd);
+    out.writeuint32(_s.fcDocUndoWord9);
+    out.writeuint32(_s.lcbDocUndoWord9);
+    out.writeuint32(_s.fcRgbUse);
+    out.writeuint32(_s.lcbRgbUse);
+    out.writeuint32(_s.fcUsp);
+    out.writeuint32(_s.lcbUsp);
+    out.writeuint32(_s.fcUskf);
+    out.writeuint32(_s.lcbUskf);
+    out.writeuint32(_s.fcPlcupcRgbUse);
+    out.writeuint32(_s.lcbPlcupcRgbUse);
+    out.writeuint32(_s.fcPlcupcUsp);
+    out.writeuint32(_s.lcbPlcupcUsp);
+    out.writeuint32(_s.fcSttbGlsyStyle);
+    out.writeuint32(_s.lcbSttbGlsyStyle);
+    out.writeuint32(_s.fcPlgosl);
+    out.writeuint32(_s.lcbPlgosl);
+    out.writeuint32(_s.fcPlcocx);
+    out.writeuint32(_s.lcbPlcocx);
+    out.writeuint32(_s.fcPlcfBteLvc);
+    out.writeuint32(_s.lcbPlcfBteLvc);
+    out.writeuint32(_s.dwLowDateTime);
+    out.writeuint32(_s.dwHighDateTime);
+    out.writeuint32(_s.fcPlcfLvcPre10);
+    out.writeuint32(_s.lcbPlcfLvcPre10);
+    out.writeuint32(_s.fcPlcfAsumy);
+    out.writeuint32(_s.lcbPlcfAsumy);
+    out.writeuint32(_s.fcPlcfGram);
+    out.writeuint32(_s.lcbPlcfGram);
+    out.writeuint32(_s.fcSttbListNames);
+    out.writeuint32(_s.lcbSttbListNames);
+    out.writeuint32(_s.fcSttbfUssr);
+    out.writeuint32(_s.lcbSttbfUssr);
+}
 void parseFibRgFcLcb2000(LEInputStream& in, FibRgFcLcb2000& _s) {
     _s.fcPlcfTch = in.readuint32();
     _s.lcbPlcfTch = in.readuint32();
@@ -19381,6 +21137,38 @@ void parseFibRgFcLcb2000(LEInputStream& in, FibRgFcLcb2000& _s) {
     _s.lcbPgdEdnOld = in.readuint32();
     _s.fcBkdEdnOld = in.readuint32();
     _s.lcbBkdEdnOld = in.readuint32();
+}
+void write(const FibRgFcLcb2000& _s, LEOutputStream& out) {
+    out.writeuint32(_s.fcPlcfTch);
+    out.writeuint32(_s.lcbPlcfTch);
+    out.writeuint32(_s.fcRmdThreading);
+    out.writeuint32(_s.lcbRmdThreading);
+    out.writeuint32(_s.fcMid);
+    out.writeuint32(_s.lcbMid);
+    out.writeuint32(_s.fcSttbRgtplc);
+    out.writeuint32(_s.lcbSttbRgtplc);
+    out.writeuint32(_s.fcMsoEnvelope);
+    out.writeuint32(_s.lcbMsoEnvelope);
+    out.writeuint32(_s.fcPlcfLad);
+    out.writeuint32(_s.lcbPlcfLad);
+    out.writeuint32(_s.fcRgDofr);
+    out.writeuint32(_s.lcbRgDofr);
+    out.writeuint32(_s.fcPlcosl);
+    out.writeuint32(_s.lcbPlcosl);
+    out.writeuint32(_s.fcPlcfCookieOld);
+    out.writeuint32(_s.lcbPlcfCookieOld);
+    out.writeuint32(_s.fcPgdMotherOld);
+    out.writeuint32(_s.lcbPgdMotherOld);
+    out.writeuint32(_s.fcBkdMotherOld);
+    out.writeuint32(_s.lcbBkdMotherOld);
+    out.writeuint32(_s.fcPgdFtnOld);
+    out.writeuint32(_s.lcbPgdFtnOld);
+    out.writeuint32(_s.fcBkdFtnOld);
+    out.writeuint32(_s.lcbBkdFtnOld);
+    out.writeuint32(_s.fcPgdEdnOld);
+    out.writeuint32(_s.lcbPgdEdnOld);
+    out.writeuint32(_s.fcBkdEdnOld);
+    out.writeuint32(_s.lcbBkdEdnOld);
 }
 void parseFibRgFcLcb2002(LEInputStream& in, FibRgFcLcb2002& _s) {
     _s.fcUnused1 = in.readuint32();
@@ -19434,15 +21222,69 @@ void parseFibRgFcLcb2002(LEInputStream& in, FibRgFcLcb2002& _s) {
     _s.fcPlcffactoid = in.readuint32();
     _s.lcbPlcffactoid = in.readuint32();
 }
+void write(const FibRgFcLcb2002& _s, LEOutputStream& out) {
+    out.writeuint32(_s.fcUnused1);
+    out.writeuint32(_s.lcbUnused1);
+    out.writeuint32(_s.fcPlcfPgp);
+    out.writeuint32(_s.lcbPlcfPgp);
+    out.writeuint32(_s.fcPlcfuim);
+    out.writeuint32(_s.lcbPlcfuim);
+    out.writeuint32(_s.fcPlfguidUim);
+    out.writeuint32(_s.lcbPlfguidUim);
+    out.writeuint32(_s.fcAtrdExtra);
+    out.writeuint32(_s.lcbAtrdExtra);
+    out.writeuint32(_s.fcPlrsid);
+    out.writeuint32(_s.lcbPlrsid);
+    out.writeuint32(_s.fcSttbfBkmkFactoid);
+    out.writeuint32(_s.lcbSttbfBkmkFactoid);
+    out.writeuint32(_s.fcPlcfBkfFactoid);
+    out.writeuint32(_s.lcbPlcfBkfFactoid);
+    out.writeuint32(_s.fcPlcfcookie);
+    out.writeuint32(_s.lcbPlcfcookie);
+    out.writeuint32(_s.fcPlcfBklFactoid);
+    out.writeuint32(_s.lcbPlcfBklFactoid);
+    out.writeuint32(_s.fcFactoidData);
+    out.writeuint32(_s.lcbFactoidData);
+    out.writeuint32(_s.fcDocUndo);
+    out.writeuint32(_s.lcbDocUndo);
+    out.writeuint32(_s.fcSttbfBkmkFcc);
+    out.writeuint32(_s.lcbSttbfBkmkFcc);
+    out.writeuint32(_s.fcPlcfBkfFcc);
+    out.writeuint32(_s.lcbPlcfBkfFcc);
+    out.writeuint32(_s.fcPlcfBklFcc);
+    out.writeuint32(_s.lcbPlcfBklFcc);
+    out.writeuint32(_s.fcSttbfbkmkBPRepairs);
+    out.writeuint32(_s.lcbSttbfbkmkBPRepairs);
+    out.writeuint32(_s.fcPlcfbkfBPRepairs);
+    out.writeuint32(_s.lcbPlcfbkfBPRepairs);
+    out.writeuint32(_s.fcPlcfbklBPRepairs);
+    out.writeuint32(_s.lcbPlcfbklBPRepairs);
+    out.writeuint32(_s.fcPmsNew);
+    out.writeuint32(_s.lcbPmsNew);
+    out.writeuint32(_s.fcODSO);
+    out.writeuint32(_s.lcbODSO);
+    out.writeuint32(_s.fcPlcfpmiOldXP);
+    out.writeuint32(_s.lcbPlcfpmiOldXP);
+    out.writeuint32(_s.fcPlcfpmiNewXP);
+    out.writeuint32(_s.lcbPlcfpmiNewXP);
+    out.writeuint32(_s.fcPlcfpmiMixedXP);
+    out.writeuint32(_s.lcbPlcfpmiMixedXP);
+    out.writeuint32(_s.fcUnused2);
+    out.writeuint32(_s.lcbUnused2);
+    out.writeuint32(_s.fcPlcffactoid);
+    out.writeuint32(_s.lcbPlcffactoid);
+}
 void parseLPStshi(LEInputStream& in, LPStshi& _s) {
     int _c;
     LEInputStream::Mark _m;
     _s.cbSthi = in.readuint16();
     _c = _s.cbSthi;
     _s.stshi.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.stshi[_i] = in.readuint8();
-    }
+    in.readBytes(_s.stshi);
+}
+void write(const LPStshi& _s, LEOutputStream& out) {
+    out.writeuint16(_s.cbSthi);
+    out.writeBytes(_s.stshi);
 }
 void parseLPStd(LEInputStream& in, LPStd& _s) {
     int _c;
@@ -19450,11 +21292,16 @@ void parseLPStd(LEInputStream& in, LPStd& _s) {
     _s.cbStd = in.readuint16();
     _c = _s.cbStd;
     _s.std.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.std[_i] = in.readuint8();
-    }
+    in.readBytes(_s.std);
     if (_s.cbStd%2==1) {
         _s.padding = in.readuint8();
+    }
+}
+void write(const LPStd& _s, LEOutputStream& out) {
+    out.writeuint16(_s.cbStd);
+    out.writeBytes(_s.std);
+    if (_s.cbStd%2==1) {
+        out.writeuint8(_s.padding);
     }
 }
 void parsePlcfSed(LEInputStream& in, PlcfSed& _s) {
@@ -19471,11 +21318,25 @@ void parsePlcfSed(LEInputStream& in, PlcfSed& _s) {
         parseSed(in, _s.aSed[_i]);
     }
 }
+void write(const PlcfSed& _s, LEOutputStream& out) {
+    foreach (quint32 _i, _s.aCP) {
+        out.writeuint32(_i);
+    }
+    foreach (Sed _i, _s.aSed) {
+        write(_i, out);
+    }
+}
 void parseSed(LEInputStream& in, Sed& _s) {
     _s.fn = in.readuint16();
     _s.fcSepx = in.readint32();
     _s.fnMpr = in.readuint16();
     _s.fcMpr = in.readuint32();
+}
+void write(const Sed& _s, LEOutputStream& out) {
+    out.writeuint16(_s.fn);
+    out.writeint32(_s.fcSepx);
+    out.writeuint16(_s.fnMpr);
+    out.writeuint32(_s.fcMpr);
 }
 void parsePlcfhdd(LEInputStream& in, Plcfhdd& _s) {
     int _c;
@@ -19484,6 +21345,11 @@ void parsePlcfhdd(LEInputStream& in, Plcfhdd& _s) {
     _s.aCP.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
         _s.aCP[_i] = in.readuint32();
+    }
+}
+void write(const Plcfhdd& _s, LEOutputStream& out) {
+    foreach (quint32 _i, _s.aCP) {
+        out.writeuint32(_i);
     }
 }
 void parsePlcBteChpx(LEInputStream& in, PlcBteChpx& _s) {
@@ -19500,6 +21366,14 @@ void parsePlcBteChpx(LEInputStream& in, PlcBteChpx& _s) {
         _s.aPnBteChpx[_i] = in.readuint32();
     }
 }
+void write(const PlcBteChpx& _s, LEOutputStream& out) {
+    foreach (quint32 _i, _s.aCP) {
+        out.writeuint32(_i);
+    }
+    foreach (quint32 _i, _s.aPnBteChpx) {
+        out.writeuint32(_i);
+    }
+}
 void parsePlcfBtePapx(LEInputStream& in, PlcfBtePapx& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -19514,6 +21388,14 @@ void parsePlcfBtePapx(LEInputStream& in, PlcfBtePapx& _s) {
         _s.aPnBteChpx[_i] = in.readuint32();
     }
 }
+void write(const PlcfBtePapx& _s, LEOutputStream& out) {
+    foreach (quint32 _i, _s.aCP) {
+        out.writeuint32(_i);
+    }
+    foreach (quint32 _i, _s.aPnBteChpx) {
+        out.writeuint32(_i);
+    }
+}
 void parseTcg(LEInputStream& in, Tcg& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -19523,9 +21405,11 @@ void parseTcg(LEInputStream& in, Tcg& _s) {
     }
     _c = 11;
     _s.todo.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.todo[_i] = in.readuint8();
-    }
+    in.readBytes(_s.todo);
+}
+void write(const Tcg& _s, LEOutputStream& out) {
+    out.writeuint8(_s.nTcgVer);
+    out.writeBytes(_s.todo);
 }
 void parsePrcData(LEInputStream& in, PrcData& _s) {
     int _c;
@@ -19546,11 +21430,23 @@ void parsePrcData(LEInputStream& in, PrcData& _s) {
         parseSprm(in, _s.GrpPrl[_i]);
     }
 }
+void write(const PrcData& _s, LEOutputStream& out) {
+    out.writeint16(_s.cbGrpprl);
+    foreach (Sprm _i, _s.GrpPrl) {
+        write(_i, out);
+    }
+}
 void parseSprm(LEInputStream& in, Sprm& _s) {
     _s.ispmd = in.readuint9();
     _s.fSpec = in.readbit();
     _s.sgc = in.readuint3();
     _s.spra = in.readuint3();
+}
+void write(const Sprm& _s, LEOutputStream& out) {
+    out.writeuint9(_s.ispmd);
+    out.writebit(_s.fSpec);
+    out.writeuint3(_s.sgc);
+    out.writeuint3(_s.spra);
 }
 void parsePcdt(LEInputStream& in, Pcdt& _s) {
     int _c;
@@ -19566,10 +21462,22 @@ void parsePcdt(LEInputStream& in, Pcdt& _s) {
         parsePcd(in, _s.PlcPcd[_i]);
     }
 }
+void write(const Pcdt& _s, LEOutputStream& out) {
+    out.writeuint8(_s.clxt);
+    out.writeuint32(_s.lcb);
+    foreach (Pcd _i, _s.PlcPcd) {
+        write(_i, out);
+    }
+}
 void parseFCompressed(LEInputStream& in, FCompressed& _s) {
     _s.fc = in.readuint30();
     _s.fCompressed = in.readbit();
     _s.r1 = in.readbit();
+}
+void write(const FCompressed& _s, LEOutputStream& out) {
+    out.writeuint30(_s.fc);
+    out.writebit(_s.fCompressed);
+    out.writebit(_s.r1);
 }
 void parsePrm0(LEInputStream& in, Prm0& _s) {
     _s.fComplex = in.readbit();
@@ -19579,12 +21487,21 @@ void parsePrm0(LEInputStream& in, Prm0& _s) {
     _s.isprm = in.readuint7();
     _s.val = in.readuint8();
 }
+void write(const Prm0& _s, LEOutputStream& out) {
+    out.writebit(_s.fComplex);
+    out.writeuint7(_s.isprm);
+    out.writeuint8(_s.val);
+}
 void parsePrm1(LEInputStream& in, Prm1& _s) {
     _s.fComplex = in.readbit();
     if (!(((bool)_s.fComplex) == true)) {
         throw IncorrectValueException(in.getPosition() + QString("((bool)_s.fComplex) == true for value ") + QString::number(_s.fComplex));
     }
     _s.igrpprl = in.readuint15();
+}
+void write(const Prm1& _s, LEOutputStream& out) {
+    out.writebit(_s.fComplex);
+    out.writeuint15(_s.igrpprl);
 }
 void parseSttbfFfn(LEInputStream& in, SttbfFfn& _s) {
     int _c;
@@ -19600,18 +21517,30 @@ void parseSttbfFfn(LEInputStream& in, SttbfFfn& _s) {
         parseSttbfFfnEntry(in, _s.data[_i]);
     }
 }
+void write(const SttbfFfn& _s, LEOutputStream& out) {
+    out.writeuint16(_s.cData);
+    out.writeuint16(_s.cbExtra);
+    foreach (SttbfFfnEntry _i, _s.data) {
+        write(_i, out);
+    }
+}
 void parseSttbfFfnEntry(LEInputStream& in, SttbfFfnEntry& _s) {
     int _c;
     LEInputStream::Mark _m;
     _s.cchData = in.readuint8();
     _c = _s.cchData;
     _s.Data.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.Data[_i] = in.readuint8();
-    }
+    in.readBytes(_s.Data);
+}
+void write(const SttbfFfnEntry& _s, LEOutputStream& out) {
+    out.writeuint8(_s.cchData);
+    out.writeBytes(_s.Data);
 }
 void parsePicturesStream(LEInputStream& in, PicturesStream& _s) {
     parseOfficeArtBStoreDelay(in, _s.anon1);
+}
+void write(const PicturesStream& _s, LEOutputStream& out) {
+    write(_s.anon1, out);
 }
 void parseOfficeArtMetafileHeader(LEInputStream& in, OfficeArtMetafileHeader& _s) {
     _s.cbSize = in.readuint32();
@@ -19620,6 +21549,14 @@ void parseOfficeArtMetafileHeader(LEInputStream& in, OfficeArtMetafileHeader& _s
     _s.cbsave = in.readuint32();
     _s.compression = in.readuint8();
     _s.filter = in.readuint8();
+}
+void write(const OfficeArtMetafileHeader& _s, LEOutputStream& out) {
+    out.writeuint32(_s.cbSize);
+    write(_s.rcBounds, out);
+    write(_s.ptSize, out);
+    out.writeuint32(_s.cbsave);
+    out.writeuint8(_s.compression);
+    out.writeuint8(_s.filter);
 }
 void parseNormalViewSetInfoAtom(LEInputStream& in, NormalViewSetInfoAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -19649,6 +21586,17 @@ void parseNormalViewSetInfoAtom(LEInputStream& in, NormalViewSetInfoAtom& _s) {
     if (!(((quint8)_s.reserved) == 0)) {
         throw IncorrectValueException(in.getPosition() + QString("((quint8)_s.reserved) == 0 for value ") + QString::number(_s.reserved) + "(" + QString::number(_s.reserved,16).toUpper() + ")");
     }
+}
+void write(const NormalViewSetInfoAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.leftPortion, out);
+    write(_s.topPortion, out);
+    out.writeuint8(_s.vertBarState);
+    out.writeuint8(_s.horizBarState);
+    out.writeuint8(_s.fPreferSingleSet);
+    out.writebit(_s.fHideThumbnails);
+    out.writebit(_s.fBarSnapped);
+    out.writeuint6(_s.reserved);
 }
 void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -19691,6 +21639,18 @@ void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s) {
     if (!(((quint32)_s.reserved6) == 0)) {
         throw IncorrectValueException(in.getPosition() + QString("((quint32)_s.reserved6) == 0 for value ") + QString::number(_s.reserved6) + "(" + QString::number(_s.reserved6,16).toUpper() + ")");
     }
+}
+void write(const MasterPersistAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.persistIdRef, out);
+    out.writeuint2(_s.reserved1);
+    out.writebit(_s.fNonOutLineData);
+    out.writeuint5(_s.reserved2);
+    out.writeuint8(_s.reserved3);
+    out.writeuint16(_s.reserved4);
+    out.writeuint32(_s.reserved5);
+    out.writeuint32(_s.masterId);
+    out.writeuint32(_s.reserved6);
 }
 void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -19736,6 +21696,39 @@ void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s) {
     _s.reserved5 = in.readuint32();
     if (!(((quint32)_s.reserved5) == 0)) {
         throw IncorrectValueException(in.getPosition() + QString("((quint32)_s.reserved5) == 0 for value ") + QString::number(_s.reserved5) + "(" + QString::number(_s.reserved5,16).toUpper() + ")");
+    }
+}
+void write(const SlidePersistAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.persistIdRef, out);
+    out.writebit(_s.reserved1);
+    out.writebit(_s.fShouldCollapse);
+    out.writebit(_s.fNonOutlineData);
+    out.writeuint5(_s.reserved2);
+    out.writeuint8(_s.reserved3);
+    out.writeuint16(_s.reserved4);
+    out.writeint32(_s.cTexts);
+    write(_s.slideId, out);
+    out.writeuint32(_s.reserved5);
+}
+void parseInteractiveInfoInstance(LEInputStream& in, InteractiveInfoInstance& _s) {
+    LEInputStream::Mark _m = in.setMark();
+    try {
+        MouseClickInteractiveInfoContainer _t;
+        parseMouseClickInteractiveInfoContainer(in, _t);
+        _s.anon.mouseclickinteractiveinfocontainer = QSharedPointer<MouseClickInteractiveInfoContainer>(new MouseClickInteractiveInfoContainer(_t));
+    } catch (IncorrectValueException _x) {
+        in.rewind(_m);
+        MouseOverInteractiveInfoContainer _t;
+        parseMouseOverInteractiveInfoContainer(in, _t);
+        _s.anon.mouseoverinteractiveinfocontainer = QSharedPointer<MouseOverInteractiveInfoContainer>(new MouseOverInteractiveInfoContainer(_t));
+    }
+}
+void write(const InteractiveInfoInstance& _s, LEOutputStream& out) {
+    if (_s.anon.mouseclickinteractiveinfocontainer) {
+        write(*_s.anon.mouseclickinteractiveinfocontainer, out);
+    } else if (_s.anon.mouseoverinteractiveinfocontainer) {
+        write(*_s.anon.mouseoverinteractiveinfocontainer, out);
     }
 }
 void parseTextRuler(LEInputStream& in, TextRuler& _s) {
@@ -19792,6 +21785,62 @@ void parseTextRuler(LEInputStream& in, TextRuler& _s) {
     }
     if (_s.fIndent5) {
         _s.indent5 = in.readuint16();
+    }
+}
+void write(const TextRuler& _s, LEOutputStream& out) {
+    out.writebit(_s.fDefaultTabSize);
+    out.writebit(_s.fCLevels);
+    out.writebit(_s.fTabStops);
+    out.writebit(_s.fLeftMargin1);
+    out.writebit(_s.fLeftMargin2);
+    out.writebit(_s.fLeftMargin3);
+    out.writebit(_s.fLeftMargin4);
+    out.writebit(_s.fLeftMargin5);
+    out.writebit(_s.fIndent1);
+    out.writebit(_s.fIndent2);
+    out.writebit(_s.fIndent3);
+    out.writebit(_s.fIndent4);
+    out.writebit(_s.fIndent5);
+    out.writeuint3(_s.reserved1);
+    out.writeuint16(_s.reserved2);
+    if (_s.fCLevels) {
+        out.writeint16(_s.cLevels);
+    }
+    if (_s.fDefaultTabSize) {
+        out.writeuint16(_s.defaultTabSize);
+    }
+    if (_s.fTabStops) {
+        write(_s.tabs, out);
+    }
+    if (_s.fLeftMargin1) {
+        out.writeuint16(_s.leftMargin1);
+    }
+    if (_s.fIndent1) {
+        out.writeuint16(_s.indent1);
+    }
+    if (_s.fLeftMargin2) {
+        out.writeuint16(_s.leftMargin2);
+    }
+    if (_s.fIndent2) {
+        out.writeuint16(_s.indent2);
+    }
+    if (_s.fLeftMargin3) {
+        out.writeuint16(_s.leftMargin3);
+    }
+    if (_s.fIndent3) {
+        out.writeuint16(_s.indent3);
+    }
+    if (_s.fLeftMargin4) {
+        out.writeuint16(_s.leftMargin4);
+    }
+    if (_s.fIndent4) {
+        out.writeuint16(_s.indent4);
+    }
+    if (_s.fLeftMargin5) {
+        out.writeuint16(_s.leftMargin5);
+    }
+    if (_s.fIndent5) {
+        out.writeuint16(_s.indent5);
     }
 }
 void parseTextPFException(LEInputStream& in, TextPFException& _s) {
@@ -19857,6 +21906,57 @@ void parseTextPFException(LEInputStream& in, TextPFException& _s) {
         _s.textDirection = in.readuint16();
     }
 }
+void write(const TextPFException& _s, LEOutputStream& out) {
+    write(_s.masks, out);
+    if (_s.masks.hasBullet||_s.masks.bulletHasFont||_s.masks.bulletHasColor||_s.masks.bulletHasSize) {
+        write(_s.bulletFlags, out);
+    }
+    if (_s.masks.bulletChar) {
+        out.writeint16(_s.bulletChar);
+    }
+    if (_s.masks.bulletFont) {
+        out.writeuint16(_s.bulletFontRef);
+    }
+    if (_s.masks.bulletSize) {
+        out.writeuint16(_s.bulletSize);
+    }
+    if (_s.masks.bulletColor) {
+        out.writeuint32(_s.bulletColor);
+    }
+    if (_s.masks.align) {
+        out.writeuint16(_s.textAlignment);
+    }
+    if (_s.masks.lineSpacing) {
+        out.writeuint16(_s.lineSpacing);
+    }
+    if (_s.masks.spaceBefore) {
+        out.writeuint16(_s.spaceBefore);
+    }
+    if (_s.masks.spaceAfter) {
+        out.writeuint16(_s.spaceAfter);
+    }
+    if (_s.masks.leftMargin) {
+        out.writeuint16(_s.leftMargin);
+    }
+    if (_s.masks.indent) {
+        out.writeuint16(_s.indent);
+    }
+    if (_s.masks.defaultTabSize) {
+        out.writeuint16(_s.defaultTabSize);
+    }
+    if (_s.masks.tabStops) {
+        write(_s.tabStops, out);
+    }
+    if (_s.masks.fontAlign) {
+        out.writeuint16(_s.fontAlign);
+    }
+    if (_s.masks.charWrap||_s.masks.wordWrap||_s.masks.overflow) {
+        out.writeuint16(_s.wrapFlags);
+    }
+    if (_s.masks.textDirection) {
+        out.writeuint16(_s.textDirection);
+    }
+}
 void parseTextCFException(LEInputStream& in, TextCFException& _s) {
     parseCFMasks(in, _s.masks);
     if (!(_s.masks.pp10ext == false)) {
@@ -19908,6 +22008,33 @@ void parseTextCFException(LEInputStream& in, TextCFException& _s) {
         }
     }
 }
+void write(const TextCFException& _s, LEOutputStream& out) {
+    write(_s.masks, out);
+    if (_s.masks.bold || _s.masks.italic || _s.masks.underline || _s.masks.shadow || _s.masks.fehint || _s.masks.kumi || _s.masks.emboss || _s.masks.fHasStyle != 0) {
+        write(_s.fontStyle, out);
+    }
+    if (_s.masks.typeface) {
+        out.writeuint16(_s.fontRef);
+    }
+    if (_s.masks.oldEATypeface) {
+        out.writeuint16(_s.oldEAFontRef);
+    }
+    if (_s.masks.ansiTypeface) {
+        out.writeuint16(_s.ansiFontRef);
+    }
+    if (_s.masks.symbolTypeface) {
+        out.writeuint16(_s.symbolFontRef);
+    }
+    if (_s.masks.size) {
+        out.writeuint16(_s.fontSize);
+    }
+    if (_s.masks.color) {
+        out.writeuint32(_s.color);
+    }
+    if (_s.masks.position) {
+        out.writeuint16(_s.position);
+    }
+}
 void parseKinsokuContainer(LEInputStream& in, KinsokuContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -19921,9 +22048,17 @@ void parseKinsokuContainer(LEInputStream& in, KinsokuContainer& _s) {
     }
     parseKinsokuAtom(in, _s.kinsokuAtom);
 }
+void write(const KinsokuContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.kinsokuAtom, out);
+}
 void parseTextMasterStyleLevel(LEInputStream& in, TextMasterStyleLevel& _s) {
     parseTextPFException(in, _s.pf);
     parseTextCFException(in, _s.cf);
+}
+void write(const TextMasterStyleLevel& _s, LEOutputStream& out) {
+    write(_s.pf, out);
+    write(_s.cf, out);
 }
 void parseDocumentAtom(LEInputStream& in, DocumentAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -19960,9 +22095,23 @@ void parseDocumentAtom(LEInputStream& in, DocumentAtom& _s) {
     _s.fRightToLeft = in.readuint8();
     _s.fShowComments = in.readuint8();
 }
+void write(const DocumentAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.slideSize, out);
+    write(_s.notesSize, out);
+    write(_s.serverZoom, out);
+    write(_s.notesMasterPersistIdRef, out);
+    write(_s.handoutMasterPersistIdRef, out);
+    out.writeuint16(_s.firstSlideNumber);
+    out.writeuint16(_s.slideSizeType);
+    out.writeuint8(_s.fSaveWithFonts);
+    out.writeuint8(_s.fOmitTitlePlace);
+    out.writeuint8(_s.fRightToLeft);
+    out.writeuint8(_s.fShowComments);
+}
 void parseExObjListContainer(LEInputStream& in, ExObjListContainer& _s) {
-    int _c;
     LEInputStream::Mark _m;
+        bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
@@ -19977,10 +22126,18 @@ void parseExObjListContainer(LEInputStream& in, ExObjListContainer& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recLen>=12 for value ") + _s.rh.toString());
     }
     parseExObjListAtom(in, _s.exObjListAtom);
-    _c = _s.rh.recLen-12;
-    _s.rgChildRec.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        parseExObjListSubContainer(in, _s.rgChildRec[_i]);
+    int _startPos = in.getPosition();
+    while (in.getPosition() - _startPos < _s.rh.recLen-12) {
+        ExObjListSubContainer _t;
+        parseExObjListSubContainer(in, _t);
+        _s.rgChildRec.append(_t);
+    }
+}
+void write(const ExObjListContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.exObjListAtom, out);
+    foreach (ExObjListSubContainer _i, _s.rgChildRec) {
+        write(_i, out);
     }
 }
 void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s) {
@@ -20038,6 +22195,15 @@ void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s) {
         in.rewind(_m);
     }
 }
+void write(const ExOleLinkContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.exOleLinkAtom, out);
+    write(_s.exOleObjAtom, out);
+    if (_s.menuNameAtom) write(*_s.menuNameAtom, out);
+    if (_s.progIdAtom) write(*_s.progIdAtom, out);
+    if (_s.clipboardNameAtom) write(*_s.clipboardNameAtom, out);
+    if (_s.metafile) write(*_s.metafile, out);
+}
 void parseExOleEmbedContainer(LEInputStream& in, ExOleEmbedContainer& _s) {
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -20093,6 +22259,15 @@ void parseExOleEmbedContainer(LEInputStream& in, ExOleEmbedContainer& _s) {
         in.rewind(_m);
     }
 }
+void write(const ExOleEmbedContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.exOleEmbedAtom, out);
+    write(_s.exOleObjAtom, out);
+    if (_s.menuNameAtom) write(*_s.menuNameAtom, out);
+    if (_s.progIdAtom) write(*_s.progIdAtom, out);
+    if (_s.clipboardNameAtom) write(*_s.clipboardNameAtom, out);
+    if (_s.metafile) write(*_s.metafile, out);
+}
 void parseOfficeArtFDGGBlock(LEInputStream& in, OfficeArtFDGGBlock& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -20111,6 +22286,13 @@ void parseOfficeArtFDGGBlock(LEInputStream& in, OfficeArtFDGGBlock& _s) {
     _s.Rgidcl.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
         parseOfficeArtIDCL(in, _s.Rgidcl[_i]);
+    }
+}
+void write(const OfficeArtFDGGBlock& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.head, out);
+    foreach (OfficeArtIDCL _i, _s.Rgidcl) {
+        write(_i, out);
     }
 }
 void parseOfficeArtClientAnchor(LEInputStream& in, OfficeArtClientAnchor& _s) {
@@ -20132,6 +22314,15 @@ void parseOfficeArtClientAnchor(LEInputStream& in, OfficeArtClientAnchor& _s) {
     }
     if (_s.rh.recLen==0x10) {
         parseRectStruct(in, _s.rect2);
+    }
+}
+void write(const OfficeArtClientAnchor& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    if (_s.rh.recLen==0x8) {
+        write(_s.rect1, out);
+    }
+    if (_s.rh.recLen==0x10) {
+        write(_s.rect2, out);
     }
 }
 void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
@@ -20243,16 +22434,167 @@ void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
         }
     }
 }
+void write(const OfficeArtClientData& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    if (_s.shapeFlagsAtom) write(*_s.shapeFlagsAtom, out);
+    if (_s.shapeFlags10Atom) write(*_s.shapeFlags10Atom, out);
+    if (_s.exObjRefAtom) write(*_s.exObjRefAtom, out);
+    if (_s.animationInfo) write(*_s.animationInfo, out);
+    if (_s.mouseClickInteractiveInfo) write(*_s.mouseClickInteractiveInfo, out);
+    if (_s.mouseOverInteractiveInfo) write(*_s.mouseOverInteractiveInfo, out);
+    if (_s.placeholderAtom) write(*_s.placeholderAtom, out);
+    if (_s.recolorInfoAtom) write(*_s.recolorInfoAtom, out);
+    foreach (ShapeClientRoundtripDataSubcontainerOrAtom _i, _s.rgShapeClientRoundtripData) {
+        write(_i, out);
+    }
+}
+void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s) {
+    LEInputStream::Mark _m = in.setMark();
+    try {
+        OutlineTextRefAtom _t;
+        parseOutlineTextRefAtom(in, _t);
+        _s.anon.outlinetextrefatom = QSharedPointer<OutlineTextRefAtom>(new OutlineTextRefAtom(_t));
+    } catch (IncorrectValueException _x) {
+        in.rewind(_m);
+    try {
+        TextHeaderAtom _t;
+        parseTextHeaderAtom(in, _t);
+        _s.anon.textheaderatom = QSharedPointer<TextHeaderAtom>(new TextHeaderAtom(_t));
+    } catch (IncorrectValueException _xx) {
+        in.rewind(_m);
+    try {
+        TextCharsAtom _t;
+        parseTextCharsAtom(in, _t);
+        _s.anon.textcharsatom = QSharedPointer<TextCharsAtom>(new TextCharsAtom(_t));
+    } catch (IncorrectValueException _xxx) {
+        in.rewind(_m);
+    try {
+        TextBytesAtom _t;
+        parseTextBytesAtom(in, _t);
+        _s.anon.textbytesatom = QSharedPointer<TextBytesAtom>(new TextBytesAtom(_t));
+    } catch (IncorrectValueException _xxxx) {
+        in.rewind(_m);
+    try {
+        StyleTextPropAtom _t;
+        parseStyleTextPropAtom(in, _t);
+        _s.anon.styletextpropatom = QSharedPointer<StyleTextPropAtom>(new StyleTextPropAtom(_t));
+    } catch (IncorrectValueException _xxxxx) {
+        in.rewind(_m);
+    try {
+        SlideNumberMCAtom _t;
+        parseSlideNumberMCAtom(in, _t);
+        _s.anon.slidenumbermcatom = QSharedPointer<SlideNumberMCAtom>(new SlideNumberMCAtom(_t));
+    } catch (IncorrectValueException _xxxxxx) {
+        in.rewind(_m);
+    try {
+        DateTimeMCAtom _t;
+        parseDateTimeMCAtom(in, _t);
+        _s.anon.datetimemcatom = QSharedPointer<DateTimeMCAtom>(new DateTimeMCAtom(_t));
+    } catch (IncorrectValueException _xxxxxxx) {
+        in.rewind(_m);
+    try {
+        GenericDateMCAtom _t;
+        parseGenericDateMCAtom(in, _t);
+        _s.anon.genericdatemcatom = QSharedPointer<GenericDateMCAtom>(new GenericDateMCAtom(_t));
+    } catch (IncorrectValueException _xxxxxxxx) {
+        in.rewind(_m);
+    try {
+        HeaderMCAtom _t;
+        parseHeaderMCAtom(in, _t);
+        _s.anon.headermcatom = QSharedPointer<HeaderMCAtom>(new HeaderMCAtom(_t));
+    } catch (IncorrectValueException _xxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        FooterMCAtom _t;
+        parseFooterMCAtom(in, _t);
+        _s.anon.footermcatom = QSharedPointer<FooterMCAtom>(new FooterMCAtom(_t));
+    } catch (IncorrectValueException _xxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        RTFDateTimeMCAtom _t;
+        parseRTFDateTimeMCAtom(in, _t);
+        _s.anon.rtfdatetimemcatom = QSharedPointer<RTFDateTimeMCAtom>(new RTFDateTimeMCAtom(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        TextBookmarkAtom _t;
+        parseTextBookmarkAtom(in, _t);
+        _s.anon.textbookmarkatom = QSharedPointer<TextBookmarkAtom>(new TextBookmarkAtom(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        TextSpecialInfoAtom _t;
+        parseTextSpecialInfoAtom(in, _t);
+        _s.anon.textspecialinfoatom = QSharedPointer<TextSpecialInfoAtom>(new TextSpecialInfoAtom(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        InteractiveInfoInstance _t;
+        parseInteractiveInfoInstance(in, _t);
+        _s.anon.interactiveinfoinstance = QSharedPointer<InteractiveInfoInstance>(new InteractiveInfoInstance(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        TextInteractiveInfoInstance _t;
+        parseTextInteractiveInfoInstance(in, _t);
+        _s.anon.textinteractiveinfoinstance = QSharedPointer<TextInteractiveInfoInstance>(new TextInteractiveInfoInstance(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        TextRulerAtom _t;
+        parseTextRulerAtom(in, _t);
+        _s.anon.textruleratom = QSharedPointer<TextRulerAtom>(new TextRulerAtom(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxx) {
+        in.rewind(_m);
+        MasterTextPropAtom _t;
+        parseMasterTextPropAtom(in, _t);
+        _s.anon.mastertextpropatom = QSharedPointer<MasterTextPropAtom>(new MasterTextPropAtom(_t));
+    }}}}}}}}}}}}}}}}
+}
+void write(const TextClientDataSubContainerOrAtom& _s, LEOutputStream& out) {
+    if (_s.anon.outlinetextrefatom) {
+        write(*_s.anon.outlinetextrefatom, out);
+    } else if (_s.anon.textheaderatom) {
+        write(*_s.anon.textheaderatom, out);
+    } else if (_s.anon.textcharsatom) {
+        write(*_s.anon.textcharsatom, out);
+    } else if (_s.anon.textbytesatom) {
+        write(*_s.anon.textbytesatom, out);
+    } else if (_s.anon.styletextpropatom) {
+        write(*_s.anon.styletextpropatom, out);
+    } else if (_s.anon.slidenumbermcatom) {
+        write(*_s.anon.slidenumbermcatom, out);
+    } else if (_s.anon.datetimemcatom) {
+        write(*_s.anon.datetimemcatom, out);
+    } else if (_s.anon.genericdatemcatom) {
+        write(*_s.anon.genericdatemcatom, out);
+    } else if (_s.anon.headermcatom) {
+        write(*_s.anon.headermcatom, out);
+    } else if (_s.anon.footermcatom) {
+        write(*_s.anon.footermcatom, out);
+    } else if (_s.anon.rtfdatetimemcatom) {
+        write(*_s.anon.rtfdatetimemcatom, out);
+    } else if (_s.anon.textbookmarkatom) {
+        write(*_s.anon.textbookmarkatom, out);
+    } else if (_s.anon.textspecialinfoatom) {
+        write(*_s.anon.textspecialinfoatom, out);
+    } else if (_s.anon.interactiveinfoinstance) {
+        write(*_s.anon.interactiveinfoinstance, out);
+    } else if (_s.anon.textinteractiveinfoinstance) {
+        write(*_s.anon.textinteractiveinfoinstance, out);
+    } else if (_s.anon.textruleratom) {
+        write(*_s.anon.textruleratom, out);
+    } else if (_s.anon.mastertextpropatom) {
+        write(*_s.anon.mastertextpropatom, out);
+    }
+}
 void parseOfficeArtFOPTE(LEInputStream& in, OfficeArtFOPTE& _s) {
-    int _c;
-    LEInputStream::Mark _m;
     parseOfficeArtFOPTEOPID(in, _s.opid);
     _s.op = in.readint32();
-    _c = (_s.opid.fComplex)?_s.op:0;
-    _s.complexData.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.complexData[_i] = in.readuint8();
-    }
+}
+void write(const OfficeArtFOPTE& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeint32(_s.op);
 }
 void parseFib(LEInputStream& in, Fib& _s) {
     int _c;
@@ -20285,14 +22627,28 @@ void parseFib(LEInputStream& in, Fib& _s) {
     }
     _c = 2*_s.cswNew;
     _s.fibRgCswNew.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.fibRgCswNew[_i] = in.readuint8();
-    }
+    in.readBytes(_s.fibRgCswNew);
     _c = _s.fibRgLw.cbMac-156-8*_s.cbRgFcLcb-2*_s.cswNew;
     _s.trail.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.trail[_i] = in.readuint8();
+    in.readBytes(_s.trail);
+}
+void write(const Fib& _s, LEOutputStream& out) {
+    write(_s.base, out);
+    out.writeuint16(_s.csw);
+    write(_s.fibRgW, out);
+    out.writeuint16(_s.cslw);
+    write(_s.fibRgLw, out);
+    out.writeuint16(_s.cbRgFcLcb);
+    write(_s.fibRgFcLcbBlob, out);
+    if (_s.cbRgFcLcb>=0x6C) {
+        write(_s.fibRgFcLcbBlob2, out);
     }
+    if (_s.cbRgFcLcb>=0x88) {
+        write(_s.fibRgFcLcbBlob3, out);
+    }
+    out.writeuint16(_s.cswNew);
+    out.writeBytes(_s.fibRgCswNew);
+    out.writeBytes(_s.trail);
 }
 void parseSTSH(LEInputStream& in, STSH& _s) {
     int _c;
@@ -20302,6 +22658,12 @@ void parseSTSH(LEInputStream& in, STSH& _s) {
     _s.rglpstd.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
         parseLPStd(in, _s.rglpstd[_i]);
+    }
+}
+void write(const STSH& _s, LEOutputStream& out) {
+    write(_s.lpstshi, out);
+    foreach (LPStd _i, _s.rglpstd) {
+        write(_i, out);
     }
 }
 void parseClx(LEInputStream& in, Clx& _s) {
@@ -20324,12 +22686,22 @@ void parseClx(LEInputStream& in, Clx& _s) {
     }
     parsePcdt(in, _s.pcdt);
 }
+void write(const Clx& _s, LEOutputStream& out) {
+    foreach (Pcr _i, _s.RgPrc) {
+        write(_i, out);
+    }
+    write(_s.pcdt, out);
+}
 void parsePcr(LEInputStream& in, Pcr& _s) {
     _s.clxt = in.readuint8();
     if (!(((quint8)_s.clxt) == 1)) {
         throw IncorrectValueException(in.getPosition() + QString("((quint8)_s.clxt) == 1 for value ") + QString::number(_s.clxt) + "(" + QString::number(_s.clxt,16).toUpper() + ")");
     }
     parsePrcData(in, _s.prcData);
+}
+void write(const Pcr& _s, LEOutputStream& out) {
+    out.writeuint8(_s.clxt);
+    write(_s.prcData, out);
 }
 void parsePrm(LEInputStream& in, Prm& _s) {
     LEInputStream::Mark _m = in.setMark();
@@ -20342,6 +22714,13 @@ void parsePrm(LEInputStream& in, Prm& _s) {
         Prm1 _t;
         parsePrm1(in, _t);
         _s.prm.prm1 = QSharedPointer<Prm1>(new Prm1(_t));
+    }
+}
+void write(const Prm& _s, LEOutputStream& out) {
+    if (_s.prm.prm0) {
+        write(*_s.prm.prm0, out);
+    } else if (_s.prm.prm1) {
+        write(*_s.prm.prm1, out);
     }
 }
 void parseOfficeArtBlipEMF(LEInputStream& in, OfficeArtBlipEMF& _s) {
@@ -20359,22 +22738,25 @@ void parseOfficeArtBlipEMF(LEInputStream& in, OfficeArtBlipEMF& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.rgbUid1[_i] = in.readuint8();
-    }
+    in.readBytes(_s.rgbUid1);
     if (_s.rh.recInstance == 0x3D5) {
         _c = 16;
         _s.rgbUid2.resize(_c);
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid2[_i] = in.readuint8();
-        }
+        in.readBytes(_s.rgbUid2);
     }
     parseOfficeArtMetafileHeader(in, _s.metafileHeader);
     _c = _s.rh.recLen-((_s.rh.recInstance==0x3D4)?50:66);
     _s.BLIPFileData.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.BLIPFileData[_i] = in.readuint8();
+    in.readBytes(_s.BLIPFileData);
+}
+void write(const OfficeArtBlipEMF& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.rgbUid1);
+    if (_s.rh.recInstance == 0x3D5) {
+        out.writeBytes(_s.rgbUid2);
     }
+    write(_s.metafileHeader, out);
+    out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipWMF(LEInputStream& in, OfficeArtBlipWMF& _s) {
     int _c;
@@ -20391,22 +22773,25 @@ void parseOfficeArtBlipWMF(LEInputStream& in, OfficeArtBlipWMF& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.rgbUid1[_i] = in.readuint8();
-    }
+    in.readBytes(_s.rgbUid1);
     if (_s.rh.recInstance == 0x217) {
         _c = 16;
         _s.rgbUid2.resize(_c);
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid2[_i] = in.readuint8();
-        }
+        in.readBytes(_s.rgbUid2);
     }
     parseOfficeArtMetafileHeader(in, _s.metafileHeader);
     _c = _s.rh.recLen-((_s.rh.recInstance==0x216)?50:66);
     _s.BLIPFileData.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.BLIPFileData[_i] = in.readuint8();
+    in.readBytes(_s.BLIPFileData);
+}
+void write(const OfficeArtBlipWMF& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.rgbUid1);
+    if (_s.rh.recInstance == 0x217) {
+        out.writeBytes(_s.rgbUid2);
     }
+    write(_s.metafileHeader, out);
+    out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipPICT(LEInputStream& in, OfficeArtBlipPICT& _s) {
     int _c;
@@ -20423,22 +22808,25 @@ void parseOfficeArtBlipPICT(LEInputStream& in, OfficeArtBlipPICT& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.rgbUid1[_i] = in.readuint8();
-    }
+    in.readBytes(_s.rgbUid1);
     if (_s.rh.recInstance == 0x543) {
         _c = 16;
         _s.rgbUid2.resize(_c);
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid2[_i] = in.readuint8();
-        }
+        in.readBytes(_s.rgbUid2);
     }
     parseOfficeArtMetafileHeader(in, _s.metafileHeader);
     _c = _s.rh.recLen-((_s.rh.recInstance==0x542)?50:66);
     _s.BLIPFileData.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.BLIPFileData[_i] = in.readuint8();
+    in.readBytes(_s.BLIPFileData);
+}
+void write(const OfficeArtBlipPICT& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.rgbUid1);
+    if (_s.rh.recInstance == 0x543) {
+        out.writeBytes(_s.rgbUid2);
     }
+    write(_s.metafileHeader, out);
+    out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s) {
     LEInputStream::Mark _m = in.setMark();
@@ -20483,6 +22871,23 @@ void parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s) {
         _s.anon.officeartbliptiff = QSharedPointer<OfficeArtBlipTIFF>(new OfficeArtBlipTIFF(_t));
     }}}}}}
 }
+void write(const OfficeArtBlip& _s, LEOutputStream& out) {
+    if (_s.anon.officeartblipemf) {
+        write(*_s.anon.officeartblipemf, out);
+    } else if (_s.anon.officeartblipwmf) {
+        write(*_s.anon.officeartblipwmf, out);
+    } else if (_s.anon.officeartblippict) {
+        write(*_s.anon.officeartblippict, out);
+    } else if (_s.anon.officeartblipjpeg) {
+        write(*_s.anon.officeartblipjpeg, out);
+    } else if (_s.anon.officeartblippng) {
+        write(*_s.anon.officeartblippng, out);
+    } else if (_s.anon.officeartblipdib) {
+        write(*_s.anon.officeartblipdib, out);
+    } else if (_s.anon.officeartbliptiff) {
+        write(*_s.anon.officeartbliptiff, out);
+    }
+}
 void parseNormalViewSetInfoContainer(LEInputStream& in, NormalViewSetInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -20498,6 +22903,10 @@ void parseNormalViewSetInfoContainer(LEInputStream& in, NormalViewSetInfoContain
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recLen == 0x1C for value ") + _s.rh.toString());
     }
     parseNormalViewSetInfoAtom(in, _s.normalViewSetInfoAtom);
+}
+void write(const NormalViewSetInfoContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.normalViewSetInfoAtom, out);
 }
 void parseSlideListWithTextSubContainerOrAtom(LEInputStream& in, SlideListWithTextSubContainerOrAtom& _s) {
     LEInputStream::Mark _m = in.setMark();
@@ -20590,6 +22999,39 @@ void parseSlideListWithTextSubContainerOrAtom(LEInputStream& in, SlideListWithTe
         _s.anon.textinteractiveinfoinstance = QSharedPointer<TextInteractiveInfoInstance>(new TextInteractiveInfoInstance(_t));
     }}}}}}}}}}}}}}
 }
+void write(const SlideListWithTextSubContainerOrAtom& _s, LEOutputStream& out) {
+    if (_s.anon.slidepersistatom) {
+        write(*_s.anon.slidepersistatom, out);
+    } else if (_s.anon.textheaderatom) {
+        write(*_s.anon.textheaderatom, out);
+    } else if (_s.anon.textcharsatom) {
+        write(*_s.anon.textcharsatom, out);
+    } else if (_s.anon.textbytesatom) {
+        write(*_s.anon.textbytesatom, out);
+    } else if (_s.anon.styletextpropatom) {
+        write(*_s.anon.styletextpropatom, out);
+    } else if (_s.anon.slidenumbermcatom) {
+        write(*_s.anon.slidenumbermcatom, out);
+    } else if (_s.anon.datetimemcatom) {
+        write(*_s.anon.datetimemcatom, out);
+    } else if (_s.anon.genericdatemcatom) {
+        write(*_s.anon.genericdatemcatom, out);
+    } else if (_s.anon.headermcatom) {
+        write(*_s.anon.headermcatom, out);
+    } else if (_s.anon.footermcatom) {
+        write(*_s.anon.footermcatom, out);
+    } else if (_s.anon.rtfdatetimemcatom) {
+        write(*_s.anon.rtfdatetimemcatom, out);
+    } else if (_s.anon.textbookmarkatom) {
+        write(*_s.anon.textbookmarkatom, out);
+    } else if (_s.anon.textspecialinfoatom) {
+        write(*_s.anon.textspecialinfoatom, out);
+    } else if (_s.anon.interactiveinfoinstance) {
+        write(*_s.anon.interactiveinfoinstance, out);
+    } else if (_s.anon.textinteractiveinfoinstance) {
+        write(*_s.anon.textinteractiveinfoinstance, out);
+    }
+}
 void parseTextCFExceptionAtom(LEInputStream& in, TextCFExceptionAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
@@ -20602,6 +23044,10 @@ void parseTextCFExceptionAtom(LEInputStream& in, TextCFExceptionAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x0FA4 for value ") + _s.rh.toString());
     }
     parseTextCFException(in, _s.cf);
+}
+void write(const TextCFExceptionAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.cf, out);
 }
 void parseDefaultRulerAtom(LEInputStream& in, DefaultRulerAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -20652,6 +23098,10 @@ void parseDefaultRulerAtom(LEInputStream& in, DefaultRulerAtom& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.defaultTextRuler.fIndent5 == true for value ") + _s.defaultTextRuler.toString());
     }
 }
+void write(const DefaultRulerAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.defaultTextRuler, out);
+}
 void parseTextPFExceptionAtom(LEInputStream& in, TextPFExceptionAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
@@ -20665,6 +23115,11 @@ void parseTextPFExceptionAtom(LEInputStream& in, TextPFExceptionAtom& _s) {
     }
     _s.reserved = in.readuint16();
     parseTextPFException(in, _s.pf);
+}
+void write(const TextPFExceptionAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint16(_s.reserved);
+    write(_s.pf, out);
 }
 void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -20712,17 +23167,122 @@ void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
         parseTextMasterStyleLevel(in, _s.lstLvl5);
     }
 }
+void write(const TextMasterStyleAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint16(_s.cLevels);
+    if (_s.cLevels>0 && _s.rh.recInstance>=5) {
+        out.writeuint16(_s.lstLvl1level);
+    }
+    if (_s.cLevels>0) {
+        write(_s.lstLvl1, out);
+    }
+    if (_s.cLevels>1 && _s.rh.recInstance>=5) {
+        out.writeuint16(_s.lstLvl2level);
+    }
+    if (_s.cLevels>1) {
+        write(_s.lstLvl2, out);
+    }
+    if (_s.cLevels>2 && _s.rh.recInstance>=5) {
+        out.writeuint16(_s.lstLvl3level);
+    }
+    if (_s.cLevels>2) {
+        write(_s.lstLvl3, out);
+    }
+    if (_s.cLevels>3 && _s.rh.recInstance>=5) {
+        out.writeuint16(_s.lstLvl4level);
+    }
+    if (_s.cLevels>3) {
+        write(_s.lstLvl4, out);
+    }
+    if (_s.cLevels>4 && _s.rh.recInstance>=5) {
+        out.writeuint16(_s.lstLvl5level);
+    }
+    if (_s.cLevels>4) {
+        write(_s.lstLvl5, out);
+    }
+}
 void parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _s) {
     LEInputStream::Mark _m = in.setMark();
+    try {
+        ExAviMovieContainer _t;
+        parseExAviMovieContainer(in, _t);
+        _s.anon.exavimoviecontainer = QSharedPointer<ExAviMovieContainer>(new ExAviMovieContainer(_t));
+    } catch (IncorrectValueException _x) {
+        in.rewind(_m);
+    try {
+        ExCDAudioContainer _t;
+        parseExCDAudioContainer(in, _t);
+        _s.anon.excdaudiocontainer = QSharedPointer<ExCDAudioContainer>(new ExCDAudioContainer(_t));
+    } catch (IncorrectValueException _xx) {
+        in.rewind(_m);
+    try {
+        ExControlContainer _t;
+        parseExControlContainer(in, _t);
+        _s.anon.excontrolcontainer = QSharedPointer<ExControlContainer>(new ExControlContainer(_t));
+    } catch (IncorrectValueException _xxx) {
+        in.rewind(_m);
+    try {
+        ExHyperlinkContainer _t;
+        parseExHyperlinkContainer(in, _t);
+        _s.anon.exhyperlinkcontainer = QSharedPointer<ExHyperlinkContainer>(new ExHyperlinkContainer(_t));
+    } catch (IncorrectValueException _xxxx) {
+        in.rewind(_m);
+    try {
+        ExMCIMovieContainer _t;
+        parseExMCIMovieContainer(in, _t);
+        _s.anon.exmcimoviecontainer = QSharedPointer<ExMCIMovieContainer>(new ExMCIMovieContainer(_t));
+    } catch (IncorrectValueException _xxxxx) {
+        in.rewind(_m);
+    try {
+        ExMIDIAudioContainer _t;
+        parseExMIDIAudioContainer(in, _t);
+        _s.anon.exmidiaudiocontainer = QSharedPointer<ExMIDIAudioContainer>(new ExMIDIAudioContainer(_t));
+    } catch (IncorrectValueException _xxxxxx) {
+        in.rewind(_m);
+    try {
+        ExOleEmbedContainer _t;
+        parseExOleEmbedContainer(in, _t);
+        _s.anon.exoleembedcontainer = QSharedPointer<ExOleEmbedContainer>(new ExOleEmbedContainer(_t));
+    } catch (IncorrectValueException _xxxxxxx) {
+        in.rewind(_m);
     try {
         ExOleLinkContainer _t;
         parseExOleLinkContainer(in, _t);
         _s.anon.exolelinkcontainer = QSharedPointer<ExOleLinkContainer>(new ExOleLinkContainer(_t));
-    } catch (IncorrectValueException _x) {
+    } catch (IncorrectValueException _xxxxxxxx) {
         in.rewind(_m);
-        ExOleEmbedContainer _t;
-        parseExOleEmbedContainer(in, _t);
-        _s.anon.exoleembedcontainer = QSharedPointer<ExOleEmbedContainer>(new ExOleEmbedContainer(_t));
+    try {
+        ExWAVAudioEmbeddedContainer _t;
+        parseExWAVAudioEmbeddedContainer(in, _t);
+        _s.anon.exwavaudioembeddedcontainer = QSharedPointer<ExWAVAudioEmbeddedContainer>(new ExWAVAudioEmbeddedContainer(_t));
+    } catch (IncorrectValueException _xxxxxxxxx) {
+        in.rewind(_m);
+        ExWAVAudioLinkContainer _t;
+        parseExWAVAudioLinkContainer(in, _t);
+        _s.anon.exwavaudiolinkcontainer = QSharedPointer<ExWAVAudioLinkContainer>(new ExWAVAudioLinkContainer(_t));
+    }}}}}}}}}
+}
+void write(const ExObjListSubContainer& _s, LEOutputStream& out) {
+    if (_s.anon.exavimoviecontainer) {
+        write(*_s.anon.exavimoviecontainer, out);
+    } else if (_s.anon.excdaudiocontainer) {
+        write(*_s.anon.excdaudiocontainer, out);
+    } else if (_s.anon.excontrolcontainer) {
+        write(*_s.anon.excontrolcontainer, out);
+    } else if (_s.anon.exhyperlinkcontainer) {
+        write(*_s.anon.exhyperlinkcontainer, out);
+    } else if (_s.anon.exmcimoviecontainer) {
+        write(*_s.anon.exmcimoviecontainer, out);
+    } else if (_s.anon.exmidiaudiocontainer) {
+        write(*_s.anon.exmidiaudiocontainer, out);
+    } else if (_s.anon.exoleembedcontainer) {
+        write(*_s.anon.exoleembedcontainer, out);
+    } else if (_s.anon.exolelinkcontainer) {
+        write(*_s.anon.exolelinkcontainer, out);
+    } else if (_s.anon.exwavaudioembeddedcontainer) {
+        write(*_s.anon.exwavaudioembeddedcontainer, out);
+    } else if (_s.anon.exwavaudiolinkcontainer) {
+        write(*_s.anon.exwavaudiolinkcontainer, out);
     }
 }
 void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s) {
@@ -20770,6 +23330,15 @@ void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s) {
         in.rewind(_m);
     }
     parseOfficeArtSplitMenuColorContainer(in, _s.splitColors);
+}
+void write(const OfficeArtDggContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.drawingGroup, out);
+    if (_s.blipStore) write(*_s.blipStore, out);
+    write(_s.drawingPrimaryOptions, out);
+    if (_s.drawingTertiaryOptions) write(*_s.drawingTertiaryOptions, out);
+    if (_s.colorMRU) write(*_s.colorMRU, out);
+    write(_s.splitColors, out);
 }
 void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s) {
     LEInputStream::Mark _m;
@@ -20875,8 +23444,24 @@ void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s) {
         in.rewind(_m);
     }
 }
+void write(const OfficeArtSpContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    if (_s.shapeGroup) write(*_s.shapeGroup, out);
+    write(_s.shapeProp, out);
+    if (_s.deletedshape) write(*_s.deletedshape, out);
+    if (_s.shapePrimaryOptions) write(*_s.shapePrimaryOptions, out);
+    if (_s.shapeSecondaryOptions1) write(*_s.shapeSecondaryOptions1, out);
+    if (_s.shapeTertiaryOptions1) write(*_s.shapeTertiaryOptions1, out);
+    if (_s.childAnchor) write(*_s.childAnchor, out);
+    if (_s.clientAnchor) write(*_s.clientAnchor, out);
+    if (_s.clientData) write(*_s.clientData, out);
+    if (_s.clientTextbox) write(*_s.clientTextbox, out);
+}
 void parseWordDocument(LEInputStream& in, WordDocument& _s) {
     parseFib(in, _s.fib);
+}
+void write(const WordDocument& _s, LEOutputStream& out) {
+    write(_s.fib, out);
 }
 void parseTable(LEInputStream& in, Table& _s) {
     int _c;
@@ -20891,9 +23476,18 @@ void parseTable(LEInputStream& in, Table& _s) {
     parseSttbfFfn(in, _s.sttbfFfn);
     _c = 600;
     _s.dop.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.dop[_i] = in.readuint8();
-    }
+    in.readBytes(_s.dop);
+}
+void write(const Table& _s, LEOutputStream& out) {
+    write(_s.stsh, out);
+    write(_s.plcfSed, out);
+    write(_s.plcfHdd, out);
+    write(_s.plcfBteChpx, out);
+    write(_s.plcfBtePapx, out);
+    write(_s.cmds, out);
+    write(_s.clx, out);
+    write(_s.sttbfFfn, out);
+    out.writeBytes(_s.dop);
 }
 void parsePcd(LEInputStream& in, Pcd& _s) {
     _s.fNoParaLast = in.readbit();
@@ -20906,6 +23500,15 @@ void parsePcd(LEInputStream& in, Pcd& _s) {
     _s.fR3 = in.readuint12();
     parseFCompressed(in, _s.fc);
     parsePrm(in, _s.prm);
+}
+void write(const Pcd& _s, LEOutputStream& out) {
+    out.writebit(_s.fNoParaLast);
+    out.writebit(_s.fR1);
+    out.writebit(_s.fDirtly);
+    out.writebit(_s.fR2);
+    out.writeuint12(_s.fR3);
+    write(_s.fc, out);
+    write(_s.prm, out);
 }
 void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s) {
     int _c;
@@ -20924,14 +23527,9 @@ void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s) {
     _s.btMacOS = in.readuint8();
     _c = 16;
     _s.rgbUid.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.rgbUid[_i] = in.readuint8();
-    }
+    in.readBytes(_s.rgbUid);
     _s.tag = in.readuint16();
     _s.size = in.readuint32();
-    if (!(((quint32)_s.size)>=8)) {
-        throw IncorrectValueException(in.getPosition() + QString("((quint32)_s.size)>=8 for value ") + QString::number(_s.size) + "(" + QString::number(_s.size,16).toUpper() + ")");
-    }
     _s.cRef = in.readuint32();
     _s.foDelay = in.readuint32();
     _s.unused1 = in.readuint8();
@@ -20940,11 +23538,27 @@ void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s) {
     _s.unused3 = in.readuint8();
     _c = _s.cbName;
     _s.nameData.resize(_c);
-    for (int _i=0; _i<_c; ++_i) {
-        _s.nameData[_i] = in.readuint8();
-    }
+    in.readBytes(_s.nameData);
     if (_s.rh.recLen > 36 + _s.cbName) {
         parseOfficeArtBlip(in, _s.embeddedBlip);
+    }
+}
+void write(const OfficeArtFBSE& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint8(_s.btWin32);
+    out.writeuint8(_s.btMacOS);
+    out.writeBytes(_s.rgbUid);
+    out.writeuint16(_s.tag);
+    out.writeuint32(_s.size);
+    out.writeuint32(_s.cRef);
+    out.writeuint32(_s.foDelay);
+    out.writeuint8(_s.unused1);
+    out.writeuint8(_s.cbName);
+    out.writeuint8(_s.unused2);
+    out.writeuint8(_s.unused3);
+    out.writeBytes(_s.nameData);
+    if (_s.rh.recLen > 36 + _s.cbName) {
+        write(_s.embeddedBlip, out);
     }
 }
 void parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBStoreContainerFileBlock& _s) {
@@ -20958,6 +23572,13 @@ void parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBStoreCo
         OfficeArtBlip _t;
         parseOfficeArtBlip(in, _t);
         _s.anon.officeartblip = QSharedPointer<OfficeArtBlip>(new OfficeArtBlip(_t));
+    }
+}
+void write(const OfficeArtBStoreContainerFileBlock& _s, LEOutputStream& out) {
+    if (_s.anon.officeartfbse) {
+        write(*_s.anon.officeartfbse, out);
+    } else if (_s.anon.officeartblip) {
+        write(*_s.anon.officeartblip, out);
     }
 }
 void parseDocumentTextInfoContainer(LEInputStream& in, DocumentTextInfoContainer& _s) {
@@ -21025,6 +23646,16 @@ void parseDocumentTextInfoContainer(LEInputStream& in, DocumentTextInfoContainer
     parseTextSIExceptionAtom(in, _s.textSIDefaultsAtom);
     parseTextMasterStyleAtom(in, _s.textMasterStyleAtom);
 }
+void write(const DocumentTextInfoContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    if (_s.kinsoku) write(*_s.kinsoku, out);
+    if (_s.fontCollection) write(*_s.fontCollection, out);
+    if (_s.textCFDefaultsAtom) write(*_s.textCFDefaultsAtom, out);
+    if (_s.textPFDefaultsAtom) write(*_s.textPFDefaultsAtom, out);
+    if (_s.defaultRulerAtom) write(*_s.defaultRulerAtom, out);
+    write(_s.textSIDefaultsAtom, out);
+    write(_s.textMasterStyleAtom, out);
+}
 void parseDrawingGroupContainer(LEInputStream& in, DrawingGroupContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -21037,6 +23668,10 @@ void parseDrawingGroupContainer(LEInputStream& in, DrawingGroupContainer& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x040B for value ") + _s.rh.toString());
     }
     parseOfficeArtDggContainer(in, _s.OfficeArtDgg);
+}
+void write(const DrawingGroupContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.OfficeArtDgg, out);
 }
 void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
     LEInputStream::Mark _m;
@@ -21090,6 +23725,17 @@ void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
         in.rewind(_m);
     }
 }
+void write(const OfficeArtDgContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.drawingData, out);
+    if (_s.regroupItems) write(*_s.regroupItems, out);
+    write(_s.groupShape, out);
+    write(_s.shape, out);
+    foreach (OfficeArtSpgrContainerFileBlock _i, _s.deletedShapes) {
+        write(_i, out);
+    }
+    if (_s.solvers) write(*_s.solvers, out);
+}
 void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContainerFileBlock& _s) {
     LEInputStream::Mark _m = in.setMark();
     try {
@@ -21101,6 +23747,13 @@ void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContai
         OfficeArtSpgrContainer _t;
         parseOfficeArtSpgrContainer(in, _t);
         _s.anon.officeartspgrcontainer = QSharedPointer<OfficeArtSpgrContainer>(new OfficeArtSpgrContainer(_t));
+    }
+}
+void write(const OfficeArtSpgrContainerFileBlock& _s, LEOutputStream& out) {
+    if (_s.anon.officeartspcontainer) {
+        write(*_s.anon.officeartspcontainer, out);
+    } else if (_s.anon.officeartspgrcontainer) {
+        write(*_s.anon.officeartspgrcontainer, out);
     }
 }
 void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
@@ -21127,6 +23780,16 @@ void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
         in.rewind(_m);
     }
     parseDocumentTextInfoContainer(in, _s.documentTextInfo);
+    _m = in.setMark();
+    try {
+        SoundCollectionContainer _t;
+        parseSoundCollectionContainer(in, _t);
+        _s.soundCollection = QSharedPointer<SoundCollectionContainer>(new SoundCollectionContainer(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
     parseDrawingGroupContainer(in, _s.drawingGroup);
     parseMasterListWithTextContainer(in, _s.masterList);
     _m = in.setMark();
@@ -21191,6 +23854,22 @@ void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
     }
     parseEndDocumentAtom(in, _s.endDocumentAtom);
 }
+void write(const DocumentContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.documentAtom, out);
+    if (_s.exObjList) write(*_s.exObjList, out);
+    write(_s.documentTextInfo, out);
+    if (_s.soundCollection) write(*_s.soundCollection, out);
+    write(_s.drawingGroup, out);
+    write(_s.masterList, out);
+    if (_s.docInfoList) write(*_s.docInfoList, out);
+    if (_s.slideHF) write(*_s.slideHF, out);
+    if (_s.notesHF) write(*_s.notesHF, out);
+    if (_s.slideList) write(*_s.slideList, out);
+    if (_s.notesList) write(*_s.notesList, out);
+    if (_s.slideShowDocInfoAtom) write(*_s.slideShowDocInfoAtom, out);
+    write(_s.endDocumentAtom, out);
+}
 void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -21203,6 +23882,10 @@ void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x040C for value ") + _s.rh.toString());
     }
     parseOfficeArtDgContainer(in, _s.OfficeArtDg);
+}
+void write(const DrawingContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.OfficeArtDg, out);
 }
 void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
     LEInputStream::Mark _m;
@@ -21326,6 +24009,27 @@ void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
         in.rewind(_m);
     }
 }
+void write(const MainMasterContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.slideAtom, out);
+    foreach (SchemeListElementColorSchemeAtom _i, _s.rgSchemeListElementColorScheme) {
+        write(_i, out);
+    }
+    foreach (TextMasterStyleAtom _i, _s.rgTextMasterStyle) {
+        write(_i, out);
+    }
+    if (_s.roundTripOArtTextSTyles12Atom) write(*_s.roundTripOArtTextSTyles12Atom, out);
+    if (_s.slideShowInfoAtom) write(*_s.slideShowInfoAtom, out);
+    if (_s.perSlideHeadersFootersContainer) write(*_s.perSlideHeadersFootersContainer, out);
+    write(_s.drawing, out);
+    write(_s.slideSchemeColorSchemeAtom, out);
+    if (_s.slideNameAtom) write(*_s.slideNameAtom, out);
+    if (_s.slideProgTagsContainer) write(*_s.slideProgTagsContainer, out);
+    foreach (RoundTripMainMasterRecord _i, _s.rgRoundTripMainMaster) {
+        write(_i, out);
+    }
+    if (_s.templateNameAtom) write(*_s.templateNameAtom, out);
+}
 void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -21372,6 +24076,15 @@ void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
         in.rewind(_m);
     }
 }
+void write(const SlideContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.slideAtom, out);
+    if (_s.slideShowSlideInfoAtom) write(*_s.slideShowSlideInfoAtom, out);
+    if (_s.perSlideHFContainer) write(*_s.perSlideHFContainer, out);
+    write(_s.drawing, out);
+    write(_s.slideSchemeColorSchemeAtom, out);
+    if (_s.slideProgTagsContainer) write(*_s.slideProgTagsContainer, out);
+}
 void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s) {
     LEInputStream::Mark _m = in.setMark();
     try {
@@ -21383,6 +24096,13 @@ void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s) 
         SlideContainer _t;
         parseSlideContainer(in, _t);
         _s.anon.slidecontainer = QSharedPointer<SlideContainer>(new SlideContainer(_t));
+    }
+}
+void write(const MasterOrSlideContainer& _s, LEOutputStream& out) {
+    if (_s.anon.mainmastercontainer) {
+        write(*_s.anon.mainmastercontainer, out);
+    } else if (_s.anon.slidecontainer) {
+        write(*_s.anon.slidecontainer, out);
     }
 }
 void parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
@@ -21446,6 +24166,29 @@ void parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
         _s.anon.usereditatom = QSharedPointer<UserEditAtom>(new UserEditAtom(_t));
     }}}}}}}}}
 }
+void write(const PowerPointStruct& _s, LEOutputStream& out) {
+    if (_s.anon.documentcontainer) {
+        write(*_s.anon.documentcontainer, out);
+    } else if (_s.anon.masterorslidecontainer) {
+        write(*_s.anon.masterorslidecontainer, out);
+    } else if (_s.anon.persistdirectoryatom) {
+        write(*_s.anon.persistdirectoryatom, out);
+    } else if (_s.anon.notescontainer) {
+        write(*_s.anon.notescontainer, out);
+    } else if (_s.anon.handoutcontainer) {
+        write(*_s.anon.handoutcontainer, out);
+    } else if (_s.anon.slidecontainer) {
+        write(*_s.anon.slidecontainer, out);
+    } else if (_s.anon.exoleobjstg) {
+        write(*_s.anon.exoleobjstg, out);
+    } else if (_s.anon.excontrolstg) {
+        write(*_s.anon.excontrolstg, out);
+    } else if (_s.anon.vbaprojectstg) {
+        write(*_s.anon.vbaprojectstg, out);
+    } else if (_s.anon.usereditatom) {
+        write(*_s.anon.usereditatom, out);
+    }
+}
 }
 const Introspectable* parse(const QString& key, LEInputStream& in) {
     const Introspectable* i = 0;
@@ -21475,4 +24218,19 @@ const Introspectable* parse(const QString& key, LEInputStream& in) {
         i = new TODOS(_t);
     }
     return i;
+}
+void serialize(const Introspectable* i, const QString& key, LEOutputStream& out)  {
+    if ("PowerPoint Document" == key) {
+        write(*static_cast<const PowerPointStructs*>(i), out);
+    } else if ("Current User" == key) {
+        write(*static_cast<const CurrentUserStream*>(i), out);
+    } else if ("Pictures" == key) {
+        write(*static_cast<const OfficeArtBStoreDelay*>(i), out);
+    } else if ("WordDocument" == key) {
+        write(*static_cast<const WordDocument*>(i), out);
+    } else if ("1Table" == key) {
+        write(*static_cast<const Table*>(i), out);
+    } else {
+        write(*static_cast<const TODOS*>(i), out);
+    }
 }

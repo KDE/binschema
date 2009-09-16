@@ -3,6 +3,7 @@
 
 #include <QtCore/QIODevice>
 #include <QtCore/QDataStream>
+#include <QtCore/QDebug>
 #include <exception>
 
 class IOException : public std::exception {
@@ -80,6 +81,9 @@ public:
 
     Mark setMark() { return Mark(input); }
     void rewind(const Mark& m) {
+        if (m.pos == 7425) {
+            qDebug() << "rewinding to " << m.pos;
+        }
         if (!m.input || !m.input->seek(m.pos)) {
             throw IOException("Cannot rewind.");
         }
@@ -216,6 +220,17 @@ public:
         data >> v;
         checkStatus();
         return v;
+    }
+
+    void readBytes(QByteArray& b) {
+        int offset = 0;
+        int todo = b.size();
+        while (todo > 0) { // do not enter loop if array size is 0
+            int nread = data.readRawData(b.data() + offset, todo);
+            if (nread == -1) return; //TODO report error
+            todo -= nread;
+            offset += nread;
+        }
     }
 
     quint64 getPosition() const { return input->pos(); }

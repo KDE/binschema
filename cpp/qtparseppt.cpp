@@ -1,4 +1,5 @@
 #include "leinputstream.h"
+#include "leoutputstream.h"
 #include "introspection.h"
 #include "pole.h"
 #include <QBuffer>
@@ -10,6 +11,7 @@
 #include <cstdio>
 
 const Introspectable* parse(const QString& key, LEInputStream& in);
+void serialize(const Introspectable* i, const QString& key, LEOutputStream& out);
 
 using namespace std;
 
@@ -47,6 +49,14 @@ print(QXmlStreamWriter& out, const Introspectable* i) {
     }
 }
 
+void
+write(const QString& name, const QByteArray& data) {
+    QFile out(name);
+    out.open(QIODevice::WriteOnly);
+    out.write(data);
+    out.close();
+}
+
 bool
 parse(const QString& file) {
     try {
@@ -64,12 +74,31 @@ parse(const QString& file) {
                     qDebug() << "Error reading stream " << streamname;
                     return false;
                 }
+//                write("/tmp/"+streamname+".in", array);
                 QBuffer buffer;
                 buffer.setData(array);
                 buffer.open(QIODevice::ReadOnly);
-                LEInputStream lestream(&buffer);
+                LEInputStream listream(&buffer);
                 qDebug() << "Parsing stream '" << streamname << "'";
-                const Introspectable* i = parse(streamname, lestream);
+                const Introspectable* i = parse(streamname, listream);
+                if (listream.getPosition() != stream.size()) {
+                    qDebug() << "Trailing data in stream " << streamname;
+                    return false;
+                }
+                buffer.close();
+
+                buffer.buffer().clear();
+                buffer.open(QIODevice::WriteOnly);
+                LEOutputStream lostream(&buffer);
+                serialize(i, streamname, lostream);
+                if (array != buffer.data()) {
+                    qDebug() << "Serialized data different from original in "
+                        << streamname;
+                    return false;
+                }
+//                write("/tmp/"+streamname+".out", buffer.data());
+
+/*
                 QFile out;
                 out.open(stdout, QIODevice::WriteOnly);
                 QXmlStreamWriter xmlout(&out);
@@ -79,10 +108,9 @@ parse(const QString& file) {
                 print(xmlout, i);
                 xmlout.writeEndElement();
                 xmlout.writeEndDocument();
-                qDebug() << i->getIntrospection()->name;
-                for (int j=0; j<i->getIntrospection()->numberOfMembers; ++j) {
-                    qDebug() << " " << i->getIntrospection()->names[j];
-                }
+                xmlout.close();
+*/
+
                 delete i;
             }
         }
@@ -100,6 +128,7 @@ main(int argc, char** argv) {
 
     for (int i=1; i<argc; ++i) {
         QString file(argv[i]);
+        qDebug() << "Parsing of " << file;
         if (parse(file)) {
             qDebug() << "Parsing of " << file << " succeedded.";
         } else {
