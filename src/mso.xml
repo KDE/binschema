@@ -237,7 +237,8 @@
 		<type name="documentAtom" type="DocumentAtom" />
 		<type name="exObjList" type="ExObjListContainer" optional="true" />
 		<type name="documentTextInfo" type="DocumentTextInfoContainer" />
-		<!-- TODO name="soundCollection" -->
+		<type name="soundCollection" type="SoundCollectionContainer"
+			optional="true" />
 		<type name="drawingGroup" type="DrawingGroupContainer" />
 		<type name="masterList" type="MasterListWithTextContainer" />
 		<type name="docInfoList" type="DocInfoListContainer" optional="true" />
@@ -253,6 +254,14 @@
 			optional="true" />
 		<!--  todo: some optional fields -->
 		<type name="endDocumentAtom" type="EndDocumentAtom" />
+	</struct>
+	<struct name="SoundCollectionContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="5" />
+			<limitation name="recType" value="0x7E4" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="SlideHeadersFootersContainer">
 		<type name="rh" type="RecordHeader">
@@ -594,14 +603,10 @@
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="InteractiveInfoInstance">
-		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0" />
-			<limitation name="recInstance" value="0|1" />
-			<limitation name="recType" value="0xFF2" />
-			<limitation name="recLen" value="8" />
-		</type>
-		<!-- TODO either mouseover or mouseclick -->
-		<uint8 name="range" count="8" />
+		<choice name="anon">
+			<type type="MouseClickInteractiveInfoContainer" />
+			<type type="MouseOverInteractiveInfoContainer" />
+		</choice>
 	</struct>
 	<struct name="TextInteractiveInfoInstance">
 		<type name="rh" type="RecordHeader">
@@ -1273,7 +1278,8 @@
 			<limitation name="recLen" expression="&gt;=12" />
 		</type>
 		<type name="exObjListAtom" type="ExObjListAtom" />
-		<type name="rgChildRec" type="ExObjListSubContainer" count="rh.recLen-12" />
+		<type name="rgChildRec" type="ExObjListSubContainer" array="true"
+			size="rh.recLen-12" />
 	</struct>
 	<struct name="ExObjListAtom">
 		<type name="rh" type="RecordHeader">
@@ -1297,10 +1303,81 @@
 	</struct>
 	<struct name="ExObjListSubContainer">
 		<choice name="anon">
-			<type name="anon" type="ExOleLinkContainer" />
-			<type name="anon" type="ExOleEmbedContainer" />
-			<!-- TODO: finish by adding the missing options-->
+			<type type="ExAviMovieContainer" />
+			<type type="ExCDAudioContainer" />
+			<type type="ExControlContainer" />
+			<type type="ExHyperlinkContainer" />
+			<type type="ExMCIMovieContainer" />
+			<type type="ExMIDIAudioContainer" />
+			<type type="ExOleEmbedContainer" />
+			<type type="ExOleLinkContainer" />
+			<type type="ExWAVAudioEmbeddedContainer" />
+			<type type="ExWAVAudioLinkContainer" />
 		</choice>
+	</struct>
+	<struct name="ExAviMovieContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x1006" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ExCDAudioContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x100E" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ExControlContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFEE" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ExHyperlinkContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFD7" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ExMCIMovieContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x1007" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ExMIDIAudioContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x100D" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ExWAVAudioEmbeddedContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x100F" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ExWAVAudioLinkContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x1010" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="ExOleLinkContainer">
 		<type name="rh" type="RecordHeader">
@@ -1468,9 +1545,9 @@
 	</struct>
 	<struct name="OfficeArtFRITContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="0x0" />
-			<limitation name="recType" value="0x0F118" />
-			<limitation name="recLen" value="8" />
+			<limitation name="recVer" value="0" />
+			<limitation name="recType" value="0xF118" />
+			<limitation expression="recLen==4*recInstance" />
 		</type>
 		<type name="rgfrit" type="OfficeArtFRIT" count="rh.recInstance" />
 	</struct>
@@ -1631,6 +1708,7 @@
 			<limitation name="recType" value="0xF122" />
 		</type>
 		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
+		<uint8 name="complexData" count="rh.recLen-6*rh.recInstance" />
 	</struct>
 	<struct name="RectStruct">
 		<int32 name="top" />
