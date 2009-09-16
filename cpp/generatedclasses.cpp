@@ -168,6 +168,9 @@ void write(const RatioStruct& v, LEOutputStream& out);
 class PersistDirectoryAtom;
 void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s);
 void write(const PersistDirectoryAtom& v, LEOutputStream& out);
+class UnknownDocumentContainerChild;
+void parseUnknownDocumentContainerChild(LEInputStream& in, UnknownDocumentContainerChild& _s);
+void write(const UnknownDocumentContainerChild& v, LEOutputStream& out);
 class PersistDirectoryEntry;
 void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s);
 void write(const PersistDirectoryEntry& v, LEOutputStream& out);
@@ -231,6 +234,9 @@ void write(const SlideSchemeColorSchemeAtom& v, LEOutputStream& out);
 class RoundTripSlideRecord;
 void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s);
 void write(const RoundTripSlideRecord& v, LEOutputStream& out);
+class RoundTripCustomTableStyles12Atom;
+void parseRoundTripCustomTableStyles12Atom(LEInputStream& in, RoundTripCustomTableStyles12Atom& _s);
+void write(const RoundTripCustomTableStyles12Atom& v, LEOutputStream& out);
 class ColorStruct;
 void parseColorStruct(LEInputStream& in, ColorStruct& _s);
 void write(const ColorStruct& v, LEOutputStream& out);
@@ -1706,6 +1712,23 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class UnknownDocumentContainerChild : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    QByteArray todo;
+    UnknownDocumentContainerChild()  {
+    }
+    QString toString() {
+        QString _s = "UnknownDocumentContainerChild:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class PersistDirectoryEntry : public Introspectable {
 private:
     class _Introspection;
@@ -2103,6 +2126,23 @@ public:
     }
     QString toString() {
         QString _s = "RoundTripSlideRecord:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "todo: " + "[array of todo]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class RoundTripCustomTableStyles12Atom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    QByteArray todo;
+    RoundTripCustomTableStyles12Atom()  {
+    }
+    QString toString() {
+        QString _s = "RoundTripCustomTableStyles12Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
@@ -5317,6 +5357,8 @@ public:
     QSharedPointer<SlideListWithTextContainer> slideList;
     QSharedPointer<NotesListWithTextContainer> notesList;
     QSharedPointer<SlideShowDocInfoAtom> slideShowDocInfoAtom;
+    QSharedPointer<RoundTripCustomTableStyles12Atom> rtCustomTableStylesAtom1;
+    QSharedPointer<UnknownDocumentContainerChild> unknown;
     EndDocumentAtom endDocumentAtom;
     DocumentContainer()  {
     }
@@ -5335,6 +5377,8 @@ public:
         _s = _s + "slideList: " + ((slideList)?slideList->toString() :"null") + ", ";
         _s = _s + "notesList: " + ((notesList)?notesList->toString() :"null") + ", ";
         _s = _s + "slideShowDocInfoAtom: " + ((slideShowDocInfoAtom)?slideShowDocInfoAtom->toString() :"null") + ", ";
+        _s = _s + "rtCustomTableStylesAtom1: " + ((rtCustomTableStylesAtom1)?rtCustomTableStylesAtom1->toString() :"null") + ", ";
+        _s = _s + "unknown: " + ((unknown)?unknown->toString() :"null") + ", ";
         _s = _s + "endDocumentAtom: " + endDocumentAtom.toString() + ", ";
         return _s;
     }
@@ -5408,6 +5452,7 @@ public:
     DrawingContainer drawing;
     SlideSchemeColorSchemeAtom slideSchemeColorSchemeAtom;
     QSharedPointer<SlideProgTagscontainer> slideProgTagsContainer;
+    QList<RoundTripSlideRecord> rgRoundTripSlide;
     SlideContainer()  {
     }
     QString toString() {
@@ -5419,6 +5464,7 @@ public:
         _s = _s + "drawing: " + drawing.toString() + ", ";
         _s = _s + "slideSchemeColorSchemeAtom: " + slideSchemeColorSchemeAtom.toString() + ", ";
         _s = _s + "slideProgTagsContainer: " + ((slideProgTagsContainer)?slideProgTagsContainer->toString() :"null") + ", ";
+        _s = _s + "rgRoundTripSlide: " + "[array of rgRoundTripSlide]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -8022,6 +8068,41 @@ const Introspectable* (* const PersistDirectoryAtom::_Introspection::introspecta
 };
 const Introspection PersistDirectoryAtom::_introspection(
     "PersistDirectoryAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class UnknownDocumentContainerChild::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const UnknownDocumentContainerChild*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const UnknownDocumentContainerChild*>(i)->todo);
+    }
+};
+const QString UnknownDocumentContainerChild::_Introspection::name("UnknownDocumentContainerChild");
+const int UnknownDocumentContainerChild::_Introspection::numberOfMembers(2);
+const QString UnknownDocumentContainerChild::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const UnknownDocumentContainerChild::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const UnknownDocumentContainerChild::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const UnknownDocumentContainerChild::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection UnknownDocumentContainerChild::_introspection(
+    "UnknownDocumentContainerChild", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class PersistDirectoryEntry::_Introspection {
 public:
     static const QString name;
@@ -8924,6 +9005,41 @@ const Introspectable* (* const RoundTripSlideRecord::_Introspection::introspecta
 };
 const Introspection RoundTripSlideRecord::_introspection(
     "RoundTripSlideRecord", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class RoundTripCustomTableStyles12Atom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const RoundTripCustomTableStyles12Atom*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return (static_cast<const RoundTripCustomTableStyles12Atom*>(i)->todo);
+    }
+};
+const QString RoundTripCustomTableStyles12Atom::_Introspection::name("RoundTripCustomTableStyles12Atom");
+const int RoundTripCustomTableStyles12Atom::_Introspection::numberOfMembers(2);
+const QString RoundTripCustomTableStyles12Atom::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const RoundTripCustomTableStyles12Atom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const RoundTripCustomTableStyles12Atom::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const RoundTripCustomTableStyles12Atom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection RoundTripCustomTableStyles12Atom::_introspection(
+    "RoundTripCustomTableStyles12Atom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class ColorStruct::_Introspection {
 public:
     static const QString name;
@@ -17220,10 +17336,10 @@ class DocumentContainer::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[14];
-    static int (* const numberOfInstances[14])(const Introspectable*);
-    static QVariant (* const value[14])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[14])(const Introspectable*, int position);
+    static const QString names[16];
+    static int (* const numberOfInstances[16])(const Introspectable*);
+    static QVariant (* const value[16])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[16])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const DocumentContainer*>(i)->rh);
     }
@@ -17287,13 +17403,25 @@ public:
     static const Introspectable* get_slideShowDocInfoAtom(const Introspectable* i, int j) {
         return (static_cast<const DocumentContainer*>(i)->slideShowDocInfoAtom.data());
     }
+    static int count_rtCustomTableStylesAtom1(const Introspectable* i) {
+        return static_cast<const DocumentContainer*>(i)->rtCustomTableStylesAtom1 ?1 :0;
+    }
+    static const Introspectable* get_rtCustomTableStylesAtom1(const Introspectable* i, int j) {
+        return (static_cast<const DocumentContainer*>(i)->rtCustomTableStylesAtom1.data());
+    }
+    static int count_unknown(const Introspectable* i) {
+        return static_cast<const DocumentContainer*>(i)->unknown ?1 :0;
+    }
+    static const Introspectable* get_unknown(const Introspectable* i, int j) {
+        return (static_cast<const DocumentContainer*>(i)->unknown.data());
+    }
     static const Introspectable* get_endDocumentAtom(const Introspectable* i, int j) {
         return &(static_cast<const DocumentContainer*>(i)->endDocumentAtom);
     }
 };
 const QString DocumentContainer::_Introspection::name("DocumentContainer");
-const int DocumentContainer::_Introspection::numberOfMembers(14);
-const QString DocumentContainer::_Introspection::names[14] = {
+const int DocumentContainer::_Introspection::numberOfMembers(16);
+const QString DocumentContainer::_Introspection::names[16] = {
     "rh",
     "documentAtom",
     "exObjList",
@@ -17307,9 +17435,11 @@ const QString DocumentContainer::_Introspection::names[14] = {
     "slideList",
     "notesList",
     "slideShowDocInfoAtom",
+    "rtCustomTableStylesAtom1",
+    "unknown",
     "endDocumentAtom",
 };
-int (* const DocumentContainer::_Introspection::numberOfInstances[14])(const Introspectable*) = {
+int (* const DocumentContainer::_Introspection::numberOfInstances[16])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
     _Introspection::count_exObjList,
@@ -17323,9 +17453,13 @@ int (* const DocumentContainer::_Introspection::numberOfInstances[14])(const Int
     _Introspection::count_slideList,
     _Introspection::count_notesList,
     _Introspection::count_slideShowDocInfoAtom,
+    _Introspection::count_rtCustomTableStylesAtom1,
+    _Introspection::count_unknown,
     Introspection::one,
 };
-QVariant (* const DocumentContainer::_Introspection::value[14])(const Introspectable*, int position) = {
+QVariant (* const DocumentContainer::_Introspection::value[16])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
@@ -17341,7 +17475,7 @@ QVariant (* const DocumentContainer::_Introspection::value[14])(const Introspect
     Introspection::nullValue,
     Introspection::nullValue,
 };
-const Introspectable* (* const DocumentContainer::_Introspection::introspectable[14])(const Introspectable*, int position) = {
+const Introspectable* (* const DocumentContainer::_Introspection::introspectable[16])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     _Introspection::get_documentAtom,
     _Introspection::get_exObjList,
@@ -17355,10 +17489,12 @@ const Introspectable* (* const DocumentContainer::_Introspection::introspectable
     _Introspection::get_slideList,
     _Introspection::get_notesList,
     _Introspection::get_slideShowDocInfoAtom,
+    _Introspection::get_rtCustomTableStylesAtom1,
+    _Introspection::get_unknown,
     _Introspection::get_endDocumentAtom,
 };
 const Introspection DocumentContainer::_introspection(
-    "DocumentContainer", 14, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "DocumentContainer", 16, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class DrawingContainer::_Introspection {
 public:
     static const QString name;
@@ -17537,10 +17673,10 @@ class SlideContainer::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[7];
-    static int (* const numberOfInstances[7])(const Introspectable*);
-    static QVariant (* const value[7])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[7])(const Introspectable*, int position);
+    static const QString names[8];
+    static int (* const numberOfInstances[8])(const Introspectable*);
+    static QVariant (* const value[8])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[8])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const SlideContainer*>(i)->rh);
     }
@@ -17571,10 +17707,16 @@ public:
     static const Introspectable* get_slideProgTagsContainer(const Introspectable* i, int j) {
         return (static_cast<const SlideContainer*>(i)->slideProgTagsContainer.data());
     }
+    static int count_rgRoundTripSlide(const Introspectable* i) {
+        return static_cast<const SlideContainer*>(i)->rgRoundTripSlide.size();
+    }
+    static const Introspectable* get_rgRoundTripSlide(const Introspectable* i, int j) {
+        return &(static_cast<const SlideContainer*>(i)->rgRoundTripSlide[j]);
+    }
 };
 const QString SlideContainer::_Introspection::name("SlideContainer");
-const int SlideContainer::_Introspection::numberOfMembers(7);
-const QString SlideContainer::_Introspection::names[7] = {
+const int SlideContainer::_Introspection::numberOfMembers(8);
+const QString SlideContainer::_Introspection::names[8] = {
     "rh",
     "slideAtom",
     "slideShowSlideInfoAtom",
@@ -17582,8 +17724,9 @@ const QString SlideContainer::_Introspection::names[7] = {
     "drawing",
     "slideSchemeColorSchemeAtom",
     "slideProgTagsContainer",
+    "rgRoundTripSlide",
 };
-int (* const SlideContainer::_Introspection::numberOfInstances[7])(const Introspectable*) = {
+int (* const SlideContainer::_Introspection::numberOfInstances[8])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
     _Introspection::count_slideShowSlideInfoAtom,
@@ -17591,8 +17734,10 @@ int (* const SlideContainer::_Introspection::numberOfInstances[7])(const Introsp
     Introspection::one,
     Introspection::one,
     _Introspection::count_slideProgTagsContainer,
+    _Introspection::count_rgRoundTripSlide,
 };
-QVariant (* const SlideContainer::_Introspection::value[7])(const Introspectable*, int position) = {
+QVariant (* const SlideContainer::_Introspection::value[8])(const Introspectable*, int position) = {
+    Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
@@ -17601,7 +17746,7 @@ QVariant (* const SlideContainer::_Introspection::value[7])(const Introspectable
     Introspection::nullValue,
     Introspection::nullValue,
 };
-const Introspectable* (* const SlideContainer::_Introspection::introspectable[7])(const Introspectable*, int position) = {
+const Introspectable* (* const SlideContainer::_Introspection::introspectable[8])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     _Introspection::get_slideAtom,
     _Introspection::get_slideShowSlideInfoAtom,
@@ -17609,9 +17754,10 @@ const Introspectable* (* const SlideContainer::_Introspection::introspectable[7]
     _Introspection::get_drawing,
     _Introspection::get_slideSchemeColorSchemeAtom,
     _Introspection::get_slideProgTagsContainer,
+    _Introspection::get_rgRoundTripSlide,
 };
 const Introspection SlideContainer::_introspection(
-    "SlideContainer", 7, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "SlideContainer", 8, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class MasterOrSlideContainer::_Introspection {
 public:
     static const QString name;
@@ -18977,6 +19123,27 @@ void write(const PersistDirectoryAtom& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseUnknownDocumentContainerChild(LEInputStream& in, UnknownDocumentContainerChild& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0x0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0x0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0x0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0x0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0x1773)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x1773 for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const UnknownDocumentContainerChild& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
 void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -19446,6 +19613,27 @@ void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s) {
     in.readBytes(_s.todo);
 }
 void write(const RoundTripSlideRecord& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
+void parseRoundTripCustomTableStyles12Atom(LEInputStream& in, RoundTripCustomTableStyles12Atom& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0 || _s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0 || _s.rh.recVer == 0xF for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recInstance == 0 for value ") + _s.rh.toString());
+    }
+    if (!(_s.rh.recType == 0x428)) {
+        throw IncorrectValueException(in.getPosition() + QString("_s.rh.recType == 0x428 for value ") + _s.rh.toString());
+    }
+    _c = _s.rh.recLen;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const RoundTripCustomTableStyles12Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
@@ -23852,6 +24040,26 @@ void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
     } catch(EOFException _e) {
         in.rewind(_m);
     }
+    _m = in.setMark();
+    try {
+        RoundTripCustomTableStyles12Atom _t;
+        parseRoundTripCustomTableStyles12Atom(in, _t);
+        _s.rtCustomTableStylesAtom1 = QSharedPointer<RoundTripCustomTableStyles12Atom>(new RoundTripCustomTableStyles12Atom(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        UnknownDocumentContainerChild _t;
+        parseUnknownDocumentContainerChild(in, _t);
+        _s.unknown = QSharedPointer<UnknownDocumentContainerChild>(new UnknownDocumentContainerChild(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
     parseEndDocumentAtom(in, _s.endDocumentAtom);
 }
 void write(const DocumentContainer& _s, LEOutputStream& out) {
@@ -23868,6 +24076,8 @@ void write(const DocumentContainer& _s, LEOutputStream& out) {
     if (_s.slideList) write(*_s.slideList, out);
     if (_s.notesList) write(*_s.notesList, out);
     if (_s.slideShowDocInfoAtom) write(*_s.slideShowDocInfoAtom, out);
+    if (_s.rtCustomTableStylesAtom1) write(*_s.rtCustomTableStylesAtom1, out);
+    if (_s.unknown) write(*_s.unknown, out);
     write(_s.endDocumentAtom, out);
 }
 void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s) {
@@ -24032,6 +24242,7 @@ void write(const MainMasterContainer& _s, LEOutputStream& out) {
 }
 void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
     LEInputStream::Mark _m;
+        bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition() + QString("_s.rh.recVer == 0xF for value ") + _s.rh.toString());
@@ -24075,6 +24286,21 @@ void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
     } catch(EOFException _e) {
         in.rewind(_m);
     }
+    _atend = false;
+    while (!_atend) {
+        _m = in.setMark();
+        try {
+            RoundTripSlideRecord _t;
+            parseRoundTripSlideRecord(in, _t);
+            _s.rgRoundTripSlide.append(_t);
+        } catch(IncorrectValueException _e) {
+            _atend = true;
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _atend = true;
+            in.rewind(_m);
+        }
+    }
 }
 void write(const SlideContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -24084,6 +24310,9 @@ void write(const SlideContainer& _s, LEOutputStream& out) {
     write(_s.drawing, out);
     write(_s.slideSchemeColorSchemeAtom, out);
     if (_s.slideProgTagsContainer) write(*_s.slideProgTagsContainer, out);
+    foreach (RoundTripSlideRecord _i, _s.rgRoundTripSlide) {
+        write(_i, out);
+    }
 }
 void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s) {
     LEInputStream::Mark _m = in.setMark();

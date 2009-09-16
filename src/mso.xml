@@ -253,6 +253,9 @@
 		<type name="slideShowDocInfoAtom" type="SlideShowDocInfoAtom"
 			optional="true" />
 		<!--  todo: some optional fields -->
+		<type name="rtCustomTableStylesAtom1" type="RoundTripCustomTableStyles12Atom" optional="true"/>
+		<type name="unknown" type="UnknownDocumentContainerChild"
+			optional="true" />
 		<type name="endDocumentAtom" type="EndDocumentAtom" />
 	</struct>
 	<struct name="SoundCollectionContainer">
@@ -998,6 +1001,14 @@
 		<type name="rgPersistDirEntry" type="PersistDirectoryEntry"
 			array="true" size="rh.recLen" />
 	</struct>
+	<struct name="UnknownDocumentContainerChild">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x1773" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
 	<struct name="PersistDirectoryEntry">
 		<uint20 name="persistId" />
 		<uint12 name="cPersist" />
@@ -1119,10 +1130,7 @@
 		-->
 		<type name="slideProgTagsContainer" type="SlideProgTagscontainer"
 			optional="true" />
-		<!--
-			<type name="rgRoundTripSlide" type="RoundTripSlideRecord"
-			array="true" />
-		-->
+		<type name="rgRoundTripSlide" type="RoundTripSlideRecord" array="true" />
 	</struct>
 	<struct name="NotesContainer">
 		<type name="rh" type="RecordHeader">
@@ -1261,6 +1269,14 @@
 		<type name="rh" type="RecordHeader">
 			<limitation name="recType"
 				value="0x40E|0x40F|0x41C|0x41D|0x41E|0x41F|0x420|0x422|0x423|0x425|0x426|0x427|0x428" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="RoundTripCustomTableStyles12Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0|0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x428" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
