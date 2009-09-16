@@ -62,10 +62,17 @@ parse(const QString& file) {
     try {
         POLE::Storage storage(file.toLocal8Bit());
         if (!storage.open()) return false;
-        list<string> entries = storage.entries();
+
+        string prefix;
+        if (storage.isDirectory("PP97_DUALSTORAGE")) {
+            prefix = "PP97_DUALSTORAGE/";
+        } else {
+            prefix = "/";
+        }
+        list<string> entries = storage.entries(prefix);
         for (list<string>::const_iterator i=entries.begin(); i!=entries.end(); ++i) {
-            if (!storage.isDirectory(*i)) {
-                POLE::Stream stream(&storage, "/"+*i);
+            if (!storage.isDirectory(prefix+*i)) {
+                POLE::Stream stream(&storage, prefix+*i);
                 QString streamname(QString::fromStdString(*i));
                 QByteArray array;
                 array.resize(stream.size());
@@ -74,7 +81,7 @@ parse(const QString& file) {
                     qDebug() << "Error reading stream " << streamname;
                     return false;
                 }
-                write("/tmp/"+streamname+".in", array);
+//                write("/tmp/"+streamname+".in", array);
                 QBuffer buffer;
                 buffer.setData(array);
                 buffer.open(QIODevice::ReadOnly);
@@ -82,7 +89,8 @@ parse(const QString& file) {
                 qDebug() << "Parsing stream '" << streamname << "'";
                 const Introspectable* i = parse(streamname, listream);
                 if (listream.getPosition() != stream.size()) {
-                    qDebug() << "Trailing data in stream " << streamname;
+                    qDebug() << stream.size() - listream.getPosition()
+                        << "trailing bytes in stream " << streamname;
                     return false;
                 }
                 buffer.close();
@@ -103,7 +111,7 @@ parse(const QString& file) {
                 buffer.open(QIODevice::WriteOnly);
                 LEOutputStream lostream(&buffer);
                 serialize(i, streamname, lostream);
-                write("/tmp/"+streamname+".out", buffer.data());
+//                write("/tmp/"+streamname+".out", buffer.data());
                 if (array != buffer.data()) {
                     qDebug() << "Serialized data different from original in "
                         << streamname;

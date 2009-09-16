@@ -2,6 +2,7 @@ package mso.javaparser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,8 +23,17 @@ public class MSOParser {
 		GeneratedMsoParser parser = new GeneratedMsoParser();
 		POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(filepath));
 		DirectoryEntry root = fs.getRoot();
+		try {
+			root = (DirectoryEntry) root.getEntry("PP97_DUALSTORAGE");
+		} catch (FileNotFoundException e) {
+		}
 
-		for (Iterator iter = root.getEntries(); iter.hasNext();) {
+		parseDirectory(parser, root);
+	}
+
+	private void parseDirectory(GeneratedMsoParser parser, DirectoryEntry de)
+			throws IOException {
+		for (Iterator iter = de.getEntries(); iter.hasNext();) {
 			Entry entry = (Entry) iter.next();
 			if (entry instanceof DirectoryEntry) {
 				System.out.println("found dir entry: " + entry.getName());
@@ -37,18 +47,19 @@ public class MSOParser {
 				if (datain.length != in.read(datain, 0, datain.length)) {
 					throw new IOException("could not read all data");
 				}
-				in.close();
 				LEInputStream lei = new LEInputStream(datain);
 				String name = e.getName();
 				Object mso = parser.parse(name, lei);
 				if (lei.getPosition() != lei.getSize()) {
 					// try {
 					throw new IOException("trailing data in stream "
-							+ e.getName() + ": " + in.available() + " bytes");
+							+ e.getName() + ": "
+							+ (lei.getSize() - lei.getPosition()) + " bytes");
 					// } catch (Exception ex) {
 					// System.out.println(ex.getMessage());
 					// }
 				}
+				in.close();
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				LEOutputStream leo = new LEOutputStream(out);
 				parser.serialize(name, mso, leo);

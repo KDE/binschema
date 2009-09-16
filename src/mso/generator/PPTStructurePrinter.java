@@ -1,6 +1,7 @@
 package mso.generator;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -25,7 +26,7 @@ public class PPTStructurePrinter {
 	 */
 	public static void main(String[] args) throws Exception {
 		final String xmlfilename = "src/mso.xml";
-		String testfile = "tests/data/b.ppt";
+		String testfile = "/tmp/ppt/www.farmbureauvc.com%2Fpdf_forms%2FCalleguas_TMDL_Pres.ppt";
 		PPTStructurePrinter p = new PPTStructurePrinter();
 
 		final Document dom = DocumentBuilderFactory.newInstance()
@@ -42,8 +43,16 @@ public class PPTStructurePrinter {
 			PrintStream out) throws IOException {
 		POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(filepath));
 		DirectoryEntry root = fs.getRoot();
+		try {
+			root = (DirectoryEntry) root.getEntry("PP97_DUALSTORAGE");
+		} catch (FileNotFoundException e) {
+		}
+		parse(root, recordTypeNames, out);
+	}
 
-		for (Iterator iter = root.getEntries(); iter.hasNext();) {
+	void parse(DirectoryEntry dir, Map<Integer, String> recordTypeNames,
+			PrintStream out) throws IOException {
+		for (Iterator iter = dir.getEntries(); iter.hasNext();) {
 			Entry entry = (Entry) iter.next();
 			if (entry instanceof DirectoryEntry) {
 				out.println("found directory entry: " + entry.getName());
@@ -86,7 +95,7 @@ public class PPTStructurePrinter {
 				.get(recType) : "";
 		out.println(depth + t + recVer + t + hexinstance + t + hextype + t
 				+ recLen + t + in.getPosition() + t + name);
-		if (recVer == 0xF) {
+		if (recVer == 0xF && recType != 0x428) {
 			int end = in.getPosition() + recLen;
 			while (in.getPosition() != end) {
 				if (in.getPosition() > end) {
