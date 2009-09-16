@@ -227,13 +227,19 @@ public:
         int todo = b.size();
         while (todo > 0) { // do not enter loop if array size is 0
             int nread = data.readRawData(b.data() + offset, todo);
-            if (nread == -1) return; //TODO report error
+            if (nread == -1 || nread == 0) {
+                throw EOFException();// TODO: differentiate
+            }
             todo -= nread;
             offset += nread;
         }
     }
 
-    quint64 getPosition() const { return input->pos(); }
+    void skip(int len) {
+        data.skipRawData(len);
+    }
+
+    qint64 getPosition() const { return input->pos(); }
 };
 
 #endif
