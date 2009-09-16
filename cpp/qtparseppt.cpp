@@ -74,7 +74,7 @@ parse(const QString& file) {
                     qDebug() << "Error reading stream " << streamname;
                     return false;
                 }
-//                write("/tmp/"+streamname+".in", array);
+                write("/tmp/"+streamname+".in", array);
                 QBuffer buffer;
                 buffer.setData(array);
                 buffer.open(QIODevice::ReadOnly);
@@ -87,17 +87,6 @@ parse(const QString& file) {
                 }
                 buffer.close();
 
-                buffer.buffer().clear();
-                buffer.open(QIODevice::WriteOnly);
-                LEOutputStream lostream(&buffer);
-                serialize(i, streamname, lostream);
-                if (array != buffer.data()) {
-                    qDebug() << "Serialized data different from original in "
-                        << streamname;
-                    return false;
-                }
-//                write("/tmp/"+streamname+".out", buffer.data());
-
 /*
                 QFile out;
                 out.open(stdout, QIODevice::WriteOnly);
@@ -108,8 +97,19 @@ parse(const QString& file) {
                 print(xmlout, i);
                 xmlout.writeEndElement();
                 xmlout.writeEndDocument();
-                xmlout.close();
 */
+
+                buffer.buffer().clear();
+                buffer.open(QIODevice::WriteOnly);
+                LEOutputStream lostream(&buffer);
+                serialize(i, streamname, lostream);
+                write("/tmp/"+streamname+".out", buffer.data());
+                if (array != buffer.data()) {
+                    qDebug() << "Serialized data different from original in "
+                        << streamname;
+                    return false;
+                }
+
 
                 delete i;
             }
