@@ -16,3 +16,6 @@ TARGET_LINK_LIBRARIES(qtpptxml qtppt ${QT_LIBRARIES})
 
 ADD_EXECUTABLE(qtparseppt qtparseppt.cpp)
 TARGET_LINK_LIBRARIES(qtparseppt qtppt ${QT_LIBRARIES})
+
+ADD_EXECUTABLE(pptstructureprinter pptstructureprinter.cpp)
+TARGET_LINK_LIBRARIES(pptstructureprinter qtppt ${QT_LIBRARIES})
