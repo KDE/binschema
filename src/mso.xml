@@ -274,6 +274,8 @@
 			optional="true" />
 		<type name="unknown4" type="UnknownDocumentContainerChild3"
 			optional="true" />
+		<type name="unknown5" type="UnknownDocumentContainerChild4"
+			optional="true" />
 		<type name="rtCustomTableStylesAtom2" type="RoundTripCustomTableStyles12Atom"
 			optional="true" />
 	</struct>
@@ -919,7 +921,8 @@
 			<limitation name="recLen" value="4" />
 		</type>
 		<uint32 name='level'>
-			<limitation value="0|1|2" />
+			<!--  MS documentation does not allow value 128 -->
+			<limitation value="0|1|2|128" />
 		</uint32>
 	</struct>
 	<struct name="TextSIExceptionAtom">
@@ -1045,11 +1048,19 @@
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
+	<struct name="UnknownDocumentContainerChild4">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x41A" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
 	<struct name="UnknownOfficeArtClientDataChild">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0xFE8" />
+			<limitation name="recType" value="0xFE8|0x1019" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
@@ -1112,11 +1123,12 @@
 			optional="true" />
 		<type name="rgRoundTripMainMaster" type="RoundTripMainMasterRecord"
 			array="true" />
+		<type name="unknown2" type="UnknownSlideContainerChild" optional="true" />
 		<type name="templateNameAtom" type="TemplateNameAtom" optional="true" />
 		<!--
 			it is not documented that a SlideProgTagsContainer may appear here
 		-->
-		<type name="unknown2" type="SlideProgTagsContainer" optional="true" />
+		<type name="unknown3" type="SlideProgTagsContainer" optional="true" />
 	</struct>
 	<struct name="SchemeListElementColorSchemeAtom">
 		<type name="rh" type="RecordHeader">
@@ -1435,6 +1447,7 @@
 			<type type="ExOleLinkContainer" />
 			<type type="ExWAVAudioEmbeddedContainer" />
 			<type type="ExWAVAudioLinkContainer" />
+			<type type="UnknownExObjListSubContainerChild" />
 		</choice>
 	</struct>
 	<struct name="ExAviMovieContainer">
@@ -1498,6 +1511,14 @@
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x1010" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="UnknownExObjListSubContainerChild">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFEA" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
@@ -1617,6 +1638,10 @@
 			MS docs do not list drawingTertiaryOptions as optional
 		-->
 		<type name="splitColors" type="OfficeArtSplitMenuColorContainer" />
+		<!--
+			MS docs do not mention this instance of OfficeArtTertiaryFOPT
+		-->
+		<type name="unknown" type="OfficeArtTertiaryFOPT" optional="true" />
 	</struct>
 	<struct name="OfficeArtDgContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -1724,13 +1749,13 @@
 		<type name="clientTextbox" type="OfficeArtClientTextBox"
 			optional="true" />
 		<!--
-			Only exists if shapeSecondaryOptions1 does not. <type
-			name="shapeSecondaryOptions2" type="OfficeArtSecondaryFOPT" />
-		-->
+			Only exists if shapeSecondaryOptions1 does not. -->
+		<type name="shapeSecondaryOptions2" type="OfficeArtSecondaryFOPT"
+			optional="true" />
 		<!--
-			Only exists if shapeTertiaryOptions1 does not. <type
-			name="shapeTertiaryOptions2" type="OfficeArtTertiaryFOPT" />
-		-->
+			Only exists if shapeTertiaryOptions1 does not. -->
+		<type name="shapeTertiaryOptions2" type="OfficeArtTertiaryFOPT"
+			optional="true" />
 	</struct>
 	<struct name="OfficeArtSolverContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -1818,11 +1843,8 @@
 	<struct name="OfficeArtSecondaryFOPT">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="3" />
-			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xF121" />
 		</type>
-		<!--  todo
-		<type name="fopt" type="OfficeArtRGFOPTE"/>-->
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="OfficeArtTertiaryFOPT">

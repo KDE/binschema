@@ -1449,8 +1449,8 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 4 for value " + String.valueOf(_s.rh) );
         }
         _s.level = in.readuint32();
-        if (!(_s.level == 0 || _s.level == 1 || _s.level == 2)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.level == 0 || _s.level == 1 || _s.level == 2 for value " + String.valueOf(_s.level) );
+        if (!(_s.level == 0 || _s.level == 1 || _s.level == 2 || _s.level == 128)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.level == 0 || _s.level == 1 || _s.level == 2 || _s.level == 128 for value " + String.valueOf(_s.level) );
         }
         return _s;
     }
@@ -1646,6 +1646,32 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
+    UnknownDocumentContainerChild4 parseUnknownDocumentContainerChild4(LEInputStream in) throws IOException  {
+        UnknownDocumentContainerChild4 _s = new UnknownDocumentContainerChild4();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x41A)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x41A for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.todo = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.todo[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    void write(UnknownDocumentContainerChild4 _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     UnknownOfficeArtClientDataChild parseUnknownOfficeArtClientDataChild(LEInputStream in) throws IOException  {
         UnknownOfficeArtClientDataChild _s = new UnknownOfficeArtClientDataChild();
         int _c;
@@ -1656,8 +1682,8 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recInstance == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0xFE8)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFE8 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0xFE8 || _s.rh.recType == 0x1019)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFE8 || _s.rh.recType == 0x1019 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
         _s.todo = new byte[_c];
@@ -2667,6 +2693,32 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
+    UnknownExObjListSubContainerChild parseUnknownExObjListSubContainerChild(LEInputStream in) throws IOException  {
+        UnknownExObjListSubContainerChild _s = new UnknownExObjListSubContainerChild();
+        int _c;
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFEA)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFEA for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.todo = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.todo[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    void write(UnknownExObjListSubContainerChild _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.todo) {
+            out.writeuint8(_i);
+        }
+    }
     ExOleLinkAtom parseExOleLinkAtom(LEInputStream in) throws IOException  {
         ExOleLinkAtom _s = new ExOleLinkAtom();
         _s.rh = parseRecordHeader(in);
@@ -3170,9 +3222,6 @@ System.out.println(in.getPosition()+" "+_s);
         _s.rh = parseOfficeArtRecordHeader(in);
         if (!(_s.rh.recVer == 3)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 3 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recType == 0xF121)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF121 for value " + String.valueOf(_s.rh) );
@@ -6608,8 +6657,14 @@ System.out.println(in.getPosition()+" "+_s);
             if (!(_xxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxx);//onlyfordebug
             in.rewind(_m);
+        try {
             _s.anon = parseExWAVAudioLinkContainer(in);
-        }}}}}}}}} finally {
+        } catch (IOException _xxxxxxxxxx) {
+            if (!(_xxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+            _s.anon = parseUnknownExObjListSubContainerChild(in);
+        }}}}}}}}}} finally {
             in.releaseMark(_m);
         }
         return _s;
@@ -6635,6 +6690,8 @@ System.out.println(in.getPosition()+" "+_s);
             write((ExWAVAudioEmbeddedContainer)_s.anon, out);
         } else if (_s.anon instanceof ExWAVAudioLinkContainer) {
             write((ExWAVAudioLinkContainer)_s.anon, out);
+        } else if (_s.anon instanceof UnknownExObjListSubContainerChild) {
+            write((UnknownExObjListSubContainerChild)_s.anon, out);
         }
     }
     OfficeArtDggContainer parseOfficeArtDggContainer(LEInputStream in) throws IOException  {
@@ -6686,6 +6743,17 @@ System.out.println(in.getPosition()+" "+_s);
             in.releaseMark(_m);
         }
         _s.splitColors = parseOfficeArtSplitMenuColorContainer(in);
+        _m = in.setMark();
+        try {
+            _s.unknown = parseOfficeArtTertiaryFOPT(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
         return _s;
     }
     void write(OfficeArtDggContainer _s, LEOutputStream out) throws IOException  {
@@ -6696,6 +6764,7 @@ System.out.println(in.getPosition()+" "+_s);
         if (_s.drawingTertiaryOptions != null) write(_s.drawingTertiaryOptions, out);
         if (_s.colorMRU != null) write(_s.colorMRU, out);
         write(_s.splitColors, out);
+        if (_s.unknown != null) write(_s.unknown, out);
     }
     OfficeArtSpContainer parseOfficeArtSpContainer(LEInputStream in) throws IOException  {
         OfficeArtSpContainer _s = new OfficeArtSpContainer();
@@ -6810,6 +6879,28 @@ System.out.println(in.getPosition()+" "+_s);
         } finally {
             in.releaseMark(_m);
         }
+        _m = in.setMark();
+        try {
+            _s.shapeSecondaryOptions2 = parseOfficeArtSecondaryFOPT(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.shapeTertiaryOptions2 = parseOfficeArtTertiaryFOPT(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
         return _s;
     }
     void write(OfficeArtSpContainer _s, LEOutputStream out) throws IOException  {
@@ -6824,6 +6915,8 @@ System.out.println(in.getPosition()+" "+_s);
         if (_s.clientAnchor != null) write(_s.clientAnchor, out);
         if (_s.clientData != null) write(_s.clientData, out);
         if (_s.clientTextbox != null) write(_s.clientTextbox, out);
+        if (_s.shapeSecondaryOptions2 != null) write(_s.shapeSecondaryOptions2, out);
+        if (_s.shapeTertiaryOptions2 != null) write(_s.shapeTertiaryOptions2, out);
     }
     WordDocument parseWordDocument(LEInputStream in) throws IOException  {
         WordDocument _s = new WordDocument();
@@ -7392,6 +7485,17 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _m = in.setMark();
         try {
+            _s.unknown5 = parseUnknownDocumentContainerChild4(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
             _s.rtCustomTableStylesAtom2 = parseRoundTripCustomTableStyles12Atom(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
@@ -7428,6 +7532,7 @@ System.out.println(in.getPosition()+" "+_s);
         if (_s.unknown2 != null) write(_s.unknown2, out);
         if (_s.unknown3 != null) write(_s.unknown3, out);
         if (_s.unknown4 != null) write(_s.unknown4, out);
+        if (_s.unknown5 != null) write(_s.unknown5, out);
         if (_s.rtCustomTableStylesAtom2 != null) write(_s.rtCustomTableStylesAtom2, out);
     }
     DrawingContainer parseDrawingContainer(LEInputStream in) throws IOException  {
@@ -7592,6 +7697,17 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _m = in.setMark();
         try {
+            _s.unknown2 = parseUnknownSlideContainerChild(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
             _s.templateNameAtom = parseTemplateNameAtom(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
@@ -7603,7 +7719,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _m = in.setMark();
         try {
-            _s.unknown2 = parseSlideProgTagsContainer(in);
+            _s.unknown3 = parseSlideProgTagsContainer(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
@@ -7634,8 +7750,9 @@ System.out.println(in.getPosition()+" "+_s);
         for (RoundTripMainMasterRecord _i: _s.rgRoundTripMainMaster) {
             write(_i, out);
         }
-        if (_s.templateNameAtom != null) write(_s.templateNameAtom, out);
         if (_s.unknown2 != null) write(_s.unknown2, out);
+        if (_s.templateNameAtom != null) write(_s.templateNameAtom, out);
+        if (_s.unknown3 != null) write(_s.unknown3, out);
     }
     SlideContainer parseSlideContainer(LEInputStream in) throws IOException  {
         SlideContainer _s = new SlideContainer();
@@ -8618,6 +8735,16 @@ class UnknownDocumentContainerChild3 {
         return _s;
     }
 }
+class UnknownDocumentContainerChild4 {
+    RecordHeader rh;
+    byte[] todo;
+    public String toString() {
+        String _s = "UnknownDocumentContainerChild4:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        return _s;
+    }
+}
 class UnknownOfficeArtClientDataChild {
     RecordHeader rh;
     byte[] todo;
@@ -9053,6 +9180,16 @@ class ExWAVAudioLinkContainer {
     byte[] todo;
     public String toString() {
         String _s = "ExWAVAudioLinkContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        return _s;
+    }
+}
+class UnknownExObjListSubContainerChild {
+    OfficeArtRecordHeader rh;
+    byte[] todo;
+    public String toString() {
+        String _s = "UnknownExObjListSubContainerChild:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "todo: " + String.valueOf(todo) + ", ";
         return _s;
@@ -11064,6 +11201,7 @@ class OfficeArtDggContainer {
     OfficeArtTertiaryFOPT drawingTertiaryOptions;
     OfficeArtColorMRUContainer colorMRU;
     OfficeArtSplitMenuColorContainer splitColors;
+    OfficeArtTertiaryFOPT unknown;
     public String toString() {
         String _s = "OfficeArtDggContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -11073,6 +11211,7 @@ class OfficeArtDggContainer {
         _s = _s + "drawingTertiaryOptions: " + String.valueOf(drawingTertiaryOptions) + ", ";
         _s = _s + "colorMRU: " + String.valueOf(colorMRU) + ", ";
         _s = _s + "splitColors: " + String.valueOf(splitColors) + ", ";
+        _s = _s + "unknown: " + String.valueOf(unknown) + ", ";
         return _s;
     }
 }
@@ -11088,6 +11227,8 @@ class OfficeArtSpContainer {
     OfficeArtClientAnchor clientAnchor;
     OfficeArtClientData clientData;
     OfficeArtClientTextBox clientTextbox;
+    OfficeArtSecondaryFOPT shapeSecondaryOptions2;
+    OfficeArtTertiaryFOPT shapeTertiaryOptions2;
     public String toString() {
         String _s = "OfficeArtSpContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -11101,6 +11242,8 @@ class OfficeArtSpContainer {
         _s = _s + "clientAnchor: " + String.valueOf(clientAnchor) + ", ";
         _s = _s + "clientData: " + String.valueOf(clientData) + ", ";
         _s = _s + "clientTextbox: " + String.valueOf(clientTextbox) + ", ";
+        _s = _s + "shapeSecondaryOptions2: " + String.valueOf(shapeSecondaryOptions2) + ", ";
+        _s = _s + "shapeTertiaryOptions2: " + String.valueOf(shapeTertiaryOptions2) + ", ";
         return _s;
     }
 }
@@ -11283,6 +11426,7 @@ class DocumentContainer {
     UnknownDocumentContainerChild3 unknown2;
     UnknownDocumentContainerChild2 unknown3;
     UnknownDocumentContainerChild3 unknown4;
+    UnknownDocumentContainerChild4 unknown5;
     RoundTripCustomTableStyles12Atom rtCustomTableStylesAtom2;
     public String toString() {
         String _s = "DocumentContainer:";
@@ -11310,6 +11454,7 @@ class DocumentContainer {
         _s = _s + "unknown2: " + String.valueOf(unknown2) + ", ";
         _s = _s + "unknown3: " + String.valueOf(unknown3) + ", ";
         _s = _s + "unknown4: " + String.valueOf(unknown4) + ", ";
+        _s = _s + "unknown5: " + String.valueOf(unknown5) + ", ";
         _s = _s + "rtCustomTableStylesAtom2: " + String.valueOf(rtCustomTableStylesAtom2) + ", ";
         return _s;
     }
@@ -11338,8 +11483,9 @@ class MainMasterContainer {
     SlideNameAtom slideNameAtom;
     SlideProgTagsContainer slideProgTagsContainer;
     final java.util.List<RoundTripMainMasterRecord> rgRoundTripMainMaster = new java.util.ArrayList<RoundTripMainMasterRecord>();
+    UnknownSlideContainerChild unknown2;
     TemplateNameAtom templateNameAtom;
-    SlideProgTagsContainer unknown2;
+    SlideProgTagsContainer unknown3;
     public String toString() {
         String _s = "MainMasterContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -11355,8 +11501,9 @@ class MainMasterContainer {
         _s = _s + "slideNameAtom: " + String.valueOf(slideNameAtom) + ", ";
         _s = _s + "slideProgTagsContainer: " + String.valueOf(slideProgTagsContainer) + ", ";
         _s = _s + "rgRoundTripMainMaster: " + String.valueOf(rgRoundTripMainMaster) + ", ";
-        _s = _s + "templateNameAtom: " + String.valueOf(templateNameAtom) + ", ";
         _s = _s + "unknown2: " + String.valueOf(unknown2) + ", ";
+        _s = _s + "templateNameAtom: " + String.valueOf(templateNameAtom) + ", ";
+        _s = _s + "unknown3: " + String.valueOf(unknown3) + ", ";
         return _s;
     }
 }
