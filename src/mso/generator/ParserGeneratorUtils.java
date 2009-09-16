@@ -228,11 +228,11 @@ public class ParserGeneratorUtils {
 
 		for (int i = 0; i < list.getLength(); ++i) {
 			Element e = (Element) list.item(i);
+			String name = ((Element) e.getParentNode().getParentNode())
+					.getAttribute("name");
 			String type = e.getAttribute("value").replace("0x", "");
 			for (String s : type.split("\\|")) {
 				int typeNumber = Integer.parseInt(s, 16);
-				String name = ((Element) e.getParentNode().getParentNode())
-						.getAttribute("name");
 				if (map.containsKey(typeNumber)) {
 					name = map.get(typeNumber) + "/" + name;
 				}
