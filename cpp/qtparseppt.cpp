@@ -4,7 +4,6 @@
 #include "pole.h"
 #include <QBuffer>
 #include <QCoreApplication>
-#include <QXmlStreamWriter>
 #include <QDebug>
 #include <QFile>
 #include <QVariant>
@@ -14,40 +13,6 @@ const Introspectable* parse(const QString& key, LEInputStream& in);
 void serialize(const Introspectable* i, const QString& key, LEOutputStream& out);
 
 using namespace std;
-
-QVariant
-escapeByteArray(const QByteArray& b) {
-    // we escape all non printable byte values
-    // printable is 9, 10, 13, 32-126
-    QByteArray exclude(97, ' ');
-    exclude[0] = 9; exclude[1] = 10; exclude[2] = 13;
-    for (int i=3; i<97; ++i) {
-        exclude[i] = i+29;
-    }
-    return b.toPercentEncoding(exclude);
-}
-
-void
-print(QXmlStreamWriter& out, const Introspectable* i) {
-    const Introspection* is = i->getIntrospection();
-    for (int j=0; j<is->numberOfMembers; ++j) {
-        for (int k=0; k<is->numberOfInstances[j](i); ++k) {
-            out.writeStartElement(is->names[j]);
-            const Introspectable* ci = is->introspectable[j](i, k);
-            if (ci) {
-                out.writeAttribute("type", ci->getIntrospection()->name);
-                print(out, ci);
-            } else {
-                QVariant v(is->value[j](i, k));
-                if (v.type() == QVariant::ByteArray) {
-                    v = escapeByteArray(v.toByteArray());
-                }
-                out.writeCharacters(v.toString());
-            }
-            out.writeEndElement();
-        }
-    }
-}
 
 void
 write(const QString& name, const QByteArray& data) {
@@ -88,24 +53,12 @@ parse(const QString& file) {
                 LEInputStream listream(&buffer);
                 qDebug() << "Parsing stream '" << streamname << "'";
                 const Introspectable* i = parse(streamname, listream);
-                if (listream.getPosition() != stream.size()) {
+                if (listream.getPosition() != (qint64)stream.size()) {
                     qDebug() << stream.size() - listream.getPosition()
                         << "trailing bytes in stream " << streamname;
                     return false;
                 }
                 buffer.close();
-
-/*
-                QFile out;
-                out.open(stdout, QIODevice::WriteOnly);
-                QXmlStreamWriter xmlout(&out);
-                xmlout.setAutoFormatting(true);
-                xmlout.writeStartDocument();
-                xmlout.writeStartElement(i->getIntrospection()->name);
-                print(xmlout, i);
-                xmlout.writeEndElement();
-                xmlout.writeEndDocument();
-*/
 
                 buffer.buffer().clear();
                 buffer.open(QIODevice::WriteOnly);
