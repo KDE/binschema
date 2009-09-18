@@ -382,7 +382,7 @@ public class QtParserGenerator {
 		out.println("    static const Introspectable* (* const introspectable["
 				+ nm + "])(const Introspectable*, int position);");
 		for (Member m : s.members) {
-			if (m.type.equals("uint8")) {
+			if (!m.isComplex) {
 			} else if (m.isOptional) {
 				out.println("    static int count_" + m.name
 						+ "(const Introspectable* i) {");
@@ -403,18 +403,22 @@ public class QtParserGenerator {
 				out.println("    static QVariant get_" + m.name
 						+ "(const Introspectable* i, int j) {");
 			}
+			String dm = "static_cast<const " + s.name + "*>(i)->" + m.name + "";
 			if (m.choices == null) {
-				out.print("        return ");
-				if (!m.isOptional && m.isComplex) {
-					out.print("&");
-				}
-				out.print("(static_cast<const " + s.name + "*>(i)->" + m.name);
-				if (!m.type.equals("uint8") && m.isArray) {
-					out.print("[j]");
+				out.print("        ");
+				if (!m.isComplex) {
+					if (m.isArray && m.type != "uint8") {
+						out.println("return qVariantFromValue(" + dm + ");");
+					} else {
+						out.println("return " + dm + ";");
+					}
+				} else if (m.isArray) {
+					out.println("return &(" + dm + "[j]);");
 				} else if (m.isOptional) {
-					out.print(".data()");
+					out.println("return " + dm + ".data();");
+				} else {
+					out.println("return &(" + dm + ");");
 				}
-				out.println(");");
 			} else {
 				out.println("        const Introspectable* k = 0;");
 				for (String c : m.choices) {
@@ -437,9 +441,10 @@ public class QtParserGenerator {
 		out.println("int (* const " + ns + "::numberOfInstances[" + nm
 				+ "])(const Introspectable*) = {");
 		for (Member m : s.members) {
-			if (!m.type.equals("uint8") && (m.isOptional || m.isArray)) {
+			if (m.isComplex && (m.isOptional || m.isArray)) {
 				out.println("    _Introspection::count_" + m.name + ",");
 			} else {
+				// arrays of simple types count as one instance
 				out.println("    Introspection::one,");
 			}
 		}

@@ -5783,16 +5783,16 @@ public:
     static QVariant (* const value[4])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
     static QVariant get_recVer(const Introspectable* i, int j) {
-        return (static_cast<const RecordHeader*>(i)->recVer);
+        return static_cast<const RecordHeader*>(i)->recVer;
     }
     static QVariant get_recInstance(const Introspectable* i, int j) {
-        return (static_cast<const RecordHeader*>(i)->recInstance);
+        return static_cast<const RecordHeader*>(i)->recInstance;
     }
     static QVariant get_recType(const Introspectable* i, int j) {
-        return (static_cast<const RecordHeader*>(i)->recType);
+        return static_cast<const RecordHeader*>(i)->recType;
     }
     static QVariant get_recLen(const Introspectable* i, int j) {
-        return (static_cast<const RecordHeader*>(i)->recLen);
+        return static_cast<const RecordHeader*>(i)->recLen;
     }
 };
 const QString RecordHeader::_Introspection::name("RecordHeader");
@@ -5835,37 +5835,37 @@ public:
         return &(static_cast<const CurrentUserAtom*>(i)->rh);
     }
     static QVariant get_size(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->size);
+        return static_cast<const CurrentUserAtom*>(i)->size;
     }
     static QVariant get_headerToken(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->headerToken);
+        return static_cast<const CurrentUserAtom*>(i)->headerToken;
     }
     static QVariant get_offsetToCurrentEdit(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->offsetToCurrentEdit);
+        return static_cast<const CurrentUserAtom*>(i)->offsetToCurrentEdit;
     }
     static QVariant get_lenUserName(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->lenUserName);
+        return static_cast<const CurrentUserAtom*>(i)->lenUserName;
     }
     static QVariant get_docFileVersion(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->docFileVersion);
+        return static_cast<const CurrentUserAtom*>(i)->docFileVersion;
     }
     static QVariant get_majorVersion(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->majorVersion);
+        return static_cast<const CurrentUserAtom*>(i)->majorVersion;
     }
     static QVariant get_minorVersion(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->minorVersion);
+        return static_cast<const CurrentUserAtom*>(i)->minorVersion;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->unused);
+        return static_cast<const CurrentUserAtom*>(i)->unused;
     }
     static QVariant get_ansiUserName(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->ansiUserName);
+        return static_cast<const CurrentUserAtom*>(i)->ansiUserName;
     }
     static QVariant get_relVersion(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->relVersion);
+        return static_cast<const CurrentUserAtom*>(i)->relVersion;
     }
     static QVariant get_unicodeUserName(const Introspectable* i, int j) {
-        return (static_cast<const CurrentUserAtom*>(i)->unicodeUserName);
+        return static_cast<const CurrentUserAtom*>(i)->unicodeUserName;
     }
 };
 const QString CurrentUserAtom::_Introspection::name("CurrentUserAtom");
@@ -5968,7 +5968,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static QVariant get_b(const Introspectable* i, int j) {
-        return (static_cast<const Byte*>(i)->b);
+        return static_cast<const Byte*>(i)->b;
     }
 };
 const QString Byte::_Introspection::name("Byte");
@@ -6065,16 +6065,16 @@ public:
     static QVariant (* const value[4])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
     static QVariant get_recVer(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtRecordHeader*>(i)->recVer);
+        return static_cast<const OfficeArtRecordHeader*>(i)->recVer;
     }
     static QVariant get_recInstance(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtRecordHeader*>(i)->recInstance);
+        return static_cast<const OfficeArtRecordHeader*>(i)->recInstance;
     }
     static QVariant get_recType(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtRecordHeader*>(i)->recType);
+        return static_cast<const OfficeArtRecordHeader*>(i)->recType;
     }
     static QVariant get_recLen(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtRecordHeader*>(i)->recLen);
+        return static_cast<const OfficeArtRecordHeader*>(i)->recLen;
     }
 };
 const QString OfficeArtRecordHeader::_Introspection::name("OfficeArtRecordHeader");
@@ -6117,16 +6117,16 @@ public:
         return &(static_cast<const OfficeArtBlipJPEG*>(i)->rh);
     }
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipJPEG*>(i)->rgbUid1);
+        return static_cast<const OfficeArtBlipJPEG*>(i)->rgbUid1;
     }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipJPEG*>(i)->rgbUid2);
+        return static_cast<const OfficeArtBlipJPEG*>(i)->rgbUid2;
     }
     static QVariant get_tag(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipJPEG*>(i)->tag);
+        return static_cast<const OfficeArtBlipJPEG*>(i)->tag;
     }
     static QVariant get_BLIPFileData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipJPEG*>(i)->BLIPFileData);
+        return static_cast<const OfficeArtBlipJPEG*>(i)->BLIPFileData;
     }
 };
 const QString OfficeArtBlipJPEG::_Introspection::name("OfficeArtBlipJPEG");
@@ -6173,16 +6173,16 @@ public:
         return &(static_cast<const OfficeArtBlipPNG*>(i)->rh);
     }
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipPNG*>(i)->rgbUid1);
+        return static_cast<const OfficeArtBlipPNG*>(i)->rgbUid1;
     }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipPNG*>(i)->rgbUid2);
+        return static_cast<const OfficeArtBlipPNG*>(i)->rgbUid2;
     }
     static QVariant get_tag(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipPNG*>(i)->tag);
+        return static_cast<const OfficeArtBlipPNG*>(i)->tag;
     }
     static QVariant get_BLIPFileData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipPNG*>(i)->BLIPFileData);
+        return static_cast<const OfficeArtBlipPNG*>(i)->BLIPFileData;
     }
 };
 const QString OfficeArtBlipPNG::_Introspection::name("OfficeArtBlipPNG");
@@ -6229,16 +6229,16 @@ public:
         return &(static_cast<const OfficeArtBlipDIB*>(i)->rh);
     }
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipDIB*>(i)->rgbUid1);
+        return static_cast<const OfficeArtBlipDIB*>(i)->rgbUid1;
     }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipDIB*>(i)->rgbUid2);
+        return static_cast<const OfficeArtBlipDIB*>(i)->rgbUid2;
     }
     static QVariant get_tag(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipDIB*>(i)->tag);
+        return static_cast<const OfficeArtBlipDIB*>(i)->tag;
     }
     static QVariant get_BLIPFileData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipDIB*>(i)->BLIPFileData);
+        return static_cast<const OfficeArtBlipDIB*>(i)->BLIPFileData;
     }
 };
 const QString OfficeArtBlipDIB::_Introspection::name("OfficeArtBlipDIB");
@@ -6285,16 +6285,16 @@ public:
         return &(static_cast<const OfficeArtBlipTIFF*>(i)->rh);
     }
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipTIFF*>(i)->rgbUid1);
+        return static_cast<const OfficeArtBlipTIFF*>(i)->rgbUid1;
     }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipTIFF*>(i)->rgbUid2);
+        return static_cast<const OfficeArtBlipTIFF*>(i)->rgbUid2;
     }
     static QVariant get_tag(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipTIFF*>(i)->tag);
+        return static_cast<const OfficeArtBlipTIFF*>(i)->tag;
     }
     static QVariant get_BLIPFileData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipTIFF*>(i)->BLIPFileData);
+        return static_cast<const OfficeArtBlipTIFF*>(i)->BLIPFileData;
     }
 };
 const QString OfficeArtBlipTIFF::_Introspection::name("OfficeArtBlipTIFF");
@@ -6338,16 +6338,16 @@ public:
     static QVariant (* const value[4])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
     static QVariant get_left(const Introspectable* i, int j) {
-        return (static_cast<const RECT*>(i)->left);
+        return static_cast<const RECT*>(i)->left;
     }
     static QVariant get_top(const Introspectable* i, int j) {
-        return (static_cast<const RECT*>(i)->top);
+        return static_cast<const RECT*>(i)->top;
     }
     static QVariant get_right(const Introspectable* i, int j) {
-        return (static_cast<const RECT*>(i)->right);
+        return static_cast<const RECT*>(i)->right;
     }
     static QVariant get_bottom(const Introspectable* i, int j) {
-        return (static_cast<const RECT*>(i)->bottom);
+        return static_cast<const RECT*>(i)->bottom;
     }
 };
 const QString RECT::_Introspection::name("RECT");
@@ -6387,10 +6387,10 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_x(const Introspectable* i, int j) {
-        return (static_cast<const POINT*>(i)->x);
+        return static_cast<const POINT*>(i)->x;
     }
     static QVariant get_y(const Introspectable* i, int j) {
-        return (static_cast<const POINT*>(i)->y);
+        return static_cast<const POINT*>(i)->y;
     }
 };
 const QString POINT::_Introspection::name("POINT");
@@ -6456,7 +6456,7 @@ public:
         return &(static_cast<const SoundCollectionContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const SoundCollectionContainer*>(i)->todo);
+        return static_cast<const SoundCollectionContainer*>(i)->todo;
     }
 };
 const QString SoundCollectionContainer::_Introspection::name("SoundCollectionContainer");
@@ -6491,7 +6491,7 @@ public:
         return &(static_cast<const SlideHeadersFootersContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const SlideHeadersFootersContainer*>(i)->todo);
+        return static_cast<const SlideHeadersFootersContainer*>(i)->todo;
     }
 };
 const QString SlideHeadersFootersContainer::_Introspection::name("SlideHeadersFootersContainer");
@@ -6526,7 +6526,7 @@ public:
         return &(static_cast<const NotesHeadersFootersContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const NotesHeadersFootersContainer*>(i)->todo);
+        return static_cast<const NotesHeadersFootersContainer*>(i)->todo;
     }
 };
 const QString NotesHeadersFootersContainer::_Introspection::name("NotesHeadersFootersContainer");
@@ -6561,7 +6561,7 @@ public:
         return &(static_cast<const PerSlideHeadersFootersContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const PerSlideHeadersFootersContainer*>(i)->todo);
+        return static_cast<const PerSlideHeadersFootersContainer*>(i)->todo;
     }
 };
 const QString PerSlideHeadersFootersContainer::_Introspection::name("PerSlideHeadersFootersContainer");
@@ -6662,7 +6662,7 @@ public:
         return &(static_cast<const DocInfoListSubContainerOrAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const DocInfoListSubContainerOrAtom*>(i)->todo);
+        return static_cast<const DocInfoListSubContainerOrAtom*>(i)->todo;
     }
 };
 const QString DocInfoListSubContainerOrAtom::_Introspection::name("DocInfoListSubContainerOrAtom");
@@ -6697,7 +6697,7 @@ public:
         return &(static_cast<const SlideViewInfoInstance*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const SlideViewInfoInstance*>(i)->todo);
+        return static_cast<const SlideViewInfoInstance*>(i)->todo;
     }
 };
 const QString SlideViewInfoInstance::_Introspection::name("SlideViewInfoInstance");
@@ -6808,7 +6808,7 @@ public:
         return &(static_cast<const NotesListWithTextContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const NotesListWithTextContainer*>(i)->todo);
+        return static_cast<const NotesListWithTextContainer*>(i)->todo;
     }
 };
 const QString NotesListWithTextContainer::_Introspection::name("NotesListWithTextContainer");
@@ -6843,7 +6843,7 @@ public:
         return &(static_cast<const TextHeaderAtom*>(i)->rh);
     }
     static QVariant get_textType(const Introspectable* i, int j) {
-        return (static_cast<const TextHeaderAtom*>(i)->textType);
+        return static_cast<const TextHeaderAtom*>(i)->textType;
     }
 };
 const QString TextHeaderAtom::_Introspection::name("TextHeaderAtom");
@@ -6877,11 +6877,8 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const TextCharsAtom*>(i)->rh);
     }
-    static int count_textChars(const Introspectable* i) {
-        return static_cast<const TextCharsAtom*>(i)->textChars.size();
-    }
     static QVariant get_textChars(const Introspectable* i, int j) {
-        return (static_cast<const TextCharsAtom*>(i)->textChars[j]);
+        return qVariantFromValue(static_cast<const TextCharsAtom*>(i)->textChars);
     }
 };
 const QString TextCharsAtom::_Introspection::name("TextCharsAtom");
@@ -6892,7 +6889,7 @@ const QString TextCharsAtom::_Introspection::names[2] = {
 };
 int (* const TextCharsAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
-    _Introspection::count_textChars,
+    Introspection::one,
 };
 QVariant (* const TextCharsAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
@@ -6916,7 +6913,7 @@ public:
         return &(static_cast<const TextBytesAtom*>(i)->rh);
     }
     static QVariant get_textChars(const Introspectable* i, int j) {
-        return (static_cast<const TextBytesAtom*>(i)->textChars);
+        return static_cast<const TextBytesAtom*>(i)->textChars;
     }
 };
 const QString TextBytesAtom::_Introspection::name("TextBytesAtom");
@@ -6951,7 +6948,7 @@ public:
         return &(static_cast<const MasterTextPropAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const MasterTextPropAtom*>(i)->todo);
+        return static_cast<const MasterTextPropAtom*>(i)->todo;
     }
 };
 const QString MasterTextPropAtom::_Introspection::name("MasterTextPropAtom");
@@ -6986,7 +6983,7 @@ public:
         return &(static_cast<const StyleTextPropAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const StyleTextPropAtom*>(i)->todo);
+        return static_cast<const StyleTextPropAtom*>(i)->todo;
     }
 };
 const QString StyleTextPropAtom::_Introspection::name("StyleTextPropAtom");
@@ -7021,7 +7018,7 @@ public:
         return &(static_cast<const SlideNumberMCAtom*>(i)->rh);
     }
     static QVariant get_position(const Introspectable* i, int j) {
-        return (static_cast<const SlideNumberMCAtom*>(i)->position);
+        return static_cast<const SlideNumberMCAtom*>(i)->position;
     }
 };
 const QString SlideNumberMCAtom::_Introspection::name("SlideNumberMCAtom");
@@ -7056,13 +7053,13 @@ public:
         return &(static_cast<const DateTimeMCAtom*>(i)->rh);
     }
     static QVariant get_position(const Introspectable* i, int j) {
-        return (static_cast<const DateTimeMCAtom*>(i)->position);
+        return static_cast<const DateTimeMCAtom*>(i)->position;
     }
     static QVariant get_index(const Introspectable* i, int j) {
-        return (static_cast<const DateTimeMCAtom*>(i)->index);
+        return static_cast<const DateTimeMCAtom*>(i)->index;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const DateTimeMCAtom*>(i)->unused);
+        return static_cast<const DateTimeMCAtom*>(i)->unused;
     }
 };
 const QString DateTimeMCAtom::_Introspection::name("DateTimeMCAtom");
@@ -7105,7 +7102,7 @@ public:
         return &(static_cast<const GenericDateMCAtom*>(i)->rh);
     }
     static QVariant get_position(const Introspectable* i, int j) {
-        return (static_cast<const GenericDateMCAtom*>(i)->position);
+        return static_cast<const GenericDateMCAtom*>(i)->position;
     }
 };
 const QString GenericDateMCAtom::_Introspection::name("GenericDateMCAtom");
@@ -7140,7 +7137,7 @@ public:
         return &(static_cast<const HeaderMCAtom*>(i)->rh);
     }
     static QVariant get_position(const Introspectable* i, int j) {
-        return (static_cast<const HeaderMCAtom*>(i)->position);
+        return static_cast<const HeaderMCAtom*>(i)->position;
     }
 };
 const QString HeaderMCAtom::_Introspection::name("HeaderMCAtom");
@@ -7175,7 +7172,7 @@ public:
         return &(static_cast<const FooterMCAtom*>(i)->rh);
     }
     static QVariant get_position(const Introspectable* i, int j) {
-        return (static_cast<const FooterMCAtom*>(i)->position);
+        return static_cast<const FooterMCAtom*>(i)->position;
     }
 };
 const QString FooterMCAtom::_Introspection::name("FooterMCAtom");
@@ -7210,10 +7207,10 @@ public:
         return &(static_cast<const RTFDateTimeMCAtom*>(i)->rh);
     }
     static QVariant get_position(const Introspectable* i, int j) {
-        return (static_cast<const RTFDateTimeMCAtom*>(i)->position);
+        return static_cast<const RTFDateTimeMCAtom*>(i)->position;
     }
     static QVariant get_format(const Introspectable* i, int j) {
-        return (static_cast<const RTFDateTimeMCAtom*>(i)->format);
+        return static_cast<const RTFDateTimeMCAtom*>(i)->format;
     }
 };
 const QString RTFDateTimeMCAtom::_Introspection::name("RTFDateTimeMCAtom");
@@ -7252,13 +7249,13 @@ public:
         return &(static_cast<const TextBookmarkAtom*>(i)->rh);
     }
     static QVariant get_begin(const Introspectable* i, int j) {
-        return (static_cast<const TextBookmarkAtom*>(i)->begin);
+        return static_cast<const TextBookmarkAtom*>(i)->begin;
     }
     static QVariant get_end(const Introspectable* i, int j) {
-        return (static_cast<const TextBookmarkAtom*>(i)->end);
+        return static_cast<const TextBookmarkAtom*>(i)->end;
     }
     static QVariant get_bookmarkID(const Introspectable* i, int j) {
-        return (static_cast<const TextBookmarkAtom*>(i)->bookmarkID);
+        return static_cast<const TextBookmarkAtom*>(i)->bookmarkID;
     }
 };
 const QString TextBookmarkAtom::_Introspection::name("TextBookmarkAtom");
@@ -7301,7 +7298,7 @@ public:
         return &(static_cast<const TextSpecialInfoAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const TextSpecialInfoAtom*>(i)->todo);
+        return static_cast<const TextSpecialInfoAtom*>(i)->todo;
     }
 };
 const QString TextSpecialInfoAtom::_Introspection::name("TextSpecialInfoAtom");
@@ -7336,7 +7333,7 @@ public:
         return &(static_cast<const TextInteractiveInfoInstance*>(i)->rh);
     }
     static QVariant get_range(const Introspectable* i, int j) {
-        return (static_cast<const TextInteractiveInfoInstance*>(i)->range);
+        return static_cast<const TextInteractiveInfoInstance*>(i)->range;
     }
 };
 const QString TextInteractiveInfoInstance::_Introspection::name("TextInteractiveInfoInstance");
@@ -7368,7 +7365,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static QVariant get_slideId(const Introspectable* i, int j) {
-        return (static_cast<const SlideId*>(i)->slideId);
+        return static_cast<const SlideId*>(i)->slideId;
     }
 };
 const QString SlideId::_Introspection::name("SlideId");
@@ -7396,7 +7393,7 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_count(const Introspectable* i, int j) {
-        return (static_cast<const TabStops*>(i)->count);
+        return static_cast<const TabStops*>(i)->count;
     }
     static int count_rgTabStop(const Introspectable* i) {
         return static_cast<const TabStops*>(i)->rgTabStop.size();
@@ -7434,10 +7431,10 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_position(const Introspectable* i, int j) {
-        return (static_cast<const TabStop*>(i)->position);
+        return static_cast<const TabStop*>(i)->position;
     }
     static QVariant get_type(const Introspectable* i, int j) {
-        return (static_cast<const TabStop*>(i)->type);
+        return static_cast<const TabStop*>(i)->type;
     }
 };
 const QString TabStop::_Introspection::name("TabStop");
@@ -7469,19 +7466,19 @@ public:
     static QVariant (* const value[5])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[5])(const Introspectable*, int position);
     static QVariant get_fHasBullet(const Introspectable* i, int j) {
-        return (static_cast<const BulletFlags*>(i)->fHasBullet);
+        return static_cast<const BulletFlags*>(i)->fHasBullet;
     }
     static QVariant get_fBulletHasFont(const Introspectable* i, int j) {
-        return (static_cast<const BulletFlags*>(i)->fBulletHasFont);
+        return static_cast<const BulletFlags*>(i)->fBulletHasFont;
     }
     static QVariant get_fBulletHasColor(const Introspectable* i, int j) {
-        return (static_cast<const BulletFlags*>(i)->fBulletHasColor);
+        return static_cast<const BulletFlags*>(i)->fBulletHasColor;
     }
     static QVariant get_fBulletHasSize(const Introspectable* i, int j) {
-        return (static_cast<const BulletFlags*>(i)->fBulletHasSize);
+        return static_cast<const BulletFlags*>(i)->fBulletHasSize;
     }
     static QVariant get_reserved(const Introspectable* i, int j) {
-        return (static_cast<const BulletFlags*>(i)->reserved);
+        return static_cast<const BulletFlags*>(i)->reserved;
     }
 };
 const QString BulletFlags::_Introspection::name("BulletFlags");
@@ -7525,85 +7522,85 @@ public:
     static QVariant (* const value[27])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[27])(const Introspectable*, int position);
     static QVariant get_hasBullet(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->hasBullet);
+        return static_cast<const PFMasks*>(i)->hasBullet;
     }
     static QVariant get_bulletHasFont(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->bulletHasFont);
+        return static_cast<const PFMasks*>(i)->bulletHasFont;
     }
     static QVariant get_bulletHasColor(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->bulletHasColor);
+        return static_cast<const PFMasks*>(i)->bulletHasColor;
     }
     static QVariant get_bulletHasSize(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->bulletHasSize);
+        return static_cast<const PFMasks*>(i)->bulletHasSize;
     }
     static QVariant get_bulletFont(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->bulletFont);
+        return static_cast<const PFMasks*>(i)->bulletFont;
     }
     static QVariant get_bulletColor(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->bulletColor);
+        return static_cast<const PFMasks*>(i)->bulletColor;
     }
     static QVariant get_bulletSize(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->bulletSize);
+        return static_cast<const PFMasks*>(i)->bulletSize;
     }
     static QVariant get_bulletChar(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->bulletChar);
+        return static_cast<const PFMasks*>(i)->bulletChar;
     }
     static QVariant get_leftMargin(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->leftMargin);
+        return static_cast<const PFMasks*>(i)->leftMargin;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->unused);
+        return static_cast<const PFMasks*>(i)->unused;
     }
     static QVariant get_indent(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->indent);
+        return static_cast<const PFMasks*>(i)->indent;
     }
     static QVariant get_align(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->align);
+        return static_cast<const PFMasks*>(i)->align;
     }
     static QVariant get_lineSpacing(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->lineSpacing);
+        return static_cast<const PFMasks*>(i)->lineSpacing;
     }
     static QVariant get_spaceBefore(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->spaceBefore);
+        return static_cast<const PFMasks*>(i)->spaceBefore;
     }
     static QVariant get_spaceAfter(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->spaceAfter);
+        return static_cast<const PFMasks*>(i)->spaceAfter;
     }
     static QVariant get_defaultTabSize(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->defaultTabSize);
+        return static_cast<const PFMasks*>(i)->defaultTabSize;
     }
     static QVariant get_fontAlign(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->fontAlign);
+        return static_cast<const PFMasks*>(i)->fontAlign;
     }
     static QVariant get_charWrap(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->charWrap);
+        return static_cast<const PFMasks*>(i)->charWrap;
     }
     static QVariant get_wordWrap(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->wordWrap);
+        return static_cast<const PFMasks*>(i)->wordWrap;
     }
     static QVariant get_overflow(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->overflow);
+        return static_cast<const PFMasks*>(i)->overflow;
     }
     static QVariant get_tabStops(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->tabStops);
+        return static_cast<const PFMasks*>(i)->tabStops;
     }
     static QVariant get_textDirection(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->textDirection);
+        return static_cast<const PFMasks*>(i)->textDirection;
     }
     static QVariant get_reserved(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->reserved);
+        return static_cast<const PFMasks*>(i)->reserved;
     }
     static QVariant get_bulletBlip(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->bulletBlip);
+        return static_cast<const PFMasks*>(i)->bulletBlip;
     }
     static QVariant get_bulletScheme(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->bulletScheme);
+        return static_cast<const PFMasks*>(i)->bulletScheme;
     }
     static QVariant get_bulletHasScheme(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->bulletHasScheme);
+        return static_cast<const PFMasks*>(i)->bulletHasScheme;
     }
     static QVariant get_reserved2(const Introspectable* i, int j) {
-        return (static_cast<const PFMasks*>(i)->reserved2);
+        return static_cast<const PFMasks*>(i)->reserved2;
     }
 };
 const QString PFMasks::_Introspection::name("PFMasks");
@@ -7735,76 +7732,76 @@ public:
     static QVariant (* const value[24])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[24])(const Introspectable*, int position);
     static QVariant get_bold(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->bold);
+        return static_cast<const CFMasks*>(i)->bold;
     }
     static QVariant get_italic(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->italic);
+        return static_cast<const CFMasks*>(i)->italic;
     }
     static QVariant get_underline(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->underline);
+        return static_cast<const CFMasks*>(i)->underline;
     }
     static QVariant get_unused1(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->unused1);
+        return static_cast<const CFMasks*>(i)->unused1;
     }
     static QVariant get_shadow(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->shadow);
+        return static_cast<const CFMasks*>(i)->shadow;
     }
     static QVariant get_fehint(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->fehint);
+        return static_cast<const CFMasks*>(i)->fehint;
     }
     static QVariant get_unused2(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->unused2);
+        return static_cast<const CFMasks*>(i)->unused2;
     }
     static QVariant get_kumi(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->kumi);
+        return static_cast<const CFMasks*>(i)->kumi;
     }
     static QVariant get_unused3(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->unused3);
+        return static_cast<const CFMasks*>(i)->unused3;
     }
     static QVariant get_emboss(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->emboss);
+        return static_cast<const CFMasks*>(i)->emboss;
     }
     static QVariant get_fHasStyle(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->fHasStyle);
+        return static_cast<const CFMasks*>(i)->fHasStyle;
     }
     static QVariant get_unused4(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->unused4);
+        return static_cast<const CFMasks*>(i)->unused4;
     }
     static QVariant get_typeface(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->typeface);
+        return static_cast<const CFMasks*>(i)->typeface;
     }
     static QVariant get_size(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->size);
+        return static_cast<const CFMasks*>(i)->size;
     }
     static QVariant get_color(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->color);
+        return static_cast<const CFMasks*>(i)->color;
     }
     static QVariant get_position(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->position);
+        return static_cast<const CFMasks*>(i)->position;
     }
     static QVariant get_pp10ext(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->pp10ext);
+        return static_cast<const CFMasks*>(i)->pp10ext;
     }
     static QVariant get_oldEATypeface(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->oldEATypeface);
+        return static_cast<const CFMasks*>(i)->oldEATypeface;
     }
     static QVariant get_ansiTypeface(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->ansiTypeface);
+        return static_cast<const CFMasks*>(i)->ansiTypeface;
     }
     static QVariant get_symbolTypeface(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->symbolTypeface);
+        return static_cast<const CFMasks*>(i)->symbolTypeface;
     }
     static QVariant get_newEATypeface(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->newEATypeface);
+        return static_cast<const CFMasks*>(i)->newEATypeface;
     }
     static QVariant get_csTypeface(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->csTypeface);
+        return static_cast<const CFMasks*>(i)->csTypeface;
     }
     static QVariant get_pp11ext(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->pp11ext);
+        return static_cast<const CFMasks*>(i)->pp11ext;
     }
     static QVariant get_reserved(const Introspectable* i, int j) {
-        return (static_cast<const CFMasks*>(i)->reserved);
+        return static_cast<const CFMasks*>(i)->reserved;
     }
 };
 const QString CFMasks::_Introspection::name("CFMasks");
@@ -7924,40 +7921,40 @@ public:
     static QVariant (* const value[12])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[12])(const Introspectable*, int position);
     static QVariant get_bold(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->bold);
+        return static_cast<const CFStyle*>(i)->bold;
     }
     static QVariant get_italic(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->italic);
+        return static_cast<const CFStyle*>(i)->italic;
     }
     static QVariant get_underline(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->underline);
+        return static_cast<const CFStyle*>(i)->underline;
     }
     static QVariant get_unused1(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->unused1);
+        return static_cast<const CFStyle*>(i)->unused1;
     }
     static QVariant get_shadow(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->shadow);
+        return static_cast<const CFStyle*>(i)->shadow;
     }
     static QVariant get_fehint(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->fehint);
+        return static_cast<const CFStyle*>(i)->fehint;
     }
     static QVariant get_unused2(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->unused2);
+        return static_cast<const CFStyle*>(i)->unused2;
     }
     static QVariant get_kumi(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->kumi);
+        return static_cast<const CFStyle*>(i)->kumi;
     }
     static QVariant get_unused3(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->unused3);
+        return static_cast<const CFStyle*>(i)->unused3;
     }
     static QVariant get_emboss(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->emboss);
+        return static_cast<const CFStyle*>(i)->emboss;
     }
     static QVariant get_pp9rt(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->pp9rt);
+        return static_cast<const CFStyle*>(i)->pp9rt;
     }
     static QVariant get_unused4(const Introspectable* i, int j) {
-        return (static_cast<const CFStyle*>(i)->unused4);
+        return static_cast<const CFStyle*>(i)->unused4;
     }
 };
 const QString CFStyle::_Introspection::name("CFStyle");
@@ -8032,7 +8029,7 @@ public:
         return &(static_cast<const FontCollectionContainer*>(i)->rh);
     }
     static QVariant get_rgFontCollectionEntry(const Introspectable* i, int j) {
-        return (static_cast<const FontCollectionContainer*>(i)->rgFontCollectionEntry);
+        return static_cast<const FontCollectionContainer*>(i)->rgFontCollectionEntry;
     }
 };
 const QString FontCollectionContainer::_Introspection::name("FontCollectionContainer");
@@ -8067,7 +8064,7 @@ public:
         return &(static_cast<const FontEntityAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const FontEntityAtom*>(i)->todo);
+        return static_cast<const FontEntityAtom*>(i)->todo;
     }
 };
 const QString FontEntityAtom::_Introspection::name("FontEntityAtom");
@@ -8102,7 +8099,7 @@ public:
         return &(static_cast<const KinsokuAtom*>(i)->rh);
     }
     static QVariant get_level(const Introspectable* i, int j) {
-        return (static_cast<const KinsokuAtom*>(i)->level);
+        return static_cast<const KinsokuAtom*>(i)->level;
     }
 };
 const QString KinsokuAtom::_Introspection::name("KinsokuAtom");
@@ -8137,7 +8134,7 @@ public:
         return &(static_cast<const TextSIExceptionAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const TextSIExceptionAtom*>(i)->todo);
+        return static_cast<const TextSIExceptionAtom*>(i)->todo;
     }
 };
 const QString TextSIExceptionAtom::_Introspection::name("TextSIExceptionAtom");
@@ -8172,19 +8169,19 @@ public:
         return &(static_cast<const ExOleEmbedAtom*>(i)->rh);
     }
     static QVariant get_exColorFollow(const Introspectable* i, int j) {
-        return (static_cast<const ExOleEmbedAtom*>(i)->exColorFollow);
+        return static_cast<const ExOleEmbedAtom*>(i)->exColorFollow;
     }
     static QVariant get_fCantLockServer(const Introspectable* i, int j) {
-        return (static_cast<const ExOleEmbedAtom*>(i)->fCantLockServer);
+        return static_cast<const ExOleEmbedAtom*>(i)->fCantLockServer;
     }
     static QVariant get_fNoSizeToServer(const Introspectable* i, int j) {
-        return (static_cast<const ExOleEmbedAtom*>(i)->fNoSizeToServer);
+        return static_cast<const ExOleEmbedAtom*>(i)->fNoSizeToServer;
     }
     static QVariant get_fIsTable(const Introspectable* i, int j) {
-        return (static_cast<const ExOleEmbedAtom*>(i)->fIsTable);
+        return static_cast<const ExOleEmbedAtom*>(i)->fIsTable;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const ExOleEmbedAtom*>(i)->unused);
+        return static_cast<const ExOleEmbedAtom*>(i)->unused;
     }
 };
 const QString ExOleEmbedAtom::_Introspection::name("ExOleEmbedAtom");
@@ -8232,10 +8229,10 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_x(const Introspectable* i, int j) {
-        return (static_cast<const PointStruct*>(i)->x);
+        return static_cast<const PointStruct*>(i)->x;
     }
     static QVariant get_y(const Introspectable* i, int j) {
-        return (static_cast<const PointStruct*>(i)->y);
+        return static_cast<const PointStruct*>(i)->y;
     }
 };
 const QString PointStruct::_Introspection::name("PointStruct");
@@ -8267,10 +8264,10 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_numer(const Introspectable* i, int j) {
-        return (static_cast<const RatioStruct*>(i)->numer);
+        return static_cast<const RatioStruct*>(i)->numer;
     }
     static QVariant get_denom(const Introspectable* i, int j) {
-        return (static_cast<const RatioStruct*>(i)->denom);
+        return static_cast<const RatioStruct*>(i)->denom;
     }
 };
 const QString RatioStruct::_Introspection::name("RatioStruct");
@@ -8343,7 +8340,7 @@ public:
         return &(static_cast<const UnknownDocumentContainerChild*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const UnknownDocumentContainerChild*>(i)->todo);
+        return static_cast<const UnknownDocumentContainerChild*>(i)->todo;
     }
 };
 const QString UnknownDocumentContainerChild::_Introspection::name("UnknownDocumentContainerChild");
@@ -8378,7 +8375,7 @@ public:
         return &(static_cast<const UnknownDocumentContainerChild2*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const UnknownDocumentContainerChild2*>(i)->todo);
+        return static_cast<const UnknownDocumentContainerChild2*>(i)->todo;
     }
 };
 const QString UnknownDocumentContainerChild2::_Introspection::name("UnknownDocumentContainerChild2");
@@ -8413,7 +8410,7 @@ public:
         return &(static_cast<const UnknownDocumentContainerChild3*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const UnknownDocumentContainerChild3*>(i)->todo);
+        return static_cast<const UnknownDocumentContainerChild3*>(i)->todo;
     }
 };
 const QString UnknownDocumentContainerChild3::_Introspection::name("UnknownDocumentContainerChild3");
@@ -8448,7 +8445,7 @@ public:
         return &(static_cast<const UnknownDocumentContainerChild4*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const UnknownDocumentContainerChild4*>(i)->todo);
+        return static_cast<const UnknownDocumentContainerChild4*>(i)->todo;
     }
 };
 const QString UnknownDocumentContainerChild4::_Introspection::name("UnknownDocumentContainerChild4");
@@ -8483,7 +8480,7 @@ public:
         return &(static_cast<const UnknownOfficeArtClientDataChild*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const UnknownOfficeArtClientDataChild*>(i)->todo);
+        return static_cast<const UnknownOfficeArtClientDataChild*>(i)->todo;
     }
 };
 const QString UnknownOfficeArtClientDataChild::_Introspection::name("UnknownOfficeArtClientDataChild");
@@ -8518,7 +8515,7 @@ public:
         return &(static_cast<const UnknownSlideContainerChild*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const UnknownSlideContainerChild*>(i)->todo);
+        return static_cast<const UnknownSlideContainerChild*>(i)->todo;
     }
 };
 const QString UnknownSlideContainerChild::_Introspection::name("UnknownSlideContainerChild");
@@ -8550,10 +8547,10 @@ public:
     static QVariant (* const value[3])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static QVariant get_persistId(const Introspectable* i, int j) {
-        return (static_cast<const PersistDirectoryEntry*>(i)->persistId);
+        return static_cast<const PersistDirectoryEntry*>(i)->persistId;
     }
     static QVariant get_cPersist(const Introspectable* i, int j) {
-        return (static_cast<const PersistDirectoryEntry*>(i)->cPersist);
+        return static_cast<const PersistDirectoryEntry*>(i)->cPersist;
     }
     static int count_rgPersistOffset(const Introspectable* i) {
         return static_cast<const PersistDirectoryEntry*>(i)->rgPersistOffset.size();
@@ -8595,7 +8592,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static QVariant get_anon(const Introspectable* i, int j) {
-        return (static_cast<const PersistOffsetEntry*>(i)->anon);
+        return static_cast<const PersistOffsetEntry*>(i)->anon;
     }
 };
 const QString PersistOffsetEntry::_Introspection::name("PersistOffsetEntry");
@@ -8623,7 +8620,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static QVariant get_anon(const Introspectable* i, int j) {
-        return (static_cast<const PersistIdRef*>(i)->anon);
+        return static_cast<const PersistIdRef*>(i)->anon;
     }
 };
 const QString PersistIdRef::_Introspection::name("PersistIdRef");
@@ -8654,7 +8651,7 @@ public:
         return &(static_cast<const SchemeListElementColorSchemeAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const SchemeListElementColorSchemeAtom*>(i)->todo);
+        return static_cast<const SchemeListElementColorSchemeAtom*>(i)->todo;
     }
 };
 const QString SchemeListElementColorSchemeAtom::_Introspection::name("SchemeListElementColorSchemeAtom");
@@ -8689,7 +8686,7 @@ public:
         return &(static_cast<const RoundTripOArtTextStyles12Atom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const RoundTripOArtTextStyles12Atom*>(i)->todo);
+        return static_cast<const RoundTripOArtTextStyles12Atom*>(i)->todo;
     }
 };
 const QString RoundTripOArtTextStyles12Atom::_Introspection::name("RoundTripOArtTextStyles12Atom");
@@ -8724,7 +8721,7 @@ public:
         return &(static_cast<const SlideNameAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const SlideNameAtom*>(i)->todo);
+        return static_cast<const SlideNameAtom*>(i)->todo;
     }
 };
 const QString SlideNameAtom::_Introspection::name("SlideNameAtom");
@@ -8759,7 +8756,7 @@ public:
         return &(static_cast<const SlideProgTagsContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const SlideProgTagsContainer*>(i)->todo);
+        return static_cast<const SlideProgTagsContainer*>(i)->todo;
     }
 };
 const QString SlideProgTagsContainer::_Introspection::name("SlideProgTagsContainer");
@@ -8794,7 +8791,7 @@ public:
         return &(static_cast<const RoundTripMainMasterRecord*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const RoundTripMainMasterRecord*>(i)->todo);
+        return static_cast<const RoundTripMainMasterRecord*>(i)->todo;
     }
 };
 const QString RoundTripMainMasterRecord::_Introspection::name("RoundTripMainMasterRecord");
@@ -8829,7 +8826,7 @@ public:
         return &(static_cast<const TemplateNameAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const TemplateNameAtom*>(i)->todo);
+        return static_cast<const TemplateNameAtom*>(i)->todo;
     }
 };
 const QString TemplateNameAtom::_Introspection::name("TemplateNameAtom");
@@ -8864,7 +8861,7 @@ public:
         return &(static_cast<const RoundTripSlideSyncInfo12Container*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const RoundTripSlideSyncInfo12Container*>(i)->todo);
+        return static_cast<const RoundTripSlideSyncInfo12Container*>(i)->todo;
     }
 };
 const QString RoundTripSlideSyncInfo12Container::_Introspection::name("RoundTripSlideSyncInfo12Container");
@@ -8899,7 +8896,7 @@ public:
         return &(static_cast<const NotesContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const NotesContainer*>(i)->todo);
+        return static_cast<const NotesContainer*>(i)->todo;
     }
 };
 const QString NotesContainer::_Introspection::name("NotesContainer");
@@ -8934,7 +8931,7 @@ public:
         return &(static_cast<const HandoutContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const HandoutContainer*>(i)->todo);
+        return static_cast<const HandoutContainer*>(i)->todo;
     }
 };
 const QString HandoutContainer::_Introspection::name("HandoutContainer");
@@ -8969,7 +8966,7 @@ public:
         return &(static_cast<const ExControlStg*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExControlStg*>(i)->todo);
+        return static_cast<const ExControlStg*>(i)->todo;
     }
 };
 const QString ExControlStg::_Introspection::name("ExControlStg");
@@ -9004,7 +9001,7 @@ public:
         return &(static_cast<const ExOleObjStg*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExOleObjStg*>(i)->todo);
+        return static_cast<const ExOleObjStg*>(i)->todo;
     }
 };
 const QString ExOleObjStg::_Introspection::name("ExOleObjStg");
@@ -9039,7 +9036,7 @@ public:
         return &(static_cast<const UserEditAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const UserEditAtom*>(i)->todo);
+        return static_cast<const UserEditAtom*>(i)->todo;
     }
 };
 const QString UserEditAtom::_Introspection::name("UserEditAtom");
@@ -9074,7 +9071,7 @@ public:
         return &(static_cast<const VbaProjectStg*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const VbaProjectStg*>(i)->todo);
+        return static_cast<const VbaProjectStg*>(i)->todo;
     }
 };
 const QString VbaProjectStg::_Introspection::name("VbaProjectStg");
@@ -9109,7 +9106,7 @@ public:
         return &(static_cast<const SlideProgTagscontainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const SlideProgTagscontainer*>(i)->todo);
+        return static_cast<const SlideProgTagscontainer*>(i)->todo;
     }
 };
 const QString SlideProgTagscontainer::_Introspection::name("SlideProgTagscontainer");
@@ -9144,22 +9141,22 @@ public:
         return &(static_cast<const SlideAtom*>(i)->rh);
     }
     static QVariant get_geom(const Introspectable* i, int j) {
-        return (static_cast<const SlideAtom*>(i)->geom);
+        return static_cast<const SlideAtom*>(i)->geom;
     }
     static QVariant get_rgPlaceholderTypes(const Introspectable* i, int j) {
-        return (static_cast<const SlideAtom*>(i)->rgPlaceholderTypes);
+        return static_cast<const SlideAtom*>(i)->rgPlaceholderTypes;
     }
     static QVariant get_masterIdRef(const Introspectable* i, int j) {
-        return (static_cast<const SlideAtom*>(i)->masterIdRef);
+        return static_cast<const SlideAtom*>(i)->masterIdRef;
     }
     static QVariant get_notesIdRef(const Introspectable* i, int j) {
-        return (static_cast<const SlideAtom*>(i)->notesIdRef);
+        return static_cast<const SlideAtom*>(i)->notesIdRef;
     }
     static QVariant get_slideFlags(const Introspectable* i, int j) {
-        return (static_cast<const SlideAtom*>(i)->slideFlags);
+        return static_cast<const SlideAtom*>(i)->slideFlags;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const SlideAtom*>(i)->unused);
+        return static_cast<const SlideAtom*>(i)->unused;
     }
 };
 const QString SlideAtom::_Introspection::name("SlideAtom");
@@ -9214,64 +9211,64 @@ public:
         return &(static_cast<const SlideShowSlideInfoAtom*>(i)->rh);
     }
     static QVariant get_slidetime(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->slidetime);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->slidetime;
     }
     static QVariant get_slideIdRef(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->slideIdRef);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->slideIdRef;
     }
     static QVariant get_effectDirection(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->effectDirection);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->effectDirection;
     }
     static QVariant get_effectType(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->effectType);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->effectType;
     }
     static QVariant get_fManualAdvance(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->fManualAdvance);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->fManualAdvance;
     }
     static QVariant get_reserved(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->reserved);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->reserved;
     }
     static QVariant get_fHidden(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->fHidden);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->fHidden;
     }
     static QVariant get_reserved2(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->reserved2);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->reserved2;
     }
     static QVariant get_fSound(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->fSound);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->fSound;
     }
     static QVariant get_reserved3(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->reserved3);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->reserved3;
     }
     static QVariant get_fLoopSound(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->fLoopSound);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->fLoopSound;
     }
     static QVariant get_reserved4(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->reserved4);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->reserved4;
     }
     static QVariant get_fStopSound(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->fStopSound);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->fStopSound;
     }
     static QVariant get_freserved5(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->freserved5);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->freserved5;
     }
     static QVariant get_fAutoAdvance(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->fAutoAdvance);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->fAutoAdvance;
     }
     static QVariant get_reserved6(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->reserved6);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->reserved6;
     }
     static QVariant get_fCursorVisible(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->fCursorVisible);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->fCursorVisible;
     }
     static QVariant get_reserved7(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->reserved7);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->reserved7;
     }
     static QVariant get_speed(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->speed);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->speed;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowSlideInfoAtom*>(i)->unused);
+        return static_cast<const SlideShowSlideInfoAtom*>(i)->unused;
     }
 };
 const QString SlideShowSlideInfoAtom::_Introspection::name("SlideShowSlideInfoAtom");
@@ -9382,7 +9379,7 @@ public:
         return &(static_cast<const SlideShowDocInfoAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const SlideShowDocInfoAtom*>(i)->todo);
+        return static_cast<const SlideShowDocInfoAtom*>(i)->todo;
     }
 };
 const QString SlideShowDocInfoAtom::_Introspection::name("SlideShowDocInfoAtom");
@@ -9455,7 +9452,7 @@ public:
         return &(static_cast<const RoundTripSlideRecord*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const RoundTripSlideRecord*>(i)->todo);
+        return static_cast<const RoundTripSlideRecord*>(i)->todo;
     }
 };
 const QString RoundTripSlideRecord::_Introspection::name("RoundTripSlideRecord");
@@ -9490,7 +9487,7 @@ public:
         return &(static_cast<const NamedShowsContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const NamedShowsContainer*>(i)->todo);
+        return static_cast<const NamedShowsContainer*>(i)->todo;
     }
 };
 const QString NamedShowsContainer::_Introspection::name("NamedShowsContainer");
@@ -9525,7 +9522,7 @@ public:
         return &(static_cast<const SummaryContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const SummaryContainer*>(i)->todo);
+        return static_cast<const SummaryContainer*>(i)->todo;
     }
 };
 const QString SummaryContainer::_Introspection::name("SummaryContainer");
@@ -9560,7 +9557,7 @@ public:
         return &(static_cast<const DocRoutingSlipAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const DocRoutingSlipAtom*>(i)->todo);
+        return static_cast<const DocRoutingSlipAtom*>(i)->todo;
     }
 };
 const QString DocRoutingSlipAtom::_Introspection::name("DocRoutingSlipAtom");
@@ -9595,7 +9592,7 @@ public:
         return &(static_cast<const PrintOptionsAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const PrintOptionsAtom*>(i)->todo);
+        return static_cast<const PrintOptionsAtom*>(i)->todo;
     }
 };
 const QString PrintOptionsAtom::_Introspection::name("PrintOptionsAtom");
@@ -9630,7 +9627,7 @@ public:
         return &(static_cast<const RoundTripCustomTableStyles12Atom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const RoundTripCustomTableStyles12Atom*>(i)->todo);
+        return static_cast<const RoundTripCustomTableStyles12Atom*>(i)->todo;
     }
 };
 const QString RoundTripCustomTableStyles12Atom::_Introspection::name("RoundTripCustomTableStyles12Atom");
@@ -9662,16 +9659,16 @@ public:
     static QVariant (* const value[4])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
     static QVariant get_red(const Introspectable* i, int j) {
-        return (static_cast<const ColorStruct*>(i)->red);
+        return static_cast<const ColorStruct*>(i)->red;
     }
     static QVariant get_green(const Introspectable* i, int j) {
-        return (static_cast<const ColorStruct*>(i)->green);
+        return static_cast<const ColorStruct*>(i)->green;
     }
     static QVariant get_blue(const Introspectable* i, int j) {
-        return (static_cast<const ColorStruct*>(i)->blue);
+        return static_cast<const ColorStruct*>(i)->blue;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const ColorStruct*>(i)->unused);
+        return static_cast<const ColorStruct*>(i)->unused;
     }
 };
 const QString ColorStruct::_Introspection::name("ColorStruct");
@@ -9714,7 +9711,7 @@ public:
         return &(static_cast<const ExObjListAtom*>(i)->rh);
     }
     static QVariant get_exObjIdSeed(const Introspectable* i, int j) {
-        return (static_cast<const ExObjListAtom*>(i)->exObjIdSeed);
+        return static_cast<const ExObjListAtom*>(i)->exObjIdSeed;
     }
 };
 const QString ExObjListAtom::_Introspection::name("ExObjListAtom");
@@ -9749,7 +9746,7 @@ public:
         return &(static_cast<const ExAviMovieContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExAviMovieContainer*>(i)->todo);
+        return static_cast<const ExAviMovieContainer*>(i)->todo;
     }
 };
 const QString ExAviMovieContainer::_Introspection::name("ExAviMovieContainer");
@@ -9784,7 +9781,7 @@ public:
         return &(static_cast<const ExCDAudioContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExCDAudioContainer*>(i)->todo);
+        return static_cast<const ExCDAudioContainer*>(i)->todo;
     }
 };
 const QString ExCDAudioContainer::_Introspection::name("ExCDAudioContainer");
@@ -9819,7 +9816,7 @@ public:
         return &(static_cast<const ExControlContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExControlContainer*>(i)->todo);
+        return static_cast<const ExControlContainer*>(i)->todo;
     }
 };
 const QString ExControlContainer::_Introspection::name("ExControlContainer");
@@ -9854,7 +9851,7 @@ public:
         return &(static_cast<const ExHyperlinkContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExHyperlinkContainer*>(i)->todo);
+        return static_cast<const ExHyperlinkContainer*>(i)->todo;
     }
 };
 const QString ExHyperlinkContainer::_Introspection::name("ExHyperlinkContainer");
@@ -9889,7 +9886,7 @@ public:
         return &(static_cast<const ExMCIMovieContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExMCIMovieContainer*>(i)->todo);
+        return static_cast<const ExMCIMovieContainer*>(i)->todo;
     }
 };
 const QString ExMCIMovieContainer::_Introspection::name("ExMCIMovieContainer");
@@ -9924,7 +9921,7 @@ public:
         return &(static_cast<const ExMIDIAudioContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExMIDIAudioContainer*>(i)->todo);
+        return static_cast<const ExMIDIAudioContainer*>(i)->todo;
     }
 };
 const QString ExMIDIAudioContainer::_Introspection::name("ExMIDIAudioContainer");
@@ -9959,7 +9956,7 @@ public:
         return &(static_cast<const ExWAVAudioEmbeddedContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExWAVAudioEmbeddedContainer*>(i)->todo);
+        return static_cast<const ExWAVAudioEmbeddedContainer*>(i)->todo;
     }
 };
 const QString ExWAVAudioEmbeddedContainer::_Introspection::name("ExWAVAudioEmbeddedContainer");
@@ -9994,7 +9991,7 @@ public:
         return &(static_cast<const ExWAVAudioLinkContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExWAVAudioLinkContainer*>(i)->todo);
+        return static_cast<const ExWAVAudioLinkContainer*>(i)->todo;
     }
 };
 const QString ExWAVAudioLinkContainer::_Introspection::name("ExWAVAudioLinkContainer");
@@ -10029,7 +10026,7 @@ public:
         return &(static_cast<const UnknownExObjListSubContainerChild*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const UnknownExObjListSubContainerChild*>(i)->todo);
+        return static_cast<const UnknownExObjListSubContainerChild*>(i)->todo;
     }
 };
 const QString UnknownExObjListSubContainerChild::_Introspection::name("UnknownExObjListSubContainerChild");
@@ -10064,13 +10061,13 @@ public:
         return &(static_cast<const ExOleLinkAtom*>(i)->rh);
     }
     static QVariant get_slideIdRef(const Introspectable* i, int j) {
-        return (static_cast<const ExOleLinkAtom*>(i)->slideIdRef);
+        return static_cast<const ExOleLinkAtom*>(i)->slideIdRef;
     }
     static QVariant get_oleUpdateMode(const Introspectable* i, int j) {
-        return (static_cast<const ExOleLinkAtom*>(i)->oleUpdateMode);
+        return static_cast<const ExOleLinkAtom*>(i)->oleUpdateMode;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const ExOleLinkAtom*>(i)->unused);
+        return static_cast<const ExOleLinkAtom*>(i)->unused;
     }
 };
 const QString ExOleLinkAtom::_Introspection::name("ExOleLinkAtom");
@@ -10113,22 +10110,22 @@ public:
         return &(static_cast<const ExOleObjAtom*>(i)->rh);
     }
     static QVariant get_drawAspect(const Introspectable* i, int j) {
-        return (static_cast<const ExOleObjAtom*>(i)->drawAspect);
+        return static_cast<const ExOleObjAtom*>(i)->drawAspect;
     }
     static QVariant get_type(const Introspectable* i, int j) {
-        return (static_cast<const ExOleObjAtom*>(i)->type);
+        return static_cast<const ExOleObjAtom*>(i)->type;
     }
     static QVariant get_exObjId(const Introspectable* i, int j) {
-        return (static_cast<const ExOleObjAtom*>(i)->exObjId);
+        return static_cast<const ExOleObjAtom*>(i)->exObjId;
     }
     static QVariant get_subType(const Introspectable* i, int j) {
-        return (static_cast<const ExOleObjAtom*>(i)->subType);
+        return static_cast<const ExOleObjAtom*>(i)->subType;
     }
     static QVariant get_persistIdRef(const Introspectable* i, int j) {
-        return (static_cast<const ExOleObjAtom*>(i)->persistIdRef);
+        return static_cast<const ExOleObjAtom*>(i)->persistIdRef;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const ExOleObjAtom*>(i)->unused);
+        return static_cast<const ExOleObjAtom*>(i)->unused;
     }
 };
 const QString ExOleObjAtom::_Introspection::name("ExOleObjAtom");
@@ -10183,7 +10180,7 @@ public:
         return &(static_cast<const MenuNameAtom*>(i)->rh);
     }
     static QVariant get_menuName(const Introspectable* i, int j) {
-        return (static_cast<const MenuNameAtom*>(i)->menuName);
+        return static_cast<const MenuNameAtom*>(i)->menuName;
     }
 };
 const QString MenuNameAtom::_Introspection::name("MenuNameAtom");
@@ -10218,7 +10215,7 @@ public:
         return &(static_cast<const ProgIDAtom*>(i)->rh);
     }
     static QVariant get_progId(const Introspectable* i, int j) {
-        return (static_cast<const ProgIDAtom*>(i)->progId);
+        return static_cast<const ProgIDAtom*>(i)->progId;
     }
 };
 const QString ProgIDAtom::_Introspection::name("ProgIDAtom");
@@ -10253,7 +10250,7 @@ public:
         return &(static_cast<const ClipboardNameAtom*>(i)->rh);
     }
     static QVariant get_clipboardName(const Introspectable* i, int j) {
-        return (static_cast<const ClipboardNameAtom*>(i)->clipboardName);
+        return static_cast<const ClipboardNameAtom*>(i)->clipboardName;
     }
 };
 const QString ClipboardNameAtom::_Introspection::name("ClipboardNameAtom");
@@ -10288,16 +10285,16 @@ public:
         return &(static_cast<const MetafileBlob*>(i)->rh);
     }
     static QVariant get_mm(const Introspectable* i, int j) {
-        return (static_cast<const MetafileBlob*>(i)->mm);
+        return static_cast<const MetafileBlob*>(i)->mm;
     }
     static QVariant get_xExt(const Introspectable* i, int j) {
-        return (static_cast<const MetafileBlob*>(i)->xExt);
+        return static_cast<const MetafileBlob*>(i)->xExt;
     }
     static QVariant get_yExt(const Introspectable* i, int j) {
-        return (static_cast<const MetafileBlob*>(i)->yExt);
+        return static_cast<const MetafileBlob*>(i)->yExt;
     }
     static QVariant get_data(const Introspectable* i, int j) {
-        return (static_cast<const MetafileBlob*>(i)->data);
+        return static_cast<const MetafileBlob*>(i)->data;
     }
 };
 const QString MetafileBlob::_Introspection::name("MetafileBlob");
@@ -10341,16 +10338,16 @@ public:
     static QVariant (* const value[4])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
     static QVariant get_spidMax(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFDGG*>(i)->spidMax);
+        return static_cast<const OfficeArtFDGG*>(i)->spidMax;
     }
     static QVariant get_cidcl(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFDGG*>(i)->cidcl);
+        return static_cast<const OfficeArtFDGG*>(i)->cidcl;
     }
     static QVariant get_cspSaved(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFDGG*>(i)->cspSaved);
+        return static_cast<const OfficeArtFDGG*>(i)->cspSaved;
     }
     static QVariant get_cdgSaved(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFDGG*>(i)->cdgSaved);
+        return static_cast<const OfficeArtFDGG*>(i)->cdgSaved;
     }
 };
 const QString OfficeArtFDGG::_Introspection::name("OfficeArtFDGG");
@@ -10393,10 +10390,10 @@ public:
         return &(static_cast<const OfficeArtFDG*>(i)->rh);
     }
     static QVariant get_csp(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFDG*>(i)->csp);
+        return static_cast<const OfficeArtFDG*>(i)->csp;
     }
     static QVariant get_spidCur(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFDG*>(i)->spidCur);
+        return static_cast<const OfficeArtFDG*>(i)->spidCur;
     }
 };
 const QString OfficeArtFDG::_Introspection::name("OfficeArtFDG");
@@ -10470,10 +10467,10 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_fridNew(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFRIT*>(i)->fridNew);
+        return static_cast<const OfficeArtFRIT*>(i)->fridNew;
     }
     static QVariant get_fridOld(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFRIT*>(i)->fridOld);
+        return static_cast<const OfficeArtFRIT*>(i)->fridOld;
     }
 };
 const QString OfficeArtFRIT::_Introspection::name("OfficeArtFRIT");
@@ -10584,7 +10581,7 @@ public:
         return &(static_cast<const OfficeArtSolverContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSolverContainer*>(i)->todo);
+        return static_cast<const OfficeArtSolverContainer*>(i)->todo;
     }
 };
 const QString OfficeArtSolverContainer::_Introspection::name("OfficeArtSolverContainer");
@@ -10619,16 +10616,16 @@ public:
         return &(static_cast<const OfficeArtFSPGR*>(i)->rh);
     }
     static QVariant get_xLeft(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSPGR*>(i)->xLeft);
+        return static_cast<const OfficeArtFSPGR*>(i)->xLeft;
     }
     static QVariant get_yTop(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSPGR*>(i)->yTop);
+        return static_cast<const OfficeArtFSPGR*>(i)->yTop;
     }
     static QVariant get_xRight(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSPGR*>(i)->xRight);
+        return static_cast<const OfficeArtFSPGR*>(i)->xRight;
     }
     static QVariant get_yBottom(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSPGR*>(i)->yBottom);
+        return static_cast<const OfficeArtFSPGR*>(i)->yBottom;
     }
 };
 const QString OfficeArtFSPGR::_Introspection::name("OfficeArtFSPGR");
@@ -10675,46 +10672,46 @@ public:
         return &(static_cast<const OfficeArtFSP*>(i)->rh);
     }
     static QVariant get_spid(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->spid);
+        return static_cast<const OfficeArtFSP*>(i)->spid;
     }
     static QVariant get_fGroup(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fGroup);
+        return static_cast<const OfficeArtFSP*>(i)->fGroup;
     }
     static QVariant get_fChild(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fChild);
+        return static_cast<const OfficeArtFSP*>(i)->fChild;
     }
     static QVariant get_fPatriarch(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fPatriarch);
+        return static_cast<const OfficeArtFSP*>(i)->fPatriarch;
     }
     static QVariant get_fDeleted(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fDeleted);
+        return static_cast<const OfficeArtFSP*>(i)->fDeleted;
     }
     static QVariant get_fOleShape(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fOleShape);
+        return static_cast<const OfficeArtFSP*>(i)->fOleShape;
     }
     static QVariant get_fHaveMaster(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fHaveMaster);
+        return static_cast<const OfficeArtFSP*>(i)->fHaveMaster;
     }
     static QVariant get_fFlipH(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fFlipH);
+        return static_cast<const OfficeArtFSP*>(i)->fFlipH;
     }
     static QVariant get_fFlipV(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fFlipV);
+        return static_cast<const OfficeArtFSP*>(i)->fFlipV;
     }
     static QVariant get_fConnector(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fConnector);
+        return static_cast<const OfficeArtFSP*>(i)->fConnector;
     }
     static QVariant get_fHaveAnchor(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fHaveAnchor);
+        return static_cast<const OfficeArtFSP*>(i)->fHaveAnchor;
     }
     static QVariant get_fBackground(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fBackground);
+        return static_cast<const OfficeArtFSP*>(i)->fBackground;
     }
     static QVariant get_fHaveSpt(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->fHaveSpt);
+        return static_cast<const OfficeArtFSP*>(i)->fHaveSpt;
     }
     static QVariant get_unused1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFSP*>(i)->unused1);
+        return static_cast<const OfficeArtFSP*>(i)->unused1;
     }
 };
 const QString OfficeArtFSP::_Introspection::name("OfficeArtFSP");
@@ -10807,7 +10804,7 @@ public:
         return &(static_cast<const OfficeArtFOPT*>(i)->fopt[j]);
     }
     static QVariant get_complexData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFOPT*>(i)->complexData);
+        return static_cast<const OfficeArtFOPT*>(i)->complexData;
     }
 };
 const QString OfficeArtFOPT::_Introspection::name("OfficeArtFOPT");
@@ -10846,16 +10843,16 @@ public:
         return &(static_cast<const OfficeArtChildAnchor*>(i)->rh);
     }
     static QVariant get_xLeft(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtChildAnchor*>(i)->xLeft);
+        return static_cast<const OfficeArtChildAnchor*>(i)->xLeft;
     }
     static QVariant get_yTop(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtChildAnchor*>(i)->yTop);
+        return static_cast<const OfficeArtChildAnchor*>(i)->yTop;
     }
     static QVariant get_xRight(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtChildAnchor*>(i)->xRight);
+        return static_cast<const OfficeArtChildAnchor*>(i)->xRight;
     }
     static QVariant get_yBottom(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtChildAnchor*>(i)->yBottom);
+        return static_cast<const OfficeArtChildAnchor*>(i)->yBottom;
     }
 };
 const QString OfficeArtChildAnchor::_Introspection::name("OfficeArtChildAnchor");
@@ -10902,13 +10899,13 @@ public:
         return &(static_cast<const OfficeArtFPSPL*>(i)->rh);
     }
     static QVariant get_spid(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFPSPL*>(i)->spid);
+        return static_cast<const OfficeArtFPSPL*>(i)->spid;
     }
     static QVariant get_reserved1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFPSPL*>(i)->reserved1);
+        return static_cast<const OfficeArtFPSPL*>(i)->reserved1;
     }
     static QVariant get_fLast(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFPSPL*>(i)->fLast);
+        return static_cast<const OfficeArtFPSPL*>(i)->fLast;
     }
 };
 const QString OfficeArtFPSPL::_Introspection::name("OfficeArtFPSPL");
@@ -10951,7 +10948,7 @@ public:
         return &(static_cast<const OfficeArtSecondaryFOPT*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSecondaryFOPT*>(i)->todo);
+        return static_cast<const OfficeArtSecondaryFOPT*>(i)->todo;
     }
 };
 const QString OfficeArtSecondaryFOPT::_Introspection::name("OfficeArtSecondaryFOPT");
@@ -10992,7 +10989,7 @@ public:
         return &(static_cast<const OfficeArtTertiaryFOPT*>(i)->fopt[j]);
     }
     static QVariant get_complexData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtTertiaryFOPT*>(i)->complexData);
+        return static_cast<const OfficeArtTertiaryFOPT*>(i)->complexData;
     }
 };
 const QString OfficeArtTertiaryFOPT::_Introspection::name("OfficeArtTertiaryFOPT");
@@ -11028,16 +11025,16 @@ public:
     static QVariant (* const value[4])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
     static QVariant get_top(const Introspectable* i, int j) {
-        return (static_cast<const RectStruct*>(i)->top);
+        return static_cast<const RectStruct*>(i)->top;
     }
     static QVariant get_left(const Introspectable* i, int j) {
-        return (static_cast<const RectStruct*>(i)->left);
+        return static_cast<const RectStruct*>(i)->left;
     }
     static QVariant get_right(const Introspectable* i, int j) {
-        return (static_cast<const RectStruct*>(i)->right);
+        return static_cast<const RectStruct*>(i)->right;
     }
     static QVariant get_bottom(const Introspectable* i, int j) {
-        return (static_cast<const RectStruct*>(i)->bottom);
+        return static_cast<const RectStruct*>(i)->bottom;
     }
 };
 const QString RectStruct::_Introspection::name("RectStruct");
@@ -11077,16 +11074,16 @@ public:
     static QVariant (* const value[4])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
     static QVariant get_top(const Introspectable* i, int j) {
-        return (static_cast<const SmallRectStruct*>(i)->top);
+        return static_cast<const SmallRectStruct*>(i)->top;
     }
     static QVariant get_left(const Introspectable* i, int j) {
-        return (static_cast<const SmallRectStruct*>(i)->left);
+        return static_cast<const SmallRectStruct*>(i)->left;
     }
     static QVariant get_right(const Introspectable* i, int j) {
-        return (static_cast<const SmallRectStruct*>(i)->right);
+        return static_cast<const SmallRectStruct*>(i)->right;
     }
     static QVariant get_bottom(const Introspectable* i, int j) {
-        return (static_cast<const SmallRectStruct*>(i)->bottom);
+        return static_cast<const SmallRectStruct*>(i)->bottom;
     }
 };
 const QString SmallRectStruct::_Introspection::name("SmallRectStruct");
@@ -11129,7 +11126,7 @@ public:
         return &(static_cast<const ShapeFlagsAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ShapeFlagsAtom*>(i)->todo);
+        return static_cast<const ShapeFlagsAtom*>(i)->todo;
     }
 };
 const QString ShapeFlagsAtom::_Introspection::name("ShapeFlagsAtom");
@@ -11164,7 +11161,7 @@ public:
         return &(static_cast<const ShapeFlags10Atom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ShapeFlags10Atom*>(i)->todo);
+        return static_cast<const ShapeFlags10Atom*>(i)->todo;
     }
 };
 const QString ShapeFlags10Atom::_Introspection::name("ShapeFlags10Atom");
@@ -11199,7 +11196,7 @@ public:
         return &(static_cast<const ExObjRefAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ExObjRefAtom*>(i)->todo);
+        return static_cast<const ExObjRefAtom*>(i)->todo;
     }
 };
 const QString ExObjRefAtom::_Introspection::name("ExObjRefAtom");
@@ -11234,7 +11231,7 @@ public:
         return &(static_cast<const AnimationInfoContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const AnimationInfoContainer*>(i)->todo);
+        return static_cast<const AnimationInfoContainer*>(i)->todo;
     }
 };
 const QString AnimationInfoContainer::_Introspection::name("AnimationInfoContainer");
@@ -11269,7 +11266,7 @@ public:
         return &(static_cast<const MouseClickInteractiveInfoContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const MouseClickInteractiveInfoContainer*>(i)->todo);
+        return static_cast<const MouseClickInteractiveInfoContainer*>(i)->todo;
     }
 };
 const QString MouseClickInteractiveInfoContainer::_Introspection::name("MouseClickInteractiveInfoContainer");
@@ -11304,7 +11301,7 @@ public:
         return &(static_cast<const MouseOverInteractiveInfoContainer*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const MouseOverInteractiveInfoContainer*>(i)->todo);
+        return static_cast<const MouseOverInteractiveInfoContainer*>(i)->todo;
     }
 };
 const QString MouseOverInteractiveInfoContainer::_Introspection::name("MouseOverInteractiveInfoContainer");
@@ -11339,16 +11336,16 @@ public:
         return &(static_cast<const PlaceholderAtom*>(i)->rh);
     }
     static QVariant get_position(const Introspectable* i, int j) {
-        return (static_cast<const PlaceholderAtom*>(i)->position);
+        return static_cast<const PlaceholderAtom*>(i)->position;
     }
     static QVariant get_placementId(const Introspectable* i, int j) {
-        return (static_cast<const PlaceholderAtom*>(i)->placementId);
+        return static_cast<const PlaceholderAtom*>(i)->placementId;
     }
     static QVariant get_size(const Introspectable* i, int j) {
-        return (static_cast<const PlaceholderAtom*>(i)->size);
+        return static_cast<const PlaceholderAtom*>(i)->size;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const PlaceholderAtom*>(i)->unused);
+        return static_cast<const PlaceholderAtom*>(i)->unused;
     }
 };
 const QString PlaceholderAtom::_Introspection::name("PlaceholderAtom");
@@ -11395,7 +11392,7 @@ public:
         return &(static_cast<const RecolorInfoAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const RecolorInfoAtom*>(i)->todo);
+        return static_cast<const RecolorInfoAtom*>(i)->todo;
     }
 };
 const QString RecolorInfoAtom::_Introspection::name("RecolorInfoAtom");
@@ -11430,7 +11427,7 @@ public:
         return &(static_cast<const OutlineTextRefAtom*>(i)->rh);
     }
     static QVariant get_index(const Introspectable* i, int j) {
-        return (static_cast<const OutlineTextRefAtom*>(i)->index);
+        return static_cast<const OutlineTextRefAtom*>(i)->index;
     }
 };
 const QString OutlineTextRefAtom::_Introspection::name("OutlineTextRefAtom");
@@ -11465,7 +11462,7 @@ public:
         return &(static_cast<const ShapeClientRoundtripDataSubcontainerOrAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const ShapeClientRoundtripDataSubcontainerOrAtom*>(i)->todo);
+        return static_cast<const ShapeClientRoundtripDataSubcontainerOrAtom*>(i)->todo;
     }
 };
 const QString ShapeClientRoundtripDataSubcontainerOrAtom::_Introspection::name("ShapeClientRoundtripDataSubcontainerOrAtom");
@@ -11538,7 +11535,7 @@ public:
         return &(static_cast<const TextRulerAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const TextRulerAtom*>(i)->todo);
+        return static_cast<const TextRulerAtom*>(i)->todo;
     }
 };
 const QString TextRulerAtom::_Introspection::name("TextRulerAtom");
@@ -11570,10 +11567,10 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_dgid(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtIDCL*>(i)->dgid);
+        return static_cast<const OfficeArtIDCL*>(i)->dgid;
     }
     static QVariant get_cspidCur(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtIDCL*>(i)->cspidCur);
+        return static_cast<const OfficeArtIDCL*>(i)->cspidCur;
     }
 };
 const QString OfficeArtIDCL::_Introspection::name("OfficeArtIDCL");
@@ -11605,13 +11602,13 @@ public:
     static QVariant (* const value[3])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static QVariant get_opid(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFOPTEOPID*>(i)->opid);
+        return static_cast<const OfficeArtFOPTEOPID*>(i)->opid;
     }
     static QVariant get_fBid(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFOPTEOPID*>(i)->fBid);
+        return static_cast<const OfficeArtFOPTEOPID*>(i)->fBid;
     }
     static QVariant get_fComplex(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFOPTEOPID*>(i)->fComplex);
+        return static_cast<const OfficeArtFOPTEOPID*>(i)->fComplex;
     }
 };
 const QString OfficeArtFOPTEOPID::_Introspection::name("OfficeArtFOPTEOPID");
@@ -11685,22 +11682,22 @@ public:
     static QVariant (* const value[6])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[6])(const Introspectable*, int position);
     static QVariant get_red(const Introspectable* i, int j) {
-        return (static_cast<const MSOCR*>(i)->red);
+        return static_cast<const MSOCR*>(i)->red;
     }
     static QVariant get_green(const Introspectable* i, int j) {
-        return (static_cast<const MSOCR*>(i)->green);
+        return static_cast<const MSOCR*>(i)->green;
     }
     static QVariant get_blue(const Introspectable* i, int j) {
-        return (static_cast<const MSOCR*>(i)->blue);
+        return static_cast<const MSOCR*>(i)->blue;
     }
     static QVariant get_unused1(const Introspectable* i, int j) {
-        return (static_cast<const MSOCR*>(i)->unused1);
+        return static_cast<const MSOCR*>(i)->unused1;
     }
     static QVariant get_fSchemeIndex(const Introspectable* i, int j) {
-        return (static_cast<const MSOCR*>(i)->fSchemeIndex);
+        return static_cast<const MSOCR*>(i)->fSchemeIndex;
     }
     static QVariant get_unused2(const Introspectable* i, int j) {
-        return (static_cast<const MSOCR*>(i)->unused2);
+        return static_cast<const MSOCR*>(i)->unused2;
     }
 };
 const QString MSOCR::_Introspection::name("MSOCR");
@@ -11789,7 +11786,7 @@ public:
         return &(static_cast<const todo*>(i)->rh);
     }
     static QVariant get_anon(const Introspectable* i, int j) {
-        return (static_cast<const todo*>(i)->anon);
+        return static_cast<const todo*>(i)->anon;
     }
 };
 const QString todo::_Introspection::name("todo");
@@ -11821,97 +11818,97 @@ public:
     static QVariant (* const value[31])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[31])(const Introspectable*, int position);
     static QVariant get_wIdent(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->wIdent);
+        return static_cast<const FibBase*>(i)->wIdent;
     }
     static QVariant get_nFib(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->nFib);
+        return static_cast<const FibBase*>(i)->nFib;
     }
     static QVariant get_unused(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->unused);
+        return static_cast<const FibBase*>(i)->unused;
     }
     static QVariant get_lid(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->lid);
+        return static_cast<const FibBase*>(i)->lid;
     }
     static QVariant get_pnNext(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->pnNext);
+        return static_cast<const FibBase*>(i)->pnNext;
     }
     static QVariant get_fDot(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fDot);
+        return static_cast<const FibBase*>(i)->fDot;
     }
     static QVariant get_fGlsy(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fGlsy);
+        return static_cast<const FibBase*>(i)->fGlsy;
     }
     static QVariant get_fComplex(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fComplex);
+        return static_cast<const FibBase*>(i)->fComplex;
     }
     static QVariant get_fHasPic(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fHasPic);
+        return static_cast<const FibBase*>(i)->fHasPic;
     }
     static QVariant get_cQuickSaves(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->cQuickSaves);
+        return static_cast<const FibBase*>(i)->cQuickSaves;
     }
     static QVariant get_fEncrypted(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fEncrypted);
+        return static_cast<const FibBase*>(i)->fEncrypted;
     }
     static QVariant get_fWhichTblStm(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fWhichTblStm);
+        return static_cast<const FibBase*>(i)->fWhichTblStm;
     }
     static QVariant get_fReadOnlyRecommended(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fReadOnlyRecommended);
+        return static_cast<const FibBase*>(i)->fReadOnlyRecommended;
     }
     static QVariant get_fWriteReservation(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fWriteReservation);
+        return static_cast<const FibBase*>(i)->fWriteReservation;
     }
     static QVariant get_fExtChar(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fExtChar);
+        return static_cast<const FibBase*>(i)->fExtChar;
     }
     static QVariant get_fLoadOverride(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fLoadOverride);
+        return static_cast<const FibBase*>(i)->fLoadOverride;
     }
     static QVariant get_fFarEast(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fFarEast);
+        return static_cast<const FibBase*>(i)->fFarEast;
     }
     static QVariant get_fObfuscated(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fObfuscated);
+        return static_cast<const FibBase*>(i)->fObfuscated;
     }
     static QVariant get_nFibBack(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->nFibBack);
+        return static_cast<const FibBase*>(i)->nFibBack;
     }
     static QVariant get_IKey(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->IKey);
+        return static_cast<const FibBase*>(i)->IKey;
     }
     static QVariant get_envr(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->envr);
+        return static_cast<const FibBase*>(i)->envr;
     }
     static QVariant get_fMac(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fMac);
+        return static_cast<const FibBase*>(i)->fMac;
     }
     static QVariant get_fEmptySpecial(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fEmptySpecial);
+        return static_cast<const FibBase*>(i)->fEmptySpecial;
     }
     static QVariant get_fLoadOverridePage(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fLoadOverridePage);
+        return static_cast<const FibBase*>(i)->fLoadOverridePage;
     }
     static QVariant get_reserved1(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->reserved1);
+        return static_cast<const FibBase*>(i)->reserved1;
     }
     static QVariant get_reserved2(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->reserved2);
+        return static_cast<const FibBase*>(i)->reserved2;
     }
     static QVariant get_fSpare0(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->fSpare0);
+        return static_cast<const FibBase*>(i)->fSpare0;
     }
     static QVariant get_reserved3(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->reserved3);
+        return static_cast<const FibBase*>(i)->reserved3;
     }
     static QVariant get_reserved4(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->reserved4);
+        return static_cast<const FibBase*>(i)->reserved4;
     }
     static QVariant get_reserved5(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->reserved5);
+        return static_cast<const FibBase*>(i)->reserved5;
     }
     static QVariant get_reserved6(const Introspectable* i, int j) {
-        return (static_cast<const FibBase*>(i)->reserved6);
+        return static_cast<const FibBase*>(i)->reserved6;
     }
 };
 const QString FibBase::_Introspection::name("FibBase");
@@ -12059,46 +12056,46 @@ public:
     static QVariant (* const value[14])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[14])(const Introspectable*, int position);
     static QVariant get_reserved1(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved1);
+        return static_cast<const FibRgW97*>(i)->reserved1;
     }
     static QVariant get_reserved2(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved2);
+        return static_cast<const FibRgW97*>(i)->reserved2;
     }
     static QVariant get_reserved3(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved3);
+        return static_cast<const FibRgW97*>(i)->reserved3;
     }
     static QVariant get_reserved4(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved4);
+        return static_cast<const FibRgW97*>(i)->reserved4;
     }
     static QVariant get_reserved5(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved5);
+        return static_cast<const FibRgW97*>(i)->reserved5;
     }
     static QVariant get_reserved6(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved6);
+        return static_cast<const FibRgW97*>(i)->reserved6;
     }
     static QVariant get_reserved7(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved7);
+        return static_cast<const FibRgW97*>(i)->reserved7;
     }
     static QVariant get_reserved8(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved8);
+        return static_cast<const FibRgW97*>(i)->reserved8;
     }
     static QVariant get_reserved9(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved9);
+        return static_cast<const FibRgW97*>(i)->reserved9;
     }
     static QVariant get_reserved10(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved10);
+        return static_cast<const FibRgW97*>(i)->reserved10;
     }
     static QVariant get_reserved11(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved11);
+        return static_cast<const FibRgW97*>(i)->reserved11;
     }
     static QVariant get_reserved12(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved12);
+        return static_cast<const FibRgW97*>(i)->reserved12;
     }
     static QVariant get_reserved13(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->reserved13);
+        return static_cast<const FibRgW97*>(i)->reserved13;
     }
     static QVariant get_lidFE(const Introspectable* i, int j) {
-        return (static_cast<const FibRgW97*>(i)->lidFE);
+        return static_cast<const FibRgW97*>(i)->lidFE;
     }
 };
 const QString FibRgW97::_Introspection::name("FibRgW97");
@@ -12178,70 +12175,70 @@ public:
     static QVariant (* const value[22])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[22])(const Introspectable*, int position);
     static QVariant get_cbMac(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->cbMac);
+        return static_cast<const FibRgLw97*>(i)->cbMac;
     }
     static QVariant get_reserved1(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved1);
+        return static_cast<const FibRgLw97*>(i)->reserved1;
     }
     static QVariant get_reserved2(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved2);
+        return static_cast<const FibRgLw97*>(i)->reserved2;
     }
     static QVariant get_ccpText(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->ccpText);
+        return static_cast<const FibRgLw97*>(i)->ccpText;
     }
     static QVariant get_ccpFtn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->ccpFtn);
+        return static_cast<const FibRgLw97*>(i)->ccpFtn;
     }
     static QVariant get_ccpHdd(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->ccpHdd);
+        return static_cast<const FibRgLw97*>(i)->ccpHdd;
     }
     static QVariant get_reserved3(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved3);
+        return static_cast<const FibRgLw97*>(i)->reserved3;
     }
     static QVariant get_ccpAtn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->ccpAtn);
+        return static_cast<const FibRgLw97*>(i)->ccpAtn;
     }
     static QVariant get_ccpEdn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->ccpEdn);
+        return static_cast<const FibRgLw97*>(i)->ccpEdn;
     }
     static QVariant get_ccpTxbx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->ccpTxbx);
+        return static_cast<const FibRgLw97*>(i)->ccpTxbx;
     }
     static QVariant get_ccpHdrTxbx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->ccpHdrTxbx);
+        return static_cast<const FibRgLw97*>(i)->ccpHdrTxbx;
     }
     static QVariant get_reserved4(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved4);
+        return static_cast<const FibRgLw97*>(i)->reserved4;
     }
     static QVariant get_reserved5(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved5);
+        return static_cast<const FibRgLw97*>(i)->reserved5;
     }
     static QVariant get_reserved6(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved6);
+        return static_cast<const FibRgLw97*>(i)->reserved6;
     }
     static QVariant get_reserved7(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved7);
+        return static_cast<const FibRgLw97*>(i)->reserved7;
     }
     static QVariant get_reserved8(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved8);
+        return static_cast<const FibRgLw97*>(i)->reserved8;
     }
     static QVariant get_reserved9(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved9);
+        return static_cast<const FibRgLw97*>(i)->reserved9;
     }
     static QVariant get_reserved10(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved10);
+        return static_cast<const FibRgLw97*>(i)->reserved10;
     }
     static QVariant get_reserved11(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved11);
+        return static_cast<const FibRgLw97*>(i)->reserved11;
     }
     static QVariant get_reserved12(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved12);
+        return static_cast<const FibRgLw97*>(i)->reserved12;
     }
     static QVariant get_reserved13(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved13);
+        return static_cast<const FibRgLw97*>(i)->reserved13;
     }
     static QVariant get_reserved14(const Introspectable* i, int j) {
-        return (static_cast<const FibRgLw97*>(i)->reserved14);
+        return static_cast<const FibRgLw97*>(i)->reserved14;
     }
 };
 const QString FibRgLw97::_Introspection::name("FibRgLw97");
@@ -12353,562 +12350,562 @@ public:
     static QVariant (* const value[186])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[186])(const Introspectable*, int position);
     static QVariant get_fcStshfOrig(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcStshfOrig);
+        return static_cast<const FibRgFcLcb97*>(i)->fcStshfOrig;
     }
     static QVariant get_lcbStshfOrig(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbStshfOrig);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbStshfOrig;
     }
     static QVariant get_fcStshf(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcStshf);
+        return static_cast<const FibRgFcLcb97*>(i)->fcStshf;
     }
     static QVariant get_lcbStshf(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbStshf);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbStshf;
     }
     static QVariant get_fcPlcffndRef(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcffndRef);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcffndRef;
     }
     static QVariant get_lcbPlcffndRef(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcffndRef);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcffndRef;
     }
     static QVariant get_fcPlcffndTxt(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcffndTxt);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcffndTxt;
     }
     static QVariant get_lcbPlcffndTxt(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcffndTxt);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcffndTxt;
     }
     static QVariant get_fcPlcfandRef(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfandRef);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfandRef;
     }
     static QVariant get_lcbPlcfandRef(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfandRef);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfandRef;
     }
     static QVariant get_fcPlcfandTxt(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfandTxt);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfandTxt;
     }
     static QVariant get_lcbPlcfandTxt(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfandTxt);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfandTxt;
     }
     static QVariant get_fcPlcfSed(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfSed);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfSed;
     }
     static QVariant get_lcbPlcfSed(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfSed);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfSed;
     }
     static QVariant get_fcPlcPad(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcPad);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcPad;
     }
     static QVariant get_lcbPlcPad(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcPad);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcPad;
     }
     static QVariant get_fcPlcfPhe(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfPhe);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfPhe;
     }
     static QVariant get_lcbPlcfPhe(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfPhe);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfPhe;
     }
     static QVariant get_fcSttbfGlsy(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfGlsy);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfGlsy;
     }
     static QVariant get_lcbSttbfGlsy(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfGlsy);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfGlsy;
     }
     static QVariant get_fcPlcfGlsy(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfGlsy);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfGlsy;
     }
     static QVariant get_lcbPlcfGlsy(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfGlsy);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfGlsy;
     }
     static QVariant get_fcPlcfHdd(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfHdd);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfHdd;
     }
     static QVariant get_lcbPlcfHdd(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfHdd);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfHdd;
     }
     static QVariant get_fcPlcfBteChpx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfBteChpx);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfBteChpx;
     }
     static QVariant get_lcbPlcfBteChpx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfBteChpx);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfBteChpx;
     }
     static QVariant get_fcPlcfBtePapx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfBtePapx);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfBtePapx;
     }
     static QVariant get_lcbPlcfBtePapx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfBtePapx);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfBtePapx;
     }
     static QVariant get_fcPlcfSea(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfSea);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfSea;
     }
     static QVariant get_lcbPlcfSea(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfSea);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfSea;
     }
     static QVariant get_fcSttbfFfn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfFfn);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfFfn;
     }
     static QVariant get_lcbSttbfFfn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfFfn);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfFfn;
     }
     static QVariant get_fcPlcfFldMom(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldMom);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldMom;
     }
     static QVariant get_lcbPlcfFldMom(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldMom);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldMom;
     }
     static QVariant get_fcPlcfFldHdr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldHdr);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldHdr;
     }
     static QVariant get_lcbPlcfFldHdr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldHdr);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldHdr;
     }
     static QVariant get_fcPlcfFldFtn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldFtn);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldFtn;
     }
     static QVariant get_lcbPlcfFldFtn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldFtn);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldFtn;
     }
     static QVariant get_fcPlcfFldAtn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldAtn);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldAtn;
     }
     static QVariant get_lcbPlcfFldAtn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldAtn);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldAtn;
     }
     static QVariant get_fcPlcfFldMcr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldMcr);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldMcr;
     }
     static QVariant get_lcbPlcfFldMcr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldMcr);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldMcr;
     }
     static QVariant get_fcSttbfBkmk(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfBkmk);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfBkmk;
     }
     static QVariant get_lcbSttbfBkmk(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfBkmk);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfBkmk;
     }
     static QVariant get_fcPlcfBkf(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfBkf);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfBkf;
     }
     static QVariant get_lcbPlcfBkf(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfBkf);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfBkf;
     }
     static QVariant get_fcPlcfBkl(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfBkl);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfBkl;
     }
     static QVariant get_lcbPlcfBkl(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfBkl);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfBkl;
     }
     static QVariant get_fcCmds(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcCmds);
+        return static_cast<const FibRgFcLcb97*>(i)->fcCmds;
     }
     static QVariant get_lcbCmds(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbCmds);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbCmds;
     }
     static QVariant get_fcUnused1(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcUnused1);
+        return static_cast<const FibRgFcLcb97*>(i)->fcUnused1;
     }
     static QVariant get_lcbUnused1(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbUnused1);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbUnused1;
     }
     static QVariant get_fcSttbfMcr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfMcr);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfMcr;
     }
     static QVariant get_lcbSttbfMcr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfMcr);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfMcr;
     }
     static QVariant get_fcPrDrvr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPrDrvr);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPrDrvr;
     }
     static QVariant get_lcbPrDrvr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPrDrvr);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPrDrvr;
     }
     static QVariant get_fcPrEnvPort(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPrEnvPort);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPrEnvPort;
     }
     static QVariant get_lcbPrEnvPort(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPrEnvPort);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPrEnvPort;
     }
     static QVariant get_fcPrEnvLand(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPrEnvLand);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPrEnvLand;
     }
     static QVariant get_lcbPrEnvLand(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPrEnvLand);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPrEnvLand;
     }
     static QVariant get_fcWss(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcWss);
+        return static_cast<const FibRgFcLcb97*>(i)->fcWss;
     }
     static QVariant get_lcbWss(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbWss);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbWss;
     }
     static QVariant get_fcDop(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcDop);
+        return static_cast<const FibRgFcLcb97*>(i)->fcDop;
     }
     static QVariant get_lcbDop(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbDop);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbDop;
     }
     static QVariant get_fcSttbfAssoc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfAssoc);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfAssoc;
     }
     static QVariant get_lcbSttbfAssoc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfAssoc);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfAssoc;
     }
     static QVariant get_fcClx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcClx);
+        return static_cast<const FibRgFcLcb97*>(i)->fcClx;
     }
     static QVariant get_lcbClx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbClx);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbClx;
     }
     static QVariant get_fcPlcfPgdFtn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfPgdFtn);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfPgdFtn;
     }
     static QVariant get_lcbPlcfPgdFtn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfPgdFtn);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfPgdFtn;
     }
     static QVariant get_fcAutosaveSource(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcAutosaveSource);
+        return static_cast<const FibRgFcLcb97*>(i)->fcAutosaveSource;
     }
     static QVariant get_lcbAutosaveSource(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbAutosaveSource);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbAutosaveSource;
     }
     static QVariant get_fcGrpXstAtnOwners(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcGrpXstAtnOwners);
+        return static_cast<const FibRgFcLcb97*>(i)->fcGrpXstAtnOwners;
     }
     static QVariant get_lcbGrpXstAtnOwners(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbGrpXstAtnOwners);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbGrpXstAtnOwners;
     }
     static QVariant get_fcSttbfAtnBkmk(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfAtnBkmk);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfAtnBkmk;
     }
     static QVariant get_lcbSttbfAtnBkmk(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfAtnBkmk);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfAtnBkmk;
     }
     static QVariant get_fcUnused2(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcUnused2);
+        return static_cast<const FibRgFcLcb97*>(i)->fcUnused2;
     }
     static QVariant get_lcbUnused2(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbUnused2);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbUnused2;
     }
     static QVariant get_fcUnused3(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcUnused3);
+        return static_cast<const FibRgFcLcb97*>(i)->fcUnused3;
     }
     static QVariant get_lcbUnused3(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbUnused3);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbUnused3;
     }
     static QVariant get_fcPlcSpaMom(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcSpaMom);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcSpaMom;
     }
     static QVariant get_lcbPlcSpaMom(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcSpaMom);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcSpaMom;
     }
     static QVariant get_fcPlcSpaHdr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcSpaHdr);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcSpaHdr;
     }
     static QVariant get_lcbPlcSpaHdr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcSpaHdr);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcSpaHdr;
     }
     static QVariant get_fcPlcfAtnBkf(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfAtnBkf);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfAtnBkf;
     }
     static QVariant get_lcbPlcfAtnBkf(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfAtnBkf);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfAtnBkf;
     }
     static QVariant get_fcPlcfAtnBkl(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfAtnBkl);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfAtnBkl;
     }
     static QVariant get_lcbPlcfAtnBkl(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfAtnBkl);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfAtnBkl;
     }
     static QVariant get_fcPms(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPms);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPms;
     }
     static QVariant get_lcbPms(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPms);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPms;
     }
     static QVariant get_fcFormFldSttbs(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcFormFldSttbs);
+        return static_cast<const FibRgFcLcb97*>(i)->fcFormFldSttbs;
     }
     static QVariant get_lcbFormFldSttbs(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbFormFldSttbs);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbFormFldSttbs;
     }
     static QVariant get_fcPlcfendRef(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfendRef);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfendRef;
     }
     static QVariant get_lcbPlcfendRef(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfendRef);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfendRef;
     }
     static QVariant get_fcPlcfendTxt(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfendTxt);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfendTxt;
     }
     static QVariant get_lcbPlcfendTxt(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfendTxt);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfendTxt;
     }
     static QVariant get_fcPlcfFldEdn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldEdn);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldEdn;
     }
     static QVariant get_lcbPlcfFldEdn(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldEdn);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldEdn;
     }
     static QVariant get_fcUnused4(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcUnused4);
+        return static_cast<const FibRgFcLcb97*>(i)->fcUnused4;
     }
     static QVariant get_lcbUnused4(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbUnused4);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbUnused4;
     }
     static QVariant get_fcDggInfo(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcDggInfo);
+        return static_cast<const FibRgFcLcb97*>(i)->fcDggInfo;
     }
     static QVariant get_lcbDggInfo(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbDggInfo);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbDggInfo;
     }
     static QVariant get_fcSttbfRMark(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfRMark);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfRMark;
     }
     static QVariant get_lcbSttbfRMark(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfRMark);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfRMark;
     }
     static QVariant get_fcSttbfCaption(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfCaption);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfCaption;
     }
     static QVariant get_lcbSttbfCaption(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfCaption);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfCaption;
     }
     static QVariant get_fcSttbfAutoCaption(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfAutoCaption);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfAutoCaption;
     }
     static QVariant get_lcbSttbfAutoCaption(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfAutoCaption);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfAutoCaption;
     }
     static QVariant get_fcPlcfWkb(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfWkb);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfWkb;
     }
     static QVariant get_lcbPlcfWkb(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfWkb);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfWkb;
     }
     static QVariant get_fcPlcfSpl(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfSpl);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfSpl;
     }
     static QVariant get_lcbPlcfSpl(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfSpl);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfSpl;
     }
     static QVariant get_fcPlcftxbxTxt(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcftxbxTxt);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcftxbxTxt;
     }
     static QVariant get_lcbPlcftxbxTxt(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcftxbxTxt);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcftxbxTxt;
     }
     static QVariant get_fcPlcfFldTxbx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldTxbx);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfFldTxbx;
     }
     static QVariant get_lcbPlcfFldTxbx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldTxbx);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfFldTxbx;
     }
     static QVariant get_fcPlcfHdrtxbxTxt(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfHdrtxbxTxt);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfHdrtxbxTxt;
     }
     static QVariant get_lcbPlcfHdrtxbxTxt(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfHdrtxbxTxt);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfHdrtxbxTxt;
     }
     static QVariant get_fcPlcffldHdrTxbx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcffldHdrTxbx);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcffldHdrTxbx;
     }
     static QVariant get_lcbPlcffldHdrTxbx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcffldHdrTxbx);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcffldHdrTxbx;
     }
     static QVariant get_fcStwUser(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcStwUser);
+        return static_cast<const FibRgFcLcb97*>(i)->fcStwUser;
     }
     static QVariant get_lcbStwUser(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbStwUser);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbStwUser;
     }
     static QVariant get_fcSttbTtmbd(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbTtmbd);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbTtmbd;
     }
     static QVariant get_lcbSttbTtmbd(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbTtmbd);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbTtmbd;
     }
     static QVariant get_fcCookieData(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcCookieData);
+        return static_cast<const FibRgFcLcb97*>(i)->fcCookieData;
     }
     static QVariant get_lcbCookieData(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbCookieData);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbCookieData;
     }
     static QVariant get_fcPgdMotherOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPgdMotherOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPgdMotherOldOld;
     }
     static QVariant get_lcbPgdMotherOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPgdMotherOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPgdMotherOldOld;
     }
     static QVariant get_fcBkdMotherOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcBkdMotherOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->fcBkdMotherOldOld;
     }
     static QVariant get_lcbBkdMotherOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbBkdMotherOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbBkdMotherOldOld;
     }
     static QVariant get_fcPgdFtnOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPgdFtnOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPgdFtnOldOld;
     }
     static QVariant get_lcbPgdFtnOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPgdFtnOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPgdFtnOldOld;
     }
     static QVariant get_fcBkdFtnOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcBkdFtnOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->fcBkdFtnOldOld;
     }
     static QVariant get_lcbBkdFtnOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbBkdFtnOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbBkdFtnOldOld;
     }
     static QVariant get_fcPgdEdnOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPgdEdnOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPgdEdnOldOld;
     }
     static QVariant get_lcbPgdEdnOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPgdEdnOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPgdEdnOldOld;
     }
     static QVariant get_fcBkdEdnOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcBkdEdnOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->fcBkdEdnOldOld;
     }
     static QVariant get_lcbBkdEdnOldOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbBkdEdnOldOld);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbBkdEdnOldOld;
     }
     static QVariant get_fcSttbfIntlFld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfIntlFld);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfIntlFld;
     }
     static QVariant get_lcbSttbfIntlFld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfIntlFld);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfIntlFld;
     }
     static QVariant get_fcRouteSlip(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcRouteSlip);
+        return static_cast<const FibRgFcLcb97*>(i)->fcRouteSlip;
     }
     static QVariant get_lcbRouteSlip(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbRouteSlip);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbRouteSlip;
     }
     static QVariant get_fcSttbSavedBy(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbSavedBy);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbSavedBy;
     }
     static QVariant get_lcbSttbSavedBy(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbSavedBy);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbSavedBy;
     }
     static QVariant get_fcSttbFnm(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbFnm);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbFnm;
     }
     static QVariant get_lcbSttbFnm(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbFnm);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbFnm;
     }
     static QVariant get_fcPlfLst(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlfLst);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlfLst;
     }
     static QVariant get_lcbPlfLst(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlfLst);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlfLst;
     }
     static QVariant get_fcPlfLfo(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlfLfo);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlfLfo;
     }
     static QVariant get_lcbPlfLfo(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlfLfo);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlfLfo;
     }
     static QVariant get_fcPlcfTxbxBkd(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfTxbxBkd);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfTxbxBkd;
     }
     static QVariant get_lcbPlcfTxbxBkd(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfTxbxBkd);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfTxbxBkd;
     }
     static QVariant get_fcPlcfTxbxHdrBkd(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfTxbxHdrBkd);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfTxbxHdrBkd;
     }
     static QVariant get_lcbPlcfTxbxHdrBkd(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfTxbxHdrBkd);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfTxbxHdrBkd;
     }
     static QVariant get_fcDocUndoWord9(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcDocUndoWord9);
+        return static_cast<const FibRgFcLcb97*>(i)->fcDocUndoWord9;
     }
     static QVariant get_lcbDocUndoWord9(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbDocUndoWord9);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbDocUndoWord9;
     }
     static QVariant get_fcRgbUse(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcRgbUse);
+        return static_cast<const FibRgFcLcb97*>(i)->fcRgbUse;
     }
     static QVariant get_lcbRgbUse(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbRgbUse);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbRgbUse;
     }
     static QVariant get_fcUsp(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcUsp);
+        return static_cast<const FibRgFcLcb97*>(i)->fcUsp;
     }
     static QVariant get_lcbUsp(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbUsp);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbUsp;
     }
     static QVariant get_fcUskf(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcUskf);
+        return static_cast<const FibRgFcLcb97*>(i)->fcUskf;
     }
     static QVariant get_lcbUskf(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbUskf);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbUskf;
     }
     static QVariant get_fcPlcupcRgbUse(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcupcRgbUse);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcupcRgbUse;
     }
     static QVariant get_lcbPlcupcRgbUse(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcupcRgbUse);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcupcRgbUse;
     }
     static QVariant get_fcPlcupcUsp(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcupcUsp);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcupcUsp;
     }
     static QVariant get_lcbPlcupcUsp(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcupcUsp);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcupcUsp;
     }
     static QVariant get_fcSttbGlsyStyle(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbGlsyStyle);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbGlsyStyle;
     }
     static QVariant get_lcbSttbGlsyStyle(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbGlsyStyle);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbGlsyStyle;
     }
     static QVariant get_fcPlgosl(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlgosl);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlgosl;
     }
     static QVariant get_lcbPlgosl(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlgosl);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlgosl;
     }
     static QVariant get_fcPlcocx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcocx);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcocx;
     }
     static QVariant get_lcbPlcocx(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcocx);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcocx;
     }
     static QVariant get_fcPlcfBteLvc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfBteLvc);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfBteLvc;
     }
     static QVariant get_lcbPlcfBteLvc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfBteLvc);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfBteLvc;
     }
     static QVariant get_dwLowDateTime(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->dwLowDateTime);
+        return static_cast<const FibRgFcLcb97*>(i)->dwLowDateTime;
     }
     static QVariant get_dwHighDateTime(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->dwHighDateTime);
+        return static_cast<const FibRgFcLcb97*>(i)->dwHighDateTime;
     }
     static QVariant get_fcPlcfLvcPre10(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfLvcPre10);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfLvcPre10;
     }
     static QVariant get_lcbPlcfLvcPre10(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfLvcPre10);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfLvcPre10;
     }
     static QVariant get_fcPlcfAsumy(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfAsumy);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfAsumy;
     }
     static QVariant get_lcbPlcfAsumy(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfAsumy);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfAsumy;
     }
     static QVariant get_fcPlcfGram(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcPlcfGram);
+        return static_cast<const FibRgFcLcb97*>(i)->fcPlcfGram;
     }
     static QVariant get_lcbPlcfGram(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbPlcfGram);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbPlcfGram;
     }
     static QVariant get_fcSttbListNames(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbListNames);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbListNames;
     }
     static QVariant get_lcbSttbListNames(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbListNames);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbListNames;
     }
     static QVariant get_fcSttbfUssr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->fcSttbfUssr);
+        return static_cast<const FibRgFcLcb97*>(i)->fcSttbfUssr;
     }
     static QVariant get_lcbSttbfUssr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb97*>(i)->lcbSttbfUssr);
+        return static_cast<const FibRgFcLcb97*>(i)->lcbSttbfUssr;
     }
 };
 const QString FibRgFcLcb97::_Introspection::name("FibRgFcLcb97");
@@ -13676,94 +13673,94 @@ public:
     static QVariant (* const value[30])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[30])(const Introspectable*, int position);
     static QVariant get_fcPlcfTch(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcPlcfTch);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcPlcfTch;
     }
     static QVariant get_lcbPlcfTch(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbPlcfTch);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbPlcfTch;
     }
     static QVariant get_fcRmdThreading(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcRmdThreading);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcRmdThreading;
     }
     static QVariant get_lcbRmdThreading(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbRmdThreading);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbRmdThreading;
     }
     static QVariant get_fcMid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcMid);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcMid;
     }
     static QVariant get_lcbMid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbMid);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbMid;
     }
     static QVariant get_fcSttbRgtplc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcSttbRgtplc);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcSttbRgtplc;
     }
     static QVariant get_lcbSttbRgtplc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbSttbRgtplc);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbSttbRgtplc;
     }
     static QVariant get_fcMsoEnvelope(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcMsoEnvelope);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcMsoEnvelope;
     }
     static QVariant get_lcbMsoEnvelope(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbMsoEnvelope);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbMsoEnvelope;
     }
     static QVariant get_fcPlcfLad(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcPlcfLad);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcPlcfLad;
     }
     static QVariant get_lcbPlcfLad(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbPlcfLad);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbPlcfLad;
     }
     static QVariant get_fcRgDofr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcRgDofr);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcRgDofr;
     }
     static QVariant get_lcbRgDofr(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbRgDofr);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbRgDofr;
     }
     static QVariant get_fcPlcosl(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcPlcosl);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcPlcosl;
     }
     static QVariant get_lcbPlcosl(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbPlcosl);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbPlcosl;
     }
     static QVariant get_fcPlcfCookieOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcPlcfCookieOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcPlcfCookieOld;
     }
     static QVariant get_lcbPlcfCookieOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbPlcfCookieOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbPlcfCookieOld;
     }
     static QVariant get_fcPgdMotherOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcPgdMotherOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcPgdMotherOld;
     }
     static QVariant get_lcbPgdMotherOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbPgdMotherOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbPgdMotherOld;
     }
     static QVariant get_fcBkdMotherOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcBkdMotherOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcBkdMotherOld;
     }
     static QVariant get_lcbBkdMotherOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbBkdMotherOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbBkdMotherOld;
     }
     static QVariant get_fcPgdFtnOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcPgdFtnOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcPgdFtnOld;
     }
     static QVariant get_lcbPgdFtnOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbPgdFtnOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbPgdFtnOld;
     }
     static QVariant get_fcBkdFtnOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcBkdFtnOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcBkdFtnOld;
     }
     static QVariant get_lcbBkdFtnOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbBkdFtnOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbBkdFtnOld;
     }
     static QVariant get_fcPgdEdnOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcPgdEdnOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcPgdEdnOld;
     }
     static QVariant get_lcbPgdEdnOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbPgdEdnOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbPgdEdnOld;
     }
     static QVariant get_fcBkdEdnOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->fcBkdEdnOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->fcBkdEdnOld;
     }
     static QVariant get_lcbBkdEdnOld(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2000*>(i)->lcbBkdEdnOld);
+        return static_cast<const FibRgFcLcb2000*>(i)->lcbBkdEdnOld;
     }
 };
 const QString FibRgFcLcb2000::_Introspection::name("FibRgFcLcb2000");
@@ -13907,154 +13904,154 @@ public:
     static QVariant (* const value[50])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[50])(const Introspectable*, int position);
     static QVariant get_fcUnused1(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcUnused1);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcUnused1;
     }
     static QVariant get_lcbUnused1(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbUnused1);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbUnused1;
     }
     static QVariant get_fcPlcfPgp(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfPgp);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfPgp;
     }
     static QVariant get_lcbPlcfPgp(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfPgp);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfPgp;
     }
     static QVariant get_fcPlcfuim(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfuim);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfuim;
     }
     static QVariant get_lcbPlcfuim(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfuim);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfuim;
     }
     static QVariant get_fcPlfguidUim(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlfguidUim);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlfguidUim;
     }
     static QVariant get_lcbPlfguidUim(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlfguidUim);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlfguidUim;
     }
     static QVariant get_fcAtrdExtra(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcAtrdExtra);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcAtrdExtra;
     }
     static QVariant get_lcbAtrdExtra(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbAtrdExtra);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbAtrdExtra;
     }
     static QVariant get_fcPlrsid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlrsid);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlrsid;
     }
     static QVariant get_lcbPlrsid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlrsid);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlrsid;
     }
     static QVariant get_fcSttbfBkmkFactoid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcSttbfBkmkFactoid);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcSttbfBkmkFactoid;
     }
     static QVariant get_lcbSttbfBkmkFactoid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbSttbfBkmkFactoid);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbSttbfBkmkFactoid;
     }
     static QVariant get_fcPlcfBkfFactoid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfBkfFactoid);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfBkfFactoid;
     }
     static QVariant get_lcbPlcfBkfFactoid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfBkfFactoid);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfBkfFactoid;
     }
     static QVariant get_fcPlcfcookie(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfcookie);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfcookie;
     }
     static QVariant get_lcbPlcfcookie(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfcookie);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfcookie;
     }
     static QVariant get_fcPlcfBklFactoid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfBklFactoid);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfBklFactoid;
     }
     static QVariant get_lcbPlcfBklFactoid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfBklFactoid);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfBklFactoid;
     }
     static QVariant get_fcFactoidData(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcFactoidData);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcFactoidData;
     }
     static QVariant get_lcbFactoidData(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbFactoidData);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbFactoidData;
     }
     static QVariant get_fcDocUndo(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcDocUndo);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcDocUndo;
     }
     static QVariant get_lcbDocUndo(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbDocUndo);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbDocUndo;
     }
     static QVariant get_fcSttbfBkmkFcc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcSttbfBkmkFcc);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcSttbfBkmkFcc;
     }
     static QVariant get_lcbSttbfBkmkFcc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbSttbfBkmkFcc);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbSttbfBkmkFcc;
     }
     static QVariant get_fcPlcfBkfFcc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfBkfFcc);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfBkfFcc;
     }
     static QVariant get_lcbPlcfBkfFcc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfBkfFcc);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfBkfFcc;
     }
     static QVariant get_fcPlcfBklFcc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfBklFcc);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfBklFcc;
     }
     static QVariant get_lcbPlcfBklFcc(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfBklFcc);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfBklFcc;
     }
     static QVariant get_fcSttbfbkmkBPRepairs(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcSttbfbkmkBPRepairs);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcSttbfbkmkBPRepairs;
     }
     static QVariant get_lcbSttbfbkmkBPRepairs(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbSttbfbkmkBPRepairs);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbSttbfbkmkBPRepairs;
     }
     static QVariant get_fcPlcfbkfBPRepairs(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfbkfBPRepairs);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfbkfBPRepairs;
     }
     static QVariant get_lcbPlcfbkfBPRepairs(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfbkfBPRepairs);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfbkfBPRepairs;
     }
     static QVariant get_fcPlcfbklBPRepairs(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfbklBPRepairs);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfbklBPRepairs;
     }
     static QVariant get_lcbPlcfbklBPRepairs(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfbklBPRepairs);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfbklBPRepairs;
     }
     static QVariant get_fcPmsNew(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPmsNew);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPmsNew;
     }
     static QVariant get_lcbPmsNew(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPmsNew);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPmsNew;
     }
     static QVariant get_fcODSO(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcODSO);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcODSO;
     }
     static QVariant get_lcbODSO(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbODSO);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbODSO;
     }
     static QVariant get_fcPlcfpmiOldXP(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfpmiOldXP);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfpmiOldXP;
     }
     static QVariant get_lcbPlcfpmiOldXP(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfpmiOldXP);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfpmiOldXP;
     }
     static QVariant get_fcPlcfpmiNewXP(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfpmiNewXP);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfpmiNewXP;
     }
     static QVariant get_lcbPlcfpmiNewXP(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfpmiNewXP);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfpmiNewXP;
     }
     static QVariant get_fcPlcfpmiMixedXP(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcfpmiMixedXP);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcfpmiMixedXP;
     }
     static QVariant get_lcbPlcfpmiMixedXP(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfpmiMixedXP);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcfpmiMixedXP;
     }
     static QVariant get_fcUnused2(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcUnused2);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcUnused2;
     }
     static QVariant get_lcbUnused2(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbUnused2);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbUnused2;
     }
     static QVariant get_fcPlcffactoid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->fcPlcffactoid);
+        return static_cast<const FibRgFcLcb2002*>(i)->fcPlcffactoid;
     }
     static QVariant get_lcbPlcffactoid(const Introspectable* i, int j) {
-        return (static_cast<const FibRgFcLcb2002*>(i)->lcbPlcffactoid);
+        return static_cast<const FibRgFcLcb2002*>(i)->lcbPlcffactoid;
     }
 };
 const QString FibRgFcLcb2002::_Introspection::name("FibRgFcLcb2002");
@@ -14278,10 +14275,10 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_cbSthi(const Introspectable* i, int j) {
-        return (static_cast<const LPStshi*>(i)->cbSthi);
+        return static_cast<const LPStshi*>(i)->cbSthi;
     }
     static QVariant get_stshi(const Introspectable* i, int j) {
-        return (static_cast<const LPStshi*>(i)->stshi);
+        return static_cast<const LPStshi*>(i)->stshi;
     }
 };
 const QString LPStshi::_Introspection::name("LPStshi");
@@ -14313,13 +14310,13 @@ public:
     static QVariant (* const value[3])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static QVariant get_cbStd(const Introspectable* i, int j) {
-        return (static_cast<const LPStd*>(i)->cbStd);
+        return static_cast<const LPStd*>(i)->cbStd;
     }
     static QVariant get_std(const Introspectable* i, int j) {
-        return (static_cast<const LPStd*>(i)->std);
+        return static_cast<const LPStd*>(i)->std;
     }
     static QVariant get_padding(const Introspectable* i, int j) {
-        return (static_cast<const LPStd*>(i)->padding);
+        return static_cast<const LPStd*>(i)->padding;
     }
 };
 const QString LPStd::_Introspection::name("LPStd");
@@ -14354,11 +14351,8 @@ public:
     static int (* const numberOfInstances[2])(const Introspectable*);
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
-    static int count_aCP(const Introspectable* i) {
-        return static_cast<const PlcfSed*>(i)->aCP.size();
-    }
     static QVariant get_aCP(const Introspectable* i, int j) {
-        return (static_cast<const PlcfSed*>(i)->aCP[j]);
+        return qVariantFromValue(static_cast<const PlcfSed*>(i)->aCP);
     }
     static int count_aSed(const Introspectable* i) {
         return static_cast<const PlcfSed*>(i)->aSed.size();
@@ -14374,7 +14368,7 @@ const QString PlcfSed::_Introspection::names[2] = {
     "aSed",
 };
 int (* const PlcfSed::_Introspection::numberOfInstances[2])(const Introspectable*) = {
-    _Introspection::count_aCP,
+    Introspection::one,
     _Introspection::count_aSed,
 };
 QVariant (* const PlcfSed::_Introspection::value[2])(const Introspectable*, int position) = {
@@ -14396,16 +14390,16 @@ public:
     static QVariant (* const value[4])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
     static QVariant get_fn(const Introspectable* i, int j) {
-        return (static_cast<const Sed*>(i)->fn);
+        return static_cast<const Sed*>(i)->fn;
     }
     static QVariant get_fcSepx(const Introspectable* i, int j) {
-        return (static_cast<const Sed*>(i)->fcSepx);
+        return static_cast<const Sed*>(i)->fcSepx;
     }
     static QVariant get_fnMpr(const Introspectable* i, int j) {
-        return (static_cast<const Sed*>(i)->fnMpr);
+        return static_cast<const Sed*>(i)->fnMpr;
     }
     static QVariant get_fcMpr(const Introspectable* i, int j) {
-        return (static_cast<const Sed*>(i)->fcMpr);
+        return static_cast<const Sed*>(i)->fcMpr;
     }
 };
 const QString Sed::_Introspection::name("Sed");
@@ -14444,11 +14438,8 @@ public:
     static int (* const numberOfInstances[1])(const Introspectable*);
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
-    static int count_aCP(const Introspectable* i) {
-        return static_cast<const Plcfhdd*>(i)->aCP.size();
-    }
     static QVariant get_aCP(const Introspectable* i, int j) {
-        return (static_cast<const Plcfhdd*>(i)->aCP[j]);
+        return qVariantFromValue(static_cast<const Plcfhdd*>(i)->aCP);
     }
 };
 const QString Plcfhdd::_Introspection::name("Plcfhdd");
@@ -14457,7 +14448,7 @@ const QString Plcfhdd::_Introspection::names[1] = {
     "aCP",
 };
 int (* const Plcfhdd::_Introspection::numberOfInstances[1])(const Introspectable*) = {
-    _Introspection::count_aCP,
+    Introspection::one,
 };
 QVariant (* const Plcfhdd::_Introspection::value[1])(const Introspectable*, int position) = {
     _Introspection::get_aCP,
@@ -14475,17 +14466,11 @@ public:
     static int (* const numberOfInstances[2])(const Introspectable*);
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
-    static int count_aCP(const Introspectable* i) {
-        return static_cast<const PlcBteChpx*>(i)->aCP.size();
-    }
     static QVariant get_aCP(const Introspectable* i, int j) {
-        return (static_cast<const PlcBteChpx*>(i)->aCP[j]);
-    }
-    static int count_aPnBteChpx(const Introspectable* i) {
-        return static_cast<const PlcBteChpx*>(i)->aPnBteChpx.size();
+        return qVariantFromValue(static_cast<const PlcBteChpx*>(i)->aCP);
     }
     static QVariant get_aPnBteChpx(const Introspectable* i, int j) {
-        return (static_cast<const PlcBteChpx*>(i)->aPnBteChpx[j]);
+        return qVariantFromValue(static_cast<const PlcBteChpx*>(i)->aPnBteChpx);
     }
 };
 const QString PlcBteChpx::_Introspection::name("PlcBteChpx");
@@ -14495,8 +14480,8 @@ const QString PlcBteChpx::_Introspection::names[2] = {
     "aPnBteChpx",
 };
 int (* const PlcBteChpx::_Introspection::numberOfInstances[2])(const Introspectable*) = {
-    _Introspection::count_aCP,
-    _Introspection::count_aPnBteChpx,
+    Introspection::one,
+    Introspection::one,
 };
 QVariant (* const PlcBteChpx::_Introspection::value[2])(const Introspectable*, int position) = {
     _Introspection::get_aCP,
@@ -14516,17 +14501,11 @@ public:
     static int (* const numberOfInstances[2])(const Introspectable*);
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
-    static int count_aCP(const Introspectable* i) {
-        return static_cast<const PlcfBtePapx*>(i)->aCP.size();
-    }
     static QVariant get_aCP(const Introspectable* i, int j) {
-        return (static_cast<const PlcfBtePapx*>(i)->aCP[j]);
-    }
-    static int count_aPnBteChpx(const Introspectable* i) {
-        return static_cast<const PlcfBtePapx*>(i)->aPnBteChpx.size();
+        return qVariantFromValue(static_cast<const PlcfBtePapx*>(i)->aCP);
     }
     static QVariant get_aPnBteChpx(const Introspectable* i, int j) {
-        return (static_cast<const PlcfBtePapx*>(i)->aPnBteChpx[j]);
+        return qVariantFromValue(static_cast<const PlcfBtePapx*>(i)->aPnBteChpx);
     }
 };
 const QString PlcfBtePapx::_Introspection::name("PlcfBtePapx");
@@ -14536,8 +14515,8 @@ const QString PlcfBtePapx::_Introspection::names[2] = {
     "aPnBteChpx",
 };
 int (* const PlcfBtePapx::_Introspection::numberOfInstances[2])(const Introspectable*) = {
-    _Introspection::count_aCP,
-    _Introspection::count_aPnBteChpx,
+    Introspection::one,
+    Introspection::one,
 };
 QVariant (* const PlcfBtePapx::_Introspection::value[2])(const Introspectable*, int position) = {
     _Introspection::get_aCP,
@@ -14558,10 +14537,10 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_nTcgVer(const Introspectable* i, int j) {
-        return (static_cast<const Tcg*>(i)->nTcgVer);
+        return static_cast<const Tcg*>(i)->nTcgVer;
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const Tcg*>(i)->todo);
+        return static_cast<const Tcg*>(i)->todo;
     }
 };
 const QString Tcg::_Introspection::name("Tcg");
@@ -14593,7 +14572,7 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_cbGrpprl(const Introspectable* i, int j) {
-        return (static_cast<const PrcData*>(i)->cbGrpprl);
+        return static_cast<const PrcData*>(i)->cbGrpprl;
     }
     static int count_GrpPrl(const Introspectable* i) {
         return static_cast<const PrcData*>(i)->GrpPrl.size();
@@ -14631,16 +14610,16 @@ public:
     static QVariant (* const value[4])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
     static QVariant get_ispmd(const Introspectable* i, int j) {
-        return (static_cast<const Sprm*>(i)->ispmd);
+        return static_cast<const Sprm*>(i)->ispmd;
     }
     static QVariant get_fSpec(const Introspectable* i, int j) {
-        return (static_cast<const Sprm*>(i)->fSpec);
+        return static_cast<const Sprm*>(i)->fSpec;
     }
     static QVariant get_sgc(const Introspectable* i, int j) {
-        return (static_cast<const Sprm*>(i)->sgc);
+        return static_cast<const Sprm*>(i)->sgc;
     }
     static QVariant get_spra(const Introspectable* i, int j) {
-        return (static_cast<const Sprm*>(i)->spra);
+        return static_cast<const Sprm*>(i)->spra;
     }
 };
 const QString Sprm::_Introspection::name("Sprm");
@@ -14680,10 +14659,10 @@ public:
     static QVariant (* const value[3])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static QVariant get_clxt(const Introspectable* i, int j) {
-        return (static_cast<const Pcdt*>(i)->clxt);
+        return static_cast<const Pcdt*>(i)->clxt;
     }
     static QVariant get_lcb(const Introspectable* i, int j) {
-        return (static_cast<const Pcdt*>(i)->lcb);
+        return static_cast<const Pcdt*>(i)->lcb;
     }
     static int count_PlcPcd(const Introspectable* i) {
         return static_cast<const Pcdt*>(i)->PlcPcd.size();
@@ -14725,13 +14704,13 @@ public:
     static QVariant (* const value[3])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static QVariant get_fc(const Introspectable* i, int j) {
-        return (static_cast<const FCompressed*>(i)->fc);
+        return static_cast<const FCompressed*>(i)->fc;
     }
     static QVariant get_fCompressed(const Introspectable* i, int j) {
-        return (static_cast<const FCompressed*>(i)->fCompressed);
+        return static_cast<const FCompressed*>(i)->fCompressed;
     }
     static QVariant get_r1(const Introspectable* i, int j) {
-        return (static_cast<const FCompressed*>(i)->r1);
+        return static_cast<const FCompressed*>(i)->r1;
     }
 };
 const QString FCompressed::_Introspection::name("FCompressed");
@@ -14767,13 +14746,13 @@ public:
     static QVariant (* const value[3])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static QVariant get_fComplex(const Introspectable* i, int j) {
-        return (static_cast<const Prm0*>(i)->fComplex);
+        return static_cast<const Prm0*>(i)->fComplex;
     }
     static QVariant get_isprm(const Introspectable* i, int j) {
-        return (static_cast<const Prm0*>(i)->isprm);
+        return static_cast<const Prm0*>(i)->isprm;
     }
     static QVariant get_val(const Introspectable* i, int j) {
-        return (static_cast<const Prm0*>(i)->val);
+        return static_cast<const Prm0*>(i)->val;
     }
 };
 const QString Prm0::_Introspection::name("Prm0");
@@ -14809,10 +14788,10 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_fComplex(const Introspectable* i, int j) {
-        return (static_cast<const Prm1*>(i)->fComplex);
+        return static_cast<const Prm1*>(i)->fComplex;
     }
     static QVariant get_igrpprl(const Introspectable* i, int j) {
-        return (static_cast<const Prm1*>(i)->igrpprl);
+        return static_cast<const Prm1*>(i)->igrpprl;
     }
 };
 const QString Prm1::_Introspection::name("Prm1");
@@ -14844,10 +14823,10 @@ public:
     static QVariant (* const value[3])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static QVariant get_cData(const Introspectable* i, int j) {
-        return (static_cast<const SttbfFfn*>(i)->cData);
+        return static_cast<const SttbfFfn*>(i)->cData;
     }
     static QVariant get_cbExtra(const Introspectable* i, int j) {
-        return (static_cast<const SttbfFfn*>(i)->cbExtra);
+        return static_cast<const SttbfFfn*>(i)->cbExtra;
     }
     static int count_data(const Introspectable* i) {
         return static_cast<const SttbfFfn*>(i)->data.size();
@@ -14889,10 +14868,10 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_cchData(const Introspectable* i, int j) {
-        return (static_cast<const SttbfFfnEntry*>(i)->cchData);
+        return static_cast<const SttbfFfnEntry*>(i)->cchData;
     }
     static QVariant get_Data(const Introspectable* i, int j) {
-        return (static_cast<const SttbfFfnEntry*>(i)->Data);
+        return static_cast<const SttbfFfnEntry*>(i)->Data;
     }
 };
 const QString SttbfFfnEntry::_Introspection::name("SttbfFfnEntry");
@@ -14952,7 +14931,7 @@ public:
     static QVariant (* const value[6])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[6])(const Introspectable*, int position);
     static QVariant get_cbSize(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtMetafileHeader*>(i)->cbSize);
+        return static_cast<const OfficeArtMetafileHeader*>(i)->cbSize;
     }
     static const Introspectable* get_rcBounds(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtMetafileHeader*>(i)->rcBounds);
@@ -14961,13 +14940,13 @@ public:
         return &(static_cast<const OfficeArtMetafileHeader*>(i)->ptSize);
     }
     static QVariant get_cbsave(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtMetafileHeader*>(i)->cbsave);
+        return static_cast<const OfficeArtMetafileHeader*>(i)->cbsave;
     }
     static QVariant get_compression(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtMetafileHeader*>(i)->compression);
+        return static_cast<const OfficeArtMetafileHeader*>(i)->compression;
     }
     static QVariant get_filter(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtMetafileHeader*>(i)->filter);
+        return static_cast<const OfficeArtMetafileHeader*>(i)->filter;
     }
 };
 const QString OfficeArtMetafileHeader::_Introspection::name("OfficeArtMetafileHeader");
@@ -15024,22 +15003,22 @@ public:
         return &(static_cast<const NormalViewSetInfoAtom*>(i)->topPortion);
     }
     static QVariant get_vertBarState(const Introspectable* i, int j) {
-        return (static_cast<const NormalViewSetInfoAtom*>(i)->vertBarState);
+        return static_cast<const NormalViewSetInfoAtom*>(i)->vertBarState;
     }
     static QVariant get_horizBarState(const Introspectable* i, int j) {
-        return (static_cast<const NormalViewSetInfoAtom*>(i)->horizBarState);
+        return static_cast<const NormalViewSetInfoAtom*>(i)->horizBarState;
     }
     static QVariant get_fPreferSingleSet(const Introspectable* i, int j) {
-        return (static_cast<const NormalViewSetInfoAtom*>(i)->fPreferSingleSet);
+        return static_cast<const NormalViewSetInfoAtom*>(i)->fPreferSingleSet;
     }
     static QVariant get_fHideThumbnails(const Introspectable* i, int j) {
-        return (static_cast<const NormalViewSetInfoAtom*>(i)->fHideThumbnails);
+        return static_cast<const NormalViewSetInfoAtom*>(i)->fHideThumbnails;
     }
     static QVariant get_fBarSnapped(const Introspectable* i, int j) {
-        return (static_cast<const NormalViewSetInfoAtom*>(i)->fBarSnapped);
+        return static_cast<const NormalViewSetInfoAtom*>(i)->fBarSnapped;
     }
     static QVariant get_reserved(const Introspectable* i, int j) {
-        return (static_cast<const NormalViewSetInfoAtom*>(i)->reserved);
+        return static_cast<const NormalViewSetInfoAtom*>(i)->reserved;
     }
 };
 const QString NormalViewSetInfoAtom::_Introspection::name("NormalViewSetInfoAtom");
@@ -15105,28 +15084,28 @@ public:
         return &(static_cast<const MasterPersistAtom*>(i)->persistIdRef);
     }
     static QVariant get_reserved1(const Introspectable* i, int j) {
-        return (static_cast<const MasterPersistAtom*>(i)->reserved1);
+        return static_cast<const MasterPersistAtom*>(i)->reserved1;
     }
     static QVariant get_fNonOutLineData(const Introspectable* i, int j) {
-        return (static_cast<const MasterPersistAtom*>(i)->fNonOutLineData);
+        return static_cast<const MasterPersistAtom*>(i)->fNonOutLineData;
     }
     static QVariant get_reserved2(const Introspectable* i, int j) {
-        return (static_cast<const MasterPersistAtom*>(i)->reserved2);
+        return static_cast<const MasterPersistAtom*>(i)->reserved2;
     }
     static QVariant get_reserved3(const Introspectable* i, int j) {
-        return (static_cast<const MasterPersistAtom*>(i)->reserved3);
+        return static_cast<const MasterPersistAtom*>(i)->reserved3;
     }
     static QVariant get_reserved4(const Introspectable* i, int j) {
-        return (static_cast<const MasterPersistAtom*>(i)->reserved4);
+        return static_cast<const MasterPersistAtom*>(i)->reserved4;
     }
     static QVariant get_reserved5(const Introspectable* i, int j) {
-        return (static_cast<const MasterPersistAtom*>(i)->reserved5);
+        return static_cast<const MasterPersistAtom*>(i)->reserved5;
     }
     static QVariant get_masterId(const Introspectable* i, int j) {
-        return (static_cast<const MasterPersistAtom*>(i)->masterId);
+        return static_cast<const MasterPersistAtom*>(i)->masterId;
     }
     static QVariant get_reserved6(const Introspectable* i, int j) {
-        return (static_cast<const MasterPersistAtom*>(i)->reserved6);
+        return static_cast<const MasterPersistAtom*>(i)->reserved6;
     }
 };
 const QString MasterPersistAtom::_Introspection::name("MasterPersistAtom");
@@ -15196,31 +15175,31 @@ public:
         return &(static_cast<const SlidePersistAtom*>(i)->persistIdRef);
     }
     static QVariant get_reserved1(const Introspectable* i, int j) {
-        return (static_cast<const SlidePersistAtom*>(i)->reserved1);
+        return static_cast<const SlidePersistAtom*>(i)->reserved1;
     }
     static QVariant get_fShouldCollapse(const Introspectable* i, int j) {
-        return (static_cast<const SlidePersistAtom*>(i)->fShouldCollapse);
+        return static_cast<const SlidePersistAtom*>(i)->fShouldCollapse;
     }
     static QVariant get_fNonOutlineData(const Introspectable* i, int j) {
-        return (static_cast<const SlidePersistAtom*>(i)->fNonOutlineData);
+        return static_cast<const SlidePersistAtom*>(i)->fNonOutlineData;
     }
     static QVariant get_reserved2(const Introspectable* i, int j) {
-        return (static_cast<const SlidePersistAtom*>(i)->reserved2);
+        return static_cast<const SlidePersistAtom*>(i)->reserved2;
     }
     static QVariant get_reserved3(const Introspectable* i, int j) {
-        return (static_cast<const SlidePersistAtom*>(i)->reserved3);
+        return static_cast<const SlidePersistAtom*>(i)->reserved3;
     }
     static QVariant get_reserved4(const Introspectable* i, int j) {
-        return (static_cast<const SlidePersistAtom*>(i)->reserved4);
+        return static_cast<const SlidePersistAtom*>(i)->reserved4;
     }
     static QVariant get_cTexts(const Introspectable* i, int j) {
-        return (static_cast<const SlidePersistAtom*>(i)->cTexts);
+        return static_cast<const SlidePersistAtom*>(i)->cTexts;
     }
     static const Introspectable* get_slideId(const Introspectable* i, int j) {
         return &(static_cast<const SlidePersistAtom*>(i)->slideId);
     }
     static QVariant get_reserved5(const Introspectable* i, int j) {
-        return (static_cast<const SlidePersistAtom*>(i)->reserved5);
+        return static_cast<const SlidePersistAtom*>(i)->reserved5;
     }
 };
 const QString SlidePersistAtom::_Introspection::name("SlidePersistAtom");
@@ -15319,88 +15298,88 @@ public:
     static QVariant (* const value[28])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[28])(const Introspectable*, int position);
     static QVariant get_fDefaultTabSize(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fDefaultTabSize);
+        return static_cast<const TextRuler*>(i)->fDefaultTabSize;
     }
     static QVariant get_fCLevels(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fCLevels);
+        return static_cast<const TextRuler*>(i)->fCLevels;
     }
     static QVariant get_fTabStops(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fTabStops);
+        return static_cast<const TextRuler*>(i)->fTabStops;
     }
     static QVariant get_fLeftMargin1(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fLeftMargin1);
+        return static_cast<const TextRuler*>(i)->fLeftMargin1;
     }
     static QVariant get_fLeftMargin2(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fLeftMargin2);
+        return static_cast<const TextRuler*>(i)->fLeftMargin2;
     }
     static QVariant get_fLeftMargin3(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fLeftMargin3);
+        return static_cast<const TextRuler*>(i)->fLeftMargin3;
     }
     static QVariant get_fLeftMargin4(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fLeftMargin4);
+        return static_cast<const TextRuler*>(i)->fLeftMargin4;
     }
     static QVariant get_fLeftMargin5(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fLeftMargin5);
+        return static_cast<const TextRuler*>(i)->fLeftMargin5;
     }
     static QVariant get_fIndent1(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fIndent1);
+        return static_cast<const TextRuler*>(i)->fIndent1;
     }
     static QVariant get_fIndent2(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fIndent2);
+        return static_cast<const TextRuler*>(i)->fIndent2;
     }
     static QVariant get_fIndent3(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fIndent3);
+        return static_cast<const TextRuler*>(i)->fIndent3;
     }
     static QVariant get_fIndent4(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fIndent4);
+        return static_cast<const TextRuler*>(i)->fIndent4;
     }
     static QVariant get_fIndent5(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->fIndent5);
+        return static_cast<const TextRuler*>(i)->fIndent5;
     }
     static QVariant get_reserved1(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->reserved1);
+        return static_cast<const TextRuler*>(i)->reserved1;
     }
     static QVariant get_reserved2(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->reserved2);
+        return static_cast<const TextRuler*>(i)->reserved2;
     }
     static QVariant get_cLevels(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->cLevels);
+        return static_cast<const TextRuler*>(i)->cLevels;
     }
     static QVariant get_defaultTabSize(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->defaultTabSize);
+        return static_cast<const TextRuler*>(i)->defaultTabSize;
     }
     static const Introspectable* get_tabs(const Introspectable* i, int j) {
         return &(static_cast<const TextRuler*>(i)->tabs);
     }
     static QVariant get_leftMargin1(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->leftMargin1);
+        return static_cast<const TextRuler*>(i)->leftMargin1;
     }
     static QVariant get_indent1(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->indent1);
+        return static_cast<const TextRuler*>(i)->indent1;
     }
     static QVariant get_leftMargin2(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->leftMargin2);
+        return static_cast<const TextRuler*>(i)->leftMargin2;
     }
     static QVariant get_indent2(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->indent2);
+        return static_cast<const TextRuler*>(i)->indent2;
     }
     static QVariant get_leftMargin3(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->leftMargin3);
+        return static_cast<const TextRuler*>(i)->leftMargin3;
     }
     static QVariant get_indent3(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->indent3);
+        return static_cast<const TextRuler*>(i)->indent3;
     }
     static QVariant get_leftMargin4(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->leftMargin4);
+        return static_cast<const TextRuler*>(i)->leftMargin4;
     }
     static QVariant get_indent4(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->indent4);
+        return static_cast<const TextRuler*>(i)->indent4;
     }
     static QVariant get_leftMargin5(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->leftMargin5);
+        return static_cast<const TextRuler*>(i)->leftMargin5;
     }
     static QVariant get_indent5(const Introspectable* i, int j) {
-        return (static_cast<const TextRuler*>(i)->indent5);
+        return static_cast<const TextRuler*>(i)->indent5;
     }
 };
 const QString TextRuler::_Introspection::name("TextRuler");
@@ -15542,49 +15521,49 @@ public:
         return &(static_cast<const TextPFException*>(i)->bulletFlags);
     }
     static QVariant get_bulletChar(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->bulletChar);
+        return static_cast<const TextPFException*>(i)->bulletChar;
     }
     static QVariant get_bulletFontRef(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->bulletFontRef);
+        return static_cast<const TextPFException*>(i)->bulletFontRef;
     }
     static QVariant get_bulletSize(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->bulletSize);
+        return static_cast<const TextPFException*>(i)->bulletSize;
     }
     static QVariant get_bulletColor(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->bulletColor);
+        return static_cast<const TextPFException*>(i)->bulletColor;
     }
     static QVariant get_textAlignment(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->textAlignment);
+        return static_cast<const TextPFException*>(i)->textAlignment;
     }
     static QVariant get_lineSpacing(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->lineSpacing);
+        return static_cast<const TextPFException*>(i)->lineSpacing;
     }
     static QVariant get_spaceBefore(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->spaceBefore);
+        return static_cast<const TextPFException*>(i)->spaceBefore;
     }
     static QVariant get_spaceAfter(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->spaceAfter);
+        return static_cast<const TextPFException*>(i)->spaceAfter;
     }
     static QVariant get_leftMargin(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->leftMargin);
+        return static_cast<const TextPFException*>(i)->leftMargin;
     }
     static QVariant get_indent(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->indent);
+        return static_cast<const TextPFException*>(i)->indent;
     }
     static QVariant get_defaultTabSize(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->defaultTabSize);
+        return static_cast<const TextPFException*>(i)->defaultTabSize;
     }
     static const Introspectable* get_tabStops(const Introspectable* i, int j) {
         return &(static_cast<const TextPFException*>(i)->tabStops);
     }
     static QVariant get_fontAlign(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->fontAlign);
+        return static_cast<const TextPFException*>(i)->fontAlign;
     }
     static QVariant get_wrapFlags(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->wrapFlags);
+        return static_cast<const TextPFException*>(i)->wrapFlags;
     }
     static QVariant get_textDirection(const Introspectable* i, int j) {
-        return (static_cast<const TextPFException*>(i)->textDirection);
+        return static_cast<const TextPFException*>(i)->textDirection;
     }
 };
 const QString TextPFException::_Introspection::name("TextPFException");
@@ -15682,25 +15661,25 @@ public:
         return &(static_cast<const TextCFException*>(i)->fontStyle);
     }
     static QVariant get_fontRef(const Introspectable* i, int j) {
-        return (static_cast<const TextCFException*>(i)->fontRef);
+        return static_cast<const TextCFException*>(i)->fontRef;
     }
     static QVariant get_oldEAFontRef(const Introspectable* i, int j) {
-        return (static_cast<const TextCFException*>(i)->oldEAFontRef);
+        return static_cast<const TextCFException*>(i)->oldEAFontRef;
     }
     static QVariant get_ansiFontRef(const Introspectable* i, int j) {
-        return (static_cast<const TextCFException*>(i)->ansiFontRef);
+        return static_cast<const TextCFException*>(i)->ansiFontRef;
     }
     static QVariant get_symbolFontRef(const Introspectable* i, int j) {
-        return (static_cast<const TextCFException*>(i)->symbolFontRef);
+        return static_cast<const TextCFException*>(i)->symbolFontRef;
     }
     static QVariant get_fontSize(const Introspectable* i, int j) {
-        return (static_cast<const TextCFException*>(i)->fontSize);
+        return static_cast<const TextCFException*>(i)->fontSize;
     }
     static QVariant get_color(const Introspectable* i, int j) {
-        return (static_cast<const TextCFException*>(i)->color);
+        return static_cast<const TextCFException*>(i)->color;
     }
     static QVariant get_position(const Introspectable* i, int j) {
-        return (static_cast<const TextCFException*>(i)->position);
+        return static_cast<const TextCFException*>(i)->position;
     }
 };
 const QString TextCFException::_Introspection::name("TextCFException");
@@ -15766,7 +15745,7 @@ public:
         return &(static_cast<const KinsokuContainer*>(i)->kinsokuAtom);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return (static_cast<const KinsokuContainer*>(i)->todo);
+        return static_cast<const KinsokuContainer*>(i)->todo;
     }
 };
 const QString KinsokuContainer::_Introspection::name("KinsokuContainer");
@@ -15855,22 +15834,22 @@ public:
         return &(static_cast<const DocumentAtom*>(i)->handoutMasterPersistIdRef);
     }
     static QVariant get_firstSlideNumber(const Introspectable* i, int j) {
-        return (static_cast<const DocumentAtom*>(i)->firstSlideNumber);
+        return static_cast<const DocumentAtom*>(i)->firstSlideNumber;
     }
     static QVariant get_slideSizeType(const Introspectable* i, int j) {
-        return (static_cast<const DocumentAtom*>(i)->slideSizeType);
+        return static_cast<const DocumentAtom*>(i)->slideSizeType;
     }
     static QVariant get_fSaveWithFonts(const Introspectable* i, int j) {
-        return (static_cast<const DocumentAtom*>(i)->fSaveWithFonts);
+        return static_cast<const DocumentAtom*>(i)->fSaveWithFonts;
     }
     static QVariant get_fOmitTitlePlace(const Introspectable* i, int j) {
-        return (static_cast<const DocumentAtom*>(i)->fOmitTitlePlace);
+        return static_cast<const DocumentAtom*>(i)->fOmitTitlePlace;
     }
     static QVariant get_fRightToLeft(const Introspectable* i, int j) {
-        return (static_cast<const DocumentAtom*>(i)->fRightToLeft);
+        return static_cast<const DocumentAtom*>(i)->fRightToLeft;
     }
     static QVariant get_fShowComments(const Introspectable* i, int j) {
-        return (static_cast<const DocumentAtom*>(i)->fShowComments);
+        return static_cast<const DocumentAtom*>(i)->fShowComments;
     }
 };
 const QString DocumentAtom::_Introspection::name("DocumentAtom");
@@ -15999,25 +15978,25 @@ public:
         return static_cast<const ExOleLinkContainer*>(i)->menuNameAtom ?1 :0;
     }
     static const Introspectable* get_menuNameAtom(const Introspectable* i, int j) {
-        return (static_cast<const ExOleLinkContainer*>(i)->menuNameAtom.data());
+        return static_cast<const ExOleLinkContainer*>(i)->menuNameAtom.data();
     }
     static int count_progIdAtom(const Introspectable* i) {
         return static_cast<const ExOleLinkContainer*>(i)->progIdAtom ?1 :0;
     }
     static const Introspectable* get_progIdAtom(const Introspectable* i, int j) {
-        return (static_cast<const ExOleLinkContainer*>(i)->progIdAtom.data());
+        return static_cast<const ExOleLinkContainer*>(i)->progIdAtom.data();
     }
     static int count_clipboardNameAtom(const Introspectable* i) {
         return static_cast<const ExOleLinkContainer*>(i)->clipboardNameAtom ?1 :0;
     }
     static const Introspectable* get_clipboardNameAtom(const Introspectable* i, int j) {
-        return (static_cast<const ExOleLinkContainer*>(i)->clipboardNameAtom.data());
+        return static_cast<const ExOleLinkContainer*>(i)->clipboardNameAtom.data();
     }
     static int count_metafile(const Introspectable* i) {
         return static_cast<const ExOleLinkContainer*>(i)->metafile ?1 :0;
     }
     static const Introspectable* get_metafile(const Introspectable* i, int j) {
-        return (static_cast<const ExOleLinkContainer*>(i)->metafile.data());
+        return static_cast<const ExOleLinkContainer*>(i)->metafile.data();
     }
 };
 const QString ExOleLinkContainer::_Introspection::name("ExOleLinkContainer");
@@ -16081,25 +16060,25 @@ public:
         return static_cast<const ExOleEmbedContainer*>(i)->menuNameAtom ?1 :0;
     }
     static const Introspectable* get_menuNameAtom(const Introspectable* i, int j) {
-        return (static_cast<const ExOleEmbedContainer*>(i)->menuNameAtom.data());
+        return static_cast<const ExOleEmbedContainer*>(i)->menuNameAtom.data();
     }
     static int count_progIdAtom(const Introspectable* i) {
         return static_cast<const ExOleEmbedContainer*>(i)->progIdAtom ?1 :0;
     }
     static const Introspectable* get_progIdAtom(const Introspectable* i, int j) {
-        return (static_cast<const ExOleEmbedContainer*>(i)->progIdAtom.data());
+        return static_cast<const ExOleEmbedContainer*>(i)->progIdAtom.data();
     }
     static int count_clipboardNameAtom(const Introspectable* i) {
         return static_cast<const ExOleEmbedContainer*>(i)->clipboardNameAtom ?1 :0;
     }
     static const Introspectable* get_clipboardNameAtom(const Introspectable* i, int j) {
-        return (static_cast<const ExOleEmbedContainer*>(i)->clipboardNameAtom.data());
+        return static_cast<const ExOleEmbedContainer*>(i)->clipboardNameAtom.data();
     }
     static int count_metafile(const Introspectable* i) {
         return static_cast<const ExOleEmbedContainer*>(i)->metafile ?1 :0;
     }
     static const Introspectable* get_metafile(const Introspectable* i, int j) {
-        return (static_cast<const ExOleEmbedContainer*>(i)->metafile.data());
+        return static_cast<const ExOleEmbedContainer*>(i)->metafile.data();
     }
 };
 const QString ExOleEmbedContainer::_Introspection::name("ExOleEmbedContainer");
@@ -16244,49 +16223,49 @@ public:
         return static_cast<const OfficeArtClientData*>(i)->shapeFlagsAtom ?1 :0;
     }
     static const Introspectable* get_shapeFlagsAtom(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtClientData*>(i)->shapeFlagsAtom.data());
+        return static_cast<const OfficeArtClientData*>(i)->shapeFlagsAtom.data();
     }
     static int count_shapeFlags10Atom(const Introspectable* i) {
         return static_cast<const OfficeArtClientData*>(i)->shapeFlags10Atom ?1 :0;
     }
     static const Introspectable* get_shapeFlags10Atom(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtClientData*>(i)->shapeFlags10Atom.data());
+        return static_cast<const OfficeArtClientData*>(i)->shapeFlags10Atom.data();
     }
     static int count_exObjRefAtom(const Introspectable* i) {
         return static_cast<const OfficeArtClientData*>(i)->exObjRefAtom ?1 :0;
     }
     static const Introspectable* get_exObjRefAtom(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtClientData*>(i)->exObjRefAtom.data());
+        return static_cast<const OfficeArtClientData*>(i)->exObjRefAtom.data();
     }
     static int count_animationInfo(const Introspectable* i) {
         return static_cast<const OfficeArtClientData*>(i)->animationInfo ?1 :0;
     }
     static const Introspectable* get_animationInfo(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtClientData*>(i)->animationInfo.data());
+        return static_cast<const OfficeArtClientData*>(i)->animationInfo.data();
     }
     static int count_mouseClickInteractiveInfo(const Introspectable* i) {
         return static_cast<const OfficeArtClientData*>(i)->mouseClickInteractiveInfo ?1 :0;
     }
     static const Introspectable* get_mouseClickInteractiveInfo(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtClientData*>(i)->mouseClickInteractiveInfo.data());
+        return static_cast<const OfficeArtClientData*>(i)->mouseClickInteractiveInfo.data();
     }
     static int count_mouseOverInteractiveInfo(const Introspectable* i) {
         return static_cast<const OfficeArtClientData*>(i)->mouseOverInteractiveInfo ?1 :0;
     }
     static const Introspectable* get_mouseOverInteractiveInfo(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtClientData*>(i)->mouseOverInteractiveInfo.data());
+        return static_cast<const OfficeArtClientData*>(i)->mouseOverInteractiveInfo.data();
     }
     static int count_placeholderAtom(const Introspectable* i) {
         return static_cast<const OfficeArtClientData*>(i)->placeholderAtom ?1 :0;
     }
     static const Introspectable* get_placeholderAtom(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtClientData*>(i)->placeholderAtom.data());
+        return static_cast<const OfficeArtClientData*>(i)->placeholderAtom.data();
     }
     static int count_recolorInfoAtom(const Introspectable* i) {
         return static_cast<const OfficeArtClientData*>(i)->recolorInfoAtom ?1 :0;
     }
     static const Introspectable* get_recolorInfoAtom(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtClientData*>(i)->recolorInfoAtom.data());
+        return static_cast<const OfficeArtClientData*>(i)->recolorInfoAtom.data();
     }
     static int count_rgShapeClientRoundtripData(const Introspectable* i) {
         return static_cast<const OfficeArtClientData*>(i)->rgShapeClientRoundtripData.size();
@@ -16298,7 +16277,7 @@ public:
         return static_cast<const OfficeArtClientData*>(i)->unknown ?1 :0;
     }
     static const Introspectable* get_unknown(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtClientData*>(i)->unknown.data());
+        return static_cast<const OfficeArtClientData*>(i)->unknown.data();
     }
 };
 const QString OfficeArtClientData::_Introspection::name("OfficeArtClientData");
@@ -16415,7 +16394,7 @@ public:
         return &(static_cast<const OfficeArtFOPTE*>(i)->opid);
     }
     static QVariant get_op(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFOPTE*>(i)->op);
+        return static_cast<const OfficeArtFOPTE*>(i)->op;
     }
 };
 const QString OfficeArtFOPTE::_Introspection::name("OfficeArtFOPTE");
@@ -16450,19 +16429,19 @@ public:
         return &(static_cast<const Fib*>(i)->base);
     }
     static QVariant get_csw(const Introspectable* i, int j) {
-        return (static_cast<const Fib*>(i)->csw);
+        return static_cast<const Fib*>(i)->csw;
     }
     static const Introspectable* get_fibRgW(const Introspectable* i, int j) {
         return &(static_cast<const Fib*>(i)->fibRgW);
     }
     static QVariant get_cslw(const Introspectable* i, int j) {
-        return (static_cast<const Fib*>(i)->cslw);
+        return static_cast<const Fib*>(i)->cslw;
     }
     static const Introspectable* get_fibRgLw(const Introspectable* i, int j) {
         return &(static_cast<const Fib*>(i)->fibRgLw);
     }
     static QVariant get_cbRgFcLcb(const Introspectable* i, int j) {
-        return (static_cast<const Fib*>(i)->cbRgFcLcb);
+        return static_cast<const Fib*>(i)->cbRgFcLcb;
     }
     static const Introspectable* get_fibRgFcLcbBlob(const Introspectable* i, int j) {
         return &(static_cast<const Fib*>(i)->fibRgFcLcbBlob);
@@ -16474,13 +16453,13 @@ public:
         return &(static_cast<const Fib*>(i)->fibRgFcLcbBlob3);
     }
     static QVariant get_cswNew(const Introspectable* i, int j) {
-        return (static_cast<const Fib*>(i)->cswNew);
+        return static_cast<const Fib*>(i)->cswNew;
     }
     static QVariant get_fibRgCswNew(const Introspectable* i, int j) {
-        return (static_cast<const Fib*>(i)->fibRgCswNew);
+        return static_cast<const Fib*>(i)->fibRgCswNew;
     }
     static QVariant get_trail(const Introspectable* i, int j) {
-        return (static_cast<const Fib*>(i)->trail);
+        return static_cast<const Fib*>(i)->trail;
     }
 };
 const QString Fib::_Introspection::name("Fib");
@@ -16628,7 +16607,7 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static QVariant get_clxt(const Introspectable* i, int j) {
-        return (static_cast<const Pcr*>(i)->clxt);
+        return static_cast<const Pcr*>(i)->clxt;
     }
     static const Introspectable* get_prcData(const Introspectable* i, int j) {
         return &(static_cast<const Pcr*>(i)->prcData);
@@ -16697,16 +16676,16 @@ public:
         return &(static_cast<const OfficeArtBlipEMF*>(i)->rh);
     }
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipEMF*>(i)->rgbUid1);
+        return static_cast<const OfficeArtBlipEMF*>(i)->rgbUid1;
     }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipEMF*>(i)->rgbUid2);
+        return static_cast<const OfficeArtBlipEMF*>(i)->rgbUid2;
     }
     static const Introspectable* get_metafileHeader(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtBlipEMF*>(i)->metafileHeader);
     }
     static QVariant get_BLIPFileData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipEMF*>(i)->BLIPFileData);
+        return static_cast<const OfficeArtBlipEMF*>(i)->BLIPFileData;
     }
 };
 const QString OfficeArtBlipEMF::_Introspection::name("OfficeArtBlipEMF");
@@ -16753,16 +16732,16 @@ public:
         return &(static_cast<const OfficeArtBlipWMF*>(i)->rh);
     }
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipWMF*>(i)->rgbUid1);
+        return static_cast<const OfficeArtBlipWMF*>(i)->rgbUid1;
     }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipWMF*>(i)->rgbUid2);
+        return static_cast<const OfficeArtBlipWMF*>(i)->rgbUid2;
     }
     static const Introspectable* get_metafileHeader(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtBlipWMF*>(i)->metafileHeader);
     }
     static QVariant get_BLIPFileData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipWMF*>(i)->BLIPFileData);
+        return static_cast<const OfficeArtBlipWMF*>(i)->BLIPFileData;
     }
 };
 const QString OfficeArtBlipWMF::_Introspection::name("OfficeArtBlipWMF");
@@ -16809,16 +16788,16 @@ public:
         return &(static_cast<const OfficeArtBlipPICT*>(i)->rh);
     }
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipPICT*>(i)->rgbUid1);
+        return static_cast<const OfficeArtBlipPICT*>(i)->rgbUid1;
     }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipPICT*>(i)->rgbUid2);
+        return static_cast<const OfficeArtBlipPICT*>(i)->rgbUid2;
     }
     static const Introspectable* get_metafileHeader(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtBlipPICT*>(i)->metafileHeader);
     }
     static QVariant get_BLIPFileData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtBlipPICT*>(i)->BLIPFileData);
+        return static_cast<const OfficeArtBlipPICT*>(i)->BLIPFileData;
     }
 };
 const QString OfficeArtBlipPICT::_Introspection::name("OfficeArtBlipPICT");
@@ -17050,7 +17029,7 @@ public:
         return &(static_cast<const TextPFExceptionAtom*>(i)->rh);
     }
     static QVariant get_reserved(const Introspectable* i, int j) {
-        return (static_cast<const TextPFExceptionAtom*>(i)->reserved);
+        return static_cast<const TextPFExceptionAtom*>(i)->reserved;
     }
     static const Introspectable* get_pf(const Introspectable* i, int j) {
         return &(static_cast<const TextPFExceptionAtom*>(i)->pf);
@@ -17092,34 +17071,34 @@ public:
         return &(static_cast<const TextMasterStyleAtom*>(i)->rh);
     }
     static QVariant get_cLevels(const Introspectable* i, int j) {
-        return (static_cast<const TextMasterStyleAtom*>(i)->cLevels);
+        return static_cast<const TextMasterStyleAtom*>(i)->cLevels;
     }
     static QVariant get_lstLvl1level(const Introspectable* i, int j) {
-        return (static_cast<const TextMasterStyleAtom*>(i)->lstLvl1level);
+        return static_cast<const TextMasterStyleAtom*>(i)->lstLvl1level;
     }
     static const Introspectable* get_lstLvl1(const Introspectable* i, int j) {
         return &(static_cast<const TextMasterStyleAtom*>(i)->lstLvl1);
     }
     static QVariant get_lstLvl2level(const Introspectable* i, int j) {
-        return (static_cast<const TextMasterStyleAtom*>(i)->lstLvl2level);
+        return static_cast<const TextMasterStyleAtom*>(i)->lstLvl2level;
     }
     static const Introspectable* get_lstLvl2(const Introspectable* i, int j) {
         return &(static_cast<const TextMasterStyleAtom*>(i)->lstLvl2);
     }
     static QVariant get_lstLvl3level(const Introspectable* i, int j) {
-        return (static_cast<const TextMasterStyleAtom*>(i)->lstLvl3level);
+        return static_cast<const TextMasterStyleAtom*>(i)->lstLvl3level;
     }
     static const Introspectable* get_lstLvl3(const Introspectable* i, int j) {
         return &(static_cast<const TextMasterStyleAtom*>(i)->lstLvl3);
     }
     static QVariant get_lstLvl4level(const Introspectable* i, int j) {
-        return (static_cast<const TextMasterStyleAtom*>(i)->lstLvl4level);
+        return static_cast<const TextMasterStyleAtom*>(i)->lstLvl4level;
     }
     static const Introspectable* get_lstLvl4(const Introspectable* i, int j) {
         return &(static_cast<const TextMasterStyleAtom*>(i)->lstLvl4);
     }
     static QVariant get_lstLvl5level(const Introspectable* i, int j) {
-        return (static_cast<const TextMasterStyleAtom*>(i)->lstLvl5level);
+        return static_cast<const TextMasterStyleAtom*>(i)->lstLvl5level;
     }
     static const Introspectable* get_lstLvl5(const Introspectable* i, int j) {
         return &(static_cast<const TextMasterStyleAtom*>(i)->lstLvl5);
@@ -17243,7 +17222,7 @@ public:
         return static_cast<const OfficeArtDggContainer*>(i)->blipStore ?1 :0;
     }
     static const Introspectable* get_blipStore(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtDggContainer*>(i)->blipStore.data());
+        return static_cast<const OfficeArtDggContainer*>(i)->blipStore.data();
     }
     static const Introspectable* get_drawingPrimaryOptions(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtDggContainer*>(i)->drawingPrimaryOptions);
@@ -17252,13 +17231,13 @@ public:
         return static_cast<const OfficeArtDggContainer*>(i)->drawingTertiaryOptions ?1 :0;
     }
     static const Introspectable* get_drawingTertiaryOptions(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtDggContainer*>(i)->drawingTertiaryOptions.data());
+        return static_cast<const OfficeArtDggContainer*>(i)->drawingTertiaryOptions.data();
     }
     static int count_colorMRU(const Introspectable* i) {
         return static_cast<const OfficeArtDggContainer*>(i)->colorMRU ?1 :0;
     }
     static const Introspectable* get_colorMRU(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtDggContainer*>(i)->colorMRU.data());
+        return static_cast<const OfficeArtDggContainer*>(i)->colorMRU.data();
     }
     static const Introspectable* get_splitColors(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtDggContainer*>(i)->splitColors);
@@ -17267,7 +17246,7 @@ public:
         return static_cast<const OfficeArtDggContainer*>(i)->unknown ?1 :0;
     }
     static const Introspectable* get_unknown(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtDggContainer*>(i)->unknown.data());
+        return static_cast<const OfficeArtDggContainer*>(i)->unknown.data();
     }
 };
 const QString OfficeArtDggContainer::_Introspection::name("OfficeArtDggContainer");
@@ -17329,7 +17308,7 @@ public:
         return static_cast<const OfficeArtSpContainer*>(i)->shapeGroup ?1 :0;
     }
     static const Introspectable* get_shapeGroup(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->shapeGroup.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->shapeGroup.data();
     }
     static const Introspectable* get_shapeProp(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtSpContainer*>(i)->shapeProp);
@@ -17338,61 +17317,61 @@ public:
         return static_cast<const OfficeArtSpContainer*>(i)->deletedshape ?1 :0;
     }
     static const Introspectable* get_deletedshape(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->deletedshape.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->deletedshape.data();
     }
     static int count_shapePrimaryOptions(const Introspectable* i) {
         return static_cast<const OfficeArtSpContainer*>(i)->shapePrimaryOptions ?1 :0;
     }
     static const Introspectable* get_shapePrimaryOptions(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->shapePrimaryOptions.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->shapePrimaryOptions.data();
     }
     static int count_shapeSecondaryOptions1(const Introspectable* i) {
         return static_cast<const OfficeArtSpContainer*>(i)->shapeSecondaryOptions1 ?1 :0;
     }
     static const Introspectable* get_shapeSecondaryOptions1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->shapeSecondaryOptions1.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->shapeSecondaryOptions1.data();
     }
     static int count_shapeTertiaryOptions1(const Introspectable* i) {
         return static_cast<const OfficeArtSpContainer*>(i)->shapeTertiaryOptions1 ?1 :0;
     }
     static const Introspectable* get_shapeTertiaryOptions1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->shapeTertiaryOptions1.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->shapeTertiaryOptions1.data();
     }
     static int count_childAnchor(const Introspectable* i) {
         return static_cast<const OfficeArtSpContainer*>(i)->childAnchor ?1 :0;
     }
     static const Introspectable* get_childAnchor(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->childAnchor.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->childAnchor.data();
     }
     static int count_clientAnchor(const Introspectable* i) {
         return static_cast<const OfficeArtSpContainer*>(i)->clientAnchor ?1 :0;
     }
     static const Introspectable* get_clientAnchor(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->clientAnchor.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->clientAnchor.data();
     }
     static int count_clientData(const Introspectable* i) {
         return static_cast<const OfficeArtSpContainer*>(i)->clientData ?1 :0;
     }
     static const Introspectable* get_clientData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->clientData.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->clientData.data();
     }
     static int count_clientTextbox(const Introspectable* i) {
         return static_cast<const OfficeArtSpContainer*>(i)->clientTextbox ?1 :0;
     }
     static const Introspectable* get_clientTextbox(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->clientTextbox.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->clientTextbox.data();
     }
     static int count_shapeSecondaryOptions2(const Introspectable* i) {
         return static_cast<const OfficeArtSpContainer*>(i)->shapeSecondaryOptions2 ?1 :0;
     }
     static const Introspectable* get_shapeSecondaryOptions2(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->shapeSecondaryOptions2.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->shapeSecondaryOptions2.data();
     }
     static int count_shapeTertiaryOptions2(const Introspectable* i) {
         return static_cast<const OfficeArtSpContainer*>(i)->shapeTertiaryOptions2 ?1 :0;
     }
     static const Introspectable* get_shapeTertiaryOptions2(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtSpContainer*>(i)->shapeTertiaryOptions2.data());
+        return static_cast<const OfficeArtSpContainer*>(i)->shapeTertiaryOptions2.data();
     }
 };
 const QString OfficeArtSpContainer::_Introspection::name("OfficeArtSpContainer");
@@ -17520,7 +17499,7 @@ public:
         return &(static_cast<const Table*>(i)->sttbfFfn);
     }
     static QVariant get_dop(const Introspectable* i, int j) {
-        return (static_cast<const Table*>(i)->dop);
+        return static_cast<const Table*>(i)->dop;
     }
 };
 const QString Table::_Introspection::name("Table");
@@ -17580,19 +17559,19 @@ public:
     static QVariant (* const value[7])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[7])(const Introspectable*, int position);
     static QVariant get_fNoParaLast(const Introspectable* i, int j) {
-        return (static_cast<const Pcd*>(i)->fNoParaLast);
+        return static_cast<const Pcd*>(i)->fNoParaLast;
     }
     static QVariant get_fR1(const Introspectable* i, int j) {
-        return (static_cast<const Pcd*>(i)->fR1);
+        return static_cast<const Pcd*>(i)->fR1;
     }
     static QVariant get_fDirtly(const Introspectable* i, int j) {
-        return (static_cast<const Pcd*>(i)->fDirtly);
+        return static_cast<const Pcd*>(i)->fDirtly;
     }
     static QVariant get_fR2(const Introspectable* i, int j) {
-        return (static_cast<const Pcd*>(i)->fR2);
+        return static_cast<const Pcd*>(i)->fR2;
     }
     static QVariant get_fR3(const Introspectable* i, int j) {
-        return (static_cast<const Pcd*>(i)->fR3);
+        return static_cast<const Pcd*>(i)->fR3;
     }
     static const Introspectable* get_fc(const Introspectable* i, int j) {
         return &(static_cast<const Pcd*>(i)->fc);
@@ -17653,40 +17632,40 @@ public:
         return &(static_cast<const OfficeArtFBSE*>(i)->rh);
     }
     static QVariant get_btWin32(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->btWin32);
+        return static_cast<const OfficeArtFBSE*>(i)->btWin32;
     }
     static QVariant get_btMacOS(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->btMacOS);
+        return static_cast<const OfficeArtFBSE*>(i)->btMacOS;
     }
     static QVariant get_rgbUid(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->rgbUid);
+        return static_cast<const OfficeArtFBSE*>(i)->rgbUid;
     }
     static QVariant get_tag(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->tag);
+        return static_cast<const OfficeArtFBSE*>(i)->tag;
     }
     static QVariant get_size(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->size);
+        return static_cast<const OfficeArtFBSE*>(i)->size;
     }
     static QVariant get_cRef(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->cRef);
+        return static_cast<const OfficeArtFBSE*>(i)->cRef;
     }
     static QVariant get_foDelay(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->foDelay);
+        return static_cast<const OfficeArtFBSE*>(i)->foDelay;
     }
     static QVariant get_unused1(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->unused1);
+        return static_cast<const OfficeArtFBSE*>(i)->unused1;
     }
     static QVariant get_cbName(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->cbName);
+        return static_cast<const OfficeArtFBSE*>(i)->cbName;
     }
     static QVariant get_unused2(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->unused2);
+        return static_cast<const OfficeArtFBSE*>(i)->unused2;
     }
     static QVariant get_unused3(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->unused3);
+        return static_cast<const OfficeArtFBSE*>(i)->unused3;
     }
     static QVariant get_nameData(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtFBSE*>(i)->nameData);
+        return static_cast<const OfficeArtFBSE*>(i)->nameData;
     }
     static const Introspectable* get_embeddedBlip(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtFBSE*>(i)->embeddedBlip);
@@ -17806,31 +17785,31 @@ public:
         return static_cast<const DocumentTextInfoContainer*>(i)->kinsoku ?1 :0;
     }
     static const Introspectable* get_kinsoku(const Introspectable* i, int j) {
-        return (static_cast<const DocumentTextInfoContainer*>(i)->kinsoku.data());
+        return static_cast<const DocumentTextInfoContainer*>(i)->kinsoku.data();
     }
     static int count_fontCollection(const Introspectable* i) {
         return static_cast<const DocumentTextInfoContainer*>(i)->fontCollection ?1 :0;
     }
     static const Introspectable* get_fontCollection(const Introspectable* i, int j) {
-        return (static_cast<const DocumentTextInfoContainer*>(i)->fontCollection.data());
+        return static_cast<const DocumentTextInfoContainer*>(i)->fontCollection.data();
     }
     static int count_textCFDefaultsAtom(const Introspectable* i) {
         return static_cast<const DocumentTextInfoContainer*>(i)->textCFDefaultsAtom ?1 :0;
     }
     static const Introspectable* get_textCFDefaultsAtom(const Introspectable* i, int j) {
-        return (static_cast<const DocumentTextInfoContainer*>(i)->textCFDefaultsAtom.data());
+        return static_cast<const DocumentTextInfoContainer*>(i)->textCFDefaultsAtom.data();
     }
     static int count_textPFDefaultsAtom(const Introspectable* i) {
         return static_cast<const DocumentTextInfoContainer*>(i)->textPFDefaultsAtom ?1 :0;
     }
     static const Introspectable* get_textPFDefaultsAtom(const Introspectable* i, int j) {
-        return (static_cast<const DocumentTextInfoContainer*>(i)->textPFDefaultsAtom.data());
+        return static_cast<const DocumentTextInfoContainer*>(i)->textPFDefaultsAtom.data();
     }
     static int count_defaultRulerAtom(const Introspectable* i) {
         return static_cast<const DocumentTextInfoContainer*>(i)->defaultRulerAtom ?1 :0;
     }
     static const Introspectable* get_defaultRulerAtom(const Introspectable* i, int j) {
-        return (static_cast<const DocumentTextInfoContainer*>(i)->defaultRulerAtom.data());
+        return static_cast<const DocumentTextInfoContainer*>(i)->defaultRulerAtom.data();
     }
     static const Introspectable* get_textSIDefaultsAtom(const Introspectable* i, int j) {
         return &(static_cast<const DocumentTextInfoContainer*>(i)->textSIDefaultsAtom);
@@ -17936,7 +17915,7 @@ public:
         return static_cast<const OfficeArtDgContainer*>(i)->regroupItems ?1 :0;
     }
     static const Introspectable* get_regroupItems(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtDgContainer*>(i)->regroupItems.data());
+        return static_cast<const OfficeArtDgContainer*>(i)->regroupItems.data();
     }
     static const Introspectable* get_groupShape(const Introspectable* i, int j) {
         return &(static_cast<const OfficeArtDgContainer*>(i)->groupShape);
@@ -17945,7 +17924,7 @@ public:
         return static_cast<const OfficeArtDgContainer*>(i)->shape ?1 :0;
     }
     static const Introspectable* get_shape(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtDgContainer*>(i)->shape.data());
+        return static_cast<const OfficeArtDgContainer*>(i)->shape.data();
     }
     static int count_deletedShapes(const Introspectable* i) {
         return static_cast<const OfficeArtDgContainer*>(i)->deletedShapes.size();
@@ -17957,7 +17936,7 @@ public:
         return static_cast<const OfficeArtDgContainer*>(i)->solvers ?1 :0;
     }
     static const Introspectable* get_solvers(const Introspectable* i, int j) {
-        return (static_cast<const OfficeArtDgContainer*>(i)->solvers.data());
+        return static_cast<const OfficeArtDgContainer*>(i)->solvers.data();
     }
 };
 const QString OfficeArtDgContainer::_Introspection::name("OfficeArtDgContainer");
@@ -18049,7 +18028,7 @@ public:
         return static_cast<const DocumentContainer*>(i)->exObjList ?1 :0;
     }
     static const Introspectable* get_exObjList(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->exObjList.data());
+        return static_cast<const DocumentContainer*>(i)->exObjList.data();
     }
     static const Introspectable* get_documentTextInfo(const Introspectable* i, int j) {
         return &(static_cast<const DocumentContainer*>(i)->documentTextInfo);
@@ -18058,7 +18037,7 @@ public:
         return static_cast<const DocumentContainer*>(i)->soundCollection ?1 :0;
     }
     static const Introspectable* get_soundCollection(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->soundCollection.data());
+        return static_cast<const DocumentContainer*>(i)->soundCollection.data();
     }
     static const Introspectable* get_drawingGroup(const Introspectable* i, int j) {
         return &(static_cast<const DocumentContainer*>(i)->drawingGroup);
@@ -18070,79 +18049,79 @@ public:
         return static_cast<const DocumentContainer*>(i)->docInfoList ?1 :0;
     }
     static const Introspectable* get_docInfoList(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->docInfoList.data());
+        return static_cast<const DocumentContainer*>(i)->docInfoList.data();
     }
     static int count_slideHF(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->slideHF ?1 :0;
     }
     static const Introspectable* get_slideHF(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->slideHF.data());
+        return static_cast<const DocumentContainer*>(i)->slideHF.data();
     }
     static int count_notesHF(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->notesHF ?1 :0;
     }
     static const Introspectable* get_notesHF(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->notesHF.data());
+        return static_cast<const DocumentContainer*>(i)->notesHF.data();
     }
     static int count_slideList(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->slideList ?1 :0;
     }
     static const Introspectable* get_slideList(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->slideList.data());
+        return static_cast<const DocumentContainer*>(i)->slideList.data();
     }
     static int count_slideHF2(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->slideHF2 ?1 :0;
     }
     static const Introspectable* get_slideHF2(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->slideHF2.data());
+        return static_cast<const DocumentContainer*>(i)->slideHF2.data();
     }
     static int count_notesList(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->notesList ?1 :0;
     }
     static const Introspectable* get_notesList(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->notesList.data());
+        return static_cast<const DocumentContainer*>(i)->notesList.data();
     }
     static int count_slideShowDocInfoAtom(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->slideShowDocInfoAtom ?1 :0;
     }
     static const Introspectable* get_slideShowDocInfoAtom(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->slideShowDocInfoAtom.data());
+        return static_cast<const DocumentContainer*>(i)->slideShowDocInfoAtom.data();
     }
     static int count_namedShows(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->namedShows ?1 :0;
     }
     static const Introspectable* get_namedShows(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->namedShows.data());
+        return static_cast<const DocumentContainer*>(i)->namedShows.data();
     }
     static int count_summary(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->summary ?1 :0;
     }
     static const Introspectable* get_summary(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->summary.data());
+        return static_cast<const DocumentContainer*>(i)->summary.data();
     }
     static int count_docRoutingSlipAtom(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->docRoutingSlipAtom ?1 :0;
     }
     static const Introspectable* get_docRoutingSlipAtom(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->docRoutingSlipAtom.data());
+        return static_cast<const DocumentContainer*>(i)->docRoutingSlipAtom.data();
     }
     static int count_printOptionsAtom(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->printOptionsAtom ?1 :0;
     }
     static const Introspectable* get_printOptionsAtom(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->printOptionsAtom.data());
+        return static_cast<const DocumentContainer*>(i)->printOptionsAtom.data();
     }
     static int count_rtCustomTableStylesAtom1(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->rtCustomTableStylesAtom1 ?1 :0;
     }
     static const Introspectable* get_rtCustomTableStylesAtom1(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->rtCustomTableStylesAtom1.data());
+        return static_cast<const DocumentContainer*>(i)->rtCustomTableStylesAtom1.data();
     }
     static int count_unknown1(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->unknown1 ?1 :0;
     }
     static const Introspectable* get_unknown1(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->unknown1.data());
+        return static_cast<const DocumentContainer*>(i)->unknown1.data();
     }
     static const Introspectable* get_endDocumentAtom(const Introspectable* i, int j) {
         return &(static_cast<const DocumentContainer*>(i)->endDocumentAtom);
@@ -18151,31 +18130,31 @@ public:
         return static_cast<const DocumentContainer*>(i)->unknown2 ?1 :0;
     }
     static const Introspectable* get_unknown2(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->unknown2.data());
+        return static_cast<const DocumentContainer*>(i)->unknown2.data();
     }
     static int count_unknown3(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->unknown3 ?1 :0;
     }
     static const Introspectable* get_unknown3(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->unknown3.data());
+        return static_cast<const DocumentContainer*>(i)->unknown3.data();
     }
     static int count_unknown4(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->unknown4 ?1 :0;
     }
     static const Introspectable* get_unknown4(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->unknown4.data());
+        return static_cast<const DocumentContainer*>(i)->unknown4.data();
     }
     static int count_unknown5(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->unknown5 ?1 :0;
     }
     static const Introspectable* get_unknown5(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->unknown5.data());
+        return static_cast<const DocumentContainer*>(i)->unknown5.data();
     }
     static int count_rtCustomTableStylesAtom2(const Introspectable* i) {
         return static_cast<const DocumentContainer*>(i)->rtCustomTableStylesAtom2 ?1 :0;
     }
     static const Introspectable* get_rtCustomTableStylesAtom2(const Introspectable* i, int j) {
-        return (static_cast<const DocumentContainer*>(i)->rtCustomTableStylesAtom2.data());
+        return static_cast<const DocumentContainer*>(i)->rtCustomTableStylesAtom2.data();
     }
 };
 const QString DocumentContainer::_Introspection::name("DocumentContainer");
@@ -18347,7 +18326,7 @@ public:
         return static_cast<const MainMasterContainer*>(i)->unknown ?1 :0;
     }
     static const Introspectable* get_unknown(const Introspectable* i, int j) {
-        return (static_cast<const MainMasterContainer*>(i)->unknown.data());
+        return static_cast<const MainMasterContainer*>(i)->unknown.data();
     }
     static int count_rgSchemeListElementColorScheme(const Introspectable* i) {
         return static_cast<const MainMasterContainer*>(i)->rgSchemeListElementColorScheme.size();
@@ -18365,19 +18344,19 @@ public:
         return static_cast<const MainMasterContainer*>(i)->roundTripOArtTextSTyles12Atom ?1 :0;
     }
     static const Introspectable* get_roundTripOArtTextSTyles12Atom(const Introspectable* i, int j) {
-        return (static_cast<const MainMasterContainer*>(i)->roundTripOArtTextSTyles12Atom.data());
+        return static_cast<const MainMasterContainer*>(i)->roundTripOArtTextSTyles12Atom.data();
     }
     static int count_slideShowInfoAtom(const Introspectable* i) {
         return static_cast<const MainMasterContainer*>(i)->slideShowInfoAtom ?1 :0;
     }
     static const Introspectable* get_slideShowInfoAtom(const Introspectable* i, int j) {
-        return (static_cast<const MainMasterContainer*>(i)->slideShowInfoAtom.data());
+        return static_cast<const MainMasterContainer*>(i)->slideShowInfoAtom.data();
     }
     static int count_perSlideHeadersFootersContainer(const Introspectable* i) {
         return static_cast<const MainMasterContainer*>(i)->perSlideHeadersFootersContainer ?1 :0;
     }
     static const Introspectable* get_perSlideHeadersFootersContainer(const Introspectable* i, int j) {
-        return (static_cast<const MainMasterContainer*>(i)->perSlideHeadersFootersContainer.data());
+        return static_cast<const MainMasterContainer*>(i)->perSlideHeadersFootersContainer.data();
     }
     static const Introspectable* get_drawing(const Introspectable* i, int j) {
         return &(static_cast<const MainMasterContainer*>(i)->drawing);
@@ -18389,13 +18368,13 @@ public:
         return static_cast<const MainMasterContainer*>(i)->slideNameAtom ?1 :0;
     }
     static const Introspectable* get_slideNameAtom(const Introspectable* i, int j) {
-        return (static_cast<const MainMasterContainer*>(i)->slideNameAtom.data());
+        return static_cast<const MainMasterContainer*>(i)->slideNameAtom.data();
     }
     static int count_slideProgTagsContainer(const Introspectable* i) {
         return static_cast<const MainMasterContainer*>(i)->slideProgTagsContainer ?1 :0;
     }
     static const Introspectable* get_slideProgTagsContainer(const Introspectable* i, int j) {
-        return (static_cast<const MainMasterContainer*>(i)->slideProgTagsContainer.data());
+        return static_cast<const MainMasterContainer*>(i)->slideProgTagsContainer.data();
     }
     static int count_rgRoundTripMainMaster(const Introspectable* i) {
         return static_cast<const MainMasterContainer*>(i)->rgRoundTripMainMaster.size();
@@ -18407,19 +18386,19 @@ public:
         return static_cast<const MainMasterContainer*>(i)->unknown2 ?1 :0;
     }
     static const Introspectable* get_unknown2(const Introspectable* i, int j) {
-        return (static_cast<const MainMasterContainer*>(i)->unknown2.data());
+        return static_cast<const MainMasterContainer*>(i)->unknown2.data();
     }
     static int count_templateNameAtom(const Introspectable* i) {
         return static_cast<const MainMasterContainer*>(i)->templateNameAtom ?1 :0;
     }
     static const Introspectable* get_templateNameAtom(const Introspectable* i, int j) {
-        return (static_cast<const MainMasterContainer*>(i)->templateNameAtom.data());
+        return static_cast<const MainMasterContainer*>(i)->templateNameAtom.data();
     }
     static int count_unknown3(const Introspectable* i) {
         return static_cast<const MainMasterContainer*>(i)->unknown3 ?1 :0;
     }
     static const Introspectable* get_unknown3(const Introspectable* i, int j) {
-        return (static_cast<const MainMasterContainer*>(i)->unknown3.data());
+        return static_cast<const MainMasterContainer*>(i)->unknown3.data();
     }
 };
 const QString MainMasterContainer::_Introspection::name("MainMasterContainer");
@@ -18516,19 +18495,19 @@ public:
         return static_cast<const SlideContainer*>(i)->slideShowSlideInfoAtom ?1 :0;
     }
     static const Introspectable* get_slideShowSlideInfoAtom(const Introspectable* i, int j) {
-        return (static_cast<const SlideContainer*>(i)->slideShowSlideInfoAtom.data());
+        return static_cast<const SlideContainer*>(i)->slideShowSlideInfoAtom.data();
     }
     static int count_perSlideHFContainer(const Introspectable* i) {
         return static_cast<const SlideContainer*>(i)->perSlideHFContainer ?1 :0;
     }
     static const Introspectable* get_perSlideHFContainer(const Introspectable* i, int j) {
-        return (static_cast<const SlideContainer*>(i)->perSlideHFContainer.data());
+        return static_cast<const SlideContainer*>(i)->perSlideHFContainer.data();
     }
     static int count_rtSlideSyncInfo12(const Introspectable* i) {
         return static_cast<const SlideContainer*>(i)->rtSlideSyncInfo12 ?1 :0;
     }
     static const Introspectable* get_rtSlideSyncInfo12(const Introspectable* i, int j) {
-        return (static_cast<const SlideContainer*>(i)->rtSlideSyncInfo12.data());
+        return static_cast<const SlideContainer*>(i)->rtSlideSyncInfo12.data();
     }
     static const Introspectable* get_drawing(const Introspectable* i, int j) {
         return &(static_cast<const SlideContainer*>(i)->drawing);
@@ -18540,13 +18519,13 @@ public:
         return static_cast<const SlideContainer*>(i)->slideNameAtom ?1 :0;
     }
     static const Introspectable* get_slideNameAtom(const Introspectable* i, int j) {
-        return (static_cast<const SlideContainer*>(i)->slideNameAtom.data());
+        return static_cast<const SlideContainer*>(i)->slideNameAtom.data();
     }
     static int count_slideProgTagsContainer(const Introspectable* i) {
         return static_cast<const SlideContainer*>(i)->slideProgTagsContainer ?1 :0;
     }
     static const Introspectable* get_slideProgTagsContainer(const Introspectable* i, int j) {
-        return (static_cast<const SlideContainer*>(i)->slideProgTagsContainer.data());
+        return static_cast<const SlideContainer*>(i)->slideProgTagsContainer.data();
     }
     static int count_rgRoundTripSlide(const Introspectable* i) {
         return static_cast<const SlideContainer*>(i)->rgRoundTripSlide.size();
@@ -18558,7 +18537,7 @@ public:
         return static_cast<const SlideContainer*>(i)->unknown ?1 :0;
     }
     static const Introspectable* get_unknown(const Introspectable* i, int j) {
-        return (static_cast<const SlideContainer*>(i)->unknown.data());
+        return static_cast<const SlideContainer*>(i)->unknown.data();
     }
 };
 const QString SlideContainer::_Introspection::name("SlideContainer");

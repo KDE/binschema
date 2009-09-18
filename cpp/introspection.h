@@ -5,6 +5,9 @@
 
 class Introspectable;
 
+Q_DECLARE_METATYPE(QVector<quint16>);
+Q_DECLARE_METATYPE(QVector<quint32>);
+
 class Introspection {
 public:
     const QString name;
