@@ -27,6 +27,15 @@ escapeByteArray(const QByteArray& b) {
     return b.toPercentEncoding(exclude);
 }
 
+QString
+toString(const QVector<quint16>& v) {
+    QString s;
+    foreach(quint16 c, v) {
+        s.append(c);
+    }
+    return s;
+}
+
 void
 print(QXmlStreamWriter& out, const Introspectable* i) {
     const Introspection* is = i->getIntrospection();
@@ -39,10 +48,14 @@ print(QXmlStreamWriter& out, const Introspectable* i) {
                 print(out, ci);
             } else {
                 QVariant v(is->value[j](i, k));
-                if (v.type() == QVariant::ByteArray) {
-                    v = escapeByteArray(v.toByteArray());
+                if (v.canConvert<QVector<quint16> >()) {
+                    out.writeCharacters(toString(v.value<QVector<quint16> >()));
+                } else {
+                    if (v.type() == QVariant::ByteArray) {
+                        v = escapeByteArray(v.toByteArray());
+                    }
+                    out.writeCharacters(v.toString());
                 }
-                out.writeCharacters(v.toString());
             }
             out.writeEndElement();
         }
