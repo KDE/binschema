@@ -617,15 +617,6 @@
 		</int32>
 		<int32 name="bookmarkID" />
 	</struct>
-	<struct name="TextSpecialInfoAtom">
-		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0" />
-			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0xFAA" />
-		</type>
-		<!-- this one seems impossible to do -->
-		<uint8 name="todo" count="rh.recLen" />
-	</struct>
 	<struct name="InteractiveInfoInstance">
 		<choice name="anon">
 			<type type="MouseClickInteractiveInfoContainer" />
@@ -925,16 +916,61 @@
 			<limitation value="0|1|2|128" />
 		</uint32>
 	</struct>
+	<struct name="TextSpecialInfoAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0xFAA" />
+		</type>
+		<type name="rgSIRun" type="TextSIRun" />
+	</struct>
+	<struct name="TextSIRun">
+		<uint32 name="count">
+			<limitation expression="&gt;=1" />
+		</uint32>
+		<type name="si" type="TextSIException" />
+	</struct>
 	<struct name="TextSIExceptionAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0x0" />
 			<limitation name="recInstance" value="0x0" />
 			<limitation name="recType" value="0x0FA9" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
-		<!--
-			TODO implement textSIException
-		-->
+		<type name="textSIException" type="TextSIException">
+			<limitation name="fPp10ext" value="false" />
+			<limitation name="fBidi" value="false" />
+			<limitation name="smartTag" value="false" />
+		</type>
+	</struct>
+	<struct name="TextSIException">
+		<bit name="spell" />
+		<bit name="lang" />
+		<bit name="altLang" />
+		<bit name="unused1" />
+		<bit name="unused2" />
+		<bit name="fPp10ext" />
+		<bit name="fBidi" />
+		<bit name="unused3" />
+		<bit name="reserved1" />
+		<bit name="smartTag" />
+		<uint2 name="reserved2a" />
+		<uint20 name="reserved2b" />
+		<uint16 name="spellInfo" condition="spell" />
+		<uint16 name="lid" condition="lang" />
+		<uint16 name="altLid" condition="altLang" />
+		<int16 name="bidi" condition="fBidi">
+			<limitation value="0|1" />
+		</int16>
+		<uint4 name="pp10runid" condition="fPp10ext" />
+		<uint4 name="reserved3a" condition="fPp10ext" />
+		<uint16 name="reserved3b" condition="fPp10ext" />
+		<uint7 name="reserved3bc" condition="fPp10ext" />
+		<bit name="grammarError" condition="fPp10ext" />
+		<type name="smartTags" type="SmartTags" condition="smartTag" />
+	</struct>
+	<struct name="SmartTags">
+		<uint32 name="count" />
+		<uint32 name="rgSmartTagIndex" count="count" />
 	</struct>
 	<struct name="TextMasterStyleAtom">
 		<type name="rh" type="RecordHeader">
