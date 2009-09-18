@@ -164,13 +164,18 @@ public class QtParserGenerator {
 		}
 		out.print(s);// + "_s." + name + " = ");
 		if (m.count != null) {
-			out.print("_s." + m.name);
-			out.println(".resize(_c);");
+			if (!m.isComplex) {
+				out.print("_s." + m.name + ".resize(_c);");
+			}
 			if (m.type.equals("uint8")) { // special case for reading bytearrays
 				// quickly
 				out.println(s + "in.readBytes(_s." + m.name + ");");
 			} else {
 				out.println(s + "for (int _i=0; _i<_c; ++_i) {");
+				if (m.isComplex) {
+					out.println(s + "    _s." + m.name + ".append(" + m.type
+							+ "());");
+				}
 				out.println(s + "    " + parse);
 				printLimitationCheck(out, "        ", "_s." + m.name + "[_i]",
 						m);
@@ -277,19 +282,20 @@ public class QtParserGenerator {
 	}
 
 	String getMemberDeclaration(Member m) {
-		if (m.count == null) {
-			if (m.isArray) {
+		if (m.isArray) {
+			if (m.isComplex) {
 				return "QList<" + m.type + "> " + m.name;
+			} else {
+				if ("quint8".equals(getTypeName(m))) {
+					return "QByteArray " + m.name;
+				} else {
+					return "QVector<" + getTypeName(m) + "> " + m.name;
+				}
 			}
-			if (m.isOptional) {
-				return "QSharedPointer<" + getTypeName(m) + "> " + m.name;
-			}
-			return getTypeName(m) + " " + m.name;
-		} else if ("quint8".equals(getTypeName(m))) {
-			return "QByteArray " + m.name;
-		} else {
-			return "QVector<" + getTypeName(m) + "> " + m.name;
+		} else if (m.isOptional) {
+			return "QSharedPointer<" + getTypeName(m) + "> " + m.name;
 		}
+		return getTypeName(m) + " " + m.name;
 	}
 
 	String memberToString(Member m, String prefix) {
