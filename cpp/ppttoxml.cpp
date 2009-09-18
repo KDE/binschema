@@ -106,7 +106,9 @@ ppttoxml(const QString& file, QIODevice* out) {
             buffer.close();
 
             xmlout.writeStartElement(i->getIntrospection()->name);
-            print(xmlout, i);
+            if (i->getIntrospection()->name != "TODOS") {
+                print(xmlout, i);
+            }
             xmlout.writeEndElement();
 
             buffer.buffer().clear();
