@@ -242,4 +242,15 @@ public class ParserGeneratorUtils {
 		return map;
 	}
 
+	static List<Struct> getPossibleParents(MSO mso, Struct s) {
+		List<Struct> parents = new ArrayList<Struct>();
+		for (Struct p : mso.structs) {
+			for (Member m : s.members) {
+				if (m.isComplex && m.type.equals(s.name)) {
+					parents.add(p);
+				}
+			}
+		}
+		return parents;
+	}
 }
