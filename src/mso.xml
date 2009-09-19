@@ -329,17 +329,15 @@
 			array="true" />
 	</struct>
 	<struct name="DocInfoListSubContainerOrAtom">
-		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0|0xF" />
-			<limitation name="recInstance" value="0|1" />
-			<limitation name="recType"
-				value="0x1388|0x414|0x413|0x407|0x3FA|0x408|0x3FF" />
-		</type>
-		<uint8 name="todo" count="rh.recLen" />
-		<!--
-			TODO <choice name="anon"> <type type="NormalViewSetInfoContainer" />
-			<type type="SlideViewInfoInstance" /> </choice>
-		-->
+		<choice name="anon">
+			<type type="DocProgTagContainer" />
+			<type type="NormalViewSetInfoContainer" />
+			<type type="NotesTextViewInfoContainer" />
+			<type type="OutlineViewInfoContainer" />
+			<type type="SlideViewInfoInstance" />
+			<type type="SorterViewInfoContainer" />
+			<type type="VBAInfoContainer" />
+		</choice>
 	</struct>
 	<struct name="SlideViewInfoInstance">
 		<type name="rh" type="RecordHeader">
@@ -347,7 +345,95 @@
 			<limitation name="recInstance" value="0|1" />
 			<limitation name="recType" value="0x3FA" />
 		</type>
-		<!--  TODO -->
+		<type name="slideViewInfoAtom" type="SlideViewInfoAtom" />
+		<type name="zoomViewInfoAtom" type="ZoomViewInfoAtom" />
+		<type name="rgGuideAtom" type="GuideAtom" array="true" />
+	</struct>
+	<struct name="SlideViewInfoAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x3FE" />
+			<limitation name="recLen" value="3" />
+		</type>
+		<uint8 name="unused1" />
+		<uint8 name="fSnapToGrid" />
+		<uint8 name="fSnapToShape" />
+	</struct>
+	<struct name="ZoomViewInfoAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x3FD" />
+			<limitation name="recLen" value="0x34" />
+		</type>
+		<type name="curScale" type="ScalingStruct" />
+		<uint8 name="unused1" count="24" />
+		<type name="origin" type="PointStruct" />
+		<uint8 name="fUseVarScale">
+			<limitation value="0|1" />
+		</uint8>
+		<uint8 name="fDraftMode" />
+		<uint16 name="unused2" />
+	</struct>
+	<struct name="ScalingStruct">
+		<type name="x" type="RatioStruct" />
+		<type name="y" type="RatioStruct" />
+	</struct>
+	<struct name="GuideAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="7" />
+			<limitation name="recType" value="0x3FB" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<uint32 name="type">
+			<limitation value="0|1" />
+		</uint32>
+		<int32 name="pos">
+			<limitation expression="&gt;=-15840" />
+			<limitation expression="&lt;=32255" />
+		</int32>
+	</struct>
+	<struct name="DocProgTagContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0|1" />
+			<limitation name="recType" value="0x1388" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="NotesTextViewInfoContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0x413" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="OutlineViewInfoContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0x407" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="SorterViewInfoContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0x408" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="VBAInfoContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0x3FF" />
+			<limitation name="recLen" value="0x14" />
+		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="NormalViewSetInfoContainer">
@@ -536,13 +622,46 @@
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="StyleTextPropAtom">
+		<!--
+			<limitation expression="this must be preceded by an element with
+			property textChars.count" />
+		-->
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFA1" />
 		</type>
-		<!-- this one seems very hard to do -->
+		<!--
+			<type name="rgTextPFRun" type="TextPFRun" array="true" /> <type
+			name="rgTextCFRun" type="TextCFRun" array="true" />
+		-->
+		<!-- 
+			this one seems very hard to do -->
 		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="TextPFRun">
+		<uint32 name="count">
+			<limitation expression="&gt;0" />
+		</uint32>
+		<uint16 name="indentLevel">
+			<limitation expression="&lt;=4" />
+		</uint16>
+		<type name="pf" type="TextPFException">
+			<limitation name="masks.leftMargin" value="false" />
+			<limitation name="masks.indent" value="false" />
+			<limitation name="masks.defaultTabSize" value="false" />
+			<limitation name="masks.tabStops" value="false" />
+		</type>
+	</struct>
+	<struct name="TextCFRun">
+		<uint32 name="count">
+			<limitation expression="&gt;0" />
+			<!--
+				upper limit is a hack to try to circumvent harder implementation
+			-->
+			<limitation expression="&lt;1000" />
+		</uint32>
+		<type name="cf" type="TextCFException" />
 	</struct>
 	<struct name="SlideNumberMCAtom">
 		<type name="rh" type="RecordHeader">
@@ -875,10 +994,15 @@
 			<limitation name="recInstance" value="0x0" />
 			<limitation name="recType" value="0x07D5" />
 		</type>
-		<uint8 name="rgFontCollectionEntry" count="rh.recLen" />
-		<!--
-			TODO implement
-		-->
+		<type name="rgFontCollectionEntry" type="FontCollectionEntry"
+			array="true" size="rh.recLen" />
+	</struct>
+	<struct name="FontCollectionEntry">
+		<type name="fontEntityAtom" type="FontEntityAtom" />
+		<type name="fontEmbedData1" type="FontEmbedDataBlob" optional="true" />
+		<type name="fontEmbedData2" type="FontEmbedDataBlob" optional="true" />
+		<type name="fontEmbedData3" type="FontEmbedDataBlob" optional="true" />
+		<type name="fontEmbedData4" type="FontEmbedDataBlob" optional="true" />
 	</struct>
 	<struct name="FontEntityAtom">
 		<type name="rh" type="RecordHeader">
@@ -888,7 +1012,27 @@
 			<limitation name="recType" value="0xFB7" />
 			<limitation name="recLen" value="0x44" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<uint16 name="lfFaceName" count="32" />
+		<uint8 name="lfCharSet" />
+		<bit name="fEmbedSubsetted" />
+		<uint7 name="unused" />
+		<bit name="rasterFontType" />
+		<bit name="deviceFontType" />
+		<bit name="truetypeFontType" />
+		<bit name="fNoFontSubstitution" />
+		<uint4 name="reserved">
+			<limitation value="0" />
+		</uint4>
+		<uint8 name="lfPitchAndFamily" />
+	</struct>
+	<struct name="FontEmbedDataBlob">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" expression="&gt;=0" />
+			<limitation name="recInstance" expression="&lt;=3" />
+			<limitation name="recType" value="0xFB8" />
+		</type>
+		<uint8 name="data" count="rh.recLen" />
 	</struct>
 	<struct name="KinsokuContainer">
 		<type name="rh" type="RecordHeader">
@@ -897,12 +1041,10 @@
 			<limitation name="recType" value="0x0FC8" />
 		</type>
 		<type name="kinsokuAtom" type="KinsokuAtom" />
-		<!--
-			<type name="kinsokuLeadingAtom" type="KinsokuFollowingAtom"
-			condition="kinsokuAtom.level=2" /> <type name="kinsokuFollowingAtom"
-			type="KinsokuFollowingAtom" condition="kinsokuAtom.level=2" />
-		-->
-		<uint8 name="todo" count="rh.recLen-12" />
+		<type name="kinsokuLeadingAtom" type="KinsokuFollowingAtom"
+			condition="kinsokuAtom.level==2" />
+		<type name="kinsokuFollowingAtom" type="KinsokuFollowingAtom"
+			condition="kinsokuAtom.level==2" />
 	</struct>
 	<struct name="KinsokuAtom">
 		<type name="rh" type="RecordHeader">
@@ -915,6 +1057,22 @@
 			<!--  MS documentation does not allow value 128 -->
 			<limitation value="0|1|2|128" />
 		</uint32>
+	</struct>
+	<struct name="KinsokuLeadingAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFBA" />
+		</type>
+		<uint16 name='kinsokuLeading' />
+	</struct>
+	<struct name="KinsokuFollowingAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="1	" />
+			<limitation name="recType" value="0xFBA" />
+		</type>
+		<uint16 name='kinsokuFollowing' />
 	</struct>
 	<struct name="TextSpecialInfoAtom">
 		<type name="rh" type="RecordHeader">
@@ -1173,7 +1331,7 @@
 			<limitation name="recType" value="0x7F0" />
 			<limitation name="recLen" value="0x20" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="rgSchemeColor" type="ColorStruct" count="8" />
 	</struct>
 	<struct name="RoundTripOArtTextStyles12Atom">
 		<type name="rh" type="RecordHeader">
@@ -1198,7 +1356,48 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x1388" />
 		</type>
+		<type name="rgTypeRec" type="SlideProgTagsSubContainerOrAtom"
+			array="true" size="rh.recLen" />
+	</struct>
+	<struct name="SlideProgTagsSubContainerOrAtom">
+		<choice name="anon">
+			<type type="ProgStringTagContainer" />
+			<type type="SlideProgBinaryTagContainer" />
+		</choice>
+	</struct>
+	<struct name="SlideProgBinaryTagContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138A" />
+		</type>
 		<uint8 name="todo" count="rh.recLen" />
+		<!-- <type name="rec" type="SlideProgBinaryTagSubContainerOrAtom" /> -->
+	</struct>
+	<struct name="ProgStringTagContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x1389" />
+		</type>
+		<type name="tagNameAtom" type="TagNameAtom" />
+		<type name="tagValueAtom" type="TagValueAtom" />
+	</struct>
+	<struct name="TagNameAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFBA" />
+		</type>
+		<uint16 name="tagName" count="rh.recLen/2" />
+	</struct>
+	<struct name="TagValueAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0xFBA" />
+		</type>
+		<uint16 name="tagValue" count="rh.recLen/2" />
 	</struct>
 	<struct name="RoundTripMainMasterRecord">
 		<type name="rh" type="RecordHeader">
@@ -1840,8 +2039,132 @@
 			<limitation name="recType" value="0x0F00B" />
 		</type>
 		<!-- TODO: Add OfficeArtRGFOPTE somehow -->
-		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
+		<type name="fopt" type="OfficeArtFOPTEChoice" count="rh.recInstance" />
+		<!--
+			<type name="complexData" type="OfficeArtFOPTEComplexData"
+			count="rh.recInstance" />
+		-->
 		<uint8 name="complexData" count="rh.recLen-6*rh.recInstance" />
+	</struct>
+	<!-- This type is invented to make OPTE specific parsing possible -->
+	<struct name="OfficeArtFOPTEChoice">
+		<choice name="anon">
+			<type type="FillColor" />
+			<type type="FillBackColor" />
+			<type type="FillBlip" />
+			<type type="FillStyleBooleanProperties" />
+			<type type="LineColor" />
+			<type type="LineFillBlip" />
+			<type type="LineStyleBooleanProperties" />
+			<type type="OfficeArtFOPTE" />
+		</choice>
+	</struct>
+	<struct name="OfficeArtFOPTEComplexData">
+		<uint8 name="data" count="0" />
+		<!--
+			(../fopt[_position]/opid.fComplex)?../fopt[_position]/op:0" />
+		-->
+	</struct>
+	<struct name="FillColor">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0181" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillColor" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="FillBackColor">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0183" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillBackColor" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="FillBlip">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0186" />
+		</type>
+		<uint32 name="fillBlip" />
+	</struct>
+	<struct name="FillStyleBooleanProperties">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01A7" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="fNoFillHitText" />
+		<bit name="fillUseRect" />
+		<bit name="fillShape" />
+		<bit name="fHitTestFill" />
+		<bit name="fFilled" />
+		<bit name="fUseShapeAnchor" />
+		<bit name="fRecolorFillAsPicture" />
+		<uint9 name="unused1" />
+		<bit name="fUseNoFillHitTest" />
+		<bit name="fUseFillUseRext" />
+		<bit name="fUseFillShape" />
+		<bit name="fUseHitTestFill" />
+		<bit name="fUseFilled" />
+		<bit name="fUseUseShapeAnchor" />
+		<bit name="fUsefRecolorFillAsPicture" />
+		<uint9 name="unused2" />
+	</struct>
+	<struct name="LineColor">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01C0" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="lineColor" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="LineFillBlip">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01C5" />
+		</type>
+		<uint32 name="lineFillBlip" />
+	</struct>
+	<struct name="LineStyleBooleanProperties">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01FF" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="fNoLineDrawDash" />
+		<bit name="fLineFillShape" />
+		<bit name="fHitTestLine" />
+		<bit name="fLine" />
+		<bit name="fArrowHeadsOK" />
+		<bit name="fInsetPenOK" />
+		<bit name="fInsetPen" />
+		<bit name="reserved1" />
+		<bit name="reserved2" />
+		<bit name="fLineOpaqueBackColor" />
+		<uint6 name="unused1" />
+		<bit name="fUseNoLineDrawDash" />
+		<bit name="fUseLineFillShape" />
+		<bit name="fUseHitTestLine" />
+		<bit name="fUsefLine" />
+		<bit name="fUsefArrowHeadsOK" />
+		<bit name="fUseInsetPenOK" />
+		<bit name="fUseInsetPen" />
+		<bit name="unused2" />
+		<bit name="unused3" />
+		<bit name="fUsefLineOpaqueBackColor" />
+		<uint6 name="unused4" />
+	</struct>
+	<struct name="OfficeArtCOLORREF">
+		<uint8 name="red" />
+		<uint8 name="green" />
+		<uint8 name="blue" />
+		<bit name="fPaletteIndex" />
+		<bit name="fPaletteRGB" />
+		<bit name="fSystemRGB" />
+		<bit name="fSchemeIndex" />
+		<bit name="fSysIndex" />
+		<bit name="unused1" />
+		<bit name="unused2" />
+		<bit name="unused3" />
 	</struct>
 	<struct name="OfficeArtChildAnchor">
 		<type name="rh" type="OfficeArtRecordHeader">
