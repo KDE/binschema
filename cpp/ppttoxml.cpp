@@ -15,7 +15,7 @@ void serialize(const Introspectable* i, const QString& key, LEOutputStream& out)
 
 using namespace std;
 
-QVariant
+QByteArray
 escapeByteArray(const QByteArray& b) {
     // we escape all non printable byte values
     // printable is 9, 10, 13, 32-126
@@ -24,7 +24,24 @@ escapeByteArray(const QByteArray& b) {
     for (int i=3; i<97; ++i) {
         exclude[i] = i+29;
     }
-    return b.toPercentEncoding(exclude);
+
+    QByteArray result = b.toPercentEncoding(exclude);
+    if (QByteArray::fromPercentEncoding(result) != b) {
+        qDebug() << "Escaping of bytearray " << b << " is not reversible.";
+        exit(1);
+    }
+    return result;
+}
+
+QVector<quint16>
+toUInt16Vector(const QString& s) {
+    QVector<quint16> v;
+    QString z = QString::fromUtf8(QByteArray::fromPercentEncoding(s.toUtf8()));
+    v.resize(z.size());
+    for (int i=0; i<z.size(); ++i) {
+        v[i] = z.utf16()[i];
+    }
+    return v;
 }
 
 QString
@@ -33,6 +50,15 @@ toString(const QVector<quint16>& v) {
     foreach(quint16 c, v) {
         s.append(c);
     }
+    s = QString::fromUtf8(escapeByteArray(s.toUtf8()));
+    // TODO: implement and check reversibility
+/*
+    if (toUInt16Vector(s) != v) {
+        qDebug() << "Escaping of string " << v << " is not reversible.";
+        qDebug() << toUInt16Vector(s);
+        exit(1);
+    }
+*/
     return s;
 }
 
