@@ -585,8 +585,7 @@ public class QtParserGenerator {
 			// exceptionType = "IOException";
 			// }
 			out.println(s + "    throw " + exceptionType
-					+ "(in.getPosition() + QString(\"" + condition
-					+ " for value \") + " + memberToString(m, "_s.") + ");");
+					+ "(in.getPosition(), \"" + condition + "\");");
 			out.println(s + "}");
 		}
 	}
