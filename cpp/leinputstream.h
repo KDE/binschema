@@ -17,6 +17,7 @@ public:
 class IncorrectValueException : public IOException {
 public:
     IncorrectValueException(const QString& msg) :IOException(msg) {}
+    IncorrectValueException(qint64 pos, const char* errMsg) :IOException() {}
     ~IncorrectValueException() throw() {}
 };
 
