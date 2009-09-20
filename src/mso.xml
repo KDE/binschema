@@ -330,7 +330,7 @@
 	</struct>
 	<struct name="DocInfoListSubContainerOrAtom">
 		<choice name="anon">
-			<type type="DocProgTagContainer" />
+			<type type="DocProgTagsContainer" />
 			<type type="NormalViewSetInfoContainer" />
 			<type type="NotesTextViewInfoContainer" />
 			<type type="OutlineViewInfoContainer" />
@@ -395,13 +395,29 @@
 			<limitation expression="&lt;=32255" />
 		</int32>
 	</struct>
-	<struct name="DocProgTagContainer">
+	<struct name="DocProgTagsContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0|1" />
 			<limitation name="recType" value="0x1388" />
 		</type>
+		<type name="rgChildRec" type="DocProgTagsSubContainerOrAtom"
+			array="true" size="rh.recLen" />
+	</struct>
+	<struct name="DocProgTagsSubContainerOrAtom">
+		<choice name="anon">
+			<type type="ProgStringTagContainer" />
+			<type type="DocProgBinaryTagContainerOrAtom" />
+		</choice>
+	</struct>
+	<struct name="DocProgBinaryTagContainerOrAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138A" />
+		</type>
 		<uint8 name="todo" count="rh.recLen" />
+		<!--  <type name="rec" type="DocProgBinaryTagSubContainerOrAtom" /> -->
 	</struct>
 	<struct name="NotesTextViewInfoContainer">
 		<type name="rh" type="RecordHeader">
@@ -409,7 +425,7 @@
 			<limitation name="recInstance" value="1" />
 			<limitation name="recType" value="0x413" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="zoomViewInfo" type="ZoomViewInfoAtom" />
 	</struct>
 	<struct name="OutlineViewInfoContainer">
 		<type name="rh" type="RecordHeader">
@@ -417,7 +433,21 @@
 			<limitation name="recInstance" value="1" />
 			<limitation name="recType" value="0x407" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="noZoomViewInfo" type="NoZoomViewInfoAtom" />
+	</struct>
+	<struct name="NoZoomViewInfoAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x3FD" />
+			<limitation name="recLen" value="0x34" />
+		</type>
+		<type name="curScale" type="ScalingStruct" />
+		<uint8 name="unused1" count="24" />
+		<type name="origin" type="PointStruct" />
+		<uint8 name="unused2" />
+		<uint8 name="fDraftMode" />
+		<uint16 name="unused3" />
 	</struct>
 	<struct name="SorterViewInfoContainer">
 		<type name="rh" type="RecordHeader">
@@ -434,8 +464,24 @@
 			<limitation name="recType" value="0x3FF" />
 			<limitation name="recLen" value="0x14" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="vbaInfoAtom" type="VBAInfoAtom" />
 	</struct>
+	<struct name="VBAInfoAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="2" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x400" />
+			<limitation name="recLen" value="0xC" />
+		</type>
+		<uint32 name="persistIdRef" />
+		<uint32 name="fHasMacros">
+			<limitation value="0|1" />
+		</uint32>
+		<uint32 name="version">
+			<limitation value="2" />
+		</uint32>
+	</struct>
+
 	<struct name="NormalViewSetInfoContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
@@ -619,7 +665,14 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFA2" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="rgMasterTextPropRun" type="MasterTextPropRun" array="true"
+			size="rh.recLen" />
+	</struct>
+	<struct name="MasterTextPropRun">
+		<uint32 name="count" />
+		<uint16 name="indentLevel">
+			<limitation expression="&lt;=4" />
+		</uint16>
 	</struct>
 	<struct name="StyleTextPropAtom">
 		<!--
@@ -1413,7 +1466,7 @@
 			<limitation name="recType" value="0x0FBA" />
 			<limitation name="recLen" expression="%2==0" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<uint16 name="templateName" count="rh.recLen/2" />
 	</struct>
 	<struct name="SlideContainer">
 		<type name="rh" type="RecordHeader">
@@ -1487,7 +1540,31 @@
 			<limitation name="recType" value="0x0FF5" />
 			<limitation name="recLen" value="0x1C|0x20" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<uint32 name="lastSlideIdRef" />
+		<uint16 name="version" />
+		<uint8 name="minorVersion">
+			<limitation value="0" />
+		</uint8>
+		<uint8 name="majorVersion">
+			<limitation value="3" />
+		</uint8>
+		<uint32 name="offsetLastEdit"><!--  TODO: check with offset of this edit -->
+		</uint32>
+		<uint32 name="offsetPersistDirectory">
+			<!-- <limitation expression="&gt;offsetLastEdit" /> -->
+			<!--
+				TODO: check with offset of this edit
+			-->
+		</uint32>
+		<uint32 name="docPersistIdRef">
+			<limitation value="1" />
+		</uint32>
+		<uint32 name="persistIdSeed" />
+		<uint16 name="lastView">
+			<limitation expression="&lt;=18" />
+		</uint16>
+		<uint16 name="unused" />
+		<uint32 name="encryptSessionPersistIdRef" condition="rh.recLen==32" />
 	</struct>
 	<struct name="VbaProjectStg">
 		<type name="rh" type="RecordHeader">
