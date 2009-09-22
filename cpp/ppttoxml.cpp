@@ -19,10 +19,13 @@ QByteArray
 escapeByteArray(const QByteArray& b) {
     // we escape all non printable byte values
     // printable is 9, 10, 13, 32-126
-    QByteArray exclude(97, ' ');
+    QByteArray exclude(96, ' ');
     exclude[0] = 9; exclude[1] = 10; exclude[2] = 13;
-    for (int i=3; i<97; ++i) {
+    for (int i=3; i<8; ++i) {
         exclude[i] = i+29;
+    }
+    for (int i=8; i<96; ++i) {
+        exclude[i] = i+30;
     }
 
     QByteArray result = b.toPercentEncoding(exclude);
