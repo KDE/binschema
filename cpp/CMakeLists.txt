@@ -9,6 +9,8 @@ SET(QT_USE_QTXML 1)
 SET(QT_USE_QTXMLPATTERNS 1)
 INCLUDE(${QT_USE_FILE})
 
+QT4_ADD_RESOURCES(MSO_RCC_SRCS mso.qrc)
+
 ADD_LIBRARY(qtppt pole.cpp leinputstream.cpp generatedclasses.cpp)
 
 ADD_EXECUTABLE(qtpptxml qtpptxml.cpp deepfiletree.cpp)
@@ -17,7 +19,7 @@ TARGET_LINK_LIBRARIES(qtpptxml qtppt ${QT_LIBRARIES})
 ADD_EXECUTABLE(qtparseppt qtparseppt.cpp)
 TARGET_LINK_LIBRARIES(qtparseppt qtppt ${QT_LIBRARIES})
 
-ADD_EXECUTABLE(pptstructureprinter pptstructureprinter.cpp)
+ADD_EXECUTABLE(pptstructureprinter pptstructureprinter.cpp ${MSO_RCC_SRCS})
 TARGET_LINK_LIBRARIES(pptstructureprinter qtppt ${QT_LIBRARIES})
 
 ADD_EXECUTABLE(ppttoxml ppttoxml.cpp)

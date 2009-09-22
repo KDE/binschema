@@ -120,8 +120,7 @@ main(int argc, char** argv) {
     //if (argc < 2) return -1;
 
     const QMap<int, QString> recordTypeNames
-        = getRecordTypeNames(QCoreApplication::applicationDirPath()
-            +"/../../src/mso.xml");
+        = getRecordTypeNames(":/src/mso.xml");
 
     for (int i=1; i<argc; ++i) {
         QString file(argv[i]);
