@@ -2126,13 +2126,30 @@
 	<!-- This type is invented to make OPTE specific parsing possible -->
 	<struct name="OfficeArtFOPTEChoice">
 		<choice name="anon">
+			<type type="ProtectionBooleanProperties" />
+			<type type="ITxid" />
+			<type type="AnchorText" />
+			<type type="HspNext" />
+			<type type="ShapePath" />
+			<type type="GeometryBooleanProperties" />
 			<type type="FillColor" />
 			<type type="FillBackColor" />
 			<type type="FillBlip" />
 			<type type="FillStyleBooleanProperties" />
 			<type type="LineColor" />
 			<type type="LineFillBlip" />
+			<type type="FillRectRight" />
+			<type type="FillRectBottom" />
+			<type type="WzFillId" />
 			<type type="LineStyleBooleanProperties" />
+			<type type="LineStartArrowhead" />
+			<type type="LineEndArrowhead" />
+			<type type="ShadowColor" />
+			<type type="ShapeBooleanProperties" />
+			<type type="HspMaster" />
+			<type type="Rotation" />
+			<type type="LidRegroup" />
+			<type type="BWMode" />
 			<type type="OfficeArtFOPTE" />
 		</choice>
 	</struct>
@@ -2141,6 +2158,108 @@
 		<!--
 			(../fopt[_position]/opid.fComplex)?../fopt[_position]/op:0" />
 		-->
+	</struct>
+	<struct name="ProtectionBooleanProperties">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x007F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="fLockAgainstGrouping" />
+		<bit name="fLockAdjustHandles" />
+		<bit name="fLockText" />
+		<bit name="fLockVertices" />
+		<bit name="fLockCropping" />
+		<bit name="fLockAgainstSelect" />
+		<bit name="fLockPosition" />
+		<bit name="fLockAspectRatio" />
+		<bit name="fLockRotation" />
+		<bit name="fLockAgainstUngrouping" />
+		<uint6 name="unused6" />
+		<bit name="fUsefLockAgainstGrouping" />
+		<bit name="fUseLockAdjustHandles" />
+		<bit name="fUseLockText" />
+		<bit name="fUsefLockVertices" />
+		<bit name="fUsefLockCropping" />
+		<bit name="fUsefLockAgainstSelect" />
+		<bit name="fUsefLockPosition" />
+		<bit name="fUsefLockAspectRatio" />
+		<bit name="fUsefLockRotation" />
+		<bit name="fUsefLockAgainstUngrouping" />
+		<uint6 name="unused2" />
+	</struct>
+	<struct name="FixedPoint">
+		<int16 name="integral" />
+		<uint16 name="fractional" />
+	</struct>
+	<struct name="Rotation">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0004" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="rotation" type="FixedPoint" />
+	</struct>
+	<struct name="ITxid">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0080" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="iTxid" />
+	</struct>
+	<struct name="AnchorText">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0087" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="anchorText">
+			<limitation expression="&lt;=9" />
+		</uint32>
+	</struct>
+	<struct name="HspNext">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x008A" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="hspNext"/>
+	</struct>
+	<struct name="ShapePath">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0144" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="shapePath">
+			<limitation expression="&lt;=4" />
+		</uint32>
+	</struct>
+	<struct name="GeometryBooleanProperties">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x017F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="fFillOk" />
+		<bit name="fFillShadeShapeOK" />
+		<bit name="fGtextOK" />
+		<bit name="fLineOK" />
+		<bit name="f3DOK" />
+		<bit name="fShadowOK" />
+		<bit name="unuseda" />
+		<bit name="unusedb" />
+		<uint8 name="unused2" />
+		<bit name="fUsefFillOK" />
+		<bit name="fUsefFillShadeShapeOK" />
+		<bit name="fUsefGtextOK" />
+		<bit name="fUsefLineOK" />
+		<bit name="fUsef3DOK" />
+		<bit name="fUsefShadowOK" />
+		<bit name="unused3a" />
+		<bit name="unused3b" />
+		<uint8 name="unused4" />
 	</struct>
 	<struct name="FillColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -2164,9 +2283,25 @@
 		</type>
 		<uint32 name="fillBlip" />
 	</struct>
+	<struct name="FillRectRight">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0193" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="fillRectRight" />
+	</struct>
+	<struct name="FillRectBottom">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0194" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="fillRectBottom" />
+	</struct>
 	<struct name="FillStyleBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x01A7" />
+			<limitation name="opid" value="0x01BF" />
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
 		</type>
@@ -2177,7 +2312,8 @@
 		<bit name="fFilled" />
 		<bit name="fUseShapeAnchor" />
 		<bit name="fRecolorFillAsPicture" />
-		<uint9 name="unused1" />
+		<bit name="unused1a" />
+		<uint8 name="unused1b" />
 		<bit name="fUseNoFillHitTest" />
 		<bit name="fUseFillUseRext" />
 		<bit name="fUseFillShape" />
@@ -2185,7 +2321,8 @@
 		<bit name="fUseFilled" />
 		<bit name="fUseUseShapeAnchor" />
 		<bit name="fUsefRecolorFillAsPicture" />
-		<uint9 name="unused2" />
+		<bit name="unused2a" />
+		<uint8 name="unused2b" />
 	</struct>
 	<struct name="LineColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -2200,6 +2337,26 @@
 			<limitation name="opid" value="0x01C5" />
 		</type>
 		<uint32 name="lineFillBlip" />
+	</struct>
+	<struct name="LineStartArrowhead">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01D0" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lineStartArrowHead">
+			<limitation expression="&lt;=8" />
+		</uint32>
+	</struct>
+	<struct name="LineEndArrowhead">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01D1" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lineEndArrowHead">
+			<limitation expression="&lt;=8" />
+		</uint32>
 	</struct>
 	<struct name="LineStyleBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -2229,6 +2386,79 @@
 		<bit name="unused3" />
 		<bit name="fUsefLineOpaqueBackColor" />
 		<uint6 name="unused4" />
+	</struct>
+	<struct name="ShadowColor">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0201" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="shadowColor" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="HspMaster">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0301" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="hspMaster" />
+	</struct>
+	<struct name="BWMode">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0304" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="bWMode">
+			<limitation expression="&lt;=10" />
+		</uint32>
+	</struct>
+	<struct name="ShapeBooleanProperties">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x033F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="fBackground" />
+		<bit name="reserved1" />
+		<bit name="fInitiator" />
+		<bit name="fLockShapeType" />
+		<bit name="fPreferRelativeResize" />
+		<bit name="fOleIcon" />
+		<bit name="fFlipVOverride" />
+		<bit name="fFlipHOverride" />
+		<bit name="fPolicyBarcode" />
+		<bit name="fPolicyLabel" />
+		<bit name="unused1" />
+		<bit name="unused2" />
+		<uint4 name="unused3" />
+		<bit name="fUsefBackground" />
+		<bit name="unused4" />
+		<bit name="fUsefInitiator" />
+		<bit name="fUsefLockShapeType" />
+		<bit name="fusePreferrelativeResize" />
+		<bit name="fUsefOleIcon" />
+		<bit name="fUsefFlipVOverride" />
+		<bit name="fUsefFlipHOverride" />
+		<bit name="fUsefPolicyBarcode" />
+		<bit name="fUsefPolicyLabel" />
+		<bit name="unused5" />
+		<bit name="unused6" />
+		<uint4 name="unused7" />
+	</struct>
+	<struct name="LidRegroup">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0388" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lidRegroup" />
+	</struct>
+	<struct name="WzFillId">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0403" />
+		</type>
+		<int32 name="wzFillId" />
 	</struct>
 	<struct name="OfficeArtCOLORREF">
 		<uint8 name="red" />
