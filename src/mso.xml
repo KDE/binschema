@@ -430,7 +430,8 @@
 	<struct name="OutlineViewInfoContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
-			<limitation name="recInstance" value="1" />
+			<!-- OpenOffice writes 0 here. -->
+			<limitation name="recInstance" value="0|1" />
 			<limitation name="recType" value="0x407" />
 		</type>
 		<type name="noZoomViewInfo" type="NoZoomViewInfoAtom" />
@@ -478,7 +479,8 @@
 			<limitation value="0|1" />
 		</uint32>
 		<uint32 name="version">
-			<limitation value="2" />
+			<!-- OpenOffice writes 1 instead of 2 -->
+			<limitation value="1|2" />
 		</uint32>
 	</struct>
 

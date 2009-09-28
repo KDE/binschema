@@ -24107,8 +24107,8 @@ void parseVBAInfoAtom(LEInputStream& in, VBAInfoAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.fHasMacros) == 0 || ((quint32)_s.fHasMacros) == 1");
     }
     _s.version = in.readuint32();
-    if (!(((quint32)_s.version) == 2)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.version) == 2");
+    if (!(((quint32)_s.version) == 1 || ((quint32)_s.version) == 2)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.version) == 1 || ((quint32)_s.version) == 2");
     }
 }
 void write(const VBAInfoAtom& _s, LEOutputStream& out) {
@@ -30189,8 +30189,8 @@ void parseOutlineViewInfoContainer(LEInputStream& in, OutlineViewInfoContainer& 
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
     }
-    if (!(_s.rh.recInstance == 1)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 1");
+    if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0 || _s.rh.recInstance == 1");
     }
     if (!(_s.rh.recType == 0x407)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x407");

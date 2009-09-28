@@ -817,8 +817,8 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.fHasMacros == 0 || _s.fHasMacros == 1 for value " + String.valueOf(_s.fHasMacros) );
         }
         _s.version = in.readuint32();
-        if (!(_s.version == 2)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.version == 2 for value " + String.valueOf(_s.version) );
+        if (!(_s.version == 1 || _s.version == 2)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.version == 1 || _s.version == 2 for value " + String.valueOf(_s.version) );
         }
         return _s;
     }
@@ -7657,8 +7657,8 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recVer == 0xF)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recInstance == 1)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 || _s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recType == 0x407)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x407 for value " + String.valueOf(_s.rh) );
