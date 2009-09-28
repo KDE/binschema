@@ -929,7 +929,7 @@
 		</int16>
 		<uint16 name="bulletFontRef" condition="masks.bulletFont" />
 		<uint16 name="bulletSize" condition="masks.bulletSize" />
-		<uint32 name="bulletColor" condition="masks.bulletColor" />
+		<type name="bulletColor" condition="masks.bulletColor" type="ColorIndexStruct" />
 		<uint16 name="textAlignment" condition="masks.align" />
 		<uint16 name="lineSpacing" condition="masks.lineSpacing" />
 		<uint16 name="spaceBefore" condition="masks.spaceBefore" />
@@ -941,6 +941,14 @@
 		<uint16 name="fontAlign" condition="masks.fontAlign" />
 		<uint16 name="wrapFlags" condition="masks.charWrap||masks.wordWrap||masks.overflow" />
 		<uint16 name="textDirection" condition="masks.textDirection" />
+	</struct>
+	<struct name="ColorIndexStruct">
+		<uint8 name="red" />
+		<uint8 name="green" />
+		<uint8 name="blue" />
+		<uint8 name="index">
+			<!-- limitation expression="&lt;8 || &gt;253" />-->
+		</uint8>
 	</struct>
 	<struct name="BulletFlags">
 		<bit name="fHasBullet" />
@@ -995,7 +1003,7 @@
 			<limitation expression="&gt;=1" />
 			<limitation expression="&lt;=4000" />
 		</uint16>
-		<uint32 name="color" condition="masks.color" />
+		<type name="color" condition="masks.color" type="ColorIndexStruct" />
 		<int16 name="position" condition="masks.position">
 			<limitation expression="&gt;=-100" />
 			<limitation expression="&lt;=100" />
@@ -2224,7 +2232,7 @@
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
 		</type>
-		<int32 name="hspNext"/>
+		<int32 name="hspNext" />
 	</struct>
 	<struct name="ShapePath">
 		<type name="opid" type="OfficeArtFOPTEOPID">

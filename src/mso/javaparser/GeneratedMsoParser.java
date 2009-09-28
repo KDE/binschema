@@ -1323,6 +1323,20 @@ System.out.println(in.getPosition()+" "+_s);
         out.writeint16(_s.position);
         out.writeuint16(_s.type);
     }
+    ColorIndexStruct parseColorIndexStruct(LEInputStream in) throws IOException  {
+        ColorIndexStruct _s = new ColorIndexStruct();
+        _s.red = in.readuint8();
+        _s.green = in.readuint8();
+        _s.blue = in.readuint8();
+        _s.index = in.readuint8();
+        return _s;
+    }
+    void write(ColorIndexStruct _s, LEOutputStream out) throws IOException  {
+        out.writeuint8(_s.red);
+        out.writeuint8(_s.green);
+        out.writeuint8(_s.blue);
+        out.writeuint8(_s.index);
+    }
     BulletFlags parseBulletFlags(LEInputStream in) throws IOException  {
         BulletFlags _s = new BulletFlags();
         _s.fHasBullet = in.readbit();
@@ -5579,7 +5593,7 @@ System.out.println(in.getPosition()+" "+_s);
             _s.bulletSize = in.readuint16();
         }
         if (_s.masks.bulletColor) {
-            _s.bulletColor = in.readuint32();
+            _s.bulletColor = parseColorIndexStruct(in);
         }
         if (_s.masks.align) {
             _s.textAlignment = in.readuint16();
@@ -5631,7 +5645,7 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint16(_s.bulletSize);
         }
         if (_s.masks.bulletColor) {
-            out.writeuint32(_s.bulletColor);
+            write(_s.bulletColor, out);
         }
         if (_s.masks.align) {
             out.writeuint16(_s.textAlignment);
@@ -5707,7 +5721,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         }
         if (_s.masks.color) {
-            _s.color = in.readuint32();
+            _s.color = parseColorIndexStruct(in);
         }
         if (_s.masks.position) {
             _s.position = in.readint16();
@@ -5741,7 +5755,7 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint16(_s.fontSize);
         }
         if (_s.masks.color) {
-            out.writeuint32(_s.color);
+            write(_s.color, out);
         }
         if (_s.masks.position) {
             out.writeint16(_s.position);
@@ -10311,6 +10325,20 @@ class TabStop {
         return _s;
     }
 }
+class ColorIndexStruct {
+    byte red;
+    byte green;
+    byte blue;
+    byte index;
+    public String toString() {
+        String _s = "ColorIndexStruct:";
+        _s = _s + "red: " + String.valueOf(red) + "(" + Integer.toHexString(red).toUpperCase() + "), ";
+        _s = _s + "green: " + String.valueOf(green) + "(" + Integer.toHexString(green).toUpperCase() + "), ";
+        _s = _s + "blue: " + String.valueOf(blue) + "(" + Integer.toHexString(blue).toUpperCase() + "), ";
+        _s = _s + "index: " + String.valueOf(index) + "(" + Integer.toHexString(index).toUpperCase() + "), ";
+        return _s;
+    }
+}
 class BulletFlags {
     boolean fHasBullet;
     boolean fBulletHasFont;
@@ -12797,7 +12825,7 @@ class TextPFException {
     short bulletChar;
     int bulletFontRef;
     int bulletSize;
-    int bulletColor;
+    ColorIndexStruct bulletColor;
     int textAlignment;
     int lineSpacing;
     int spaceBefore;
@@ -12816,7 +12844,7 @@ class TextPFException {
         _s = _s + "bulletChar: " + String.valueOf(bulletChar) + "(" + Integer.toHexString(bulletChar).toUpperCase() + "), ";
         _s = _s + "bulletFontRef: " + String.valueOf(bulletFontRef) + "(" + Integer.toHexString(bulletFontRef).toUpperCase() + "), ";
         _s = _s + "bulletSize: " + String.valueOf(bulletSize) + "(" + Integer.toHexString(bulletSize).toUpperCase() + "), ";
-        _s = _s + "bulletColor: " + String.valueOf(bulletColor) + "(" + Integer.toHexString(bulletColor).toUpperCase() + "), ";
+        _s = _s + "bulletColor: " + String.valueOf(bulletColor) + ", ";
         _s = _s + "textAlignment: " + String.valueOf(textAlignment) + "(" + Integer.toHexString(textAlignment).toUpperCase() + "), ";
         _s = _s + "lineSpacing: " + String.valueOf(lineSpacing) + "(" + Integer.toHexString(lineSpacing).toUpperCase() + "), ";
         _s = _s + "spaceBefore: " + String.valueOf(spaceBefore) + "(" + Integer.toHexString(spaceBefore).toUpperCase() + "), ";
@@ -12839,7 +12867,7 @@ class TextCFException {
     int ansiFontRef;
     int symbolFontRef;
     int fontSize;
-    int color;
+    ColorIndexStruct color;
     short position;
     public String toString() {
         String _s = "TextCFException:";
@@ -12850,7 +12878,7 @@ class TextCFException {
         _s = _s + "ansiFontRef: " + String.valueOf(ansiFontRef) + "(" + Integer.toHexString(ansiFontRef).toUpperCase() + "), ";
         _s = _s + "symbolFontRef: " + String.valueOf(symbolFontRef) + "(" + Integer.toHexString(symbolFontRef).toUpperCase() + "), ";
         _s = _s + "fontSize: " + String.valueOf(fontSize) + "(" + Integer.toHexString(fontSize).toUpperCase() + "), ";
-        _s = _s + "color: " + String.valueOf(color) + "(" + Integer.toHexString(color).toUpperCase() + "), ";
+        _s = _s + "color: " + String.valueOf(color) + ", ";
         _s = _s + "position: " + String.valueOf(position) + "(" + Integer.toHexString(position).toUpperCase() + "), ";
         return _s;
     }

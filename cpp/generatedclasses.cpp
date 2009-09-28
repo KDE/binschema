@@ -144,6 +144,9 @@ void write(const TabStops& v, LEOutputStream& out);
 class TabStop;
 void parseTabStop(LEInputStream& in, TabStop& _s);
 void write(const TabStop& v, LEOutputStream& out);
+class ColorIndexStruct;
+void parseColorIndexStruct(LEInputStream& in, ColorIndexStruct& _s);
+void write(const ColorIndexStruct& v, LEOutputStream& out);
 class BulletFlags;
 void parseBulletFlags(LEInputStream& in, BulletFlags& _s);
 void write(const BulletFlags& v, LEOutputStream& out);
@@ -1655,6 +1658,27 @@ public:
         QString _s = "TabStop:";
         _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
         _s = _s + "type: " + QString::number(type) + "(" + QString::number(type,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class ColorIndexStruct : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    quint8 red;
+    quint8 green;
+    quint8 blue;
+    quint8 index;
+    ColorIndexStruct() :red(0), green(0), blue(0), index(0) {
+    }
+    QString toString() {
+        QString _s = "ColorIndexStruct:";
+        _s = _s + "red: " + QString::number(red) + "(" + QString::number(red,16).toUpper() + ")" + ", ";
+        _s = _s + "green: " + QString::number(green) + "(" + QString::number(green,16).toUpper() + ")" + ", ";
+        _s = _s + "blue: " + QString::number(blue) + "(" + QString::number(blue,16).toUpper() + ")" + ", ";
+        _s = _s + "index: " + QString::number(index) + "(" + QString::number(index,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -5117,7 +5141,7 @@ public:
     qint16 bulletChar;
     quint16 bulletFontRef;
     quint16 bulletSize;
-    quint32 bulletColor;
+    QSharedPointer<ColorIndexStruct> bulletColor;
     quint16 textAlignment;
     quint16 lineSpacing;
     quint16 spaceBefore;
@@ -5129,7 +5153,7 @@ public:
     quint16 fontAlign;
     quint16 wrapFlags;
     quint16 textDirection;
-    TextPFException() :bulletChar(0), bulletFontRef(0), bulletSize(0), bulletColor(0), textAlignment(0), lineSpacing(0), spaceBefore(0), spaceAfter(0), leftMargin(0), indent(0), defaultTabSize(0), fontAlign(0), wrapFlags(0), textDirection(0) {
+    TextPFException() :bulletChar(0), bulletFontRef(0), bulletSize(0), textAlignment(0), lineSpacing(0), spaceBefore(0), spaceAfter(0), leftMargin(0), indent(0), defaultTabSize(0), fontAlign(0), wrapFlags(0), textDirection(0) {
     }
     QString toString() {
         QString _s = "TextPFException:";
@@ -5138,7 +5162,7 @@ public:
         _s = _s + "bulletChar: " + QString::number(bulletChar) + "(" + QString::number(bulletChar,16).toUpper() + ")" + ", ";
         _s = _s + "bulletFontRef: " + QString::number(bulletFontRef) + "(" + QString::number(bulletFontRef,16).toUpper() + ")" + ", ";
         _s = _s + "bulletSize: " + QString::number(bulletSize) + "(" + QString::number(bulletSize,16).toUpper() + ")" + ", ";
-        _s = _s + "bulletColor: " + QString::number(bulletColor) + "(" + QString::number(bulletColor,16).toUpper() + ")" + ", ";
+        _s = _s + "bulletColor: " + ((bulletColor)?bulletColor->toString() :"null") + ", ";
         _s = _s + "textAlignment: " + QString::number(textAlignment) + "(" + QString::number(textAlignment,16).toUpper() + ")" + ", ";
         _s = _s + "lineSpacing: " + QString::number(lineSpacing) + "(" + QString::number(lineSpacing,16).toUpper() + ")" + ", ";
         _s = _s + "spaceBefore: " + QString::number(spaceBefore) + "(" + QString::number(spaceBefore,16).toUpper() + ")" + ", ";
@@ -5166,9 +5190,9 @@ public:
     quint16 ansiFontRef;
     quint16 symbolFontRef;
     quint16 fontSize;
-    quint32 color;
+    QSharedPointer<ColorIndexStruct> color;
     qint16 position;
-    TextCFException() :fontRef(0), oldEAFontRef(0), ansiFontRef(0), symbolFontRef(0), fontSize(0), color(0), position(0) {
+    TextCFException() :fontRef(0), oldEAFontRef(0), ansiFontRef(0), symbolFontRef(0), fontSize(0), position(0) {
     }
     QString toString() {
         QString _s = "TextCFException:";
@@ -5179,7 +5203,7 @@ public:
         _s = _s + "ansiFontRef: " + QString::number(ansiFontRef) + "(" + QString::number(ansiFontRef,16).toUpper() + ")" + ", ";
         _s = _s + "symbolFontRef: " + QString::number(symbolFontRef) + "(" + QString::number(symbolFontRef,16).toUpper() + ")" + ", ";
         _s = _s + "fontSize: " + QString::number(fontSize) + "(" + QString::number(fontSize,16).toUpper() + ")" + ", ";
-        _s = _s + "color: " + QString::number(color) + "(" + QString::number(color,16).toUpper() + ")" + ", ";
+        _s = _s + "color: " + ((color)?color->toString() :"null") + ", ";
         _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
         return _s;
     }
@@ -9128,6 +9152,55 @@ const Introspectable* (* const TabStop::_Introspection::introspectable[2])(const
 };
 const Introspection TabStop::_introspection(
     "TabStop", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ColorIndexStruct::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[4];
+    static int (* const numberOfInstances[4])(const Introspectable*);
+    static QVariant (* const value[4])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
+    static QVariant get_red(const Introspectable* i, int j) {
+        return static_cast<const ColorIndexStruct*>(i)->red;
+    }
+    static QVariant get_green(const Introspectable* i, int j) {
+        return static_cast<const ColorIndexStruct*>(i)->green;
+    }
+    static QVariant get_blue(const Introspectable* i, int j) {
+        return static_cast<const ColorIndexStruct*>(i)->blue;
+    }
+    static QVariant get_index(const Introspectable* i, int j) {
+        return static_cast<const ColorIndexStruct*>(i)->index;
+    }
+};
+const QString ColorIndexStruct::_Introspection::name("ColorIndexStruct");
+const int ColorIndexStruct::_Introspection::numberOfMembers(4);
+const QString ColorIndexStruct::_Introspection::names[4] = {
+    "red",
+    "green",
+    "blue",
+    "index",
+};
+int (* const ColorIndexStruct::_Introspection::numberOfInstances[4])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ColorIndexStruct::_Introspection::value[4])(const Introspectable*, int position) = {
+    _Introspection::get_red,
+    _Introspection::get_green,
+    _Introspection::get_blue,
+    _Introspection::get_index,
+};
+const Introspectable* (* const ColorIndexStruct::_Introspection::introspectable[4])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection ColorIndexStruct::_introspection(
+    "ColorIndexStruct", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class BulletFlags::_Introspection {
 public:
     static const QString name;
@@ -17897,8 +17970,11 @@ public:
     static QVariant get_bulletSize(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->bulletSize;
     }
-    static QVariant get_bulletColor(const Introspectable* i, int j) {
-        return static_cast<const TextPFException*>(i)->bulletColor;
+    static int count_bulletColor(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->bulletColor ?1 :0;
+    }
+    static const Introspectable* get_bulletColor(const Introspectable* i, int j) {
+        return static_cast<const TextPFException*>(i)->bulletColor.data();
     }
     static QVariant get_textAlignment(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->textAlignment;
@@ -17964,7 +18040,7 @@ int (* const TextPFException::_Introspection::numberOfInstances[17])(const Intro
     Introspection::one,
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_bulletColor,
     Introspection::one,
     Introspection::one,
     Introspection::one,
@@ -17983,7 +18059,7 @@ QVariant (* const TextPFException::_Introspection::value[17])(const Introspectab
     _Introspection::get_bulletChar,
     _Introspection::get_bulletFontRef,
     _Introspection::get_bulletSize,
-    _Introspection::get_bulletColor,
+    Introspection::nullValue,
     _Introspection::get_textAlignment,
     _Introspection::get_lineSpacing,
     _Introspection::get_spaceBefore,
@@ -18002,7 +18078,7 @@ const Introspectable* (* const TextPFException::_Introspection::introspectable[1
     Introspection::null,
     Introspection::null,
     Introspection::null,
-    Introspection::null,
+    _Introspection::get_bulletColor,
     Introspection::null,
     Introspection::null,
     Introspection::null,
@@ -18049,8 +18125,11 @@ public:
     static QVariant get_fontSize(const Introspectable* i, int j) {
         return static_cast<const TextCFException*>(i)->fontSize;
     }
-    static QVariant get_color(const Introspectable* i, int j) {
-        return static_cast<const TextCFException*>(i)->color;
+    static int count_color(const Introspectable* i) {
+        return static_cast<const TextCFException*>(i)->color ?1 :0;
+    }
+    static const Introspectable* get_color(const Introspectable* i, int j) {
+        return static_cast<const TextCFException*>(i)->color.data();
     }
     static QVariant get_position(const Introspectable* i, int j) {
         return static_cast<const TextCFException*>(i)->position;
@@ -18077,7 +18156,7 @@ int (* const TextCFException::_Introspection::numberOfInstances[9])(const Intros
     Introspection::one,
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_color,
     Introspection::one,
 };
 QVariant (* const TextCFException::_Introspection::value[9])(const Introspectable*, int position) = {
@@ -18088,7 +18167,7 @@ QVariant (* const TextCFException::_Introspection::value[9])(const Introspectabl
     _Introspection::get_ansiFontRef,
     _Introspection::get_symbolFontRef,
     _Introspection::get_fontSize,
-    _Introspection::get_color,
+    Introspection::nullValue,
     _Introspection::get_position,
 };
 const Introspectable* (* const TextCFException::_Introspection::introspectable[9])(const Introspectable*, int position) = {
@@ -18099,7 +18178,7 @@ const Introspectable* (* const TextCFException::_Introspection::introspectable[9
     Introspection::null,
     Introspection::null,
     Introspection::null,
-    Introspection::null,
+    _Introspection::get_color,
     Introspection::null,
 };
 const Introspection TextCFException::_introspection(
@@ -24463,6 +24542,18 @@ void write(const TabStop& _s, LEOutputStream& out) {
     out.writeint16(_s.position);
     out.writeuint16(_s.type);
 }
+void parseColorIndexStruct(LEInputStream& in, ColorIndexStruct& _s) {
+    _s.red = in.readuint8();
+    _s.green = in.readuint8();
+    _s.blue = in.readuint8();
+    _s.index = in.readuint8();
+}
+void write(const ColorIndexStruct& _s, LEOutputStream& out) {
+    out.writeuint8(_s.red);
+    out.writeuint8(_s.green);
+    out.writeuint8(_s.blue);
+    out.writeuint8(_s.index);
+}
 void parseBulletFlags(LEInputStream& in, BulletFlags& _s) {
     _s.fHasBullet = in.readbit();
     _s.fBulletHasFont = in.readbit();
@@ -28211,7 +28302,8 @@ void parseTextPFException(LEInputStream& in, TextPFException& _s) {
         _s.bulletSize = in.readuint16();
     }
     if (_s.masks.bulletColor) {
-        _s.bulletColor = in.readuint32();
+        _s.bulletColor = QSharedPointer<ColorIndexStruct>(new ColorIndexStruct());
+        parseColorIndexStruct(in, *_s.bulletColor.data());
     }
     if (_s.masks.align) {
         _s.textAlignment = in.readuint16();
@@ -28263,7 +28355,7 @@ void write(const TextPFException& _s, LEOutputStream& out) {
         out.writeuint16(_s.bulletSize);
     }
     if (_s.masks.bulletColor) {
-        out.writeuint32(_s.bulletColor);
+        if (_s.bulletColor) write(*_s.bulletColor, out);
     }
     if (_s.masks.align) {
         out.writeuint16(_s.textAlignment);
@@ -28339,7 +28431,8 @@ void parseTextCFException(LEInputStream& in, TextCFException& _s) {
         }
     }
     if (_s.masks.color) {
-        _s.color = in.readuint32();
+        _s.color = QSharedPointer<ColorIndexStruct>(new ColorIndexStruct());
+        parseColorIndexStruct(in, *_s.color.data());
     }
     if (_s.masks.position) {
         _s.position = in.readint16();
@@ -28372,7 +28465,7 @@ void write(const TextCFException& _s, LEOutputStream& out) {
         out.writeuint16(_s.fontSize);
     }
     if (_s.masks.color) {
-        out.writeuint32(_s.color);
+        if (_s.color) write(*_s.color, out);
     }
     if (_s.masks.position) {
         out.writeint16(_s.position);
