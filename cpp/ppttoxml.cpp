@@ -104,6 +104,7 @@ ppttoxml(const QString& file, QIODevice* out) {
     QXmlStreamWriter xmlout(out);
     xmlout.setAutoFormatting(true);
     xmlout.writeStartDocument();
+    xmlout.writeProcessingInstruction("xml-stylesheet", "type='text/xsl' href='ppttosvg.xsl'");
     xmlout.writeStartElement("ppt");
     POLE::Storage storage(file.toLocal8Bit());
     if (!storage.open()) return;
