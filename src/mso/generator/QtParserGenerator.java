@@ -99,7 +99,8 @@ public class QtParserGenerator {
 		if (s.containsKnownLengthArrayMember) {
 			out.println("    int _c;");
 		}
-		if (s.containsArrayMember || s.containsOptionalMember) {
+		if (s.containsArrayMember || s.containsOptionalMember
+				|| s.containsChoice) {
 			out.println("    LEInputStream::Mark _m;");
 		}
 		if (s.containsUnknownLengthArrayMember) {
@@ -491,8 +492,9 @@ public class QtParserGenerator {
 		String closing = "";
 		String exception = "_x";
 		String choice;
-		out.println(s + "LEInputStream::Mark _m = in.setMark();");
-		for (int i = 0; i < m.choices.length - 1; ++i) {
+		out.println(s + "_m = in.setMark();");
+		int length = (m.isOptional) ? m.choices.length : m.choices.length - 1;
+		for (int i = 0; i < length; ++i) {
 			choice = m.choices[i];
 			out.println(s + "try {");
 			out.println(s + "    " + choice + " _t;");
@@ -506,12 +508,14 @@ public class QtParserGenerator {
 			exception = exception + "x";
 			closing = closing + "}";
 		}
-		choice = m.choices[m.choices.length - 1];
-		out.println(s + "    " + choice + " _t;");
-		out.println(s + "    parse" + choice + "(in, _t);");
-		out.println(s + "    _s." + m.name + "." + choice.toLowerCase()
-				+ " = QSharedPointer<" + choice + ">(" + "new " + choice
-				+ "(_t));");
+		if (!m.isOptional) {
+			choice = m.choices[m.choices.length - 1];
+			out.println(s + "    " + choice + " _t;");
+			out.println(s + "    parse" + choice + "(in, _t);");
+			out.println(s + "    _s." + m.name + "." + choice.toLowerCase()
+					+ " = QSharedPointer<" + choice + ">(" + "new " + choice
+					+ "(_t));");
+		}
 		out.println(s + closing);
 	}
 

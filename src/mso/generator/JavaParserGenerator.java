@@ -79,7 +79,8 @@ public class JavaParserGenerator {
 		if (s.containsKnownLengthArrayMember) {
 			out.println("        int _c;");
 		}
-		if (s.containsOptionalMember || s.containsUnknownLengthArrayMember) {
+		if (s.containsOptionalMember || s.containsUnknownLengthArrayMember
+				|| s.containsChoice) {
 			out.println("        Object _m;");
 		}
 		if (s.containsUnknownLengthArrayMember) {
@@ -283,8 +284,9 @@ public class JavaParserGenerator {
 	void printChoiceParser(PrintWriter out, String s, Member m) {
 		String closing = "";
 		String exception = "_x";
-		out.println(s + "Object _m = in.setMark();");
-		for (int i = 0; i < m.choices.length - 1; ++i) {
+		out.println(s + "_m = in.setMark();");
+		int length = (m.isOptional) ? m.choices.length : m.choices.length - 1;
+		for (int i = 0; i < length; ++i) {
 			out.println(s + "try {");
 			out.println(s + "    _s." + m.name + " = parse" + m.choices[i]
 					+ "(in);");
@@ -301,8 +303,10 @@ public class JavaParserGenerator {
 			exception = exception + "x";
 			closing = closing + "}";
 		}
-		out.println(s + "    _s." + m.name + " = parse"
-				+ m.choices[m.choices.length - 1] + "(in);");
+		if (!m.isOptional) {
+			out.println(s + "    _s." + m.name + " = parse"
+					+ m.choices[m.choices.length - 1] + "(in);");
+		}
 		out.println(s + closing + " finally {");
 		out.println(s + "    in.releaseMark(_m);");
 		out.println(s + "}");

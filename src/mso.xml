@@ -581,21 +581,67 @@
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="SlideListWithTextSubContainerOrAtom">
-		<!--  we ignore the details of the order of slides required here -->
-		<choice name="anon">
-			<type type="SlidePersistAtom" />
-			<type type="TextHeaderAtom" />
+		<type name="slidePersistAtom" type="SlidePersistAtom" />
+		<type name="atoms" type="TextContainer" array="true" />
+	</struct>
+	<!-- our own invention -->
+	<struct name="TextContainer">
+		<!--
+			this is an interpretation of the ABNF in the MS-PPT doc, perhaps some
+			arrays are needed
+		-->
+		<type name="textHeaderAtom" type="TextHeaderAtom" />
+		<choice name="text" optional="true">
 			<type type="TextCharsAtom" />
 			<type type="TextBytesAtom" />
-			<type type="StyleTextPropAtom" />
+		</choice>
+		<type name="style" type="StyleTextPropAtom" optional="true" />
+		<choice name="meta" optional="true">
 			<type type="SlideNumberMCAtom" />
 			<type type="DateTimeMCAtom" />
 			<type type="GenericDateMCAtom" />
 			<type type="HeaderMCAtom" />
 			<type type="FooterMCAtom" />
 			<type type="RTFDateTimeMCAtom" />
-			<type type="TextBookmarkAtom" />
-			<type type="TextSpecialInfoAtom" />
+		</choice>
+		<type name="bookmark" type="TextBookmarkAtom" optional="true" />
+		<type name="specialinfo" type="TextSpecialInfoAtom" optional="true" />
+		<choice name="interactive" optional="true">
+			<type type="InteractiveInfoInstance" />
+			<type type="TextInteractiveInfoInstance" />
+		</choice>
+	</struct>
+	<struct name="TextClientDataSubContainerOrAtom">
+		<choice name="anon">
+			<type type="OutlineTextRefAtom" />
+			<type type="TextContainer" />
+			<type type="TextRulerAtom" />
+			<type type="MasterTextPropAtom" />
+		</choice>
+	</struct>
+	<!-- our own invention -->
+	<struct name="TextClientDataData">
+		<!--
+			this is an interpretation of the ABNF in the MS-PPT doc, perhaps some
+			arrays are needed
+		-->
+		<type name="textHeaderAtom" type="TextHeaderAtom" />
+		<choice name="text" optional="true">
+			<type type="TextCharsAtom" />
+			<type type="TextBytesAtom" />
+		</choice>
+		<type name="style" type="StyleTextPropAtom" optional="true" />
+		<choice name="meta" optional="true">
+			<type type="SlideNumberMCAtom" />
+			<type type="DateTimeMCAtom" />
+			<type type="GenericDateMCAtom" />
+			<type type="HeaderMCAtom" />
+			<type type="FooterMCAtom" />
+			<type type="RTFDateTimeMCAtom" />
+		</choice>
+		<type name="bookmark" type="TextBookmarkAtom" optional="true" />
+		<type name="specialinfo" type="TextSpecialInfoAtom" optional="true" />
+		<choice name="interactive" optional="true">
 			<type type="InteractiveInfoInstance" />
 			<type type="TextInteractiveInfoInstance" />
 		</choice>
@@ -2661,27 +2707,6 @@
 		</type>
 		<type name="rgChildRec" array="true" size="rh.recLen"
 			type="TextClientDataSubContainerOrAtom" />
-	</struct>
-	<struct name="TextClientDataSubContainerOrAtom">
-		<choice name="anon">
-			<type type="OutlineTextRefAtom" />
-			<type type="TextHeaderAtom" />
-			<type type="TextCharsAtom" />
-			<type type="TextBytesAtom" />
-			<type type="StyleTextPropAtom" />
-			<type type="SlideNumberMCAtom" />
-			<type type="DateTimeMCAtom" />
-			<type type="GenericDateMCAtom" />
-			<type type="HeaderMCAtom" />
-			<type type="FooterMCAtom" />
-			<type type="RTFDateTimeMCAtom" />
-			<type type="TextBookmarkAtom" />
-			<type type="TextSpecialInfoAtom" />
-			<type type="InteractiveInfoInstance" />
-			<type type="TextInteractiveInfoInstance" />
-			<type type="TextRulerAtom" />
-			<type type="MasterTextPropAtom" />
-		</choice>
 	</struct>
 	<struct name="TextRulerAtom">
 		<type name="rh" type="RecordHeader">
