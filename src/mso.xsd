@@ -50,6 +50,8 @@
 			<element name="type" minOccurs="2" maxOccurs="unbounded" />
 		</sequence>
 		<attribute name="name" type="NCName" use="required" />
+		<attribute name="optional" type="boolean" use="optional"
+			default="false" />
 	</complexType>
 	<complexType name="structType">
 		<sequence>

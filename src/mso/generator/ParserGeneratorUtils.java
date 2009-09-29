@@ -113,6 +113,7 @@ class Struct {
 	final boolean containsOptionalMember;
 	final boolean containsUnknownLengthArrayMember;
 	final boolean containsKnownLengthArrayMember;
+	final boolean containsChoice;
 
 	Struct(Element e) {
 		name = e.getAttribute("name");
@@ -121,6 +122,7 @@ class Struct {
 		boolean _containsOptionalMember = false;
 		boolean _containsUnknownLengthArrayMember = false;
 		boolean _containsKnownLengthArrayMember = false;
+		boolean _containsChoice = false;
 		NodeList l = e.getChildNodes();
 		for (int i = 0; i < l.getLength(); ++i) {
 			Node n = l.item(i);
@@ -134,12 +136,14 @@ class Struct {
 						|| (m.isArray && m.count == null);
 				_containsKnownLengthArrayMember = _containsKnownLengthArrayMember
 						|| m.count != null;
+				_containsChoice = _containsChoice || m.choices != null;
 			}
 		}
 		containsArrayMember = _containsArrayMember;
 		containsOptionalMember = _containsOptionalMember;
 		containsUnknownLengthArrayMember = _containsUnknownLengthArrayMember;
 		containsKnownLengthArrayMember = _containsKnownLengthArrayMember;
+		containsChoice = _containsChoice;
 	}
 }
 
