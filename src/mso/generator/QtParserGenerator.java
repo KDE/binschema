@@ -390,12 +390,11 @@ public class QtParserGenerator {
 		out.println("    static const Introspectable* (* const introspectable["
 				+ nm + "])(const Introspectable*, int position);");
 		for (Member m : s.members) {
-			if (!m.isComplex) {
+			if (!m.isComplex && m.choices == null) {
 			} else if (m.isOptional || m.condition != null) {
 				out.println("    static int count_" + m.name
 						+ "(const Introspectable* i) {");
-				out.println("        return static_cast<const " + s.name
-						+ "*>(i)->" + m.name + " ?1 :0;");
+				out.println("        return get_" + m.name + "(i, 0) ?1 :0;");
 				out.println("    }");
 			} else if (m.isArray) {
 				out.println("    static int count_" + m.name
@@ -449,7 +448,7 @@ public class QtParserGenerator {
 		out.println("int (* const " + ns + "::numberOfInstances[" + nm
 				+ "])(const Introspectable*) = {");
 		for (Member m : s.members) {
-			if (m.isComplex
+			if ((m.isComplex || m.choices != null)
 					&& (m.isOptional || m.isArray || m.condition != null)) {
 				out.println("    _Introspection::count_" + m.name + ",");
 			} else {
