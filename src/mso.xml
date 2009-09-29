@@ -587,8 +587,7 @@
 	<!-- our own invention -->
 	<struct name="TextContainer">
 		<!--
-			this is an interpretation of the ABNF in the MS-PPT doc, perhaps some
-			arrays are needed
+			this is an interpretation of the ABNF in the MS-PPT doc
 		-->
 		<type name="textHeaderAtom" type="TextHeaderAtom" />
 		<choice name="text" optional="true">
@@ -596,7 +595,20 @@
 			<type type="TextBytesAtom" />
 		</choice>
 		<type name="style" type="StyleTextPropAtom" optional="true" />
-		<choice name="meta" optional="true">
+		<type name="meta" type="TextContainerMeta" array="true" />
+		<!--
+			perhaps this does not belong here, see
+			TextClientDataSubContainerOrAtom
+		-->
+		<type name="master" type="MasterTextPropAtom" optional="true" />
+		<type name="bookmark" type="TextBookmarkAtom" array="true" />
+		<type name="specialinfo" type="TextSpecialInfoAtom" optional="true" />
+		<type name="interactive" type="TextContainerInteractiveInfo"
+			array="true" />
+	</struct>
+	<!-- our own invention -->
+	<struct name="TextContainerMeta">
+		<choice name="meta">
 			<type type="SlideNumberMCAtom" />
 			<type type="DateTimeMCAtom" />
 			<type type="GenericDateMCAtom" />
@@ -604,14 +616,10 @@
 			<type type="FooterMCAtom" />
 			<type type="RTFDateTimeMCAtom" />
 		</choice>
-		<!--
-			perhaps this does not belong here, see
-			TextClientDataSubContainerOrAtom
-		-->
-		<type name="master" type="MasterTextPropAtom" optional="true" />
-		<type name="bookmark" type="TextBookmarkAtom" optional="true" />
-		<type name="specialinfo" type="TextSpecialInfoAtom" optional="true" />
-		<choice name="interactive" optional="true"><!-- should be an array -->
+	</struct>
+	<!-- our own invention -->
+	<struct name="TextContainerInteractiveInfo">
+		<choice name="interactive">
 			<type type="InteractiveInfoInstance" />
 			<type type="TextInteractiveInfoInstance" />
 		</choice>

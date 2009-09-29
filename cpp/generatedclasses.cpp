@@ -552,6 +552,15 @@ void write(const NormalViewSetInfoAtom& v, LEOutputStream& out);
 class MasterPersistAtom;
 void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s);
 void write(const MasterPersistAtom& v, LEOutputStream& out);
+class TextContainer;
+void parseTextContainer(LEInputStream& in, TextContainer& _s);
+void write(const TextContainer& v, LEOutputStream& out);
+class TextContainerMeta;
+void parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s);
+void write(const TextContainerMeta& v, LEOutputStream& out);
+class TextClientDataSubContainerOrAtom;
+void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s);
+void write(const TextClientDataSubContainerOrAtom& v, LEOutputStream& out);
 class SlidePersistAtom;
 void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s);
 void write(const SlidePersistAtom& v, LEOutputStream& out);
@@ -723,12 +732,9 @@ void write(const NormalViewSetInfoContainer& v, LEOutputStream& out);
 class SlideListWithTextSubContainerOrAtom;
 void parseSlideListWithTextSubContainerOrAtom(LEInputStream& in, SlideListWithTextSubContainerOrAtom& _s);
 void write(const SlideListWithTextSubContainerOrAtom& v, LEOutputStream& out);
-class TextContainer;
-void parseTextContainer(LEInputStream& in, TextContainer& _s);
-void write(const TextContainer& v, LEOutputStream& out);
-class TextClientDataSubContainerOrAtom;
-void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s);
-void write(const TextClientDataSubContainerOrAtom& v, LEOutputStream& out);
+class TextContainerInteractiveInfo;
+void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteractiveInfo& _s);
+void write(const TextContainerInteractiveInfo& v, LEOutputStream& out);
 class TextPFRun;
 void parseTextPFRun(LEInputStream& in, TextPFRun& _s);
 void write(const TextPFRun& v, LEOutputStream& out);
@@ -5013,6 +5019,76 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class TextContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    TextHeaderAtom textHeaderAtom;
+    class textChoice {public:QSharedPointer<TextCharsAtom> textcharsatom;
+QSharedPointer<TextBytesAtom> textbytesatom;
+}; textChoice text;
+    QSharedPointer<StyleTextPropAtom> style;
+    QList<TextContainerMeta> meta;
+    QSharedPointer<MasterTextPropAtom> master;
+    QList<TextBookmarkAtom> bookmark;
+    QSharedPointer<TextSpecialInfoAtom> specialinfo;
+    QList<TextContainerInteractiveInfo> interactive;
+    TextContainer()  {
+    }
+    QString toString() {
+        QString _s = "TextContainer:";
+        _s = _s + "textHeaderAtom: " + textHeaderAtom.toString() + ", ";
+        _s = _s + "text: " + "<choice>" + ", ";
+        _s = _s + "style: " + ((style)?style->toString() :"null") + ", ";
+        _s = _s + "meta: " + "[array of meta]" + ", ";
+        _s = _s + "master: " + ((master)?master->toString() :"null") + ", ";
+        _s = _s + "bookmark: " + "[array of bookmark]" + ", ";
+        _s = _s + "specialinfo: " + ((specialinfo)?specialinfo->toString() :"null") + ", ";
+        _s = _s + "interactive: " + "[array of interactive]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class TextContainerMeta : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    class metaChoice {public:QSharedPointer<SlideNumberMCAtom> slidenumbermcatom;
+QSharedPointer<DateTimeMCAtom> datetimemcatom;
+QSharedPointer<GenericDateMCAtom> genericdatemcatom;
+QSharedPointer<HeaderMCAtom> headermcatom;
+QSharedPointer<FooterMCAtom> footermcatom;
+QSharedPointer<RTFDateTimeMCAtom> rtfdatetimemcatom;
+}; metaChoice meta;
+    TextContainerMeta()  {
+    }
+    QString toString() {
+        QString _s = "TextContainerMeta:";
+        _s = _s + "meta: " + "<choice>" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class TextClientDataSubContainerOrAtom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    class anonChoice {public:QSharedPointer<OutlineTextRefAtom> outlinetextrefatom;
+QSharedPointer<TextContainer> textcontainer;
+QSharedPointer<TextRulerAtom> textruleratom;
+}; anonChoice anon;
+    TextClientDataSubContainerOrAtom()  {
+    }
+    QString toString() {
+        QString _s = "TextClientDataSubContainerOrAtom:";
+        _s = _s + "anon: " + "<choice>" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class SlidePersistAtom : public Introspectable {
 private:
     class _Introspection;
@@ -6467,59 +6543,19 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class TextContainer : public Introspectable {
+class TextContainerInteractiveInfo : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    TextHeaderAtom textHeaderAtom;
-    class textChoice {public:QSharedPointer<TextCharsAtom> textcharsatom;
-QSharedPointer<TextBytesAtom> textbytesatom;
-}; textChoice text;
-    QSharedPointer<StyleTextPropAtom> style;
-    class metaChoice {public:QSharedPointer<SlideNumberMCAtom> slidenumbermcatom;
-QSharedPointer<DateTimeMCAtom> datetimemcatom;
-QSharedPointer<GenericDateMCAtom> genericdatemcatom;
-QSharedPointer<HeaderMCAtom> headermcatom;
-QSharedPointer<FooterMCAtom> footermcatom;
-QSharedPointer<RTFDateTimeMCAtom> rtfdatetimemcatom;
-}; metaChoice meta;
-    QSharedPointer<MasterTextPropAtom> master;
-    QSharedPointer<TextBookmarkAtom> bookmark;
-    QSharedPointer<TextSpecialInfoAtom> specialinfo;
     class interactiveChoice {public:QSharedPointer<InteractiveInfoInstance> interactiveinfoinstance;
 QSharedPointer<TextInteractiveInfoInstance> textinteractiveinfoinstance;
 }; interactiveChoice interactive;
-    TextContainer()  {
+    TextContainerInteractiveInfo()  {
     }
     QString toString() {
-        QString _s = "TextContainer:";
-        _s = _s + "textHeaderAtom: " + textHeaderAtom.toString() + ", ";
-        _s = _s + "text: " + "<choice>" + ", ";
-        _s = _s + "style: " + ((style)?style->toString() :"null") + ", ";
-        _s = _s + "meta: " + "<choice>" + ", ";
-        _s = _s + "master: " + ((master)?master->toString() :"null") + ", ";
-        _s = _s + "bookmark: " + ((bookmark)?bookmark->toString() :"null") + ", ";
-        _s = _s + "specialinfo: " + ((specialinfo)?specialinfo->toString() :"null") + ", ";
+        QString _s = "TextContainerInteractiveInfo:";
         _s = _s + "interactive: " + "<choice>" + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class TextClientDataSubContainerOrAtom : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<OutlineTextRefAtom> outlinetextrefatom;
-QSharedPointer<TextContainer> textcontainer;
-QSharedPointer<TextRulerAtom> textruleratom;
-}; anonChoice anon;
-    TextClientDataSubContainerOrAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextClientDataSubContainerOrAtom:";
-        _s = _s + "anon: " + "<choice>" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -17610,6 +17646,174 @@ const Introspectable* (* const MasterPersistAtom::_Introspection::introspectable
 };
 const Introspection MasterPersistAtom::_introspection(
     "MasterPersistAtom", 10, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class TextContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[8];
+    static int (* const numberOfInstances[8])(const Introspectable*);
+    static QVariant (* const value[8])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[8])(const Introspectable*, int position);
+    static const Introspectable* get_textHeaderAtom(const Introspectable* i, int j) {
+        return &(static_cast<const TextContainer*>(i)->textHeaderAtom);
+    }
+    static int count_text(const Introspectable* i) {
+        return get_text(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_text(const Introspectable* i, int j) {
+        const Introspectable* k = 0;
+        if (k == 0) k = static_cast<const TextContainer*>(i)->text.textcharsatom.data();
+        if (k == 0) k = static_cast<const TextContainer*>(i)->text.textbytesatom.data();
+        return k;
+    }
+    static int count_style(const Introspectable* i) {
+        return get_style(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_style(const Introspectable* i, int j) {
+        return static_cast<const TextContainer*>(i)->style.data();
+    }
+    static int count_meta(const Introspectable* i) {
+        return static_cast<const TextContainer*>(i)->meta.size();
+    }
+    static const Introspectable* get_meta(const Introspectable* i, int j) {
+        return &(static_cast<const TextContainer*>(i)->meta[j]);
+    }
+    static int count_master(const Introspectable* i) {
+        return get_master(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_master(const Introspectable* i, int j) {
+        return static_cast<const TextContainer*>(i)->master.data();
+    }
+    static int count_bookmark(const Introspectable* i) {
+        return static_cast<const TextContainer*>(i)->bookmark.size();
+    }
+    static const Introspectable* get_bookmark(const Introspectable* i, int j) {
+        return &(static_cast<const TextContainer*>(i)->bookmark[j]);
+    }
+    static int count_specialinfo(const Introspectable* i) {
+        return get_specialinfo(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_specialinfo(const Introspectable* i, int j) {
+        return static_cast<const TextContainer*>(i)->specialinfo.data();
+    }
+    static int count_interactive(const Introspectable* i) {
+        return static_cast<const TextContainer*>(i)->interactive.size();
+    }
+    static const Introspectable* get_interactive(const Introspectable* i, int j) {
+        return &(static_cast<const TextContainer*>(i)->interactive[j]);
+    }
+};
+const QString TextContainer::_Introspection::name("TextContainer");
+const int TextContainer::_Introspection::numberOfMembers(8);
+const QString TextContainer::_Introspection::names[8] = {
+    "textHeaderAtom",
+    "text",
+    "style",
+    "meta",
+    "master",
+    "bookmark",
+    "specialinfo",
+    "interactive",
+};
+int (* const TextContainer::_Introspection::numberOfInstances[8])(const Introspectable*) = {
+    Introspection::one,
+    _Introspection::count_text,
+    _Introspection::count_style,
+    _Introspection::count_meta,
+    _Introspection::count_master,
+    _Introspection::count_bookmark,
+    _Introspection::count_specialinfo,
+    _Introspection::count_interactive,
+};
+QVariant (* const TextContainer::_Introspection::value[8])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const TextContainer::_Introspection::introspectable[8])(const Introspectable*, int position) = {
+    _Introspection::get_textHeaderAtom,
+    _Introspection::get_text,
+    _Introspection::get_style,
+    _Introspection::get_meta,
+    _Introspection::get_master,
+    _Introspection::get_bookmark,
+    _Introspection::get_specialinfo,
+    _Introspection::get_interactive,
+};
+const Introspection TextContainer::_introspection(
+    "TextContainer", 8, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class TextContainerMeta::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[1];
+    static int (* const numberOfInstances[1])(const Introspectable*);
+    static QVariant (* const value[1])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
+    static const Introspectable* get_meta(const Introspectable* i, int j) {
+        const Introspectable* k = 0;
+        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.slidenumbermcatom.data();
+        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.datetimemcatom.data();
+        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.genericdatemcatom.data();
+        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.headermcatom.data();
+        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.footermcatom.data();
+        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.rtfdatetimemcatom.data();
+        return k;
+    }
+};
+const QString TextContainerMeta::_Introspection::name("TextContainerMeta");
+const int TextContainerMeta::_Introspection::numberOfMembers(1);
+const QString TextContainerMeta::_Introspection::names[1] = {
+    "meta",
+};
+int (* const TextContainerMeta::_Introspection::numberOfInstances[1])(const Introspectable*) = {
+    Introspection::one,
+};
+QVariant (* const TextContainerMeta::_Introspection::value[1])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+};
+const Introspectable* (* const TextContainerMeta::_Introspection::introspectable[1])(const Introspectable*, int position) = {
+    _Introspection::get_meta,
+};
+const Introspection TextContainerMeta::_introspection(
+    "TextContainerMeta", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class TextClientDataSubContainerOrAtom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[1];
+    static int (* const numberOfInstances[1])(const Introspectable*);
+    static QVariant (* const value[1])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
+    static const Introspectable* get_anon(const Introspectable* i, int j) {
+        const Introspectable* k = 0;
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.outlinetextrefatom.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textcontainer.data();
+        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textruleratom.data();
+        return k;
+    }
+};
+const QString TextClientDataSubContainerOrAtom::_Introspection::name("TextClientDataSubContainerOrAtom");
+const int TextClientDataSubContainerOrAtom::_Introspection::numberOfMembers(1);
+const QString TextClientDataSubContainerOrAtom::_Introspection::names[1] = {
+    "anon",
+};
+int (* const TextClientDataSubContainerOrAtom::_Introspection::numberOfInstances[1])(const Introspectable*) = {
+    Introspection::one,
+};
+QVariant (* const TextClientDataSubContainerOrAtom::_Introspection::value[1])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+};
+const Introspectable* (* const TextClientDataSubContainerOrAtom::_Introspection::introspectable[1])(const Introspectable*, int position) = {
+    _Introspection::get_anon,
+};
+const Introspection TextClientDataSubContainerOrAtom::_introspection(
+    "TextClientDataSubContainerOrAtom", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class SlidePersistAtom::_Introspection {
 public:
     static const QString name;
@@ -21394,118 +21598,7 @@ const Introspectable* (* const SlideListWithTextSubContainerOrAtom::_Introspecti
 };
 const Introspection SlideListWithTextSubContainerOrAtom::_introspection(
     "SlideListWithTextSubContainerOrAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class TextContainer::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[8];
-    static int (* const numberOfInstances[8])(const Introspectable*);
-    static QVariant (* const value[8])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[8])(const Introspectable*, int position);
-    static const Introspectable* get_textHeaderAtom(const Introspectable* i, int j) {
-        return &(static_cast<const TextContainer*>(i)->textHeaderAtom);
-    }
-    static int count_text(const Introspectable* i) {
-        return get_text(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_text(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const TextContainer*>(i)->text.textcharsatom.data();
-        if (k == 0) k = static_cast<const TextContainer*>(i)->text.textbytesatom.data();
-        return k;
-    }
-    static int count_style(const Introspectable* i) {
-        return get_style(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_style(const Introspectable* i, int j) {
-        return static_cast<const TextContainer*>(i)->style.data();
-    }
-    static int count_meta(const Introspectable* i) {
-        return get_meta(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_meta(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const TextContainer*>(i)->meta.slidenumbermcatom.data();
-        if (k == 0) k = static_cast<const TextContainer*>(i)->meta.datetimemcatom.data();
-        if (k == 0) k = static_cast<const TextContainer*>(i)->meta.genericdatemcatom.data();
-        if (k == 0) k = static_cast<const TextContainer*>(i)->meta.headermcatom.data();
-        if (k == 0) k = static_cast<const TextContainer*>(i)->meta.footermcatom.data();
-        if (k == 0) k = static_cast<const TextContainer*>(i)->meta.rtfdatetimemcatom.data();
-        return k;
-    }
-    static int count_master(const Introspectable* i) {
-        return get_master(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_master(const Introspectable* i, int j) {
-        return static_cast<const TextContainer*>(i)->master.data();
-    }
-    static int count_bookmark(const Introspectable* i) {
-        return get_bookmark(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_bookmark(const Introspectable* i, int j) {
-        return static_cast<const TextContainer*>(i)->bookmark.data();
-    }
-    static int count_specialinfo(const Introspectable* i) {
-        return get_specialinfo(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_specialinfo(const Introspectable* i, int j) {
-        return static_cast<const TextContainer*>(i)->specialinfo.data();
-    }
-    static int count_interactive(const Introspectable* i) {
-        return get_interactive(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_interactive(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const TextContainer*>(i)->interactive.interactiveinfoinstance.data();
-        if (k == 0) k = static_cast<const TextContainer*>(i)->interactive.textinteractiveinfoinstance.data();
-        return k;
-    }
-};
-const QString TextContainer::_Introspection::name("TextContainer");
-const int TextContainer::_Introspection::numberOfMembers(8);
-const QString TextContainer::_Introspection::names[8] = {
-    "textHeaderAtom",
-    "text",
-    "style",
-    "meta",
-    "master",
-    "bookmark",
-    "specialinfo",
-    "interactive",
-};
-int (* const TextContainer::_Introspection::numberOfInstances[8])(const Introspectable*) = {
-    Introspection::one,
-    _Introspection::count_text,
-    _Introspection::count_style,
-    _Introspection::count_meta,
-    _Introspection::count_master,
-    _Introspection::count_bookmark,
-    _Introspection::count_specialinfo,
-    _Introspection::count_interactive,
-};
-QVariant (* const TextContainer::_Introspection::value[8])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-};
-const Introspectable* (* const TextContainer::_Introspection::introspectable[8])(const Introspectable*, int position) = {
-    _Introspection::get_textHeaderAtom,
-    _Introspection::get_text,
-    _Introspection::get_style,
-    _Introspection::get_meta,
-    _Introspection::get_master,
-    _Introspection::get_bookmark,
-    _Introspection::get_specialinfo,
-    _Introspection::get_interactive,
-};
-const Introspection TextContainer::_introspection(
-    "TextContainer", 8, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class TextClientDataSubContainerOrAtom::_Introspection {
+class TextContainerInteractiveInfo::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
@@ -21513,30 +21606,29 @@ public:
     static int (* const numberOfInstances[1])(const Introspectable*);
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
-    static const Introspectable* get_anon(const Introspectable* i, int j) {
+    static const Introspectable* get_interactive(const Introspectable* i, int j) {
         const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.outlinetextrefatom.data();
-        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textcontainer.data();
-        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textruleratom.data();
+        if (k == 0) k = static_cast<const TextContainerInteractiveInfo*>(i)->interactive.interactiveinfoinstance.data();
+        if (k == 0) k = static_cast<const TextContainerInteractiveInfo*>(i)->interactive.textinteractiveinfoinstance.data();
         return k;
     }
 };
-const QString TextClientDataSubContainerOrAtom::_Introspection::name("TextClientDataSubContainerOrAtom");
-const int TextClientDataSubContainerOrAtom::_Introspection::numberOfMembers(1);
-const QString TextClientDataSubContainerOrAtom::_Introspection::names[1] = {
-    "anon",
+const QString TextContainerInteractiveInfo::_Introspection::name("TextContainerInteractiveInfo");
+const int TextContainerInteractiveInfo::_Introspection::numberOfMembers(1);
+const QString TextContainerInteractiveInfo::_Introspection::names[1] = {
+    "interactive",
 };
-int (* const TextClientDataSubContainerOrAtom::_Introspection::numberOfInstances[1])(const Introspectable*) = {
+int (* const TextContainerInteractiveInfo::_Introspection::numberOfInstances[1])(const Introspectable*) = {
     Introspection::one,
 };
-QVariant (* const TextClientDataSubContainerOrAtom::_Introspection::value[1])(const Introspectable*, int position) = {
+QVariant (* const TextContainerInteractiveInfo::_Introspection::value[1])(const Introspectable*, int position) = {
     Introspection::nullValue,
 };
-const Introspectable* (* const TextClientDataSubContainerOrAtom::_Introspection::introspectable[1])(const Introspectable*, int position) = {
-    _Introspection::get_anon,
+const Introspectable* (* const TextContainerInteractiveInfo::_Introspection::introspectable[1])(const Introspectable*, int position) = {
+    _Introspection::get_interactive,
 };
-const Introspection TextClientDataSubContainerOrAtom::_introspection(
-    "TextClientDataSubContainerOrAtom", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+const Introspection TextContainerInteractiveInfo::_introspection(
+    "TextContainerInteractiveInfo", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class TextPFRun::_Introspection {
 public:
     static const QString name;
@@ -28188,6 +28280,202 @@ void write(const MasterPersistAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.masterId);
     out.writeuint32(_s.reserved6);
 }
+void parseTextContainer(LEInputStream& in, TextContainer& _s) {
+    LEInputStream::Mark _m;
+        bool _atend;
+    parseTextHeaderAtom(in, _s.textHeaderAtom);
+    _m = in.setMark();
+    try {
+        TextCharsAtom _t;
+        parseTextCharsAtom(in, _t);
+        _s.text.textcharsatom = QSharedPointer<TextCharsAtom>(new TextCharsAtom(_t));
+    } catch (IncorrectValueException _x) {
+        in.rewind(_m);
+    try {
+        TextBytesAtom _t;
+        parseTextBytesAtom(in, _t);
+        _s.text.textbytesatom = QSharedPointer<TextBytesAtom>(new TextBytesAtom(_t));
+    } catch (IncorrectValueException _xx) {
+        in.rewind(_m);
+    }}
+    _m = in.setMark();
+    try {
+        StyleTextPropAtom _t;
+        parseStyleTextPropAtom(in, _t);
+        _s.style = QSharedPointer<StyleTextPropAtom>(new StyleTextPropAtom(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _atend = false;
+    while (!_atend) {
+        _m = in.setMark();
+        try {
+            TextContainerMeta _t;
+            parseTextContainerMeta(in, _t);
+            _s.meta.append(_t);
+        } catch(IncorrectValueException _e) {
+            _atend = true;
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _atend = true;
+            in.rewind(_m);
+        }
+    }
+    _m = in.setMark();
+    try {
+        MasterTextPropAtom _t;
+        parseMasterTextPropAtom(in, _t);
+        _s.master = QSharedPointer<MasterTextPropAtom>(new MasterTextPropAtom(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _atend = false;
+    while (!_atend) {
+        _m = in.setMark();
+        try {
+            TextBookmarkAtom _t;
+            parseTextBookmarkAtom(in, _t);
+            _s.bookmark.append(_t);
+        } catch(IncorrectValueException _e) {
+            _atend = true;
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _atend = true;
+            in.rewind(_m);
+        }
+    }
+    _m = in.setMark();
+    try {
+        TextSpecialInfoAtom _t;
+        parseTextSpecialInfoAtom(in, _t);
+        _s.specialinfo = QSharedPointer<TextSpecialInfoAtom>(new TextSpecialInfoAtom(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _atend = false;
+    while (!_atend) {
+        _m = in.setMark();
+        try {
+            TextContainerInteractiveInfo _t;
+            parseTextContainerInteractiveInfo(in, _t);
+            _s.interactive.append(_t);
+        } catch(IncorrectValueException _e) {
+            _atend = true;
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _atend = true;
+            in.rewind(_m);
+        }
+    }
+}
+void write(const TextContainer& _s, LEOutputStream& out) {
+    write(_s.textHeaderAtom, out);
+    if (_s.text.textcharsatom) {
+        write(*_s.text.textcharsatom, out);
+    } else if (_s.text.textbytesatom) {
+        write(*_s.text.textbytesatom, out);
+    }
+    if (_s.style) write(*_s.style, out);
+    foreach (TextContainerMeta _i, _s.meta) {
+        write(_i, out);
+    }
+    if (_s.master) write(*_s.master, out);
+    foreach (TextBookmarkAtom _i, _s.bookmark) {
+        write(_i, out);
+    }
+    if (_s.specialinfo) write(*_s.specialinfo, out);
+    foreach (TextContainerInteractiveInfo _i, _s.interactive) {
+        write(_i, out);
+    }
+}
+void parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s) {
+    LEInputStream::Mark _m;
+    _m = in.setMark();
+    try {
+        SlideNumberMCAtom _t;
+        parseSlideNumberMCAtom(in, _t);
+        _s.meta.slidenumbermcatom = QSharedPointer<SlideNumberMCAtom>(new SlideNumberMCAtom(_t));
+    } catch (IncorrectValueException _x) {
+        in.rewind(_m);
+    try {
+        DateTimeMCAtom _t;
+        parseDateTimeMCAtom(in, _t);
+        _s.meta.datetimemcatom = QSharedPointer<DateTimeMCAtom>(new DateTimeMCAtom(_t));
+    } catch (IncorrectValueException _xx) {
+        in.rewind(_m);
+    try {
+        GenericDateMCAtom _t;
+        parseGenericDateMCAtom(in, _t);
+        _s.meta.genericdatemcatom = QSharedPointer<GenericDateMCAtom>(new GenericDateMCAtom(_t));
+    } catch (IncorrectValueException _xxx) {
+        in.rewind(_m);
+    try {
+        HeaderMCAtom _t;
+        parseHeaderMCAtom(in, _t);
+        _s.meta.headermcatom = QSharedPointer<HeaderMCAtom>(new HeaderMCAtom(_t));
+    } catch (IncorrectValueException _xxxx) {
+        in.rewind(_m);
+    try {
+        FooterMCAtom _t;
+        parseFooterMCAtom(in, _t);
+        _s.meta.footermcatom = QSharedPointer<FooterMCAtom>(new FooterMCAtom(_t));
+    } catch (IncorrectValueException _xxxxx) {
+        in.rewind(_m);
+        RTFDateTimeMCAtom _t;
+        parseRTFDateTimeMCAtom(in, _t);
+        _s.meta.rtfdatetimemcatom = QSharedPointer<RTFDateTimeMCAtom>(new RTFDateTimeMCAtom(_t));
+    }}}}}
+}
+void write(const TextContainerMeta& _s, LEOutputStream& out) {
+    if (_s.meta.slidenumbermcatom) {
+        write(*_s.meta.slidenumbermcatom, out);
+    } else if (_s.meta.datetimemcatom) {
+        write(*_s.meta.datetimemcatom, out);
+    } else if (_s.meta.genericdatemcatom) {
+        write(*_s.meta.genericdatemcatom, out);
+    } else if (_s.meta.headermcatom) {
+        write(*_s.meta.headermcatom, out);
+    } else if (_s.meta.footermcatom) {
+        write(*_s.meta.footermcatom, out);
+    } else if (_s.meta.rtfdatetimemcatom) {
+        write(*_s.meta.rtfdatetimemcatom, out);
+    }
+}
+void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s) {
+    LEInputStream::Mark _m;
+    _m = in.setMark();
+    try {
+        OutlineTextRefAtom _t;
+        parseOutlineTextRefAtom(in, _t);
+        _s.anon.outlinetextrefatom = QSharedPointer<OutlineTextRefAtom>(new OutlineTextRefAtom(_t));
+    } catch (IncorrectValueException _x) {
+        in.rewind(_m);
+    try {
+        TextContainer _t;
+        parseTextContainer(in, _t);
+        _s.anon.textcontainer = QSharedPointer<TextContainer>(new TextContainer(_t));
+    } catch (IncorrectValueException _xx) {
+        in.rewind(_m);
+        TextRulerAtom _t;
+        parseTextRulerAtom(in, _t);
+        _s.anon.textruleratom = QSharedPointer<TextRulerAtom>(new TextRulerAtom(_t));
+    }}
+}
+void write(const TextClientDataSubContainerOrAtom& _s, LEOutputStream& out) {
+    if (_s.anon.outlinetextrefatom) {
+        write(*_s.anon.outlinetextrefatom, out);
+    } else if (_s.anon.textcontainer) {
+        write(*_s.anon.textcontainer, out);
+    } else if (_s.anon.textruleratom) {
+        write(*_s.anon.textruleratom, out);
+    }
+}
 void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -30217,101 +30505,8 @@ void write(const SlideListWithTextSubContainerOrAtom& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
-void parseTextContainer(LEInputStream& in, TextContainer& _s) {
+void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteractiveInfo& _s) {
     LEInputStream::Mark _m;
-    parseTextHeaderAtom(in, _s.textHeaderAtom);
-    _m = in.setMark();
-    try {
-        TextCharsAtom _t;
-        parseTextCharsAtom(in, _t);
-        _s.text.textcharsatom = QSharedPointer<TextCharsAtom>(new TextCharsAtom(_t));
-    } catch (IncorrectValueException _x) {
-        in.rewind(_m);
-    try {
-        TextBytesAtom _t;
-        parseTextBytesAtom(in, _t);
-        _s.text.textbytesatom = QSharedPointer<TextBytesAtom>(new TextBytesAtom(_t));
-    } catch (IncorrectValueException _xx) {
-        in.rewind(_m);
-    }}
-    _m = in.setMark();
-    try {
-        StyleTextPropAtom _t;
-        parseStyleTextPropAtom(in, _t);
-        _s.style = QSharedPointer<StyleTextPropAtom>(new StyleTextPropAtom(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        SlideNumberMCAtom _t;
-        parseSlideNumberMCAtom(in, _t);
-        _s.meta.slidenumbermcatom = QSharedPointer<SlideNumberMCAtom>(new SlideNumberMCAtom(_t));
-    } catch (IncorrectValueException _x) {
-        in.rewind(_m);
-    try {
-        DateTimeMCAtom _t;
-        parseDateTimeMCAtom(in, _t);
-        _s.meta.datetimemcatom = QSharedPointer<DateTimeMCAtom>(new DateTimeMCAtom(_t));
-    } catch (IncorrectValueException _xx) {
-        in.rewind(_m);
-    try {
-        GenericDateMCAtom _t;
-        parseGenericDateMCAtom(in, _t);
-        _s.meta.genericdatemcatom = QSharedPointer<GenericDateMCAtom>(new GenericDateMCAtom(_t));
-    } catch (IncorrectValueException _xxx) {
-        in.rewind(_m);
-    try {
-        HeaderMCAtom _t;
-        parseHeaderMCAtom(in, _t);
-        _s.meta.headermcatom = QSharedPointer<HeaderMCAtom>(new HeaderMCAtom(_t));
-    } catch (IncorrectValueException _xxxx) {
-        in.rewind(_m);
-    try {
-        FooterMCAtom _t;
-        parseFooterMCAtom(in, _t);
-        _s.meta.footermcatom = QSharedPointer<FooterMCAtom>(new FooterMCAtom(_t));
-    } catch (IncorrectValueException _xxxxx) {
-        in.rewind(_m);
-    try {
-        RTFDateTimeMCAtom _t;
-        parseRTFDateTimeMCAtom(in, _t);
-        _s.meta.rtfdatetimemcatom = QSharedPointer<RTFDateTimeMCAtom>(new RTFDateTimeMCAtom(_t));
-    } catch (IncorrectValueException _xxxxxx) {
-        in.rewind(_m);
-    }}}}}}
-    _m = in.setMark();
-    try {
-        MasterTextPropAtom _t;
-        parseMasterTextPropAtom(in, _t);
-        _s.master = QSharedPointer<MasterTextPropAtom>(new MasterTextPropAtom(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        TextBookmarkAtom _t;
-        parseTextBookmarkAtom(in, _t);
-        _s.bookmark = QSharedPointer<TextBookmarkAtom>(new TextBookmarkAtom(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        TextSpecialInfoAtom _t;
-        parseTextSpecialInfoAtom(in, _t);
-        _s.specialinfo = QSharedPointer<TextSpecialInfoAtom>(new TextSpecialInfoAtom(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
     _m = in.setMark();
     try {
         InteractiveInfoInstance _t;
@@ -30319,71 +30514,16 @@ void parseTextContainer(LEInputStream& in, TextContainer& _s) {
         _s.interactive.interactiveinfoinstance = QSharedPointer<InteractiveInfoInstance>(new InteractiveInfoInstance(_t));
     } catch (IncorrectValueException _x) {
         in.rewind(_m);
-    try {
         TextInteractiveInfoInstance _t;
         parseTextInteractiveInfoInstance(in, _t);
         _s.interactive.textinteractiveinfoinstance = QSharedPointer<TextInteractiveInfoInstance>(new TextInteractiveInfoInstance(_t));
-    } catch (IncorrectValueException _xx) {
-        in.rewind(_m);
-    }}
+    }
 }
-void write(const TextContainer& _s, LEOutputStream& out) {
-    write(_s.textHeaderAtom, out);
-    if (_s.text.textcharsatom) {
-        write(*_s.text.textcharsatom, out);
-    } else if (_s.text.textbytesatom) {
-        write(*_s.text.textbytesatom, out);
-    }
-    if (_s.style) write(*_s.style, out);
-    if (_s.meta.slidenumbermcatom) {
-        write(*_s.meta.slidenumbermcatom, out);
-    } else if (_s.meta.datetimemcatom) {
-        write(*_s.meta.datetimemcatom, out);
-    } else if (_s.meta.genericdatemcatom) {
-        write(*_s.meta.genericdatemcatom, out);
-    } else if (_s.meta.headermcatom) {
-        write(*_s.meta.headermcatom, out);
-    } else if (_s.meta.footermcatom) {
-        write(*_s.meta.footermcatom, out);
-    } else if (_s.meta.rtfdatetimemcatom) {
-        write(*_s.meta.rtfdatetimemcatom, out);
-    }
-    if (_s.master) write(*_s.master, out);
-    if (_s.bookmark) write(*_s.bookmark, out);
-    if (_s.specialinfo) write(*_s.specialinfo, out);
+void write(const TextContainerInteractiveInfo& _s, LEOutputStream& out) {
     if (_s.interactive.interactiveinfoinstance) {
         write(*_s.interactive.interactiveinfoinstance, out);
     } else if (_s.interactive.textinteractiveinfoinstance) {
         write(*_s.interactive.textinteractiveinfoinstance, out);
-    }
-}
-void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s) {
-    LEInputStream::Mark _m;
-    _m = in.setMark();
-    try {
-        OutlineTextRefAtom _t;
-        parseOutlineTextRefAtom(in, _t);
-        _s.anon.outlinetextrefatom = QSharedPointer<OutlineTextRefAtom>(new OutlineTextRefAtom(_t));
-    } catch (IncorrectValueException _x) {
-        in.rewind(_m);
-    try {
-        TextContainer _t;
-        parseTextContainer(in, _t);
-        _s.anon.textcontainer = QSharedPointer<TextContainer>(new TextContainer(_t));
-    } catch (IncorrectValueException _xx) {
-        in.rewind(_m);
-        TextRulerAtom _t;
-        parseTextRulerAtom(in, _t);
-        _s.anon.textruleratom = QSharedPointer<TextRulerAtom>(new TextRulerAtom(_t));
-    }}
-}
-void write(const TextClientDataSubContainerOrAtom& _s, LEOutputStream& out) {
-    if (_s.anon.outlinetextrefatom) {
-        write(*_s.anon.outlinetextrefatom, out);
-    } else if (_s.anon.textcontainer) {
-        write(*_s.anon.textcontainer, out);
-    } else if (_s.anon.textruleratom) {
-        write(*_s.anon.textruleratom, out);
     }
 }
 void parseTextPFRun(LEInputStream& in, TextPFRun& _s) {

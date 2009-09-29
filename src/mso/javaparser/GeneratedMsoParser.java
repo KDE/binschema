@@ -5368,6 +5368,226 @@ System.out.println(in.getPosition()+" "+_s);
         out.writeuint32(_s.masterId);
         out.writeuint32(_s.reserved6);
     }
+    TextContainer parseTextContainer(LEInputStream in) throws IOException  {
+        TextContainer _s = new TextContainer();
+        Object _m;
+        boolean _atend;
+        int _i;
+        _s.textHeaderAtom = parseTextHeaderAtom(in);
+        _m = in.setMark();
+        try {
+            _s.text = parseTextCharsAtom(in);
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.text = parseTextBytesAtom(in);
+        } catch (IOException _xx) {
+            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
+            in.rewind(_m);
+        }} finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.style = parseStyleTextPropAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                TextContainerMeta _t = parseTextContainerMeta(in);
+                _s.meta.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
+        _m = in.setMark();
+        try {
+            _s.master = parseMasterTextPropAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                TextBookmarkAtom _t = parseTextBookmarkAtom(in);
+                _s.bookmark.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
+        _m = in.setMark();
+        try {
+            _s.specialinfo = parseTextSpecialInfoAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                TextContainerInteractiveInfo _t = parseTextContainerInteractiveInfo(in);
+                _s.interactive.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
+        return _s;
+    }
+    void write(TextContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.textHeaderAtom, out);
+        if (_s.text instanceof TextCharsAtom) {
+            write((TextCharsAtom)_s.text, out);
+        } else if (_s.text instanceof TextBytesAtom) {
+            write((TextBytesAtom)_s.text, out);
+        }
+        if (_s.style != null) write(_s.style, out);
+        for (TextContainerMeta _i: _s.meta) {
+            write(_i, out);
+        }
+        if (_s.master != null) write(_s.master, out);
+        for (TextBookmarkAtom _i: _s.bookmark) {
+            write(_i, out);
+        }
+        if (_s.specialinfo != null) write(_s.specialinfo, out);
+        for (TextContainerInteractiveInfo _i: _s.interactive) {
+            write(_i, out);
+        }
+    }
+    TextContainerMeta parseTextContainerMeta(LEInputStream in) throws IOException  {
+        TextContainerMeta _s = new TextContainerMeta();
+        Object _m;
+        _m = in.setMark();
+        try {
+            _s.meta = parseSlideNumberMCAtom(in);
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.meta = parseDateTimeMCAtom(in);
+        } catch (IOException _xx) {
+            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.meta = parseGenericDateMCAtom(in);
+        } catch (IOException _xxx) {
+            if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.meta = parseHeaderMCAtom(in);
+        } catch (IOException _xxxx) {
+            if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.meta = parseFooterMCAtom(in);
+        } catch (IOException _xxxxx) {
+            if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
+            in.rewind(_m);
+            _s.meta = parseRTFDateTimeMCAtom(in);
+        }}}}} finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(TextContainerMeta _s, LEOutputStream out) throws IOException  {
+        if (_s.meta instanceof SlideNumberMCAtom) {
+            write((SlideNumberMCAtom)_s.meta, out);
+        } else if (_s.meta instanceof DateTimeMCAtom) {
+            write((DateTimeMCAtom)_s.meta, out);
+        } else if (_s.meta instanceof GenericDateMCAtom) {
+            write((GenericDateMCAtom)_s.meta, out);
+        } else if (_s.meta instanceof HeaderMCAtom) {
+            write((HeaderMCAtom)_s.meta, out);
+        } else if (_s.meta instanceof FooterMCAtom) {
+            write((FooterMCAtom)_s.meta, out);
+        } else if (_s.meta instanceof RTFDateTimeMCAtom) {
+            write((RTFDateTimeMCAtom)_s.meta, out);
+        }
+    }
+    TextClientDataSubContainerOrAtom parseTextClientDataSubContainerOrAtom(LEInputStream in) throws IOException  {
+        TextClientDataSubContainerOrAtom _s = new TextClientDataSubContainerOrAtom();
+        Object _m;
+        _m = in.setMark();
+        try {
+            _s.anon = parseOutlineTextRefAtom(in);
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseTextContainer(in);
+        } catch (IOException _xx) {
+            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
+            in.rewind(_m);
+            _s.anon = parseTextRulerAtom(in);
+        }} finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(TextClientDataSubContainerOrAtom _s, LEOutputStream out) throws IOException  {
+        if (_s.anon instanceof OutlineTextRefAtom) {
+            write((OutlineTextRefAtom)_s.anon, out);
+        } else if (_s.anon instanceof TextContainer) {
+            write((TextContainer)_s.anon, out);
+        } else if (_s.anon instanceof TextRulerAtom) {
+            write((TextRulerAtom)_s.anon, out);
+        }
+    }
     SlidePersistAtom parseSlidePersistAtom(LEInputStream in) throws IOException  {
         SlidePersistAtom _s = new SlidePersistAtom();
         _s.rh = parseRecordHeader(in);
@@ -7587,110 +7807,9 @@ System.out.println(in.getPosition()+" "+_s);
             write(_i, out);
         }
     }
-    TextContainer parseTextContainer(LEInputStream in) throws IOException  {
-        TextContainer _s = new TextContainer();
+    TextContainerInteractiveInfo parseTextContainerInteractiveInfo(LEInputStream in) throws IOException  {
+        TextContainerInteractiveInfo _s = new TextContainerInteractiveInfo();
         Object _m;
-        _s.textHeaderAtom = parseTextHeaderAtom(in);
-        _m = in.setMark();
-        try {
-            _s.text = parseTextCharsAtom(in);
-        } catch (IOException _x) {
-            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
-            in.rewind(_m);
-        try {
-            _s.text = parseTextBytesAtom(in);
-        } catch (IOException _xx) {
-            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
-            in.rewind(_m);
-        }} finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.style = parseStyleTextPropAtom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.meta = parseSlideNumberMCAtom(in);
-        } catch (IOException _x) {
-            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
-            in.rewind(_m);
-        try {
-            _s.meta = parseDateTimeMCAtom(in);
-        } catch (IOException _xx) {
-            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
-            in.rewind(_m);
-        try {
-            _s.meta = parseGenericDateMCAtom(in);
-        } catch (IOException _xxx) {
-            if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
-            in.rewind(_m);
-        try {
-            _s.meta = parseHeaderMCAtom(in);
-        } catch (IOException _xxxx) {
-            if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
-            in.rewind(_m);
-        try {
-            _s.meta = parseFooterMCAtom(in);
-        } catch (IOException _xxxxx) {
-            if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
-            in.rewind(_m);
-        try {
-            _s.meta = parseRTFDateTimeMCAtom(in);
-        } catch (IOException _xxxxxx) {
-            if (!(_xxxxxx instanceof IncorrectValueException) && !(_xxxxxx instanceof java.io.EOFException)) throw _xxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
-            in.rewind(_m);
-        }}}}}} finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.master = parseMasterTextPropAtom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.bookmark = parseTextBookmarkAtom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.specialinfo = parseTextSpecialInfoAtom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
         _m = in.setMark();
         try {
             _s.interactive = parseInteractiveInfoInstance(in);
@@ -7698,76 +7817,17 @@ System.out.println(in.getPosition()+" "+_s);
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
-        try {
             _s.interactive = parseTextInteractiveInfoInstance(in);
-        } catch (IOException _xx) {
-            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
-            in.rewind(_m);
-        }} finally {
+        } finally {
             in.releaseMark(_m);
         }
         return _s;
     }
-    void write(TextContainer _s, LEOutputStream out) throws IOException  {
-        write(_s.textHeaderAtom, out);
-        if (_s.text instanceof TextCharsAtom) {
-            write((TextCharsAtom)_s.text, out);
-        } else if (_s.text instanceof TextBytesAtom) {
-            write((TextBytesAtom)_s.text, out);
-        }
-        if (_s.style != null) write(_s.style, out);
-        if (_s.meta instanceof SlideNumberMCAtom) {
-            write((SlideNumberMCAtom)_s.meta, out);
-        } else if (_s.meta instanceof DateTimeMCAtom) {
-            write((DateTimeMCAtom)_s.meta, out);
-        } else if (_s.meta instanceof GenericDateMCAtom) {
-            write((GenericDateMCAtom)_s.meta, out);
-        } else if (_s.meta instanceof HeaderMCAtom) {
-            write((HeaderMCAtom)_s.meta, out);
-        } else if (_s.meta instanceof FooterMCAtom) {
-            write((FooterMCAtom)_s.meta, out);
-        } else if (_s.meta instanceof RTFDateTimeMCAtom) {
-            write((RTFDateTimeMCAtom)_s.meta, out);
-        }
-        if (_s.master != null) write(_s.master, out);
-        if (_s.bookmark != null) write(_s.bookmark, out);
-        if (_s.specialinfo != null) write(_s.specialinfo, out);
+    void write(TextContainerInteractiveInfo _s, LEOutputStream out) throws IOException  {
         if (_s.interactive instanceof InteractiveInfoInstance) {
             write((InteractiveInfoInstance)_s.interactive, out);
         } else if (_s.interactive instanceof TextInteractiveInfoInstance) {
             write((TextInteractiveInfoInstance)_s.interactive, out);
-        }
-    }
-    TextClientDataSubContainerOrAtom parseTextClientDataSubContainerOrAtom(LEInputStream in) throws IOException  {
-        TextClientDataSubContainerOrAtom _s = new TextClientDataSubContainerOrAtom();
-        Object _m;
-        _m = in.setMark();
-        try {
-            _s.anon = parseOutlineTextRefAtom(in);
-        } catch (IOException _x) {
-            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
-            in.rewind(_m);
-        try {
-            _s.anon = parseTextContainer(in);
-        } catch (IOException _xx) {
-            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
-            in.rewind(_m);
-            _s.anon = parseTextRulerAtom(in);
-        }} finally {
-            in.releaseMark(_m);
-        }
-        return _s;
-    }
-    void write(TextClientDataSubContainerOrAtom _s, LEOutputStream out) throws IOException  {
-        if (_s.anon instanceof OutlineTextRefAtom) {
-            write((OutlineTextRefAtom)_s.anon, out);
-        } else if (_s.anon instanceof TextContainer) {
-            write((TextContainer)_s.anon, out);
-        } else if (_s.anon instanceof TextRulerAtom) {
-            write((TextRulerAtom)_s.anon, out);
         }
     }
     TextPFRun parseTextPFRun(LEInputStream in) throws IOException  {
@@ -12681,6 +12741,44 @@ class MasterPersistAtom {
         return _s;
     }
 }
+class TextContainer {
+    TextHeaderAtom textHeaderAtom;
+    Object text;
+    StyleTextPropAtom style;
+    final java.util.List<TextContainerMeta> meta = new java.util.ArrayList<TextContainerMeta>();
+    MasterTextPropAtom master;
+    final java.util.List<TextBookmarkAtom> bookmark = new java.util.ArrayList<TextBookmarkAtom>();
+    TextSpecialInfoAtom specialinfo;
+    final java.util.List<TextContainerInteractiveInfo> interactive = new java.util.ArrayList<TextContainerInteractiveInfo>();
+    public String toString() {
+        String _s = "TextContainer:";
+        _s = _s + "textHeaderAtom: " + String.valueOf(textHeaderAtom) + ", ";
+        _s = _s + "text: " + String.valueOf(text) + ", ";
+        _s = _s + "style: " + String.valueOf(style) + ", ";
+        _s = _s + "meta: " + String.valueOf(meta) + ", ";
+        _s = _s + "master: " + String.valueOf(master) + ", ";
+        _s = _s + "bookmark: " + String.valueOf(bookmark) + ", ";
+        _s = _s + "specialinfo: " + String.valueOf(specialinfo) + ", ";
+        _s = _s + "interactive: " + String.valueOf(interactive) + ", ";
+        return _s;
+    }
+}
+class TextContainerMeta {
+    Object meta;
+    public String toString() {
+        String _s = "TextContainerMeta:";
+        _s = _s + "meta: " + String.valueOf(meta) + ", ";
+        return _s;
+    }
+}
+class TextClientDataSubContainerOrAtom {
+    Object anon;
+    public String toString() {
+        String _s = "TextClientDataSubContainerOrAtom:";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
 class SlidePersistAtom {
     RecordHeader rh;
     PersistIdRef persistIdRef;
@@ -13723,33 +13821,11 @@ class SlideListWithTextSubContainerOrAtom {
         return _s;
     }
 }
-class TextContainer {
-    TextHeaderAtom textHeaderAtom;
-    Object text;
-    StyleTextPropAtom style;
-    Object meta;
-    MasterTextPropAtom master;
-    TextBookmarkAtom bookmark;
-    TextSpecialInfoAtom specialinfo;
+class TextContainerInteractiveInfo {
     Object interactive;
     public String toString() {
-        String _s = "TextContainer:";
-        _s = _s + "textHeaderAtom: " + String.valueOf(textHeaderAtom) + ", ";
-        _s = _s + "text: " + String.valueOf(text) + ", ";
-        _s = _s + "style: " + String.valueOf(style) + ", ";
-        _s = _s + "meta: " + String.valueOf(meta) + ", ";
-        _s = _s + "master: " + String.valueOf(master) + ", ";
-        _s = _s + "bookmark: " + String.valueOf(bookmark) + ", ";
-        _s = _s + "specialinfo: " + String.valueOf(specialinfo) + ", ";
+        String _s = "TextContainerInteractiveInfo:";
         _s = _s + "interactive: " + String.valueOf(interactive) + ", ";
-        return _s;
-    }
-}
-class TextClientDataSubContainerOrAtom {
-    Object anon;
-    public String toString() {
-        String _s = "TextClientDataSubContainerOrAtom:";
-        _s = _s + "anon: " + String.valueOf(anon) + ", ";
         return _s;
     }
 }
