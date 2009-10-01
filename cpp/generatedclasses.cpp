@@ -32386,6 +32386,14 @@ const Introspectable* parse(const QString& key, LEInputStream& in) {
         Table _t;
         parseTable(in, _t);
         i = new Table(_t);
+    } else if ("textPFRun" == key) {
+        TextPFRun _t;
+        parseTextPFRun(in, _t);
+        i = new TextPFRun(_t);
+    } else if ("textCFRun" == key) {
+        TextCFRun _t;
+        parseTextCFRun(in, _t);
+        i = new TextCFRun(_t);
     } else {
         TODOS _t;
         parseTODOS(in, _t);
@@ -32404,6 +32412,10 @@ void serialize(const Introspectable* i, const QString& key, LEOutputStream& out)
         write(*static_cast<const WordDocument*>(i), out);
     } else if ("1Table" == key) {
         write(*static_cast<const Table*>(i), out);
+    } else if ("textPFRun" == key) {
+        write(*static_cast<const TextPFRun*>(i), out);
+    } else if ("textCFRun" == key) {
+        write(*static_cast<const TextCFRun*>(i), out);
     } else {
         write(*static_cast<const TODOS*>(i), out);
     }

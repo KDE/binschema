@@ -12,6 +12,10 @@ public class GeneratedMsoParser {
             return parseWordDocument(in);
         } else if ("1Table".equals(key)) {
             return parseTable(in);
+        } else if ("textPFRun".equals(key)) {
+            return parseTextPFRun(in);
+        } else if ("textCFRun".equals(key)) {
+            return parseTextCFRun(in);
         } else {
             return parseTODOS(in);
         }
@@ -27,6 +31,10 @@ public class GeneratedMsoParser {
             write((WordDocument)o, out);
         } else if ("1Table".equals(key)) {
             write((Table)o, out);
+        } else if ("textPFRun".equals(key)) {
+            write((TextPFRun)o, out);
+        } else if ("textCFRun".equals(key)) {
+            write((TextCFRun)o, out);
         } else {
             write((TODOS)o, out);
         }

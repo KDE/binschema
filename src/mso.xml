@@ -3300,4 +3300,7 @@
 	<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
 	<stream name="WordDocument" key="WordDocument" type="WordDocument" />
 	<stream name="1Table" key="1Table" type="Table" />
+	<!--  two temporary streams to work around the fact that we cannot parse StyleTextPropAtom -->
+	<stream name="textPFRun" key="textPFRun" type="TextPFRun" />
+	<stream name="textCFRun" key="textCFRun" type="TextCFRun" />
 </mso>
