@@ -55,10 +55,21 @@
   </xsl:template>
 
   <xsl:template match="*[@type='TextContainer']">
-    <xsl:variable name="style"><xsl:apply-templates select="style/rgTextCFRun"/></xsl:variable>
-    <h:p style="{$style}">
-    <xsl:value-of select="text/textChars"/>
-    </h:p>
+    <xsl:param name="count" select="1"/>
+    <xsl:param name="start" select="0"/>
+    <xsl:variable name="style">
+      <xsl:apply-templates select="style/rgTextCFRun[position()=$count]"/>
+    </xsl:variable>
+    <xsl:variable name="len" select="style/rgTextCFRun[position()=$count]/count"/>
+    <xsl:if test="$count&lt;=count(style/rgTextCFRun)">
+      <h:span style="{$style}">
+        <xsl:value-of select="substring(text/textChars, $start, $len)"/>
+      </h:span>
+      <xsl:apply-templates select=".">
+        <xsl:with-param name="count" select="$count+1"/>
+        <xsl:with-param name="start" select="$start+$len"/>
+      </xsl:apply-templates>
+    </xsl:if>
   </xsl:template>
 
   <!-- general shape placeholder -->
