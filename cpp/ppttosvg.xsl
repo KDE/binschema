@@ -48,15 +48,34 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="rgTextCFRun">
+    <xsl:if test="cf/masks/bold='true'">font-weight: bold;</xsl:if>
+    <xsl:if test="cf/masks/italic='true'">font-style: italic;</xsl:if>
+    <xsl:if test="cf/masks/underline='true'">text-decoration:underline;</xsl:if>
+  </xsl:template>
+
+  <xsl:template match="*[@type='TextContainer']">
+    <xsl:variable name="style"><xsl:apply-templates select="style/rgTextCFRun"/></xsl:variable>
+    <h:p style="{$style}">
+    <xsl:value-of select="text/textChars"/>
+    </h:p>
+  </xsl:template>
+
   <!-- general shape placeholder -->
   <xsl:template match="*[@type='OfficeArtSpContainer']">
     <xsl:variable name="x"><xsl:call-template name="getX"/></xsl:variable>
     <xsl:variable name="y"><xsl:call-template name="getY"/></xsl:variable>
     <xsl:variable name="w"><xsl:call-template name="getWidth"/></xsl:variable>
     <xsl:variable name="h"><xsl:call-template name="getHeight"/></xsl:variable>
+    <xsl:variable name="slideNumber"
+        select="count(../../../../../../../preceding-sibling::*/*/*[@type='SlideContainer']/..)+1"/>
+    <xsl:variable name="boxNumber" select="count(../preceding-sibling::*)-1"/>
     <g transform="translate({$x}, {$y})">
       <rect width="{$w}" height="{$h}" fill="green" opacity="0.5"/>
-      <text x="0.2em" y="1.2em">placeholder</text>
+      <foreignObject width="{$w}" height="{$h}"><h:body>
+        <xsl:apply-templates
+          select="//slideList/rgChildRec[position()=$slideNumber]/atoms[position()=$boxNumber]"/>
+      </h:body></foreignObject>
     </g>
   </xsl:template>
 
@@ -69,7 +88,7 @@
     <g transform="translate({$x},{$y})">
       <rect width="{$w}" height="{$h}" stroke='black' stroke-width='20' fill='white'/>
       <foreignObject width="{$w}" height="{$h}" >
-        <h:body><xsl:value-of select=".//textChars"/></h:body>
+        <h:body><xsl:apply-templates select=".//*[@type='TextContainer']"/></h:body>
       </foreignObject>
     </g>
   </xsl:template>
