@@ -131,7 +131,11 @@ print(QXmlStreamWriter& out, const Introspectable* i) {
                 if (type == "StyleTextPropAtom") {
                     // StyleTextPropAtom is currently too hard to parse by the generated code
                     printStyleTextPropAtom(out, ci, lastCharacterCount);
-                } else if (type == "TextCharsAtom" || type == "TextBytesAtom") {
+                } else if (type == "TextCharsAtom") {
+                    const Introspection* cis = ci->getIntrospection();
+                    lastCharacterCount = cis->value[1](ci, 0).value<QVector<quint16> >().count();
+                    print(out, ci);
+                } else if (type == "TextBytesAtom") {
                     const Introspection* cis = ci->getIntrospection();
                     lastCharacterCount = cis->value[1](ci, 0).toByteArray().count();
                     print(out, ci);
