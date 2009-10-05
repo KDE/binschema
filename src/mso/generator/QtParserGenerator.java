@@ -133,7 +133,13 @@ public class QtParserGenerator {
 		String index = (m.count == null) ? "" : "[_i]";
 		if (m.condition != null) {
 			String condition = prependStructureToExpression(m.condition, "_s");
-			out.println(s + "if (" + condition + ") {");
+			if (!m.isComplex) {
+				out.println(s + "_s._has_" + m.name + " = " + condition + ";");
+				out.println(s + "if (_s._has_" + m.name + ") {");
+
+			} else {
+				out.println(s + "if (" + condition + ") {");
+			}
 			s = s + "    ";
 			if (m.isComplex) {
 				out.println(s + "_s." + m.name + " = QSharedPointer<" + m.type
@@ -336,21 +342,15 @@ public class QtParserGenerator {
 		out.println("public:");
 		out.println("    static const Introspection _introspection;");
 		for (Member m : s.members) {
+			if (!m.isComplex && m.condition != null) {
+				out.println("    bool _has_" + m.name + ";");
+			}
+		}
+		for (Member m : s.members) {
 			String d = getMemberDeclaration(m);
 			out.println("    " + d + ";");
 		}
 		out.print("    " + s.name + "() ");
-		boolean first = true;
-		for (Member m : s.members) {
-			if ((m.isInteger || m.type.equals("bit")) && !m.isArray) {
-				if (first) {
-					out.print(":" + m.name + "(0)");
-					first = false;
-				} else {
-					out.print(", " + m.name + "(0)");
-				}
-			}
-		}
 		out.println(" {");
 		out.println("    }");
 
@@ -391,6 +391,13 @@ public class QtParserGenerator {
 				+ nm + "])(const Introspectable*, int position);");
 		for (Member m : s.members) {
 			if (!m.isComplex && m.choices == null) {
+				if (m.condition != null) {
+					out.println("    static int count_" + m.name
+							+ "(const Introspectable* i) {");
+					out.println("        return static_cast<const " + s.name
+							+ "*>(i)->_has_" + m.name + " ?1 :0;");
+					out.println("    }");
+				}
 			} else if (m.isOptional || m.condition != null) {
 				out.println("    static int count_" + m.name
 						+ "(const Introspectable* i) {");
@@ -448,8 +455,8 @@ public class QtParserGenerator {
 		out.println("int (* const " + ns + "::numberOfInstances[" + nm
 				+ "])(const Introspectable*) = {");
 		for (Member m : s.members) {
-			if ((m.isComplex || m.choices != null)
-					&& (m.isOptional || m.isArray || m.condition != null)) {
+			if (m.condition != null
+					|| ((m.isComplex || m.choices != null) && (m.isOptional || m.isArray))) {
 				out.println("    _Introspection::count_" + m.name + ",");
 			} else {
 				// arrays of simple types count as one instance

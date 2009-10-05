@@ -834,7 +834,7 @@ public:
     quint16 recInstance;
     quint16 recType;
     quint32 recLen;
-    RecordHeader() :recVer(0), recInstance(0), recType(0), recLen(0) {
+    RecordHeader()  {
     }
     QString toString() {
         QString _s = "RecordHeader:";
@@ -851,6 +851,7 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_unicodeUserName;
     RecordHeader rh;
     quint32 size;
     quint32 headerToken;
@@ -863,7 +864,7 @@ public:
     QByteArray ansiUserName;
     quint32 relVersion;
     QByteArray unicodeUserName;
-    CurrentUserAtom() :size(0), headerToken(0), offsetToCurrentEdit(0), lenUserName(0), docFileVersion(0), majorVersion(0), minorVersion(0), unused(0), relVersion(0) {
+    CurrentUserAtom()  {
     }
     QString toString() {
         QString _s = "CurrentUserAtom:";
@@ -904,7 +905,7 @@ private:
 public:
     static const Introspection _introspection;
     quint8 b;
-    Byte() :b(0) {
+    Byte()  {
     }
     QString toString() {
         QString _s = "Byte:";
@@ -954,7 +955,7 @@ public:
     quint16 recInstance;
     quint16 recType;
     quint32 recLen;
-    OfficeArtRecordHeader() :recVer(0), recInstance(0), recType(0), recLen(0) {
+    OfficeArtRecordHeader()  {
     }
     QString toString() {
         QString _s = "OfficeArtRecordHeader:";
@@ -971,12 +972,13 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_rgbUid2;
     OfficeArtRecordHeader rh;
     QByteArray rgbUid1;
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipJPEG() :tag(0) {
+    OfficeArtBlipJPEG()  {
     }
     QString toString() {
         QString _s = "OfficeArtBlipJPEG:";
@@ -994,12 +996,13 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_rgbUid2;
     OfficeArtRecordHeader rh;
     QByteArray rgbUid1;
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipPNG() :tag(0) {
+    OfficeArtBlipPNG()  {
     }
     QString toString() {
         QString _s = "OfficeArtBlipPNG:";
@@ -1017,12 +1020,13 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_rgbUid2;
     OfficeArtRecordHeader rh;
     QByteArray rgbUid1;
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipDIB() :tag(0) {
+    OfficeArtBlipDIB()  {
     }
     QString toString() {
         QString _s = "OfficeArtBlipDIB:";
@@ -1040,12 +1044,13 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_rgbUid2;
     OfficeArtRecordHeader rh;
     QByteArray rgbUid1;
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipTIFF() :tag(0) {
+    OfficeArtBlipTIFF()  {
     }
     QString toString() {
         QString _s = "OfficeArtBlipTIFF:";
@@ -1067,7 +1072,7 @@ public:
     qint32 top;
     qint32 right;
     qint32 bottom;
-    RECT() :left(0), top(0), right(0), bottom(0) {
+    RECT()  {
     }
     QString toString() {
         QString _s = "RECT:";
@@ -1086,7 +1091,7 @@ public:
     static const Introspection _introspection;
     qint32 x;
     qint32 y;
-    POINT() :x(0), y(0) {
+    POINT()  {
     }
     QString toString() {
         QString _s = "POINT:";
@@ -1220,7 +1225,7 @@ public:
     quint8 unused1;
     quint8 fSnapToGrid;
     quint8 fSnapToShape;
-    SlideViewInfoAtom() :unused1(0), fSnapToGrid(0), fSnapToShape(0) {
+    SlideViewInfoAtom()  {
     }
     QString toString() {
         QString _s = "SlideViewInfoAtom:";
@@ -1240,7 +1245,7 @@ public:
     RecordHeader rh;
     quint32 type;
     qint32 pos;
-    GuideAtom() :type(0), pos(0) {
+    GuideAtom()  {
     }
     QString toString() {
         QString _s = "GuideAtom:";
@@ -1311,7 +1316,7 @@ public:
     quint32 persistIdRef;
     quint32 fHasMacros;
     quint32 version;
-    VBAInfoAtom() :persistIdRef(0), fHasMacros(0), version(0) {
+    VBAInfoAtom()  {
     }
     QString toString() {
         QString _s = "VBAInfoAtom:";
@@ -1381,7 +1386,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint32 textType;
-    TextHeaderAtom() :textType(0) {
+    TextHeaderAtom()  {
     }
     QString toString() {
         QString _s = "TextHeaderAtom:";
@@ -1449,7 +1454,7 @@ public:
     static const Introspection _introspection;
     quint32 count;
     quint16 indentLevel;
-    MasterTextPropRun() :count(0), indentLevel(0) {
+    MasterTextPropRun()  {
     }
     QString toString() {
         QString _s = "MasterTextPropRun:";
@@ -1483,7 +1488,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    SlideNumberMCAtom() :position(0) {
+    SlideNumberMCAtom()  {
     }
     QString toString() {
         QString _s = "SlideNumberMCAtom:";
@@ -1502,7 +1507,7 @@ public:
     qint32 position;
     quint8 index;
     QByteArray unused;
-    DateTimeMCAtom() :position(0), index(0) {
+    DateTimeMCAtom()  {
     }
     QString toString() {
         QString _s = "DateTimeMCAtom:";
@@ -1521,7 +1526,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    GenericDateMCAtom() :position(0) {
+    GenericDateMCAtom()  {
     }
     QString toString() {
         QString _s = "GenericDateMCAtom:";
@@ -1538,7 +1543,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    HeaderMCAtom() :position(0) {
+    HeaderMCAtom()  {
     }
     QString toString() {
         QString _s = "HeaderMCAtom:";
@@ -1555,7 +1560,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    FooterMCAtom() :position(0) {
+    FooterMCAtom()  {
     }
     QString toString() {
         QString _s = "FooterMCAtom:";
@@ -1573,7 +1578,7 @@ public:
     RecordHeader rh;
     qint32 position;
     QByteArray format;
-    RTFDateTimeMCAtom() :position(0) {
+    RTFDateTimeMCAtom()  {
     }
     QString toString() {
         QString _s = "RTFDateTimeMCAtom:";
@@ -1593,7 +1598,7 @@ public:
     qint32 begin;
     qint32 end;
     qint32 bookmarkID;
-    TextBookmarkAtom() :begin(0), end(0), bookmarkID(0) {
+    TextBookmarkAtom()  {
     }
     QString toString() {
         QString _s = "TextBookmarkAtom:";
@@ -1628,7 +1633,7 @@ private:
 public:
     static const Introspection _introspection;
     quint32 slideId;
-    SlideId() :slideId(0) {
+    SlideId()  {
     }
     QString toString() {
         QString _s = "SlideId:";
@@ -1644,7 +1649,7 @@ public:
     static const Introspection _introspection;
     quint16 count;
     QList<TabStop> rgTabStop;
-    TabStops() :count(0) {
+    TabStops()  {
     }
     QString toString() {
         QString _s = "TabStops:";
@@ -1661,7 +1666,7 @@ public:
     static const Introspection _introspection;
     qint16 position;
     quint16 type;
-    TabStop() :position(0), type(0) {
+    TabStop()  {
     }
     QString toString() {
         QString _s = "TabStop:";
@@ -1680,7 +1685,7 @@ public:
     quint8 green;
     quint8 blue;
     quint8 index;
-    ColorIndexStruct() :red(0), green(0), blue(0), index(0) {
+    ColorIndexStruct()  {
     }
     QString toString() {
         QString _s = "ColorIndexStruct:";
@@ -1702,7 +1707,7 @@ public:
     bool fBulletHasColor;
     bool fBulletHasSize;
     quint16 reserved;
-    BulletFlags() :fHasBullet(0), fBulletHasFont(0), fBulletHasColor(0), fBulletHasSize(0), reserved(0) {
+    BulletFlags()  {
     }
     QString toString() {
         QString _s = "BulletFlags:";
@@ -1747,7 +1752,7 @@ public:
     bool bulletScheme;
     bool bulletHasScheme;
     quint8 reserved2;
-    PFMasks() :hasBullet(0), bulletHasFont(0), bulletHasColor(0), bulletHasSize(0), bulletFont(0), bulletColor(0), bulletSize(0), bulletChar(0), leftMargin(0), unused(0), indent(0), align(0), lineSpacing(0), spaceBefore(0), spaceAfter(0), defaultTabSize(0), fontAlign(0), charWrap(0), wordWrap(0), overflow(0), tabStops(0), textDirection(0), reserved(0), bulletBlip(0), bulletScheme(0), bulletHasScheme(0), reserved2(0) {
+    PFMasks()  {
     }
     QString toString() {
         QString _s = "PFMasks:";
@@ -1811,7 +1816,7 @@ public:
     bool csTypeface;
     bool pp11ext;
     quint8 reserved;
-    CFMasks() :bold(0), italic(0), underline(0), unused1(0), shadow(0), fehint(0), unused2(0), kumi(0), unused3(0), emboss(0), fHasStyle(0), unused4(0), typeface(0), size(0), color(0), position(0), pp10ext(0), oldEATypeface(0), ansiTypeface(0), symbolTypeface(0), newEATypeface(0), csTypeface(0), pp11ext(0), reserved(0) {
+    CFMasks()  {
     }
     QString toString() {
         QString _s = "CFMasks:";
@@ -1860,7 +1865,7 @@ public:
     bool emboss;
     quint8 pp9rt;
     quint8 unused4;
-    CFStyle() :bold(0), italic(0), underline(0), unused1(0), shadow(0), fehint(0), unused2(0), kumi(0), unused3(0), emboss(0), pp9rt(0), unused4(0) {
+    CFStyle()  {
     }
     QString toString() {
         QString _s = "CFStyle:";
@@ -1913,7 +1918,7 @@ public:
     bool fNoFontSubstitution;
     quint8 reserved;
     quint8 lfPitchAndFamily;
-    FontEntityAtom() :lfCharSet(0), fEmbedSubsetted(0), unused(0), rasterFontType(0), deviceFontType(0), truetypeFontType(0), fNoFontSubstitution(0), reserved(0), lfPitchAndFamily(0) {
+    FontEntityAtom()  {
     }
     QString toString() {
         QString _s = "FontEntityAtom:";
@@ -1956,7 +1961,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint32 level;
-    KinsokuAtom() :level(0) {
+    KinsokuAtom()  {
     }
     QString toString() {
         QString _s = "KinsokuAtom:";
@@ -1973,7 +1978,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint16 kinsokuLeading;
-    KinsokuLeadingAtom() :kinsokuLeading(0) {
+    KinsokuLeadingAtom()  {
     }
     QString toString() {
         QString _s = "KinsokuLeadingAtom:";
@@ -1990,7 +1995,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint16 kinsokuFollowing;
-    KinsokuFollowingAtom() :kinsokuFollowing(0) {
+    KinsokuFollowingAtom()  {
     }
     QString toString() {
         QString _s = "KinsokuFollowingAtom:";
@@ -2024,7 +2029,7 @@ public:
     static const Introspection _introspection;
     quint32 count;
     QVector<quint32> rgSmartTagIndex;
-    SmartTags() :count(0) {
+    SmartTags()  {
     }
     QString toString() {
         QString _s = "SmartTags:";
@@ -2045,7 +2050,7 @@ public:
     quint8 fNoSizeToServer;
     quint8 fIsTable;
     quint8 unused;
-    ExOleEmbedAtom() :exColorFollow(0), fCantLockServer(0), fNoSizeToServer(0), fIsTable(0), unused(0) {
+    ExOleEmbedAtom()  {
     }
     QString toString() {
         QString _s = "ExOleEmbedAtom:";
@@ -2066,7 +2071,7 @@ public:
     static const Introspection _introspection;
     qint32 x;
     qint32 y;
-    PointStruct() :x(0), y(0) {
+    PointStruct()  {
     }
     QString toString() {
         QString _s = "PointStruct:";
@@ -2083,7 +2088,7 @@ public:
     static const Introspection _introspection;
     qint32 numer;
     qint32 denom;
-    RatioStruct() :numer(0), denom(0) {
+    RatioStruct()  {
     }
     QString toString() {
         QString _s = "RatioStruct:";
@@ -2220,7 +2225,7 @@ public:
     quint32 persistId;
     quint16 cPersist;
     QList<PersistOffsetEntry> rgPersistOffset;
-    PersistDirectoryEntry() :persistId(0), cPersist(0) {
+    PersistDirectoryEntry()  {
     }
     QString toString() {
         QString _s = "PersistDirectoryEntry:";
@@ -2237,7 +2242,7 @@ private:
 public:
     static const Introspection _introspection;
     quint32 anon;
-    PersistOffsetEntry() :anon(0) {
+    PersistOffsetEntry()  {
     }
     QString toString() {
         QString _s = "PersistOffsetEntry:";
@@ -2252,7 +2257,7 @@ private:
 public:
     static const Introspection _introspection;
     quint32 anon;
-    PersistIdRef() :anon(0) {
+    PersistIdRef()  {
     }
     QString toString() {
         QString _s = "PersistIdRef:";
@@ -2504,6 +2509,7 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_encryptSessionPersistIdRef;
     RecordHeader rh;
     quint32 lastSlideIdRef;
     quint16 version;
@@ -2516,7 +2522,7 @@ public:
     quint16 lastView;
     quint16 unused;
     quint32 encryptSessionPersistIdRef;
-    UserEditAtom() :lastSlideIdRef(0), version(0), minorVersion(0), majorVersion(0), offsetLastEdit(0), offsetPersistDirectory(0), docPersistIdRef(0), persistIdSeed(0), lastView(0), unused(0), encryptSessionPersistIdRef(0) {
+    UserEditAtom()  {
     }
     QString toString() {
         QString _s = "UserEditAtom:";
@@ -2582,7 +2588,7 @@ public:
     quint32 notesIdRef;
     quint16 slideFlags;
     quint16 unused;
-    SlideAtom() :geom(0), masterIdRef(0), notesIdRef(0), slideFlags(0), unused(0) {
+    SlideAtom()  {
     }
     QString toString() {
         QString _s = "SlideAtom:";
@@ -2623,7 +2629,7 @@ public:
     quint8 reserved7;
     quint8 speed;
     QByteArray unused;
-    SlideShowSlideInfoAtom() :slidetime(0), slideIdRef(0), effectDirection(0), effectType(0), fManualAdvance(0), reserved(0), fHidden(0), reserved2(0), fSound(0), reserved3(0), fLoopSound(0), reserved4(0), fStopSound(0), freserved5(0), fAutoAdvance(0), reserved6(0), fCursorVisible(0), reserved7(0), speed(0) {
+    SlideShowSlideInfoAtom()  {
     }
     QString toString() {
         QString _s = "SlideShowSlideInfoAtom:";
@@ -2797,7 +2803,7 @@ public:
     quint8 green;
     quint8 blue;
     quint8 unused;
-    ColorStruct() :red(0), green(0), blue(0), unused(0) {
+    ColorStruct()  {
     }
     QString toString() {
         QString _s = "ColorStruct:";
@@ -2816,7 +2822,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 exObjIdSeed;
-    ExObjListAtom() :exObjIdSeed(0) {
+    ExObjListAtom()  {
     }
     QString toString() {
         QString _s = "ExObjListAtom:";
@@ -2988,7 +2994,7 @@ public:
     quint32 slideIdRef;
     quint32 oleUpdateMode;
     quint32 unused;
-    ExOleLinkAtom() :slideIdRef(0), oleUpdateMode(0), unused(0) {
+    ExOleLinkAtom()  {
     }
     QString toString() {
         QString _s = "ExOleLinkAtom:";
@@ -3012,7 +3018,7 @@ public:
     quint32 subType;
     quint32 persistIdRef;
     quint32 unused;
-    ExOleObjAtom() :drawAspect(0), type(0), exObjId(0), subType(0), persistIdRef(0), unused(0) {
+    ExOleObjAtom()  {
     }
     QString toString() {
         QString _s = "ExOleObjAtom:";
@@ -3088,7 +3094,7 @@ public:
     qint16 xExt;
     qint16 yExt;
     QByteArray data;
-    MetafileBlob() :mm(0), xExt(0), yExt(0) {
+    MetafileBlob()  {
     }
     QString toString() {
         QString _s = "MetafileBlob:";
@@ -3110,7 +3116,7 @@ public:
     quint32 cidcl;
     quint32 cspSaved;
     quint32 cdgSaved;
-    OfficeArtFDGG() :spidMax(0), cidcl(0), cspSaved(0), cdgSaved(0) {
+    OfficeArtFDGG()  {
     }
     QString toString() {
         QString _s = "OfficeArtFDGG:";
@@ -3130,7 +3136,7 @@ public:
     OfficeArtRecordHeader rh;
     quint32 csp;
     quint32 spidCur;
-    OfficeArtFDG() :csp(0), spidCur(0) {
+    OfficeArtFDG()  {
     }
     QString toString() {
         QString _s = "OfficeArtFDG:";
@@ -3165,7 +3171,7 @@ public:
     static const Introspection _introspection;
     quint16 fridNew;
     quint16 fridOld;
-    OfficeArtFRIT() :fridNew(0), fridOld(0) {
+    OfficeArtFRIT()  {
     }
     QString toString() {
         QString _s = "OfficeArtFRIT:";
@@ -3236,7 +3242,7 @@ public:
     qint32 yTop;
     qint32 xRight;
     qint32 yBottom;
-    OfficeArtFSPGR() :xLeft(0), yTop(0), xRight(0), yBottom(0) {
+    OfficeArtFSPGR()  {
     }
     QString toString() {
         QString _s = "OfficeArtFSPGR:";
@@ -3269,7 +3275,7 @@ public:
     bool fBackground;
     bool fHaveSpt;
     quint32 unused1;
-    OfficeArtFSP() :spid(0), fGroup(0), fChild(0), fPatriarch(0), fDeleted(0), fOleShape(0), fHaveMaster(0), fFlipH(0), fFlipV(0), fConnector(0), fHaveAnchor(0), fBackground(0), fHaveSpt(0), unused1(0) {
+    OfficeArtFSP()  {
     }
     QString toString() {
         QString _s = "OfficeArtFSP:";
@@ -3333,7 +3339,7 @@ public:
     static const Introspection _introspection;
     qint16 integral;
     quint16 fractional;
-    FixedPoint() :integral(0), fractional(0) {
+    FixedPoint()  {
     }
     QString toString() {
         QString _s = "FixedPoint:";
@@ -3359,7 +3365,7 @@ public:
     bool unused1;
     bool unused2;
     bool unused3;
-    OfficeArtCOLORREF() :red(0), green(0), blue(0), fPaletteIndex(0), fPaletteRGB(0), fSystemRGB(0), fSchemeIndex(0), fSysIndex(0), unused1(0), unused2(0), unused3(0) {
+    OfficeArtCOLORREF()  {
     }
     QString toString() {
         QString _s = "OfficeArtCOLORREF:";
@@ -3388,7 +3394,7 @@ public:
     qint32 yTop;
     qint32 xRight;
     qint32 yBottom;
-    OfficeArtChildAnchor() :xLeft(0), yTop(0), xRight(0), yBottom(0) {
+    OfficeArtChildAnchor()  {
     }
     QString toString() {
         QString _s = "OfficeArtChildAnchor:";
@@ -3410,7 +3416,7 @@ public:
     quint32 spid;
     bool reserved1;
     bool fLast;
-    OfficeArtFPSPL() :spid(0), reserved1(0), fLast(0) {
+    OfficeArtFPSPL()  {
     }
     QString toString() {
         QString _s = "OfficeArtFPSPL:";
@@ -3467,7 +3473,7 @@ public:
     qint32 left;
     qint32 right;
     qint32 bottom;
-    RectStruct() :top(0), left(0), right(0), bottom(0) {
+    RectStruct()  {
     }
     QString toString() {
         QString _s = "RectStruct:";
@@ -3488,7 +3494,7 @@ public:
     qint16 left;
     qint16 right;
     qint16 bottom;
-    SmallRectStruct() :top(0), left(0), right(0), bottom(0) {
+    SmallRectStruct()  {
     }
     QString toString() {
         QString _s = "SmallRectStruct:";
@@ -3612,7 +3618,7 @@ public:
     quint8 placementId;
     quint8 size;
     quint16 unused;
-    PlaceholderAtom() :position(0), placementId(0), size(0), unused(0) {
+    PlaceholderAtom()  {
     }
     QString toString() {
         QString _s = "PlaceholderAtom:";
@@ -3649,7 +3655,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     qint32 index;
-    OutlineTextRefAtom() :index(0) {
+    OutlineTextRefAtom()  {
     }
     QString toString() {
         QString _s = "OutlineTextRefAtom:";
@@ -3717,7 +3723,7 @@ public:
     static const Introspection _introspection;
     quint32 dgid;
     quint32 cspidCur;
-    OfficeArtIDCL() :dgid(0), cspidCur(0) {
+    OfficeArtIDCL()  {
     }
     QString toString() {
         QString _s = "OfficeArtIDCL:";
@@ -3735,7 +3741,7 @@ public:
     quint16 opid;
     bool fBid;
     bool fComplex;
-    OfficeArtFOPTEOPID() :opid(0), fBid(0), fComplex(0) {
+    OfficeArtFOPTEOPID()  {
     }
     QString toString() {
         QString _s = "OfficeArtFOPTEOPID:";
@@ -3774,7 +3780,7 @@ public:
     quint8 unused1;
     bool fSchemeIndex;
     quint8 unused2;
-    MSOCR() :red(0), green(0), blue(0), unused1(0), fSchemeIndex(0), unused2(0) {
+    MSOCR()  {
     }
     QString toString() {
         QString _s = "MSOCR:";
@@ -3858,7 +3864,7 @@ public:
     quint16 reserved4;
     quint32 reserved5;
     quint32 reserved6;
-    FibBase() :wIdent(0), nFib(0), unused(0), lid(0), pnNext(0), fDot(0), fGlsy(0), fComplex(0), fHasPic(0), cQuickSaves(0), fEncrypted(0), fWhichTblStm(0), fReadOnlyRecommended(0), fWriteReservation(0), fExtChar(0), fLoadOverride(0), fFarEast(0), fObfuscated(0), nFibBack(0), IKey(0), envr(0), fMac(0), fEmptySpecial(0), fLoadOverridePage(0), reserved1(0), reserved2(0), fSpare0(0), reserved3(0), reserved4(0), reserved5(0), reserved6(0) {
+    FibBase()  {
     }
     QString toString() {
         QString _s = "FibBase:";
@@ -3916,7 +3922,7 @@ public:
     quint16 reserved12;
     quint16 reserved13;
     quint16 lidFE;
-    FibRgW97() :reserved1(0), reserved2(0), reserved3(0), reserved4(0), reserved5(0), reserved6(0), reserved7(0), reserved8(0), reserved9(0), reserved10(0), reserved11(0), reserved12(0), reserved13(0), lidFE(0) {
+    FibRgW97()  {
     }
     QString toString() {
         QString _s = "FibRgW97:";
@@ -3965,7 +3971,7 @@ public:
     quint32 reserved12;
     quint32 reserved13;
     quint32 reserved14;
-    FibRgLw97() :cbMac(0), reserved1(0), reserved2(0), ccpText(0), ccpFtn(0), ccpHdd(0), reserved3(0), ccpAtn(0), ccpEdn(0), ccpTxbx(0), ccpHdrTxbx(0), reserved4(0), reserved5(0), reserved6(0), reserved7(0), reserved8(0), reserved9(0), reserved10(0), reserved11(0), reserved12(0), reserved13(0), reserved14(0) {
+    FibRgLw97()  {
     }
     QString toString() {
         QString _s = "FibRgLw97:";
@@ -4186,7 +4192,7 @@ public:
     quint32 lcbSttbListNames;
     quint32 fcSttbfUssr;
     quint32 lcbSttbfUssr;
-    FibRgFcLcb97() :fcStshfOrig(0), lcbStshfOrig(0), fcStshf(0), lcbStshf(0), fcPlcffndRef(0), lcbPlcffndRef(0), fcPlcffndTxt(0), lcbPlcffndTxt(0), fcPlcfandRef(0), lcbPlcfandRef(0), fcPlcfandTxt(0), lcbPlcfandTxt(0), fcPlcfSed(0), lcbPlcfSed(0), fcPlcPad(0), lcbPlcPad(0), fcPlcfPhe(0), lcbPlcfPhe(0), fcSttbfGlsy(0), lcbSttbfGlsy(0), fcPlcfGlsy(0), lcbPlcfGlsy(0), fcPlcfHdd(0), lcbPlcfHdd(0), fcPlcfBteChpx(0), lcbPlcfBteChpx(0), fcPlcfBtePapx(0), lcbPlcfBtePapx(0), fcPlcfSea(0), lcbPlcfSea(0), fcSttbfFfn(0), lcbSttbfFfn(0), fcPlcfFldMom(0), lcbPlcfFldMom(0), fcPlcfFldHdr(0), lcbPlcfFldHdr(0), fcPlcfFldFtn(0), lcbPlcfFldFtn(0), fcPlcfFldAtn(0), lcbPlcfFldAtn(0), fcPlcfFldMcr(0), lcbPlcfFldMcr(0), fcSttbfBkmk(0), lcbSttbfBkmk(0), fcPlcfBkf(0), lcbPlcfBkf(0), fcPlcfBkl(0), lcbPlcfBkl(0), fcCmds(0), lcbCmds(0), fcUnused1(0), lcbUnused1(0), fcSttbfMcr(0), lcbSttbfMcr(0), fcPrDrvr(0), lcbPrDrvr(0), fcPrEnvPort(0), lcbPrEnvPort(0), fcPrEnvLand(0), lcbPrEnvLand(0), fcWss(0), lcbWss(0), fcDop(0), lcbDop(0), fcSttbfAssoc(0), lcbSttbfAssoc(0), fcClx(0), lcbClx(0), fcPlcfPgdFtn(0), lcbPlcfPgdFtn(0), fcAutosaveSource(0), lcbAutosaveSource(0), fcGrpXstAtnOwners(0), lcbGrpXstAtnOwners(0), fcSttbfAtnBkmk(0), lcbSttbfAtnBkmk(0), fcUnused2(0), lcbUnused2(0), fcUnused3(0), lcbUnused3(0), fcPlcSpaMom(0), lcbPlcSpaMom(0), fcPlcSpaHdr(0), lcbPlcSpaHdr(0), fcPlcfAtnBkf(0), lcbPlcfAtnBkf(0), fcPlcfAtnBkl(0), lcbPlcfAtnBkl(0), fcPms(0), lcbPms(0), fcFormFldSttbs(0), lcbFormFldSttbs(0), fcPlcfendRef(0), lcbPlcfendRef(0), fcPlcfendTxt(0), lcbPlcfendTxt(0), fcPlcfFldEdn(0), lcbPlcfFldEdn(0), fcUnused4(0), lcbUnused4(0), fcDggInfo(0), lcbDggInfo(0), fcSttbfRMark(0), lcbSttbfRMark(0), fcSttbfCaption(0), lcbSttbfCaption(0), fcSttbfAutoCaption(0), lcbSttbfAutoCaption(0), fcPlcfWkb(0), lcbPlcfWkb(0), fcPlcfSpl(0), lcbPlcfSpl(0), fcPlcftxbxTxt(0), lcbPlcftxbxTxt(0), fcPlcfFldTxbx(0), lcbPlcfFldTxbx(0), fcPlcfHdrtxbxTxt(0), lcbPlcfHdrtxbxTxt(0), fcPlcffldHdrTxbx(0), lcbPlcffldHdrTxbx(0), fcStwUser(0), lcbStwUser(0), fcSttbTtmbd(0), lcbSttbTtmbd(0), fcCookieData(0), lcbCookieData(0), fcPgdMotherOldOld(0), lcbPgdMotherOldOld(0), fcBkdMotherOldOld(0), lcbBkdMotherOldOld(0), fcPgdFtnOldOld(0), lcbPgdFtnOldOld(0), fcBkdFtnOldOld(0), lcbBkdFtnOldOld(0), fcPgdEdnOldOld(0), lcbPgdEdnOldOld(0), fcBkdEdnOldOld(0), lcbBkdEdnOldOld(0), fcSttbfIntlFld(0), lcbSttbfIntlFld(0), fcRouteSlip(0), lcbRouteSlip(0), fcSttbSavedBy(0), lcbSttbSavedBy(0), fcSttbFnm(0), lcbSttbFnm(0), fcPlfLst(0), lcbPlfLst(0), fcPlfLfo(0), lcbPlfLfo(0), fcPlcfTxbxBkd(0), lcbPlcfTxbxBkd(0), fcPlcfTxbxHdrBkd(0), lcbPlcfTxbxHdrBkd(0), fcDocUndoWord9(0), lcbDocUndoWord9(0), fcRgbUse(0), lcbRgbUse(0), fcUsp(0), lcbUsp(0), fcUskf(0), lcbUskf(0), fcPlcupcRgbUse(0), lcbPlcupcRgbUse(0), fcPlcupcUsp(0), lcbPlcupcUsp(0), fcSttbGlsyStyle(0), lcbSttbGlsyStyle(0), fcPlgosl(0), lcbPlgosl(0), fcPlcocx(0), lcbPlcocx(0), fcPlcfBteLvc(0), lcbPlcfBteLvc(0), dwLowDateTime(0), dwHighDateTime(0), fcPlcfLvcPre10(0), lcbPlcfLvcPre10(0), fcPlcfAsumy(0), lcbPlcfAsumy(0), fcPlcfGram(0), lcbPlcfGram(0), fcSttbListNames(0), lcbSttbListNames(0), fcSttbfUssr(0), lcbSttbfUssr(0) {
+    FibRgFcLcb97()  {
     }
     QString toString() {
         QString _s = "FibRgFcLcb97:";
@@ -4415,7 +4421,7 @@ public:
     quint32 lcbPgdEdnOld;
     quint32 fcBkdEdnOld;
     quint32 lcbBkdEdnOld;
-    FibRgFcLcb2000() :fcPlcfTch(0), lcbPlcfTch(0), fcRmdThreading(0), lcbRmdThreading(0), fcMid(0), lcbMid(0), fcSttbRgtplc(0), lcbSttbRgtplc(0), fcMsoEnvelope(0), lcbMsoEnvelope(0), fcPlcfLad(0), lcbPlcfLad(0), fcRgDofr(0), lcbRgDofr(0), fcPlcosl(0), lcbPlcosl(0), fcPlcfCookieOld(0), lcbPlcfCookieOld(0), fcPgdMotherOld(0), lcbPgdMotherOld(0), fcBkdMotherOld(0), lcbBkdMotherOld(0), fcPgdFtnOld(0), lcbPgdFtnOld(0), fcBkdFtnOld(0), lcbBkdFtnOld(0), fcPgdEdnOld(0), lcbPgdEdnOld(0), fcBkdEdnOld(0), lcbBkdEdnOld(0) {
+    FibRgFcLcb2000()  {
     }
     QString toString() {
         QString _s = "FibRgFcLcb2000:";
@@ -4508,7 +4514,7 @@ public:
     quint32 lcbUnused2;
     quint32 fcPlcffactoid;
     quint32 lcbPlcffactoid;
-    FibRgFcLcb2002() :fcUnused1(0), lcbUnused1(0), fcPlcfPgp(0), lcbPlcfPgp(0), fcPlcfuim(0), lcbPlcfuim(0), fcPlfguidUim(0), lcbPlfguidUim(0), fcAtrdExtra(0), lcbAtrdExtra(0), fcPlrsid(0), lcbPlrsid(0), fcSttbfBkmkFactoid(0), lcbSttbfBkmkFactoid(0), fcPlcfBkfFactoid(0), lcbPlcfBkfFactoid(0), fcPlcfcookie(0), lcbPlcfcookie(0), fcPlcfBklFactoid(0), lcbPlcfBklFactoid(0), fcFactoidData(0), lcbFactoidData(0), fcDocUndo(0), lcbDocUndo(0), fcSttbfBkmkFcc(0), lcbSttbfBkmkFcc(0), fcPlcfBkfFcc(0), lcbPlcfBkfFcc(0), fcPlcfBklFcc(0), lcbPlcfBklFcc(0), fcSttbfbkmkBPRepairs(0), lcbSttbfbkmkBPRepairs(0), fcPlcfbkfBPRepairs(0), lcbPlcfbkfBPRepairs(0), fcPlcfbklBPRepairs(0), lcbPlcfbklBPRepairs(0), fcPmsNew(0), lcbPmsNew(0), fcODSO(0), lcbODSO(0), fcPlcfpmiOldXP(0), lcbPlcfpmiOldXP(0), fcPlcfpmiNewXP(0), lcbPlcfpmiNewXP(0), fcPlcfpmiMixedXP(0), lcbPlcfpmiMixedXP(0), fcUnused2(0), lcbUnused2(0), fcPlcffactoid(0), lcbPlcffactoid(0) {
+    FibRgFcLcb2002()  {
     }
     QString toString() {
         QString _s = "FibRgFcLcb2002:";
@@ -4573,7 +4579,7 @@ public:
     static const Introspection _introspection;
     quint16 cbSthi;
     QByteArray stshi;
-    LPStshi() :cbSthi(0) {
+    LPStshi()  {
     }
     QString toString() {
         QString _s = "LPStshi:";
@@ -4588,10 +4594,11 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_padding;
     quint16 cbStd;
     QByteArray std;
     quint8 padding;
-    LPStd() :cbStd(0), padding(0) {
+    LPStd()  {
     }
     QString toString() {
         QString _s = "LPStd:";
@@ -4628,7 +4635,7 @@ public:
     qint32 fcSepx;
     quint16 fnMpr;
     quint32 fcMpr;
-    Sed() :fn(0), fcSepx(0), fnMpr(0), fcMpr(0) {
+    Sed()  {
     }
     QString toString() {
         QString _s = "Sed:";
@@ -4696,7 +4703,7 @@ public:
     static const Introspection _introspection;
     quint8 nTcgVer;
     QByteArray todo;
-    Tcg() :nTcgVer(0) {
+    Tcg()  {
     }
     QString toString() {
         QString _s = "Tcg:";
@@ -4713,7 +4720,7 @@ public:
     static const Introspection _introspection;
     qint16 cbGrpprl;
     QList<Sprm> GrpPrl;
-    PrcData() :cbGrpprl(0) {
+    PrcData()  {
     }
     QString toString() {
         QString _s = "PrcData:";
@@ -4732,7 +4739,7 @@ public:
     bool fSpec;
     quint8 sgc;
     quint8 spra;
-    Sprm() :ispmd(0), fSpec(0), sgc(0), spra(0) {
+    Sprm()  {
     }
     QString toString() {
         QString _s = "Sprm:";
@@ -4752,7 +4759,7 @@ public:
     quint8 clxt;
     quint32 lcb;
     QList<Pcd> PlcPcd;
-    Pcdt() :clxt(0), lcb(0) {
+    Pcdt()  {
     }
     QString toString() {
         QString _s = "Pcdt:";
@@ -4771,7 +4778,7 @@ public:
     quint32 fc;
     bool fCompressed;
     bool r1;
-    FCompressed() :fc(0), fCompressed(0), r1(0) {
+    FCompressed()  {
     }
     QString toString() {
         QString _s = "FCompressed:";
@@ -4790,7 +4797,7 @@ public:
     bool fComplex;
     quint8 isprm;
     quint8 val;
-    Prm0() :fComplex(0), isprm(0), val(0) {
+    Prm0()  {
     }
     QString toString() {
         QString _s = "Prm0:";
@@ -4808,7 +4815,7 @@ public:
     static const Introspection _introspection;
     bool fComplex;
     quint16 igrpprl;
-    Prm1() :fComplex(0), igrpprl(0) {
+    Prm1()  {
     }
     QString toString() {
         QString _s = "Prm1:";
@@ -4826,7 +4833,7 @@ public:
     quint16 cData;
     quint16 cbExtra;
     QList<SttbfFfnEntry> data;
-    SttbfFfn() :cData(0), cbExtra(0) {
+    SttbfFfn()  {
     }
     QString toString() {
         QString _s = "SttbfFfn:";
@@ -4844,7 +4851,7 @@ public:
     static const Introspection _introspection;
     quint8 cchData;
     QByteArray Data;
-    SttbfFfnEntry() :cchData(0) {
+    SttbfFfnEntry()  {
     }
     QString toString() {
         QString _s = "SttbfFfnEntry:";
@@ -4880,7 +4887,7 @@ public:
     quint32 cbsave;
     quint8 compression;
     quint8 filter;
-    OfficeArtMetafileHeader() :cbSize(0), cbsave(0), compression(0), filter(0) {
+    OfficeArtMetafileHeader()  {
     }
     QString toString() {
         QString _s = "OfficeArtMetafileHeader:";
@@ -4923,7 +4930,7 @@ public:
     quint8 unused2;
     quint8 fDraftMode;
     quint16 unused3;
-    NoZoomViewInfoAtom() :unused2(0), fDraftMode(0), unused3(0) {
+    NoZoomViewInfoAtom()  {
     }
     QString toString() {
         QString _s = "NoZoomViewInfoAtom:";
@@ -4969,7 +4976,7 @@ public:
     bool fHideThumbnails;
     bool fBarSnapped;
     quint8 reserved;
-    NormalViewSetInfoAtom() :vertBarState(0), horizBarState(0), fPreferSingleSet(0), fHideThumbnails(0), fBarSnapped(0), reserved(0) {
+    NormalViewSetInfoAtom()  {
     }
     QString toString() {
         QString _s = "NormalViewSetInfoAtom:";
@@ -5001,7 +5008,7 @@ public:
     quint32 reserved5;
     quint32 masterId;
     quint32 reserved6;
-    MasterPersistAtom() :reserved1(0), fNonOutLineData(0), reserved2(0), reserved3(0), reserved4(0), reserved5(0), masterId(0), reserved6(0) {
+    MasterPersistAtom()  {
     }
     QString toString() {
         QString _s = "MasterPersistAtom:";
@@ -5105,7 +5112,7 @@ public:
     qint32 cTexts;
     SlideId slideId;
     quint32 reserved5;
-    SlidePersistAtom() :reserved1(0), fShouldCollapse(0), fNonOutlineData(0), reserved2(0), reserved3(0), reserved4(0), cTexts(0), reserved5(0) {
+    SlidePersistAtom()  {
     }
     QString toString() {
         QString _s = "SlidePersistAtom:";
@@ -5146,6 +5153,18 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_cLevels;
+    bool _has_defaultTabSize;
+    bool _has_leftMargin1;
+    bool _has_indent1;
+    bool _has_leftMargin2;
+    bool _has_indent2;
+    bool _has_leftMargin3;
+    bool _has_indent3;
+    bool _has_leftMargin4;
+    bool _has_indent4;
+    bool _has_leftMargin5;
+    bool _has_indent5;
     bool fDefaultTabSize;
     bool fCLevels;
     bool fTabStops;
@@ -5174,7 +5193,7 @@ public:
     quint16 indent4;
     quint16 leftMargin5;
     quint16 indent5;
-    TextRuler() :fDefaultTabSize(0), fCLevels(0), fTabStops(0), fLeftMargin1(0), fLeftMargin2(0), fLeftMargin3(0), fLeftMargin4(0), fLeftMargin5(0), fIndent1(0), fIndent2(0), fIndent3(0), fIndent4(0), fIndent5(0), reserved1(0), reserved2(0), cLevels(0), defaultTabSize(0), leftMargin1(0), indent1(0), leftMargin2(0), indent2(0), leftMargin3(0), indent3(0), leftMargin4(0), indent4(0), leftMargin5(0), indent5(0) {
+    TextRuler()  {
     }
     QString toString() {
         QString _s = "TextRuler:";
@@ -5215,6 +5234,19 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_bulletChar;
+    bool _has_bulletFontRef;
+    bool _has_bulletSize;
+    bool _has_textAlignment;
+    bool _has_lineSpacing;
+    bool _has_spaceBefore;
+    bool _has_spaceAfter;
+    bool _has_leftMargin;
+    bool _has_indent;
+    bool _has_defaultTabSize;
+    bool _has_fontAlign;
+    bool _has_wrapFlags;
+    bool _has_textDirection;
     PFMasks masks;
     QSharedPointer<BulletFlags> bulletFlags;
     qint16 bulletChar;
@@ -5232,7 +5264,7 @@ public:
     quint16 fontAlign;
     quint16 wrapFlags;
     quint16 textDirection;
-    TextPFException() :bulletChar(0), bulletFontRef(0), bulletSize(0), textAlignment(0), lineSpacing(0), spaceBefore(0), spaceAfter(0), leftMargin(0), indent(0), defaultTabSize(0), fontAlign(0), wrapFlags(0), textDirection(0) {
+    TextPFException()  {
     }
     QString toString() {
         QString _s = "TextPFException:";
@@ -5262,6 +5294,12 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_fontRef;
+    bool _has_oldEAFontRef;
+    bool _has_ansiFontRef;
+    bool _has_symbolFontRef;
+    bool _has_fontSize;
+    bool _has_position;
     CFMasks masks;
     QSharedPointer<CFStyle> fontStyle;
     quint16 fontRef;
@@ -5271,7 +5309,7 @@ public:
     quint16 fontSize;
     QSharedPointer<ColorIndexStruct> color;
     qint16 position;
-    TextCFException() :fontRef(0), oldEAFontRef(0), ansiFontRef(0), symbolFontRef(0), fontSize(0), position(0) {
+    TextCFException()  {
     }
     QString toString() {
         QString _s = "TextCFException:";
@@ -5337,6 +5375,15 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_spellInfo;
+    bool _has_lid;
+    bool _has_altLid;
+    bool _has_bidi;
+    bool _has_pp10runid;
+    bool _has_reserved3a;
+    bool _has_reserved3b;
+    bool _has_reserved3bc;
+    bool _has_grammarError;
     bool spell;
     bool lang;
     bool altLang;
@@ -5359,7 +5406,7 @@ public:
     quint8 reserved3bc;
     bool grammarError;
     QSharedPointer<SmartTags> smartTags;
-    TextSIException() :spell(0), lang(0), altLang(0), unused1(0), unused2(0), fPp10ext(0), fBidi(0), unused3(0), reserved1(0), smartTag(0), reserved2a(0), reserved2b(0), spellInfo(0), lid(0), altLid(0), bidi(0), pp10runid(0), reserved3a(0), reserved3b(0), reserved3bc(0), grammarError(0) {
+    TextSIException()  {
     }
     QString toString() {
         QString _s = "TextSIException:";
@@ -5423,7 +5470,7 @@ public:
     quint8 fOmitTitlePlace;
     quint8 fRightToLeft;
     quint8 fShowComments;
-    DocumentAtom() :firstSlideNumber(0), slideSizeType(0), fSaveWithFonts(0), fOmitTitlePlace(0), fRightToLeft(0), fShowComments(0) {
+    DocumentAtom()  {
     }
     QString toString() {
         QString _s = "DocumentAtom:";
@@ -5582,7 +5629,7 @@ public:
     bool fUsefLockRotation;
     bool fUsefLockAgainstUngrouping;
     quint8 unused2;
-    ProtectionBooleanProperties() :fLockAgainstGrouping(0), fLockAdjustHandles(0), fLockText(0), fLockVertices(0), fLockCropping(0), fLockAgainstSelect(0), fLockPosition(0), fLockAspectRatio(0), fLockRotation(0), fLockAgainstUngrouping(0), unused6(0), fUsefLockAgainstGrouping(0), fUseLockAdjustHandles(0), fUseLockText(0), fUsefLockVertices(0), fUsefLockCropping(0), fUsefLockAgainstSelect(0), fUsefLockPosition(0), fUsefLockAspectRatio(0), fUsefLockRotation(0), fUsefLockAgainstUngrouping(0), unused2(0) {
+    ProtectionBooleanProperties()  {
     }
     QString toString() {
         QString _s = "ProtectionBooleanProperties:";
@@ -5637,7 +5684,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 iTxid;
-    ITxid() :iTxid(0) {
+    ITxid()  {
     }
     QString toString() {
         QString _s = "ITxid:";
@@ -5654,7 +5701,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 anchorText;
-    AnchorText() :anchorText(0) {
+    AnchorText()  {
     }
     QString toString() {
         QString _s = "AnchorText:";
@@ -5671,7 +5718,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 hspNext;
-    HspNext() :hspNext(0) {
+    HspNext()  {
     }
     QString toString() {
         QString _s = "HspNext:";
@@ -5688,7 +5735,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 shapePath;
-    ShapePath() :shapePath(0) {
+    ShapePath()  {
     }
     QString toString() {
         QString _s = "ShapePath:";
@@ -5722,7 +5769,7 @@ public:
     bool unused3a;
     bool unused3b;
     quint8 unused4;
-    GeometryBooleanProperties() :fFillOk(0), fFillShadeShapeOK(0), fGtextOK(0), fLineOK(0), f3DOK(0), fShadowOK(0), unuseda(0), unusedb(0), unused2(0), fUsefFillOK(0), fUsefFillShadeShapeOK(0), fUsefGtextOK(0), fUsefLineOK(0), fUsef3DOK(0), fUsefShadowOK(0), unused3a(0), unused3b(0), unused4(0) {
+    GeometryBooleanProperties()  {
     }
     QString toString() {
         QString _s = "GeometryBooleanProperties:";
@@ -5790,7 +5837,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 fillBlip;
-    FillBlip() :fillBlip(0) {
+    FillBlip()  {
     }
     QString toString() {
         QString _s = "FillBlip:";
@@ -5807,7 +5854,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 fillRectRight;
-    FillRectRight() :fillRectRight(0) {
+    FillRectRight()  {
     }
     QString toString() {
         QString _s = "FillRectRight:";
@@ -5824,7 +5871,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 fillRectBottom;
-    FillRectBottom() :fillRectBottom(0) {
+    FillRectBottom()  {
     }
     QString toString() {
         QString _s = "FillRectBottom:";
@@ -5858,7 +5905,7 @@ public:
     bool fUsefRecolorFillAsPicture;
     bool unused2a;
     quint8 unused2b;
-    FillStyleBooleanProperties() :fNoFillHitText(0), fillUseRect(0), fillShape(0), fHitTestFill(0), fFilled(0), fUseShapeAnchor(0), fRecolorFillAsPicture(0), unused1a(0), unused1b(0), fUseNoFillHitTest(0), fUseFillUseRext(0), fUseFillShape(0), fUseHitTestFill(0), fUseFilled(0), fUseUseShapeAnchor(0), fUsefRecolorFillAsPicture(0), unused2a(0), unused2b(0) {
+    FillStyleBooleanProperties()  {
     }
     QString toString() {
         QString _s = "FillStyleBooleanProperties:";
@@ -5909,7 +5956,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineFillBlip;
-    LineFillBlip() :lineFillBlip(0) {
+    LineFillBlip()  {
     }
     QString toString() {
         QString _s = "LineFillBlip:";
@@ -5926,7 +5973,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineStartArrowhead;
-    LineStartArrowhead() :lineStartArrowhead(0) {
+    LineStartArrowhead()  {
     }
     QString toString() {
         QString _s = "LineStartArrowhead:";
@@ -5943,7 +5990,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineEndArrowhead;
-    LineEndArrowhead() :lineEndArrowhead(0) {
+    LineEndArrowhead()  {
     }
     QString toString() {
         QString _s = "LineEndArrowhead:";
@@ -5981,7 +6028,7 @@ public:
     bool unused3;
     bool fUsefLineOpaqueBackColor;
     quint8 unused4;
-    LineStyleBooleanProperties() :fNoLineDrawDash(0), fLineFillShape(0), fHitTestLine(0), fLine(0), fArrowHeadsOK(0), fInsetPenOK(0), fInsetPen(0), reserved1(0), reserved2(0), fLineOpaqueBackColor(0), unused1(0), fUseNoLineDrawDash(0), fUseLineFillShape(0), fUseHitTestLine(0), fUsefLine(0), fUsefArrowHeadsOK(0), fUseInsetPenOK(0), fUseInsetPen(0), unused2(0), unused3(0), fUsefLineOpaqueBackColor(0), unused4(0) {
+    LineStyleBooleanProperties()  {
     }
     QString toString() {
         QString _s = "LineStyleBooleanProperties:";
@@ -6036,7 +6083,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 hspMaster;
-    HspMaster() :hspMaster(0) {
+    HspMaster()  {
     }
     QString toString() {
         QString _s = "HspMaster:";
@@ -6053,7 +6100,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 bWMode;
-    BWMode() :bWMode(0) {
+    BWMode()  {
     }
     QString toString() {
         QString _s = "BWMode:";
@@ -6095,7 +6142,7 @@ public:
     bool unused5;
     bool unused6;
     quint8 unused7;
-    ShapeBooleanProperties() :fBackground(0), reserved1(0), fInitiator(0), fLockShapeType(0), fPreferRelativeResize(0), fOleIcon(0), fFlipVOverride(0), fFlipHOverride(0), fPolicyBarcode(0), fPolicyLabel(0), unused1(0), unused2(0), unused3(0), fUsefBackground(0), unused4(0), fUsefInitiator(0), fUsefLockShapeType(0), fusePreferrelativeResize(0), fUsefOleIcon(0), fUsefFlipVOverride(0), fUsefFlipHOverride(0), fUsefPolicyBarcode(0), fUsefPolicyLabel(0), unused5(0), unused6(0), unused7(0) {
+    ShapeBooleanProperties()  {
     }
     QString toString() {
         QString _s = "ShapeBooleanProperties:";
@@ -6137,7 +6184,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lidRegroup;
-    LidRegroup() :lidRegroup(0) {
+    LidRegroup()  {
     }
     QString toString() {
         QString _s = "LidRegroup:";
@@ -6154,7 +6201,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 wzFillId;
-    WzFillId() :wzFillId(0) {
+    WzFillId()  {
     }
     QString toString() {
         QString _s = "WzFillId:";
@@ -6225,7 +6272,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 op;
-    OfficeArtFOPTE() :op(0) {
+    OfficeArtFOPTE()  {
     }
     QString toString() {
         QString _s = "OfficeArtFOPTE:";
@@ -6252,7 +6299,7 @@ public:
     quint16 cswNew;
     QByteArray fibRgCswNew;
     QByteArray trail;
-    Fib() :csw(0), cslw(0), cbRgFcLcb(0), cswNew(0) {
+    Fib()  {
     }
     QString toString() {
         QString _s = "Fib:";
@@ -6313,7 +6360,7 @@ public:
     static const Introspection _introspection;
     quint8 clxt;
     PrcData prcData;
-    Pcr() :clxt(0) {
+    Pcr()  {
     }
     QString toString() {
         QString _s = "Pcr:";
@@ -6345,6 +6392,7 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_rgbUid2;
     OfficeArtRecordHeader rh;
     QByteArray rgbUid1;
     QByteArray rgbUid2;
@@ -6368,6 +6416,7 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_rgbUid2;
     OfficeArtRecordHeader rh;
     QByteArray rgbUid1;
     QByteArray rgbUid2;
@@ -6391,6 +6440,7 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_rgbUid2;
     OfficeArtRecordHeader rh;
     QByteArray rgbUid1;
     QByteArray rgbUid2;
@@ -6443,7 +6493,7 @@ public:
     quint8 fUseVarScale;
     quint8 fDraftMode;
     quint16 unused2;
-    ZoomViewInfoAtom() :fUseVarScale(0), fDraftMode(0), unused2(0) {
+    ZoomViewInfoAtom()  {
     }
     QString toString() {
         QString _s = "ZoomViewInfoAtom:";
@@ -6568,7 +6618,7 @@ public:
     quint32 count;
     quint16 indentLevel;
     TextPFException pf;
-    TextPFRun() :count(0), indentLevel(0) {
+    TextPFRun()  {
     }
     QString toString() {
         QString _s = "TextPFRun:";
@@ -6586,7 +6636,7 @@ public:
     static const Introspection _introspection;
     quint32 count;
     TextCFException cf;
-    TextCFRun() :count(0) {
+    TextCFRun()  {
     }
     QString toString() {
         QString _s = "TextCFRun:";
@@ -6638,7 +6688,7 @@ public:
     RecordHeader rh;
     quint16 reserved;
     TextPFException pf;
-    TextPFExceptionAtom() :reserved(0) {
+    TextPFExceptionAtom()  {
     }
     QString toString() {
         QString _s = "TextPFExceptionAtom:";
@@ -6656,7 +6706,7 @@ public:
     static const Introspection _introspection;
     quint32 count;
     TextSIException si;
-    TextSIRun() :count(0) {
+    TextSIRun()  {
     }
     QString toString() {
         QString _s = "TextSIRun:";
@@ -6688,6 +6738,11 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
+    bool _has_lstLvl1level;
+    bool _has_lstLvl2level;
+    bool _has_lstLvl3level;
+    bool _has_lstLvl4level;
+    bool _has_lstLvl5level;
     RecordHeader rh;
     quint16 cLevels;
     quint16 lstLvl1level;
@@ -6700,7 +6755,7 @@ public:
     QSharedPointer<TextMasterStyleLevel> lstLvl4;
     quint16 lstLvl5level;
     QSharedPointer<TextMasterStyleLevel> lstLvl5;
-    TextMasterStyleAtom() :cLevels(0), lstLvl1level(0), lstLvl2level(0), lstLvl3level(0), lstLvl4level(0), lstLvl5level(0) {
+    TextMasterStyleAtom()  {
     }
     QString toString() {
         QString _s = "TextMasterStyleAtom:";
@@ -6929,7 +6984,7 @@ public:
     quint16 fR3;
     FCompressed fc;
     Prm prm;
-    Pcd() :fNoParaLast(0), fR1(0), fDirtly(0), fR2(0), fR3(0) {
+    Pcd()  {
     }
     QString toString() {
         QString _s = "Pcd:";
@@ -6963,7 +7018,7 @@ public:
     quint8 unused3;
     QByteArray nameData;
     QSharedPointer<OfficeArtBlip> embeddedBlip;
-    OfficeArtFBSE() :btWin32(0), btMacOS(0), tag(0), size(0), cRef(0), foDelay(0), unused1(0), cbName(0), unused2(0), unused3(0) {
+    OfficeArtFBSE()  {
     }
     QString toString() {
         QString _s = "OfficeArtFBSE:";
@@ -7429,6 +7484,9 @@ public:
     static QVariant get_relVersion(const Introspectable* i, int j) {
         return static_cast<const CurrentUserAtom*>(i)->relVersion;
     }
+    static int count_unicodeUserName(const Introspectable* i) {
+        return static_cast<const CurrentUserAtom*>(i)->_has_unicodeUserName ?1 :0;
+    }
     static QVariant get_unicodeUserName(const Introspectable* i, int j) {
         return static_cast<const CurrentUserAtom*>(i)->unicodeUserName;
     }
@@ -7461,7 +7519,7 @@ int (* const CurrentUserAtom::_Introspection::numberOfInstances[12])(const Intro
     Introspection::one,
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_unicodeUserName,
 };
 QVariant (* const CurrentUserAtom::_Introspection::value[12])(const Introspectable*, int position) = {
     Introspection::nullValue,
@@ -7684,6 +7742,9 @@ public:
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipJPEG*>(i)->rgbUid1;
     }
+    static int count_rgbUid2(const Introspectable* i) {
+        return static_cast<const OfficeArtBlipJPEG*>(i)->_has_rgbUid2 ?1 :0;
+    }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipJPEG*>(i)->rgbUid2;
     }
@@ -7706,7 +7767,7 @@ const QString OfficeArtBlipJPEG::_Introspection::names[5] = {
 int (* const OfficeArtBlipJPEG::_Introspection::numberOfInstances[5])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_rgbUid2,
     Introspection::one,
     Introspection::one,
 };
@@ -7740,6 +7801,9 @@ public:
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipPNG*>(i)->rgbUid1;
     }
+    static int count_rgbUid2(const Introspectable* i) {
+        return static_cast<const OfficeArtBlipPNG*>(i)->_has_rgbUid2 ?1 :0;
+    }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipPNG*>(i)->rgbUid2;
     }
@@ -7762,7 +7826,7 @@ const QString OfficeArtBlipPNG::_Introspection::names[5] = {
 int (* const OfficeArtBlipPNG::_Introspection::numberOfInstances[5])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_rgbUid2,
     Introspection::one,
     Introspection::one,
 };
@@ -7796,6 +7860,9 @@ public:
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipDIB*>(i)->rgbUid1;
     }
+    static int count_rgbUid2(const Introspectable* i) {
+        return static_cast<const OfficeArtBlipDIB*>(i)->_has_rgbUid2 ?1 :0;
+    }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipDIB*>(i)->rgbUid2;
     }
@@ -7818,7 +7885,7 @@ const QString OfficeArtBlipDIB::_Introspection::names[5] = {
 int (* const OfficeArtBlipDIB::_Introspection::numberOfInstances[5])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_rgbUid2,
     Introspection::one,
     Introspection::one,
 };
@@ -7852,6 +7919,9 @@ public:
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipTIFF*>(i)->rgbUid1;
     }
+    static int count_rgbUid2(const Introspectable* i) {
+        return static_cast<const OfficeArtBlipTIFF*>(i)->_has_rgbUid2 ?1 :0;
+    }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipTIFF*>(i)->rgbUid2;
     }
@@ -7874,7 +7944,7 @@ const QString OfficeArtBlipTIFF::_Introspection::names[5] = {
 int (* const OfficeArtBlipTIFF::_Introspection::numberOfInstances[5])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_rgbUid2,
     Introspection::one,
     Introspection::one,
 };
@@ -11180,6 +11250,9 @@ public:
     static QVariant get_unused(const Introspectable* i, int j) {
         return static_cast<const UserEditAtom*>(i)->unused;
     }
+    static int count_encryptSessionPersistIdRef(const Introspectable* i) {
+        return static_cast<const UserEditAtom*>(i)->_has_encryptSessionPersistIdRef ?1 :0;
+    }
     static QVariant get_encryptSessionPersistIdRef(const Introspectable* i, int j) {
         return static_cast<const UserEditAtom*>(i)->encryptSessionPersistIdRef;
     }
@@ -11212,7 +11285,7 @@ int (* const UserEditAtom::_Introspection::numberOfInstances[12])(const Introspe
     Introspection::one,
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_encryptSessionPersistIdRef,
 };
 QVariant (* const UserEditAtom::_Introspection::value[12])(const Introspectable*, int position) = {
     Introspection::nullValue,
@@ -16661,6 +16734,9 @@ public:
     static QVariant get_std(const Introspectable* i, int j) {
         return static_cast<const LPStd*>(i)->std;
     }
+    static int count_padding(const Introspectable* i) {
+        return static_cast<const LPStd*>(i)->_has_padding ?1 :0;
+    }
     static QVariant get_padding(const Introspectable* i, int j) {
         return static_cast<const LPStd*>(i)->padding;
     }
@@ -16675,7 +16751,7 @@ const QString LPStd::_Introspection::names[3] = {
 int (* const LPStd::_Introspection::numberOfInstances[3])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_padding,
 };
 QVariant (* const LPStd::_Introspection::value[3])(const Introspectable*, int position) = {
     _Introspection::get_cbStd,
@@ -17996,8 +18072,14 @@ public:
     static QVariant get_reserved2(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->reserved2;
     }
+    static int count_cLevels(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_cLevels ?1 :0;
+    }
     static QVariant get_cLevels(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->cLevels;
+    }
+    static int count_defaultTabSize(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_defaultTabSize ?1 :0;
     }
     static QVariant get_defaultTabSize(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->defaultTabSize;
@@ -18008,32 +18090,62 @@ public:
     static const Introspectable* get_tabs(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->tabs.data();
     }
+    static int count_leftMargin1(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_leftMargin1 ?1 :0;
+    }
     static QVariant get_leftMargin1(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->leftMargin1;
+    }
+    static int count_indent1(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_indent1 ?1 :0;
     }
     static QVariant get_indent1(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->indent1;
     }
+    static int count_leftMargin2(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_leftMargin2 ?1 :0;
+    }
     static QVariant get_leftMargin2(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->leftMargin2;
+    }
+    static int count_indent2(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_indent2 ?1 :0;
     }
     static QVariant get_indent2(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->indent2;
     }
+    static int count_leftMargin3(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_leftMargin3 ?1 :0;
+    }
     static QVariant get_leftMargin3(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->leftMargin3;
+    }
+    static int count_indent3(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_indent3 ?1 :0;
     }
     static QVariant get_indent3(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->indent3;
     }
+    static int count_leftMargin4(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_leftMargin4 ?1 :0;
+    }
     static QVariant get_leftMargin4(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->leftMargin4;
+    }
+    static int count_indent4(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_indent4 ?1 :0;
     }
     static QVariant get_indent4(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->indent4;
     }
+    static int count_leftMargin5(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_leftMargin5 ?1 :0;
+    }
     static QVariant get_leftMargin5(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->leftMargin5;
+    }
+    static int count_indent5(const Introspectable* i) {
+        return static_cast<const TextRuler*>(i)->_has_indent5 ?1 :0;
     }
     static QVariant get_indent5(const Introspectable* i, int j) {
         return static_cast<const TextRuler*>(i)->indent5;
@@ -18087,19 +18199,19 @@ int (* const TextRuler::_Introspection::numberOfInstances[28])(const Introspecta
     Introspection::one,
     Introspection::one,
     Introspection::one,
-    Introspection::one,
-    Introspection::one,
+    _Introspection::count_cLevels,
+    _Introspection::count_defaultTabSize,
     _Introspection::count_tabs,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
+    _Introspection::count_leftMargin1,
+    _Introspection::count_indent1,
+    _Introspection::count_leftMargin2,
+    _Introspection::count_indent2,
+    _Introspection::count_leftMargin3,
+    _Introspection::count_indent3,
+    _Introspection::count_leftMargin4,
+    _Introspection::count_indent4,
+    _Introspection::count_leftMargin5,
+    _Introspection::count_indent5,
 };
 QVariant (* const TextRuler::_Introspection::value[28])(const Introspectable*, int position) = {
     _Introspection::get_fDefaultTabSize,
@@ -18180,11 +18292,20 @@ public:
     static const Introspectable* get_bulletFlags(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->bulletFlags.data();
     }
+    static int count_bulletChar(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_bulletChar ?1 :0;
+    }
     static QVariant get_bulletChar(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->bulletChar;
     }
+    static int count_bulletFontRef(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_bulletFontRef ?1 :0;
+    }
     static QVariant get_bulletFontRef(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->bulletFontRef;
+    }
+    static int count_bulletSize(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_bulletSize ?1 :0;
     }
     static QVariant get_bulletSize(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->bulletSize;
@@ -18195,23 +18316,44 @@ public:
     static const Introspectable* get_bulletColor(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->bulletColor.data();
     }
+    static int count_textAlignment(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_textAlignment ?1 :0;
+    }
     static QVariant get_textAlignment(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->textAlignment;
+    }
+    static int count_lineSpacing(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_lineSpacing ?1 :0;
     }
     static QVariant get_lineSpacing(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->lineSpacing;
     }
+    static int count_spaceBefore(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_spaceBefore ?1 :0;
+    }
     static QVariant get_spaceBefore(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->spaceBefore;
+    }
+    static int count_spaceAfter(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_spaceAfter ?1 :0;
     }
     static QVariant get_spaceAfter(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->spaceAfter;
     }
+    static int count_leftMargin(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_leftMargin ?1 :0;
+    }
     static QVariant get_leftMargin(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->leftMargin;
     }
+    static int count_indent(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_indent ?1 :0;
+    }
     static QVariant get_indent(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->indent;
+    }
+    static int count_defaultTabSize(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_defaultTabSize ?1 :0;
     }
     static QVariant get_defaultTabSize(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->defaultTabSize;
@@ -18222,11 +18364,20 @@ public:
     static const Introspectable* get_tabStops(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->tabStops.data();
     }
+    static int count_fontAlign(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_fontAlign ?1 :0;
+    }
     static QVariant get_fontAlign(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->fontAlign;
     }
+    static int count_wrapFlags(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_wrapFlags ?1 :0;
+    }
     static QVariant get_wrapFlags(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->wrapFlags;
+    }
+    static int count_textDirection(const Introspectable* i) {
+        return static_cast<const TextPFException*>(i)->_has_textDirection ?1 :0;
     }
     static QVariant get_textDirection(const Introspectable* i, int j) {
         return static_cast<const TextPFException*>(i)->textDirection;
@@ -18256,21 +18407,21 @@ const QString TextPFException::_Introspection::names[17] = {
 int (* const TextPFException::_Introspection::numberOfInstances[17])(const Introspectable*) = {
     Introspection::one,
     _Introspection::count_bulletFlags,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
+    _Introspection::count_bulletChar,
+    _Introspection::count_bulletFontRef,
+    _Introspection::count_bulletSize,
     _Introspection::count_bulletColor,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
+    _Introspection::count_textAlignment,
+    _Introspection::count_lineSpacing,
+    _Introspection::count_spaceBefore,
+    _Introspection::count_spaceAfter,
+    _Introspection::count_leftMargin,
+    _Introspection::count_indent,
+    _Introspection::count_defaultTabSize,
     _Introspection::count_tabStops,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
+    _Introspection::count_fontAlign,
+    _Introspection::count_wrapFlags,
+    _Introspection::count_textDirection,
 };
 QVariant (* const TextPFException::_Introspection::value[17])(const Introspectable*, int position) = {
     Introspection::nullValue,
@@ -18329,17 +18480,32 @@ public:
     static const Introspectable* get_fontStyle(const Introspectable* i, int j) {
         return static_cast<const TextCFException*>(i)->fontStyle.data();
     }
+    static int count_fontRef(const Introspectable* i) {
+        return static_cast<const TextCFException*>(i)->_has_fontRef ?1 :0;
+    }
     static QVariant get_fontRef(const Introspectable* i, int j) {
         return static_cast<const TextCFException*>(i)->fontRef;
+    }
+    static int count_oldEAFontRef(const Introspectable* i) {
+        return static_cast<const TextCFException*>(i)->_has_oldEAFontRef ?1 :0;
     }
     static QVariant get_oldEAFontRef(const Introspectable* i, int j) {
         return static_cast<const TextCFException*>(i)->oldEAFontRef;
     }
+    static int count_ansiFontRef(const Introspectable* i) {
+        return static_cast<const TextCFException*>(i)->_has_ansiFontRef ?1 :0;
+    }
     static QVariant get_ansiFontRef(const Introspectable* i, int j) {
         return static_cast<const TextCFException*>(i)->ansiFontRef;
     }
+    static int count_symbolFontRef(const Introspectable* i) {
+        return static_cast<const TextCFException*>(i)->_has_symbolFontRef ?1 :0;
+    }
     static QVariant get_symbolFontRef(const Introspectable* i, int j) {
         return static_cast<const TextCFException*>(i)->symbolFontRef;
+    }
+    static int count_fontSize(const Introspectable* i) {
+        return static_cast<const TextCFException*>(i)->_has_fontSize ?1 :0;
     }
     static QVariant get_fontSize(const Introspectable* i, int j) {
         return static_cast<const TextCFException*>(i)->fontSize;
@@ -18349,6 +18515,9 @@ public:
     }
     static const Introspectable* get_color(const Introspectable* i, int j) {
         return static_cast<const TextCFException*>(i)->color.data();
+    }
+    static int count_position(const Introspectable* i) {
+        return static_cast<const TextCFException*>(i)->_has_position ?1 :0;
     }
     static QVariant get_position(const Introspectable* i, int j) {
         return static_cast<const TextCFException*>(i)->position;
@@ -18370,13 +18539,13 @@ const QString TextCFException::_Introspection::names[9] = {
 int (* const TextCFException::_Introspection::numberOfInstances[9])(const Introspectable*) = {
     Introspection::one,
     _Introspection::count_fontStyle,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
+    _Introspection::count_fontRef,
+    _Introspection::count_oldEAFontRef,
+    _Introspection::count_ansiFontRef,
+    _Introspection::count_symbolFontRef,
+    _Introspection::count_fontSize,
     _Introspection::count_color,
-    Introspection::one,
+    _Introspection::count_position,
 };
 QVariant (* const TextCFException::_Introspection::value[9])(const Introspectable*, int position) = {
     Introspection::nullValue,
@@ -18569,29 +18738,56 @@ public:
     static QVariant get_reserved2b(const Introspectable* i, int j) {
         return static_cast<const TextSIException*>(i)->reserved2b;
     }
+    static int count_spellInfo(const Introspectable* i) {
+        return static_cast<const TextSIException*>(i)->_has_spellInfo ?1 :0;
+    }
     static QVariant get_spellInfo(const Introspectable* i, int j) {
         return static_cast<const TextSIException*>(i)->spellInfo;
+    }
+    static int count_lid(const Introspectable* i) {
+        return static_cast<const TextSIException*>(i)->_has_lid ?1 :0;
     }
     static QVariant get_lid(const Introspectable* i, int j) {
         return static_cast<const TextSIException*>(i)->lid;
     }
+    static int count_altLid(const Introspectable* i) {
+        return static_cast<const TextSIException*>(i)->_has_altLid ?1 :0;
+    }
     static QVariant get_altLid(const Introspectable* i, int j) {
         return static_cast<const TextSIException*>(i)->altLid;
+    }
+    static int count_bidi(const Introspectable* i) {
+        return static_cast<const TextSIException*>(i)->_has_bidi ?1 :0;
     }
     static QVariant get_bidi(const Introspectable* i, int j) {
         return static_cast<const TextSIException*>(i)->bidi;
     }
+    static int count_pp10runid(const Introspectable* i) {
+        return static_cast<const TextSIException*>(i)->_has_pp10runid ?1 :0;
+    }
     static QVariant get_pp10runid(const Introspectable* i, int j) {
         return static_cast<const TextSIException*>(i)->pp10runid;
+    }
+    static int count_reserved3a(const Introspectable* i) {
+        return static_cast<const TextSIException*>(i)->_has_reserved3a ?1 :0;
     }
     static QVariant get_reserved3a(const Introspectable* i, int j) {
         return static_cast<const TextSIException*>(i)->reserved3a;
     }
+    static int count_reserved3b(const Introspectable* i) {
+        return static_cast<const TextSIException*>(i)->_has_reserved3b ?1 :0;
+    }
     static QVariant get_reserved3b(const Introspectable* i, int j) {
         return static_cast<const TextSIException*>(i)->reserved3b;
     }
+    static int count_reserved3bc(const Introspectable* i) {
+        return static_cast<const TextSIException*>(i)->_has_reserved3bc ?1 :0;
+    }
     static QVariant get_reserved3bc(const Introspectable* i, int j) {
         return static_cast<const TextSIException*>(i)->reserved3bc;
+    }
+    static int count_grammarError(const Introspectable* i) {
+        return static_cast<const TextSIException*>(i)->_has_grammarError ?1 :0;
     }
     static QVariant get_grammarError(const Introspectable* i, int j) {
         return static_cast<const TextSIException*>(i)->grammarError;
@@ -18642,15 +18838,15 @@ int (* const TextSIException::_Introspection::numberOfInstances[22])(const Intro
     Introspection::one,
     Introspection::one,
     Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
+    _Introspection::count_spellInfo,
+    _Introspection::count_lid,
+    _Introspection::count_altLid,
+    _Introspection::count_bidi,
+    _Introspection::count_pp10runid,
+    _Introspection::count_reserved3a,
+    _Introspection::count_reserved3b,
+    _Introspection::count_reserved3bc,
+    _Introspection::count_grammarError,
     _Introspection::count_smartTags,
 };
 QVariant (* const TextSIException::_Introspection::value[22])(const Introspectable*, int position) = {
@@ -21164,6 +21360,9 @@ public:
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipEMF*>(i)->rgbUid1;
     }
+    static int count_rgbUid2(const Introspectable* i) {
+        return static_cast<const OfficeArtBlipEMF*>(i)->_has_rgbUid2 ?1 :0;
+    }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipEMF*>(i)->rgbUid2;
     }
@@ -21186,7 +21385,7 @@ const QString OfficeArtBlipEMF::_Introspection::names[5] = {
 int (* const OfficeArtBlipEMF::_Introspection::numberOfInstances[5])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_rgbUid2,
     Introspection::one,
     Introspection::one,
 };
@@ -21220,6 +21419,9 @@ public:
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipWMF*>(i)->rgbUid1;
     }
+    static int count_rgbUid2(const Introspectable* i) {
+        return static_cast<const OfficeArtBlipWMF*>(i)->_has_rgbUid2 ?1 :0;
+    }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipWMF*>(i)->rgbUid2;
     }
@@ -21242,7 +21444,7 @@ const QString OfficeArtBlipWMF::_Introspection::names[5] = {
 int (* const OfficeArtBlipWMF::_Introspection::numberOfInstances[5])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_rgbUid2,
     Introspection::one,
     Introspection::one,
 };
@@ -21276,6 +21478,9 @@ public:
     static QVariant get_rgbUid1(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipPICT*>(i)->rgbUid1;
     }
+    static int count_rgbUid2(const Introspectable* i) {
+        return static_cast<const OfficeArtBlipPICT*>(i)->_has_rgbUid2 ?1 :0;
+    }
     static QVariant get_rgbUid2(const Introspectable* i, int j) {
         return static_cast<const OfficeArtBlipPICT*>(i)->rgbUid2;
     }
@@ -21298,7 +21503,7 @@ const QString OfficeArtBlipPICT::_Introspection::names[5] = {
 int (* const OfficeArtBlipPICT::_Introspection::numberOfInstances[5])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_rgbUid2,
     Introspection::one,
     Introspection::one,
 };
@@ -21902,6 +22107,9 @@ public:
     static QVariant get_cLevels(const Introspectable* i, int j) {
         return static_cast<const TextMasterStyleAtom*>(i)->cLevels;
     }
+    static int count_lstLvl1level(const Introspectable* i) {
+        return static_cast<const TextMasterStyleAtom*>(i)->_has_lstLvl1level ?1 :0;
+    }
     static QVariant get_lstLvl1level(const Introspectable* i, int j) {
         return static_cast<const TextMasterStyleAtom*>(i)->lstLvl1level;
     }
@@ -21910,6 +22118,9 @@ public:
     }
     static const Introspectable* get_lstLvl1(const Introspectable* i, int j) {
         return static_cast<const TextMasterStyleAtom*>(i)->lstLvl1.data();
+    }
+    static int count_lstLvl2level(const Introspectable* i) {
+        return static_cast<const TextMasterStyleAtom*>(i)->_has_lstLvl2level ?1 :0;
     }
     static QVariant get_lstLvl2level(const Introspectable* i, int j) {
         return static_cast<const TextMasterStyleAtom*>(i)->lstLvl2level;
@@ -21920,6 +22131,9 @@ public:
     static const Introspectable* get_lstLvl2(const Introspectable* i, int j) {
         return static_cast<const TextMasterStyleAtom*>(i)->lstLvl2.data();
     }
+    static int count_lstLvl3level(const Introspectable* i) {
+        return static_cast<const TextMasterStyleAtom*>(i)->_has_lstLvl3level ?1 :0;
+    }
     static QVariant get_lstLvl3level(const Introspectable* i, int j) {
         return static_cast<const TextMasterStyleAtom*>(i)->lstLvl3level;
     }
@@ -21929,6 +22143,9 @@ public:
     static const Introspectable* get_lstLvl3(const Introspectable* i, int j) {
         return static_cast<const TextMasterStyleAtom*>(i)->lstLvl3.data();
     }
+    static int count_lstLvl4level(const Introspectable* i) {
+        return static_cast<const TextMasterStyleAtom*>(i)->_has_lstLvl4level ?1 :0;
+    }
     static QVariant get_lstLvl4level(const Introspectable* i, int j) {
         return static_cast<const TextMasterStyleAtom*>(i)->lstLvl4level;
     }
@@ -21937,6 +22154,9 @@ public:
     }
     static const Introspectable* get_lstLvl4(const Introspectable* i, int j) {
         return static_cast<const TextMasterStyleAtom*>(i)->lstLvl4.data();
+    }
+    static int count_lstLvl5level(const Introspectable* i) {
+        return static_cast<const TextMasterStyleAtom*>(i)->_has_lstLvl5level ?1 :0;
     }
     static QVariant get_lstLvl5level(const Introspectable* i, int j) {
         return static_cast<const TextMasterStyleAtom*>(i)->lstLvl5level;
@@ -21967,15 +22187,15 @@ const QString TextMasterStyleAtom::_Introspection::names[12] = {
 int (* const TextMasterStyleAtom::_Introspection::numberOfInstances[12])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    Introspection::one,
+    _Introspection::count_lstLvl1level,
     _Introspection::count_lstLvl1,
-    Introspection::one,
+    _Introspection::count_lstLvl2level,
     _Introspection::count_lstLvl2,
-    Introspection::one,
+    _Introspection::count_lstLvl3level,
     _Introspection::count_lstLvl3,
-    Introspection::one,
+    _Introspection::count_lstLvl4level,
     _Introspection::count_lstLvl4,
-    Introspection::one,
+    _Introspection::count_lstLvl5level,
     _Introspection::count_lstLvl5,
 };
 QVariant (* const TextMasterStyleAtom::_Introspection::value[12])(const Introspectable*, int position) = {
@@ -23746,7 +23966,8 @@ void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s) {
     if (!(((quint32)_s.relVersion) == 0x8 || ((quint32)_s.relVersion) == 0x9)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.relVersion) == 0x8 || ((quint32)_s.relVersion) == 0x9");
     }
-    if (_s.rh.recLen==3*_s.lenUserName+0x14) {
+    _s._has_unicodeUserName = _s.rh.recLen==3*_s.lenUserName+0x14;
+    if (_s._has_unicodeUserName) {
         _c = 2*_s.lenUserName;
         _s.unicodeUserName.resize(_c);        in.readBytes(_s.unicodeUserName);
     }
@@ -23874,7 +24095,8 @@ void parseOfficeArtBlipJPEG(LEInputStream& in, OfficeArtBlipJPEG& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
-    if (_s.rh.recInstance == 0x46B || _s.rh.recInstance == 0x6E3) {
+    _s._has_rgbUid2 = _s.rh.recInstance == 0x46B || _s.rh.recInstance == 0x6E3;
+    if (_s._has_rgbUid2) {
         _c = 16;
         _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
     }
@@ -23906,7 +24128,8 @@ void parseOfficeArtBlipPNG(LEInputStream& in, OfficeArtBlipPNG& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
-    if (_s.rh.recInstance == 0x6E1) {
+    _s._has_rgbUid2 = _s.rh.recInstance == 0x6E1;
+    if (_s._has_rgbUid2) {
         _c = 16;
         _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
     }
@@ -23938,7 +24161,8 @@ void parseOfficeArtBlipDIB(LEInputStream& in, OfficeArtBlipDIB& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
-    if (_s.rh.recInstance == 0x7A9) {
+    _s._has_rgbUid2 = _s.rh.recInstance == 0x7A9;
+    if (_s._has_rgbUid2) {
         _c = 16;
         _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
     }
@@ -23970,7 +24194,8 @@ void parseOfficeArtBlipTIFF(LEInputStream& in, OfficeArtBlipTIFF& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
-    if (_s.rh.recInstance == 0x6E5) {
+    _s._has_rgbUid2 = _s.rh.recInstance == 0x6E5;
+    if (_s._has_rgbUid2) {
         _c = 16;
         _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
     }
@@ -25670,7 +25895,8 @@ void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "((quint16)_s.lastView)<=18");
     }
     _s.unused = in.readuint16();
-    if (_s.rh.recLen==32) {
+    _s._has_encryptSessionPersistIdRef = _s.rh.recLen==32;
+    if (_s._has_encryptSessionPersistIdRef) {
         _s.encryptSessionPersistIdRef = in.readuint32();
     }
 }
@@ -27868,7 +28094,8 @@ void parseLPStd(LEInputStream& in, LPStd& _s) {
     _s.cbStd = in.readuint16();
     _c = _s.cbStd;
     _s.std.resize(_c);    in.readBytes(_s.std);
-    if (_s.cbStd%2==1) {
+    _s._has_padding = _s.cbStd%2==1;
+    if (_s._has_padding) {
         _s.padding = in.readuint8();
     }
 }
@@ -28572,44 +28799,56 @@ void parseTextRuler(LEInputStream& in, TextRuler& _s) {
     _s.fIndent5 = in.readbit();
     _s.reserved1 = in.readuint3();
     _s.reserved2 = in.readuint16();
-    if (_s.fCLevels) {
+    _s._has_cLevels = _s.fCLevels;
+    if (_s._has_cLevels) {
         _s.cLevels = in.readint16();
     }
-    if (_s.fDefaultTabSize) {
+    _s._has_defaultTabSize = _s.fDefaultTabSize;
+    if (_s._has_defaultTabSize) {
         _s.defaultTabSize = in.readuint16();
     }
     if (_s.fTabStops) {
         _s.tabs = QSharedPointer<TabStops>(new TabStops());
         parseTabStops(in, *_s.tabs.data());
     }
-    if (_s.fLeftMargin1) {
+    _s._has_leftMargin1 = _s.fLeftMargin1;
+    if (_s._has_leftMargin1) {
         _s.leftMargin1 = in.readuint16();
     }
-    if (_s.fIndent1) {
+    _s._has_indent1 = _s.fIndent1;
+    if (_s._has_indent1) {
         _s.indent1 = in.readuint16();
     }
-    if (_s.fLeftMargin2) {
+    _s._has_leftMargin2 = _s.fLeftMargin2;
+    if (_s._has_leftMargin2) {
         _s.leftMargin2 = in.readuint16();
     }
-    if (_s.fIndent2) {
+    _s._has_indent2 = _s.fIndent2;
+    if (_s._has_indent2) {
         _s.indent2 = in.readuint16();
     }
-    if (_s.fLeftMargin3) {
+    _s._has_leftMargin3 = _s.fLeftMargin3;
+    if (_s._has_leftMargin3) {
         _s.leftMargin3 = in.readuint16();
     }
-    if (_s.fIndent3) {
+    _s._has_indent3 = _s.fIndent3;
+    if (_s._has_indent3) {
         _s.indent3 = in.readuint16();
     }
-    if (_s.fLeftMargin4) {
+    _s._has_leftMargin4 = _s.fLeftMargin4;
+    if (_s._has_leftMargin4) {
         _s.leftMargin4 = in.readuint16();
     }
-    if (_s.fIndent4) {
+    _s._has_indent4 = _s.fIndent4;
+    if (_s._has_indent4) {
         _s.indent4 = in.readuint16();
     }
-    if (_s.fLeftMargin5) {
+    _s._has_leftMargin5 = _s.fLeftMargin5;
+    if (_s._has_leftMargin5) {
         _s.leftMargin5 = in.readuint16();
     }
-    if (_s.fIndent5) {
+    _s._has_indent5 = _s.fIndent5;
+    if (_s._has_indent5) {
         _s.indent5 = in.readuint16();
     }
 }
@@ -28684,54 +28923,67 @@ void parseTextPFException(LEInputStream& in, TextPFException& _s) {
         _s.bulletFlags = QSharedPointer<BulletFlags>(new BulletFlags());
         parseBulletFlags(in, *_s.bulletFlags.data());
     }
-    if (_s.masks.bulletChar) {
+    _s._has_bulletChar = _s.masks.bulletChar;
+    if (_s._has_bulletChar) {
         _s.bulletChar = in.readint16();
         if (!(((qint16)_s.bulletChar) != 0)) {
             throw IncorrectValueException(in.getPosition(), "((qint16)_s.bulletChar) != 0");
         }
     }
-    if (_s.masks.bulletFont) {
+    _s._has_bulletFontRef = _s.masks.bulletFont;
+    if (_s._has_bulletFontRef) {
         _s.bulletFontRef = in.readuint16();
     }
-    if (_s.masks.bulletSize) {
+    _s._has_bulletSize = _s.masks.bulletSize;
+    if (_s._has_bulletSize) {
         _s.bulletSize = in.readuint16();
     }
     if (_s.masks.bulletColor) {
         _s.bulletColor = QSharedPointer<ColorIndexStruct>(new ColorIndexStruct());
         parseColorIndexStruct(in, *_s.bulletColor.data());
     }
-    if (_s.masks.align) {
+    _s._has_textAlignment = _s.masks.align;
+    if (_s._has_textAlignment) {
         _s.textAlignment = in.readuint16();
     }
-    if (_s.masks.lineSpacing) {
+    _s._has_lineSpacing = _s.masks.lineSpacing;
+    if (_s._has_lineSpacing) {
         _s.lineSpacing = in.readuint16();
     }
-    if (_s.masks.spaceBefore) {
+    _s._has_spaceBefore = _s.masks.spaceBefore;
+    if (_s._has_spaceBefore) {
         _s.spaceBefore = in.readuint16();
     }
-    if (_s.masks.spaceAfter) {
+    _s._has_spaceAfter = _s.masks.spaceAfter;
+    if (_s._has_spaceAfter) {
         _s.spaceAfter = in.readuint16();
     }
-    if (_s.masks.leftMargin) {
+    _s._has_leftMargin = _s.masks.leftMargin;
+    if (_s._has_leftMargin) {
         _s.leftMargin = in.readuint16();
     }
-    if (_s.masks.indent) {
+    _s._has_indent = _s.masks.indent;
+    if (_s._has_indent) {
         _s.indent = in.readuint16();
     }
-    if (_s.masks.defaultTabSize) {
+    _s._has_defaultTabSize = _s.masks.defaultTabSize;
+    if (_s._has_defaultTabSize) {
         _s.defaultTabSize = in.readuint16();
     }
     if (_s.masks.tabStops) {
         _s.tabStops = QSharedPointer<TabStops>(new TabStops());
         parseTabStops(in, *_s.tabStops.data());
     }
-    if (_s.masks.fontAlign) {
+    _s._has_fontAlign = _s.masks.fontAlign;
+    if (_s._has_fontAlign) {
         _s.fontAlign = in.readuint16();
     }
-    if (_s.masks.charWrap||_s.masks.wordWrap||_s.masks.overflow) {
+    _s._has_wrapFlags = _s.masks.charWrap||_s.masks.wordWrap||_s.masks.overflow;
+    if (_s._has_wrapFlags) {
         _s.wrapFlags = in.readuint16();
     }
-    if (_s.masks.textDirection) {
+    _s._has_textDirection = _s.masks.textDirection;
+    if (_s._has_textDirection) {
         _s.textDirection = in.readuint16();
     }
 }
@@ -28804,19 +29056,24 @@ void parseTextCFException(LEInputStream& in, TextCFException& _s) {
         _s.fontStyle = QSharedPointer<CFStyle>(new CFStyle());
         parseCFStyle(in, *_s.fontStyle.data());
     }
-    if (_s.masks.typeface) {
+    _s._has_fontRef = _s.masks.typeface;
+    if (_s._has_fontRef) {
         _s.fontRef = in.readuint16();
     }
-    if (_s.masks.oldEATypeface) {
+    _s._has_oldEAFontRef = _s.masks.oldEATypeface;
+    if (_s._has_oldEAFontRef) {
         _s.oldEAFontRef = in.readuint16();
     }
-    if (_s.masks.ansiTypeface) {
+    _s._has_ansiFontRef = _s.masks.ansiTypeface;
+    if (_s._has_ansiFontRef) {
         _s.ansiFontRef = in.readuint16();
     }
-    if (_s.masks.symbolTypeface) {
+    _s._has_symbolFontRef = _s.masks.symbolTypeface;
+    if (_s._has_symbolFontRef) {
         _s.symbolFontRef = in.readuint16();
     }
-    if (_s.masks.size) {
+    _s._has_fontSize = _s.masks.size;
+    if (_s._has_fontSize) {
         _s.fontSize = in.readuint16();
         if (!(((quint16)_s.fontSize)>=1)) {
             throw IncorrectValueException(in.getPosition(), "((quint16)_s.fontSize)>=1");
@@ -28829,7 +29086,8 @@ void parseTextCFException(LEInputStream& in, TextCFException& _s) {
         _s.color = QSharedPointer<ColorIndexStruct>(new ColorIndexStruct());
         parseColorIndexStruct(in, *_s.color.data());
     }
-    if (_s.masks.position) {
+    _s._has_position = _s.masks.position;
+    if (_s._has_position) {
         _s.position = in.readint16();
         if (!(((qint16)_s.position)>=-100)) {
             throw IncorrectValueException(in.getPosition(), "((qint16)_s.position)>=-100");
@@ -28961,34 +29219,43 @@ void parseTextSIException(LEInputStream& in, TextSIException& _s) {
     _s.smartTag = in.readbit();
     _s.reserved2a = in.readuint2();
     _s.reserved2b = in.readuint20();
-    if (_s.spell) {
+    _s._has_spellInfo = _s.spell;
+    if (_s._has_spellInfo) {
         _s.spellInfo = in.readuint16();
     }
-    if (_s.lang) {
+    _s._has_lid = _s.lang;
+    if (_s._has_lid) {
         _s.lid = in.readuint16();
     }
-    if (_s.altLang) {
+    _s._has_altLid = _s.altLang;
+    if (_s._has_altLid) {
         _s.altLid = in.readuint16();
     }
-    if (_s.fBidi) {
+    _s._has_bidi = _s.fBidi;
+    if (_s._has_bidi) {
         _s.bidi = in.readint16();
         if (!(((qint16)_s.bidi) == 0 || ((qint16)_s.bidi) == 1)) {
             throw IncorrectValueException(in.getPosition(), "((qint16)_s.bidi) == 0 || ((qint16)_s.bidi) == 1");
         }
     }
-    if (_s.fPp10ext) {
+    _s._has_pp10runid = _s.fPp10ext;
+    if (_s._has_pp10runid) {
         _s.pp10runid = in.readuint4();
     }
-    if (_s.fPp10ext) {
+    _s._has_reserved3a = _s.fPp10ext;
+    if (_s._has_reserved3a) {
         _s.reserved3a = in.readuint4();
     }
-    if (_s.fPp10ext) {
+    _s._has_reserved3b = _s.fPp10ext;
+    if (_s._has_reserved3b) {
         _s.reserved3b = in.readuint16();
     }
-    if (_s.fPp10ext) {
+    _s._has_reserved3bc = _s.fPp10ext;
+    if (_s._has_reserved3bc) {
         _s.reserved3bc = in.readuint7();
     }
-    if (_s.fPp10ext) {
+    _s._has_grammarError = _s.fPp10ext;
+    if (_s._has_grammarError) {
         _s.grammarError = in.readbit();
     }
     if (_s.smartTag) {
@@ -30226,7 +30493,8 @@ void parseOfficeArtBlipEMF(LEInputStream& in, OfficeArtBlipEMF& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
-    if (_s.rh.recInstance == 0x3D5) {
+    _s._has_rgbUid2 = _s.rh.recInstance == 0x3D5;
+    if (_s._has_rgbUid2) {
         _c = 16;
         _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
     }
@@ -30258,7 +30526,8 @@ void parseOfficeArtBlipWMF(LEInputStream& in, OfficeArtBlipWMF& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
-    if (_s.rh.recInstance == 0x217) {
+    _s._has_rgbUid2 = _s.rh.recInstance == 0x217;
+    if (_s._has_rgbUid2) {
         _c = 16;
         _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
     }
@@ -30290,7 +30559,8 @@ void parseOfficeArtBlipPICT(LEInputStream& in, OfficeArtBlipPICT& _s) {
     }
     _c = 16;
     _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
-    if (_s.rh.recInstance == 0x543) {
+    _s._has_rgbUid2 = _s.rh.recInstance == 0x543;
+    if (_s._has_rgbUid2) {
         _c = 16;
         _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
     }
@@ -30709,35 +30979,40 @@ void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
     if (!(((quint16)_s.cLevels)<=5)) {
         throw IncorrectValueException(in.getPosition(), "((quint16)_s.cLevels)<=5");
     }
-    if (_s.cLevels>0 && _s.rh.recInstance>=5) {
+    _s._has_lstLvl1level = _s.cLevels>0 && _s.rh.recInstance>=5;
+    if (_s._has_lstLvl1level) {
         _s.lstLvl1level = in.readuint16();
     }
     if (_s.cLevels>0) {
         _s.lstLvl1 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel());
         parseTextMasterStyleLevel(in, *_s.lstLvl1.data());
     }
-    if (_s.cLevels>1 && _s.rh.recInstance>=5) {
+    _s._has_lstLvl2level = _s.cLevels>1 && _s.rh.recInstance>=5;
+    if (_s._has_lstLvl2level) {
         _s.lstLvl2level = in.readuint16();
     }
     if (_s.cLevels>1) {
         _s.lstLvl2 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel());
         parseTextMasterStyleLevel(in, *_s.lstLvl2.data());
     }
-    if (_s.cLevels>2 && _s.rh.recInstance>=5) {
+    _s._has_lstLvl3level = _s.cLevels>2 && _s.rh.recInstance>=5;
+    if (_s._has_lstLvl3level) {
         _s.lstLvl3level = in.readuint16();
     }
     if (_s.cLevels>2) {
         _s.lstLvl3 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel());
         parseTextMasterStyleLevel(in, *_s.lstLvl3.data());
     }
-    if (_s.cLevels>3 && _s.rh.recInstance>=5) {
+    _s._has_lstLvl4level = _s.cLevels>3 && _s.rh.recInstance>=5;
+    if (_s._has_lstLvl4level) {
         _s.lstLvl4level = in.readuint16();
     }
     if (_s.cLevels>3) {
         _s.lstLvl4 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel());
         parseTextMasterStyleLevel(in, *_s.lstLvl4.data());
     }
-    if (_s.cLevels>4 && _s.rh.recInstance>=5) {
+    _s._has_lstLvl5level = _s.cLevels>4 && _s.rh.recInstance>=5;
+    if (_s._has_lstLvl5level) {
         _s.lstLvl5level = in.readuint16();
     }
     if (_s.cLevels>4) {
