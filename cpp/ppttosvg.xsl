@@ -22,29 +22,53 @@
 
   <xsl:template name="getX">
     <xsl:choose>
-      <xsl:when test="clientAnchor/*/left"><xsl:value-of select="number(clientAnchor/*/left)"/></xsl:when>
+      <xsl:when test="clientAnchor/*/left"><xsl:value-of
+        select="number(clientAnchor/*/left)"/></xsl:when>
       <xsl:otherwise><xsl:value-of select="number(childAnchor/xLeft)"/></xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
   <xsl:template name="getY">
     <xsl:choose>
-      <xsl:when test="clientAnchor/*/left"><xsl:value-of select="number(clientAnchor/*/top)"/></xsl:when>
+      <xsl:when test="clientAnchor/*/left"><xsl:value-of
+        select="number(clientAnchor/*/top)"/></xsl:when>
       <xsl:otherwise><xsl:value-of select="number(childAnchor/yTop)"/></xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
   <xsl:template name="getWidth">
     <xsl:choose>
-      <xsl:when test="clientAnchor/*/left"><xsl:value-of select="number(clientAnchor/*/right)-number(clientAnchor/*/left)"/></xsl:when>
-      <xsl:otherwise><xsl:value-of select="number(childAnchor/xRight)-number(childAnchor/xLeft)"/></xsl:otherwise>
+      <xsl:when test="clientAnchor/*/left"><xsl:value-of
+        select="number(clientAnchor/*/right)-number(clientAnchor/*/left)"/></xsl:when>
+      <xsl:otherwise><xsl:value-of
+        select="number(childAnchor/xRight)-number(childAnchor/xLeft)"/></xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
   <xsl:template name="getHeight">
     <xsl:choose>
-      <xsl:when test="clientAnchor/*/left"><xsl:value-of select="number(clientAnchor/*/bottom)-number(clientAnchor/*/top)"/></xsl:when>
-      <xsl:otherwise><xsl:value-of select="number(childAnchor/yBottom)-number(childAnchor/yTop)"/></xsl:otherwise>
+      <xsl:when test="clientAnchor/*/left"><xsl:value-of
+        select="number(clientAnchor/*/bottom)-number(clientAnchor/*/top)"/></xsl:when>
+      <xsl:otherwise><xsl:value-of
+        select="number(childAnchor/yBottom)-number(childAnchor/yTop)"/></xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="getY1">
+    <xsl:variable name="y"><xsl:call-template name="getY"/></xsl:variable>
+    <xsl:variable name="h"><xsl:call-template name="getHeight"/></xsl:variable>
+    <xsl:choose>
+      <xsl:when test="shapeProp/fFlipV='true'"><xsl:value-of select="$y+$h"/></xsl:when>
+      <xsl:otherwise><xsl:value-of select="$y"/></xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="getY2">
+    <xsl:variable name="y"><xsl:call-template name="getY"/></xsl:variable>
+    <xsl:variable name="h"><xsl:call-template name="getHeight"/></xsl:variable>
+    <xsl:choose>
+      <xsl:when test="shapeProp/fFlipV='true'"><xsl:value-of select="$y"/></xsl:when>
+      <xsl:otherwise><xsl:value-of select="$y+$h"/></xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
@@ -110,7 +134,22 @@
     <xsl:variable name="y"><xsl:call-template name="getY"/></xsl:variable>
     <xsl:variable name="w"><xsl:call-template name="getWidth"/></xsl:variable>
     <xsl:variable name="h"><xsl:call-template name="getHeight"/></xsl:variable>
-    <line x1="{$x}" y1="{$y}" x2="{$x+$w}" y2="{$y+$h}" stroke-width='20' stroke="black"/>
+    <xsl:variable name="y1"><xsl:call-template name="getY1"/></xsl:variable>
+    <xsl:variable name="y2"><xsl:call-template name="getY2"/></xsl:variable>
+    <xsl:variable name="start"
+        select="shapePrimaryOptions/fopt/anon[@type='LineStartArrowhead']/lineStartArrowhead='1'"/>
+    <xsl:variable name="end"
+        select="shapePrimaryOptions/fopt/anon[@type='LineEndArrowhead']/lineEndArrowhead='1'"/>
+    <g stroke-width='20' stroke="black">
+      <line x1="{$x}" y1="{$y1}" x2="{$x+$w}" y2="{$y2}">
+        <xsl:if test="$start">
+          <xsl:attribute name="marker-start">url(#msArrowStart_20_5)</xsl:attribute>
+        </xsl:if>
+        <xsl:if test="$end">
+          <xsl:attribute name="marker-end">url(#msArrowEnd_20_5)</xsl:attribute>
+        </xsl:if>
+      </line>
+    </g>
   </xsl:template>
 
   <xsl:template match="*[@type='OfficeArtSpgrContainer']">
@@ -164,6 +203,16 @@
     <xsl:param name="height" select="//documentAtom/slideSize/y"/>
     <svg width="{100+$scale*(1+$width div 576)}in"
          height="{100+0.5+1.1*$scale*$numSlides*$height div 576}in">
+      <defs>
+        <marker id="msArrowStart_20_5" viewBox="0 0 10 10" refX="0" refY="5" 
+            markerUnits="strokeWidth" markerWidth="20" markerHeight="8" orient="auto">
+          <path d="M 10 0 L 0 5 L 10 10 z" />
+        </marker>
+        <marker id="msArrowEnd_20_5" viewBox="0 0 10 10" refX="10" refY="5" 
+            markerUnits="strokeWidth" markerWidth="20" markerHeight="8" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" />
+        </marker>
+      </defs>
       <text x="10" y="20">Welcome to this presentation</text>
       <g transform="scale({$scale},{$scale})" font-size="300">
         <xsl:apply-templates
