@@ -72,6 +72,10 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="*[@type='OfficeArtCOLORREF']" name="getColor">
+    <xsl:value-of select="concat('rgb(',red,',',green,',',blue,')')"/>
+  </xsl:template>
+
   <xsl:template match="rgTextCFRun">
     <xsl:if test="cf/masks/bold='true'">font-weight: bold;</xsl:if>
     <xsl:if test="cf/masks/italic='true'">font-style: italic;</xsl:if>
@@ -140,7 +144,11 @@
         select="shapePrimaryOptions/fopt/anon[@type='LineStartArrowhead']/lineStartArrowhead='1'"/>
     <xsl:variable name="end"
         select="shapePrimaryOptions/fopt/anon[@type='LineEndArrowhead']/lineEndArrowhead='1'"/>
-    <g stroke-width='20' stroke="black">
+    <g stroke-width='20'>
+      <xsl:if test="shapePrimaryOptions/fopt/anon/lineColor">
+        <xsl:attribute name="stroke"><xsl:apply-templates select="shapePrimaryOptions/fopt/anon/lineColor"/></xsl:attribute>
+        <xsl:attribute name="fill"><xsl:apply-templates select="shapePrimaryOptions/fopt/anon/lineColor"/></xsl:attribute>
+      </xsl:if>
       <line x1="{$x}" y1="{$y1}" x2="{$x+$w}" y2="{$y2}">
         <xsl:if test="$start">
           <xsl:attribute name="marker-start">url(#msArrowStart_20_5)</xsl:attribute>
@@ -202,7 +210,8 @@
     <xsl:param name="width" select="//documentAtom/slideSize/x"/>
     <xsl:param name="height" select="//documentAtom/slideSize/y"/>
     <svg width="{100+$scale*(1+$width div 576)}in"
-         height="{100+0.5+1.1*$scale*$numSlides*$height div 576}in">
+         height="{100+0.5+1.1*$scale*$numSlides*$height div 576}in"
+         stroke="black" fill="black">
       <defs>
         <marker id="msArrowStart_20_5" viewBox="0 0 10 10" refX="0" refY="5" 
             markerUnits="strokeWidth" markerWidth="20" markerHeight="8" orient="auto">
