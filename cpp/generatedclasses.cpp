@@ -5925,13 +5925,13 @@ private:
 public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
-    quint32 lineStartArrowHead;
-    LineStartArrowhead() :lineStartArrowHead(0) {
+    quint32 lineStartArrowhead;
+    LineStartArrowhead() :lineStartArrowhead(0) {
     }
     QString toString() {
         QString _s = "LineStartArrowhead:";
         _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "lineStartArrowHead: " + QString::number(lineStartArrowHead) + "(" + QString::number(lineStartArrowHead,16).toUpper() + ")" + ", ";
+        _s = _s + "lineStartArrowhead: " + QString::number(lineStartArrowhead) + "(" + QString::number(lineStartArrowhead,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -5942,13 +5942,13 @@ private:
 public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
-    quint32 lineEndArrowHead;
-    LineEndArrowhead() :lineEndArrowHead(0) {
+    quint32 lineEndArrowhead;
+    LineEndArrowhead() :lineEndArrowhead(0) {
     }
     QString toString() {
         QString _s = "LineEndArrowhead:";
         _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "lineEndArrowHead: " + QString::number(lineEndArrowHead) + "(" + QString::number(lineEndArrowHead,16).toUpper() + ")" + ", ";
+        _s = _s + "lineEndArrowhead: " + QString::number(lineEndArrowhead) + "(" + QString::number(lineEndArrowhead,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -20060,15 +20060,15 @@ public:
     static const Introspectable* get_opid(const Introspectable* i, int j) {
         return &(static_cast<const LineStartArrowhead*>(i)->opid);
     }
-    static QVariant get_lineStartArrowHead(const Introspectable* i, int j) {
-        return static_cast<const LineStartArrowhead*>(i)->lineStartArrowHead;
+    static QVariant get_lineStartArrowhead(const Introspectable* i, int j) {
+        return static_cast<const LineStartArrowhead*>(i)->lineStartArrowhead;
     }
 };
 const QString LineStartArrowhead::_Introspection::name("LineStartArrowhead");
 const int LineStartArrowhead::_Introspection::numberOfMembers(2);
 const QString LineStartArrowhead::_Introspection::names[2] = {
     "opid",
-    "lineStartArrowHead",
+    "lineStartArrowhead",
 };
 int (* const LineStartArrowhead::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -20076,7 +20076,7 @@ int (* const LineStartArrowhead::_Introspection::numberOfInstances[2])(const Int
 };
 QVariant (* const LineStartArrowhead::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_lineStartArrowHead,
+    _Introspection::get_lineStartArrowhead,
 };
 const Introspectable* (* const LineStartArrowhead::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_opid,
@@ -20095,15 +20095,15 @@ public:
     static const Introspectable* get_opid(const Introspectable* i, int j) {
         return &(static_cast<const LineEndArrowhead*>(i)->opid);
     }
-    static QVariant get_lineEndArrowHead(const Introspectable* i, int j) {
-        return static_cast<const LineEndArrowhead*>(i)->lineEndArrowHead;
+    static QVariant get_lineEndArrowhead(const Introspectable* i, int j) {
+        return static_cast<const LineEndArrowhead*>(i)->lineEndArrowhead;
     }
 };
 const QString LineEndArrowhead::_Introspection::name("LineEndArrowhead");
 const int LineEndArrowhead::_Introspection::numberOfMembers(2);
 const QString LineEndArrowhead::_Introspection::names[2] = {
     "opid",
-    "lineEndArrowHead",
+    "lineEndArrowhead",
 };
 int (* const LineEndArrowhead::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -20111,7 +20111,7 @@ int (* const LineEndArrowhead::_Introspection::numberOfInstances[2])(const Intro
 };
 QVariant (* const LineEndArrowhead::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_lineEndArrowHead,
+    _Introspection::get_lineEndArrowhead,
 };
 const Introspectable* (* const LineEndArrowhead::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_opid,
@@ -29672,14 +29672,14 @@ void parseLineStartArrowhead(LEInputStream& in, LineStartArrowhead& _s) {
     if (!(_s.opid.fComplex == false)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
     }
-    _s.lineStartArrowHead = in.readuint32();
-    if (!(((quint32)_s.lineStartArrowHead)<=8)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.lineStartArrowHead)<=8");
+    _s.lineStartArrowhead = in.readuint32();
+    if (!(((quint32)_s.lineStartArrowhead)<=8)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.lineStartArrowhead)<=8");
     }
 }
 void write(const LineStartArrowhead& _s, LEOutputStream& out) {
     write(_s.opid, out);
-    out.writeuint32(_s.lineStartArrowHead);
+    out.writeuint32(_s.lineStartArrowhead);
 }
 void parseLineEndArrowhead(LEInputStream& in, LineEndArrowhead& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -29692,14 +29692,14 @@ void parseLineEndArrowhead(LEInputStream& in, LineEndArrowhead& _s) {
     if (!(_s.opid.fComplex == false)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
     }
-    _s.lineEndArrowHead = in.readuint32();
-    if (!(((quint32)_s.lineEndArrowHead)<=8)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.lineEndArrowHead)<=8");
+    _s.lineEndArrowhead = in.readuint32();
+    if (!(((quint32)_s.lineEndArrowhead)<=8)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.lineEndArrowhead)<=8");
     }
 }
 void write(const LineEndArrowhead& _s, LEOutputStream& out) {
     write(_s.opid, out);
-    out.writeuint32(_s.lineEndArrowHead);
+    out.writeuint32(_s.lineEndArrowhead);
 }
 void parseLineStyleBooleanProperties(LEInputStream& in, LineStyleBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);

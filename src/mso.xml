@@ -2386,7 +2386,7 @@
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
 		</type>
-		<uint32 name="lineStartArrowHead">
+		<uint32 name="lineStartArrowhead">
 			<limitation expression="&lt;=8" />
 		</uint32>
 	</struct>
@@ -2396,7 +2396,7 @@
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
 		</type>
-		<uint32 name="lineEndArrowHead">
+		<uint32 name="lineEndArrowhead">
 			<limitation expression="&lt;=8" />
 		</uint32>
 	</struct>

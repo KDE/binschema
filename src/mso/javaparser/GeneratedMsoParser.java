@@ -6855,15 +6855,15 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.opid.fComplex == false)) {
             throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
         }
-        _s.lineStartArrowHead = in.readuint32();
-        if (!(_s.lineStartArrowHead<=8)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.lineStartArrowHead<=8 for value " + String.valueOf(_s.lineStartArrowHead) );
+        _s.lineStartArrowhead = in.readuint32();
+        if (!(_s.lineStartArrowhead<=8)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.lineStartArrowhead<=8 for value " + String.valueOf(_s.lineStartArrowhead) );
         }
         return _s;
     }
     void write(LineStartArrowhead _s, LEOutputStream out) throws IOException  {
         write(_s.opid, out);
-        out.writeuint32(_s.lineStartArrowHead);
+        out.writeuint32(_s.lineStartArrowhead);
     }
     LineEndArrowhead parseLineEndArrowhead(LEInputStream in) throws IOException  {
         LineEndArrowhead _s = new LineEndArrowhead();
@@ -6877,15 +6877,15 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.opid.fComplex == false)) {
             throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
         }
-        _s.lineEndArrowHead = in.readuint32();
-        if (!(_s.lineEndArrowHead<=8)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.lineEndArrowHead<=8 for value " + String.valueOf(_s.lineEndArrowHead) );
+        _s.lineEndArrowhead = in.readuint32();
+        if (!(_s.lineEndArrowhead<=8)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.lineEndArrowhead<=8 for value " + String.valueOf(_s.lineEndArrowhead) );
         }
         return _s;
     }
     void write(LineEndArrowhead _s, LEOutputStream out) throws IOException  {
         write(_s.opid, out);
-        out.writeuint32(_s.lineEndArrowHead);
+        out.writeuint32(_s.lineEndArrowhead);
     }
     LineStyleBooleanProperties parseLineStyleBooleanProperties(LEInputStream in) throws IOException  {
         LineStyleBooleanProperties _s = new LineStyleBooleanProperties();
@@ -13407,21 +13407,21 @@ class LineFillBlip {
 }
 class LineStartArrowhead {
     OfficeArtFOPTEOPID opid;
-    int lineStartArrowHead;
+    int lineStartArrowhead;
     public String toString() {
         String _s = "LineStartArrowhead:";
         _s = _s + "opid: " + String.valueOf(opid) + ", ";
-        _s = _s + "lineStartArrowHead: " + String.valueOf(lineStartArrowHead) + "(" + Integer.toHexString(lineStartArrowHead).toUpperCase() + "), ";
+        _s = _s + "lineStartArrowhead: " + String.valueOf(lineStartArrowhead) + "(" + Integer.toHexString(lineStartArrowhead).toUpperCase() + "), ";
         return _s;
     }
 }
 class LineEndArrowhead {
     OfficeArtFOPTEOPID opid;
-    int lineEndArrowHead;
+    int lineEndArrowhead;
     public String toString() {
         String _s = "LineEndArrowhead:";
         _s = _s + "opid: " + String.valueOf(opid) + ", ";
-        _s = _s + "lineEndArrowHead: " + String.valueOf(lineEndArrowHead) + "(" + Integer.toHexString(lineEndArrowHead).toUpperCase() + "), ";
+        _s = _s + "lineEndArrowhead: " + String.valueOf(lineEndArrowhead) + "(" + Integer.toHexString(lineEndArrowhead).toUpperCase() + "), ";
         return _s;
     }
 }
