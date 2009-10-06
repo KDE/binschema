@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
     xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
-    xmlns:h="http://www.w3.org/1999/xhtml" xmlns:e="http://exslt.org/common">
-  <xsl:output method="xml" indent="yes"/>
+    xmlns:h="http://www.w3.org/1999/xhtml">
+  <xsl:output method="xml" indent="no"/>
 
   <xsl:template match="clientAnchor">
     <g transform="translate({*/left},{*/top})">
@@ -115,28 +115,54 @@
     </xsl:choose>
   </xsl:template>
 
-  <!-- this template is still incomplete: it does not handle all PFRun items.-->
-  <xsl:template match="*[@type='TextContainer']">
-    <xsl:param name="pcount" select="1"/>
+  <xsl:template name="CFRun">
+    <xsl:param name="offset"/>
+    <xsl:param name="text"/>
     <xsl:param name="ccount" select="1"/>
     <xsl:param name="start" select="1"/>
-    <xsl:param name="class"
-      select="concat('texttype',textHeaderAtom/textType,'lstLvl1')"/>
-    <xsl:variable name="pstyle">
-      <xsl:apply-templates select="style/rgTextPFRun[position()=1]/pf"/>
-    </xsl:variable>
-    <xsl:variable name="cstyle">
+    <xsl:variable name="style">
       <xsl:apply-templates select="style/rgTextCFRun[position()=$ccount]/cf"/>
     </xsl:variable>
-    <xsl:variable name="len"
-      select="style/rgTextCFRun[position()=$ccount]/count"/>
+    <xsl:variable name="len" select="style/rgTextCFRun[position()=$ccount]/count"/>
+    <xsl:variable name="subtext" select="substring($text, $start - $offset+1, $len)"/>
 
+    <!-- loop over all CFRun elements -->
     <xsl:if test="$ccount&lt;=count(style/rgTextCFRun)">
-      <h:span style="{$pstyle}{$cstyle}" class="{$class}">
-        <xsl:value-of select="substring(text/textChars, $start, $len)"/>
-      </h:span>
-      <xsl:apply-templates select=".">
+      <xsl:if test="string-length($subtext)">
+        <h:span>
+          <xsl:value-of select="$subtext"/>
+        </h:span>
+      </xsl:if>
+      <xsl:call-template name="CFRun">
+        <xsl:with-param name="offset" select="$offset"/>
+        <xsl:with-param name="text" select="$text"/>
         <xsl:with-param name="ccount" select="$ccount+1"/>
+        <xsl:with-param name="start" select="$start+$len"/>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="*[@type='TextContainer']">
+    <xsl:param name="pcount" select="1"/>
+    <xsl:param name="start" select="1"/>
+    <xsl:variable name="class" select="concat('texttype',textHeaderAtom/textType,'lstLvl1')"/>
+    <xsl:variable name="style">
+      <xsl:apply-templates select="style/rgTextPFRun[position()=1]/pf"/>
+    </xsl:variable>
+    <xsl:variable name="len" select="style/rgTextPFRun[position()=$pcount]/count"/>
+    <xsl:variable name="text" select="substring(text/textChars, $start, $len)"/>
+
+    <xsl:if test="$pcount&lt;=count(style/rgTextPFRun)">
+      <xsl:if test="string-length($text)">
+        <h:p style="{$style}" class="{$class}">
+          <xsl:call-template name="CFRun">
+            <xsl:with-param name="offset" select="$start"/>
+            <xsl:with-param name="text" select="$text"/>
+          </xsl:call-template>
+        </h:p>
+      </xsl:if>
+      <xsl:apply-templates select=".">
+        <xsl:with-param name="pcount" select="$pcount+1"/>
         <xsl:with-param name="start" select="$start+$len"/>
       </xsl:apply-templates>
     </xsl:if>
