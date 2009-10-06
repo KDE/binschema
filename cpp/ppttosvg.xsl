@@ -72,29 +72,71 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template name="getMasterId">
+    <xsl:if test="slideAtom/masterIdRef"><xsl:value-of select="slideAtom/masterIdRef"/></xsl:if>
+    <xsl:for-each select="..">
+      <xsl:call-template name="getMasterId"/>
+    </xsl:for-each>
+  </xsl:template>
+
   <xsl:template match="*[@type='OfficeArtCOLORREF']" name="getColor">
     <xsl:value-of select="concat('rgb(',red,',',green,',',blue,')')"/>
   </xsl:template>
 
-  <xsl:template match="rgTextCFRun">
-    <xsl:if test="cf/masks/bold='true'">font-weight: bold;</xsl:if>
-    <xsl:if test="cf/masks/italic='true'">font-style: italic;</xsl:if>
-    <xsl:if test="cf/masks/underline='true'">text-decoration:underline;</xsl:if>
+  <xsl:template match="pf[@type='TextPFException']">
+    <xsl:if test="masks/wordWrap='false'">white-space: pre-wrap;</xsl:if><!-- or 'pre'? -->
+    <xsl:if test="textAlignment='0'">text-align: left;</xsl:if>
+    <xsl:if test="textAlignment='1'">text-align: center;</xsl:if>
+    <xsl:if test="textAlignment='2'">text-align: right;</xsl:if>
+    <xsl:if test="textAlignment='3'">text-align: justify;</xsl:if>
   </xsl:template>
 
+  <xsl:template match="cf[@type='TextCFException']">
+    <xsl:if test="masks/bold='true'">font-weight: bold;</xsl:if>
+    <xsl:if test="masks/italic='true'">font-style: italic;</xsl:if>
+    <xsl:if test="masks/underline='true'">text-decoration: underline;</xsl:if>
+    <xsl:if test="fontSize">font-size: <xsl:value-of select="fontSize*10 div 12"/>%;</xsl:if>
+    <xsl:apply-templates select="ansiFontRef"/>
+    <xsl:apply-templates select="fontRef"/>
+  </xsl:template>
+
+  <xsl:template match="lfFaceName">
+    <xsl:value-of select="concat('font-family:',substring-before(node(),'%'),';')"/>
+  </xsl:template>
+
+  <xsl:template match="ansiFontRef|fontRef">
+    <xsl:choose>
+      <xsl:when test="node()&lt;count(//rgFontCollectionEntry)">
+        <xsl:apply-templates select="//rgFontCollectionEntry[position()=node()]/fontEntityAtom/lfFaceName"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="//rgFontCollectionEntry[position()=1]/fontEntityAtom/lfFaceName"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- this template is still incomplete: it does not handle all PFRun items.-->
   <xsl:template match="*[@type='TextContainer']">
-    <xsl:param name="count" select="1"/>
-    <xsl:param name="start" select="0"/>
-    <xsl:variable name="style">
-      <xsl:apply-templates select="style/rgTextCFRun[position()=$count]"/>
+    <xsl:param name="pcount" select="1"/>
+    <xsl:param name="ccount" select="1"/>
+    <xsl:param name="start" select="1"/>
+    <xsl:param name="class"
+      select="concat('texttype',textHeaderAtom/textType,'lstLvl1')"/>
+    <xsl:variable name="pstyle">
+      <xsl:apply-templates select="style/rgTextPFRun[position()=1]/pf"/>
     </xsl:variable>
-    <xsl:variable name="len" select="style/rgTextCFRun[position()=$count]/count"/>
-    <xsl:if test="$count&lt;=count(style/rgTextCFRun)">
-      <h:span style="{$style}">
+    <xsl:variable name="cstyle">
+      <xsl:apply-templates select="style/rgTextCFRun[position()=$ccount]/cf"/>
+    </xsl:variable>
+    <xsl:variable name="len"
+      select="style/rgTextCFRun[position()=$ccount]/count"/>
+
+    <xsl:if test="$ccount&lt;=count(style/rgTextCFRun)">
+      <h:span style="{$pstyle}{$cstyle}" class="{$class}">
         <xsl:value-of select="substring(text/textChars, $start, $len)"/>
       </h:span>
       <xsl:apply-templates select=".">
-        <xsl:with-param name="count" select="$count+1"/>
+        <xsl:with-param name="ccount" select="$ccount+1"/>
         <xsl:with-param name="start" select="$start+$len"/>
       </xsl:apply-templates>
     </xsl:if>
@@ -197,10 +239,32 @@
           viewBox="0 0 {$width} {$height}" overflow="visible">
       <!-- slide canvas -->
       <rect width="{$width}" height="{$height}" fill="white" stroke="black" stroke-width="10" />
-<!--      <xsl:apply-templates select="drawing/OfficeArtDg/groupShape//clientAnchor"/> -->
       <xsl:apply-templates select="drawing/OfficeArtDg/groupShape"/>
-<!--      <xsl:apply-templates select="drawing/OfficeArtDg/shape"/> -->
     </svg>
+  </xsl:template>
+
+  <xsl:template match="*[@type='TextMasterStyleAtom']">
+    <xsl:param name="prefix"/>
+    .<xsl:value-of select="$prefix"/>lstLvl1 {
+      <xsl:apply-templates select="lstLvl1/pf"/>
+      <xsl:apply-templates select="lstLvl1/cf"/>
+    }
+    .<xsl:value-of select="$prefix"/>lstLvl2 {
+      <xsl:apply-templates select="lstLvl2/pf"/>
+      <xsl:apply-templates select="lstLvl2/cf"/>
+    }
+    .<xsl:value-of select="$prefix"/>lstLvl3 {
+      <xsl:apply-templates select="lstLvl3/pf"/>
+      <xsl:apply-templates select="lstLvl3/cf"/>
+    }
+    .<xsl:value-of select="$prefix"/>lstLvl4 {
+      <xsl:apply-templates select="lstLvl4/pf"/>
+      <xsl:apply-templates select="lstLvl4/cf"/>
+    }
+    .<xsl:value-of select="$prefix"/>lstLvl5 {
+      <xsl:apply-templates select="lstLvl5/pf"/>
+      <xsl:apply-templates select="lstLvl5/cf"/>
+    }
   </xsl:template>
 
   <xsl:template match="/">
@@ -209,10 +273,24 @@
         select="count(ppt/PowerPointStructs/anon/anon/anon[@type='SlideContainer'])"/>
     <xsl:param name="width" select="//documentAtom/slideSize/x"/>
     <xsl:param name="height" select="//documentAtom/slideSize/y"/>
+    <xsl:variable name="pstyle">
+      <xsl:apply-templates select="//textPFDefaultsAtom/pf"/>
+    </xsl:variable>
+    <xsl:variable name="cstyle">
+      <xsl:apply-templates select="//textCFDefaultsAtom/cf"/>
+    </xsl:variable>
     <svg width="{100+$scale*(1+$width div 576)}in"
          height="{100+0.5+1.1*$scale*$numSlides*$height div 576}in"
-         stroke="black" fill="black">
+         stroke="black" fill="black" style="{$pstyle}{$cstyle}">
       <defs>
+        <style type="text/css">
+          <xsl:apply-templates select="//textMasterStyleAtom"/>
+          <xsl:for-each select="//rgTextMasterStyle">
+            <xsl:apply-templates select=".">
+              <xsl:with-param name="prefix" select="concat('texttype',position()-1)"/>
+            </xsl:apply-templates>
+          </xsl:for-each>
+        </style>
         <marker id="msArrowStart_20_5" viewBox="0 0 10 10" refX="0" refY="5" 
             markerUnits="strokeWidth" markerWidth="20" markerHeight="8" orient="auto">
           <path d="M 10 0 L 0 5 L 10 10 z" />
