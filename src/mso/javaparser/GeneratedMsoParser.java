@@ -5811,9 +5811,6 @@ System.out.println(in.getPosition()+" "+_s);
         }
         if (_s.masks.bulletChar) {
             _s.bulletChar = in.readint16();
-        if (!(_s.bulletChar != 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.bulletChar != 0 for value " + String.valueOf(_s.bulletChar) );
-        }
         }
         if (_s.masks.bulletFont) {
             _s.bulletFontRef = in.readuint16();

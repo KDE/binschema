@@ -28926,9 +28926,6 @@ void parseTextPFException(LEInputStream& in, TextPFException& _s) {
     _s._has_bulletChar = _s.masks.bulletChar;
     if (_s._has_bulletChar) {
         _s.bulletChar = in.readint16();
-        if (!(((qint16)_s.bulletChar) != 0)) {
-            throw IncorrectValueException(in.getPosition(), "((qint16)_s.bulletChar) != 0");
-        }
     }
     _s._has_bulletFontRef = _s.masks.bulletFont;
     if (_s._has_bulletFontRef) {

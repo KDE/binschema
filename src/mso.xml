@@ -959,7 +959,10 @@
 		<type name="bulletFlags" type="BulletFlags"
 			condition="masks.hasBullet||masks.bulletHasFont||masks.bulletHasColor||masks.bulletHasSize" />
 		<int16 name="bulletChar" condition="masks.bulletChar">
-			<limitation value="!0" />
+			<!--
+				OpenOffice violates this constraint, so we do not check it
+				<limitation value="!0" />
+			-->
 		</int16>
 		<uint16 name="bulletFontRef" condition="masks.bulletFont" />
 		<uint16 name="bulletSize" condition="masks.bulletSize" />
@@ -3300,7 +3303,10 @@
 	<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
 	<stream name="WordDocument" key="WordDocument" type="WordDocument" />
 	<stream name="1Table" key="1Table" type="Table" />
-	<!--  two temporary streams to work around the fact that we cannot parse StyleTextPropAtom -->
+	<!--
+		two temporary streams to work around the fact that we cannot parse
+		StyleTextPropAtom
+	-->
 	<stream name="textPFRun" key="textPFRun" type="TextPFRun" />
 	<stream name="textCFRun" key="textCFRun" type="TextCFRun" />
 </mso>
