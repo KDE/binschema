@@ -5828,13 +5828,13 @@ System.out.println(in.getPosition()+" "+_s);
             _s.textAlignment = in.readuint16();
         }
         if (_s.masks.lineSpacing) {
-            _s.lineSpacing = in.readuint16();
+            _s.lineSpacing = in.readint16();
         }
         if (_s.masks.spaceBefore) {
-            _s.spaceBefore = in.readuint16();
+            _s.spaceBefore = in.readint16();
         }
         if (_s.masks.spaceAfter) {
-            _s.spaceAfter = in.readuint16();
+            _s.spaceAfter = in.readint16();
         }
         if (_s.masks.leftMargin) {
             _s.leftMargin = in.readuint16();
@@ -5880,13 +5880,13 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint16(_s.textAlignment);
         }
         if (_s.masks.lineSpacing) {
-            out.writeuint16(_s.lineSpacing);
+            out.writeint16(_s.lineSpacing);
         }
         if (_s.masks.spaceBefore) {
-            out.writeuint16(_s.spaceBefore);
+            out.writeint16(_s.spaceBefore);
         }
         if (_s.masks.spaceAfter) {
-            out.writeuint16(_s.spaceAfter);
+            out.writeint16(_s.spaceAfter);
         }
         if (_s.masks.leftMargin) {
             out.writeuint16(_s.leftMargin);
@@ -12893,9 +12893,9 @@ class TextPFException {
     int bulletSize;
     ColorIndexStruct bulletColor;
     int textAlignment;
-    int lineSpacing;
-    int spaceBefore;
-    int spaceAfter;
+    short lineSpacing;
+    short spaceBefore;
+    short spaceAfter;
     int leftMargin;
     int indent;
     int defaultTabSize;

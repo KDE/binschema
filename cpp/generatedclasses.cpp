@@ -5254,9 +5254,9 @@ public:
     quint16 bulletSize;
     QSharedPointer<ColorIndexStruct> bulletColor;
     quint16 textAlignment;
-    quint16 lineSpacing;
-    quint16 spaceBefore;
-    quint16 spaceAfter;
+    qint16 lineSpacing;
+    qint16 spaceBefore;
+    qint16 spaceAfter;
     quint16 leftMargin;
     quint16 indent;
     quint16 defaultTabSize;
@@ -28948,15 +28948,15 @@ void parseTextPFException(LEInputStream& in, TextPFException& _s) {
     }
     _s._has_lineSpacing = _s.masks.lineSpacing;
     if (_s._has_lineSpacing) {
-        _s.lineSpacing = in.readuint16();
+        _s.lineSpacing = in.readint16();
     }
     _s._has_spaceBefore = _s.masks.spaceBefore;
     if (_s._has_spaceBefore) {
-        _s.spaceBefore = in.readuint16();
+        _s.spaceBefore = in.readint16();
     }
     _s._has_spaceAfter = _s.masks.spaceAfter;
     if (_s._has_spaceAfter) {
-        _s.spaceAfter = in.readuint16();
+        _s.spaceAfter = in.readint16();
     }
     _s._has_leftMargin = _s.masks.leftMargin;
     if (_s._has_leftMargin) {
@@ -29008,13 +29008,13 @@ void write(const TextPFException& _s, LEOutputStream& out) {
         out.writeuint16(_s.textAlignment);
     }
     if (_s.masks.lineSpacing) {
-        out.writeuint16(_s.lineSpacing);
+        out.writeint16(_s.lineSpacing);
     }
     if (_s.masks.spaceBefore) {
-        out.writeuint16(_s.spaceBefore);
+        out.writeint16(_s.spaceBefore);
     }
     if (_s.masks.spaceAfter) {
-        out.writeuint16(_s.spaceAfter);
+        out.writeint16(_s.spaceAfter);
     }
     if (_s.masks.leftMargin) {
         out.writeuint16(_s.leftMargin);

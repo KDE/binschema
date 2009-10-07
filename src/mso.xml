@@ -965,9 +965,9 @@
 		<uint16 name="bulletSize" condition="masks.bulletSize" />
 		<type name="bulletColor" condition="masks.bulletColor" type="ColorIndexStruct" />
 		<uint16 name="textAlignment" condition="masks.align" />
-		<uint16 name="lineSpacing" condition="masks.lineSpacing" />
-		<uint16 name="spaceBefore" condition="masks.spaceBefore" />
-		<uint16 name="spaceAfter" condition="masks.spaceAfter" />
+		<int16 name="lineSpacing" condition="masks.lineSpacing" />
+		<int16 name="spaceBefore" condition="masks.spaceBefore" />
+		<int16 name="spaceAfter" condition="masks.spaceAfter" />
 		<uint16 name="leftMargin" condition="masks.leftMargin" />
 		<uint16 name="indent" condition="masks.indent" />
 		<uint16 name="defaultTabSize" condition="masks.defaultTabSize" />
