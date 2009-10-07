@@ -249,7 +249,7 @@
       <rect width="{$w}" height="{$h}" fill="green" opacity="0.5"/>
       <foreignObject width="{$w}" height="{$h}"><h:body>
         <xsl:apply-templates
-          select="//slideList/rgChildRec[position()=$slideNumber]/atoms[position()=$boxNumber]"/>
+          select="//anon[anon/slideList][last()]/anon/slideList/rgChildRec[position()=$slideNumber]/atoms[position()=$boxNumber]"/>
       </h:body></foreignObject>
     </g>
   </xsl:template>
