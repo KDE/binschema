@@ -83,12 +83,46 @@
     <xsl:value-of select="concat('rgb(',red,',',green,',',blue,')')"/>
   </xsl:template>
 
+  <xsl:template name="getSpacing">
+    <xsl:choose>
+      <xsl:when test=".&lt;0"><xsl:value-of select="-node()"/></xsl:when>
+      <xsl:when test=".&lt;=13200"><xsl:value-of select="node()"/>ex</xsl:when>
+      <xsl:otherwise>0</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:variable name="hexDigits" select="'0123456789ABCDEF'" />
+  <xsl:template name="toHex">
+    <xsl:param name="decimalNumber" />
+    <xsl:if test="$decimalNumber >= 16">
+      <xsl:call-template name="toHex">
+        <xsl:with-param name="decimalNumber" select="floor($decimalNumber div 16)" />
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:value-of select="substring($hexDigits, ($decimalNumber mod 16) + 1, 1)" />
+  </xsl:template>
+
   <xsl:template match="pf[@type='TextPFException']">
     <xsl:if test="masks/wordWrap='false'">white-space: pre-wrap;</xsl:if><!-- or 'pre'? -->
     <xsl:if test="textAlignment='0'">text-align: left;</xsl:if>
     <xsl:if test="textAlignment='1'">text-align: center;</xsl:if>
     <xsl:if test="textAlignment='2'">text-align: right;</xsl:if>
     <xsl:if test="textAlignment='3'">text-align: justify;</xsl:if>
+    <!-- todo: figure out the right units here -->
+    <xsl:if test="indent">margin-left: <xsl:value-of select="indent"/>pt;</xsl:if>
+  </xsl:template>
+
+  <xsl:template name="PFBefore">
+  </xsl:template>
+
+  <xsl:template name="PFBulletBefore">
+    <xsl:variable name="char">
+      <xsl:call-template name="toHex">
+        <xsl:with-param name="decimalNumber" select="bulletChar"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:call-template name="PFBefore"/>
+    <xsl:if test="bulletChar">content: '\<xsl:value-of select="$char"/>';</xsl:if>
   </xsl:template>
 
   <xsl:template match="cf[@type='TextCFException']">
@@ -107,7 +141,8 @@
   <xsl:template match="ansiFontRef|fontRef">
     <xsl:choose>
       <xsl:when test="node()&lt;count(//rgFontCollectionEntry)">
-        <xsl:apply-templates select="//rgFontCollectionEntry[position()=node()]/fontEntityAtom/lfFaceName"/>
+        <xsl:apply-templates
+          select="//rgFontCollectionEntry[position()=node()]/fontEntityAtom/lfFaceName"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:apply-templates select="//rgFontCollectionEntry[position()=1]/fontEntityAtom/lfFaceName"/>
@@ -142,12 +177,39 @@
     </xsl:if>
   </xsl:template>
 
+  <xsl:template name="getClass">
+    <xsl:param name="indent" />
+    <xsl:variable name="type" select="textHeaderAtom/textType"/>
+    <xsl:variable name="class" select="concat('texttype', $type, 'lstLvl',($indent+1))"/>
+    <xsl:choose>
+      <xsl:when test="bulletFlags/fHasBullet='false'">
+        <xsl:value-of select="$class"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat($class, ' ', $class, 'Bullet')"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="getBullet">
+    <!-- very simple for now, we just write 'O'. this needs to be expanded to get either the defined
+         bullet character or the inherited bullet character -->
+    <xsl:variable name="char">
+      <xsl:call-template name="toHex">
+        <xsl:with-param name="decimalNumber" select="bulletChar"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:if test="bulletFlags/fHasBullet='true'">O </xsl:if>
+  </xsl:template>
+
   <xsl:template match="*[@type='TextContainer']">
     <xsl:param name="pcount" select="1"/>
     <xsl:param name="start" select="1"/>
-    <xsl:variable name="class" select="concat('texttype',textHeaderAtom/textType,'lstLvl1')"/>
+    <xsl:variable name="indent" select="style/rgTextPFRun[position()=$pcount]/indentLevel"/>
+    <xsl:variable name="type" select="textHeaderAtom/textType"/>
+    <xsl:variable name="class" select="concat('texttype', $type, 'lstLvl', ($indent+1))"/>
     <xsl:variable name="style">
-      <xsl:apply-templates select="style/rgTextPFRun[position()=1]/pf"/>
+      <xsl:apply-templates select="style/rgTextPFRun[position()=$pcount]/pf"/>
     </xsl:variable>
     <xsl:variable name="len" select="style/rgTextPFRun[position()=$pcount]/count"/>
     <xsl:variable name="text" select="substring(text/textChars, $start, $len)"/>
@@ -155,6 +217,12 @@
     <xsl:if test="$pcount&lt;=count(style/rgTextPFRun)">
       <xsl:if test="string-length($text)">
         <h:p style="{$style}" class="{$class}">
+          <!-- bullet is put in the text, using css is too hard -->
+          <xsl:for-each select="style/rgTextPFRun[position()=$pcount]/pf">
+            <xsl:call-template name="getBullet">
+              <xsl:with-param name="indent" select="indent"/>
+            </xsl:call-template>
+          </xsl:for-each>
           <xsl:call-template name="CFRun">
             <xsl:with-param name="offset" select="$start"/>
             <xsl:with-param name="text" select="$text"/>
@@ -275,21 +343,51 @@
       <xsl:apply-templates select="lstLvl1/pf"/>
       <xsl:apply-templates select="lstLvl1/cf"/>
     }
+    .<xsl:value-of select="$prefix"/>lstLvl1:before {
+      <xsl:for-each select="lstLvl1/pf">
+        <xsl:call-template name="PFBefore"/>
+      </xsl:for-each>
+    }
+    .<xsl:value-of select="$prefix"/>lstLvl1Bullet:before {
+      <xsl:for-each select="lstLvl1/pf">
+        <xsl:call-template name="PFBulletBefore"/>
+      </xsl:for-each>
+    }
     .<xsl:value-of select="$prefix"/>lstLvl2 {
       <xsl:apply-templates select="lstLvl2/pf"/>
       <xsl:apply-templates select="lstLvl2/cf"/>
+    }
+    .<xsl:value-of select="$prefix"/>lstLvl2:before {
+      <xsl:for-each select="lstLvl2/pf">
+        <xsl:call-template name="PFBefore"/>
+      </xsl:for-each>
     }
     .<xsl:value-of select="$prefix"/>lstLvl3 {
       <xsl:apply-templates select="lstLvl3/pf"/>
       <xsl:apply-templates select="lstLvl3/cf"/>
     }
+    .<xsl:value-of select="$prefix"/>lstLvl3:before {
+      <xsl:for-each select="lstLvl3/pf">
+        <xsl:call-template name="PFBefore"/>
+      </xsl:for-each>
+    }
     .<xsl:value-of select="$prefix"/>lstLvl4 {
       <xsl:apply-templates select="lstLvl4/pf"/>
       <xsl:apply-templates select="lstLvl4/cf"/>
     }
+    .<xsl:value-of select="$prefix"/>lstLvl4:before {
+      <xsl:for-each select="lstLvl4/pf">
+        <xsl:call-template name="PFBefore"/>
+      </xsl:for-each>
+    }
     .<xsl:value-of select="$prefix"/>lstLvl5 {
       <xsl:apply-templates select="lstLvl5/pf"/>
       <xsl:apply-templates select="lstLvl5/cf"/>
+    }
+    .<xsl:value-of select="$prefix"/>lstLvl5:before {
+      <xsl:for-each select="lstLvl5/pf">
+        <xsl:call-template name="PFBefore"/>
+      </xsl:for-each>
     }
   </xsl:template>
 
