@@ -129,7 +129,7 @@
     <xsl:if test="masks/bold='true'">font-weight: bold;</xsl:if>
     <xsl:if test="masks/italic='true'">font-style: italic;</xsl:if>
     <xsl:if test="masks/underline='true'">text-decoration: underline;</xsl:if>
-    <xsl:if test="fontSize">font-size: <xsl:value-of select="fontSize*10 div 12"/>%;</xsl:if>
+    <xsl:if test="fontSize">font-size: <xsl:value-of select="fontSize * 100 div 12"/>%;</xsl:if>
     <xsl:apply-templates select="ansiFontRef"/>
     <xsl:apply-templates select="fontRef"/>
   </xsl:template>
@@ -305,12 +305,14 @@
     <xsl:param name="vy" select="rgfb/anon/shapeGroup/yTop"/>
     <xsl:param name="vwidth" select="number(rgfb/anon/shapeGroup/xRight)-$vx"/>
     <xsl:param name="vheight" select="number(rgfb/anon/shapeGroup/yBottom)-$vy"/>
+    <xsl:variable name="scale" select="$vwidth div $width"/>
     <xsl:choose>
       <!-- if the first OfficeArtSpContainer has a clientAnchor, a new coordinate system is introduced.
            -->
       <xsl:when test="rgfb[position()=1]/anon/clientAnchor">
-        <svg overflow="visible" x="{$x}" y="{$y}" width="{$width}" height="{$height}"
-            viewBox="{$vx} {$vy} {$vwidth} {$vheight}">
+        <svg overflow="visible" x="{$x}" y="{$y}" width="{$width}"
+            height="{$height}" viewBox="{$vx} {$vy} {$vwidth} {$vheight}"
+            font-size="{100*$scale}%">
           <xsl:apply-templates select="rgfb[position()>1]/anon"/>
         </svg>
       </xsl:when>
@@ -330,7 +332,7 @@
     <xsl:param name="x" select="'0.5in'"/>
     <xsl:param name="y" select="concat(0.5 + (position()-1)*1.1*$height div 576,'in')"/>
     <svg x="{$x}" y="{$y}" width="{$width div 576.0}in" height="{$height div 576.0}in"
-          viewBox="0 0 {$width} {$height}" overflow="visible">
+          viewBox="0 0 {$width} {$height}" overflow="visible" font-size="96">
       <!-- slide canvas -->
       <rect width="{$width}" height="{$height}" fill="white" stroke="black" stroke-width="10" />
       <xsl:apply-templates select="drawing/OfficeArtDg/groupShape"/>
@@ -392,11 +394,11 @@
   </xsl:template>
 
   <xsl:template match="/">
-    <xsl:param name="scale" select="0.4"/>
-    <xsl:param name="numSlides"
+    <xsl:variable name="scale" select="0.4"/>
+    <xsl:variable name="numSlides"
         select="count(ppt/PowerPointStructs/anon/anon/anon[@type='SlideContainer'])"/>
-    <xsl:param name="width" select="//documentAtom/slideSize/x"/>
-    <xsl:param name="height" select="//documentAtom/slideSize/y"/>
+    <xsl:variable name="width" select="//documentAtom/slideSize/x"/>
+    <xsl:variable name="height" select="//documentAtom/slideSize/y"/>
     <xsl:variable name="pstyle">
       <xsl:apply-templates select="//textPFDefaultsAtom/pf"/>
     </xsl:variable>
@@ -425,7 +427,7 @@
         </marker>
       </defs>
       <text x="10" y="20">Welcome to this presentation</text>
-      <g transform="scale({$scale},{$scale})" font-size="300">
+      <g transform="scale({$scale},{$scale})">
         <xsl:apply-templates
           select="ppt/PowerPointStructs/anon/anon/anon[@type='SlideContainer']"/>
       </g>
