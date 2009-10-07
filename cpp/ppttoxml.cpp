@@ -98,7 +98,7 @@ printStyleTextPropAtom(QXmlStreamWriter& out, const Introspectable* i, int chara
             //qDebug() << "PF " << characterCount << " " << cis->value[0](ci, 0).toInt() << " " << sum;
             delete ci;
             out.writeEndElement();
-        } while (sum < characterCount);
+        } while (sum <= characterCount);
         sum = 0;
         do {
             ci = parse("textCFRun", listream);
