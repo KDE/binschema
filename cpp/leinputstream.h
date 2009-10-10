@@ -82,9 +82,6 @@ public:
 
     Mark setMark() { return Mark(input); }
     void rewind(const Mark& m) {
-        if (m.pos == 7425) {
-            qDebug() << "rewinding to " << m.pos;
-        }
         if (!m.input || !m.input->seek(m.pos)) {
             throw IOException("Cannot rewind.");
         }
