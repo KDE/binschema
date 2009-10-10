@@ -221,7 +221,7 @@ public class QtParserGenerator {
 		}
 		if (m.choices != null) {
 			boolean first = true;
-			for (String t : m.choices) {
+			for (String t : m.choices.getChoiceNames()) {
 				out.print(s);
 				if (!first) {
 					out.print("} else ");
@@ -284,7 +284,7 @@ public class QtParserGenerator {
 			return "qint32";
 		} else if ("choice".equals(t)) {
 			String choice = "class " + m.name + "Choice {public:";
-			for (String c : m.choices) {
+			for (String c : m.choices.getChoiceNames()) {
 				choice = choice + "QSharedPointer<" + c + "> "
 						+ c.toLowerCase() + ";\n";
 			}
@@ -435,7 +435,7 @@ public class QtParserGenerator {
 				}
 			} else {
 				out.println("        const Introspectable* k = 0;");
-				for (String c : m.choices) {
+				for (String c : m.choices.getChoiceNames()) {
 					out.println("        if (k == 0) k = static_cast<const "
 							+ s.name + "*>(i)->" + m.name + "."
 							+ c.toLowerCase() + ".data();");
@@ -499,9 +499,10 @@ public class QtParserGenerator {
 		String exception = "_x";
 		String choice;
 		out.println(s + "_m = in.setMark();");
-		int length = (m.isOptional) ? m.choices.length : m.choices.length - 1;
+		String choices[] = m.choices.getChoiceNames();
+		int length = (m.isOptional) ? choices.length : choices.length - 1;
 		for (int i = 0; i < length; ++i) {
-			choice = m.choices[i];
+			choice = choices[i];
 			out.println(s + "try {");
 			out.println(s + "    " + choice + " _t;");
 			out.println(s + "    parse" + choice + "(in, _t);");
@@ -515,7 +516,7 @@ public class QtParserGenerator {
 			closing = closing + "}";
 		}
 		if (!m.isOptional) {
-			choice = m.choices[m.choices.length - 1];
+			choice = choices[choices.length - 1];
 			out.println(s + "    " + choice + " _t;");
 			out.println(s + "    parse" + choice + "(in, _t);");
 			out.println(s + "    _s." + m.name + "." + choice.toLowerCase()

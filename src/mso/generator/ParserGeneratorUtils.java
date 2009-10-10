@@ -54,6 +54,36 @@ class Limitation {
 	}
 }
 
+class Choices {
+	final List<Struct> choices;
+
+	Choices(List<Struct> c) {
+		choices = c;
+
+		// find the common members
+		List<Member> common = choices.get(0).members;
+		for (int i = 0; i < common.size(); ++i) {
+			List<Member> members = choices.get(i).members;
+			for (int j = 0; j < common.size(); ++j) {
+				if (j >= members.size()
+						|| !members.get(j).equals(common.get(i))) {
+					while (common.size() > j) {
+						common.remove(j);
+					}
+				}
+			}
+		}
+	}
+
+	String[] getChoiceNames() {
+		String n[] = new String[choices.size()];
+		for (int i = 0; i < choices.size(); ++i) {
+			n[i] = choices.get(i).name;
+		}
+		return n;
+	}
+}
+
 class Member {
 	final String name;
 	final String type;
@@ -64,7 +94,7 @@ class Member {
 	final boolean isOptional;
 	final boolean isComplex;
 	final boolean isInteger;
-	final String choices[];
+	final Choices choices;
 	final Limitation limitations[];
 
 	Member(Element e) {
@@ -74,7 +104,7 @@ class Member {
 		count = (e.hasAttribute("count")) ? e.getAttribute("count") : null;
 		size = (e.hasAttribute("size")) ? e.getAttribute("size") : null;
 
-		List<String> _choices = null;
+		List<Struct> _choices = null;
 		isOptional = e.hasAttribute("optional");
 		isArray = count != null || e.hasAttribute("array");
 		isComplex = e.hasAttribute("type");
@@ -85,10 +115,15 @@ class Member {
 			type = e.getNodeName();
 			isInteger = type.startsWith("int") || type.startsWith("uint");
 			if (type.equals("choice")) {
-				_choices = new ArrayList<String>();
+				_choices = new ArrayList<Struct>();
+				Element msoelement = (Element) e.getParentNode()
+						.getParentNode();
 				NodeList l = e.getElementsByTagName("type");
 				for (int i = 0; i < l.getLength(); ++i) {
-					_choices.add(((Element) l.item(i)).getAttribute("type"));
+					String choicetype = ((Element) l.item(i))
+							.getAttribute("type");
+					_choices.add(new Struct(getStructElement(msoelement,
+							choicetype)));
 				}
 			}
 		}
@@ -100,9 +135,21 @@ class Member {
 				_limitations.add(new Limitation((Element) l.item(i)));
 			}
 		}
-		choices = (_choices == null) ? null : _choices.toArray(new String[0]);
+		choices = (_choices == null) ? null : new Choices(_choices);
 		limitations = _limitations.toArray(new Limitation[0]);
 	}
+
+	private static Element getStructElement(Element mso, String typename) {
+		NodeList l = mso.getElementsByTagName("struct");
+		for (int i = 0; i < l.getLength(); ++i) {
+			Element e = (Element) l.item(i);
+			if (e.getAttribute("name").equals(typename)) {
+				return e;
+			}
+		}
+		return null;
+	}
+
 }
 
 class Struct {

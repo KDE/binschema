@@ -115,7 +115,7 @@ public class JavaParserGenerator {
 		}
 		if (m.choices != null) {
 			boolean first = true;
-			for (String t : m.choices) {
+			for (String t : m.choices.getChoiceNames()) {
 				out.print(s);
 				if (!first) {
 					out.print("} else ");
@@ -285,10 +285,11 @@ public class JavaParserGenerator {
 		String closing = "";
 		String exception = "_x";
 		out.println(s + "_m = in.setMark();");
-		int length = (m.isOptional) ? m.choices.length : m.choices.length - 1;
+		String choices[] = m.choices.getChoiceNames();
+		int length = (m.isOptional) ? choices.length : choices.length - 1;
 		for (int i = 0; i < length; ++i) {
 			out.println(s + "try {");
-			out.println(s + "    _s." + m.name + " = parse" + m.choices[i]
+			out.println(s + "    _s." + m.name + " = parse" + choices[i]
 					+ "(in);");
 			out.println(s + "} catch (IOException " + exception + ") {");
 			out.println(s + "    if (!(" + exception
@@ -305,7 +306,7 @@ public class JavaParserGenerator {
 		}
 		if (!m.isOptional) {
 			out.println(s + "    _s." + m.name + " = parse"
-					+ m.choices[m.choices.length - 1] + "(in);");
+					+ choices[choices.length - 1] + "(in);");
 		}
 		out.println(s + closing + " finally {");
 		out.println(s + "    in.releaseMark(_m);");
