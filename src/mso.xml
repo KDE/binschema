@@ -620,8 +620,8 @@
 	<!-- our own invention -->
 	<struct name="TextContainerInteractiveInfo">
 		<choice name="interactive">
-			<type type="InteractiveInfoInstance" />
-			<type type="TextInteractiveInfoInstance" />
+			<type type="MouseInteractiveInfoContainer" />
+			<type type="MouseTextInteractiveInfoAtom" />
 		</choice>
 	</struct>
 	<struct name="TextClientDataSubContainerOrAtom">
@@ -823,25 +823,18 @@
 		</int32>
 		<int32 name="bookmarkID" />
 	</struct>
-	<struct name="InteractiveInfoInstance">
-		<choice name="anon">
-			<type type="MouseClickInteractiveInfoContainer" />
-			<type type="MouseOverInteractiveInfoContainer" />
-		</choice>
-	</struct>
-	<struct name="TextInteractiveInfoInstance">
-		<choice name="anon">
-			<type type="MouseClickTextInteractiveInfoContainer" />
-			<type type="MouseOverTextInteractiveInfoContainer" />
-		</choice>
-		<!--
-			<type name="rh" type="RecordHeader"> <limitation name="recVer"
-			value="0" /> <limitation name="recInstance" value="0|1" />
-			<limitation name="recType" value="0xFDF" /> <limitation name="recLen"
-			value="8" /> </type>
-		-->
-		<!-- TODO either mouseover or mouseclick -->
-		<!-- <uint8 name="range" count="8" /> -->
+	<struct name="MouseTextInteractiveInfoAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<!--
+				MouseClickTextInteractiveInfoAtom ==0,
+				MouseOverTextInteractiveInfoAtom == 1
+			-->
+			<limitation name="recInstance" value="0|1" />
+			<limitation name="recType" value="0xFDF" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<uint8 name="range" count="8" />
 	</struct>
 	<struct name="SlideId">
 		<uint32 name="slideId">
@@ -2717,10 +2710,14 @@
 		<type name="exObjRefAtom" type="ExObjRefAtom" optional="true" />
 		<type name="animationInfo" type="AnimationInfoContainer"
 			optional="true" />
-		<type name="mouseClickInteractiveInfo" type="MouseClickInteractiveInfoContainer"
-			optional="true" />
-		<type name="mouseOverInteractiveInfo" type="MouseOverInteractiveInfoContainer"
-			optional="true" />
+		<type name="mouseClickInteractiveInfo" type="MouseInteractiveInfoContainer"
+			optional="true">
+			<limitation value="rh.recInstance==0" />
+		</type>
+		<type name="mouseOverInteractiveInfo" type="MouseInteractiveInfoContainer"
+			optional="true">
+			<limitation value="rh.recInstance==1" />
+		</type>
 		<type name="placeholderAtom" type="PlaceholderAtom" optional="true" />
 		<type name="recolorInfoAtom" type="RecolorInfoAtom" optional="true" />
 		<type name="rgShapeClientRoundtripData" type="ShapeClientRoundtripDataSubcontainerOrAtom"
@@ -2763,19 +2760,14 @@
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
-	<struct name="MouseClickInteractiveInfoContainer">
+	<struct name="MouseInteractiveInfoContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
-			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0xFF2" />
-		</type>
-		<type name="interactiveInfoAtom" type="InteractiveInfoAtom" />
-		<type name="macroNameAtom" type="MacroNameAtom" condition="rh.recLen&gt;24" />
-	</struct>
-	<struct name="MouseOverInteractiveInfoContainer">
-		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0xF" />
-			<limitation name="recInstance" value="1" />
+			<!--
+				0 == MouseClickInteractiveInfoContainer, 1 ==
+				MouseOverInteractiveInfoContainer
+			-->
+			<limitation name="recInstance" value="0|1" />
 			<limitation name="recType" value="0xFF2" />
 		</type>
 		<type name="interactiveInfoAtom" type="InteractiveInfoAtom" />
