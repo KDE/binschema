@@ -132,9 +132,9 @@ void write(const RTFDateTimeMCAtom& v, LEOutputStream& out);
 class TextBookmarkAtom;
 void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s);
 void write(const TextBookmarkAtom& v, LEOutputStream& out);
-class TextInteractiveInfoInstance;
-void parseTextInteractiveInfoInstance(LEInputStream& in, TextInteractiveInfoInstance& _s);
-void write(const TextInteractiveInfoInstance& v, LEOutputStream& out);
+class MouseTextInteractiveInfoAtom;
+void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s);
+void write(const MouseTextInteractiveInfoAtom& v, LEOutputStream& out);
 class SlideId;
 void parseSlideId(LEInputStream& in, SlideId& _s);
 void write(const SlideId& v, LEOutputStream& out);
@@ -423,12 +423,12 @@ void write(const ExObjRefAtom& v, LEOutputStream& out);
 class AnimationInfoContainer;
 void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s);
 void write(const AnimationInfoContainer& v, LEOutputStream& out);
-class MouseClickInteractiveInfoContainer;
-void parseMouseClickInteractiveInfoContainer(LEInputStream& in, MouseClickInteractiveInfoContainer& _s);
-void write(const MouseClickInteractiveInfoContainer& v, LEOutputStream& out);
-class MouseOverInteractiveInfoContainer;
-void parseMouseOverInteractiveInfoContainer(LEInputStream& in, MouseOverInteractiveInfoContainer& _s);
-void write(const MouseOverInteractiveInfoContainer& v, LEOutputStream& out);
+class InteractiveInfoAtom;
+void parseInteractiveInfoAtom(LEInputStream& in, InteractiveInfoAtom& _s);
+void write(const InteractiveInfoAtom& v, LEOutputStream& out);
+class MacroNameAtom;
+void parseMacroNameAtom(LEInputStream& in, MacroNameAtom& _s);
+void write(const MacroNameAtom& v, LEOutputStream& out);
 class PlaceholderAtom;
 void parsePlaceholderAtom(LEInputStream& in, PlaceholderAtom& _s);
 void write(const PlaceholderAtom& v, LEOutputStream& out);
@@ -531,6 +531,21 @@ void write(const SttbfFfn& v, LEOutputStream& out);
 class SttbfFfnEntry;
 void parseSttbfFfnEntry(LEInputStream& in, SttbfFfnEntry& _s);
 void write(const SttbfFfnEntry& v, LEOutputStream& out);
+class PropertyIdentifierAndOffset;
+void parsePropertyIdentifierAndOffset(LEInputStream& in, PropertyIdentifierAndOffset& _s);
+void write(const PropertyIdentifierAndOffset& v, LEOutputStream& out);
+class PropertySet;
+void parsePropertySet(LEInputStream& in, PropertySet& _s);
+void write(const PropertySet& v, LEOutputStream& out);
+class PropertySetStream;
+void parsePropertySetStream(LEInputStream& in, PropertySetStream& _s);
+void write(const PropertySetStream& v, LEOutputStream& out);
+class SummaryInformationPropertySetStream;
+void parseSummaryInformationPropertySetStream(LEInputStream& in, SummaryInformationPropertySetStream& _s);
+void write(const SummaryInformationPropertySetStream& v, LEOutputStream& out);
+class DocumentSummaryInformationPropertySetStream;
+void parseDocumentSummaryInformationPropertySetStream(LEInputStream& in, DocumentSummaryInformationPropertySetStream& _s);
+void write(const DocumentSummaryInformationPropertySetStream& v, LEOutputStream& out);
 class PicturesStream;
 void parsePicturesStream(LEInputStream& in, PicturesStream& _s);
 void write(const PicturesStream& v, LEOutputStream& out);
@@ -564,9 +579,6 @@ void write(const TextClientDataSubContainerOrAtom& v, LEOutputStream& out);
 class SlidePersistAtom;
 void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s);
 void write(const SlidePersistAtom& v, LEOutputStream& out);
-class InteractiveInfoInstance;
-void parseInteractiveInfoInstance(LEInputStream& in, InteractiveInfoInstance& _s);
-void write(const InteractiveInfoInstance& v, LEOutputStream& out);
 class TextRuler;
 void parseTextRuler(LEInputStream& in, TextRuler& _s);
 void write(const TextRuler& v, LEOutputStream& out);
@@ -714,9 +726,9 @@ void write(const WzFillId& v, LEOutputStream& out);
 class OfficeArtClientAnchor;
 void parseOfficeArtClientAnchor(LEInputStream& in, OfficeArtClientAnchor& _s);
 void write(const OfficeArtClientAnchor& v, LEOutputStream& out);
-class OfficeArtClientData;
-void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s);
-void write(const OfficeArtClientData& v, LEOutputStream& out);
+class MouseInteractiveInfoContainer;
+void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s);
+void write(const MouseInteractiveInfoContainer& v, LEOutputStream& out);
 class OfficeArtFOPTE;
 void parseOfficeArtFOPTE(LEInputStream& in, OfficeArtFOPTE& _s);
 void write(const OfficeArtFOPTE& v, LEOutputStream& out);
@@ -801,12 +813,12 @@ void write(const ExObjListSubContainer& v, LEOutputStream& out);
 class OfficeArtDggContainer;
 void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s);
 void write(const OfficeArtDggContainer& v, LEOutputStream& out);
-class OfficeArtSpContainer;
-void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s);
-void write(const OfficeArtSpContainer& v, LEOutputStream& out);
 class OfficeArtFOPTEChoice;
 void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s);
 void write(const OfficeArtFOPTEChoice& v, LEOutputStream& out);
+class OfficeArtClientData;
+void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s);
+void write(const OfficeArtClientData& v, LEOutputStream& out);
 class WordDocument;
 void parseWordDocument(LEInputStream& in, WordDocument& _s);
 void write(const WordDocument& v, LEOutputStream& out);
@@ -831,18 +843,21 @@ void write(const DocumentTextInfoContainer& v, LEOutputStream& out);
 class DrawingGroupContainer;
 void parseDrawingGroupContainer(LEInputStream& in, DrawingGroupContainer& _s);
 void write(const DrawingGroupContainer& v, LEOutputStream& out);
-class OfficeArtDgContainer;
-void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s);
-void write(const OfficeArtDgContainer& v, LEOutputStream& out);
-class OfficeArtSpgrContainerFileBlock;
-void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContainerFileBlock& _s);
-void write(const OfficeArtSpgrContainerFileBlock& v, LEOutputStream& out);
+class OfficeArtSpContainer;
+void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s);
+void write(const OfficeArtSpContainer& v, LEOutputStream& out);
 class DocumentContainer;
 void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s);
 void write(const DocumentContainer& v, LEOutputStream& out);
 class DocInfoListSubContainerOrAtom;
 void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContainerOrAtom& _s);
 void write(const DocInfoListSubContainerOrAtom& v, LEOutputStream& out);
+class OfficeArtDgContainer;
+void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s);
+void write(const OfficeArtDgContainer& v, LEOutputStream& out);
+class OfficeArtSpgrContainerFileBlock;
+void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContainerFileBlock& _s);
+void write(const OfficeArtSpgrContainerFileBlock& v, LEOutputStream& out);
 class DrawingContainer;
 void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s);
 void write(const DrawingContainer& v, LEOutputStream& out);
@@ -1643,17 +1658,17 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class TextInteractiveInfoInstance : public Introspectable {
+class MouseTextInteractiveInfoAtom : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray range;
-    TextInteractiveInfoInstance()  {
+    MouseTextInteractiveInfoAtom()  {
     }
     QString toString() {
-        QString _s = "TextInteractiveInfoInstance:";
+        QString _s = "MouseTextInteractiveInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "range: " + "[array of range]" + ", ";
         return _s;
@@ -3607,36 +3622,58 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class MouseClickInteractiveInfoContainer : public Introspectable {
+class InteractiveInfoAtom : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    OfficeArtRecordHeader rh;
-    QByteArray todo;
-    MouseClickInteractiveInfoContainer()  {
+    RecordHeader rh;
+    quint32 soundIdRef;
+    quint32 exHyperlinkIdRef;
+    quint8 action;
+    quint8 oleVerb;
+    quint8 jump;
+    bool fAnimated;
+    bool fStopSound;
+    bool fCustomSoundReturn;
+    bool fVisited;
+    quint8 reserved;
+    quint8 hyperlinkType;
+    QByteArray unused;
+    InteractiveInfoAtom()  {
     }
     QString toString() {
-        QString _s = "MouseClickInteractiveInfoContainer:";
+        QString _s = "InteractiveInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
+        _s = _s + "soundIdRef: " + QString::number(soundIdRef) + "(" + QString::number(soundIdRef,16).toUpper() + ")" + ", ";
+        _s = _s + "exHyperlinkIdRef: " + QString::number(exHyperlinkIdRef) + "(" + QString::number(exHyperlinkIdRef,16).toUpper() + ")" + ", ";
+        _s = _s + "action: " + QString::number(action) + "(" + QString::number(action,16).toUpper() + ")" + ", ";
+        _s = _s + "oleVerb: " + QString::number(oleVerb) + "(" + QString::number(oleVerb,16).toUpper() + ")" + ", ";
+        _s = _s + "jump: " + QString::number(jump) + "(" + QString::number(jump,16).toUpper() + ")" + ", ";
+        _s = _s + "fAnimated: " + QString::number(fAnimated) + ", ";
+        _s = _s + "fStopSound: " + QString::number(fStopSound) + ", ";
+        _s = _s + "fCustomSoundReturn: " + QString::number(fCustomSoundReturn) + ", ";
+        _s = _s + "fVisited: " + QString::number(fVisited) + ", ";
+        _s = _s + "reserved: " + QString::number(reserved) + "(" + QString::number(reserved,16).toUpper() + ")" + ", ";
+        _s = _s + "hyperlinkType: " + QString::number(hyperlinkType) + "(" + QString::number(hyperlinkType,16).toUpper() + ")" + ", ";
+        _s = _s + "unused: " + "[array of unused]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class MouseOverInteractiveInfoContainer : public Introspectable {
+class MacroNameAtom : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    OfficeArtRecordHeader rh;
-    QByteArray todo;
-    MouseOverInteractiveInfoContainer()  {
+    RecordHeader rh;
+    QByteArray macroName;
+    MacroNameAtom()  {
     }
     QString toString() {
-        QString _s = "MouseOverInteractiveInfoContainer:";
+        QString _s = "MacroNameAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
+        _s = _s + "macroName: " + "[array of macroName]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -4894,6 +4931,113 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class PropertyIdentifierAndOffset : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    quint32 propertyIdentifier;
+    quint32 offset;
+    PropertyIdentifierAndOffset()  {
+    }
+    QString toString() {
+        QString _s = "PropertyIdentifierAndOffset:";
+        _s = _s + "propertyIdentifier: " + QString::number(propertyIdentifier) + "(" + QString::number(propertyIdentifier,16).toUpper() + ")" + ", ";
+        _s = _s + "offset: " + QString::number(offset) + "(" + QString::number(offset,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class PropertySet : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    quint32 size;
+    quint32 numProperties;
+    QList<PropertyIdentifierAndOffset> propertyIdentifierAndOffset;
+    QByteArray property;
+    PropertySet()  {
+    }
+    QString toString() {
+        QString _s = "PropertySet:";
+        _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
+        _s = _s + "numProperties: " + QString::number(numProperties) + "(" + QString::number(numProperties,16).toUpper() + ")" + ", ";
+        _s = _s + "propertyIdentifierAndOffset: " + "[array of propertyIdentifierAndOffset]" + ", ";
+        _s = _s + "property: " + "[array of property]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class PropertySetStream : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    bool _has_fmtID1;
+    bool _has_offset1;
+    quint16 byteOrder;
+    quint16 version;
+    quint32 systemIdentifier;
+    QByteArray clsID;
+    quint32 numPropertySets;
+    QByteArray fmtID0;
+    quint32 offset0;
+    QByteArray fmtID1;
+    quint32 offset1;
+    PropertySet propertySet1;
+    QSharedPointer<PropertySet> propertySet2;
+    QList<Byte> padding;
+    PropertySetStream()  {
+    }
+    QString toString() {
+        QString _s = "PropertySetStream:";
+        _s = _s + "byteOrder: " + QString::number(byteOrder) + "(" + QString::number(byteOrder,16).toUpper() + ")" + ", ";
+        _s = _s + "version: " + QString::number(version) + "(" + QString::number(version,16).toUpper() + ")" + ", ";
+        _s = _s + "systemIdentifier: " + QString::number(systemIdentifier) + "(" + QString::number(systemIdentifier,16).toUpper() + ")" + ", ";
+        _s = _s + "clsID: " + "[array of clsID]" + ", ";
+        _s = _s + "numPropertySets: " + QString::number(numPropertySets) + "(" + QString::number(numPropertySets,16).toUpper() + ")" + ", ";
+        _s = _s + "fmtID0: " + "[array of fmtID0]" + ", ";
+        _s = _s + "offset0: " + QString::number(offset0) + "(" + QString::number(offset0,16).toUpper() + ")" + ", ";
+        _s = _s + "fmtID1: " + "[array of fmtID1]" + ", ";
+        _s = _s + "offset1: " + QString::number(offset1) + "(" + QString::number(offset1,16).toUpper() + ")" + ", ";
+        _s = _s + "propertySet1: " + propertySet1.toString() + ", ";
+        _s = _s + "propertySet2: " + ((propertySet2)?propertySet2->toString() :"null") + ", ";
+        _s = _s + "padding: " + "[array of padding]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class SummaryInformationPropertySetStream : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    PropertySetStream propertySet;
+    SummaryInformationPropertySetStream()  {
+    }
+    QString toString() {
+        QString _s = "SummaryInformationPropertySetStream:";
+        _s = _s + "propertySet: " + propertySet.toString() + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class DocumentSummaryInformationPropertySetStream : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    PropertySetStream propertySet;
+    DocumentSummaryInformationPropertySetStream()  {
+    }
+    QString toString() {
+        QString _s = "DocumentSummaryInformationPropertySetStream:";
+        _s = _s + "propertySet: " + propertySet.toString() + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class PicturesStream : public Introspectable {
 private:
     class _Introspection;
@@ -5160,23 +5304,6 @@ public:
         _s = _s + "cTexts: " + QString::number(cTexts) + "(" + QString::number(cTexts,16).toUpper() + ")" + ", ";
         _s = _s + "slideId: " + slideId.toString() + ", ";
         _s = _s + "reserved5: " + QString::number(reserved5) + "(" + QString::number(reserved5,16).toUpper() + ")" + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class InteractiveInfoInstance : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<MouseClickInteractiveInfoContainer> mouseclickinteractiveinfocontainer;
-QSharedPointer<MouseOverInteractiveInfoContainer> mouseoverinteractiveinfocontainer;
-}; anonChoice anon;
-    InteractiveInfoInstance()  {
-    }
-    QString toString() {
-        QString _s = "InteractiveInfoInstance:";
-        _s = _s + "anon: " + "<choice>" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -6486,37 +6613,21 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class OfficeArtClientData : public Introspectable {
+class MouseInteractiveInfoContainer : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    OfficeArtRecordHeader rh;
-    QSharedPointer<ShapeFlagsAtom> shapeFlagsAtom;
-    QSharedPointer<ShapeFlags10Atom> shapeFlags10Atom;
-    QSharedPointer<ExObjRefAtom> exObjRefAtom;
-    QSharedPointer<AnimationInfoContainer> animationInfo;
-    QSharedPointer<MouseClickInteractiveInfoContainer> mouseClickInteractiveInfo;
-    QSharedPointer<MouseOverInteractiveInfoContainer> mouseOverInteractiveInfo;
-    QSharedPointer<PlaceholderAtom> placeholderAtom;
-    QSharedPointer<RecolorInfoAtom> recolorInfoAtom;
-    QList<ShapeClientRoundtripDataSubcontainerOrAtom> rgShapeClientRoundtripData;
-    QSharedPointer<UnknownOfficeArtClientDataChild> unknown;
-    OfficeArtClientData()  {
+    RecordHeader rh;
+    InteractiveInfoAtom interactiveInfoAtom;
+    QSharedPointer<MacroNameAtom> macroNameAtom;
+    MouseInteractiveInfoContainer()  {
     }
     QString toString() {
-        QString _s = "OfficeArtClientData:";
+        QString _s = "MouseInteractiveInfoContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "shapeFlagsAtom: " + ((shapeFlagsAtom)?shapeFlagsAtom->toString() :"null") + ", ";
-        _s = _s + "shapeFlags10Atom: " + ((shapeFlags10Atom)?shapeFlags10Atom->toString() :"null") + ", ";
-        _s = _s + "exObjRefAtom: " + ((exObjRefAtom)?exObjRefAtom->toString() :"null") + ", ";
-        _s = _s + "animationInfo: " + ((animationInfo)?animationInfo->toString() :"null") + ", ";
-        _s = _s + "mouseClickInteractiveInfo: " + ((mouseClickInteractiveInfo)?mouseClickInteractiveInfo->toString() :"null") + ", ";
-        _s = _s + "mouseOverInteractiveInfo: " + ((mouseOverInteractiveInfo)?mouseOverInteractiveInfo->toString() :"null") + ", ";
-        _s = _s + "placeholderAtom: " + ((placeholderAtom)?placeholderAtom->toString() :"null") + ", ";
-        _s = _s + "recolorInfoAtom: " + ((recolorInfoAtom)?recolorInfoAtom->toString() :"null") + ", ";
-        _s = _s + "rgShapeClientRoundtripData: " + "[array of rgShapeClientRoundtripData]" + ", ";
-        _s = _s + "unknown: " + ((unknown)?unknown->toString() :"null") + ", ";
+        _s = _s + "interactiveInfoAtom: " + interactiveInfoAtom.toString() + ", ";
+        _s = _s + "macroNameAtom: " + ((macroNameAtom)?macroNameAtom->toString() :"null") + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -6854,8 +6965,8 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class interactiveChoice {public:QSharedPointer<InteractiveInfoInstance> interactiveinfoinstance;
-QSharedPointer<TextInteractiveInfoInstance> textinteractiveinfoinstance;
+    class interactiveChoice {public:QSharedPointer<MouseInteractiveInfoContainer> mouseinteractiveinfocontainer;
+QSharedPointer<MouseTextInteractiveInfoAtom> mousetextinteractiveinfoatom;
 }; interactiveChoice interactive;
     TextContainerInteractiveInfo()  {
     }
@@ -7103,45 +7214,6 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class OfficeArtSpContainer : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    OfficeArtRecordHeader rh;
-    QSharedPointer<OfficeArtFSPGR> shapeGroup;
-    OfficeArtFSP shapeProp;
-    QSharedPointer<OfficeArtFPSPL> deletedshape;
-    QSharedPointer<OfficeArtFOPT> shapePrimaryOptions;
-    QSharedPointer<OfficeArtSecondaryFOPT> shapeSecondaryOptions1;
-    QSharedPointer<OfficeArtTertiaryFOPT> shapeTertiaryOptions1;
-    QSharedPointer<OfficeArtChildAnchor> childAnchor;
-    QSharedPointer<OfficeArtClientAnchor> clientAnchor;
-    QSharedPointer<OfficeArtClientData> clientData;
-    QSharedPointer<OfficeArtClientTextBox> clientTextbox;
-    QSharedPointer<OfficeArtSecondaryFOPT> shapeSecondaryOptions2;
-    QSharedPointer<OfficeArtTertiaryFOPT> shapeTertiaryOptions2;
-    OfficeArtSpContainer()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtSpContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "shapeGroup: " + ((shapeGroup)?shapeGroup->toString() :"null") + ", ";
-        _s = _s + "shapeProp: " + shapeProp.toString() + ", ";
-        _s = _s + "deletedshape: " + ((deletedshape)?deletedshape->toString() :"null") + ", ";
-        _s = _s + "shapePrimaryOptions: " + ((shapePrimaryOptions)?shapePrimaryOptions->toString() :"null") + ", ";
-        _s = _s + "shapeSecondaryOptions1: " + ((shapeSecondaryOptions1)?shapeSecondaryOptions1->toString() :"null") + ", ";
-        _s = _s + "shapeTertiaryOptions1: " + ((shapeTertiaryOptions1)?shapeTertiaryOptions1->toString() :"null") + ", ";
-        _s = _s + "childAnchor: " + ((childAnchor)?childAnchor->toString() :"null") + ", ";
-        _s = _s + "clientAnchor: " + ((clientAnchor)?clientAnchor->toString() :"null") + ", ";
-        _s = _s + "clientData: " + ((clientData)?clientData->toString() :"null") + ", ";
-        _s = _s + "clientTextbox: " + ((clientTextbox)?clientTextbox->toString() :"null") + ", ";
-        _s = _s + "shapeSecondaryOptions2: " + ((shapeSecondaryOptions2)?shapeSecondaryOptions2->toString() :"null") + ", ";
-        _s = _s + "shapeTertiaryOptions2: " + ((shapeTertiaryOptions2)?shapeTertiaryOptions2->toString() :"null") + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
 class OfficeArtFOPTEChoice : public Introspectable {
 private:
     class _Introspection;
@@ -7189,6 +7261,41 @@ QSharedPointer<OfficeArtFOPTE> officeartfopte;
     QString toString() {
         QString _s = "OfficeArtFOPTEChoice:";
         _s = _s + "anon: " + "<choice>" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class OfficeArtClientData : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QSharedPointer<ShapeFlagsAtom> shapeFlagsAtom;
+    QSharedPointer<ShapeFlags10Atom> shapeFlags10Atom;
+    QSharedPointer<ExObjRefAtom> exObjRefAtom;
+    QSharedPointer<AnimationInfoContainer> animationInfo;
+    QSharedPointer<MouseInteractiveInfoContainer> mouseClickInteractiveInfo;
+    QSharedPointer<MouseInteractiveInfoContainer> mouseOverInteractiveInfo;
+    QSharedPointer<PlaceholderAtom> placeholderAtom;
+    QSharedPointer<RecolorInfoAtom> recolorInfoAtom;
+    QList<ShapeClientRoundtripDataSubcontainerOrAtom> rgShapeClientRoundtripData;
+    QSharedPointer<UnknownOfficeArtClientDataChild> unknown;
+    OfficeArtClientData()  {
+    }
+    QString toString() {
+        QString _s = "OfficeArtClientData:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "shapeFlagsAtom: " + ((shapeFlagsAtom)?shapeFlagsAtom->toString() :"null") + ", ";
+        _s = _s + "shapeFlags10Atom: " + ((shapeFlags10Atom)?shapeFlags10Atom->toString() :"null") + ", ";
+        _s = _s + "exObjRefAtom: " + ((exObjRefAtom)?exObjRefAtom->toString() :"null") + ", ";
+        _s = _s + "animationInfo: " + ((animationInfo)?animationInfo->toString() :"null") + ", ";
+        _s = _s + "mouseClickInteractiveInfo: " + ((mouseClickInteractiveInfo)?mouseClickInteractiveInfo->toString() :"null") + ", ";
+        _s = _s + "mouseOverInteractiveInfo: " + ((mouseOverInteractiveInfo)?mouseOverInteractiveInfo->toString() :"null") + ", ";
+        _s = _s + "placeholderAtom: " + ((placeholderAtom)?placeholderAtom->toString() :"null") + ", ";
+        _s = _s + "recolorInfoAtom: " + ((recolorInfoAtom)?recolorInfoAtom->toString() :"null") + ", ";
+        _s = _s + "rgShapeClientRoundtripData: " + "[array of rgShapeClientRoundtripData]" + ", ";
+        _s = _s + "unknown: " + ((unknown)?unknown->toString() :"null") + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -7391,46 +7498,41 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class OfficeArtDgContainer : public Introspectable {
+class OfficeArtSpContainer : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
-    OfficeArtFDG drawingData;
-    QSharedPointer<OfficeArtFRITContainer> regroupItems;
-    OfficeArtSpgrContainer groupShape;
-    QSharedPointer<OfficeArtSpContainer> shape;
-    QList<OfficeArtSpgrContainerFileBlock> deletedShapes;
-    QSharedPointer<OfficeArtSolverContainer> solvers;
-    OfficeArtDgContainer()  {
+    QSharedPointer<OfficeArtFSPGR> shapeGroup;
+    OfficeArtFSP shapeProp;
+    QSharedPointer<OfficeArtFPSPL> deletedshape;
+    QSharedPointer<OfficeArtFOPT> shapePrimaryOptions;
+    QSharedPointer<OfficeArtSecondaryFOPT> shapeSecondaryOptions1;
+    QSharedPointer<OfficeArtTertiaryFOPT> shapeTertiaryOptions1;
+    QSharedPointer<OfficeArtChildAnchor> childAnchor;
+    QSharedPointer<OfficeArtClientAnchor> clientAnchor;
+    QSharedPointer<OfficeArtClientData> clientData;
+    QSharedPointer<OfficeArtClientTextBox> clientTextbox;
+    QSharedPointer<OfficeArtSecondaryFOPT> shapeSecondaryOptions2;
+    QSharedPointer<OfficeArtTertiaryFOPT> shapeTertiaryOptions2;
+    OfficeArtSpContainer()  {
     }
     QString toString() {
-        QString _s = "OfficeArtDgContainer:";
+        QString _s = "OfficeArtSpContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "drawingData: " + drawingData.toString() + ", ";
-        _s = _s + "regroupItems: " + ((regroupItems)?regroupItems->toString() :"null") + ", ";
-        _s = _s + "groupShape: " + groupShape.toString() + ", ";
-        _s = _s + "shape: " + ((shape)?shape->toString() :"null") + ", ";
-        _s = _s + "deletedShapes: " + "[array of deletedShapes]" + ", ";
-        _s = _s + "solvers: " + ((solvers)?solvers->toString() :"null") + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class OfficeArtSpgrContainerFileBlock : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<OfficeArtSpContainer> officeartspcontainer;
-QSharedPointer<OfficeArtSpgrContainer> officeartspgrcontainer;
-}; anonChoice anon;
-    OfficeArtSpgrContainerFileBlock()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtSpgrContainerFileBlock:";
-        _s = _s + "anon: " + "<choice>" + ", ";
+        _s = _s + "shapeGroup: " + ((shapeGroup)?shapeGroup->toString() :"null") + ", ";
+        _s = _s + "shapeProp: " + shapeProp.toString() + ", ";
+        _s = _s + "deletedshape: " + ((deletedshape)?deletedshape->toString() :"null") + ", ";
+        _s = _s + "shapePrimaryOptions: " + ((shapePrimaryOptions)?shapePrimaryOptions->toString() :"null") + ", ";
+        _s = _s + "shapeSecondaryOptions1: " + ((shapeSecondaryOptions1)?shapeSecondaryOptions1->toString() :"null") + ", ";
+        _s = _s + "shapeTertiaryOptions1: " + ((shapeTertiaryOptions1)?shapeTertiaryOptions1->toString() :"null") + ", ";
+        _s = _s + "childAnchor: " + ((childAnchor)?childAnchor->toString() :"null") + ", ";
+        _s = _s + "clientAnchor: " + ((clientAnchor)?clientAnchor->toString() :"null") + ", ";
+        _s = _s + "clientData: " + ((clientData)?clientData->toString() :"null") + ", ";
+        _s = _s + "clientTextbox: " + ((clientTextbox)?clientTextbox->toString() :"null") + ", ";
+        _s = _s + "shapeSecondaryOptions2: " + ((shapeSecondaryOptions2)?shapeSecondaryOptions2->toString() :"null") + ", ";
+        _s = _s + "shapeTertiaryOptions2: " + ((shapeTertiaryOptions2)?shapeTertiaryOptions2->toString() :"null") + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -7517,6 +7619,50 @@ QSharedPointer<VBAInfoContainer> vbainfocontainer;
     }
     QString toString() {
         QString _s = "DocInfoListSubContainerOrAtom:";
+        _s = _s + "anon: " + "<choice>" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class OfficeArtDgContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    OfficeArtFDG drawingData;
+    QSharedPointer<OfficeArtFRITContainer> regroupItems;
+    OfficeArtSpgrContainer groupShape;
+    QSharedPointer<OfficeArtSpContainer> shape;
+    QList<OfficeArtSpgrContainerFileBlock> deletedShapes;
+    QSharedPointer<OfficeArtSolverContainer> solvers;
+    OfficeArtDgContainer()  {
+    }
+    QString toString() {
+        QString _s = "OfficeArtDgContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "drawingData: " + drawingData.toString() + ", ";
+        _s = _s + "regroupItems: " + ((regroupItems)?regroupItems->toString() :"null") + ", ";
+        _s = _s + "groupShape: " + groupShape.toString() + ", ";
+        _s = _s + "shape: " + ((shape)?shape->toString() :"null") + ", ";
+        _s = _s + "deletedShapes: " + "[array of deletedShapes]" + ", ";
+        _s = _s + "solvers: " + ((solvers)?solvers->toString() :"null") + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class OfficeArtSpgrContainerFileBlock : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    class anonChoice {public:QSharedPointer<OfficeArtSpContainer> officeartspcontainer;
+QSharedPointer<OfficeArtSpgrContainer> officeartspgrcontainer;
+}; anonChoice anon;
+    OfficeArtSpgrContainerFileBlock()  {
+    }
+    QString toString() {
+        QString _s = "OfficeArtSpgrContainerFileBlock:";
         _s = _s + "anon: " + "<choice>" + ", ";
         return _s;
     }
@@ -9404,7 +9550,7 @@ const Introspectable* (* const TextBookmarkAtom::_Introspection::introspectable[
 };
 const Introspection TextBookmarkAtom::_introspection(
     "TextBookmarkAtom", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class TextInteractiveInfoInstance::_Introspection {
+class MouseTextInteractiveInfoAtom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
@@ -9413,32 +9559,32 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const TextInteractiveInfoInstance*>(i)->rh);
+        return &(static_cast<const MouseTextInteractiveInfoAtom*>(i)->rh);
     }
     static QVariant get_range(const Introspectable* i, int j) {
-        return static_cast<const TextInteractiveInfoInstance*>(i)->range;
+        return static_cast<const MouseTextInteractiveInfoAtom*>(i)->range;
     }
 };
-const QString TextInteractiveInfoInstance::_Introspection::name("TextInteractiveInfoInstance");
-const int TextInteractiveInfoInstance::_Introspection::numberOfMembers(2);
-const QString TextInteractiveInfoInstance::_Introspection::names[2] = {
+const QString MouseTextInteractiveInfoAtom::_Introspection::name("MouseTextInteractiveInfoAtom");
+const int MouseTextInteractiveInfoAtom::_Introspection::numberOfMembers(2);
+const QString MouseTextInteractiveInfoAtom::_Introspection::names[2] = {
     "rh",
     "range",
 };
-int (* const TextInteractiveInfoInstance::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+int (* const MouseTextInteractiveInfoAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const TextInteractiveInfoInstance::_Introspection::value[2])(const Introspectable*, int position) = {
+QVariant (* const MouseTextInteractiveInfoAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
     _Introspection::get_range,
 };
-const Introspectable* (* const TextInteractiveInfoInstance::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+const Introspectable* (* const MouseTextInteractiveInfoAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     Introspection::null,
 };
-const Introspection TextInteractiveInfoInstance::_introspection(
-    "TextInteractiveInfoInstance", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+const Introspection MouseTextInteractiveInfoAtom::_introspection(
+    "MouseTextInteractiveInfoAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class SlideId::_Introspection {
 public:
     static const QString name;
@@ -13940,7 +14086,119 @@ const Introspectable* (* const AnimationInfoContainer::_Introspection::introspec
 };
 const Introspection AnimationInfoContainer::_introspection(
     "AnimationInfoContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class MouseClickInteractiveInfoContainer::_Introspection {
+class InteractiveInfoAtom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[13];
+    static int (* const numberOfInstances[13])(const Introspectable*);
+    static QVariant (* const value[13])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[13])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const InteractiveInfoAtom*>(i)->rh);
+    }
+    static QVariant get_soundIdRef(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->soundIdRef;
+    }
+    static QVariant get_exHyperlinkIdRef(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->exHyperlinkIdRef;
+    }
+    static QVariant get_action(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->action;
+    }
+    static QVariant get_oleVerb(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->oleVerb;
+    }
+    static QVariant get_jump(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->jump;
+    }
+    static QVariant get_fAnimated(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->fAnimated;
+    }
+    static QVariant get_fStopSound(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->fStopSound;
+    }
+    static QVariant get_fCustomSoundReturn(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->fCustomSoundReturn;
+    }
+    static QVariant get_fVisited(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->fVisited;
+    }
+    static QVariant get_reserved(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->reserved;
+    }
+    static QVariant get_hyperlinkType(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->hyperlinkType;
+    }
+    static QVariant get_unused(const Introspectable* i, int j) {
+        return static_cast<const InteractiveInfoAtom*>(i)->unused;
+    }
+};
+const QString InteractiveInfoAtom::_Introspection::name("InteractiveInfoAtom");
+const int InteractiveInfoAtom::_Introspection::numberOfMembers(13);
+const QString InteractiveInfoAtom::_Introspection::names[13] = {
+    "rh",
+    "soundIdRef",
+    "exHyperlinkIdRef",
+    "action",
+    "oleVerb",
+    "jump",
+    "fAnimated",
+    "fStopSound",
+    "fCustomSoundReturn",
+    "fVisited",
+    "reserved",
+    "hyperlinkType",
+    "unused",
+};
+int (* const InteractiveInfoAtom::_Introspection::numberOfInstances[13])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const InteractiveInfoAtom::_Introspection::value[13])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_soundIdRef,
+    _Introspection::get_exHyperlinkIdRef,
+    _Introspection::get_action,
+    _Introspection::get_oleVerb,
+    _Introspection::get_jump,
+    _Introspection::get_fAnimated,
+    _Introspection::get_fStopSound,
+    _Introspection::get_fCustomSoundReturn,
+    _Introspection::get_fVisited,
+    _Introspection::get_reserved,
+    _Introspection::get_hyperlinkType,
+    _Introspection::get_unused,
+};
+const Introspectable* (* const InteractiveInfoAtom::_Introspection::introspectable[13])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection InteractiveInfoAtom::_introspection(
+    "InteractiveInfoAtom", 13, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class MacroNameAtom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
@@ -13949,67 +14207,32 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const MouseClickInteractiveInfoContainer*>(i)->rh);
+        return &(static_cast<const MacroNameAtom*>(i)->rh);
     }
-    static QVariant get_todo(const Introspectable* i, int j) {
-        return static_cast<const MouseClickInteractiveInfoContainer*>(i)->todo;
+    static QVariant get_macroName(const Introspectable* i, int j) {
+        return static_cast<const MacroNameAtom*>(i)->macroName;
     }
 };
-const QString MouseClickInteractiveInfoContainer::_Introspection::name("MouseClickInteractiveInfoContainer");
-const int MouseClickInteractiveInfoContainer::_Introspection::numberOfMembers(2);
-const QString MouseClickInteractiveInfoContainer::_Introspection::names[2] = {
+const QString MacroNameAtom::_Introspection::name("MacroNameAtom");
+const int MacroNameAtom::_Introspection::numberOfMembers(2);
+const QString MacroNameAtom::_Introspection::names[2] = {
     "rh",
-    "todo",
+    "macroName",
 };
-int (* const MouseClickInteractiveInfoContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+int (* const MacroNameAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const MouseClickInteractiveInfoContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+QVariant (* const MacroNameAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_todo,
+    _Introspection::get_macroName,
 };
-const Introspectable* (* const MouseClickInteractiveInfoContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+const Introspectable* (* const MacroNameAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     Introspection::null,
 };
-const Introspection MouseClickInteractiveInfoContainer::_introspection(
-    "MouseClickInteractiveInfoContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class MouseOverInteractiveInfoContainer::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[2];
-    static int (* const numberOfInstances[2])(const Introspectable*);
-    static QVariant (* const value[2])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
-    static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const MouseOverInteractiveInfoContainer*>(i)->rh);
-    }
-    static QVariant get_todo(const Introspectable* i, int j) {
-        return static_cast<const MouseOverInteractiveInfoContainer*>(i)->todo;
-    }
-};
-const QString MouseOverInteractiveInfoContainer::_Introspection::name("MouseOverInteractiveInfoContainer");
-const int MouseOverInteractiveInfoContainer::_Introspection::numberOfMembers(2);
-const QString MouseOverInteractiveInfoContainer::_Introspection::names[2] = {
-    "rh",
-    "todo",
-};
-int (* const MouseOverInteractiveInfoContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
-    Introspection::one,
-    Introspection::one,
-};
-QVariant (* const MouseOverInteractiveInfoContainer::_Introspection::value[2])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    _Introspection::get_todo,
-};
-const Introspectable* (* const MouseOverInteractiveInfoContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
-    _Introspection::get_rh,
-    Introspection::null,
-};
-const Introspection MouseOverInteractiveInfoContainer::_introspection(
-    "MouseOverInteractiveInfoContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+const Introspection MacroNameAtom::_introspection(
+    "MacroNameAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class PlaceholderAtom::_Introspection {
 public:
     static const QString name;
@@ -17583,6 +17806,266 @@ const Introspectable* (* const SttbfFfnEntry::_Introspection::introspectable[2])
 };
 const Introspection SttbfFfnEntry::_introspection(
     "SttbfFfnEntry", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class PropertyIdentifierAndOffset::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static QVariant get_propertyIdentifier(const Introspectable* i, int j) {
+        return static_cast<const PropertyIdentifierAndOffset*>(i)->propertyIdentifier;
+    }
+    static QVariant get_offset(const Introspectable* i, int j) {
+        return static_cast<const PropertyIdentifierAndOffset*>(i)->offset;
+    }
+};
+const QString PropertyIdentifierAndOffset::_Introspection::name("PropertyIdentifierAndOffset");
+const int PropertyIdentifierAndOffset::_Introspection::numberOfMembers(2);
+const QString PropertyIdentifierAndOffset::_Introspection::names[2] = {
+    "propertyIdentifier",
+    "offset",
+};
+int (* const PropertyIdentifierAndOffset::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const PropertyIdentifierAndOffset::_Introspection::value[2])(const Introspectable*, int position) = {
+    _Introspection::get_propertyIdentifier,
+    _Introspection::get_offset,
+};
+const Introspectable* (* const PropertyIdentifierAndOffset::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection PropertyIdentifierAndOffset::_introspection(
+    "PropertyIdentifierAndOffset", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class PropertySet::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[4];
+    static int (* const numberOfInstances[4])(const Introspectable*);
+    static QVariant (* const value[4])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
+    static QVariant get_size(const Introspectable* i, int j) {
+        return static_cast<const PropertySet*>(i)->size;
+    }
+    static QVariant get_numProperties(const Introspectable* i, int j) {
+        return static_cast<const PropertySet*>(i)->numProperties;
+    }
+    static int count_propertyIdentifierAndOffset(const Introspectable* i) {
+        return static_cast<const PropertySet*>(i)->propertyIdentifierAndOffset.size();
+    }
+    static const Introspectable* get_propertyIdentifierAndOffset(const Introspectable* i, int j) {
+        return &(static_cast<const PropertySet*>(i)->propertyIdentifierAndOffset[j]);
+    }
+    static QVariant get_property(const Introspectable* i, int j) {
+        return static_cast<const PropertySet*>(i)->property;
+    }
+};
+const QString PropertySet::_Introspection::name("PropertySet");
+const int PropertySet::_Introspection::numberOfMembers(4);
+const QString PropertySet::_Introspection::names[4] = {
+    "size",
+    "numProperties",
+    "propertyIdentifierAndOffset",
+    "property",
+};
+int (* const PropertySet::_Introspection::numberOfInstances[4])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    _Introspection::count_propertyIdentifierAndOffset,
+    Introspection::one,
+};
+QVariant (* const PropertySet::_Introspection::value[4])(const Introspectable*, int position) = {
+    _Introspection::get_size,
+    _Introspection::get_numProperties,
+    Introspection::nullValue,
+    _Introspection::get_property,
+};
+const Introspectable* (* const PropertySet::_Introspection::introspectable[4])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+    _Introspection::get_propertyIdentifierAndOffset,
+    Introspection::null,
+};
+const Introspection PropertySet::_introspection(
+    "PropertySet", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class PropertySetStream::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[12];
+    static int (* const numberOfInstances[12])(const Introspectable*);
+    static QVariant (* const value[12])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[12])(const Introspectable*, int position);
+    static QVariant get_byteOrder(const Introspectable* i, int j) {
+        return static_cast<const PropertySetStream*>(i)->byteOrder;
+    }
+    static QVariant get_version(const Introspectable* i, int j) {
+        return static_cast<const PropertySetStream*>(i)->version;
+    }
+    static QVariant get_systemIdentifier(const Introspectable* i, int j) {
+        return static_cast<const PropertySetStream*>(i)->systemIdentifier;
+    }
+    static QVariant get_clsID(const Introspectable* i, int j) {
+        return static_cast<const PropertySetStream*>(i)->clsID;
+    }
+    static QVariant get_numPropertySets(const Introspectable* i, int j) {
+        return static_cast<const PropertySetStream*>(i)->numPropertySets;
+    }
+    static QVariant get_fmtID0(const Introspectable* i, int j) {
+        return static_cast<const PropertySetStream*>(i)->fmtID0;
+    }
+    static QVariant get_offset0(const Introspectable* i, int j) {
+        return static_cast<const PropertySetStream*>(i)->offset0;
+    }
+    static int count_fmtID1(const Introspectable* i) {
+        return static_cast<const PropertySetStream*>(i)->_has_fmtID1 ?1 :0;
+    }
+    static QVariant get_fmtID1(const Introspectable* i, int j) {
+        return static_cast<const PropertySetStream*>(i)->fmtID1;
+    }
+    static int count_offset1(const Introspectable* i) {
+        return static_cast<const PropertySetStream*>(i)->_has_offset1 ?1 :0;
+    }
+    static QVariant get_offset1(const Introspectable* i, int j) {
+        return static_cast<const PropertySetStream*>(i)->offset1;
+    }
+    static const Introspectable* get_propertySet1(const Introspectable* i, int j) {
+        return &(static_cast<const PropertySetStream*>(i)->propertySet1);
+    }
+    static int count_propertySet2(const Introspectable* i) {
+        return get_propertySet2(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_propertySet2(const Introspectable* i, int j) {
+        return static_cast<const PropertySetStream*>(i)->propertySet2.data();
+    }
+    static int count_padding(const Introspectable* i) {
+        return static_cast<const PropertySetStream*>(i)->padding.size();
+    }
+    static const Introspectable* get_padding(const Introspectable* i, int j) {
+        return &(static_cast<const PropertySetStream*>(i)->padding[j]);
+    }
+};
+const QString PropertySetStream::_Introspection::name("PropertySetStream");
+const int PropertySetStream::_Introspection::numberOfMembers(12);
+const QString PropertySetStream::_Introspection::names[12] = {
+    "byteOrder",
+    "version",
+    "systemIdentifier",
+    "clsID",
+    "numPropertySets",
+    "fmtID0",
+    "offset0",
+    "fmtID1",
+    "offset1",
+    "propertySet1",
+    "propertySet2",
+    "padding",
+};
+int (* const PropertySetStream::_Introspection::numberOfInstances[12])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    _Introspection::count_fmtID1,
+    _Introspection::count_offset1,
+    Introspection::one,
+    _Introspection::count_propertySet2,
+    _Introspection::count_padding,
+};
+QVariant (* const PropertySetStream::_Introspection::value[12])(const Introspectable*, int position) = {
+    _Introspection::get_byteOrder,
+    _Introspection::get_version,
+    _Introspection::get_systemIdentifier,
+    _Introspection::get_clsID,
+    _Introspection::get_numPropertySets,
+    _Introspection::get_fmtID0,
+    _Introspection::get_offset0,
+    _Introspection::get_fmtID1,
+    _Introspection::get_offset1,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const PropertySetStream::_Introspection::introspectable[12])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    _Introspection::get_propertySet1,
+    _Introspection::get_propertySet2,
+    _Introspection::get_padding,
+};
+const Introspection PropertySetStream::_introspection(
+    "PropertySetStream", 12, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class SummaryInformationPropertySetStream::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[1];
+    static int (* const numberOfInstances[1])(const Introspectable*);
+    static QVariant (* const value[1])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
+    static const Introspectable* get_propertySet(const Introspectable* i, int j) {
+        return &(static_cast<const SummaryInformationPropertySetStream*>(i)->propertySet);
+    }
+};
+const QString SummaryInformationPropertySetStream::_Introspection::name("SummaryInformationPropertySetStream");
+const int SummaryInformationPropertySetStream::_Introspection::numberOfMembers(1);
+const QString SummaryInformationPropertySetStream::_Introspection::names[1] = {
+    "propertySet",
+};
+int (* const SummaryInformationPropertySetStream::_Introspection::numberOfInstances[1])(const Introspectable*) = {
+    Introspection::one,
+};
+QVariant (* const SummaryInformationPropertySetStream::_Introspection::value[1])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+};
+const Introspectable* (* const SummaryInformationPropertySetStream::_Introspection::introspectable[1])(const Introspectable*, int position) = {
+    _Introspection::get_propertySet,
+};
+const Introspection SummaryInformationPropertySetStream::_introspection(
+    "SummaryInformationPropertySetStream", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class DocumentSummaryInformationPropertySetStream::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[1];
+    static int (* const numberOfInstances[1])(const Introspectable*);
+    static QVariant (* const value[1])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
+    static const Introspectable* get_propertySet(const Introspectable* i, int j) {
+        return &(static_cast<const DocumentSummaryInformationPropertySetStream*>(i)->propertySet);
+    }
+};
+const QString DocumentSummaryInformationPropertySetStream::_Introspection::name("DocumentSummaryInformationPropertySetStream");
+const int DocumentSummaryInformationPropertySetStream::_Introspection::numberOfMembers(1);
+const QString DocumentSummaryInformationPropertySetStream::_Introspection::names[1] = {
+    "propertySet",
+};
+int (* const DocumentSummaryInformationPropertySetStream::_Introspection::numberOfInstances[1])(const Introspectable*) = {
+    Introspection::one,
+};
+QVariant (* const DocumentSummaryInformationPropertySetStream::_Introspection::value[1])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+};
+const Introspectable* (* const DocumentSummaryInformationPropertySetStream::_Introspection::introspectable[1])(const Introspectable*, int position) = {
+    _Introspection::get_propertySet,
+};
+const Introspection DocumentSummaryInformationPropertySetStream::_introspection(
+    "DocumentSummaryInformationPropertySetStream", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class PicturesStream::_Introspection {
 public:
     static const QString name;
@@ -18255,37 +18738,6 @@ const Introspectable* (* const SlidePersistAtom::_Introspection::introspectable[
 };
 const Introspection SlidePersistAtom::_introspection(
     "SlidePersistAtom", 11, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class InteractiveInfoInstance::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[1];
-    static int (* const numberOfInstances[1])(const Introspectable*);
-    static QVariant (* const value[1])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
-    static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const InteractiveInfoInstance*>(i)->anon.mouseclickinteractiveinfocontainer.data();
-        if (k == 0) k = static_cast<const InteractiveInfoInstance*>(i)->anon.mouseoverinteractiveinfocontainer.data();
-        return k;
-    }
-};
-const QString InteractiveInfoInstance::_Introspection::name("InteractiveInfoInstance");
-const int InteractiveInfoInstance::_Introspection::numberOfMembers(1);
-const QString InteractiveInfoInstance::_Introspection::names[1] = {
-    "anon",
-};
-int (* const InteractiveInfoInstance::_Introspection::numberOfInstances[1])(const Introspectable*) = {
-    Introspection::one,
-};
-QVariant (* const InteractiveInfoInstance::_Introspection::value[1])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-};
-const Introspectable* (* const InteractiveInfoInstance::_Introspection::introspectable[1])(const Introspectable*, int position) = {
-    _Introspection::get_anon,
-};
-const Introspection InteractiveInfoInstance::_introspection(
-    "InteractiveInfoInstance", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class TextRuler::_Introspection {
 public:
     static const QString name;
@@ -21708,134 +22160,51 @@ const Introspectable* (* const OfficeArtClientAnchor::_Introspection::introspect
 };
 const Introspection OfficeArtClientAnchor::_introspection(
     "OfficeArtClientAnchor", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class OfficeArtClientData::_Introspection {
+class MouseInteractiveInfoContainer::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[11];
-    static int (* const numberOfInstances[11])(const Introspectable*);
-    static QVariant (* const value[11])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[11])(const Introspectable*, int position);
+    static const QString names[3];
+    static int (* const numberOfInstances[3])(const Introspectable*);
+    static QVariant (* const value[3])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtClientData*>(i)->rh);
+        return &(static_cast<const MouseInteractiveInfoContainer*>(i)->rh);
     }
-    static int count_shapeFlagsAtom(const Introspectable* i) {
-        return get_shapeFlagsAtom(i, 0) ?1 :0;
+    static const Introspectable* get_interactiveInfoAtom(const Introspectable* i, int j) {
+        return &(static_cast<const MouseInteractiveInfoContainer*>(i)->interactiveInfoAtom);
     }
-    static const Introspectable* get_shapeFlagsAtom(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtClientData*>(i)->shapeFlagsAtom.data();
+    static int count_macroNameAtom(const Introspectable* i) {
+        return get_macroNameAtom(i, 0) ?1 :0;
     }
-    static int count_shapeFlags10Atom(const Introspectable* i) {
-        return get_shapeFlags10Atom(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_shapeFlags10Atom(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtClientData*>(i)->shapeFlags10Atom.data();
-    }
-    static int count_exObjRefAtom(const Introspectable* i) {
-        return get_exObjRefAtom(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_exObjRefAtom(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtClientData*>(i)->exObjRefAtom.data();
-    }
-    static int count_animationInfo(const Introspectable* i) {
-        return get_animationInfo(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_animationInfo(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtClientData*>(i)->animationInfo.data();
-    }
-    static int count_mouseClickInteractiveInfo(const Introspectable* i) {
-        return get_mouseClickInteractiveInfo(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_mouseClickInteractiveInfo(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtClientData*>(i)->mouseClickInteractiveInfo.data();
-    }
-    static int count_mouseOverInteractiveInfo(const Introspectable* i) {
-        return get_mouseOverInteractiveInfo(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_mouseOverInteractiveInfo(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtClientData*>(i)->mouseOverInteractiveInfo.data();
-    }
-    static int count_placeholderAtom(const Introspectable* i) {
-        return get_placeholderAtom(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_placeholderAtom(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtClientData*>(i)->placeholderAtom.data();
-    }
-    static int count_recolorInfoAtom(const Introspectable* i) {
-        return get_recolorInfoAtom(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_recolorInfoAtom(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtClientData*>(i)->recolorInfoAtom.data();
-    }
-    static int count_rgShapeClientRoundtripData(const Introspectable* i) {
-        return static_cast<const OfficeArtClientData*>(i)->rgShapeClientRoundtripData.size();
-    }
-    static const Introspectable* get_rgShapeClientRoundtripData(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtClientData*>(i)->rgShapeClientRoundtripData[j]);
-    }
-    static int count_unknown(const Introspectable* i) {
-        return get_unknown(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_unknown(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtClientData*>(i)->unknown.data();
+    static const Introspectable* get_macroNameAtom(const Introspectable* i, int j) {
+        return static_cast<const MouseInteractiveInfoContainer*>(i)->macroNameAtom.data();
     }
 };
-const QString OfficeArtClientData::_Introspection::name("OfficeArtClientData");
-const int OfficeArtClientData::_Introspection::numberOfMembers(11);
-const QString OfficeArtClientData::_Introspection::names[11] = {
+const QString MouseInteractiveInfoContainer::_Introspection::name("MouseInteractiveInfoContainer");
+const int MouseInteractiveInfoContainer::_Introspection::numberOfMembers(3);
+const QString MouseInteractiveInfoContainer::_Introspection::names[3] = {
     "rh",
-    "shapeFlagsAtom",
-    "shapeFlags10Atom",
-    "exObjRefAtom",
-    "animationInfo",
-    "mouseClickInteractiveInfo",
-    "mouseOverInteractiveInfo",
-    "placeholderAtom",
-    "recolorInfoAtom",
-    "rgShapeClientRoundtripData",
-    "unknown",
+    "interactiveInfoAtom",
+    "macroNameAtom",
 };
-int (* const OfficeArtClientData::_Introspection::numberOfInstances[11])(const Introspectable*) = {
+int (* const MouseInteractiveInfoContainer::_Introspection::numberOfInstances[3])(const Introspectable*) = {
     Introspection::one,
-    _Introspection::count_shapeFlagsAtom,
-    _Introspection::count_shapeFlags10Atom,
-    _Introspection::count_exObjRefAtom,
-    _Introspection::count_animationInfo,
-    _Introspection::count_mouseClickInteractiveInfo,
-    _Introspection::count_mouseOverInteractiveInfo,
-    _Introspection::count_placeholderAtom,
-    _Introspection::count_recolorInfoAtom,
-    _Introspection::count_rgShapeClientRoundtripData,
-    _Introspection::count_unknown,
+    Introspection::one,
+    _Introspection::count_macroNameAtom,
 };
-QVariant (* const OfficeArtClientData::_Introspection::value[11])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
+QVariant (* const MouseInteractiveInfoContainer::_Introspection::value[3])(const Introspectable*, int position) = {
     Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
 };
-const Introspectable* (* const OfficeArtClientData::_Introspection::introspectable[11])(const Introspectable*, int position) = {
+const Introspectable* (* const MouseInteractiveInfoContainer::_Introspection::introspectable[3])(const Introspectable*, int position) = {
     _Introspection::get_rh,
-    _Introspection::get_shapeFlagsAtom,
-    _Introspection::get_shapeFlags10Atom,
-    _Introspection::get_exObjRefAtom,
-    _Introspection::get_animationInfo,
-    _Introspection::get_mouseClickInteractiveInfo,
-    _Introspection::get_mouseOverInteractiveInfo,
-    _Introspection::get_placeholderAtom,
-    _Introspection::get_recolorInfoAtom,
-    _Introspection::get_rgShapeClientRoundtripData,
-    _Introspection::get_unknown,
+    _Introspection::get_interactiveInfoAtom,
+    _Introspection::get_macroNameAtom,
 };
-const Introspection OfficeArtClientData::_introspection(
-    "OfficeArtClientData", 11, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+const Introspection MouseInteractiveInfoContainer::_introspection(
+    "MouseInteractiveInfoContainer", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class OfficeArtFOPTE::_Introspection {
 public:
     static const QString name;
@@ -22591,8 +22960,8 @@ public:
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_interactive(const Introspectable* i, int j) {
         const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const TextContainerInteractiveInfo*>(i)->interactive.interactiveinfoinstance.data();
-        if (k == 0) k = static_cast<const TextContainerInteractiveInfo*>(i)->interactive.textinteractiveinfoinstance.data();
+        if (k == 0) k = static_cast<const TextContainerInteractiveInfo*>(i)->interactive.mouseinteractiveinfocontainer.data();
+        if (k == 0) k = static_cast<const TextContainerInteractiveInfo*>(i)->interactive.mousetextinteractiveinfoatom.data();
         return k;
     }
 };
@@ -23166,151 +23535,6 @@ const Introspectable* (* const OfficeArtDggContainer::_Introspection::introspect
 };
 const Introspection OfficeArtDggContainer::_introspection(
     "OfficeArtDggContainer", 8, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class OfficeArtSpContainer::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[13];
-    static int (* const numberOfInstances[13])(const Introspectable*);
-    static QVariant (* const value[13])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[13])(const Introspectable*, int position);
-    static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtSpContainer*>(i)->rh);
-    }
-    static int count_shapeGroup(const Introspectable* i) {
-        return get_shapeGroup(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_shapeGroup(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->shapeGroup.data();
-    }
-    static const Introspectable* get_shapeProp(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtSpContainer*>(i)->shapeProp);
-    }
-    static int count_deletedshape(const Introspectable* i) {
-        return get_deletedshape(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_deletedshape(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->deletedshape.data();
-    }
-    static int count_shapePrimaryOptions(const Introspectable* i) {
-        return get_shapePrimaryOptions(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_shapePrimaryOptions(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->shapePrimaryOptions.data();
-    }
-    static int count_shapeSecondaryOptions1(const Introspectable* i) {
-        return get_shapeSecondaryOptions1(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_shapeSecondaryOptions1(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->shapeSecondaryOptions1.data();
-    }
-    static int count_shapeTertiaryOptions1(const Introspectable* i) {
-        return get_shapeTertiaryOptions1(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_shapeTertiaryOptions1(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->shapeTertiaryOptions1.data();
-    }
-    static int count_childAnchor(const Introspectable* i) {
-        return get_childAnchor(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_childAnchor(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->childAnchor.data();
-    }
-    static int count_clientAnchor(const Introspectable* i) {
-        return get_clientAnchor(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_clientAnchor(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->clientAnchor.data();
-    }
-    static int count_clientData(const Introspectable* i) {
-        return get_clientData(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_clientData(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->clientData.data();
-    }
-    static int count_clientTextbox(const Introspectable* i) {
-        return get_clientTextbox(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_clientTextbox(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->clientTextbox.data();
-    }
-    static int count_shapeSecondaryOptions2(const Introspectable* i) {
-        return get_shapeSecondaryOptions2(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_shapeSecondaryOptions2(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->shapeSecondaryOptions2.data();
-    }
-    static int count_shapeTertiaryOptions2(const Introspectable* i) {
-        return get_shapeTertiaryOptions2(i, 0) ?1 :0;
-    }
-    static const Introspectable* get_shapeTertiaryOptions2(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSpContainer*>(i)->shapeTertiaryOptions2.data();
-    }
-};
-const QString OfficeArtSpContainer::_Introspection::name("OfficeArtSpContainer");
-const int OfficeArtSpContainer::_Introspection::numberOfMembers(13);
-const QString OfficeArtSpContainer::_Introspection::names[13] = {
-    "rh",
-    "shapeGroup",
-    "shapeProp",
-    "deletedshape",
-    "shapePrimaryOptions",
-    "shapeSecondaryOptions1",
-    "shapeTertiaryOptions1",
-    "childAnchor",
-    "clientAnchor",
-    "clientData",
-    "clientTextbox",
-    "shapeSecondaryOptions2",
-    "shapeTertiaryOptions2",
-};
-int (* const OfficeArtSpContainer::_Introspection::numberOfInstances[13])(const Introspectable*) = {
-    Introspection::one,
-    _Introspection::count_shapeGroup,
-    Introspection::one,
-    _Introspection::count_deletedshape,
-    _Introspection::count_shapePrimaryOptions,
-    _Introspection::count_shapeSecondaryOptions1,
-    _Introspection::count_shapeTertiaryOptions1,
-    _Introspection::count_childAnchor,
-    _Introspection::count_clientAnchor,
-    _Introspection::count_clientData,
-    _Introspection::count_clientTextbox,
-    _Introspection::count_shapeSecondaryOptions2,
-    _Introspection::count_shapeTertiaryOptions2,
-};
-QVariant (* const OfficeArtSpContainer::_Introspection::value[13])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
-};
-const Introspectable* (* const OfficeArtSpContainer::_Introspection::introspectable[13])(const Introspectable*, int position) = {
-    _Introspection::get_rh,
-    _Introspection::get_shapeGroup,
-    _Introspection::get_shapeProp,
-    _Introspection::get_deletedshape,
-    _Introspection::get_shapePrimaryOptions,
-    _Introspection::get_shapeSecondaryOptions1,
-    _Introspection::get_shapeTertiaryOptions1,
-    _Introspection::get_childAnchor,
-    _Introspection::get_clientAnchor,
-    _Introspection::get_clientData,
-    _Introspection::get_clientTextbox,
-    _Introspection::get_shapeSecondaryOptions2,
-    _Introspection::get_shapeTertiaryOptions2,
-};
-const Introspection OfficeArtSpContainer::_introspection(
-    "OfficeArtSpContainer", 13, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class OfficeArtFOPTEChoice::_Introspection {
 public:
     static const QString name;
@@ -23376,6 +23600,134 @@ const Introspectable* (* const OfficeArtFOPTEChoice::_Introspection::introspecta
 };
 const Introspection OfficeArtFOPTEChoice::_introspection(
     "OfficeArtFOPTEChoice", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class OfficeArtClientData::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[11];
+    static int (* const numberOfInstances[11])(const Introspectable*);
+    static QVariant (* const value[11])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[11])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtClientData*>(i)->rh);
+    }
+    static int count_shapeFlagsAtom(const Introspectable* i) {
+        return get_shapeFlagsAtom(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_shapeFlagsAtom(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtClientData*>(i)->shapeFlagsAtom.data();
+    }
+    static int count_shapeFlags10Atom(const Introspectable* i) {
+        return get_shapeFlags10Atom(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_shapeFlags10Atom(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtClientData*>(i)->shapeFlags10Atom.data();
+    }
+    static int count_exObjRefAtom(const Introspectable* i) {
+        return get_exObjRefAtom(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_exObjRefAtom(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtClientData*>(i)->exObjRefAtom.data();
+    }
+    static int count_animationInfo(const Introspectable* i) {
+        return get_animationInfo(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_animationInfo(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtClientData*>(i)->animationInfo.data();
+    }
+    static int count_mouseClickInteractiveInfo(const Introspectable* i) {
+        return get_mouseClickInteractiveInfo(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_mouseClickInteractiveInfo(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtClientData*>(i)->mouseClickInteractiveInfo.data();
+    }
+    static int count_mouseOverInteractiveInfo(const Introspectable* i) {
+        return get_mouseOverInteractiveInfo(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_mouseOverInteractiveInfo(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtClientData*>(i)->mouseOverInteractiveInfo.data();
+    }
+    static int count_placeholderAtom(const Introspectable* i) {
+        return get_placeholderAtom(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_placeholderAtom(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtClientData*>(i)->placeholderAtom.data();
+    }
+    static int count_recolorInfoAtom(const Introspectable* i) {
+        return get_recolorInfoAtom(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_recolorInfoAtom(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtClientData*>(i)->recolorInfoAtom.data();
+    }
+    static int count_rgShapeClientRoundtripData(const Introspectable* i) {
+        return static_cast<const OfficeArtClientData*>(i)->rgShapeClientRoundtripData.size();
+    }
+    static const Introspectable* get_rgShapeClientRoundtripData(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtClientData*>(i)->rgShapeClientRoundtripData[j]);
+    }
+    static int count_unknown(const Introspectable* i) {
+        return get_unknown(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_unknown(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtClientData*>(i)->unknown.data();
+    }
+};
+const QString OfficeArtClientData::_Introspection::name("OfficeArtClientData");
+const int OfficeArtClientData::_Introspection::numberOfMembers(11);
+const QString OfficeArtClientData::_Introspection::names[11] = {
+    "rh",
+    "shapeFlagsAtom",
+    "shapeFlags10Atom",
+    "exObjRefAtom",
+    "animationInfo",
+    "mouseClickInteractiveInfo",
+    "mouseOverInteractiveInfo",
+    "placeholderAtom",
+    "recolorInfoAtom",
+    "rgShapeClientRoundtripData",
+    "unknown",
+};
+int (* const OfficeArtClientData::_Introspection::numberOfInstances[11])(const Introspectable*) = {
+    Introspection::one,
+    _Introspection::count_shapeFlagsAtom,
+    _Introspection::count_shapeFlags10Atom,
+    _Introspection::count_exObjRefAtom,
+    _Introspection::count_animationInfo,
+    _Introspection::count_mouseClickInteractiveInfo,
+    _Introspection::count_mouseOverInteractiveInfo,
+    _Introspection::count_placeholderAtom,
+    _Introspection::count_recolorInfoAtom,
+    _Introspection::count_rgShapeClientRoundtripData,
+    _Introspection::count_unknown,
+};
+QVariant (* const OfficeArtClientData::_Introspection::value[11])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const OfficeArtClientData::_Introspection::introspectable[11])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    _Introspection::get_shapeFlagsAtom,
+    _Introspection::get_shapeFlags10Atom,
+    _Introspection::get_exObjRefAtom,
+    _Introspection::get_animationInfo,
+    _Introspection::get_mouseClickInteractiveInfo,
+    _Introspection::get_mouseOverInteractiveInfo,
+    _Introspection::get_placeholderAtom,
+    _Introspection::get_recolorInfoAtom,
+    _Introspection::get_rgShapeClientRoundtripData,
+    _Introspection::get_unknown,
+};
+const Introspection OfficeArtClientData::_introspection(
+    "OfficeArtClientData", 11, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class WordDocument::_Introspection {
 public:
     static const QString name;
@@ -23890,69 +24242,126 @@ const Introspectable* (* const DrawingGroupContainer::_Introspection::introspect
 };
 const Introspection DrawingGroupContainer::_introspection(
     "DrawingGroupContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class OfficeArtDgContainer::_Introspection {
+class OfficeArtSpContainer::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[7];
-    static int (* const numberOfInstances[7])(const Introspectable*);
-    static QVariant (* const value[7])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[7])(const Introspectable*, int position);
+    static const QString names[13];
+    static int (* const numberOfInstances[13])(const Introspectable*);
+    static QVariant (* const value[13])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[13])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtDgContainer*>(i)->rh);
+        return &(static_cast<const OfficeArtSpContainer*>(i)->rh);
     }
-    static const Introspectable* get_drawingData(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtDgContainer*>(i)->drawingData);
+    static int count_shapeGroup(const Introspectable* i) {
+        return get_shapeGroup(i, 0) ?1 :0;
     }
-    static int count_regroupItems(const Introspectable* i) {
-        return get_regroupItems(i, 0) ?1 :0;
+    static const Introspectable* get_shapeGroup(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->shapeGroup.data();
     }
-    static const Introspectable* get_regroupItems(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtDgContainer*>(i)->regroupItems.data();
+    static const Introspectable* get_shapeProp(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtSpContainer*>(i)->shapeProp);
     }
-    static const Introspectable* get_groupShape(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtDgContainer*>(i)->groupShape);
+    static int count_deletedshape(const Introspectable* i) {
+        return get_deletedshape(i, 0) ?1 :0;
     }
-    static int count_shape(const Introspectable* i) {
-        return get_shape(i, 0) ?1 :0;
+    static const Introspectable* get_deletedshape(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->deletedshape.data();
     }
-    static const Introspectable* get_shape(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtDgContainer*>(i)->shape.data();
+    static int count_shapePrimaryOptions(const Introspectable* i) {
+        return get_shapePrimaryOptions(i, 0) ?1 :0;
     }
-    static int count_deletedShapes(const Introspectable* i) {
-        return static_cast<const OfficeArtDgContainer*>(i)->deletedShapes.size();
+    static const Introspectable* get_shapePrimaryOptions(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->shapePrimaryOptions.data();
     }
-    static const Introspectable* get_deletedShapes(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtDgContainer*>(i)->deletedShapes[j]);
+    static int count_shapeSecondaryOptions1(const Introspectable* i) {
+        return get_shapeSecondaryOptions1(i, 0) ?1 :0;
     }
-    static int count_solvers(const Introspectable* i) {
-        return get_solvers(i, 0) ?1 :0;
+    static const Introspectable* get_shapeSecondaryOptions1(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->shapeSecondaryOptions1.data();
     }
-    static const Introspectable* get_solvers(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtDgContainer*>(i)->solvers.data();
+    static int count_shapeTertiaryOptions1(const Introspectable* i) {
+        return get_shapeTertiaryOptions1(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_shapeTertiaryOptions1(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->shapeTertiaryOptions1.data();
+    }
+    static int count_childAnchor(const Introspectable* i) {
+        return get_childAnchor(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_childAnchor(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->childAnchor.data();
+    }
+    static int count_clientAnchor(const Introspectable* i) {
+        return get_clientAnchor(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_clientAnchor(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->clientAnchor.data();
+    }
+    static int count_clientData(const Introspectable* i) {
+        return get_clientData(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_clientData(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->clientData.data();
+    }
+    static int count_clientTextbox(const Introspectable* i) {
+        return get_clientTextbox(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_clientTextbox(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->clientTextbox.data();
+    }
+    static int count_shapeSecondaryOptions2(const Introspectable* i) {
+        return get_shapeSecondaryOptions2(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_shapeSecondaryOptions2(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->shapeSecondaryOptions2.data();
+    }
+    static int count_shapeTertiaryOptions2(const Introspectable* i) {
+        return get_shapeTertiaryOptions2(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_shapeTertiaryOptions2(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSpContainer*>(i)->shapeTertiaryOptions2.data();
     }
 };
-const QString OfficeArtDgContainer::_Introspection::name("OfficeArtDgContainer");
-const int OfficeArtDgContainer::_Introspection::numberOfMembers(7);
-const QString OfficeArtDgContainer::_Introspection::names[7] = {
+const QString OfficeArtSpContainer::_Introspection::name("OfficeArtSpContainer");
+const int OfficeArtSpContainer::_Introspection::numberOfMembers(13);
+const QString OfficeArtSpContainer::_Introspection::names[13] = {
     "rh",
-    "drawingData",
-    "regroupItems",
-    "groupShape",
-    "shape",
-    "deletedShapes",
-    "solvers",
+    "shapeGroup",
+    "shapeProp",
+    "deletedshape",
+    "shapePrimaryOptions",
+    "shapeSecondaryOptions1",
+    "shapeTertiaryOptions1",
+    "childAnchor",
+    "clientAnchor",
+    "clientData",
+    "clientTextbox",
+    "shapeSecondaryOptions2",
+    "shapeTertiaryOptions2",
 };
-int (* const OfficeArtDgContainer::_Introspection::numberOfInstances[7])(const Introspectable*) = {
+int (* const OfficeArtSpContainer::_Introspection::numberOfInstances[13])(const Introspectable*) = {
     Introspection::one,
+    _Introspection::count_shapeGroup,
     Introspection::one,
-    _Introspection::count_regroupItems,
-    Introspection::one,
-    _Introspection::count_shape,
-    _Introspection::count_deletedShapes,
-    _Introspection::count_solvers,
+    _Introspection::count_deletedshape,
+    _Introspection::count_shapePrimaryOptions,
+    _Introspection::count_shapeSecondaryOptions1,
+    _Introspection::count_shapeTertiaryOptions1,
+    _Introspection::count_childAnchor,
+    _Introspection::count_clientAnchor,
+    _Introspection::count_clientData,
+    _Introspection::count_clientTextbox,
+    _Introspection::count_shapeSecondaryOptions2,
+    _Introspection::count_shapeTertiaryOptions2,
 };
-QVariant (* const OfficeArtDgContainer::_Introspection::value[7])(const Introspectable*, int position) = {
+QVariant (* const OfficeArtSpContainer::_Introspection::value[13])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
@@ -23961,48 +24370,23 @@ QVariant (* const OfficeArtDgContainer::_Introspection::value[7])(const Introspe
     Introspection::nullValue,
     Introspection::nullValue,
 };
-const Introspectable* (* const OfficeArtDgContainer::_Introspection::introspectable[7])(const Introspectable*, int position) = {
+const Introspectable* (* const OfficeArtSpContainer::_Introspection::introspectable[13])(const Introspectable*, int position) = {
     _Introspection::get_rh,
-    _Introspection::get_drawingData,
-    _Introspection::get_regroupItems,
-    _Introspection::get_groupShape,
-    _Introspection::get_shape,
-    _Introspection::get_deletedShapes,
-    _Introspection::get_solvers,
+    _Introspection::get_shapeGroup,
+    _Introspection::get_shapeProp,
+    _Introspection::get_deletedshape,
+    _Introspection::get_shapePrimaryOptions,
+    _Introspection::get_shapeSecondaryOptions1,
+    _Introspection::get_shapeTertiaryOptions1,
+    _Introspection::get_childAnchor,
+    _Introspection::get_clientAnchor,
+    _Introspection::get_clientData,
+    _Introspection::get_clientTextbox,
+    _Introspection::get_shapeSecondaryOptions2,
+    _Introspection::get_shapeTertiaryOptions2,
 };
-const Introspection OfficeArtDgContainer::_introspection(
-    "OfficeArtDgContainer", 7, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class OfficeArtSpgrContainerFileBlock::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[1];
-    static int (* const numberOfInstances[1])(const Introspectable*);
-    static QVariant (* const value[1])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
-    static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const OfficeArtSpgrContainerFileBlock*>(i)->anon.officeartspcontainer.data();
-        if (k == 0) k = static_cast<const OfficeArtSpgrContainerFileBlock*>(i)->anon.officeartspgrcontainer.data();
-        return k;
-    }
-};
-const QString OfficeArtSpgrContainerFileBlock::_Introspection::name("OfficeArtSpgrContainerFileBlock");
-const int OfficeArtSpgrContainerFileBlock::_Introspection::numberOfMembers(1);
-const QString OfficeArtSpgrContainerFileBlock::_Introspection::names[1] = {
-    "anon",
-};
-int (* const OfficeArtSpgrContainerFileBlock::_Introspection::numberOfInstances[1])(const Introspectable*) = {
-    Introspection::one,
-};
-QVariant (* const OfficeArtSpgrContainerFileBlock::_Introspection::value[1])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-};
-const Introspectable* (* const OfficeArtSpgrContainerFileBlock::_Introspection::introspectable[1])(const Introspectable*, int position) = {
-    _Introspection::get_anon,
-};
-const Introspection OfficeArtSpgrContainerFileBlock::_introspection(
-    "OfficeArtSpgrContainerFileBlock", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+const Introspection OfficeArtSpContainer::_introspection(
+    "OfficeArtSpContainer", 13, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class DocumentContainer::_Introspection {
 public:
     static const QString name;
@@ -24302,6 +24686,119 @@ const Introspectable* (* const DocInfoListSubContainerOrAtom::_Introspection::in
 };
 const Introspection DocInfoListSubContainerOrAtom::_introspection(
     "DocInfoListSubContainerOrAtom", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class OfficeArtDgContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[7];
+    static int (* const numberOfInstances[7])(const Introspectable*);
+    static QVariant (* const value[7])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[7])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtDgContainer*>(i)->rh);
+    }
+    static const Introspectable* get_drawingData(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtDgContainer*>(i)->drawingData);
+    }
+    static int count_regroupItems(const Introspectable* i) {
+        return get_regroupItems(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_regroupItems(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtDgContainer*>(i)->regroupItems.data();
+    }
+    static const Introspectable* get_groupShape(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtDgContainer*>(i)->groupShape);
+    }
+    static int count_shape(const Introspectable* i) {
+        return get_shape(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_shape(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtDgContainer*>(i)->shape.data();
+    }
+    static int count_deletedShapes(const Introspectable* i) {
+        return static_cast<const OfficeArtDgContainer*>(i)->deletedShapes.size();
+    }
+    static const Introspectable* get_deletedShapes(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtDgContainer*>(i)->deletedShapes[j]);
+    }
+    static int count_solvers(const Introspectable* i) {
+        return get_solvers(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_solvers(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtDgContainer*>(i)->solvers.data();
+    }
+};
+const QString OfficeArtDgContainer::_Introspection::name("OfficeArtDgContainer");
+const int OfficeArtDgContainer::_Introspection::numberOfMembers(7);
+const QString OfficeArtDgContainer::_Introspection::names[7] = {
+    "rh",
+    "drawingData",
+    "regroupItems",
+    "groupShape",
+    "shape",
+    "deletedShapes",
+    "solvers",
+};
+int (* const OfficeArtDgContainer::_Introspection::numberOfInstances[7])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    _Introspection::count_regroupItems,
+    Introspection::one,
+    _Introspection::count_shape,
+    _Introspection::count_deletedShapes,
+    _Introspection::count_solvers,
+};
+QVariant (* const OfficeArtDgContainer::_Introspection::value[7])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const OfficeArtDgContainer::_Introspection::introspectable[7])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    _Introspection::get_drawingData,
+    _Introspection::get_regroupItems,
+    _Introspection::get_groupShape,
+    _Introspection::get_shape,
+    _Introspection::get_deletedShapes,
+    _Introspection::get_solvers,
+};
+const Introspection OfficeArtDgContainer::_introspection(
+    "OfficeArtDgContainer", 7, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class OfficeArtSpgrContainerFileBlock::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[1];
+    static int (* const numberOfInstances[1])(const Introspectable*);
+    static QVariant (* const value[1])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
+    static const Introspectable* get_anon(const Introspectable* i, int j) {
+        const Introspectable* k = 0;
+        if (k == 0) k = static_cast<const OfficeArtSpgrContainerFileBlock*>(i)->anon.officeartspcontainer.data();
+        if (k == 0) k = static_cast<const OfficeArtSpgrContainerFileBlock*>(i)->anon.officeartspgrcontainer.data();
+        return k;
+    }
+};
+const QString OfficeArtSpgrContainerFileBlock::_Introspection::name("OfficeArtSpgrContainerFileBlock");
+const int OfficeArtSpgrContainerFileBlock::_Introspection::numberOfMembers(1);
+const QString OfficeArtSpgrContainerFileBlock::_Introspection::names[1] = {
+    "anon",
+};
+int (* const OfficeArtSpgrContainerFileBlock::_Introspection::numberOfInstances[1])(const Introspectable*) = {
+    Introspection::one,
+};
+QVariant (* const OfficeArtSpgrContainerFileBlock::_Introspection::value[1])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+};
+const Introspectable* (* const OfficeArtSpgrContainerFileBlock::_Introspection::introspectable[1])(const Introspectable*, int position) = {
+    _Introspection::get_anon,
+};
+const Introspection OfficeArtSpgrContainerFileBlock::_introspection(
+    "OfficeArtSpgrContainerFileBlock", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class DrawingContainer::_Introspection {
 public:
     static const QString name;
@@ -25695,7 +26192,7 @@ void write(const TextBookmarkAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.end);
     out.writeint32(_s.bookmarkID);
 }
-void parseTextInteractiveInfoInstance(LEInputStream& in, TextInteractiveInfoInstance& _s) {
+void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -25714,7 +26211,7 @@ void parseTextInteractiveInfoInstance(LEInputStream& in, TextInteractiveInfoInst
     _c = 8;
     _s.range.resize(_c);    in.readBytes(_s.range);
 }
-void write(const TextInteractiveInfoInstance& _s, LEOutputStream& out) {
+void write(const MouseTextInteractiveInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.range);
 }
@@ -27858,45 +28355,82 @@ void write(const AnimationInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
-void parseMouseClickInteractiveInfoContainer(LEInputStream& in, MouseClickInteractiveInfoContainer& _s) {
+void parseInteractiveInfoAtom(LEInputStream& in, InteractiveInfoAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
-    parseOfficeArtRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0xF)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
     }
     if (!(_s.rh.recInstance == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
     }
-    if (!(_s.rh.recType == 0xFF2)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFF2");
+    if (!(_s.rh.recType == 0xFF3)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFF3");
     }
-    _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    if (!(_s.rh.recLen == 0x10)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x10");
+    }
+    _s.soundIdRef = in.readuint32();
+    _s.exHyperlinkIdRef = in.readuint32();
+    _s.action = in.readuint8();
+    if (!(((quint8)_s.action)<8)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.action)<8");
+    }
+    _s.oleVerb = in.readuint8();
+    if (!(((quint8)_s.oleVerb)<3)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.oleVerb)<3");
+    }
+    _s.jump = in.readuint8();
+    if (!(((quint8)_s.jump)<7)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.jump)<7");
+    }
+    _s.fAnimated = in.readbit();
+    _s.fStopSound = in.readbit();
+    _s.fCustomSoundReturn = in.readbit();
+    _s.fVisited = in.readbit();
+    _s.reserved = in.readuint4();
+    _s.hyperlinkType = in.readuint8();
+    _c = 3;
+    _s.unused.resize(_c);    in.readBytes(_s.unused);
 }
-void write(const MouseClickInteractiveInfoContainer& _s, LEOutputStream& out) {
+void write(const InteractiveInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    out.writeBytes(_s.todo);
+    out.writeuint32(_s.soundIdRef);
+    out.writeuint32(_s.exHyperlinkIdRef);
+    out.writeuint8(_s.action);
+    out.writeuint8(_s.oleVerb);
+    out.writeuint8(_s.jump);
+    out.writebit(_s.fAnimated);
+    out.writebit(_s.fStopSound);
+    out.writebit(_s.fCustomSoundReturn);
+    out.writebit(_s.fVisited);
+    out.writeuint4(_s.reserved);
+    out.writeuint8(_s.hyperlinkType);
+    out.writeBytes(_s.unused);
 }
-void parseMouseOverInteractiveInfoContainer(LEInputStream& in, MouseOverInteractiveInfoContainer& _s) {
+void parseMacroNameAtom(LEInputStream& in, MacroNameAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
-    parseOfficeArtRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0xF)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
     }
-    if (!(_s.rh.recInstance == 1)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 1");
+    if (!(_s.rh.recInstance == 2)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 2");
     }
-    if (!(_s.rh.recType == 0xFF2)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFF2");
+    if (!(_s.rh.recType == 0xFBA)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFBA");
+    }
+    if (!(_s.rh.recLen%2==0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.macroName.resize(_c);    in.readBytes(_s.macroName);
 }
-void write(const MouseOverInteractiveInfoContainer& _s, LEOutputStream& out) {
+void write(const MacroNameAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    out.writeBytes(_s.todo);
+    out.writeBytes(_s.macroName);
 }
 void parsePlaceholderAtom(LEInputStream& in, PlaceholderAtom& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -29119,6 +29653,124 @@ void write(const SttbfFfnEntry& _s, LEOutputStream& out) {
     out.writeuint8(_s.cchData);
     out.writeBytes(_s.Data);
 }
+void parsePropertyIdentifierAndOffset(LEInputStream& in, PropertyIdentifierAndOffset& _s) {
+    _s.propertyIdentifier = in.readuint32();
+    _s.offset = in.readuint32();
+}
+void write(const PropertyIdentifierAndOffset& _s, LEOutputStream& out) {
+    out.writeuint32(_s.propertyIdentifier);
+    out.writeuint32(_s.offset);
+}
+void parsePropertySet(LEInputStream& in, PropertySet& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    _s.size = in.readuint32();
+    _s.numProperties = in.readuint32();
+    _c = _s.numProperties;
+        for (int _i=0; _i<_c; ++_i) {
+        _s.propertyIdentifierAndOffset.append(PropertyIdentifierAndOffset());
+        parsePropertyIdentifierAndOffset(in, _s.propertyIdentifierAndOffset[_i]);
+    }
+    _c = _s.size-8-8*_s.numProperties;
+    _s.property.resize(_c);    in.readBytes(_s.property);
+}
+void write(const PropertySet& _s, LEOutputStream& out) {
+    out.writeuint32(_s.size);
+    out.writeuint32(_s.numProperties);
+    foreach (PropertyIdentifierAndOffset _i, _s.propertyIdentifierAndOffset) {
+        write(_i, out);
+    }
+    out.writeBytes(_s.property);
+}
+void parsePropertySetStream(LEInputStream& in, PropertySetStream& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+        bool _atend;
+    _s.byteOrder = in.readuint16();
+    if (!(((quint16)_s.byteOrder) == 0xFFFE)) {
+        throw IncorrectValueException(in.getPosition(), "((quint16)_s.byteOrder) == 0xFFFE");
+    }
+    _s.version = in.readuint16();
+    _s.systemIdentifier = in.readuint32();
+    _c = 16;
+    _s.clsID.resize(_c);    in.readBytes(_s.clsID);
+    _s.numPropertySets = in.readuint32();
+    if (!(((quint32)_s.numPropertySets) == 1 || ((quint32)_s.numPropertySets) == 2)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.numPropertySets) == 1 || ((quint32)_s.numPropertySets) == 2");
+    }
+    _c = 16;
+    _s.fmtID0.resize(_c);    in.readBytes(_s.fmtID0);
+    _s.offset0 = in.readuint32();
+    _s._has_fmtID1 = _s.numPropertySets==2;
+    if (_s._has_fmtID1) {
+        _c = 16;
+        _s.fmtID1.resize(_c);        in.readBytes(_s.fmtID1);
+    }
+    _s._has_offset1 = _s.numPropertySets==2;
+    if (_s._has_offset1) {
+        _s.offset1 = in.readuint32();
+    }
+    parsePropertySet(in, _s.propertySet1);
+    if (_s.numPropertySets==2) {
+        _s.propertySet2 = QSharedPointer<PropertySet>(new PropertySet());
+        parsePropertySet(in, *_s.propertySet2.data());
+    }
+    _atend = false;
+    while (!_atend) {
+        _m = in.setMark();
+        try {
+            Byte _t;
+            parseByte(in, _t);
+            _s.padding.append(_t);
+        } catch(IncorrectValueException _e) {
+            _atend = true;
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _atend = true;
+            in.rewind(_m);
+        }
+    }
+}
+void write(const PropertySetStream& _s, LEOutputStream& out) {
+    out.writeuint16(_s.byteOrder);
+    out.writeuint16(_s.version);
+    out.writeuint32(_s.systemIdentifier);
+    out.writeBytes(_s.clsID);
+    out.writeuint32(_s.numPropertySets);
+    out.writeBytes(_s.fmtID0);
+    out.writeuint32(_s.offset0);
+    if (_s.numPropertySets==2) {
+        out.writeBytes(_s.fmtID1);
+    }
+    if (_s.numPropertySets==2) {
+        out.writeuint32(_s.offset1);
+    }
+    write(_s.propertySet1, out);
+    if (_s.numPropertySets==2) {
+        if (_s.propertySet2) write(*_s.propertySet2, out);
+    }
+    foreach (Byte _i, _s.padding) {
+        write(_i, out);
+    }
+}
+void parseSummaryInformationPropertySetStream(LEInputStream& in, SummaryInformationPropertySetStream& _s) {
+    parsePropertySetStream(in, _s.propertySet);
+    if (!(_s.propertySet.version == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.propertySet.version == 0");
+    }
+}
+void write(const SummaryInformationPropertySetStream& _s, LEOutputStream& out) {
+    write(_s.propertySet, out);
+}
+void parseDocumentSummaryInformationPropertySetStream(LEInputStream& in, DocumentSummaryInformationPropertySetStream& _s) {
+    parsePropertySetStream(in, _s.propertySet);
+    if (!(_s.propertySet.version == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.propertySet.version == 0");
+    }
+}
+void write(const DocumentSummaryInformationPropertySetStream& _s, LEOutputStream& out) {
+    write(_s.propertySet, out);
+}
 void parsePicturesStream(LEInputStream& in, PicturesStream& _s) {
     parseOfficeArtBStoreDelay(in, _s.anon1);
 }
@@ -29550,27 +30202,6 @@ void write(const SlidePersistAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.cTexts);
     write(_s.slideId, out);
     out.writeuint32(_s.reserved5);
-}
-void parseInteractiveInfoInstance(LEInputStream& in, InteractiveInfoInstance& _s) {
-    LEInputStream::Mark _m;
-    _m = in.setMark();
-    try {
-        MouseClickInteractiveInfoContainer _t;
-        parseMouseClickInteractiveInfoContainer(in, _t);
-        _s.anon.mouseclickinteractiveinfocontainer = QSharedPointer<MouseClickInteractiveInfoContainer>(new MouseClickInteractiveInfoContainer(_t));
-    } catch (IncorrectValueException _x) {
-        in.rewind(_m);
-        MouseOverInteractiveInfoContainer _t;
-        parseMouseOverInteractiveInfoContainer(in, _t);
-        _s.anon.mouseoverinteractiveinfocontainer = QSharedPointer<MouseOverInteractiveInfoContainer>(new MouseOverInteractiveInfoContainer(_t));
-    }
-}
-void write(const InteractiveInfoInstance& _s, LEOutputStream& out) {
-    if (_s.anon.mouseclickinteractiveinfocontainer) {
-        write(*_s.anon.mouseclickinteractiveinfocontainer, out);
-    } else if (_s.anon.mouseoverinteractiveinfocontainer) {
-        write(*_s.anon.mouseoverinteractiveinfocontainer, out);
-    }
 }
 void parseTextRuler(LEInputStream& in, TextRuler& _s) {
     _s.fDefaultTabSize = in.readbit();
@@ -31220,139 +31851,29 @@ void write(const OfficeArtClientAnchor& _s, LEOutputStream& out) {
         if (_s.rect2) write(*_s.rect2, out);
     }
 }
-void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
-    LEInputStream::Mark _m;
-        bool _atend;
-    parseOfficeArtRecordHeader(in, _s.rh);
+void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s) {
+    parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
     }
-    if (!(_s.rh.recInstance == 0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0 || _s.rh.recInstance == 1");
     }
-    if (!(_s.rh.recType == 0xF011)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF011");
+    if (!(_s.rh.recType == 0xFF2)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFF2");
     }
-    _m = in.setMark();
-    try {
-        ShapeFlagsAtom _t;
-        parseShapeFlagsAtom(in, _t);
-        _s.shapeFlagsAtom = QSharedPointer<ShapeFlagsAtom>(new ShapeFlagsAtom(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        ShapeFlags10Atom _t;
-        parseShapeFlags10Atom(in, _t);
-        _s.shapeFlags10Atom = QSharedPointer<ShapeFlags10Atom>(new ShapeFlags10Atom(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        ExObjRefAtom _t;
-        parseExObjRefAtom(in, _t);
-        _s.exObjRefAtom = QSharedPointer<ExObjRefAtom>(new ExObjRefAtom(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        AnimationInfoContainer _t;
-        parseAnimationInfoContainer(in, _t);
-        _s.animationInfo = QSharedPointer<AnimationInfoContainer>(new AnimationInfoContainer(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        MouseClickInteractiveInfoContainer _t;
-        parseMouseClickInteractiveInfoContainer(in, _t);
-        _s.mouseClickInteractiveInfo = QSharedPointer<MouseClickInteractiveInfoContainer>(new MouseClickInteractiveInfoContainer(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        MouseOverInteractiveInfoContainer _t;
-        parseMouseOverInteractiveInfoContainer(in, _t);
-        _s.mouseOverInteractiveInfo = QSharedPointer<MouseOverInteractiveInfoContainer>(new MouseOverInteractiveInfoContainer(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        PlaceholderAtom _t;
-        parsePlaceholderAtom(in, _t);
-        _s.placeholderAtom = QSharedPointer<PlaceholderAtom>(new PlaceholderAtom(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        RecolorInfoAtom _t;
-        parseRecolorInfoAtom(in, _t);
-        _s.recolorInfoAtom = QSharedPointer<RecolorInfoAtom>(new RecolorInfoAtom(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _atend = false;
-    while (!_atend) {
-        _m = in.setMark();
-        try {
-            ShapeClientRoundtripDataSubcontainerOrAtom _t;
-            parseShapeClientRoundtripDataSubcontainerOrAtom(in, _t);
-            _s.rgShapeClientRoundtripData.append(_t);
-        } catch(IncorrectValueException _e) {
-            _atend = true;
-            in.rewind(_m);
-        } catch(EOFException _e) {
-            _atend = true;
-            in.rewind(_m);
-        }
-    }
-    _m = in.setMark();
-    try {
-        UnknownOfficeArtClientDataChild _t;
-        parseUnknownOfficeArtClientDataChild(in, _t);
-        _s.unknown = QSharedPointer<UnknownOfficeArtClientDataChild>(new UnknownOfficeArtClientDataChild(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
+    parseInteractiveInfoAtom(in, _s.interactiveInfoAtom);
+    if (_s.rh.recLen>24) {
+        _s.macroNameAtom = QSharedPointer<MacroNameAtom>(new MacroNameAtom());
+        parseMacroNameAtom(in, *_s.macroNameAtom.data());
     }
 }
-void write(const OfficeArtClientData& _s, LEOutputStream& out) {
+void write(const MouseInteractiveInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    if (_s.shapeFlagsAtom) write(*_s.shapeFlagsAtom, out);
-    if (_s.shapeFlags10Atom) write(*_s.shapeFlags10Atom, out);
-    if (_s.exObjRefAtom) write(*_s.exObjRefAtom, out);
-    if (_s.animationInfo) write(*_s.animationInfo, out);
-    if (_s.mouseClickInteractiveInfo) write(*_s.mouseClickInteractiveInfo, out);
-    if (_s.mouseOverInteractiveInfo) write(*_s.mouseOverInteractiveInfo, out);
-    if (_s.placeholderAtom) write(*_s.placeholderAtom, out);
-    if (_s.recolorInfoAtom) write(*_s.recolorInfoAtom, out);
-    foreach (ShapeClientRoundtripDataSubcontainerOrAtom _i, _s.rgShapeClientRoundtripData) {
-        write(_i, out);
+    write(_s.interactiveInfoAtom, out);
+    if (_s.rh.recLen>24) {
+        if (_s.macroNameAtom) write(*_s.macroNameAtom, out);
     }
-    if (_s.unknown) write(*_s.unknown, out);
 }
 void parseOfficeArtFOPTE(LEInputStream& in, OfficeArtFOPTE& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31791,21 +32312,21 @@ void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteracti
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        InteractiveInfoInstance _t;
-        parseInteractiveInfoInstance(in, _t);
-        _s.interactive.interactiveinfoinstance = QSharedPointer<InteractiveInfoInstance>(new InteractiveInfoInstance(_t));
+        MouseInteractiveInfoContainer _t;
+        parseMouseInteractiveInfoContainer(in, _t);
+        _s.interactive.mouseinteractiveinfocontainer = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(_t));
     } catch (IncorrectValueException _x) {
         in.rewind(_m);
-        TextInteractiveInfoInstance _t;
-        parseTextInteractiveInfoInstance(in, _t);
-        _s.interactive.textinteractiveinfoinstance = QSharedPointer<TextInteractiveInfoInstance>(new TextInteractiveInfoInstance(_t));
+        MouseTextInteractiveInfoAtom _t;
+        parseMouseTextInteractiveInfoAtom(in, _t);
+        _s.interactive.mousetextinteractiveinfoatom = QSharedPointer<MouseTextInteractiveInfoAtom>(new MouseTextInteractiveInfoAtom(_t));
     }
 }
 void write(const TextContainerInteractiveInfo& _s, LEOutputStream& out) {
-    if (_s.interactive.interactiveinfoinstance) {
-        write(*_s.interactive.interactiveinfoinstance, out);
-    } else if (_s.interactive.textinteractiveinfoinstance) {
-        write(*_s.interactive.textinteractiveinfoinstance, out);
+    if (_s.interactive.mouseinteractiveinfocontainer) {
+        write(*_s.interactive.mouseinteractiveinfocontainer, out);
+    } else if (_s.interactive.mousetextinteractiveinfoatom) {
+        write(*_s.interactive.mousetextinteractiveinfoatom, out);
     }
 }
 void parseTextPFRun(LEInputStream& in, TextPFRun& _s) {
@@ -32246,145 +32767,6 @@ void write(const OfficeArtDggContainer& _s, LEOutputStream& out) {
     write(_s.splitColors, out);
     if (_s.unknown) write(*_s.unknown, out);
 }
-void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s) {
-    LEInputStream::Mark _m;
-    parseOfficeArtRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0xF)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
-    }
-    if (!(_s.rh.recInstance == 0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
-    }
-    if (!(_s.rh.recType == 0x0F004)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x0F004");
-    }
-    _m = in.setMark();
-    try {
-        OfficeArtFSPGR _t;
-        parseOfficeArtFSPGR(in, _t);
-        _s.shapeGroup = QSharedPointer<OfficeArtFSPGR>(new OfficeArtFSPGR(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    parseOfficeArtFSP(in, _s.shapeProp);
-    _m = in.setMark();
-    try {
-        OfficeArtFPSPL _t;
-        parseOfficeArtFPSPL(in, _t);
-        _s.deletedshape = QSharedPointer<OfficeArtFPSPL>(new OfficeArtFPSPL(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        OfficeArtFOPT _t;
-        parseOfficeArtFOPT(in, _t);
-        _s.shapePrimaryOptions = QSharedPointer<OfficeArtFOPT>(new OfficeArtFOPT(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        OfficeArtSecondaryFOPT _t;
-        parseOfficeArtSecondaryFOPT(in, _t);
-        _s.shapeSecondaryOptions1 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        OfficeArtTertiaryFOPT _t;
-        parseOfficeArtTertiaryFOPT(in, _t);
-        _s.shapeTertiaryOptions1 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        OfficeArtChildAnchor _t;
-        parseOfficeArtChildAnchor(in, _t);
-        _s.childAnchor = QSharedPointer<OfficeArtChildAnchor>(new OfficeArtChildAnchor(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        OfficeArtClientAnchor _t;
-        parseOfficeArtClientAnchor(in, _t);
-        _s.clientAnchor = QSharedPointer<OfficeArtClientAnchor>(new OfficeArtClientAnchor(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        OfficeArtClientData _t;
-        parseOfficeArtClientData(in, _t);
-        _s.clientData = QSharedPointer<OfficeArtClientData>(new OfficeArtClientData(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        OfficeArtClientTextBox _t;
-        parseOfficeArtClientTextBox(in, _t);
-        _s.clientTextbox = QSharedPointer<OfficeArtClientTextBox>(new OfficeArtClientTextBox(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        OfficeArtSecondaryFOPT _t;
-        parseOfficeArtSecondaryFOPT(in, _t);
-        _s.shapeSecondaryOptions2 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-    _m = in.setMark();
-    try {
-        OfficeArtTertiaryFOPT _t;
-        parseOfficeArtTertiaryFOPT(in, _t);
-        _s.shapeTertiaryOptions2 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(_t));
-    } catch(IncorrectValueException _e) {
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        in.rewind(_m);
-    }
-}
-void write(const OfficeArtSpContainer& _s, LEOutputStream& out) {
-    write(_s.rh, out);
-    if (_s.shapeGroup) write(*_s.shapeGroup, out);
-    write(_s.shapeProp, out);
-    if (_s.deletedshape) write(*_s.deletedshape, out);
-    if (_s.shapePrimaryOptions) write(*_s.shapePrimaryOptions, out);
-    if (_s.shapeSecondaryOptions1) write(*_s.shapeSecondaryOptions1, out);
-    if (_s.shapeTertiaryOptions1) write(*_s.shapeTertiaryOptions1, out);
-    if (_s.childAnchor) write(*_s.childAnchor, out);
-    if (_s.clientAnchor) write(*_s.clientAnchor, out);
-    if (_s.clientData) write(*_s.clientData, out);
-    if (_s.clientTextbox) write(*_s.clientTextbox, out);
-    if (_s.shapeSecondaryOptions2) write(*_s.shapeSecondaryOptions2, out);
-    if (_s.shapeTertiaryOptions2) write(*_s.shapeTertiaryOptions2, out);
-}
 void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
@@ -32678,6 +33060,140 @@ void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
         write(*_s.anon.officeartfopte, out);
     }
 }
+void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
+    LEInputStream::Mark _m;
+        bool _atend;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    }
+    if (!(_s.rh.recType == 0xF011)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF011");
+    }
+    _m = in.setMark();
+    try {
+        ShapeFlagsAtom _t;
+        parseShapeFlagsAtom(in, _t);
+        _s.shapeFlagsAtom = QSharedPointer<ShapeFlagsAtom>(new ShapeFlagsAtom(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        ShapeFlags10Atom _t;
+        parseShapeFlags10Atom(in, _t);
+        _s.shapeFlags10Atom = QSharedPointer<ShapeFlags10Atom>(new ShapeFlags10Atom(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        ExObjRefAtom _t;
+        parseExObjRefAtom(in, _t);
+        _s.exObjRefAtom = QSharedPointer<ExObjRefAtom>(new ExObjRefAtom(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        AnimationInfoContainer _t;
+        parseAnimationInfoContainer(in, _t);
+        _s.animationInfo = QSharedPointer<AnimationInfoContainer>(new AnimationInfoContainer(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        MouseInteractiveInfoContainer _t;
+        parseMouseInteractiveInfoContainer(in, _t);
+        _s.mouseClickInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        MouseInteractiveInfoContainer _t;
+        parseMouseInteractiveInfoContainer(in, _t);
+        _s.mouseOverInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        PlaceholderAtom _t;
+        parsePlaceholderAtom(in, _t);
+        _s.placeholderAtom = QSharedPointer<PlaceholderAtom>(new PlaceholderAtom(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        RecolorInfoAtom _t;
+        parseRecolorInfoAtom(in, _t);
+        _s.recolorInfoAtom = QSharedPointer<RecolorInfoAtom>(new RecolorInfoAtom(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _atend = false;
+    while (!_atend) {
+        _m = in.setMark();
+        try {
+            ShapeClientRoundtripDataSubcontainerOrAtom _t;
+            parseShapeClientRoundtripDataSubcontainerOrAtom(in, _t);
+            _s.rgShapeClientRoundtripData.append(_t);
+        } catch(IncorrectValueException _e) {
+            _atend = true;
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _atend = true;
+            in.rewind(_m);
+        }
+    }
+    _m = in.setMark();
+    try {
+        UnknownOfficeArtClientDataChild _t;
+        parseUnknownOfficeArtClientDataChild(in, _t);
+        _s.unknown = QSharedPointer<UnknownOfficeArtClientDataChild>(new UnknownOfficeArtClientDataChild(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+}
+void write(const OfficeArtClientData& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    if (_s.shapeFlagsAtom) write(*_s.shapeFlagsAtom, out);
+    if (_s.shapeFlags10Atom) write(*_s.shapeFlags10Atom, out);
+    if (_s.exObjRefAtom) write(*_s.exObjRefAtom, out);
+    if (_s.animationInfo) write(*_s.animationInfo, out);
+    if (_s.mouseClickInteractiveInfo) write(*_s.mouseClickInteractiveInfo, out);
+    if (_s.mouseOverInteractiveInfo) write(*_s.mouseOverInteractiveInfo, out);
+    if (_s.placeholderAtom) write(*_s.placeholderAtom, out);
+    if (_s.recolorInfoAtom) write(*_s.recolorInfoAtom, out);
+    foreach (ShapeClientRoundtripDataSubcontainerOrAtom _i, _s.rgShapeClientRoundtripData) {
+        write(_i, out);
+    }
+    if (_s.unknown) write(*_s.unknown, out);
+}
 void parseWordDocument(LEInputStream& in, WordDocument& _s) {
     parseFib(in, _s.fib);
 }
@@ -32932,98 +33448,144 @@ void write(const DrawingGroupContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.OfficeArtDgg, out);
 }
-void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
+void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
     }
-    if (!(_s.rh.recInstance == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0x0");
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
     }
-    if (!(_s.rh.recType == 0xF002)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF002");
+    if (!(_s.rh.recType == 0x0F004)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x0F004");
     }
-    parseOfficeArtFDG(in, _s.drawingData);
     _m = in.setMark();
     try {
-        OfficeArtFRITContainer _t;
-        parseOfficeArtFRITContainer(in, _t);
-        _s.regroupItems = QSharedPointer<OfficeArtFRITContainer>(new OfficeArtFRITContainer(_t));
+        OfficeArtFSPGR _t;
+        parseOfficeArtFSPGR(in, _t);
+        _s.shapeGroup = QSharedPointer<OfficeArtFSPGR>(new OfficeArtFSPGR(_t));
     } catch(IncorrectValueException _e) {
         in.rewind(_m);
     } catch(EOFException _e) {
         in.rewind(_m);
     }
-    parseOfficeArtSpgrContainer(in, _s.groupShape);
+    parseOfficeArtFSP(in, _s.shapeProp);
     _m = in.setMark();
     try {
-        OfficeArtSpContainer _t;
-        parseOfficeArtSpContainer(in, _t);
-        _s.shape = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(_t));
+        OfficeArtFPSPL _t;
+        parseOfficeArtFPSPL(in, _t);
+        _s.deletedshape = QSharedPointer<OfficeArtFPSPL>(new OfficeArtFPSPL(_t));
     } catch(IncorrectValueException _e) {
         in.rewind(_m);
     } catch(EOFException _e) {
         in.rewind(_m);
     }
-    _atend = false;
-    while (!_atend) {
-        _m = in.setMark();
-        try {
-            OfficeArtSpgrContainerFileBlock _t;
-            parseOfficeArtSpgrContainerFileBlock(in, _t);
-            _s.deletedShapes.append(_t);
-        } catch(IncorrectValueException _e) {
-            _atend = true;
-            in.rewind(_m);
-        } catch(EOFException _e) {
-            _atend = true;
-            in.rewind(_m);
-        }
+    _m = in.setMark();
+    try {
+        OfficeArtFOPT _t;
+        parseOfficeArtFOPT(in, _t);
+        _s.shapePrimaryOptions = QSharedPointer<OfficeArtFOPT>(new OfficeArtFOPT(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtSolverContainer _t;
-        parseOfficeArtSolverContainer(in, _t);
-        _s.solvers = QSharedPointer<OfficeArtSolverContainer>(new OfficeArtSolverContainer(_t));
+        OfficeArtSecondaryFOPT _t;
+        parseOfficeArtSecondaryFOPT(in, _t);
+        _s.shapeSecondaryOptions1 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        OfficeArtTertiaryFOPT _t;
+        parseOfficeArtTertiaryFOPT(in, _t);
+        _s.shapeTertiaryOptions1 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        OfficeArtChildAnchor _t;
+        parseOfficeArtChildAnchor(in, _t);
+        _s.childAnchor = QSharedPointer<OfficeArtChildAnchor>(new OfficeArtChildAnchor(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        OfficeArtClientAnchor _t;
+        parseOfficeArtClientAnchor(in, _t);
+        _s.clientAnchor = QSharedPointer<OfficeArtClientAnchor>(new OfficeArtClientAnchor(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        OfficeArtClientData _t;
+        parseOfficeArtClientData(in, _t);
+        _s.clientData = QSharedPointer<OfficeArtClientData>(new OfficeArtClientData(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        OfficeArtClientTextBox _t;
+        parseOfficeArtClientTextBox(in, _t);
+        _s.clientTextbox = QSharedPointer<OfficeArtClientTextBox>(new OfficeArtClientTextBox(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        OfficeArtSecondaryFOPT _t;
+        parseOfficeArtSecondaryFOPT(in, _t);
+        _s.shapeSecondaryOptions2 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        OfficeArtTertiaryFOPT _t;
+        parseOfficeArtTertiaryFOPT(in, _t);
+        _s.shapeTertiaryOptions2 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(_t));
     } catch(IncorrectValueException _e) {
         in.rewind(_m);
     } catch(EOFException _e) {
         in.rewind(_m);
     }
 }
-void write(const OfficeArtDgContainer& _s, LEOutputStream& out) {
+void write(const OfficeArtSpContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    write(_s.drawingData, out);
-    if (_s.regroupItems) write(*_s.regroupItems, out);
-    write(_s.groupShape, out);
-    if (_s.shape) write(*_s.shape, out);
-    foreach (OfficeArtSpgrContainerFileBlock _i, _s.deletedShapes) {
-        write(_i, out);
-    }
-    if (_s.solvers) write(*_s.solvers, out);
-}
-void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContainerFileBlock& _s) {
-    LEInputStream::Mark _m;
-    _m = in.setMark();
-    try {
-        OfficeArtSpContainer _t;
-        parseOfficeArtSpContainer(in, _t);
-        _s.anon.officeartspcontainer = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(_t));
-    } catch (IncorrectValueException _x) {
-        in.rewind(_m);
-        OfficeArtSpgrContainer _t;
-        parseOfficeArtSpgrContainer(in, _t);
-        _s.anon.officeartspgrcontainer = QSharedPointer<OfficeArtSpgrContainer>(new OfficeArtSpgrContainer(_t));
-    }
-}
-void write(const OfficeArtSpgrContainerFileBlock& _s, LEOutputStream& out) {
-    if (_s.anon.officeartspcontainer) {
-        write(*_s.anon.officeartspcontainer, out);
-    } else if (_s.anon.officeartspgrcontainer) {
-        write(*_s.anon.officeartspgrcontainer, out);
-    }
+    if (_s.shapeGroup) write(*_s.shapeGroup, out);
+    write(_s.shapeProp, out);
+    if (_s.deletedshape) write(*_s.deletedshape, out);
+    if (_s.shapePrimaryOptions) write(*_s.shapePrimaryOptions, out);
+    if (_s.shapeSecondaryOptions1) write(*_s.shapeSecondaryOptions1, out);
+    if (_s.shapeTertiaryOptions1) write(*_s.shapeTertiaryOptions1, out);
+    if (_s.childAnchor) write(*_s.childAnchor, out);
+    if (_s.clientAnchor) write(*_s.clientAnchor, out);
+    if (_s.clientData) write(*_s.clientData, out);
+    if (_s.clientTextbox) write(*_s.clientTextbox, out);
+    if (_s.shapeSecondaryOptions2) write(*_s.shapeSecondaryOptions2, out);
+    if (_s.shapeTertiaryOptions2) write(*_s.shapeTertiaryOptions2, out);
 }
 void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
     LEInputStream::Mark _m;
@@ -33330,6 +33892,99 @@ void write(const DocInfoListSubContainerOrAtom& _s, LEOutputStream& out) {
         write(*_s.anon.sorterviewinfocontainer, out);
     } else if (_s.anon.vbainfocontainer) {
         write(*_s.anon.vbainfocontainer, out);
+    }
+}
+void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
+    LEInputStream::Mark _m;
+        bool _atend;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
+    }
+    if (!(_s.rh.recInstance == 0x0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0x0");
+    }
+    if (!(_s.rh.recType == 0xF002)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF002");
+    }
+    parseOfficeArtFDG(in, _s.drawingData);
+    _m = in.setMark();
+    try {
+        OfficeArtFRITContainer _t;
+        parseOfficeArtFRITContainer(in, _t);
+        _s.regroupItems = QSharedPointer<OfficeArtFRITContainer>(new OfficeArtFRITContainer(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    parseOfficeArtSpgrContainer(in, _s.groupShape);
+    _m = in.setMark();
+    try {
+        OfficeArtSpContainer _t;
+        parseOfficeArtSpContainer(in, _t);
+        _s.shape = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+    _atend = false;
+    while (!_atend) {
+        _m = in.setMark();
+        try {
+            OfficeArtSpgrContainerFileBlock _t;
+            parseOfficeArtSpgrContainerFileBlock(in, _t);
+            _s.deletedShapes.append(_t);
+        } catch(IncorrectValueException _e) {
+            _atend = true;
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _atend = true;
+            in.rewind(_m);
+        }
+    }
+    _m = in.setMark();
+    try {
+        OfficeArtSolverContainer _t;
+        parseOfficeArtSolverContainer(in, _t);
+        _s.solvers = QSharedPointer<OfficeArtSolverContainer>(new OfficeArtSolverContainer(_t));
+    } catch(IncorrectValueException _e) {
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        in.rewind(_m);
+    }
+}
+void write(const OfficeArtDgContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.drawingData, out);
+    if (_s.regroupItems) write(*_s.regroupItems, out);
+    write(_s.groupShape, out);
+    if (_s.shape) write(*_s.shape, out);
+    foreach (OfficeArtSpgrContainerFileBlock _i, _s.deletedShapes) {
+        write(_i, out);
+    }
+    if (_s.solvers) write(*_s.solvers, out);
+}
+void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContainerFileBlock& _s) {
+    LEInputStream::Mark _m;
+    _m = in.setMark();
+    try {
+        OfficeArtSpContainer _t;
+        parseOfficeArtSpContainer(in, _t);
+        _s.anon.officeartspcontainer = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(_t));
+    } catch (IncorrectValueException _x) {
+        in.rewind(_m);
+        OfficeArtSpgrContainer _t;
+        parseOfficeArtSpgrContainer(in, _t);
+        _s.anon.officeartspgrcontainer = QSharedPointer<OfficeArtSpgrContainer>(new OfficeArtSpgrContainer(_t));
+    }
+}
+void write(const OfficeArtSpgrContainerFileBlock& _s, LEOutputStream& out) {
+    if (_s.anon.officeartspcontainer) {
+        write(*_s.anon.officeartspcontainer, out);
+    } else if (_s.anon.officeartspgrcontainer) {
+        write(*_s.anon.officeartspgrcontainer, out);
     }
 }
 void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s) {
@@ -33761,6 +34416,14 @@ const Introspectable* parse(const QString& key, LEInputStream& in) {
         Table _t;
         parseTable(in, _t);
         i = new Table(_t);
+    } else if ("SummaryInformation" == key) {
+        SummaryInformationPropertySetStream _t;
+        parseSummaryInformationPropertySetStream(in, _t);
+        i = new SummaryInformationPropertySetStream(_t);
+    } else if ("DocumentSummaryInformation" == key) {
+        DocumentSummaryInformationPropertySetStream _t;
+        parseDocumentSummaryInformationPropertySetStream(in, _t);
+        i = new DocumentSummaryInformationPropertySetStream(_t);
     } else if ("textPFRun" == key) {
         TextPFRun _t;
         parseTextPFRun(in, _t);
@@ -33787,6 +34450,10 @@ void serialize(const Introspectable* i, const QString& key, LEOutputStream& out)
         write(*static_cast<const WordDocument*>(i), out);
     } else if ("1Table" == key) {
         write(*static_cast<const Table*>(i), out);
+    } else if ("SummaryInformation" == key) {
+        write(*static_cast<const SummaryInformationPropertySetStream*>(i), out);
+    } else if ("DocumentSummaryInformation" == key) {
+        write(*static_cast<const DocumentSummaryInformationPropertySetStream*>(i), out);
     } else if ("textPFRun" == key) {
         write(*static_cast<const TextPFRun*>(i), out);
     } else if ("textCFRun" == key) {

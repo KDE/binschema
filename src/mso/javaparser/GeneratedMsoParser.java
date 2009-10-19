@@ -12,6 +12,10 @@ public class GeneratedMsoParser {
             return parseWordDocument(in);
         } else if ("1Table".equals(key)) {
             return parseTable(in);
+        } else if ("SummaryInformation".equals(key)) {
+            return parseSummaryInformationPropertySetStream(in);
+        } else if ("DocumentSummaryInformation".equals(key)) {
+            return parseDocumentSummaryInformationPropertySetStream(in);
         } else if ("textPFRun".equals(key)) {
             return parseTextPFRun(in);
         } else if ("textCFRun".equals(key)) {
@@ -31,6 +35,10 @@ public class GeneratedMsoParser {
             write((WordDocument)o, out);
         } else if ("1Table".equals(key)) {
             write((Table)o, out);
+        } else if ("SummaryInformation".equals(key)) {
+            write((SummaryInformationPropertySetStream)o, out);
+        } else if ("DocumentSummaryInformation".equals(key)) {
+            write((DocumentSummaryInformationPropertySetStream)o, out);
         } else if ("textPFRun".equals(key)) {
             write((TextPFRun)o, out);
         } else if ("textCFRun".equals(key)) {
@@ -1261,8 +1269,8 @@ System.out.println(in.getPosition()+" "+_s);
         out.writeint32(_s.end);
         out.writeint32(_s.bookmarkID);
     }
-    TextInteractiveInfoInstance parseTextInteractiveInfoInstance(LEInputStream in) throws IOException  {
-        TextInteractiveInfoInstance _s = new TextInteractiveInfoInstance();
+    MouseTextInteractiveInfoAtom parseMouseTextInteractiveInfoAtom(LEInputStream in) throws IOException  {
+        MouseTextInteractiveInfoAtom _s = new MouseTextInteractiveInfoAtom();
         int _c;
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0)) {
@@ -1284,7 +1292,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
-    void write(TextInteractiveInfoInstance _s, LEOutputStream out) throws IOException  {
+    void write(MouseTextInteractiveInfoAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         for (byte _i: _s.range) {
             out.writeuint8(_i);
@@ -3812,55 +3820,92 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
-    MouseClickInteractiveInfoContainer parseMouseClickInteractiveInfoContainer(LEInputStream in) throws IOException  {
-        MouseClickInteractiveInfoContainer _s = new MouseClickInteractiveInfoContainer();
+    InteractiveInfoAtom parseInteractiveInfoAtom(LEInputStream in) throws IOException  {
+        InteractiveInfoAtom _s = new InteractiveInfoAtom();
         int _c;
-        _s.rh = parseOfficeArtRecordHeader(in);
-        if (!(_s.rh.recVer == 0xF)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recInstance == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0xFF2)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFF2 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0xFF3)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFF3 for value " + String.valueOf(_s.rh) );
         }
-        _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
+        if (!(_s.rh.recLen == 0x10)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x10 for value " + String.valueOf(_s.rh) );
+        }
+        _s.soundIdRef = in.readuint32();
+        _s.exHyperlinkIdRef = in.readuint32();
+        _s.action = in.readuint8();
+        if (!(_s.action<8)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.action<8 for value " + String.valueOf(_s.action) );
+        }
+        _s.oleVerb = in.readuint8();
+        if (!(_s.oleVerb<3)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.oleVerb<3 for value " + String.valueOf(_s.oleVerb) );
+        }
+        _s.jump = in.readuint8();
+        if (!(_s.jump<7)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.jump<7 for value " + String.valueOf(_s.jump) );
+        }
+        _s.fAnimated = in.readbit();
+        _s.fStopSound = in.readbit();
+        _s.fCustomSoundReturn = in.readbit();
+        _s.fVisited = in.readbit();
+        _s.reserved = in.readuint4();
+        _s.hyperlinkType = in.readuint8();
+        _c = 3;
+        _s.unused = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
+            _s.unused[_i] = in.readuint8();
         }
         return _s;
     }
-    void write(MouseClickInteractiveInfoContainer _s, LEOutputStream out) throws IOException  {
+    void write(InteractiveInfoAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        for (byte _i: _s.todo) {
+        out.writeuint32(_s.soundIdRef);
+        out.writeuint32(_s.exHyperlinkIdRef);
+        out.writeuint8(_s.action);
+        out.writeuint8(_s.oleVerb);
+        out.writeuint8(_s.jump);
+        out.writebit(_s.fAnimated);
+        out.writebit(_s.fStopSound);
+        out.writebit(_s.fCustomSoundReturn);
+        out.writebit(_s.fVisited);
+        out.writeuint4(_s.reserved);
+        out.writeuint8(_s.hyperlinkType);
+        for (byte _i: _s.unused) {
             out.writeuint8(_i);
         }
     }
-    MouseOverInteractiveInfoContainer parseMouseOverInteractiveInfoContainer(LEInputStream in) throws IOException  {
-        MouseOverInteractiveInfoContainer _s = new MouseOverInteractiveInfoContainer();
+    MacroNameAtom parseMacroNameAtom(LEInputStream in) throws IOException  {
+        MacroNameAtom _s = new MacroNameAtom();
         int _c;
-        _s.rh = parseOfficeArtRecordHeader(in);
-        if (!(_s.rh.recVer == 0xF)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recInstance == 1)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recInstance == 2)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 2 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0xFF2)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFF2 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0xFBA)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFBA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen%2==0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2==0 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
+        _s.macroName = new byte[_c];
         for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
+            _s.macroName[_i] = in.readuint8();
         }
         return _s;
     }
-    void write(MouseOverInteractiveInfoContainer _s, LEOutputStream out) throws IOException  {
+    void write(MacroNameAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        for (byte _i: _s.todo) {
+        for (byte _i: _s.macroName) {
             out.writeuint8(_i);
         }
     }
@@ -5181,6 +5226,155 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
+    PropertyIdentifierAndOffset parsePropertyIdentifierAndOffset(LEInputStream in) throws IOException  {
+        PropertyIdentifierAndOffset _s = new PropertyIdentifierAndOffset();
+        _s.propertyIdentifier = in.readuint32();
+        _s.offset = in.readuint32();
+        return _s;
+    }
+    void write(PropertyIdentifierAndOffset _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.propertyIdentifier);
+        out.writeuint32(_s.offset);
+    }
+    PropertySet parsePropertySet(LEInputStream in) throws IOException  {
+        PropertySet _s = new PropertySet();
+        int _c;
+        _s.size = in.readuint32();
+        _s.numProperties = in.readuint32();
+        _c = _s.numProperties;
+        _s.propertyIdentifierAndOffset = new PropertyIdentifierAndOffset[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.propertyIdentifierAndOffset[_i] = parsePropertyIdentifierAndOffset(in);
+        }
+        _c = _s.size-8-8*_s.numProperties;
+        _s.property = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.property[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    void write(PropertySet _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.size);
+        out.writeuint32(_s.numProperties);
+        for (PropertyIdentifierAndOffset _i: _s.propertyIdentifierAndOffset) {
+            write(_i, out);
+        }
+        for (byte _i: _s.property) {
+            out.writeuint8(_i);
+        }
+    }
+    PropertySetStream parsePropertySetStream(LEInputStream in) throws IOException  {
+        PropertySetStream _s = new PropertySetStream();
+        int _c;
+        Object _m;
+        boolean _atend;
+        int _i;
+        _s.byteOrder = in.readuint16();
+        if (!(_s.byteOrder == 0xFFFE)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.byteOrder == 0xFFFE for value " + String.valueOf(_s.byteOrder) );
+        }
+        _s.version = in.readuint16();
+        _s.systemIdentifier = in.readuint32();
+        _c = 16;
+        _s.clsID = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.clsID[_i] = in.readuint8();
+        }
+        _s.numPropertySets = in.readuint32();
+        if (!(_s.numPropertySets == 1 || _s.numPropertySets == 2)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.numPropertySets == 1 || _s.numPropertySets == 2 for value " + String.valueOf(_s.numPropertySets) );
+        }
+        _c = 16;
+        _s.fmtID0 = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.fmtID0[_i] = in.readuint8();
+        }
+        _s.offset0 = in.readuint32();
+        if (_s.numPropertySets==2) {
+            _c = 16;
+            _s.fmtID1 = new byte[_c];
+            for (int _i=0; _i<_c; ++_i) {
+                _s.fmtID1[_i] = in.readuint8();
+            }
+        }
+        if (_s.numPropertySets==2) {
+            _s.offset1 = in.readuint32();
+        }
+        _s.propertySet1 = parsePropertySet(in);
+        if (_s.numPropertySets==2) {
+            _s.propertySet2 = parsePropertySet(in);
+        }
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                Byte _t = parseByte(in);
+                _s.padding.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
+        return _s;
+    }
+    void write(PropertySetStream _s, LEOutputStream out) throws IOException  {
+        out.writeuint16(_s.byteOrder);
+        out.writeuint16(_s.version);
+        out.writeuint32(_s.systemIdentifier);
+        for (byte _i: _s.clsID) {
+            out.writeuint8(_i);
+        }
+        out.writeuint32(_s.numPropertySets);
+        for (byte _i: _s.fmtID0) {
+            out.writeuint8(_i);
+        }
+        out.writeuint32(_s.offset0);
+        if (_s.numPropertySets==2) {
+            for (byte _i: _s.fmtID1) {
+                out.writeuint8(_i);
+            }
+        }
+        if (_s.numPropertySets==2) {
+            out.writeuint32(_s.offset1);
+        }
+        write(_s.propertySet1, out);
+        if (_s.numPropertySets==2) {
+            write(_s.propertySet2, out);
+        }
+        for (Byte _i: _s.padding) {
+            write(_i, out);
+        }
+    }
+    SummaryInformationPropertySetStream parseSummaryInformationPropertySetStream(LEInputStream in) throws IOException  {
+        SummaryInformationPropertySetStream _s = new SummaryInformationPropertySetStream();
+        _s.propertySet = parsePropertySetStream(in);
+        if (!(_s.propertySet.version == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.propertySet.version == 0 for value " + String.valueOf(_s.propertySet) );
+        }
+        return _s;
+    }
+    void write(SummaryInformationPropertySetStream _s, LEOutputStream out) throws IOException  {
+        write(_s.propertySet, out);
+    }
+    DocumentSummaryInformationPropertySetStream parseDocumentSummaryInformationPropertySetStream(LEInputStream in) throws IOException  {
+        DocumentSummaryInformationPropertySetStream _s = new DocumentSummaryInformationPropertySetStream();
+        _s.propertySet = parsePropertySetStream(in);
+        if (!(_s.propertySet.version == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.propertySet.version == 0 for value " + String.valueOf(_s.propertySet) );
+        }
+        return _s;
+    }
+    void write(DocumentSummaryInformationPropertySetStream _s, LEOutputStream out) throws IOException  {
+        write(_s.propertySet, out);
+    }
     PicturesStream parsePicturesStream(LEInputStream in) throws IOException  {
         PicturesStream _s = new PicturesStream();
         _s.anon1 = parseOfficeArtBStoreDelay(in);
@@ -5656,29 +5850,6 @@ System.out.println(in.getPosition()+" "+_s);
         out.writeint32(_s.cTexts);
         write(_s.slideId, out);
         out.writeuint32(_s.reserved5);
-    }
-    InteractiveInfoInstance parseInteractiveInfoInstance(LEInputStream in) throws IOException  {
-        InteractiveInfoInstance _s = new InteractiveInfoInstance();
-        Object _m;
-        _m = in.setMark();
-        try {
-            _s.anon = parseMouseClickInteractiveInfoContainer(in);
-        } catch (IOException _x) {
-            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
-            in.rewind(_m);
-            _s.anon = parseMouseOverInteractiveInfoContainer(in);
-        } finally {
-            in.releaseMark(_m);
-        }
-        return _s;
-    }
-    void write(InteractiveInfoInstance _s, LEOutputStream out) throws IOException  {
-        if (_s.anon instanceof MouseClickInteractiveInfoContainer) {
-            write((MouseClickInteractiveInfoContainer)_s.anon, out);
-        } else if (_s.anon instanceof MouseOverInteractiveInfoContainer) {
-            write((MouseOverInteractiveInfoContainer)_s.anon, out);
-        }
     }
     TextRuler parseTextRuler(LEInputStream in) throws IOException  {
         TextRuler _s = new TextRuler();
@@ -7386,155 +7557,30 @@ System.out.println(in.getPosition()+" "+_s);
             write(_s.rect2, out);
         }
     }
-    OfficeArtClientData parseOfficeArtClientData(LEInputStream in) throws IOException  {
-        OfficeArtClientData _s = new OfficeArtClientData();
-        Object _m;
-        boolean _atend;
-        int _i;
-        _s.rh = parseOfficeArtRecordHeader(in);
+    MouseInteractiveInfoContainer parseMouseInteractiveInfoContainer(LEInputStream in) throws IOException  {
+        MouseInteractiveInfoContainer _s = new MouseInteractiveInfoContainer();
+        _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0xF)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recInstance == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 || _s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0xF011)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF011 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0xFF2)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFF2 for value " + String.valueOf(_s.rh) );
         }
-        _m = in.setMark();
-        try {
-            _s.shapeFlagsAtom = parseShapeFlagsAtom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.shapeFlags10Atom = parseShapeFlags10Atom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.exObjRefAtom = parseExObjRefAtom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.animationInfo = parseAnimationInfoContainer(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.mouseClickInteractiveInfo = parseMouseClickInteractiveInfoContainer(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.mouseOverInteractiveInfo = parseMouseOverInteractiveInfoContainer(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.placeholderAtom = parsePlaceholderAtom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.recolorInfoAtom = parseRecolorInfoAtom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _atend = false;
-        _i=0;
-        while (!_atend) {
-            System.out.println("round "+(_i++) + " " + in.getPosition());
-            _m = in.setMark();
-            try {
-                ShapeClientRoundtripDataSubcontainerOrAtom _t = parseShapeClientRoundtripDataSubcontainerOrAtom(in);
-                _s.rgShapeClientRoundtripData.add(_t);
-            } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-                _atend = true;
-                in.rewind(_m);
-            } catch(java.io.EOFException _e) {
-                _atend = true;
-                in.rewind(_m);
-            } finally {
-                in.releaseMark(_m);
-           }
-        }
-        _m = in.setMark();
-        try {
-            _s.unknown = parseUnknownOfficeArtClientDataChild(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
+        _s.interactiveInfoAtom = parseInteractiveInfoAtom(in);
+        if (_s.rh.recLen>24) {
+            _s.macroNameAtom = parseMacroNameAtom(in);
         }
         return _s;
     }
-    void write(OfficeArtClientData _s, LEOutputStream out) throws IOException  {
+    void write(MouseInteractiveInfoContainer _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        if (_s.shapeFlagsAtom != null) write(_s.shapeFlagsAtom, out);
-        if (_s.shapeFlags10Atom != null) write(_s.shapeFlags10Atom, out);
-        if (_s.exObjRefAtom != null) write(_s.exObjRefAtom, out);
-        if (_s.animationInfo != null) write(_s.animationInfo, out);
-        if (_s.mouseClickInteractiveInfo != null) write(_s.mouseClickInteractiveInfo, out);
-        if (_s.mouseOverInteractiveInfo != null) write(_s.mouseOverInteractiveInfo, out);
-        if (_s.placeholderAtom != null) write(_s.placeholderAtom, out);
-        if (_s.recolorInfoAtom != null) write(_s.recolorInfoAtom, out);
-        for (ShapeClientRoundtripDataSubcontainerOrAtom _i: _s.rgShapeClientRoundtripData) {
-            write(_i, out);
+        write(_s.interactiveInfoAtom, out);
+        if (_s.rh.recLen>24) {
+            write(_s.macroNameAtom, out);
         }
-        if (_s.unknown != null) write(_s.unknown, out);
     }
     OfficeArtFOPTE parseOfficeArtFOPTE(LEInputStream in) throws IOException  {
         OfficeArtFOPTE _s = new OfficeArtFOPTE();
@@ -8065,22 +8111,22 @@ System.out.println(in.getPosition()+" "+_s);
         Object _m;
         _m = in.setMark();
         try {
-            _s.interactive = parseInteractiveInfoInstance(in);
+            _s.interactive = parseMouseInteractiveInfoContainer(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
-            _s.interactive = parseTextInteractiveInfoInstance(in);
+            _s.interactive = parseMouseTextInteractiveInfoAtom(in);
         } finally {
             in.releaseMark(_m);
         }
         return _s;
     }
     void write(TextContainerInteractiveInfo _s, LEOutputStream out) throws IOException  {
-        if (_s.interactive instanceof InteractiveInfoInstance) {
-            write((InteractiveInfoInstance)_s.interactive, out);
-        } else if (_s.interactive instanceof TextInteractiveInfoInstance) {
-            write((TextInteractiveInfoInstance)_s.interactive, out);
+        if (_s.interactive instanceof MouseInteractiveInfoContainer) {
+            write((MouseInteractiveInfoContainer)_s.interactive, out);
+        } else if (_s.interactive instanceof MouseTextInteractiveInfoAtom) {
+            write((MouseTextInteractiveInfoAtom)_s.interactive, out);
         }
     }
     TextPFRun parseTextPFRun(LEInputStream in) throws IOException  {
@@ -8537,158 +8583,6 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.splitColors, out);
         if (_s.unknown != null) write(_s.unknown, out);
     }
-    OfficeArtSpContainer parseOfficeArtSpContainer(LEInputStream in) throws IOException  {
-        OfficeArtSpContainer _s = new OfficeArtSpContainer();
-        Object _m;
-        _s.rh = parseOfficeArtRecordHeader(in);
-        if (!(_s.rh.recVer == 0xF)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recType == 0x0F004)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0F004 for value " + String.valueOf(_s.rh) );
-        }
-        _m = in.setMark();
-        try {
-            _s.shapeGroup = parseOfficeArtFSPGR(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _s.shapeProp = parseOfficeArtFSP(in);
-        _m = in.setMark();
-        try {
-            _s.deletedshape = parseOfficeArtFPSPL(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.shapePrimaryOptions = parseOfficeArtFOPT(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.shapeSecondaryOptions1 = parseOfficeArtSecondaryFOPT(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.shapeTertiaryOptions1 = parseOfficeArtTertiaryFOPT(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.childAnchor = parseOfficeArtChildAnchor(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.clientAnchor = parseOfficeArtClientAnchor(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.clientData = parseOfficeArtClientData(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.clientTextbox = parseOfficeArtClientTextBox(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.shapeSecondaryOptions2 = parseOfficeArtSecondaryFOPT(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _m = in.setMark();
-        try {
-            _s.shapeTertiaryOptions2 = parseOfficeArtTertiaryFOPT(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        return _s;
-    }
-    void write(OfficeArtSpContainer _s, LEOutputStream out) throws IOException  {
-        write(_s.rh, out);
-        if (_s.shapeGroup != null) write(_s.shapeGroup, out);
-        write(_s.shapeProp, out);
-        if (_s.deletedshape != null) write(_s.deletedshape, out);
-        if (_s.shapePrimaryOptions != null) write(_s.shapePrimaryOptions, out);
-        if (_s.shapeSecondaryOptions1 != null) write(_s.shapeSecondaryOptions1, out);
-        if (_s.shapeTertiaryOptions1 != null) write(_s.shapeTertiaryOptions1, out);
-        if (_s.childAnchor != null) write(_s.childAnchor, out);
-        if (_s.clientAnchor != null) write(_s.clientAnchor, out);
-        if (_s.clientData != null) write(_s.clientData, out);
-        if (_s.clientTextbox != null) write(_s.clientTextbox, out);
-        if (_s.shapeSecondaryOptions2 != null) write(_s.shapeSecondaryOptions2, out);
-        if (_s.shapeTertiaryOptions2 != null) write(_s.shapeTertiaryOptions2, out);
-    }
     OfficeArtFOPTEChoice parseOfficeArtFOPTEChoice(LEInputStream in) throws IOException  {
         OfficeArtFOPTEChoice _s = new OfficeArtFOPTEChoice();
         Object _m;
@@ -8984,6 +8878,156 @@ System.out.println(in.getPosition()+" "+_s);
             write((OfficeArtFOPTE)_s.anon, out);
         }
     }
+    OfficeArtClientData parseOfficeArtClientData(LEInputStream in) throws IOException  {
+        OfficeArtClientData _s = new OfficeArtClientData();
+        Object _m;
+        boolean _atend;
+        int _i;
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xF011)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF011 for value " + String.valueOf(_s.rh) );
+        }
+        _m = in.setMark();
+        try {
+            _s.shapeFlagsAtom = parseShapeFlagsAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.shapeFlags10Atom = parseShapeFlags10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.exObjRefAtom = parseExObjRefAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.animationInfo = parseAnimationInfoContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.mouseClickInteractiveInfo = parseMouseInteractiveInfoContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.mouseOverInteractiveInfo = parseMouseInteractiveInfoContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.placeholderAtom = parsePlaceholderAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.recolorInfoAtom = parseRecolorInfoAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                ShapeClientRoundtripDataSubcontainerOrAtom _t = parseShapeClientRoundtripDataSubcontainerOrAtom(in);
+                _s.rgShapeClientRoundtripData.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
+        _m = in.setMark();
+        try {
+            _s.unknown = parseUnknownOfficeArtClientDataChild(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(OfficeArtClientData _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        if (_s.shapeFlagsAtom != null) write(_s.shapeFlagsAtom, out);
+        if (_s.shapeFlags10Atom != null) write(_s.shapeFlags10Atom, out);
+        if (_s.exObjRefAtom != null) write(_s.exObjRefAtom, out);
+        if (_s.animationInfo != null) write(_s.animationInfo, out);
+        if (_s.mouseClickInteractiveInfo != null) write(_s.mouseClickInteractiveInfo, out);
+        if (_s.mouseOverInteractiveInfo != null) write(_s.mouseOverInteractiveInfo, out);
+        if (_s.placeholderAtom != null) write(_s.placeholderAtom, out);
+        if (_s.recolorInfoAtom != null) write(_s.recolorInfoAtom, out);
+        for (ShapeClientRoundtripDataSubcontainerOrAtom _i: _s.rgShapeClientRoundtripData) {
+            write(_i, out);
+        }
+        if (_s.unknown != null) write(_s.unknown, out);
+    }
     WordDocument parseWordDocument(LEInputStream in) throws IOException  {
         WordDocument _s = new WordDocument();
         _s.fib = parseFib(in);
@@ -9276,25 +9320,22 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.rh, out);
         write(_s.OfficeArtDgg, out);
     }
-    OfficeArtDgContainer parseOfficeArtDgContainer(LEInputStream in) throws IOException  {
-        OfficeArtDgContainer _s = new OfficeArtDgContainer();
+    OfficeArtSpContainer parseOfficeArtSpContainer(LEInputStream in) throws IOException  {
+        OfficeArtSpContainer _s = new OfficeArtSpContainer();
         Object _m;
-        boolean _atend;
-        int _i;
         _s.rh = parseOfficeArtRecordHeader(in);
         if (!(_s.rh.recVer == 0xF)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recInstance == 0x0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0xF002)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF002 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0x0F004)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0F004 for value " + String.valueOf(_s.rh) );
         }
-        _s.drawingData = parseOfficeArtFDG(in);
         _m = in.setMark();
         try {
-            _s.regroupItems = parseOfficeArtFRITContainer(in);
+            _s.shapeGroup = parseOfficeArtFSPGR(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
@@ -9303,10 +9344,10 @@ System.out.println(in.getPosition()+" "+_s);
         } finally {
             in.releaseMark(_m);
         }
-        _s.groupShape = parseOfficeArtSpgrContainer(in);
+        _s.shapeProp = parseOfficeArtFSP(in);
         _m = in.setMark();
         try {
-            _s.shape = parseOfficeArtSpContainer(in);
+            _s.deletedshape = parseOfficeArtFPSPL(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
@@ -9315,28 +9356,97 @@ System.out.println(in.getPosition()+" "+_s);
         } finally {
             in.releaseMark(_m);
         }
-        _atend = false;
-        _i=0;
-        while (!_atend) {
-            System.out.println("round "+(_i++) + " " + in.getPosition());
-            _m = in.setMark();
-            try {
-                OfficeArtSpgrContainerFileBlock _t = parseOfficeArtSpgrContainerFileBlock(in);
-                _s.deletedShapes.add(_t);
-            } catch(IncorrectValueException _e) {
+        _m = in.setMark();
+        try {
+            _s.shapePrimaryOptions = parseOfficeArtFOPT(in);
+        } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-                _atend = true;
-                in.rewind(_m);
-            } catch(java.io.EOFException _e) {
-                _atend = true;
-                in.rewind(_m);
-            } finally {
-                in.releaseMark(_m);
-           }
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
         }
         _m = in.setMark();
         try {
-            _s.solvers = parseOfficeArtSolverContainer(in);
+            _s.shapeSecondaryOptions1 = parseOfficeArtSecondaryFOPT(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.shapeTertiaryOptions1 = parseOfficeArtTertiaryFOPT(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.childAnchor = parseOfficeArtChildAnchor(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.clientAnchor = parseOfficeArtClientAnchor(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.clientData = parseOfficeArtClientData(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.clientTextbox = parseOfficeArtClientTextBox(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.shapeSecondaryOptions2 = parseOfficeArtSecondaryFOPT(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.shapeTertiaryOptions2 = parseOfficeArtTertiaryFOPT(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
@@ -9347,39 +9457,20 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
-    void write(OfficeArtDgContainer _s, LEOutputStream out) throws IOException  {
+    void write(OfficeArtSpContainer _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        write(_s.drawingData, out);
-        if (_s.regroupItems != null) write(_s.regroupItems, out);
-        write(_s.groupShape, out);
-        if (_s.shape != null) write(_s.shape, out);
-        for (OfficeArtSpgrContainerFileBlock _i: _s.deletedShapes) {
-            write(_i, out);
-        }
-        if (_s.solvers != null) write(_s.solvers, out);
-    }
-    OfficeArtSpgrContainerFileBlock parseOfficeArtSpgrContainerFileBlock(LEInputStream in) throws IOException  {
-        OfficeArtSpgrContainerFileBlock _s = new OfficeArtSpgrContainerFileBlock();
-        Object _m;
-        _m = in.setMark();
-        try {
-            _s.anon = parseOfficeArtSpContainer(in);
-        } catch (IOException _x) {
-            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
-            in.rewind(_m);
-            _s.anon = parseOfficeArtSpgrContainer(in);
-        } finally {
-            in.releaseMark(_m);
-        }
-        return _s;
-    }
-    void write(OfficeArtSpgrContainerFileBlock _s, LEOutputStream out) throws IOException  {
-        if (_s.anon instanceof OfficeArtSpContainer) {
-            write((OfficeArtSpContainer)_s.anon, out);
-        } else if (_s.anon instanceof OfficeArtSpgrContainer) {
-            write((OfficeArtSpgrContainer)_s.anon, out);
-        }
+        if (_s.shapeGroup != null) write(_s.shapeGroup, out);
+        write(_s.shapeProp, out);
+        if (_s.deletedshape != null) write(_s.deletedshape, out);
+        if (_s.shapePrimaryOptions != null) write(_s.shapePrimaryOptions, out);
+        if (_s.shapeSecondaryOptions1 != null) write(_s.shapeSecondaryOptions1, out);
+        if (_s.shapeTertiaryOptions1 != null) write(_s.shapeTertiaryOptions1, out);
+        if (_s.childAnchor != null) write(_s.childAnchor, out);
+        if (_s.clientAnchor != null) write(_s.clientAnchor, out);
+        if (_s.clientData != null) write(_s.clientData, out);
+        if (_s.clientTextbox != null) write(_s.clientTextbox, out);
+        if (_s.shapeSecondaryOptions2 != null) write(_s.shapeSecondaryOptions2, out);
+        if (_s.shapeTertiaryOptions2 != null) write(_s.shapeTertiaryOptions2, out);
     }
     DocumentContainer parseDocumentContainer(LEInputStream in) throws IOException  {
         DocumentContainer _s = new DocumentContainer();
@@ -9710,6 +9801,111 @@ System.out.println(in.getPosition()+" "+_s);
             write((SorterViewInfoContainer)_s.anon, out);
         } else if (_s.anon instanceof VBAInfoContainer) {
             write((VBAInfoContainer)_s.anon, out);
+        }
+    }
+    OfficeArtDgContainer parseOfficeArtDgContainer(LEInputStream in) throws IOException  {
+        OfficeArtDgContainer _s = new OfficeArtDgContainer();
+        Object _m;
+        boolean _atend;
+        int _i;
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0x0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xF002)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF002 for value " + String.valueOf(_s.rh) );
+        }
+        _s.drawingData = parseOfficeArtFDG(in);
+        _m = in.setMark();
+        try {
+            _s.regroupItems = parseOfficeArtFRITContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _s.groupShape = parseOfficeArtSpgrContainer(in);
+        _m = in.setMark();
+        try {
+            _s.shape = parseOfficeArtSpContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                OfficeArtSpgrContainerFileBlock _t = parseOfficeArtSpgrContainerFileBlock(in);
+                _s.deletedShapes.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
+        _m = in.setMark();
+        try {
+            _s.solvers = parseOfficeArtSolverContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(OfficeArtDgContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.drawingData, out);
+        if (_s.regroupItems != null) write(_s.regroupItems, out);
+        write(_s.groupShape, out);
+        if (_s.shape != null) write(_s.shape, out);
+        for (OfficeArtSpgrContainerFileBlock _i: _s.deletedShapes) {
+            write(_i, out);
+        }
+        if (_s.solvers != null) write(_s.solvers, out);
+    }
+    OfficeArtSpgrContainerFileBlock parseOfficeArtSpgrContainerFileBlock(LEInputStream in) throws IOException  {
+        OfficeArtSpgrContainerFileBlock _s = new OfficeArtSpgrContainerFileBlock();
+        Object _m;
+        _m = in.setMark();
+        try {
+            _s.anon = parseOfficeArtSpContainer(in);
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
+            in.rewind(_m);
+            _s.anon = parseOfficeArtSpgrContainer(in);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(OfficeArtSpgrContainerFileBlock _s, LEOutputStream out) throws IOException  {
+        if (_s.anon instanceof OfficeArtSpContainer) {
+            write((OfficeArtSpContainer)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtSpgrContainer) {
+            write((OfficeArtSpgrContainer)_s.anon, out);
         }
     }
     DrawingContainer parseDrawingContainer(LEInputStream in) throws IOException  {
@@ -10648,11 +10844,11 @@ class TextBookmarkAtom {
         return _s;
     }
 }
-class TextInteractiveInfoInstance {
+class MouseTextInteractiveInfoAtom {
     RecordHeader rh;
     byte[] range;
     public String toString() {
-        String _s = "TextInteractiveInfoInstance:";
+        String _s = "MouseTextInteractiveInfoAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "range: " + String.valueOf(range) + ", ";
         return _s;
@@ -11932,23 +12128,45 @@ class AnimationInfoContainer {
         return _s;
     }
 }
-class MouseClickInteractiveInfoContainer {
-    OfficeArtRecordHeader rh;
-    byte[] todo;
+class InteractiveInfoAtom {
+    RecordHeader rh;
+    int soundIdRef;
+    int exHyperlinkIdRef;
+    byte action;
+    byte oleVerb;
+    byte jump;
+    boolean fAnimated;
+    boolean fStopSound;
+    boolean fCustomSoundReturn;
+    boolean fVisited;
+    byte reserved;
+    byte hyperlinkType;
+    byte[] unused;
     public String toString() {
-        String _s = "MouseClickInteractiveInfoContainer:";
+        String _s = "InteractiveInfoAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        _s = _s + "soundIdRef: " + String.valueOf(soundIdRef) + "(" + Integer.toHexString(soundIdRef).toUpperCase() + "), ";
+        _s = _s + "exHyperlinkIdRef: " + String.valueOf(exHyperlinkIdRef) + "(" + Integer.toHexString(exHyperlinkIdRef).toUpperCase() + "), ";
+        _s = _s + "action: " + String.valueOf(action) + "(" + Integer.toHexString(action).toUpperCase() + "), ";
+        _s = _s + "oleVerb: " + String.valueOf(oleVerb) + "(" + Integer.toHexString(oleVerb).toUpperCase() + "), ";
+        _s = _s + "jump: " + String.valueOf(jump) + "(" + Integer.toHexString(jump).toUpperCase() + "), ";
+        _s = _s + "fAnimated: " + String.valueOf(fAnimated) + ", ";
+        _s = _s + "fStopSound: " + String.valueOf(fStopSound) + ", ";
+        _s = _s + "fCustomSoundReturn: " + String.valueOf(fCustomSoundReturn) + ", ";
+        _s = _s + "fVisited: " + String.valueOf(fVisited) + ", ";
+        _s = _s + "reserved: " + String.valueOf(reserved) + "(" + Integer.toHexString(reserved).toUpperCase() + "), ";
+        _s = _s + "hyperlinkType: " + String.valueOf(hyperlinkType) + "(" + Integer.toHexString(hyperlinkType).toUpperCase() + "), ";
+        _s = _s + "unused: " + String.valueOf(unused) + ", ";
         return _s;
     }
 }
-class MouseOverInteractiveInfoContainer {
-    OfficeArtRecordHeader rh;
-    byte[] todo;
+class MacroNameAtom {
+    RecordHeader rh;
+    byte[] macroName;
     public String toString() {
-        String _s = "MouseOverInteractiveInfoContainer:";
+        String _s = "MacroNameAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        _s = _s + "macroName: " + String.valueOf(macroName) + ", ";
         return _s;
     }
 }
@@ -12966,6 +13184,76 @@ class SttbfFfnEntry {
         return _s;
     }
 }
+class PropertyIdentifierAndOffset {
+    int propertyIdentifier;
+    int offset;
+    public String toString() {
+        String _s = "PropertyIdentifierAndOffset:";
+        _s = _s + "propertyIdentifier: " + String.valueOf(propertyIdentifier) + "(" + Integer.toHexString(propertyIdentifier).toUpperCase() + "), ";
+        _s = _s + "offset: " + String.valueOf(offset) + "(" + Integer.toHexString(offset).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class PropertySet {
+    int size;
+    int numProperties;
+    PropertyIdentifierAndOffset[] propertyIdentifierAndOffset;
+    byte[] property;
+    public String toString() {
+        String _s = "PropertySet:";
+        _s = _s + "size: " + String.valueOf(size) + "(" + Integer.toHexString(size).toUpperCase() + "), ";
+        _s = _s + "numProperties: " + String.valueOf(numProperties) + "(" + Integer.toHexString(numProperties).toUpperCase() + "), ";
+        _s = _s + "propertyIdentifierAndOffset: " + String.valueOf(propertyIdentifierAndOffset) + ", ";
+        _s = _s + "property: " + String.valueOf(property) + ", ";
+        return _s;
+    }
+}
+class PropertySetStream {
+    int byteOrder;
+    int version;
+    int systemIdentifier;
+    byte[] clsID;
+    int numPropertySets;
+    byte[] fmtID0;
+    int offset0;
+    byte[] fmtID1;
+    int offset1;
+    PropertySet propertySet1;
+    PropertySet propertySet2;
+    final java.util.List<Byte> padding = new java.util.ArrayList<Byte>();
+    public String toString() {
+        String _s = "PropertySetStream:";
+        _s = _s + "byteOrder: " + String.valueOf(byteOrder) + "(" + Integer.toHexString(byteOrder).toUpperCase() + "), ";
+        _s = _s + "version: " + String.valueOf(version) + "(" + Integer.toHexString(version).toUpperCase() + "), ";
+        _s = _s + "systemIdentifier: " + String.valueOf(systemIdentifier) + "(" + Integer.toHexString(systemIdentifier).toUpperCase() + "), ";
+        _s = _s + "clsID: " + String.valueOf(clsID) + ", ";
+        _s = _s + "numPropertySets: " + String.valueOf(numPropertySets) + "(" + Integer.toHexString(numPropertySets).toUpperCase() + "), ";
+        _s = _s + "fmtID0: " + String.valueOf(fmtID0) + ", ";
+        _s = _s + "offset0: " + String.valueOf(offset0) + "(" + Integer.toHexString(offset0).toUpperCase() + "), ";
+        _s = _s + "fmtID1: " + String.valueOf(fmtID1) + ", ";
+        _s = _s + "offset1: " + String.valueOf(offset1) + "(" + Integer.toHexString(offset1).toUpperCase() + "), ";
+        _s = _s + "propertySet1: " + String.valueOf(propertySet1) + ", ";
+        _s = _s + "propertySet2: " + String.valueOf(propertySet2) + ", ";
+        _s = _s + "padding: " + String.valueOf(padding) + ", ";
+        return _s;
+    }
+}
+class SummaryInformationPropertySetStream {
+    PropertySetStream propertySet;
+    public String toString() {
+        String _s = "SummaryInformationPropertySetStream:";
+        _s = _s + "propertySet: " + String.valueOf(propertySet) + ", ";
+        return _s;
+    }
+}
+class DocumentSummaryInformationPropertySetStream {
+    PropertySetStream propertySet;
+    public String toString() {
+        String _s = "DocumentSummaryInformationPropertySetStream:";
+        _s = _s + "propertySet: " + String.valueOf(propertySet) + ", ";
+        return _s;
+    }
+}
 class PicturesStream {
     OfficeArtBStoreDelay anon1;
     public String toString() {
@@ -13145,14 +13433,6 @@ class SlidePersistAtom {
         _s = _s + "cTexts: " + String.valueOf(cTexts) + "(" + Integer.toHexString(cTexts).toUpperCase() + "), ";
         _s = _s + "slideId: " + String.valueOf(slideId) + ", ";
         _s = _s + "reserved5: " + String.valueOf(reserved5) + "(" + Integer.toHexString(reserved5).toUpperCase() + "), ";
-        return _s;
-    }
-}
-class InteractiveInfoInstance {
-    Object anon;
-    public String toString() {
-        String _s = "InteractiveInfoInstance:";
-        _s = _s + "anon: " + String.valueOf(anon) + ", ";
         return _s;
     }
 }
@@ -14078,31 +14358,15 @@ class OfficeArtClientAnchor {
         return _s;
     }
 }
-class OfficeArtClientData {
-    OfficeArtRecordHeader rh;
-    ShapeFlagsAtom shapeFlagsAtom;
-    ShapeFlags10Atom shapeFlags10Atom;
-    ExObjRefAtom exObjRefAtom;
-    AnimationInfoContainer animationInfo;
-    MouseClickInteractiveInfoContainer mouseClickInteractiveInfo;
-    MouseOverInteractiveInfoContainer mouseOverInteractiveInfo;
-    PlaceholderAtom placeholderAtom;
-    RecolorInfoAtom recolorInfoAtom;
-    final java.util.List<ShapeClientRoundtripDataSubcontainerOrAtom> rgShapeClientRoundtripData = new java.util.ArrayList<ShapeClientRoundtripDataSubcontainerOrAtom>();
-    UnknownOfficeArtClientDataChild unknown;
+class MouseInteractiveInfoContainer {
+    RecordHeader rh;
+    InteractiveInfoAtom interactiveInfoAtom;
+    MacroNameAtom macroNameAtom;
     public String toString() {
-        String _s = "OfficeArtClientData:";
+        String _s = "MouseInteractiveInfoContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "shapeFlagsAtom: " + String.valueOf(shapeFlagsAtom) + ", ";
-        _s = _s + "shapeFlags10Atom: " + String.valueOf(shapeFlags10Atom) + ", ";
-        _s = _s + "exObjRefAtom: " + String.valueOf(exObjRefAtom) + ", ";
-        _s = _s + "animationInfo: " + String.valueOf(animationInfo) + ", ";
-        _s = _s + "mouseClickInteractiveInfo: " + String.valueOf(mouseClickInteractiveInfo) + ", ";
-        _s = _s + "mouseOverInteractiveInfo: " + String.valueOf(mouseOverInteractiveInfo) + ", ";
-        _s = _s + "placeholderAtom: " + String.valueOf(placeholderAtom) + ", ";
-        _s = _s + "recolorInfoAtom: " + String.valueOf(recolorInfoAtom) + ", ";
-        _s = _s + "rgShapeClientRoundtripData: " + String.valueOf(rgShapeClientRoundtripData) + ", ";
-        _s = _s + "unknown: " + String.valueOf(unknown) + ", ";
+        _s = _s + "interactiveInfoAtom: " + String.valueOf(interactiveInfoAtom) + ", ";
+        _s = _s + "macroNameAtom: " + String.valueOf(macroNameAtom) + ", ";
         return _s;
     }
 }
@@ -14458,43 +14722,39 @@ class OfficeArtDggContainer {
         return _s;
     }
 }
-class OfficeArtSpContainer {
-    OfficeArtRecordHeader rh;
-    OfficeArtFSPGR shapeGroup;
-    OfficeArtFSP shapeProp;
-    OfficeArtFPSPL deletedshape;
-    OfficeArtFOPT shapePrimaryOptions;
-    OfficeArtSecondaryFOPT shapeSecondaryOptions1;
-    OfficeArtTertiaryFOPT shapeTertiaryOptions1;
-    OfficeArtChildAnchor childAnchor;
-    OfficeArtClientAnchor clientAnchor;
-    OfficeArtClientData clientData;
-    OfficeArtClientTextBox clientTextbox;
-    OfficeArtSecondaryFOPT shapeSecondaryOptions2;
-    OfficeArtTertiaryFOPT shapeTertiaryOptions2;
-    public String toString() {
-        String _s = "OfficeArtSpContainer:";
-        _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "shapeGroup: " + String.valueOf(shapeGroup) + ", ";
-        _s = _s + "shapeProp: " + String.valueOf(shapeProp) + ", ";
-        _s = _s + "deletedshape: " + String.valueOf(deletedshape) + ", ";
-        _s = _s + "shapePrimaryOptions: " + String.valueOf(shapePrimaryOptions) + ", ";
-        _s = _s + "shapeSecondaryOptions1: " + String.valueOf(shapeSecondaryOptions1) + ", ";
-        _s = _s + "shapeTertiaryOptions1: " + String.valueOf(shapeTertiaryOptions1) + ", ";
-        _s = _s + "childAnchor: " + String.valueOf(childAnchor) + ", ";
-        _s = _s + "clientAnchor: " + String.valueOf(clientAnchor) + ", ";
-        _s = _s + "clientData: " + String.valueOf(clientData) + ", ";
-        _s = _s + "clientTextbox: " + String.valueOf(clientTextbox) + ", ";
-        _s = _s + "shapeSecondaryOptions2: " + String.valueOf(shapeSecondaryOptions2) + ", ";
-        _s = _s + "shapeTertiaryOptions2: " + String.valueOf(shapeTertiaryOptions2) + ", ";
-        return _s;
-    }
-}
 class OfficeArtFOPTEChoice {
     Object anon;
     public String toString() {
         String _s = "OfficeArtFOPTEChoice:";
         _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
+class OfficeArtClientData {
+    OfficeArtRecordHeader rh;
+    ShapeFlagsAtom shapeFlagsAtom;
+    ShapeFlags10Atom shapeFlags10Atom;
+    ExObjRefAtom exObjRefAtom;
+    AnimationInfoContainer animationInfo;
+    MouseInteractiveInfoContainer mouseClickInteractiveInfo;
+    MouseInteractiveInfoContainer mouseOverInteractiveInfo;
+    PlaceholderAtom placeholderAtom;
+    RecolorInfoAtom recolorInfoAtom;
+    final java.util.List<ShapeClientRoundtripDataSubcontainerOrAtom> rgShapeClientRoundtripData = new java.util.ArrayList<ShapeClientRoundtripDataSubcontainerOrAtom>();
+    UnknownOfficeArtClientDataChild unknown;
+    public String toString() {
+        String _s = "OfficeArtClientData:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "shapeFlagsAtom: " + String.valueOf(shapeFlagsAtom) + ", ";
+        _s = _s + "shapeFlags10Atom: " + String.valueOf(shapeFlags10Atom) + ", ";
+        _s = _s + "exObjRefAtom: " + String.valueOf(exObjRefAtom) + ", ";
+        _s = _s + "animationInfo: " + String.valueOf(animationInfo) + ", ";
+        _s = _s + "mouseClickInteractiveInfo: " + String.valueOf(mouseClickInteractiveInfo) + ", ";
+        _s = _s + "mouseOverInteractiveInfo: " + String.valueOf(mouseOverInteractiveInfo) + ", ";
+        _s = _s + "placeholderAtom: " + String.valueOf(placeholderAtom) + ", ";
+        _s = _s + "recolorInfoAtom: " + String.valueOf(recolorInfoAtom) + ", ";
+        _s = _s + "rgShapeClientRoundtripData: " + String.valueOf(rgShapeClientRoundtripData) + ", ";
+        _s = _s + "unknown: " + String.valueOf(unknown) + ", ";
         return _s;
     }
 }
@@ -14638,31 +14898,35 @@ class DrawingGroupContainer {
         return _s;
     }
 }
-class OfficeArtDgContainer {
+class OfficeArtSpContainer {
     OfficeArtRecordHeader rh;
-    OfficeArtFDG drawingData;
-    OfficeArtFRITContainer regroupItems;
-    OfficeArtSpgrContainer groupShape;
-    OfficeArtSpContainer shape;
-    final java.util.List<OfficeArtSpgrContainerFileBlock> deletedShapes = new java.util.ArrayList<OfficeArtSpgrContainerFileBlock>();
-    OfficeArtSolverContainer solvers;
+    OfficeArtFSPGR shapeGroup;
+    OfficeArtFSP shapeProp;
+    OfficeArtFPSPL deletedshape;
+    OfficeArtFOPT shapePrimaryOptions;
+    OfficeArtSecondaryFOPT shapeSecondaryOptions1;
+    OfficeArtTertiaryFOPT shapeTertiaryOptions1;
+    OfficeArtChildAnchor childAnchor;
+    OfficeArtClientAnchor clientAnchor;
+    OfficeArtClientData clientData;
+    OfficeArtClientTextBox clientTextbox;
+    OfficeArtSecondaryFOPT shapeSecondaryOptions2;
+    OfficeArtTertiaryFOPT shapeTertiaryOptions2;
     public String toString() {
-        String _s = "OfficeArtDgContainer:";
+        String _s = "OfficeArtSpContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "drawingData: " + String.valueOf(drawingData) + ", ";
-        _s = _s + "regroupItems: " + String.valueOf(regroupItems) + ", ";
-        _s = _s + "groupShape: " + String.valueOf(groupShape) + ", ";
-        _s = _s + "shape: " + String.valueOf(shape) + ", ";
-        _s = _s + "deletedShapes: " + String.valueOf(deletedShapes) + ", ";
-        _s = _s + "solvers: " + String.valueOf(solvers) + ", ";
-        return _s;
-    }
-}
-class OfficeArtSpgrContainerFileBlock {
-    Object anon;
-    public String toString() {
-        String _s = "OfficeArtSpgrContainerFileBlock:";
-        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        _s = _s + "shapeGroup: " + String.valueOf(shapeGroup) + ", ";
+        _s = _s + "shapeProp: " + String.valueOf(shapeProp) + ", ";
+        _s = _s + "deletedshape: " + String.valueOf(deletedshape) + ", ";
+        _s = _s + "shapePrimaryOptions: " + String.valueOf(shapePrimaryOptions) + ", ";
+        _s = _s + "shapeSecondaryOptions1: " + String.valueOf(shapeSecondaryOptions1) + ", ";
+        _s = _s + "shapeTertiaryOptions1: " + String.valueOf(shapeTertiaryOptions1) + ", ";
+        _s = _s + "childAnchor: " + String.valueOf(childAnchor) + ", ";
+        _s = _s + "clientAnchor: " + String.valueOf(clientAnchor) + ", ";
+        _s = _s + "clientData: " + String.valueOf(clientData) + ", ";
+        _s = _s + "clientTextbox: " + String.valueOf(clientTextbox) + ", ";
+        _s = _s + "shapeSecondaryOptions2: " + String.valueOf(shapeSecondaryOptions2) + ", ";
+        _s = _s + "shapeTertiaryOptions2: " + String.valueOf(shapeTertiaryOptions2) + ", ";
         return _s;
     }
 }
@@ -14728,6 +14992,34 @@ class DocInfoListSubContainerOrAtom {
     Object anon;
     public String toString() {
         String _s = "DocInfoListSubContainerOrAtom:";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
+class OfficeArtDgContainer {
+    OfficeArtRecordHeader rh;
+    OfficeArtFDG drawingData;
+    OfficeArtFRITContainer regroupItems;
+    OfficeArtSpgrContainer groupShape;
+    OfficeArtSpContainer shape;
+    final java.util.List<OfficeArtSpgrContainerFileBlock> deletedShapes = new java.util.ArrayList<OfficeArtSpgrContainerFileBlock>();
+    OfficeArtSolverContainer solvers;
+    public String toString() {
+        String _s = "OfficeArtDgContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "drawingData: " + String.valueOf(drawingData) + ", ";
+        _s = _s + "regroupItems: " + String.valueOf(regroupItems) + ", ";
+        _s = _s + "groupShape: " + String.valueOf(groupShape) + ", ";
+        _s = _s + "shape: " + String.valueOf(shape) + ", ";
+        _s = _s + "deletedShapes: " + String.valueOf(deletedShapes) + ", ";
+        _s = _s + "solvers: " + String.valueOf(solvers) + ", ";
+        return _s;
+    }
+}
+class OfficeArtSpgrContainerFileBlock {
+    Object anon;
+    public String toString() {
+        String _s = "OfficeArtSpgrContainerFileBlock:";
         _s = _s + "anon: " + String.valueOf(anon) + ", ";
         return _s;
     }

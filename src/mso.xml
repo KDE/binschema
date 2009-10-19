@@ -3454,12 +3454,55 @@
 		<uint8 name="cchData" />
 		<uint8 name="Data" count="cchData" />
 	</struct>
+	<struct name="PropertyIdentifierAndOffset">
+		<uint32 name="propertyIdentifier" />
+		<uint32 name="offset" />
+	</struct>
+	<struct name="PropertySet">
+		<uint32 name="size" />
+		<uint32 name="numProperties" />
+		<type name="propertyIdentifierAndOffset" type="PropertyIdentifierAndOffset"
+			count="numProperties" />
+		<uint8 name="property" count="size-8-8*numProperties" />
+	</struct>
+	<struct name="PropertySetStream">
+		<uint16 name="byteOrder">
+			<limitation value="0xFFFE" />
+		</uint16>
+		<uint16 name="version" />
+		<uint32 name="systemIdentifier" />
+		<uint8 name="clsID" count="16" />
+		<uint32 name="numPropertySets">
+			<limitation value="1|2" />
+		</uint32>
+		<uint8 name="fmtID0" count="16" />
+		<uint32 name="offset0" />
+		<uint8 name="fmtID1" count="16" condition="numPropertySets==2" />
+		<uint32 name="offset1" condition="numPropertySets==2" />
+		<type name="propertySet1" type="PropertySet" />
+		<type name="propertySet2" type="PropertySet" condition="numPropertySets==2" />
+		<type name="padding" type="Byte" array="true" />
+	</struct>
+	<struct name="SummaryInformationPropertySetStream">
+		<type name="propertySet" type="PropertySetStream">
+			<limitation name="version" value="0" />
+		</type>
+	</struct>
+	<struct name="DocumentSummaryInformationPropertySetStream">
+		<type name="propertySet" type="PropertySetStream">
+			<limitation name="version" value="0" />
+		</type>
+	</struct>
 	<stream name="PowerPointDocument" key="PowerPoint Document"
 		type="PowerPointStructs" />
 	<stream name="CurrentUser" key="Current User" type="CurrentUserStream" />
 	<stream name="Pictures" key="Pictures" type="OfficeArtBStoreDelay" />
 	<stream name="WordDocument" key="WordDocument" type="WordDocument" />
 	<stream name="1Table" key="1Table" type="Table" />
+	<stream name="SummaryInformation" key="SummaryInformation"
+		type="SummaryInformationPropertySetStream" />
+	<stream name="DocumentSummaryInformation" key="DocumentSummaryInformation"
+		type="DocumentSummaryInformationPropertySetStream" />
 	<!--
 		two temporary streams to work around the fact that we cannot parse
 		StyleTextPropAtom
