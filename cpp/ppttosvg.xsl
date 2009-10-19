@@ -83,6 +83,10 @@
     <xsl:value-of select="concat('rgb(',red,',',green,',',blue,')')"/>
   </xsl:template>
 
+  <xsl:template match="*[@type='ColorIndexStruct']">
+    <xsl:value-of select="concat('rgb(',red,',',green,',',blue,')')"/>
+  </xsl:template>
+
   <xsl:template name="getSpacing">
     <xsl:choose>
       <xsl:when test=".&lt;0"><xsl:value-of select="-node()"/></xsl:when>
@@ -130,6 +134,7 @@
     <xsl:if test="masks/italic='true'">font-style: italic;</xsl:if>
     <xsl:if test="masks/underline='true'">text-decoration: underline;</xsl:if>
     <xsl:if test="fontSize">font-size: <xsl:value-of select="fontSize * 100 div 12"/>%;</xsl:if>
+    <xsl:if test="color">color: <xsl:apply-templates select="color"/>;</xsl:if>
     <xsl:apply-templates select="ansiFontRef"/>
     <xsl:apply-templates select="fontRef"/>
   </xsl:template>
@@ -164,7 +169,7 @@
     <!-- loop over all CFRun elements -->
     <xsl:if test="$ccount&lt;=count(style/rgTextCFRun)">
       <xsl:if test="string-length($subtext)">
-        <h:span>
+        <h:span style='{$style}'>
           <xsl:value-of select="$subtext"/>
         </h:span>
       </xsl:if>
@@ -410,6 +415,7 @@
          stroke="black" fill="black" style="{$pstyle}{$cstyle}">
       <defs>
         <style type="text/css">
+          * { border: 0; margin: 0; padding: 0; }
           <xsl:apply-templates select="//textMasterStyleAtom"/>
           <xsl:for-each select="//rgTextMasterStyle">
             <xsl:apply-templates select=".">
