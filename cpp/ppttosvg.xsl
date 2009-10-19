@@ -79,7 +79,7 @@
     </xsl:for-each>
   </xsl:template>
 
-  <xsl:template match="*[@type='OfficeArtCOLORREF']" name="getColor">
+  <xsl:template name="getColor">
     <xsl:value-of select="concat('rgb(',red,',',green,',',blue,')')"/>
   </xsl:template>
 
@@ -131,23 +131,26 @@
 
   <xsl:template match="cf[@type='TextCFException']">
     <xsl:if test="masks/bold='true'">font-weight: bold;</xsl:if>
+    <xsl:if test="masks/bold='false'">font-weight: normal;</xsl:if>
     <xsl:if test="masks/italic='true'">font-style: italic;</xsl:if>
+    <xsl:if test="masks/italic='false'">font-style: normal;</xsl:if>
     <xsl:if test="masks/underline='true'">text-decoration: underline;</xsl:if>
+    <xsl:if test="masks/underline='false'">text-decoration: none;</xsl:if>
     <xsl:if test="fontSize">font-size: <xsl:value-of select="fontSize * 100 div 12"/>%;</xsl:if>
     <xsl:if test="color">color: <xsl:apply-templates select="color"/>;</xsl:if>
-    <xsl:apply-templates select="ansiFontRef"/>
     <xsl:apply-templates select="fontRef"/>
   </xsl:template>
 
   <xsl:template match="lfFaceName">
-    <xsl:value-of select="concat('font-family:',substring-before(node(),'%'),';')"/>
+    font-family:'<xsl:value-of select="substring-before(node(),'%')"/>';
   </xsl:template>
 
   <xsl:template match="ansiFontRef|fontRef">
-    <xsl:choose>
-      <xsl:when test="node()&lt;count(//rgFontCollectionEntry)">
+    <xsl:variable name="ref" select="number(node())"/>
+    <xsl:value-of select="$ref"/><xsl:choose>
+      <xsl:when test="$ref&lt;count(//rgFontCollectionEntry)">
         <xsl:apply-templates
-          select="//rgFontCollectionEntry[position()=node()]/fontEntityAtom/lfFaceName"/>
+          select="//rgFontCollectionEntry[position()=($ref+1)]/fontEntityAtom/lfFaceName"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:apply-templates select="//rgFontCollectionEntry[position()=1]/fontEntityAtom/lfFaceName"/>
@@ -241,6 +244,33 @@
     </xsl:if>
   </xsl:template>
 
+  <xsl:template match="lineWidth">
+    stroke-width: <xsl:value-of select="node() div 1587.5"/>;
+  </xsl:template>
+
+  <xsl:template match="lineJoinStyle">
+    stroke-linejoin: <xsl:choose>
+      <xsl:when test="node()=0">bevel</xsl:when>
+      <xsl:when test="node()=1">miter</xsl:when>
+      <xsl:when test="node()=2">round</xsl:when>
+    </xsl:choose>;
+  </xsl:template>
+
+  <xsl:template match="lineColor">
+    stroke: <xsl:call-template name="getColor"/>;
+  </xsl:template>
+
+  <xsl:template match="fillColor">
+    fill: <xsl:call-template name="getColor"/>;
+  </xsl:template>
+
+  <xsl:template match="*[@type='OfficeArtFOPT']">
+    <xsl:apply-templates select="fopt/anon/lineWidth"/>
+    <xsl:apply-templates select="fopt/anon/lineJoinStyle"/>
+    <xsl:apply-templates select="fopt/anon/lineColor"/>
+    <xsl:apply-templates select="fopt/anon/fillColor"/>
+  </xsl:template>
+
   <!-- general shape placeholder -->
   <xsl:template match="*[@type='OfficeArtSpContainer']">
     <xsl:variable name="x"><xsl:call-template name="getX"/></xsl:variable>
@@ -265,8 +295,9 @@
     <xsl:variable name="y"><xsl:call-template name="getY"/></xsl:variable>
     <xsl:variable name="w"><xsl:call-template name="getWidth"/></xsl:variable>
     <xsl:variable name="h"><xsl:call-template name="getHeight"/></xsl:variable>
-    <g transform="translate({$x},{$y})">
-      <rect width="{$w}" height="{$h}" stroke='black' stroke-width='20' fill='white'/>
+    <xsl:variable name="style"><xsl:apply-templates select="shapePrimaryOptions"/></xsl:variable>
+    <g transform="translate({$x},{$y})" style="{$style}">
+      <rect width="{$w}" height="{$h}" />
       <foreignObject width="{$w}" height="{$h}" >
         <h:body><xsl:apply-templates select=".//*[@type='TextContainer']"/></h:body>
       </foreignObject>
@@ -281,15 +312,12 @@
     <xsl:variable name="h"><xsl:call-template name="getHeight"/></xsl:variable>
     <xsl:variable name="y1"><xsl:call-template name="getY1"/></xsl:variable>
     <xsl:variable name="y2"><xsl:call-template name="getY2"/></xsl:variable>
+    <xsl:variable name="style"><xsl:apply-templates select="shapePrimaryOptions"/></xsl:variable>
     <xsl:variable name="start"
         select="shapePrimaryOptions/fopt/anon[@type='LineStartArrowhead']/lineStartArrowhead='1'"/>
     <xsl:variable name="end"
         select="shapePrimaryOptions/fopt/anon[@type='LineEndArrowhead']/lineEndArrowhead='1'"/>
-    <g stroke-width='20'>
-      <xsl:if test="shapePrimaryOptions/fopt/anon/lineColor">
-        <xsl:attribute name="stroke"><xsl:apply-templates select="shapePrimaryOptions/fopt/anon/lineColor"/></xsl:attribute>
-        <xsl:attribute name="fill"><xsl:apply-templates select="shapePrimaryOptions/fopt/anon/lineColor"/></xsl:attribute>
-      </xsl:if>
+    <g style="{$style}">
       <line x1="{$x}" y1="{$y1}" x2="{$x+$w}" y2="{$y2}">
         <xsl:if test="$start">
           <xsl:attribute name="marker-start">url(#msArrowStart_20_5)</xsl:attribute>
@@ -337,7 +365,8 @@
     <xsl:param name="x" select="'0.5in'"/>
     <xsl:param name="y" select="concat(0.5 + (position()-1)*1.1*$height div 576,'in')"/>
     <svg x="{$x}" y="{$y}" width="{$width div 576.0}in" height="{$height div 576.0}in"
-          viewBox="0 0 {$width} {$height}" overflow="visible" font-size="96">
+          viewBox="0 0 {$width} {$height}" overflow="visible" font-size="96"
+          stroke-width='6'>
       <!-- slide canvas -->
       <rect width="{$width}" height="{$height}" fill="white" stroke="black" stroke-width="10" />
       <xsl:apply-templates select="drawing/OfficeArtDg/groupShape"/>
@@ -412,7 +441,7 @@
     </xsl:variable>
     <svg width="{100+$scale*(1+$width div 576)}in"
          height="{100+0.5+1.1*$scale*$numSlides*$height div 576}in"
-         stroke="black" fill="black" style="{$pstyle}{$cstyle}">
+         stroke="black" fill="white" style="{$pstyle}{$cstyle}">
       <defs>
         <style type="text/css">
           * { border: 0; margin: 0; padding: 0; }
