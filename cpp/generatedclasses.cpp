@@ -615,9 +615,27 @@ void write(const Rotation& v, LEOutputStream& out);
 class ITxid;
 void parseITxid(LEInputStream& in, ITxid& _s);
 void write(const ITxid& v, LEOutputStream& out);
+class DxTextLeft;
+void parseDxTextLeft(LEInputStream& in, DxTextLeft& _s);
+void write(const DxTextLeft& v, LEOutputStream& out);
+class DyTextTop;
+void parseDyTextTop(LEInputStream& in, DyTextTop& _s);
+void write(const DyTextTop& v, LEOutputStream& out);
+class DxTextRight;
+void parseDxTextRight(LEInputStream& in, DxTextRight& _s);
+void write(const DxTextRight& v, LEOutputStream& out);
+class DyTextBottom;
+void parseDyTextBottom(LEInputStream& in, DyTextBottom& _s);
+void write(const DyTextBottom& v, LEOutputStream& out);
+class WrapText;
+void parseWrapText(LEInputStream& in, WrapText& _s);
+void write(const WrapText& v, LEOutputStream& out);
 class AnchorText;
 void parseAnchorText(LEInputStream& in, AnchorText& _s);
 void write(const AnchorText& v, LEOutputStream& out);
+class TextBooleanProperties;
+void parseTextBooleanProperties(LEInputStream& in, TextBooleanProperties& _s);
+void write(const TextBooleanProperties& v, LEOutputStream& out);
 class HspNext;
 void parseHspNext(LEInputStream& in, HspNext& _s);
 void write(const HspNext& v, LEOutputStream& out);
@@ -627,6 +645,9 @@ void write(const ShapePath& v, LEOutputStream& out);
 class GeometryBooleanProperties;
 void parseGeometryBooleanProperties(LEInputStream& in, GeometryBooleanProperties& _s);
 void write(const GeometryBooleanProperties& v, LEOutputStream& out);
+class FillType;
+void parseFillType(LEInputStream& in, FillType& _s);
+void write(const FillType& v, LEOutputStream& out);
 class FillColor;
 void parseFillColor(LEInputStream& in, FillColor& _s);
 void write(const FillColor& v, LEOutputStream& out);
@@ -648,21 +669,33 @@ void write(const FillStyleBooleanProperties& v, LEOutputStream& out);
 class LineColor;
 void parseLineColor(LEInputStream& in, LineColor& _s);
 void write(const LineColor& v, LEOutputStream& out);
+class LineBackColor;
+void parseLineBackColor(LEInputStream& in, LineBackColor& _s);
+void write(const LineBackColor& v, LEOutputStream& out);
 class LineFillBlip;
 void parseLineFillBlip(LEInputStream& in, LineFillBlip& _s);
 void write(const LineFillBlip& v, LEOutputStream& out);
+class LineWidth;
+void parseLineWidth(LEInputStream& in, LineWidth& _s);
+void write(const LineWidth& v, LEOutputStream& out);
 class LineStartArrowhead;
 void parseLineStartArrowhead(LEInputStream& in, LineStartArrowhead& _s);
 void write(const LineStartArrowhead& v, LEOutputStream& out);
 class LineEndArrowhead;
 void parseLineEndArrowhead(LEInputStream& in, LineEndArrowhead& _s);
 void write(const LineEndArrowhead& v, LEOutputStream& out);
+class LineJoinStyle;
+void parseLineJoinStyle(LEInputStream& in, LineJoinStyle& _s);
+void write(const LineJoinStyle& v, LEOutputStream& out);
 class LineStyleBooleanProperties;
 void parseLineStyleBooleanProperties(LEInputStream& in, LineStyleBooleanProperties& _s);
 void write(const LineStyleBooleanProperties& v, LEOutputStream& out);
 class ShadowColor;
 void parseShadowColor(LEInputStream& in, ShadowColor& _s);
 void write(const ShadowColor& v, LEOutputStream& out);
+class ShadowStyleBooleanPropertiesr;
+void parseShadowStyleBooleanPropertiesr(LEInputStream& in, ShadowStyleBooleanPropertiesr& _s);
+void write(const ShadowStyleBooleanPropertiesr& v, LEOutputStream& out);
 class HspMaster;
 void parseHspMaster(LEInputStream& in, HspMaster& _s);
 void write(const HspMaster& v, LEOutputStream& out);
@@ -5694,6 +5727,91 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class DxTextLeft : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    qint32 dxTextLeft;
+    DxTextLeft()  {
+    }
+    QString toString() {
+        QString _s = "DxTextLeft:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "dxTextLeft: " + QString::number(dxTextLeft) + "(" + QString::number(dxTextLeft,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class DyTextTop : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    qint32 dyTextTop;
+    DyTextTop()  {
+    }
+    QString toString() {
+        QString _s = "DyTextTop:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "dyTextTop: " + QString::number(dyTextTop) + "(" + QString::number(dyTextTop,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class DxTextRight : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    qint32 dxTextRight;
+    DxTextRight()  {
+    }
+    QString toString() {
+        QString _s = "DxTextRight:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "dxTextRight: " + QString::number(dxTextRight) + "(" + QString::number(dxTextRight,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class DyTextBottom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    qint32 dyTextBottom;
+    DyTextBottom()  {
+    }
+    QString toString() {
+        QString _s = "DyTextBottom:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "dyTextBottom: " + QString::number(dyTextBottom) + "(" + QString::number(dyTextBottom,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class WrapText : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    quint32 wrapText;
+    WrapText()  {
+    }
+    QString toString() {
+        QString _s = "WrapText:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "wrapText: " + QString::number(wrapText) + "(" + QString::number(wrapText,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class AnchorText : public Introspectable {
 private:
     class _Introspection;
@@ -5707,6 +5825,49 @@ public:
         QString _s = "AnchorText:";
         _s = _s + "opid: " + opid.toString() + ", ";
         _s = _s + "anchorText: " + QString::number(anchorText) + "(" + QString::number(anchorText,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class TextBooleanProperties : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    bool unused1;
+    bool fFitShapeToText;
+    bool unused2;
+    bool fAutoTextMargin;
+    bool fSelectText;
+    quint8 unused3a;
+    quint8 unused3b;
+    bool unused4;
+    bool fUsefFitShapeToText;
+    bool unused5;
+    bool fUsefAutoTextMargin;
+    bool fUsefSelectText;
+    quint8 unused6a;
+    quint8 unused6b;
+    TextBooleanProperties()  {
+    }
+    QString toString() {
+        QString _s = "TextBooleanProperties:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "unused1: " + QString::number(unused1) + ", ";
+        _s = _s + "fFitShapeToText: " + QString::number(fFitShapeToText) + ", ";
+        _s = _s + "unused2: " + QString::number(unused2) + ", ";
+        _s = _s + "fAutoTextMargin: " + QString::number(fAutoTextMargin) + ", ";
+        _s = _s + "fSelectText: " + QString::number(fSelectText) + ", ";
+        _s = _s + "unused3a: " + QString::number(unused3a) + "(" + QString::number(unused3a,16).toUpper() + ")" + ", ";
+        _s = _s + "unused3b: " + QString::number(unused3b) + "(" + QString::number(unused3b,16).toUpper() + ")" + ", ";
+        _s = _s + "unused4: " + QString::number(unused4) + ", ";
+        _s = _s + "fUsefFitShapeToText: " + QString::number(fUsefFitShapeToText) + ", ";
+        _s = _s + "unused5: " + QString::number(unused5) + ", ";
+        _s = _s + "fUsefAutoTextMargin: " + QString::number(fUsefAutoTextMargin) + ", ";
+        _s = _s + "fUsefSelectText: " + QString::number(fUsefSelectText) + ", ";
+        _s = _s + "unused6a: " + QString::number(unused6a) + "(" + QString::number(unused6a,16).toUpper() + ")" + ", ";
+        _s = _s + "unused6b: " + QString::number(unused6b) + "(" + QString::number(unused6b,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -5792,6 +5953,23 @@ public:
         _s = _s + "unused3a: " + QString::number(unused3a) + ", ";
         _s = _s + "unused3b: " + QString::number(unused3b) + ", ";
         _s = _s + "unused4: " + QString::number(unused4) + "(" + QString::number(unused4,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class FillType : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    quint32 fillType;
+    FillType()  {
+    }
+    QString toString() {
+        QString _s = "FillType:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "fillType: " + QString::number(fillType) + "(" + QString::number(fillType,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -5949,6 +6127,23 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class LineBackColor : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    OfficeArtCOLORREF lineBackColor;
+    LineBackColor()  {
+    }
+    QString toString() {
+        QString _s = "LineBackColor:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "lineBackColor: " + lineBackColor.toString() + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class LineFillBlip : public Introspectable {
 private:
     class _Introspection;
@@ -5962,6 +6157,23 @@ public:
         QString _s = "LineFillBlip:";
         _s = _s + "opid: " + opid.toString() + ", ";
         _s = _s + "lineFillBlip: " + QString::number(lineFillBlip) + "(" + QString::number(lineFillBlip,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class LineWidth : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    quint32 lineWidth;
+    LineWidth()  {
+    }
+    QString toString() {
+        QString _s = "LineWidth:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "lineWidth: " + QString::number(lineWidth) + "(" + QString::number(lineWidth,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -5996,6 +6208,23 @@ public:
         QString _s = "LineEndArrowhead:";
         _s = _s + "opid: " + opid.toString() + ", ";
         _s = _s + "lineEndArrowhead: " + QString::number(lineEndArrowhead) + "(" + QString::number(lineEndArrowhead,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class LineJoinStyle : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    quint32 lineJoinStyle;
+    LineJoinStyle()  {
+    }
+    QString toString() {
+        QString _s = "LineJoinStyle:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "lineJoinStyle: " + QString::number(lineJoinStyle) + "(" + QString::number(lineJoinStyle,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -6072,6 +6301,33 @@ public:
         QString _s = "ShadowColor:";
         _s = _s + "opid: " + opid.toString() + ", ";
         _s = _s + "shadowColor: " + shadowColor.toString() + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class ShadowStyleBooleanPropertiesr : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    bool fshadowObscured;
+    bool fShadow;
+    quint16 unused1;
+    bool fUsefshadowObscured;
+    bool fUsefShadow;
+    quint16 unused2;
+    ShadowStyleBooleanPropertiesr()  {
+    }
+    QString toString() {
+        QString _s = "ShadowStyleBooleanPropertiesr:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "fshadowObscured: " + QString::number(fshadowObscured) + ", ";
+        _s = _s + "fShadow: " + QString::number(fShadow) + ", ";
+        _s = _s + "unused1: " + QString::number(unused1) + "(" + QString::number(unused1,16).toUpper() + ")" + ", ";
+        _s = _s + "fUsefshadowObscured: " + QString::number(fUsefshadowObscured) + ", ";
+        _s = _s + "fUsefShadow: " + QString::number(fUsefShadow) + ", ";
+        _s = _s + "unused2: " + QString::number(unused2) + "(" + QString::number(unused2,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -6893,23 +7149,34 @@ public:
     static const Introspection _introspection;
     class anonChoice {public:QSharedPointer<ProtectionBooleanProperties> protectionbooleanproperties;
 QSharedPointer<ITxid> itxid;
+QSharedPointer<DxTextLeft> dxtextleft;
+QSharedPointer<DyTextTop> dytexttop;
+QSharedPointer<DxTextRight> dxtextright;
+QSharedPointer<DyTextBottom> dytextbottom;
+QSharedPointer<WrapText> wraptext;
 QSharedPointer<AnchorText> anchortext;
+QSharedPointer<TextBooleanProperties> textbooleanproperties;
 QSharedPointer<HspNext> hspnext;
 QSharedPointer<ShapePath> shapepath;
 QSharedPointer<GeometryBooleanProperties> geometrybooleanproperties;
+QSharedPointer<FillType> filltype;
 QSharedPointer<FillColor> fillcolor;
 QSharedPointer<FillBackColor> fillbackcolor;
 QSharedPointer<FillBlip> fillblip;
 QSharedPointer<FillStyleBooleanProperties> fillstylebooleanproperties;
 QSharedPointer<LineColor> linecolor;
+QSharedPointer<LineBackColor> linebackcolor;
 QSharedPointer<LineFillBlip> linefillblip;
+QSharedPointer<LineWidth> linewidth;
 QSharedPointer<FillRectRight> fillrectright;
 QSharedPointer<FillRectBottom> fillrectbottom;
 QSharedPointer<WzFillId> wzfillid;
 QSharedPointer<LineStyleBooleanProperties> linestylebooleanproperties;
 QSharedPointer<LineStartArrowhead> linestartarrowhead;
 QSharedPointer<LineEndArrowhead> lineendarrowhead;
+QSharedPointer<LineJoinStyle> linejoinstyle;
 QSharedPointer<ShadowColor> shadowcolor;
+QSharedPointer<ShadowStyleBooleanPropertiesr> shadowstylebooleanpropertiesr;
 QSharedPointer<ShapeBooleanProperties> shapebooleanproperties;
 QSharedPointer<HspMaster> hspmaster;
 QSharedPointer<Rotation> rotation;
@@ -19587,6 +19854,181 @@ const Introspectable* (* const ITxid::_Introspection::introspectable[2])(const I
 };
 const Introspection ITxid::_introspection(
     "ITxid", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class DxTextLeft::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const DxTextLeft*>(i)->opid);
+    }
+    static QVariant get_dxTextLeft(const Introspectable* i, int j) {
+        return static_cast<const DxTextLeft*>(i)->dxTextLeft;
+    }
+};
+const QString DxTextLeft::_Introspection::name("DxTextLeft");
+const int DxTextLeft::_Introspection::numberOfMembers(2);
+const QString DxTextLeft::_Introspection::names[2] = {
+    "opid",
+    "dxTextLeft",
+};
+int (* const DxTextLeft::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const DxTextLeft::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_dxTextLeft,
+};
+const Introspectable* (* const DxTextLeft::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+};
+const Introspection DxTextLeft::_introspection(
+    "DxTextLeft", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class DyTextTop::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const DyTextTop*>(i)->opid);
+    }
+    static QVariant get_dyTextTop(const Introspectable* i, int j) {
+        return static_cast<const DyTextTop*>(i)->dyTextTop;
+    }
+};
+const QString DyTextTop::_Introspection::name("DyTextTop");
+const int DyTextTop::_Introspection::numberOfMembers(2);
+const QString DyTextTop::_Introspection::names[2] = {
+    "opid",
+    "dyTextTop",
+};
+int (* const DyTextTop::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const DyTextTop::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_dyTextTop,
+};
+const Introspectable* (* const DyTextTop::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+};
+const Introspection DyTextTop::_introspection(
+    "DyTextTop", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class DxTextRight::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const DxTextRight*>(i)->opid);
+    }
+    static QVariant get_dxTextRight(const Introspectable* i, int j) {
+        return static_cast<const DxTextRight*>(i)->dxTextRight;
+    }
+};
+const QString DxTextRight::_Introspection::name("DxTextRight");
+const int DxTextRight::_Introspection::numberOfMembers(2);
+const QString DxTextRight::_Introspection::names[2] = {
+    "opid",
+    "dxTextRight",
+};
+int (* const DxTextRight::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const DxTextRight::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_dxTextRight,
+};
+const Introspectable* (* const DxTextRight::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+};
+const Introspection DxTextRight::_introspection(
+    "DxTextRight", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class DyTextBottom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const DyTextBottom*>(i)->opid);
+    }
+    static QVariant get_dyTextBottom(const Introspectable* i, int j) {
+        return static_cast<const DyTextBottom*>(i)->dyTextBottom;
+    }
+};
+const QString DyTextBottom::_Introspection::name("DyTextBottom");
+const int DyTextBottom::_Introspection::numberOfMembers(2);
+const QString DyTextBottom::_Introspection::names[2] = {
+    "opid",
+    "dyTextBottom",
+};
+int (* const DyTextBottom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const DyTextBottom::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_dyTextBottom,
+};
+const Introspectable* (* const DyTextBottom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+};
+const Introspection DyTextBottom::_introspection(
+    "DyTextBottom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class WrapText::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const WrapText*>(i)->opid);
+    }
+    static QVariant get_wrapText(const Introspectable* i, int j) {
+        return static_cast<const WrapText*>(i)->wrapText;
+    }
+};
+const QString WrapText::_Introspection::name("WrapText");
+const int WrapText::_Introspection::numberOfMembers(2);
+const QString WrapText::_Introspection::names[2] = {
+    "opid",
+    "wrapText",
+};
+int (* const WrapText::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const WrapText::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_wrapText,
+};
+const Introspectable* (* const WrapText::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+};
+const Introspection WrapText::_introspection(
+    "WrapText", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class AnchorText::_Introspection {
 public:
     static const QString name;
@@ -19622,6 +20064,132 @@ const Introspectable* (* const AnchorText::_Introspection::introspectable[2])(co
 };
 const Introspection AnchorText::_introspection(
     "AnchorText", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class TextBooleanProperties::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[15];
+    static int (* const numberOfInstances[15])(const Introspectable*);
+    static QVariant (* const value[15])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[15])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const TextBooleanProperties*>(i)->opid);
+    }
+    static QVariant get_unused1(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->unused1;
+    }
+    static QVariant get_fFitShapeToText(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->fFitShapeToText;
+    }
+    static QVariant get_unused2(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->unused2;
+    }
+    static QVariant get_fAutoTextMargin(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->fAutoTextMargin;
+    }
+    static QVariant get_fSelectText(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->fSelectText;
+    }
+    static QVariant get_unused3a(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->unused3a;
+    }
+    static QVariant get_unused3b(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->unused3b;
+    }
+    static QVariant get_unused4(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->unused4;
+    }
+    static QVariant get_fUsefFitShapeToText(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->fUsefFitShapeToText;
+    }
+    static QVariant get_unused5(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->unused5;
+    }
+    static QVariant get_fUsefAutoTextMargin(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->fUsefAutoTextMargin;
+    }
+    static QVariant get_fUsefSelectText(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->fUsefSelectText;
+    }
+    static QVariant get_unused6a(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->unused6a;
+    }
+    static QVariant get_unused6b(const Introspectable* i, int j) {
+        return static_cast<const TextBooleanProperties*>(i)->unused6b;
+    }
+};
+const QString TextBooleanProperties::_Introspection::name("TextBooleanProperties");
+const int TextBooleanProperties::_Introspection::numberOfMembers(15);
+const QString TextBooleanProperties::_Introspection::names[15] = {
+    "opid",
+    "unused1",
+    "fFitShapeToText",
+    "unused2",
+    "fAutoTextMargin",
+    "fSelectText",
+    "unused3a",
+    "unused3b",
+    "unused4",
+    "fUsefFitShapeToText",
+    "unused5",
+    "fUsefAutoTextMargin",
+    "fUsefSelectText",
+    "unused6a",
+    "unused6b",
+};
+int (* const TextBooleanProperties::_Introspection::numberOfInstances[15])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const TextBooleanProperties::_Introspection::value[15])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_unused1,
+    _Introspection::get_fFitShapeToText,
+    _Introspection::get_unused2,
+    _Introspection::get_fAutoTextMargin,
+    _Introspection::get_fSelectText,
+    _Introspection::get_unused3a,
+    _Introspection::get_unused3b,
+    _Introspection::get_unused4,
+    _Introspection::get_fUsefFitShapeToText,
+    _Introspection::get_unused5,
+    _Introspection::get_fUsefAutoTextMargin,
+    _Introspection::get_fUsefSelectText,
+    _Introspection::get_unused6a,
+    _Introspection::get_unused6b,
+};
+const Introspectable* (* const TextBooleanProperties::_Introspection::introspectable[15])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection TextBooleanProperties::_introspection(
+    "TextBooleanProperties", 15, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class HspNext::_Introspection {
 public:
     static const QString name;
@@ -19846,6 +20414,41 @@ const Introspectable* (* const GeometryBooleanProperties::_Introspection::intros
 };
 const Introspection GeometryBooleanProperties::_introspection(
     "GeometryBooleanProperties", 19, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class FillType::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const FillType*>(i)->opid);
+    }
+    static QVariant get_fillType(const Introspectable* i, int j) {
+        return static_cast<const FillType*>(i)->fillType;
+    }
+};
+const QString FillType::_Introspection::name("FillType");
+const int FillType::_Introspection::numberOfMembers(2);
+const QString FillType::_Introspection::names[2] = {
+    "opid",
+    "fillType",
+};
+int (* const FillType::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const FillType::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_fillType,
+};
+const Introspectable* (* const FillType::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+};
+const Introspection FillType::_introspection(
+    "FillType", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class FillColor::_Introspection {
 public:
     static const QString name;
@@ -20210,6 +20813,41 @@ const Introspectable* (* const LineColor::_Introspection::introspectable[2])(con
 };
 const Introspection LineColor::_introspection(
     "LineColor", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class LineBackColor::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const LineBackColor*>(i)->opid);
+    }
+    static const Introspectable* get_lineBackColor(const Introspectable* i, int j) {
+        return &(static_cast<const LineBackColor*>(i)->lineBackColor);
+    }
+};
+const QString LineBackColor::_Introspection::name("LineBackColor");
+const int LineBackColor::_Introspection::numberOfMembers(2);
+const QString LineBackColor::_Introspection::names[2] = {
+    "opid",
+    "lineBackColor",
+};
+int (* const LineBackColor::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const LineBackColor::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const LineBackColor::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    _Introspection::get_lineBackColor,
+};
+const Introspection LineBackColor::_introspection(
+    "LineBackColor", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class LineFillBlip::_Introspection {
 public:
     static const QString name;
@@ -20245,6 +20883,41 @@ const Introspectable* (* const LineFillBlip::_Introspection::introspectable[2])(
 };
 const Introspection LineFillBlip::_introspection(
     "LineFillBlip", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class LineWidth::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const LineWidth*>(i)->opid);
+    }
+    static QVariant get_lineWidth(const Introspectable* i, int j) {
+        return static_cast<const LineWidth*>(i)->lineWidth;
+    }
+};
+const QString LineWidth::_Introspection::name("LineWidth");
+const int LineWidth::_Introspection::numberOfMembers(2);
+const QString LineWidth::_Introspection::names[2] = {
+    "opid",
+    "lineWidth",
+};
+int (* const LineWidth::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const LineWidth::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_lineWidth,
+};
+const Introspectable* (* const LineWidth::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+};
+const Introspection LineWidth::_introspection(
+    "LineWidth", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class LineStartArrowhead::_Introspection {
 public:
     static const QString name;
@@ -20315,6 +20988,41 @@ const Introspectable* (* const LineEndArrowhead::_Introspection::introspectable[
 };
 const Introspection LineEndArrowhead::_introspection(
     "LineEndArrowhead", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class LineJoinStyle::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const LineJoinStyle*>(i)->opid);
+    }
+    static QVariant get_lineJoinStyle(const Introspectable* i, int j) {
+        return static_cast<const LineJoinStyle*>(i)->lineJoinStyle;
+    }
+};
+const QString LineJoinStyle::_Introspection::name("LineJoinStyle");
+const int LineJoinStyle::_Introspection::numberOfMembers(2);
+const QString LineJoinStyle::_Introspection::names[2] = {
+    "opid",
+    "lineJoinStyle",
+};
+int (* const LineJoinStyle::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const LineJoinStyle::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_lineJoinStyle,
+};
+const Introspectable* (* const LineJoinStyle::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+};
+const Introspection LineJoinStyle::_introspection(
+    "LineJoinStyle", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class LineStyleBooleanProperties::_Introspection {
 public:
     static const QString name;
@@ -20532,6 +21240,76 @@ const Introspectable* (* const ShadowColor::_Introspection::introspectable[2])(c
 };
 const Introspection ShadowColor::_introspection(
     "ShadowColor", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ShadowStyleBooleanPropertiesr::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[7];
+    static int (* const numberOfInstances[7])(const Introspectable*);
+    static QVariant (* const value[7])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[7])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const ShadowStyleBooleanPropertiesr*>(i)->opid);
+    }
+    static QVariant get_fshadowObscured(const Introspectable* i, int j) {
+        return static_cast<const ShadowStyleBooleanPropertiesr*>(i)->fshadowObscured;
+    }
+    static QVariant get_fShadow(const Introspectable* i, int j) {
+        return static_cast<const ShadowStyleBooleanPropertiesr*>(i)->fShadow;
+    }
+    static QVariant get_unused1(const Introspectable* i, int j) {
+        return static_cast<const ShadowStyleBooleanPropertiesr*>(i)->unused1;
+    }
+    static QVariant get_fUsefshadowObscured(const Introspectable* i, int j) {
+        return static_cast<const ShadowStyleBooleanPropertiesr*>(i)->fUsefshadowObscured;
+    }
+    static QVariant get_fUsefShadow(const Introspectable* i, int j) {
+        return static_cast<const ShadowStyleBooleanPropertiesr*>(i)->fUsefShadow;
+    }
+    static QVariant get_unused2(const Introspectable* i, int j) {
+        return static_cast<const ShadowStyleBooleanPropertiesr*>(i)->unused2;
+    }
+};
+const QString ShadowStyleBooleanPropertiesr::_Introspection::name("ShadowStyleBooleanPropertiesr");
+const int ShadowStyleBooleanPropertiesr::_Introspection::numberOfMembers(7);
+const QString ShadowStyleBooleanPropertiesr::_Introspection::names[7] = {
+    "opid",
+    "fshadowObscured",
+    "fShadow",
+    "unused1",
+    "fUsefshadowObscured",
+    "fUsefShadow",
+    "unused2",
+};
+int (* const ShadowStyleBooleanPropertiesr::_Introspection::numberOfInstances[7])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ShadowStyleBooleanPropertiesr::_Introspection::value[7])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_fshadowObscured,
+    _Introspection::get_fShadow,
+    _Introspection::get_unused1,
+    _Introspection::get_fUsefshadowObscured,
+    _Introspection::get_fUsefShadow,
+    _Introspection::get_unused2,
+};
+const Introspectable* (* const ShadowStyleBooleanPropertiesr::_Introspection::introspectable[7])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection ShadowStyleBooleanPropertiesr::_introspection(
+    "ShadowStyleBooleanPropertiesr", 7, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class HspMaster::_Introspection {
 public:
     static const QString name;
@@ -22545,23 +23323,34 @@ public:
         const Introspectable* k = 0;
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.protectionbooleanproperties.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.itxid.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.dxtextleft.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.dytexttop.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.dxtextright.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.dytextbottom.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.wraptext.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.anchortext.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.textbooleanproperties.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.hspnext.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.shapepath.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.geometrybooleanproperties.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.filltype.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillcolor.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillbackcolor.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillblip.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillstylebooleanproperties.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linecolor.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linebackcolor.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linefillblip.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linewidth.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillrectright.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillrectbottom.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.wzfillid.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linestylebooleanproperties.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linestartarrowhead.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.lineendarrowhead.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linejoinstyle.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.shadowcolor.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.shadowstylebooleanpropertiesr.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.shapebooleanproperties.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.hspmaster.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.rotation.data();
@@ -29659,6 +30448,94 @@ void write(const ITxid& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.iTxid);
 }
+void parseDxTextLeft(LEInputStream& in, DxTextLeft& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0081)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0081");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.dxTextLeft = in.readint32();
+}
+void write(const DxTextLeft& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeint32(_s.dxTextLeft);
+}
+void parseDyTextTop(LEInputStream& in, DyTextTop& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0082)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0082");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.dyTextTop = in.readint32();
+}
+void write(const DyTextTop& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeint32(_s.dyTextTop);
+}
+void parseDxTextRight(LEInputStream& in, DxTextRight& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0083)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0083");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.dxTextRight = in.readint32();
+}
+void write(const DxTextRight& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeint32(_s.dxTextRight);
+}
+void parseDyTextBottom(LEInputStream& in, DyTextBottom& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0084)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0084");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.dyTextBottom = in.readint32();
+}
+void write(const DyTextBottom& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeint32(_s.dyTextBottom);
+}
+void parseWrapText(LEInputStream& in, WrapText& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0085)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0085");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.wrapText = in.readuint32();
+    if (!(((quint32)_s.wrapText)<5)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.wrapText)<5");
+    }
+}
+void write(const WrapText& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeuint32(_s.wrapText);
+}
 void parseAnchorText(LEInputStream& in, AnchorText& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0087)) {
@@ -29678,6 +30555,49 @@ void parseAnchorText(LEInputStream& in, AnchorText& _s) {
 void write(const AnchorText& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.anchorText);
+}
+void parseTextBooleanProperties(LEInputStream& in, TextBooleanProperties& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x00BF)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x00BF");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.unused1 = in.readbit();
+    _s.fFitShapeToText = in.readbit();
+    _s.unused2 = in.readbit();
+    _s.fAutoTextMargin = in.readbit();
+    _s.fSelectText = in.readbit();
+    _s.unused3a = in.readuint3();
+    _s.unused3b = in.readuint8();
+    _s.unused4 = in.readbit();
+    _s.fUsefFitShapeToText = in.readbit();
+    _s.unused5 = in.readbit();
+    _s.fUsefAutoTextMargin = in.readbit();
+    _s.fUsefSelectText = in.readbit();
+    _s.unused6a = in.readuint3();
+    _s.unused6b = in.readuint8();
+}
+void write(const TextBooleanProperties& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writebit(_s.unused1);
+    out.writebit(_s.fFitShapeToText);
+    out.writebit(_s.unused2);
+    out.writebit(_s.fAutoTextMargin);
+    out.writebit(_s.fSelectText);
+    out.writeuint3(_s.unused3a);
+    out.writeuint8(_s.unused3b);
+    out.writebit(_s.unused4);
+    out.writebit(_s.fUsefFitShapeToText);
+    out.writebit(_s.unused5);
+    out.writebit(_s.fUsefAutoTextMargin);
+    out.writebit(_s.fUsefSelectText);
+    out.writeuint3(_s.unused6a);
+    out.writeuint8(_s.unused6b);
 }
 void parseHspNext(LEInputStream& in, HspNext& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -29766,6 +30686,26 @@ void write(const GeometryBooleanProperties& _s, LEOutputStream& out) {
     out.writebit(_s.unused3a);
     out.writebit(_s.unused3b);
     out.writeuint8(_s.unused4);
+}
+void parseFillType(LEInputStream& in, FillType& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0180)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0180");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.fillType = in.readuint32();
+    if (!(((quint32)_s.fillType)<=9)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.fillType)<=9");
+    }
+}
+void write(const FillType& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeuint32(_s.fillType);
 }
 void parseFillColor(LEInputStream& in, FillColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -29914,6 +30854,17 @@ void write(const LineColor& _s, LEOutputStream& out) {
     write(_s.opid, out);
     write(_s.lineColor, out);
 }
+void parseLineBackColor(LEInputStream& in, LineBackColor& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x01C2)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01C2");
+    }
+    parseOfficeArtCOLORREF(in, _s.lineBackColor);
+}
+void write(const LineBackColor& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    write(_s.lineBackColor, out);
+}
 void parseLineFillBlip(LEInputStream& in, LineFillBlip& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01C5)) {
@@ -29924,6 +30875,23 @@ void parseLineFillBlip(LEInputStream& in, LineFillBlip& _s) {
 void write(const LineFillBlip& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.lineFillBlip);
+}
+void parseLineWidth(LEInputStream& in, LineWidth& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x01CB)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01CB");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.lineWidth = in.readuint32();
+}
+void write(const LineWidth& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeuint32(_s.lineWidth);
 }
 void parseLineStartArrowhead(LEInputStream& in, LineStartArrowhead& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -29964,6 +30932,26 @@ void parseLineEndArrowhead(LEInputStream& in, LineEndArrowhead& _s) {
 void write(const LineEndArrowhead& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.lineEndArrowhead);
+}
+void parseLineJoinStyle(LEInputStream& in, LineJoinStyle& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x01D6)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01D6");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.lineJoinStyle = in.readuint32();
+    if (!(((quint32)_s.lineJoinStyle)<=2)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.lineJoinStyle)<=2");
+    }
+}
+void write(const LineJoinStyle& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeuint32(_s.lineJoinStyle);
 }
 void parseLineStyleBooleanProperties(LEInputStream& in, LineStyleBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -30040,6 +31028,33 @@ void parseShadowColor(LEInputStream& in, ShadowColor& _s) {
 void write(const ShadowColor& _s, LEOutputStream& out) {
     write(_s.opid, out);
     write(_s.shadowColor, out);
+}
+void parseShadowStyleBooleanPropertiesr(LEInputStream& in, ShadowStyleBooleanPropertiesr& _s) {
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x023F)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x023F");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.fshadowObscured = in.readbit();
+    _s.fShadow = in.readbit();
+    _s.unused1 = in.readuint14();
+    _s.fUsefshadowObscured = in.readbit();
+    _s.fUsefShadow = in.readbit();
+    _s.unused2 = in.readuint14();
+}
+void write(const ShadowStyleBooleanPropertiesr& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writebit(_s.fshadowObscured);
+    out.writebit(_s.fShadow);
+    out.writeuint14(_s.unused1);
+    out.writebit(_s.fUsefshadowObscured);
+    out.writebit(_s.fUsefShadow);
+    out.writeuint14(_s.unused2);
 }
 void parseHspMaster(LEInputStream& in, HspMaster& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31386,155 +32401,235 @@ void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s) {
     } catch (IncorrectValueException _xx) {
         in.rewind(_m);
     try {
+        DxTextLeft _t;
+        parseDxTextLeft(in, _t);
+        _s.anon.dxtextleft = QSharedPointer<DxTextLeft>(new DxTextLeft(_t));
+    } catch (IncorrectValueException _xxx) {
+        in.rewind(_m);
+    try {
+        DyTextTop _t;
+        parseDyTextTop(in, _t);
+        _s.anon.dytexttop = QSharedPointer<DyTextTop>(new DyTextTop(_t));
+    } catch (IncorrectValueException _xxxx) {
+        in.rewind(_m);
+    try {
+        DxTextRight _t;
+        parseDxTextRight(in, _t);
+        _s.anon.dxtextright = QSharedPointer<DxTextRight>(new DxTextRight(_t));
+    } catch (IncorrectValueException _xxxxx) {
+        in.rewind(_m);
+    try {
+        DyTextBottom _t;
+        parseDyTextBottom(in, _t);
+        _s.anon.dytextbottom = QSharedPointer<DyTextBottom>(new DyTextBottom(_t));
+    } catch (IncorrectValueException _xxxxxx) {
+        in.rewind(_m);
+    try {
+        WrapText _t;
+        parseWrapText(in, _t);
+        _s.anon.wraptext = QSharedPointer<WrapText>(new WrapText(_t));
+    } catch (IncorrectValueException _xxxxxxx) {
+        in.rewind(_m);
+    try {
         AnchorText _t;
         parseAnchorText(in, _t);
         _s.anon.anchortext = QSharedPointer<AnchorText>(new AnchorText(_t));
-    } catch (IncorrectValueException _xxx) {
+    } catch (IncorrectValueException _xxxxxxxx) {
+        in.rewind(_m);
+    try {
+        TextBooleanProperties _t;
+        parseTextBooleanProperties(in, _t);
+        _s.anon.textbooleanproperties = QSharedPointer<TextBooleanProperties>(new TextBooleanProperties(_t));
+    } catch (IncorrectValueException _xxxxxxxxx) {
         in.rewind(_m);
     try {
         HspNext _t;
         parseHspNext(in, _t);
         _s.anon.hspnext = QSharedPointer<HspNext>(new HspNext(_t));
-    } catch (IncorrectValueException _xxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxx) {
         in.rewind(_m);
     try {
         ShapePath _t;
         parseShapePath(in, _t);
         _s.anon.shapepath = QSharedPointer<ShapePath>(new ShapePath(_t));
-    } catch (IncorrectValueException _xxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxx) {
         in.rewind(_m);
     try {
         GeometryBooleanProperties _t;
         parseGeometryBooleanProperties(in, _t);
         _s.anon.geometrybooleanproperties = QSharedPointer<GeometryBooleanProperties>(new GeometryBooleanProperties(_t));
-    } catch (IncorrectValueException _xxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        FillType _t;
+        parseFillType(in, _t);
+        _s.anon.filltype = QSharedPointer<FillType>(new FillType(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         FillColor _t;
         parseFillColor(in, _t);
         _s.anon.fillcolor = QSharedPointer<FillColor>(new FillColor(_t));
-    } catch (IncorrectValueException _xxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         FillBackColor _t;
         parseFillBackColor(in, _t);
         _s.anon.fillbackcolor = QSharedPointer<FillBackColor>(new FillBackColor(_t));
-    } catch (IncorrectValueException _xxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         FillBlip _t;
         parseFillBlip(in, _t);
         _s.anon.fillblip = QSharedPointer<FillBlip>(new FillBlip(_t));
-    } catch (IncorrectValueException _xxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         FillStyleBooleanProperties _t;
         parseFillStyleBooleanProperties(in, _t);
         _s.anon.fillstylebooleanproperties = QSharedPointer<FillStyleBooleanProperties>(new FillStyleBooleanProperties(_t));
-    } catch (IncorrectValueException _xxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         LineColor _t;
         parseLineColor(in, _t);
         _s.anon.linecolor = QSharedPointer<LineColor>(new LineColor(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        LineBackColor _t;
+        parseLineBackColor(in, _t);
+        _s.anon.linebackcolor = QSharedPointer<LineBackColor>(new LineBackColor(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         LineFillBlip _t;
         parseLineFillBlip(in, _t);
         _s.anon.linefillblip = QSharedPointer<LineFillBlip>(new LineFillBlip(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        LineWidth _t;
+        parseLineWidth(in, _t);
+        _s.anon.linewidth = QSharedPointer<LineWidth>(new LineWidth(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         FillRectRight _t;
         parseFillRectRight(in, _t);
         _s.anon.fillrectright = QSharedPointer<FillRectRight>(new FillRectRight(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         FillRectBottom _t;
         parseFillRectBottom(in, _t);
         _s.anon.fillrectbottom = QSharedPointer<FillRectBottom>(new FillRectBottom(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         WzFillId _t;
         parseWzFillId(in, _t);
         _s.anon.wzfillid = QSharedPointer<WzFillId>(new WzFillId(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         LineStyleBooleanProperties _t;
         parseLineStyleBooleanProperties(in, _t);
         _s.anon.linestylebooleanproperties = QSharedPointer<LineStyleBooleanProperties>(new LineStyleBooleanProperties(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         LineStartArrowhead _t;
         parseLineStartArrowhead(in, _t);
         _s.anon.linestartarrowhead = QSharedPointer<LineStartArrowhead>(new LineStartArrowhead(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         LineEndArrowhead _t;
         parseLineEndArrowhead(in, _t);
         _s.anon.lineendarrowhead = QSharedPointer<LineEndArrowhead>(new LineEndArrowhead(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        LineJoinStyle _t;
+        parseLineJoinStyle(in, _t);
+        _s.anon.linejoinstyle = QSharedPointer<LineJoinStyle>(new LineJoinStyle(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         ShadowColor _t;
         parseShadowColor(in, _t);
         _s.anon.shadowcolor = QSharedPointer<ShadowColor>(new ShadowColor(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        in.rewind(_m);
+    try {
+        ShadowStyleBooleanPropertiesr _t;
+        parseShadowStyleBooleanPropertiesr(in, _t);
+        _s.anon.shadowstylebooleanpropertiesr = QSharedPointer<ShadowStyleBooleanPropertiesr>(new ShadowStyleBooleanPropertiesr(_t));
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         ShapeBooleanProperties _t;
         parseShapeBooleanProperties(in, _t);
         _s.anon.shapebooleanproperties = QSharedPointer<ShapeBooleanProperties>(new ShapeBooleanProperties(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         HspMaster _t;
         parseHspMaster(in, _t);
         _s.anon.hspmaster = QSharedPointer<HspMaster>(new HspMaster(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         Rotation _t;
         parseRotation(in, _t);
         _s.anon.rotation = QSharedPointer<Rotation>(new Rotation(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         LidRegroup _t;
         parseLidRegroup(in, _t);
         _s.anon.lidregroup = QSharedPointer<LidRegroup>(new LidRegroup(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
     try {
         BWMode _t;
         parseBWMode(in, _t);
         _s.anon.bwmode = QSharedPointer<BWMode>(new BWMode(_t));
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         in.rewind(_m);
         OfficeArtFOPTE _t;
         parseOfficeArtFOPTE(in, _t);
         _s.anon.officeartfopte = QSharedPointer<OfficeArtFOPTE>(new OfficeArtFOPTE(_t));
-    }}}}}}}}}}}}}}}}}}}}}}}}
+    }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 }
 void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
     if (_s.anon.protectionbooleanproperties) {
         write(*_s.anon.protectionbooleanproperties, out);
     } else if (_s.anon.itxid) {
         write(*_s.anon.itxid, out);
+    } else if (_s.anon.dxtextleft) {
+        write(*_s.anon.dxtextleft, out);
+    } else if (_s.anon.dytexttop) {
+        write(*_s.anon.dytexttop, out);
+    } else if (_s.anon.dxtextright) {
+        write(*_s.anon.dxtextright, out);
+    } else if (_s.anon.dytextbottom) {
+        write(*_s.anon.dytextbottom, out);
+    } else if (_s.anon.wraptext) {
+        write(*_s.anon.wraptext, out);
     } else if (_s.anon.anchortext) {
         write(*_s.anon.anchortext, out);
+    } else if (_s.anon.textbooleanproperties) {
+        write(*_s.anon.textbooleanproperties, out);
     } else if (_s.anon.hspnext) {
         write(*_s.anon.hspnext, out);
     } else if (_s.anon.shapepath) {
         write(*_s.anon.shapepath, out);
     } else if (_s.anon.geometrybooleanproperties) {
         write(*_s.anon.geometrybooleanproperties, out);
+    } else if (_s.anon.filltype) {
+        write(*_s.anon.filltype, out);
     } else if (_s.anon.fillcolor) {
         write(*_s.anon.fillcolor, out);
     } else if (_s.anon.fillbackcolor) {
@@ -31545,8 +32640,12 @@ void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
         write(*_s.anon.fillstylebooleanproperties, out);
     } else if (_s.anon.linecolor) {
         write(*_s.anon.linecolor, out);
+    } else if (_s.anon.linebackcolor) {
+        write(*_s.anon.linebackcolor, out);
     } else if (_s.anon.linefillblip) {
         write(*_s.anon.linefillblip, out);
+    } else if (_s.anon.linewidth) {
+        write(*_s.anon.linewidth, out);
     } else if (_s.anon.fillrectright) {
         write(*_s.anon.fillrectright, out);
     } else if (_s.anon.fillrectbottom) {
@@ -31559,8 +32658,12 @@ void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
         write(*_s.anon.linestartarrowhead, out);
     } else if (_s.anon.lineendarrowhead) {
         write(*_s.anon.lineendarrowhead, out);
+    } else if (_s.anon.linejoinstyle) {
+        write(*_s.anon.linejoinstyle, out);
     } else if (_s.anon.shadowcolor) {
         write(*_s.anon.shadowcolor, out);
+    } else if (_s.anon.shadowstylebooleanpropertiesr) {
+        write(*_s.anon.shadowstylebooleanpropertiesr, out);
     } else if (_s.anon.shapebooleanproperties) {
         write(*_s.anon.shapebooleanproperties, out);
     } else if (_s.anon.hspmaster) {

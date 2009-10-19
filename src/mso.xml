@@ -2173,23 +2173,34 @@
 		<choice name="anon">
 			<type type="ProtectionBooleanProperties" />
 			<type type="ITxid" />
+			<type type="DxTextLeft" />
+			<type type="DyTextTop" />
+			<type type="DxTextRight" />
+			<type type="DyTextBottom" />
+			<type type="WrapText" />
 			<type type="AnchorText" />
+			<type type="TextBooleanProperties" />
 			<type type="HspNext" />
 			<type type="ShapePath" />
 			<type type="GeometryBooleanProperties" />
+			<type type="FillType" />
 			<type type="FillColor" />
 			<type type="FillBackColor" />
 			<type type="FillBlip" />
 			<type type="FillStyleBooleanProperties" />
 			<type type="LineColor" />
+			<type type="LineBackColor" />
 			<type type="LineFillBlip" />
+			<type type="LineWidth" />
 			<type type="FillRectRight" />
 			<type type="FillRectBottom" />
 			<type type="WzFillId" />
 			<type type="LineStyleBooleanProperties" />
 			<type type="LineStartArrowhead" />
 			<type type="LineEndArrowhead" />
+			<type type="LineJoinStyle" />
 			<type type="ShadowColor" />
+			<type type="ShadowStyleBooleanPropertiesr" />
 			<type type="ShapeBooleanProperties" />
 			<type type="HspMaster" />
 			<type type="Rotation" />
@@ -2253,6 +2264,48 @@
 		</type>
 		<int32 name="iTxid" />
 	</struct>
+	<struct name="DxTextLeft">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0081" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="dxTextLeft" />
+	</struct>
+	<struct name="DyTextTop">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0082" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="dyTextTop" />
+	</struct>
+	<struct name="DxTextRight">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0083" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="dxTextRight" />
+	</struct>
+	<struct name="DyTextBottom">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0084" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="dyTextBottom" />
+	</struct>
+	<struct name="WrapText">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0085" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="wrapText">
+			<limitation expression="&lt;5" />
+		</uint32>
+	</struct>
 	<struct name="AnchorText">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0087" />
@@ -2262,6 +2315,27 @@
 		<uint32 name="anchorText">
 			<limitation expression="&lt;=9" />
 		</uint32>
+	</struct>
+	<struct name="TextBooleanProperties">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x00BF" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="unused1" />
+		<bit name="fFitShapeToText" />
+		<bit name="unused2" />
+		<bit name="fAutoTextMargin" />
+		<bit name="fSelectText" />
+		<uint3 name="unused3a" />
+		<uint8 name="unused3b" />
+		<bit name="unused4" />
+		<bit name="fUsefFitShapeToText" />
+		<bit name="unused5" />
+		<bit name="fUsefAutoTextMargin" />
+		<bit name="fUsefSelectText" />
+		<uint3 name="unused6a" />
+		<uint8 name="unused6b" />
 	</struct>
 	<struct name="HspNext">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -2305,6 +2379,16 @@
 		<bit name="unused3a" />
 		<bit name="unused3b" />
 		<uint8 name="unused4" />
+	</struct>
+	<struct name="FillType">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0180" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="fillType">
+			<limitation expression="&lt;=9" />
+		</uint32>
 	</struct>
 	<struct name="FillColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -2377,11 +2461,28 @@
 		</type>
 		<type name="lineColor" type="OfficeArtCOLORREF" />
 	</struct>
+	<struct name="LineBackColor">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01C2" />
+		</type>
+		<type name="lineBackColor" type="OfficeArtCOLORREF" />
+	</struct>
 	<struct name="LineFillBlip">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x01C5" />
 		</type>
 		<uint32 name="lineFillBlip" />
+	</struct>
+	<struct name="LineWidth">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01CB" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<!--
+			default = 0x2535 english metric units. 1587.5 EMUs is 1 Master Units
+		-->
+		<uint32 name="lineWidth" />
 	</struct>
 	<struct name="LineStartArrowhead">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -2401,6 +2502,16 @@
 		</type>
 		<uint32 name="lineEndArrowhead">
 			<limitation expression="&lt;=8" />
+		</uint32>
+	</struct>
+	<struct name="LineJoinStyle">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01D6" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lineJoinStyle">
+			<limitation expression="&lt;=2" />
 		</uint32>
 	</struct>
 	<struct name="LineStyleBooleanProperties">
@@ -2439,6 +2550,19 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<type name="shadowColor" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="ShadowStyleBooleanPropertiesr">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x023F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="fshadowObscured" />
+		<bit name="fShadow" />
+		<uint14 name="unused1" />
+		<bit name="fUsefshadowObscured" />
+		<bit name="fUsefShadow" />
+		<uint14 name="unused2" />
 	</struct>
 	<struct name="HspMaster">
 		<type name="opid" type="OfficeArtFOPTEOPID">
