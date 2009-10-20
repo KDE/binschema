@@ -174,7 +174,11 @@ class Struct {
 		for (int i = 0; i < l.getLength(); ++i) {
 			Node n = l.item(i);
 			if (n instanceof Element) {
-				Member m = new Member((Element) n);
+				Element me = (Element) n;
+				if (me.getNodeName().equals("limitation")) {
+					break;
+				}
+				Member m = new Member(me);
 				members.add(m);
 				_containsArrayMember = _containsArrayMember || m.isArray;
 				_containsOptionalMember = _containsOptionalMember

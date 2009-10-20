@@ -709,10 +709,6 @@
 		</uint16>
 	</struct>
 	<struct name="StyleTextPropAtom">
-		<!--
-			<limitation expression="this must be preceded by an element with
-			property textChars.count" />
-		-->
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
@@ -722,8 +718,10 @@
 			<type name="rgTextPFRun" type="TextPFRun" array="true" /> <type
 			name="rgTextCFRun" type="TextCFRun" array="true" />
 		-->
-		<!--			this one seems very hard to do -->
+		<!-- this one seems very hard to do -->
 		<uint8 name="todo" count="rh.recLen" />
+		<limitation expression="sum(rgTextPFRun/count)=count(../text/textChars)+1" />
+		<limitation expression="sum(rgTextCFRun/count)=count(../text/textChars)" />
 	</struct>
 	<struct name="TextPFRun">
 		<uint32 name="count">

@@ -78,6 +78,8 @@
 				<element name="vartype" type="tns:vartypeType" />
 				<element name="choice" type="tns:choiceType" />
 			</choice>
+			<element name="limitation" type="tns:limitationType"
+				minOccurs="0" maxOccurs="unbounded"/>
 		</sequence>
 		<attribute name="name" type="NCName" use="required" />
 	</complexType>
