@@ -266,12 +266,16 @@ public class JavaParserGenerator {
 		}
 		out.print(s + "_s." + m.name + " = ");
 		if (count != null) {
-			out.println("new " + getTypeName(m) + "[_c];");
-			out.println(s + "for (int _i=0; _i<_c; ++_i) {");
-			out.println(s + "    _s." + m.name + "[_i] = " + parse);
-			printLimitationCheck(out, "            ", "_s." + m.name + "[_i]",
-					m);
-			out.println(s + "}");
+			if (m.type.equals("uint8")) {
+				out.println("in.readBytes(_c);");
+			} else {
+				out.println("new " + getTypeName(m) + "[_c];");
+				out.println(s + "for (int _i=0; _i<_c; ++_i) {");
+				out.println(s + "    _s." + m.name + "[_i] = " + parse);
+				printLimitationCheck(out, "            ", "_s." + m.name
+						+ "[_i]", m);
+				out.println(s + "}");
+			}
 		} else {
 			out.println(parse);
 			printLimitationCheck(out, "        ", "_s." + m.name, m);

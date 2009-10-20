@@ -2,6 +2,7 @@ package mso.javaparser;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * byte = int8 short = int16 char = uint16 int = int32 long = int64
@@ -213,6 +214,11 @@ public class LEInputStream {
 		int d = readUnsignedByte();
 		int v = (d << 24) | (c << 16) | (b << 8) | a;
 		return v;
+	}
+
+	public byte[] readBytes(int n) {
+		pos += n;
+		return Arrays.copyOfRange(data, pos - n, pos);
 	}
 
 	public int getPosition() {

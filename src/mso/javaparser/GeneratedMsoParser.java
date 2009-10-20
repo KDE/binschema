@@ -105,20 +105,14 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.unused = in.readuint16();
         _c = _s.lenUserName;
-        _s.ansiUserName = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.ansiUserName[_i] = in.readuint8();
-        }
+        _s.ansiUserName = in.readBytes(_c);
         _s.relVersion = in.readuint32();
         if (!(_s.relVersion == 0x8 || _s.relVersion == 0x9)) {
             throw new IncorrectValueException(in.getPosition() + "_s.relVersion == 0x8 || _s.relVersion == 0x9 for value " + String.valueOf(_s.relVersion) );
         }
         if (_s.rh.recLen==3*_s.lenUserName+0x14) {
             _c = 2*_s.lenUserName;
-            _s.unicodeUserName = new byte[_c];
-            for (int _i=0; _i<_c; ++_i) {
-                _s.unicodeUserName[_i] = in.readuint8();
-            }
+            _s.unicodeUserName = in.readBytes(_c);
         }
         return _s;
     }
@@ -274,23 +268,14 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF01D for value " + String.valueOf(_s.rh) );
         }
         _c = 16;
-        _s.rgbUid1 = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid1[_i] = in.readuint8();
-        }
+        _s.rgbUid1 = in.readBytes(_c);
         if (_s.rh.recInstance == 0x46B || _s.rh.recInstance == 0x6E3) {
             _c = 16;
-            _s.rgbUid2 = new byte[_c];
-            for (int _i=0; _i<_c; ++_i) {
-                _s.rgbUid2[_i] = in.readuint8();
-            }
+            _s.rgbUid2 = in.readBytes(_c);
         }
         _s.tag = in.readuint8();
         _c = _s.rh.recLen-((_s.rh.recInstance == 0x46A || _s.rh.recInstance == 0x6E2)?17:33);
-        _s.BLIPFileData = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.BLIPFileData[_i] = in.readuint8();
-        }
+        _s.BLIPFileData = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtBlipJPEG _s, LEOutputStream out) throws IOException  {
@@ -322,23 +307,14 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF01E for value " + String.valueOf(_s.rh) );
         }
         _c = 16;
-        _s.rgbUid1 = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid1[_i] = in.readuint8();
-        }
+        _s.rgbUid1 = in.readBytes(_c);
         if (_s.rh.recInstance == 0x6E1) {
             _c = 16;
-            _s.rgbUid2 = new byte[_c];
-            for (int _i=0; _i<_c; ++_i) {
-                _s.rgbUid2[_i] = in.readuint8();
-            }
+            _s.rgbUid2 = in.readBytes(_c);
         }
         _s.tag = in.readuint8();
         _c = _s.rh.recLen-((_s.rh.recInstance==0x6E0)?17:33);
-        _s.BLIPFileData = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.BLIPFileData[_i] = in.readuint8();
-        }
+        _s.BLIPFileData = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtBlipPNG _s, LEOutputStream out) throws IOException  {
@@ -370,23 +346,14 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF01F for value " + String.valueOf(_s.rh) );
         }
         _c = 16;
-        _s.rgbUid1 = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid1[_i] = in.readuint8();
-        }
+        _s.rgbUid1 = in.readBytes(_c);
         if (_s.rh.recInstance == 0x7A9) {
             _c = 16;
-            _s.rgbUid2 = new byte[_c];
-            for (int _i=0; _i<_c; ++_i) {
-                _s.rgbUid2[_i] = in.readuint8();
-            }
+            _s.rgbUid2 = in.readBytes(_c);
         }
         _s.tag = in.readuint8();
         _c = _s.rh.recLen-((_s.rh.recInstance==0x7A8)?17:33);
-        _s.BLIPFileData = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.BLIPFileData[_i] = in.readuint8();
-        }
+        _s.BLIPFileData = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtBlipDIB _s, LEOutputStream out) throws IOException  {
@@ -418,23 +385,14 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF020 for value " + String.valueOf(_s.rh) );
         }
         _c = 16;
-        _s.rgbUid1 = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid1[_i] = in.readuint8();
-        }
+        _s.rgbUid1 = in.readBytes(_c);
         if (_s.rh.recInstance == 0x6E5) {
             _c = 16;
-            _s.rgbUid2 = new byte[_c];
-            for (int _i=0; _i<_c; ++_i) {
-                _s.rgbUid2[_i] = in.readuint8();
-            }
+            _s.rgbUid2 = in.readBytes(_c);
         }
         _s.tag = in.readuint8();
         _c = _s.rh.recLen-((_s.rh.recInstance==0x6E4)?17:33);
-        _s.BLIPFileData = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.BLIPFileData[_i] = in.readuint8();
-        }
+        _s.BLIPFileData = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtBlipTIFF _s, LEOutputStream out) throws IOException  {
@@ -521,10 +479,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x7E4 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(SoundCollectionContainer _s, LEOutputStream out) throws IOException  {
@@ -547,10 +502,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(SlideHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
@@ -573,10 +525,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(NotesHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
@@ -599,10 +548,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(PerSlideHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
@@ -774,10 +720,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x138A for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(DocProgBinaryTagContainerOrAtom _s, LEOutputStream out) throws IOException  {
@@ -800,10 +743,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x408 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(SorterViewInfoContainer _s, LEOutputStream out) throws IOException  {
@@ -929,10 +869,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0FF0 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(NotesListWithTextContainer _s, LEOutputStream out) throws IOException  {
@@ -1009,13 +946,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFA8 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.textChars = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.textChars[_i] = in.readuint8();
-            if (!(_s.textChars[_i] != 0)) {
-                throw new IncorrectValueException(in.getPosition() + "_s.textChars[_i] != 0 for value " + String.valueOf(_s.textChars[_i]) );
-            }
-        }
+        _s.textChars = in.readBytes(_c);
         return _s;
     }
     void write(TextBytesAtom _s, LEOutputStream out) throws IOException  {
@@ -1079,10 +1010,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFA1 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(StyleTextPropAtom _s, LEOutputStream out) throws IOException  {
@@ -1132,10 +1060,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.position = in.readint32();
         _s.index = in.readuint8();
         _c = 3;
-        _s.unused = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.unused[_i] = in.readuint8();
-        }
+        _s.unused = in.readBytes(_c);
         return _s;
     }
     void write(DateTimeMCAtom _s, LEOutputStream out) throws IOException  {
@@ -1230,10 +1155,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.position = in.readint32();
         _c = 128;
-        _s.format = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.format[_i] = in.readuint8();
-        }
+        _s.format = in.readBytes(_c);
         return _s;
     }
     void write(RTFDateTimeMCAtom _s, LEOutputStream out) throws IOException  {
@@ -1286,10 +1208,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 8 for value " + String.valueOf(_s.rh) );
         }
         _c = 8;
-        _s.range = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.range[_i] = in.readuint8();
-        }
+        _s.range = in.readBytes(_c);
         return _s;
     }
     void write(MouseTextInteractiveInfoAtom _s, LEOutputStream out) throws IOException  {
@@ -1611,10 +1530,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFB8 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.data = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.data[_i] = in.readuint8();
-        }
+        _s.data = in.readBytes(_c);
         return _s;
     }
     void write(FontEmbedDataBlob _s, LEOutputStream out) throws IOException  {
@@ -1829,10 +1745,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1773 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(UnknownDocumentContainerChild _s, LEOutputStream out) throws IOException  {
@@ -1855,10 +1768,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1788 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(UnknownDocumentContainerChild2 _s, LEOutputStream out) throws IOException  {
@@ -1881,10 +1791,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x101A for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(UnknownDocumentContainerChild3 _s, LEOutputStream out) throws IOException  {
@@ -1907,10 +1814,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x41A for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(UnknownDocumentContainerChild4 _s, LEOutputStream out) throws IOException  {
@@ -1933,10 +1837,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFE8 || _s.rh.recType == 0x1019 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(UnknownOfficeArtClientDataChild _s, LEOutputStream out) throws IOException  {
@@ -1959,10 +1860,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x101D for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(UnknownSlideContainerChild _s, LEOutputStream out) throws IOException  {
@@ -2049,10 +1947,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x423 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(RoundTripOArtTextStyles12Atom _s, LEOutputStream out) throws IOException  {
@@ -2078,10 +1973,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2==0 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(SlideNameAtom _s, LEOutputStream out) throws IOException  {
@@ -2132,10 +2024,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x138A for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(SlideProgBinaryTagContainer _s, LEOutputStream out) throws IOException  {
@@ -2204,10 +2093,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x41C || _s.rh.recType == 0x40E || _s.rh.recType == 0x040F || _s.rh.recType == 0x41E || _s.rh.recType == 0x0423 || _s.rh.recType == 0x2B0D || _s.rh.recType == 0x2B0B || _s.rh.recType == 0x041D for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(RoundTripMainMasterRecord _s, LEOutputStream out) throws IOException  {
@@ -2259,10 +2145,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x3714 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(RoundTripSlideSyncInfo12Container _s, LEOutputStream out) throws IOException  {
@@ -2285,10 +2168,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x03F0 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(NotesContainer _s, LEOutputStream out) throws IOException  {
@@ -2311,10 +2191,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0FC9 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(HandoutContainer _s, LEOutputStream out) throws IOException  {
@@ -2337,10 +2214,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1011 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExControlStg _s, LEOutputStream out) throws IOException  {
@@ -2363,10 +2237,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1011 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExOleObjStg _s, LEOutputStream out) throws IOException  {
@@ -2447,10 +2318,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1011 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(VbaProjectStg _s, LEOutputStream out) throws IOException  {
@@ -2473,10 +2341,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1388 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(SlideProgTagscontainer _s, LEOutputStream out) throws IOException  {
@@ -2503,10 +2368,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.geom = in.readuint32();
         _c = 8;
-        _s.rgPlaceholderTypes = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgPlaceholderTypes[_i] = in.readuint8();
-        }
+        _s.rgPlaceholderTypes = in.readBytes(_c);
         _s.masterIdRef = in.readuint32();
         _s.notesIdRef = in.readuint32();
         _s.slideFlags = in.readuint16();
@@ -2560,10 +2422,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.reserved7 = in.readuint3();
         _s.speed = in.readuint8();
         _c = 3;
-        _s.unused = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.unused[_i] = in.readuint8();
-        }
+        _s.unused = in.readBytes(_c);
         return _s;
     }
     void write(SlideShowSlideInfoAtom _s, LEOutputStream out) throws IOException  {
@@ -2608,10 +2467,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x50 for value " + String.valueOf(_s.rh) );
         }
         _c = 0x50;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(SlideShowDocInfoAtom _s, LEOutputStream out) throws IOException  {
@@ -2657,10 +2513,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x40E || _s.rh.recType == 0x40F || _s.rh.recType == 0x41D || _s.rh.recType == 0x3714 || _s.rh.recType == 0x2B0D || _s.rh.recType == 0x2B0B || _s.rh.recType == 0x422 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(RoundTripSlideRecord _s, LEOutputStream out) throws IOException  {
@@ -2683,10 +2536,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x410 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(NamedShowsContainer _s, LEOutputStream out) throws IOException  {
@@ -2709,10 +2559,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x402 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(SummaryContainer _s, LEOutputStream out) throws IOException  {
@@ -2735,10 +2582,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x406 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(DocRoutingSlipAtom _s, LEOutputStream out) throws IOException  {
@@ -2764,10 +2608,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 5 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(PrintOptionsAtom _s, LEOutputStream out) throws IOException  {
@@ -2790,10 +2631,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x428 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(RoundTripCustomTableStyles12Atom _s, LEOutputStream out) throws IOException  {
@@ -2855,10 +2693,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1006 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExAviMovieContainer _s, LEOutputStream out) throws IOException  {
@@ -2881,10 +2716,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x100E for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExCDAudioContainer _s, LEOutputStream out) throws IOException  {
@@ -2907,10 +2739,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFEE for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExControlContainer _s, LEOutputStream out) throws IOException  {
@@ -2933,10 +2762,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD7 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExHyperlinkContainer _s, LEOutputStream out) throws IOException  {
@@ -2959,10 +2785,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1007 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExMCIMovieContainer _s, LEOutputStream out) throws IOException  {
@@ -2985,10 +2808,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x100D for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExMIDIAudioContainer _s, LEOutputStream out) throws IOException  {
@@ -3011,10 +2831,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x100F for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExWAVAudioEmbeddedContainer _s, LEOutputStream out) throws IOException  {
@@ -3037,10 +2854,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1010 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExWAVAudioLinkContainer _s, LEOutputStream out) throws IOException  {
@@ -3063,10 +2877,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFEA for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(UnknownExObjListSubContainerChild _s, LEOutputStream out) throws IOException  {
@@ -3150,10 +2961,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2 == 0  for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.menuName = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.menuName[_i] = in.readuint8();
-        }
+        _s.menuName = in.readBytes(_c);
         return _s;
     }
     void write(MenuNameAtom _s, LEOutputStream out) throws IOException  {
@@ -3179,10 +2987,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2 == 0  for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.progId = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.progId[_i] = in.readuint8();
-        }
+        _s.progId = in.readBytes(_c);
         return _s;
     }
     void write(ProgIDAtom _s, LEOutputStream out) throws IOException  {
@@ -3208,10 +3013,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2 == 0  for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.clipboardName = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.clipboardName[_i] = in.readuint8();
-        }
+        _s.clipboardName = in.readBytes(_c);
         return _s;
     }
     void write(ClipboardNameAtom _s, LEOutputStream out) throws IOException  {
@@ -3240,10 +3042,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.xExt = in.readint16();
         _s.yExt = in.readint16();
         _c = _s.rh.recLen-6;
-        _s.data = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.data[_i] = in.readuint8();
-        }
+        _s.data = in.readBytes(_c);
         return _s;
     }
     void write(MetafileBlob _s, LEOutputStream out) throws IOException  {
@@ -3399,10 +3198,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF005 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtSolverContainer _s, LEOutputStream out) throws IOException  {
@@ -3503,10 +3299,7 @@ System.out.println(in.getPosition()+" "+_s);
             _s.fopt[_i] = parseOfficeArtFOPTEChoice(in);
         }
         _c = _s.rh.recLen-6*_s.rh.recInstance;
-        _s.complexData = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.complexData[_i] = in.readuint8();
-        }
+        _s.complexData = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtFOPT _s, LEOutputStream out) throws IOException  {
@@ -3522,10 +3315,7 @@ System.out.println(in.getPosition()+" "+_s);
         OfficeArtFOPTEComplexData _s = new OfficeArtFOPTEComplexData();
         int _c;
         _c = 0;
-        _s.data = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.data[_i] = in.readuint8();
-        }
+        _s.data = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtFOPTEComplexData _s, LEOutputStream out) throws IOException  {
@@ -3636,10 +3426,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF121 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtSecondaryFOPT _s, LEOutputStream out) throws IOException  {
@@ -3664,10 +3451,7 @@ System.out.println(in.getPosition()+" "+_s);
             _s.fopt[_i] = parseOfficeArtFOPTE(in);
         }
         _c = _s.rh.recLen-6*_s.rh.recInstance;
-        _s.complexData = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.complexData[_i] = in.readuint8();
-        }
+        _s.complexData = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtTertiaryFOPT _s, LEOutputStream out) throws IOException  {
@@ -3724,10 +3508,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 1 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ShapeFlagsAtom _s, LEOutputStream out) throws IOException  {
@@ -3753,10 +3534,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 1 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ShapeFlags10Atom _s, LEOutputStream out) throws IOException  {
@@ -3782,10 +3560,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 4 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ExObjRefAtom _s, LEOutputStream out) throws IOException  {
@@ -3808,10 +3583,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1014 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(AnimationInfoContainer _s, LEOutputStream out) throws IOException  {
@@ -3857,10 +3629,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.reserved = in.readuint4();
         _s.hyperlinkType = in.readuint8();
         _c = 3;
-        _s.unused = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.unused[_i] = in.readuint8();
-        }
+        _s.unused = in.readBytes(_c);
         return _s;
     }
     void write(InteractiveInfoAtom _s, LEOutputStream out) throws IOException  {
@@ -3897,10 +3666,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2==0 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.macroName = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.macroName[_i] = in.readuint8();
-        }
+        _s.macroName = in.readBytes(_c);
         return _s;
     }
     void write(MacroNameAtom _s, LEOutputStream out) throws IOException  {
@@ -3951,10 +3717,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFE7 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(RecolorInfoAtom _s, LEOutputStream out) throws IOException  {
@@ -3996,10 +3759,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1388 || _s.rh.recType == 0xBDD || _s.rh.recType == 0x41F || _s.rh.recType == 0x420 || _s.rh.recType == 0x426 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(ShapeClientRoundtripDataSubcontainerOrAtom _s, LEOutputStream out) throws IOException  {
@@ -4050,10 +3810,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFA6 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(TextRulerAtom _s, LEOutputStream out) throws IOException  {
@@ -4162,10 +3919,7 @@ System.out.println(in.getPosition()+" "+_s);
         int _c;
         _s.rh = parseRecordHeader(in);
         _c = _s.rh.recLen;
-        _s.anon = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.anon[_i] = in.readuint8();
-        }
+        _s.anon = in.readBytes(_c);
         return _s;
     }
     void write(todo _s, LEOutputStream out) throws IOException  {
@@ -4932,10 +4686,7 @@ System.out.println(in.getPosition()+" "+_s);
         int _c;
         _s.cbSthi = in.readuint16();
         _c = _s.cbSthi;
-        _s.stshi = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.stshi[_i] = in.readuint8();
-        }
+        _s.stshi = in.readBytes(_c);
         return _s;
     }
     void write(LPStshi _s, LEOutputStream out) throws IOException  {
@@ -4949,10 +4700,7 @@ System.out.println(in.getPosition()+" "+_s);
         int _c;
         _s.cbStd = in.readuint16();
         _c = _s.cbStd;
-        _s.std = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.std[_i] = in.readuint8();
-        }
+        _s.std = in.readBytes(_c);
         if (_s.cbStd%2==1) {
             _s.padding = in.readuint8();
         }
@@ -5073,10 +4821,7 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.nTcgVer == 0 for value " + String.valueOf(_s.nTcgVer) );
         }
         _c = 11;
-        _s.todo = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.todo[_i] = in.readuint8();
-        }
+        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(Tcg _s, LEOutputStream out) throws IOException  {
@@ -5214,10 +4959,7 @@ System.out.println(in.getPosition()+" "+_s);
         int _c;
         _s.cchData = in.readuint8();
         _c = _s.cchData;
-        _s.Data = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.Data[_i] = in.readuint8();
-        }
+        _s.Data = in.readBytes(_c);
         return _s;
     }
     void write(SttbfFfnEntry _s, LEOutputStream out) throws IOException  {
@@ -5233,11 +4975,8 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.size%2==0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.size%2==0 for value " + String.valueOf(_s.size) );
         }
-        _c = 4*(_s.size/4)+(_s.size%4)?4:0;
-        _s.characters = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.characters[_i] = in.readuint8();
-        }
+        _c = 4*(_s.size/4)+((_s.size%4!=0)?4:0);
+        _s.characters = in.readBytes(_c);
         return _s;
     }
     void write(CodePageString _s, LEOutputStream out) throws IOException  {
@@ -5261,11 +5000,8 @@ System.out.println(in.getPosition()+" "+_s);
         int _c;
         _s.size = in.readuint32();
         _s.format = in.readuint32();
-        _c = 4*(_s.size/4)+((_s.size%4)?4:0)-4;
-        _s.data = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.data[_i] = in.readuint8();
-        }
+        _c = 4*(_s.size/4)+((_s.size%4!=0)?4:0)-4;
+        _s.data = in.readBytes(_c);
         return _s;
     }
     void write(ClipboardData _s, LEOutputStream out) throws IOException  {
@@ -5371,26 +5107,17 @@ System.out.println(in.getPosition()+" "+_s);
         _s.version = in.readuint16();
         _s.systemIdentifier = in.readuint32();
         _c = 16;
-        _s.clsID = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.clsID[_i] = in.readuint8();
-        }
+        _s.clsID = in.readBytes(_c);
         _s.numPropertySets = in.readuint32();
         if (!(_s.numPropertySets == 1 || _s.numPropertySets == 2)) {
             throw new IncorrectValueException(in.getPosition() + "_s.numPropertySets == 1 || _s.numPropertySets == 2 for value " + String.valueOf(_s.numPropertySets) );
         }
         _c = 16;
-        _s.fmtID0 = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.fmtID0[_i] = in.readuint8();
-        }
+        _s.fmtID0 = in.readBytes(_c);
         _s.offset0 = in.readuint32();
         if (_s.numPropertySets==2) {
             _c = 16;
-            _s.fmtID1 = new byte[_c];
-            for (int _i=0; _i<_c; ++_i) {
-                _s.fmtID1[_i] = in.readuint8();
-            }
+            _s.fmtID1 = in.readBytes(_c);
         }
         if (_s.numPropertySets==2) {
             _s.offset1 = in.readuint32();
@@ -5524,10 +5251,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.curScale = parseScalingStruct(in);
         _c = 24;
-        _s.unused1 = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.unused1[_i] = in.readuint8();
-        }
+        _s.unused1 = in.readBytes(_c);
         _s.origin = parsePointStruct(in);
         _s.unused2 = in.readuint8();
         _s.fDraftMode = in.readuint8();
@@ -7717,15 +7441,9 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.cswNew == 0 || _s.cswNew == 2 || _s.cswNew == 5 for value " + String.valueOf(_s.cswNew) );
         }
         _c = 2*_s.cswNew;
-        _s.fibRgCswNew = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.fibRgCswNew[_i] = in.readuint8();
-        }
+        _s.fibRgCswNew = in.readBytes(_c);
         _c = _s.fibRgLw.cbMac-156-8*_s.cbRgFcLcb-2*_s.cswNew;
-        _s.trail = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.trail[_i] = in.readuint8();
-        }
+        _s.trail = in.readBytes(_c);
         return _s;
     }
     void write(Fib _s, LEOutputStream out) throws IOException  {
@@ -7850,23 +7568,14 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF01A for value " + String.valueOf(_s.rh) );
         }
         _c = 16;
-        _s.rgbUid1 = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid1[_i] = in.readuint8();
-        }
+        _s.rgbUid1 = in.readBytes(_c);
         if (_s.rh.recInstance == 0x3D5) {
             _c = 16;
-            _s.rgbUid2 = new byte[_c];
-            for (int _i=0; _i<_c; ++_i) {
-                _s.rgbUid2[_i] = in.readuint8();
-            }
+            _s.rgbUid2 = in.readBytes(_c);
         }
         _s.metafileHeader = parseOfficeArtMetafileHeader(in);
         _c = _s.rh.recLen-((_s.rh.recInstance==0x3D4)?50:66);
-        _s.BLIPFileData = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.BLIPFileData[_i] = in.readuint8();
-        }
+        _s.BLIPFileData = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtBlipEMF _s, LEOutputStream out) throws IOException  {
@@ -7898,23 +7607,14 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF01B for value " + String.valueOf(_s.rh) );
         }
         _c = 16;
-        _s.rgbUid1 = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid1[_i] = in.readuint8();
-        }
+        _s.rgbUid1 = in.readBytes(_c);
         if (_s.rh.recInstance == 0x217) {
             _c = 16;
-            _s.rgbUid2 = new byte[_c];
-            for (int _i=0; _i<_c; ++_i) {
-                _s.rgbUid2[_i] = in.readuint8();
-            }
+            _s.rgbUid2 = in.readBytes(_c);
         }
         _s.metafileHeader = parseOfficeArtMetafileHeader(in);
         _c = _s.rh.recLen-((_s.rh.recInstance==0x216)?50:66);
-        _s.BLIPFileData = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.BLIPFileData[_i] = in.readuint8();
-        }
+        _s.BLIPFileData = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtBlipWMF _s, LEOutputStream out) throws IOException  {
@@ -7946,23 +7646,14 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF01C for value " + String.valueOf(_s.rh) );
         }
         _c = 16;
-        _s.rgbUid1 = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid1[_i] = in.readuint8();
-        }
+        _s.rgbUid1 = in.readBytes(_c);
         if (_s.rh.recInstance == 0x543) {
             _c = 16;
-            _s.rgbUid2 = new byte[_c];
-            for (int _i=0; _i<_c; ++_i) {
-                _s.rgbUid2[_i] = in.readuint8();
-            }
+            _s.rgbUid2 = in.readBytes(_c);
         }
         _s.metafileHeader = parseOfficeArtMetafileHeader(in);
         _c = _s.rh.recLen-((_s.rh.recInstance==0x542)?50:66);
-        _s.BLIPFileData = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.BLIPFileData[_i] = in.readuint8();
-        }
+        _s.BLIPFileData = in.readBytes(_c);
         return _s;
     }
     void write(OfficeArtBlipPICT _s, LEOutputStream out) throws IOException  {
@@ -8061,10 +7752,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.curScale = parseScalingStruct(in);
         _c = 24;
-        _s.unused1 = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.unused1[_i] = in.readuint8();
-        }
+        _s.unused1 = in.readBytes(_c);
         _s.origin = parsePointStruct(in);
         _s.fUseVarScale = in.readuint8();
         if (!(_s.fUseVarScale == 0 || _s.fUseVarScale == 1)) {
@@ -9143,10 +8831,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.clx = parseClx(in);
         _s.sttbfFfn = parseSttbfFfn(in);
         _c = 600;
-        _s.dop = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.dop[_i] = in.readuint8();
-        }
+        _s.dop = in.readBytes(_c);
         return _s;
     }
     void write(Table _s, LEOutputStream out) throws IOException  {
@@ -9201,10 +8886,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.btWin32 = in.readuint8();
         _s.btMacOS = in.readuint8();
         _c = 16;
-        _s.rgbUid = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.rgbUid[_i] = in.readuint8();
-        }
+        _s.rgbUid = in.readBytes(_c);
         _s.tag = in.readuint16();
         _s.size = in.readuint32();
         _s.cRef = in.readuint32();
@@ -9214,10 +8896,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.unused2 = in.readuint8();
         _s.unused3 = in.readuint8();
         _c = _s.cbName;
-        _s.nameData = new byte[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.nameData[_i] = in.readuint8();
-        }
+        _s.nameData = in.readBytes(_c);
         if (_s.rh.recLen > 36 + _s.cbName) {
             _s.embeddedBlip = parseOfficeArtBlip(in);
         }
