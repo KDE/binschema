@@ -3454,16 +3454,45 @@
 		<uint8 name="cchData" />
 		<uint8 name="Data" count="cchData" />
 	</struct>
+	<struct name="CodePageString">
+		<uint32 name="size">
+			<limitation expression="%2==0" />
+		</uint32>
+		<!--  needs padding to a multiple of 4 -->
+		<uint8 name="characters" count="4*(size/4)+(size%4)?4:0" />
+	</struct>
+	<struct name="FILETIME">
+		<uint32 name="dwLowDateTime" />
+		<uint32 name="dwHighDateTime" />
+	</struct>
+	<struct name="ClipboardData">
+		<uint32 name="size" />
+		<uint32 name="format" />
+		<!--  needs padding to a multiple of 4 -->
+		<uint8 name="data" count="4*(size/4)+((size%4)?4:0)-4" />
+	</struct>
 	<struct name="PropertyIdentifierAndOffset">
 		<uint32 name="propertyIdentifier" />
 		<uint32 name="offset" />
+	</struct>
+	<struct name="TypedPropertyValue">
+		<uint16 name="type" />
+		<uint16 name="padding">
+			<!-- 	<limitation value="0" />-->
+		</uint16>
+		<uint16 name="vt_I2" condition="type==2" />
+		<uint16 name="paddingI2" condition="type==2" />
+		<uint32 name="vg_ERROR" condition="type==10" />
+		<type name="vt_lpstr" type="CodePageString" condition="type==30" />
+		<type name="vg_FILETIME" type="FILETIME" condition="type==64" />
+		<type name="vg_CF" type="ClipboardData" condition="type==71" />
 	</struct>
 	<struct name="PropertySet">
 		<uint32 name="size" />
 		<uint32 name="numProperties" />
 		<type name="propertyIdentifierAndOffset" type="PropertyIdentifierAndOffset"
 			count="numProperties" />
-		<uint8 name="property" count="size-8-8*numProperties" />
+		<type name="property" type="TypedPropertyValue" count="numProperties" />
 	</struct>
 	<struct name="PropertySetStream">
 		<uint16 name="byteOrder">

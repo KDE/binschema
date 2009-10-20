@@ -531,9 +531,21 @@ void write(const SttbfFfn& v, LEOutputStream& out);
 class SttbfFfnEntry;
 void parseSttbfFfnEntry(LEInputStream& in, SttbfFfnEntry& _s);
 void write(const SttbfFfnEntry& v, LEOutputStream& out);
+class CodePageString;
+void parseCodePageString(LEInputStream& in, CodePageString& _s);
+void write(const CodePageString& v, LEOutputStream& out);
+class FILETIME;
+void parseFILETIME(LEInputStream& in, FILETIME& _s);
+void write(const FILETIME& v, LEOutputStream& out);
+class ClipboardData;
+void parseClipboardData(LEInputStream& in, ClipboardData& _s);
+void write(const ClipboardData& v, LEOutputStream& out);
 class PropertyIdentifierAndOffset;
 void parsePropertyIdentifierAndOffset(LEInputStream& in, PropertyIdentifierAndOffset& _s);
 void write(const PropertyIdentifierAndOffset& v, LEOutputStream& out);
+class TypedPropertyValue;
+void parseTypedPropertyValue(LEInputStream& in, TypedPropertyValue& _s);
+void write(const TypedPropertyValue& v, LEOutputStream& out);
 class PropertySet;
 void parsePropertySet(LEInputStream& in, PropertySet& _s);
 void write(const PropertySet& v, LEOutputStream& out);
@@ -4931,6 +4943,59 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class CodePageString : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    quint32 size;
+    QByteArray characters;
+    CodePageString()  {
+    }
+    QString toString() {
+        QString _s = "CodePageString:";
+        _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
+        _s = _s + "characters: " + "[array of characters]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class FILETIME : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    quint32 dwLowDateTime;
+    quint32 dwHighDateTime;
+    FILETIME()  {
+    }
+    QString toString() {
+        QString _s = "FILETIME:";
+        _s = _s + "dwLowDateTime: " + QString::number(dwLowDateTime) + "(" + QString::number(dwLowDateTime,16).toUpper() + ")" + ", ";
+        _s = _s + "dwHighDateTime: " + QString::number(dwHighDateTime) + "(" + QString::number(dwHighDateTime,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class ClipboardData : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    quint32 size;
+    quint32 format;
+    QByteArray data;
+    ClipboardData()  {
+    }
+    QString toString() {
+        QString _s = "ClipboardData:";
+        _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
+        _s = _s + "format: " + QString::number(format) + "(" + QString::number(format,16).toUpper() + ")" + ", ";
+        _s = _s + "data: " + "[array of data]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class PropertyIdentifierAndOffset : public Introspectable {
 private:
     class _Introspection;
@@ -4948,6 +5013,38 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class TypedPropertyValue : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    bool _has_vt_I2;
+    bool _has_paddingI2;
+    bool _has_vg_ERROR;
+    quint16 type;
+    quint16 padding;
+    quint16 vt_I2;
+    quint16 paddingI2;
+    quint32 vg_ERROR;
+    QSharedPointer<CodePageString> vt_lpstr;
+    QSharedPointer<FILETIME> vg_FILETIME;
+    QSharedPointer<ClipboardData> vg_CF;
+    TypedPropertyValue()  {
+    }
+    QString toString() {
+        QString _s = "TypedPropertyValue:";
+        _s = _s + "type: " + QString::number(type) + "(" + QString::number(type,16).toUpper() + ")" + ", ";
+        _s = _s + "padding: " + QString::number(padding) + "(" + QString::number(padding,16).toUpper() + ")" + ", ";
+        _s = _s + "vt_I2: " + QString::number(vt_I2) + "(" + QString::number(vt_I2,16).toUpper() + ")" + ", ";
+        _s = _s + "paddingI2: " + QString::number(paddingI2) + "(" + QString::number(paddingI2,16).toUpper() + ")" + ", ";
+        _s = _s + "vg_ERROR: " + QString::number(vg_ERROR) + "(" + QString::number(vg_ERROR,16).toUpper() + ")" + ", ";
+        _s = _s + "vt_lpstr: " + ((vt_lpstr)?vt_lpstr->toString() :"null") + ", ";
+        _s = _s + "vg_FILETIME: " + ((vg_FILETIME)?vg_FILETIME->toString() :"null") + ", ";
+        _s = _s + "vg_CF: " + ((vg_CF)?vg_CF->toString() :"null") + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class PropertySet : public Introspectable {
 private:
     class _Introspection;
@@ -4956,7 +5053,7 @@ public:
     quint32 size;
     quint32 numProperties;
     QList<PropertyIdentifierAndOffset> propertyIdentifierAndOffset;
-    QByteArray property;
+    QList<TypedPropertyValue> property;
     PropertySet()  {
     }
     QString toString() {
@@ -17806,6 +17903,118 @@ const Introspectable* (* const SttbfFfnEntry::_Introspection::introspectable[2])
 };
 const Introspection SttbfFfnEntry::_introspection(
     "SttbfFfnEntry", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class CodePageString::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static QVariant get_size(const Introspectable* i, int j) {
+        return static_cast<const CodePageString*>(i)->size;
+    }
+    static QVariant get_characters(const Introspectable* i, int j) {
+        return static_cast<const CodePageString*>(i)->characters;
+    }
+};
+const QString CodePageString::_Introspection::name("CodePageString");
+const int CodePageString::_Introspection::numberOfMembers(2);
+const QString CodePageString::_Introspection::names[2] = {
+    "size",
+    "characters",
+};
+int (* const CodePageString::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const CodePageString::_Introspection::value[2])(const Introspectable*, int position) = {
+    _Introspection::get_size,
+    _Introspection::get_characters,
+};
+const Introspectable* (* const CodePageString::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection CodePageString::_introspection(
+    "CodePageString", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class FILETIME::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static QVariant get_dwLowDateTime(const Introspectable* i, int j) {
+        return static_cast<const FILETIME*>(i)->dwLowDateTime;
+    }
+    static QVariant get_dwHighDateTime(const Introspectable* i, int j) {
+        return static_cast<const FILETIME*>(i)->dwHighDateTime;
+    }
+};
+const QString FILETIME::_Introspection::name("FILETIME");
+const int FILETIME::_Introspection::numberOfMembers(2);
+const QString FILETIME::_Introspection::names[2] = {
+    "dwLowDateTime",
+    "dwHighDateTime",
+};
+int (* const FILETIME::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const FILETIME::_Introspection::value[2])(const Introspectable*, int position) = {
+    _Introspection::get_dwLowDateTime,
+    _Introspection::get_dwHighDateTime,
+};
+const Introspectable* (* const FILETIME::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection FILETIME::_introspection(
+    "FILETIME", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class ClipboardData::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[3];
+    static int (* const numberOfInstances[3])(const Introspectable*);
+    static QVariant (* const value[3])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
+    static QVariant get_size(const Introspectable* i, int j) {
+        return static_cast<const ClipboardData*>(i)->size;
+    }
+    static QVariant get_format(const Introspectable* i, int j) {
+        return static_cast<const ClipboardData*>(i)->format;
+    }
+    static QVariant get_data(const Introspectable* i, int j) {
+        return static_cast<const ClipboardData*>(i)->data;
+    }
+};
+const QString ClipboardData::_Introspection::name("ClipboardData");
+const int ClipboardData::_Introspection::numberOfMembers(3);
+const QString ClipboardData::_Introspection::names[3] = {
+    "size",
+    "format",
+    "data",
+};
+int (* const ClipboardData::_Introspection::numberOfInstances[3])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const ClipboardData::_Introspection::value[3])(const Introspectable*, int position) = {
+    _Introspection::get_size,
+    _Introspection::get_format,
+    _Introspection::get_data,
+};
+const Introspectable* (* const ClipboardData::_Introspection::introspectable[3])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection ClipboardData::_introspection(
+    "ClipboardData", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class PropertyIdentifierAndOffset::_Introspection {
 public:
     static const QString name;
@@ -17841,6 +18050,101 @@ const Introspectable* (* const PropertyIdentifierAndOffset::_Introspection::intr
 };
 const Introspection PropertyIdentifierAndOffset::_introspection(
     "PropertyIdentifierAndOffset", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class TypedPropertyValue::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[8];
+    static int (* const numberOfInstances[8])(const Introspectable*);
+    static QVariant (* const value[8])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[8])(const Introspectable*, int position);
+    static QVariant get_type(const Introspectable* i, int j) {
+        return static_cast<const TypedPropertyValue*>(i)->type;
+    }
+    static QVariant get_padding(const Introspectable* i, int j) {
+        return static_cast<const TypedPropertyValue*>(i)->padding;
+    }
+    static int count_vt_I2(const Introspectable* i) {
+        return static_cast<const TypedPropertyValue*>(i)->_has_vt_I2 ?1 :0;
+    }
+    static QVariant get_vt_I2(const Introspectable* i, int j) {
+        return static_cast<const TypedPropertyValue*>(i)->vt_I2;
+    }
+    static int count_paddingI2(const Introspectable* i) {
+        return static_cast<const TypedPropertyValue*>(i)->_has_paddingI2 ?1 :0;
+    }
+    static QVariant get_paddingI2(const Introspectable* i, int j) {
+        return static_cast<const TypedPropertyValue*>(i)->paddingI2;
+    }
+    static int count_vg_ERROR(const Introspectable* i) {
+        return static_cast<const TypedPropertyValue*>(i)->_has_vg_ERROR ?1 :0;
+    }
+    static QVariant get_vg_ERROR(const Introspectable* i, int j) {
+        return static_cast<const TypedPropertyValue*>(i)->vg_ERROR;
+    }
+    static int count_vt_lpstr(const Introspectable* i) {
+        return get_vt_lpstr(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_vt_lpstr(const Introspectable* i, int j) {
+        return static_cast<const TypedPropertyValue*>(i)->vt_lpstr.data();
+    }
+    static int count_vg_FILETIME(const Introspectable* i) {
+        return get_vg_FILETIME(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_vg_FILETIME(const Introspectable* i, int j) {
+        return static_cast<const TypedPropertyValue*>(i)->vg_FILETIME.data();
+    }
+    static int count_vg_CF(const Introspectable* i) {
+        return get_vg_CF(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_vg_CF(const Introspectable* i, int j) {
+        return static_cast<const TypedPropertyValue*>(i)->vg_CF.data();
+    }
+};
+const QString TypedPropertyValue::_Introspection::name("TypedPropertyValue");
+const int TypedPropertyValue::_Introspection::numberOfMembers(8);
+const QString TypedPropertyValue::_Introspection::names[8] = {
+    "type",
+    "padding",
+    "vt_I2",
+    "paddingI2",
+    "vg_ERROR",
+    "vt_lpstr",
+    "vg_FILETIME",
+    "vg_CF",
+};
+int (* const TypedPropertyValue::_Introspection::numberOfInstances[8])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    _Introspection::count_vt_I2,
+    _Introspection::count_paddingI2,
+    _Introspection::count_vg_ERROR,
+    _Introspection::count_vt_lpstr,
+    _Introspection::count_vg_FILETIME,
+    _Introspection::count_vg_CF,
+};
+QVariant (* const TypedPropertyValue::_Introspection::value[8])(const Introspectable*, int position) = {
+    _Introspection::get_type,
+    _Introspection::get_padding,
+    _Introspection::get_vt_I2,
+    _Introspection::get_paddingI2,
+    _Introspection::get_vg_ERROR,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const TypedPropertyValue::_Introspection::introspectable[8])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    _Introspection::get_vt_lpstr,
+    _Introspection::get_vg_FILETIME,
+    _Introspection::get_vg_CF,
+};
+const Introspection TypedPropertyValue::_introspection(
+    "TypedPropertyValue", 8, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class PropertySet::_Introspection {
 public:
     static const QString name;
@@ -17861,8 +18165,11 @@ public:
     static const Introspectable* get_propertyIdentifierAndOffset(const Introspectable* i, int j) {
         return &(static_cast<const PropertySet*>(i)->propertyIdentifierAndOffset[j]);
     }
-    static QVariant get_property(const Introspectable* i, int j) {
-        return static_cast<const PropertySet*>(i)->property;
+    static int count_property(const Introspectable* i) {
+        return static_cast<const PropertySet*>(i)->property.size();
+    }
+    static const Introspectable* get_property(const Introspectable* i, int j) {
+        return &(static_cast<const PropertySet*>(i)->property[j]);
     }
 };
 const QString PropertySet::_Introspection::name("PropertySet");
@@ -17877,19 +18184,19 @@ int (* const PropertySet::_Introspection::numberOfInstances[4])(const Introspect
     Introspection::one,
     Introspection::one,
     _Introspection::count_propertyIdentifierAndOffset,
-    Introspection::one,
+    _Introspection::count_property,
 };
 QVariant (* const PropertySet::_Introspection::value[4])(const Introspectable*, int position) = {
     _Introspection::get_size,
     _Introspection::get_numProperties,
     Introspection::nullValue,
-    _Introspection::get_property,
+    Introspection::nullValue,
 };
 const Introspectable* (* const PropertySet::_Introspection::introspectable[4])(const Introspectable*, int position) = {
     Introspection::null,
     Introspection::null,
     _Introspection::get_propertyIdentifierAndOffset,
-    Introspection::null,
+    _Introspection::get_property,
 };
 const Introspection PropertySet::_introspection(
     "PropertySet", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
@@ -29653,6 +29960,41 @@ void write(const SttbfFfnEntry& _s, LEOutputStream& out) {
     out.writeuint8(_s.cchData);
     out.writeBytes(_s.Data);
 }
+void parseCodePageString(LEInputStream& in, CodePageString& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    _s.size = in.readuint32();
+    if (!(((quint32)_s.size)%2==0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.size)%2==0");
+    }
+    _c = 4*(_s.size/4)+(_s.size%4)?4:0;
+    _s.characters.resize(_c);    in.readBytes(_s.characters);
+}
+void write(const CodePageString& _s, LEOutputStream& out) {
+    out.writeuint32(_s.size);
+    out.writeBytes(_s.characters);
+}
+void parseFILETIME(LEInputStream& in, FILETIME& _s) {
+    _s.dwLowDateTime = in.readuint32();
+    _s.dwHighDateTime = in.readuint32();
+}
+void write(const FILETIME& _s, LEOutputStream& out) {
+    out.writeuint32(_s.dwLowDateTime);
+    out.writeuint32(_s.dwHighDateTime);
+}
+void parseClipboardData(LEInputStream& in, ClipboardData& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    _s.size = in.readuint32();
+    _s.format = in.readuint32();
+    _c = 4*(_s.size/4)+((_s.size%4)?4:0)-4;
+    _s.data.resize(_c);    in.readBytes(_s.data);
+}
+void write(const ClipboardData& _s, LEOutputStream& out) {
+    out.writeuint32(_s.size);
+    out.writeuint32(_s.format);
+    out.writeBytes(_s.data);
+}
 void parsePropertyIdentifierAndOffset(LEInputStream& in, PropertyIdentifierAndOffset& _s) {
     _s.propertyIdentifier = in.readuint32();
     _s.offset = in.readuint32();
@@ -29660,6 +30002,56 @@ void parsePropertyIdentifierAndOffset(LEInputStream& in, PropertyIdentifierAndOf
 void write(const PropertyIdentifierAndOffset& _s, LEOutputStream& out) {
     out.writeuint32(_s.propertyIdentifier);
     out.writeuint32(_s.offset);
+}
+void parseTypedPropertyValue(LEInputStream& in, TypedPropertyValue& _s) {
+    _s.type = in.readuint16();
+    _s.padding = in.readuint16();
+    _s._has_vt_I2 = _s.type==2;
+    if (_s._has_vt_I2) {
+        _s.vt_I2 = in.readuint16();
+    }
+    _s._has_paddingI2 = _s.type==2;
+    if (_s._has_paddingI2) {
+        _s.paddingI2 = in.readuint16();
+    }
+    _s._has_vg_ERROR = _s.type==10;
+    if (_s._has_vg_ERROR) {
+        _s.vg_ERROR = in.readuint32();
+    }
+    if (_s.type==30) {
+        _s.vt_lpstr = QSharedPointer<CodePageString>(new CodePageString());
+        parseCodePageString(in, *_s.vt_lpstr.data());
+    }
+    if (_s.type==64) {
+        _s.vg_FILETIME = QSharedPointer<FILETIME>(new FILETIME());
+        parseFILETIME(in, *_s.vg_FILETIME.data());
+    }
+    if (_s.type==71) {
+        _s.vg_CF = QSharedPointer<ClipboardData>(new ClipboardData());
+        parseClipboardData(in, *_s.vg_CF.data());
+    }
+}
+void write(const TypedPropertyValue& _s, LEOutputStream& out) {
+    out.writeuint16(_s.type);
+    out.writeuint16(_s.padding);
+    if (_s.type==2) {
+        out.writeuint16(_s.vt_I2);
+    }
+    if (_s.type==2) {
+        out.writeuint16(_s.paddingI2);
+    }
+    if (_s.type==10) {
+        out.writeuint32(_s.vg_ERROR);
+    }
+    if (_s.type==30) {
+        if (_s.vt_lpstr) write(*_s.vt_lpstr, out);
+    }
+    if (_s.type==64) {
+        if (_s.vg_FILETIME) write(*_s.vg_FILETIME, out);
+    }
+    if (_s.type==71) {
+        if (_s.vg_CF) write(*_s.vg_CF, out);
+    }
 }
 void parsePropertySet(LEInputStream& in, PropertySet& _s) {
     int _c;
@@ -29671,8 +30063,11 @@ void parsePropertySet(LEInputStream& in, PropertySet& _s) {
         _s.propertyIdentifierAndOffset.append(PropertyIdentifierAndOffset());
         parsePropertyIdentifierAndOffset(in, _s.propertyIdentifierAndOffset[_i]);
     }
-    _c = _s.size-8-8*_s.numProperties;
-    _s.property.resize(_c);    in.readBytes(_s.property);
+    _c = _s.numProperties;
+        for (int _i=0; _i<_c; ++_i) {
+        _s.property.append(TypedPropertyValue());
+        parseTypedPropertyValue(in, _s.property[_i]);
+    }
 }
 void write(const PropertySet& _s, LEOutputStream& out) {
     out.writeuint32(_s.size);
@@ -29680,7 +30075,9 @@ void write(const PropertySet& _s, LEOutputStream& out) {
     foreach (PropertyIdentifierAndOffset _i, _s.propertyIdentifierAndOffset) {
         write(_i, out);
     }
-    out.writeBytes(_s.property);
+    foreach (TypedPropertyValue _i, _s.property) {
+        write(_i, out);
+    }
 }
 void parsePropertySetStream(LEInputStream& in, PropertySetStream& _s) {
     int _c;

@@ -5226,6 +5226,55 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
+    CodePageString parseCodePageString(LEInputStream in) throws IOException  {
+        CodePageString _s = new CodePageString();
+        int _c;
+        _s.size = in.readuint32();
+        if (!(_s.size%2==0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.size%2==0 for value " + String.valueOf(_s.size) );
+        }
+        _c = 4*(_s.size/4)+(_s.size%4)?4:0;
+        _s.characters = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.characters[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    void write(CodePageString _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.size);
+        for (byte _i: _s.characters) {
+            out.writeuint8(_i);
+        }
+    }
+    FILETIME parseFILETIME(LEInputStream in) throws IOException  {
+        FILETIME _s = new FILETIME();
+        _s.dwLowDateTime = in.readuint32();
+        _s.dwHighDateTime = in.readuint32();
+        return _s;
+    }
+    void write(FILETIME _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.dwLowDateTime);
+        out.writeuint32(_s.dwHighDateTime);
+    }
+    ClipboardData parseClipboardData(LEInputStream in) throws IOException  {
+        ClipboardData _s = new ClipboardData();
+        int _c;
+        _s.size = in.readuint32();
+        _s.format = in.readuint32();
+        _c = 4*(_s.size/4)+((_s.size%4)?4:0)-4;
+        _s.data = new byte[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.data[_i] = in.readuint8();
+        }
+        return _s;
+    }
+    void write(ClipboardData _s, LEOutputStream out) throws IOException  {
+        out.writeuint32(_s.size);
+        out.writeuint32(_s.format);
+        for (byte _i: _s.data) {
+            out.writeuint8(_i);
+        }
+    }
     PropertyIdentifierAndOffset parsePropertyIdentifierAndOffset(LEInputStream in) throws IOException  {
         PropertyIdentifierAndOffset _s = new PropertyIdentifierAndOffset();
         _s.propertyIdentifier = in.readuint32();
@@ -5235,6 +5284,52 @@ System.out.println(in.getPosition()+" "+_s);
     void write(PropertyIdentifierAndOffset _s, LEOutputStream out) throws IOException  {
         out.writeuint32(_s.propertyIdentifier);
         out.writeuint32(_s.offset);
+    }
+    TypedPropertyValue parseTypedPropertyValue(LEInputStream in) throws IOException  {
+        TypedPropertyValue _s = new TypedPropertyValue();
+        _s.type = in.readuint16();
+        _s.padding = in.readuint16();
+        if (_s.type==2) {
+            _s.vt_I2 = in.readuint16();
+        }
+        if (_s.type==2) {
+            _s.paddingI2 = in.readuint16();
+        }
+        if (_s.type==10) {
+            _s.vg_ERROR = in.readuint32();
+        }
+        if (_s.type==30) {
+            _s.vt_lpstr = parseCodePageString(in);
+        }
+        if (_s.type==64) {
+            _s.vg_FILETIME = parseFILETIME(in);
+        }
+        if (_s.type==71) {
+            _s.vg_CF = parseClipboardData(in);
+        }
+        return _s;
+    }
+    void write(TypedPropertyValue _s, LEOutputStream out) throws IOException  {
+        out.writeuint16(_s.type);
+        out.writeuint16(_s.padding);
+        if (_s.type==2) {
+            out.writeuint16(_s.vt_I2);
+        }
+        if (_s.type==2) {
+            out.writeuint16(_s.paddingI2);
+        }
+        if (_s.type==10) {
+            out.writeuint32(_s.vg_ERROR);
+        }
+        if (_s.type==30) {
+            write(_s.vt_lpstr, out);
+        }
+        if (_s.type==64) {
+            write(_s.vg_FILETIME, out);
+        }
+        if (_s.type==71) {
+            write(_s.vg_CF, out);
+        }
     }
     PropertySet parsePropertySet(LEInputStream in) throws IOException  {
         PropertySet _s = new PropertySet();
@@ -5246,10 +5341,10 @@ System.out.println(in.getPosition()+" "+_s);
         for (int _i=0; _i<_c; ++_i) {
             _s.propertyIdentifierAndOffset[_i] = parsePropertyIdentifierAndOffset(in);
         }
-        _c = _s.size-8-8*_s.numProperties;
-        _s.property = new byte[_c];
+        _c = _s.numProperties;
+        _s.property = new TypedPropertyValue[_c];
         for (int _i=0; _i<_c; ++_i) {
-            _s.property[_i] = in.readuint8();
+            _s.property[_i] = parseTypedPropertyValue(in);
         }
         return _s;
     }
@@ -5259,8 +5354,8 @@ System.out.println(in.getPosition()+" "+_s);
         for (PropertyIdentifierAndOffset _i: _s.propertyIdentifierAndOffset) {
             write(_i, out);
         }
-        for (byte _i: _s.property) {
-            out.writeuint8(_i);
+        for (TypedPropertyValue _i: _s.property) {
+            write(_i, out);
         }
     }
     PropertySetStream parsePropertySetStream(LEInputStream in) throws IOException  {
@@ -13184,6 +13279,38 @@ class SttbfFfnEntry {
         return _s;
     }
 }
+class CodePageString {
+    int size;
+    byte[] characters;
+    public String toString() {
+        String _s = "CodePageString:";
+        _s = _s + "size: " + String.valueOf(size) + "(" + Integer.toHexString(size).toUpperCase() + "), ";
+        _s = _s + "characters: " + String.valueOf(characters) + ", ";
+        return _s;
+    }
+}
+class FILETIME {
+    int dwLowDateTime;
+    int dwHighDateTime;
+    public String toString() {
+        String _s = "FILETIME:";
+        _s = _s + "dwLowDateTime: " + String.valueOf(dwLowDateTime) + "(" + Integer.toHexString(dwLowDateTime).toUpperCase() + "), ";
+        _s = _s + "dwHighDateTime: " + String.valueOf(dwHighDateTime) + "(" + Integer.toHexString(dwHighDateTime).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class ClipboardData {
+    int size;
+    int format;
+    byte[] data;
+    public String toString() {
+        String _s = "ClipboardData:";
+        _s = _s + "size: " + String.valueOf(size) + "(" + Integer.toHexString(size).toUpperCase() + "), ";
+        _s = _s + "format: " + String.valueOf(format) + "(" + Integer.toHexString(format).toUpperCase() + "), ";
+        _s = _s + "data: " + String.valueOf(data) + ", ";
+        return _s;
+    }
+}
 class PropertyIdentifierAndOffset {
     int propertyIdentifier;
     int offset;
@@ -13194,11 +13321,33 @@ class PropertyIdentifierAndOffset {
         return _s;
     }
 }
+class TypedPropertyValue {
+    int type;
+    int padding;
+    int vt_I2;
+    int paddingI2;
+    int vg_ERROR;
+    CodePageString vt_lpstr;
+    FILETIME vg_FILETIME;
+    ClipboardData vg_CF;
+    public String toString() {
+        String _s = "TypedPropertyValue:";
+        _s = _s + "type: " + String.valueOf(type) + "(" + Integer.toHexString(type).toUpperCase() + "), ";
+        _s = _s + "padding: " + String.valueOf(padding) + "(" + Integer.toHexString(padding).toUpperCase() + "), ";
+        _s = _s + "vt_I2: " + String.valueOf(vt_I2) + "(" + Integer.toHexString(vt_I2).toUpperCase() + "), ";
+        _s = _s + "paddingI2: " + String.valueOf(paddingI2) + "(" + Integer.toHexString(paddingI2).toUpperCase() + "), ";
+        _s = _s + "vg_ERROR: " + String.valueOf(vg_ERROR) + "(" + Integer.toHexString(vg_ERROR).toUpperCase() + "), ";
+        _s = _s + "vt_lpstr: " + String.valueOf(vt_lpstr) + ", ";
+        _s = _s + "vg_FILETIME: " + String.valueOf(vg_FILETIME) + ", ";
+        _s = _s + "vg_CF: " + String.valueOf(vg_CF) + ", ";
+        return _s;
+    }
+}
 class PropertySet {
     int size;
     int numProperties;
     PropertyIdentifierAndOffset[] propertyIdentifierAndOffset;
-    byte[] property;
+    TypedPropertyValue[] property;
     public String toString() {
         String _s = "PropertySet:";
         _s = _s + "size: " + String.valueOf(size) + "(" + Integer.toHexString(size).toUpperCase() + "), ";
