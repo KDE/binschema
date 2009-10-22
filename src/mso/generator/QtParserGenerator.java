@@ -15,6 +15,7 @@ public class QtParserGenerator {
 		out.println("#include <QByteArray>");
 		out.println("#include <QVector>");
 		out.println("#include <QSharedPointer>");
+		out.println("#include <QXmlStreamReader>");
 		out.println("#include \"leinputstream.h\"");
 		out.println("#include \"leoutputstream.h\"");
 		out.println("#include \"introspection.h\"");
@@ -24,6 +25,8 @@ public class QtParserGenerator {
 			out.println("class " + s.name + ";");
 			out.println("void parse" + s.name + "(LEInputStream& in, " + s.name
 					+ "& _s);");
+			out.println("void parse" + s.name + "(QXmlStreamReader& in, "
+					+ s.name + "& _s);");
 			out.println("void write(const " + s.name
 					+ "& v, LEOutputStream& out);");
 		}
@@ -39,6 +42,7 @@ public class QtParserGenerator {
 		for (Struct s : mso.structs) {
 			printStructureParser(out, s);
 			printStructureWriter(out, s);
+			printStructureXmlParser(out, s);
 		}
 
 		out.println("}");
@@ -68,6 +72,43 @@ public class QtParserGenerator {
 		out.println("    }");
 		out.println("    return i;");
 		out.println("}");
+
+		out
+				.println("const QMap<QString,QSharedPointer<Introspectable> > parse(QXmlStreamReader& in) {");
+		out
+				.println("    QMap<QString,QSharedPointer<Introspectable> > streams;");
+		out.println("    // skip until first element");
+		out.println("    while (!in.atEnd() && !in.isStartElement()) {");
+		out.println("        in.readNext();");
+		out.println("    }");
+		out.println("    if (!in.isStartElement()) {");
+		out.println("        return streams;");
+		out.println("    }");
+		out.println("    do {");
+		out.println("        QString name = in.name().toString();");
+		out.println("        if (streams.contains(name)) {");
+		out.println("            return streams;");
+		out.println("        }");
+		first = true;
+		for (Stream s : mso.streams) {
+			out.print("        ");
+			if (first) {
+				first = false;
+			} else {
+				out.print("} else ");
+			}
+			out.println("if (\"" + s.key + "\" == name) {");
+			out.println("            QSharedPointer<Introspectable> _t(new "
+					+ s.type + "());");
+			out.println("            parse" + s.type + "(in, *static_cast<"
+					+ s.type + "*>(_t.data()));");
+			out.println("            streams[name] = _t;");
+		}
+		out.println("        }");
+		out.println("    } while (in.isStartElement());");
+		out.println("    return streams;");
+		out.println("}");
+
 		out
 				.println("void serialize(const Introspectable* i, const QString& key, LEOutputStream& out)  {");
 		first = true;
@@ -113,6 +154,12 @@ public class QtParserGenerator {
 			// + "\"<<_s.rh.toString();");
 			// }
 		}
+		out.println("}");
+	}
+
+	void printStructureXmlParser(PrintWriter out, Struct s) {
+		out.println("void parse" + s.name + "(QXmlStreamReader& in, " + s.name
+				+ "& _s) {");
 		out.println("}");
 	}
 

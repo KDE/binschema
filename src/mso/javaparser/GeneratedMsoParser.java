@@ -5025,6 +5025,9 @@ System.out.println(in.getPosition()+" "+_s);
         TypedPropertyValue _s = new TypedPropertyValue();
         _s.type = in.readuint16();
         _s.padding = in.readuint16();
+        if (!(_s.padding == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.padding == 0 for value " + String.valueOf(_s.padding) );
+        }
         if (_s.type==2) {
             _s.vt_I2 = in.readuint16();
         }

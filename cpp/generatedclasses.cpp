@@ -2,888 +2,1182 @@
 #include <QByteArray>
 #include <QVector>
 #include <QSharedPointer>
+#include <QXmlStreamReader>
 #include "leinputstream.h"
 #include "leoutputstream.h"
 #include "introspection.h"
 namespace {
 class RecordHeader;
 void parseRecordHeader(LEInputStream& in, RecordHeader& _s);
+void parseRecordHeader(QXmlStreamReader& in, RecordHeader& _s);
 void write(const RecordHeader& v, LEOutputStream& out);
 class CurrentUserAtom;
 void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s);
+void parseCurrentUserAtom(QXmlStreamReader& in, CurrentUserAtom& _s);
 void write(const CurrentUserAtom& v, LEOutputStream& out);
 class TODOS;
 void parseTODOS(LEInputStream& in, TODOS& _s);
+void parseTODOS(QXmlStreamReader& in, TODOS& _s);
 void write(const TODOS& v, LEOutputStream& out);
 class Byte;
 void parseByte(LEInputStream& in, Byte& _s);
+void parseByte(QXmlStreamReader& in, Byte& _s);
 void write(const Byte& v, LEOutputStream& out);
 class CurrentUserStream;
 void parseCurrentUserStream(LEInputStream& in, CurrentUserStream& _s);
+void parseCurrentUserStream(QXmlStreamReader& in, CurrentUserStream& _s);
 void write(const CurrentUserStream& v, LEOutputStream& out);
 class OfficeArtBStoreDelay;
 void parseOfficeArtBStoreDelay(LEInputStream& in, OfficeArtBStoreDelay& _s);
+void parseOfficeArtBStoreDelay(QXmlStreamReader& in, OfficeArtBStoreDelay& _s);
 void write(const OfficeArtBStoreDelay& v, LEOutputStream& out);
 class OfficeArtRecordHeader;
 void parseOfficeArtRecordHeader(LEInputStream& in, OfficeArtRecordHeader& _s);
+void parseOfficeArtRecordHeader(QXmlStreamReader& in, OfficeArtRecordHeader& _s);
 void write(const OfficeArtRecordHeader& v, LEOutputStream& out);
 class OfficeArtBlipJPEG;
 void parseOfficeArtBlipJPEG(LEInputStream& in, OfficeArtBlipJPEG& _s);
+void parseOfficeArtBlipJPEG(QXmlStreamReader& in, OfficeArtBlipJPEG& _s);
 void write(const OfficeArtBlipJPEG& v, LEOutputStream& out);
 class OfficeArtBlipPNG;
 void parseOfficeArtBlipPNG(LEInputStream& in, OfficeArtBlipPNG& _s);
+void parseOfficeArtBlipPNG(QXmlStreamReader& in, OfficeArtBlipPNG& _s);
 void write(const OfficeArtBlipPNG& v, LEOutputStream& out);
 class OfficeArtBlipDIB;
 void parseOfficeArtBlipDIB(LEInputStream& in, OfficeArtBlipDIB& _s);
+void parseOfficeArtBlipDIB(QXmlStreamReader& in, OfficeArtBlipDIB& _s);
 void write(const OfficeArtBlipDIB& v, LEOutputStream& out);
 class OfficeArtBlipTIFF;
 void parseOfficeArtBlipTIFF(LEInputStream& in, OfficeArtBlipTIFF& _s);
+void parseOfficeArtBlipTIFF(QXmlStreamReader& in, OfficeArtBlipTIFF& _s);
 void write(const OfficeArtBlipTIFF& v, LEOutputStream& out);
 class RECT;
 void parseRECT(LEInputStream& in, RECT& _s);
+void parseRECT(QXmlStreamReader& in, RECT& _s);
 void write(const RECT& v, LEOutputStream& out);
 class POINT;
 void parsePOINT(LEInputStream& in, POINT& _s);
+void parsePOINT(QXmlStreamReader& in, POINT& _s);
 void write(const POINT& v, LEOutputStream& out);
 class PowerPointStructs;
 void parsePowerPointStructs(LEInputStream& in, PowerPointStructs& _s);
+void parsePowerPointStructs(QXmlStreamReader& in, PowerPointStructs& _s);
 void write(const PowerPointStructs& v, LEOutputStream& out);
 class SoundCollectionContainer;
 void parseSoundCollectionContainer(LEInputStream& in, SoundCollectionContainer& _s);
+void parseSoundCollectionContainer(QXmlStreamReader& in, SoundCollectionContainer& _s);
 void write(const SoundCollectionContainer& v, LEOutputStream& out);
 class SlideHeadersFootersContainer;
 void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersContainer& _s);
+void parseSlideHeadersFootersContainer(QXmlStreamReader& in, SlideHeadersFootersContainer& _s);
 void write(const SlideHeadersFootersContainer& v, LEOutputStream& out);
 class NotesHeadersFootersContainer;
 void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersContainer& _s);
+void parseNotesHeadersFootersContainer(QXmlStreamReader& in, NotesHeadersFootersContainer& _s);
 void write(const NotesHeadersFootersContainer& v, LEOutputStream& out);
 class PerSlideHeadersFootersContainer;
 void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s);
+void parsePerSlideHeadersFootersContainer(QXmlStreamReader& in, PerSlideHeadersFootersContainer& _s);
 void write(const PerSlideHeadersFootersContainer& v, LEOutputStream& out);
 class EndDocumentAtom;
 void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s);
+void parseEndDocumentAtom(QXmlStreamReader& in, EndDocumentAtom& _s);
 void write(const EndDocumentAtom& v, LEOutputStream& out);
 class DocInfoListContainer;
 void parseDocInfoListContainer(LEInputStream& in, DocInfoListContainer& _s);
+void parseDocInfoListContainer(QXmlStreamReader& in, DocInfoListContainer& _s);
 void write(const DocInfoListContainer& v, LEOutputStream& out);
 class SlideViewInfoAtom;
 void parseSlideViewInfoAtom(LEInputStream& in, SlideViewInfoAtom& _s);
+void parseSlideViewInfoAtom(QXmlStreamReader& in, SlideViewInfoAtom& _s);
 void write(const SlideViewInfoAtom& v, LEOutputStream& out);
 class GuideAtom;
 void parseGuideAtom(LEInputStream& in, GuideAtom& _s);
+void parseGuideAtom(QXmlStreamReader& in, GuideAtom& _s);
 void write(const GuideAtom& v, LEOutputStream& out);
 class DocProgTagsContainer;
 void parseDocProgTagsContainer(LEInputStream& in, DocProgTagsContainer& _s);
+void parseDocProgTagsContainer(QXmlStreamReader& in, DocProgTagsContainer& _s);
 void write(const DocProgTagsContainer& v, LEOutputStream& out);
 class DocProgBinaryTagContainerOrAtom;
 void parseDocProgBinaryTagContainerOrAtom(LEInputStream& in, DocProgBinaryTagContainerOrAtom& _s);
+void parseDocProgBinaryTagContainerOrAtom(QXmlStreamReader& in, DocProgBinaryTagContainerOrAtom& _s);
 void write(const DocProgBinaryTagContainerOrAtom& v, LEOutputStream& out);
 class SorterViewInfoContainer;
 void parseSorterViewInfoContainer(LEInputStream& in, SorterViewInfoContainer& _s);
+void parseSorterViewInfoContainer(QXmlStreamReader& in, SorterViewInfoContainer& _s);
 void write(const SorterViewInfoContainer& v, LEOutputStream& out);
 class VBAInfoAtom;
 void parseVBAInfoAtom(LEInputStream& in, VBAInfoAtom& _s);
+void parseVBAInfoAtom(QXmlStreamReader& in, VBAInfoAtom& _s);
 void write(const VBAInfoAtom& v, LEOutputStream& out);
 class MasterListWithTextContainer;
 void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextContainer& _s);
+void parseMasterListWithTextContainer(QXmlStreamReader& in, MasterListWithTextContainer& _s);
 void write(const MasterListWithTextContainer& v, LEOutputStream& out);
 class SlideListWithTextContainer;
 void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContainer& _s);
+void parseSlideListWithTextContainer(QXmlStreamReader& in, SlideListWithTextContainer& _s);
 void write(const SlideListWithTextContainer& v, LEOutputStream& out);
 class NotesListWithTextContainer;
 void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContainer& _s);
+void parseNotesListWithTextContainer(QXmlStreamReader& in, NotesListWithTextContainer& _s);
 void write(const NotesListWithTextContainer& v, LEOutputStream& out);
 class TextHeaderAtom;
 void parseTextHeaderAtom(LEInputStream& in, TextHeaderAtom& _s);
+void parseTextHeaderAtom(QXmlStreamReader& in, TextHeaderAtom& _s);
 void write(const TextHeaderAtom& v, LEOutputStream& out);
 class TextCharsAtom;
 void parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s);
+void parseTextCharsAtom(QXmlStreamReader& in, TextCharsAtom& _s);
 void write(const TextCharsAtom& v, LEOutputStream& out);
 class TextBytesAtom;
 void parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s);
+void parseTextBytesAtom(QXmlStreamReader& in, TextBytesAtom& _s);
 void write(const TextBytesAtom& v, LEOutputStream& out);
 class MasterTextPropAtom;
 void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s);
+void parseMasterTextPropAtom(QXmlStreamReader& in, MasterTextPropAtom& _s);
 void write(const MasterTextPropAtom& v, LEOutputStream& out);
 class MasterTextPropRun;
 void parseMasterTextPropRun(LEInputStream& in, MasterTextPropRun& _s);
+void parseMasterTextPropRun(QXmlStreamReader& in, MasterTextPropRun& _s);
 void write(const MasterTextPropRun& v, LEOutputStream& out);
 class StyleTextPropAtom;
 void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s);
+void parseStyleTextPropAtom(QXmlStreamReader& in, StyleTextPropAtom& _s);
 void write(const StyleTextPropAtom& v, LEOutputStream& out);
 class SlideNumberMCAtom;
 void parseSlideNumberMCAtom(LEInputStream& in, SlideNumberMCAtom& _s);
+void parseSlideNumberMCAtom(QXmlStreamReader& in, SlideNumberMCAtom& _s);
 void write(const SlideNumberMCAtom& v, LEOutputStream& out);
 class DateTimeMCAtom;
 void parseDateTimeMCAtom(LEInputStream& in, DateTimeMCAtom& _s);
+void parseDateTimeMCAtom(QXmlStreamReader& in, DateTimeMCAtom& _s);
 void write(const DateTimeMCAtom& v, LEOutputStream& out);
 class GenericDateMCAtom;
 void parseGenericDateMCAtom(LEInputStream& in, GenericDateMCAtom& _s);
+void parseGenericDateMCAtom(QXmlStreamReader& in, GenericDateMCAtom& _s);
 void write(const GenericDateMCAtom& v, LEOutputStream& out);
 class HeaderMCAtom;
 void parseHeaderMCAtom(LEInputStream& in, HeaderMCAtom& _s);
+void parseHeaderMCAtom(QXmlStreamReader& in, HeaderMCAtom& _s);
 void write(const HeaderMCAtom& v, LEOutputStream& out);
 class FooterMCAtom;
 void parseFooterMCAtom(LEInputStream& in, FooterMCAtom& _s);
+void parseFooterMCAtom(QXmlStreamReader& in, FooterMCAtom& _s);
 void write(const FooterMCAtom& v, LEOutputStream& out);
 class RTFDateTimeMCAtom;
 void parseRTFDateTimeMCAtom(LEInputStream& in, RTFDateTimeMCAtom& _s);
+void parseRTFDateTimeMCAtom(QXmlStreamReader& in, RTFDateTimeMCAtom& _s);
 void write(const RTFDateTimeMCAtom& v, LEOutputStream& out);
 class TextBookmarkAtom;
 void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s);
+void parseTextBookmarkAtom(QXmlStreamReader& in, TextBookmarkAtom& _s);
 void write(const TextBookmarkAtom& v, LEOutputStream& out);
 class MouseTextInteractiveInfoAtom;
 void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s);
+void parseMouseTextInteractiveInfoAtom(QXmlStreamReader& in, MouseTextInteractiveInfoAtom& _s);
 void write(const MouseTextInteractiveInfoAtom& v, LEOutputStream& out);
 class SlideId;
 void parseSlideId(LEInputStream& in, SlideId& _s);
+void parseSlideId(QXmlStreamReader& in, SlideId& _s);
 void write(const SlideId& v, LEOutputStream& out);
 class TabStops;
 void parseTabStops(LEInputStream& in, TabStops& _s);
+void parseTabStops(QXmlStreamReader& in, TabStops& _s);
 void write(const TabStops& v, LEOutputStream& out);
 class TabStop;
 void parseTabStop(LEInputStream& in, TabStop& _s);
+void parseTabStop(QXmlStreamReader& in, TabStop& _s);
 void write(const TabStop& v, LEOutputStream& out);
 class ColorIndexStruct;
 void parseColorIndexStruct(LEInputStream& in, ColorIndexStruct& _s);
+void parseColorIndexStruct(QXmlStreamReader& in, ColorIndexStruct& _s);
 void write(const ColorIndexStruct& v, LEOutputStream& out);
 class BulletFlags;
 void parseBulletFlags(LEInputStream& in, BulletFlags& _s);
+void parseBulletFlags(QXmlStreamReader& in, BulletFlags& _s);
 void write(const BulletFlags& v, LEOutputStream& out);
 class PFMasks;
 void parsePFMasks(LEInputStream& in, PFMasks& _s);
+void parsePFMasks(QXmlStreamReader& in, PFMasks& _s);
 void write(const PFMasks& v, LEOutputStream& out);
 class CFMasks;
 void parseCFMasks(LEInputStream& in, CFMasks& _s);
+void parseCFMasks(QXmlStreamReader& in, CFMasks& _s);
 void write(const CFMasks& v, LEOutputStream& out);
 class CFStyle;
 void parseCFStyle(LEInputStream& in, CFStyle& _s);
+void parseCFStyle(QXmlStreamReader& in, CFStyle& _s);
 void write(const CFStyle& v, LEOutputStream& out);
 class FontCollectionContainer;
 void parseFontCollectionContainer(LEInputStream& in, FontCollectionContainer& _s);
+void parseFontCollectionContainer(QXmlStreamReader& in, FontCollectionContainer& _s);
 void write(const FontCollectionContainer& v, LEOutputStream& out);
 class FontEntityAtom;
 void parseFontEntityAtom(LEInputStream& in, FontEntityAtom& _s);
+void parseFontEntityAtom(QXmlStreamReader& in, FontEntityAtom& _s);
 void write(const FontEntityAtom& v, LEOutputStream& out);
 class FontEmbedDataBlob;
 void parseFontEmbedDataBlob(LEInputStream& in, FontEmbedDataBlob& _s);
+void parseFontEmbedDataBlob(QXmlStreamReader& in, FontEmbedDataBlob& _s);
 void write(const FontEmbedDataBlob& v, LEOutputStream& out);
 class KinsokuAtom;
 void parseKinsokuAtom(LEInputStream& in, KinsokuAtom& _s);
+void parseKinsokuAtom(QXmlStreamReader& in, KinsokuAtom& _s);
 void write(const KinsokuAtom& v, LEOutputStream& out);
 class KinsokuLeadingAtom;
 void parseKinsokuLeadingAtom(LEInputStream& in, KinsokuLeadingAtom& _s);
+void parseKinsokuLeadingAtom(QXmlStreamReader& in, KinsokuLeadingAtom& _s);
 void write(const KinsokuLeadingAtom& v, LEOutputStream& out);
 class KinsokuFollowingAtom;
 void parseKinsokuFollowingAtom(LEInputStream& in, KinsokuFollowingAtom& _s);
+void parseKinsokuFollowingAtom(QXmlStreamReader& in, KinsokuFollowingAtom& _s);
 void write(const KinsokuFollowingAtom& v, LEOutputStream& out);
 class TextSpecialInfoAtom;
 void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s);
+void parseTextSpecialInfoAtom(QXmlStreamReader& in, TextSpecialInfoAtom& _s);
 void write(const TextSpecialInfoAtom& v, LEOutputStream& out);
 class SmartTags;
 void parseSmartTags(LEInputStream& in, SmartTags& _s);
+void parseSmartTags(QXmlStreamReader& in, SmartTags& _s);
 void write(const SmartTags& v, LEOutputStream& out);
 class ExOleEmbedAtom;
 void parseExOleEmbedAtom(LEInputStream& in, ExOleEmbedAtom& _s);
+void parseExOleEmbedAtom(QXmlStreamReader& in, ExOleEmbedAtom& _s);
 void write(const ExOleEmbedAtom& v, LEOutputStream& out);
 class PointStruct;
 void parsePointStruct(LEInputStream& in, PointStruct& _s);
+void parsePointStruct(QXmlStreamReader& in, PointStruct& _s);
 void write(const PointStruct& v, LEOutputStream& out);
 class RatioStruct;
 void parseRatioStruct(LEInputStream& in, RatioStruct& _s);
+void parseRatioStruct(QXmlStreamReader& in, RatioStruct& _s);
 void write(const RatioStruct& v, LEOutputStream& out);
 class PersistDirectoryAtom;
 void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s);
+void parsePersistDirectoryAtom(QXmlStreamReader& in, PersistDirectoryAtom& _s);
 void write(const PersistDirectoryAtom& v, LEOutputStream& out);
 class UnknownDocumentContainerChild;
 void parseUnknownDocumentContainerChild(LEInputStream& in, UnknownDocumentContainerChild& _s);
+void parseUnknownDocumentContainerChild(QXmlStreamReader& in, UnknownDocumentContainerChild& _s);
 void write(const UnknownDocumentContainerChild& v, LEOutputStream& out);
 class UnknownDocumentContainerChild2;
 void parseUnknownDocumentContainerChild2(LEInputStream& in, UnknownDocumentContainerChild2& _s);
+void parseUnknownDocumentContainerChild2(QXmlStreamReader& in, UnknownDocumentContainerChild2& _s);
 void write(const UnknownDocumentContainerChild2& v, LEOutputStream& out);
 class UnknownDocumentContainerChild3;
 void parseUnknownDocumentContainerChild3(LEInputStream& in, UnknownDocumentContainerChild3& _s);
+void parseUnknownDocumentContainerChild3(QXmlStreamReader& in, UnknownDocumentContainerChild3& _s);
 void write(const UnknownDocumentContainerChild3& v, LEOutputStream& out);
 class UnknownDocumentContainerChild4;
 void parseUnknownDocumentContainerChild4(LEInputStream& in, UnknownDocumentContainerChild4& _s);
+void parseUnknownDocumentContainerChild4(QXmlStreamReader& in, UnknownDocumentContainerChild4& _s);
 void write(const UnknownDocumentContainerChild4& v, LEOutputStream& out);
 class UnknownOfficeArtClientDataChild;
 void parseUnknownOfficeArtClientDataChild(LEInputStream& in, UnknownOfficeArtClientDataChild& _s);
+void parseUnknownOfficeArtClientDataChild(QXmlStreamReader& in, UnknownOfficeArtClientDataChild& _s);
 void write(const UnknownOfficeArtClientDataChild& v, LEOutputStream& out);
 class UnknownSlideContainerChild;
 void parseUnknownSlideContainerChild(LEInputStream& in, UnknownSlideContainerChild& _s);
+void parseUnknownSlideContainerChild(QXmlStreamReader& in, UnknownSlideContainerChild& _s);
 void write(const UnknownSlideContainerChild& v, LEOutputStream& out);
 class PersistDirectoryEntry;
 void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s);
+void parsePersistDirectoryEntry(QXmlStreamReader& in, PersistDirectoryEntry& _s);
 void write(const PersistDirectoryEntry& v, LEOutputStream& out);
 class PersistOffsetEntry;
 void parsePersistOffsetEntry(LEInputStream& in, PersistOffsetEntry& _s);
+void parsePersistOffsetEntry(QXmlStreamReader& in, PersistOffsetEntry& _s);
 void write(const PersistOffsetEntry& v, LEOutputStream& out);
 class PersistIdRef;
 void parsePersistIdRef(LEInputStream& in, PersistIdRef& _s);
+void parsePersistIdRef(QXmlStreamReader& in, PersistIdRef& _s);
 void write(const PersistIdRef& v, LEOutputStream& out);
 class SchemeListElementColorSchemeAtom;
 void parseSchemeListElementColorSchemeAtom(LEInputStream& in, SchemeListElementColorSchemeAtom& _s);
+void parseSchemeListElementColorSchemeAtom(QXmlStreamReader& in, SchemeListElementColorSchemeAtom& _s);
 void write(const SchemeListElementColorSchemeAtom& v, LEOutputStream& out);
 class RoundTripOArtTextStyles12Atom;
 void parseRoundTripOArtTextStyles12Atom(LEInputStream& in, RoundTripOArtTextStyles12Atom& _s);
+void parseRoundTripOArtTextStyles12Atom(QXmlStreamReader& in, RoundTripOArtTextStyles12Atom& _s);
 void write(const RoundTripOArtTextStyles12Atom& v, LEOutputStream& out);
 class SlideNameAtom;
 void parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s);
+void parseSlideNameAtom(QXmlStreamReader& in, SlideNameAtom& _s);
 void write(const SlideNameAtom& v, LEOutputStream& out);
 class SlideProgTagsContainer;
 void parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s);
+void parseSlideProgTagsContainer(QXmlStreamReader& in, SlideProgTagsContainer& _s);
 void write(const SlideProgTagsContainer& v, LEOutputStream& out);
 class SlideProgBinaryTagContainer;
 void parseSlideProgBinaryTagContainer(LEInputStream& in, SlideProgBinaryTagContainer& _s);
+void parseSlideProgBinaryTagContainer(QXmlStreamReader& in, SlideProgBinaryTagContainer& _s);
 void write(const SlideProgBinaryTagContainer& v, LEOutputStream& out);
 class TagNameAtom;
 void parseTagNameAtom(LEInputStream& in, TagNameAtom& _s);
+void parseTagNameAtom(QXmlStreamReader& in, TagNameAtom& _s);
 void write(const TagNameAtom& v, LEOutputStream& out);
 class TagValueAtom;
 void parseTagValueAtom(LEInputStream& in, TagValueAtom& _s);
+void parseTagValueAtom(QXmlStreamReader& in, TagValueAtom& _s);
 void write(const TagValueAtom& v, LEOutputStream& out);
 class RoundTripMainMasterRecord;
 void parseRoundTripMainMasterRecord(LEInputStream& in, RoundTripMainMasterRecord& _s);
+void parseRoundTripMainMasterRecord(QXmlStreamReader& in, RoundTripMainMasterRecord& _s);
 void write(const RoundTripMainMasterRecord& v, LEOutputStream& out);
 class TemplateNameAtom;
 void parseTemplateNameAtom(LEInputStream& in, TemplateNameAtom& _s);
+void parseTemplateNameAtom(QXmlStreamReader& in, TemplateNameAtom& _s);
 void write(const TemplateNameAtom& v, LEOutputStream& out);
 class RoundTripSlideSyncInfo12Container;
 void parseRoundTripSlideSyncInfo12Container(LEInputStream& in, RoundTripSlideSyncInfo12Container& _s);
+void parseRoundTripSlideSyncInfo12Container(QXmlStreamReader& in, RoundTripSlideSyncInfo12Container& _s);
 void write(const RoundTripSlideSyncInfo12Container& v, LEOutputStream& out);
 class NotesContainer;
 void parseNotesContainer(LEInputStream& in, NotesContainer& _s);
+void parseNotesContainer(QXmlStreamReader& in, NotesContainer& _s);
 void write(const NotesContainer& v, LEOutputStream& out);
 class HandoutContainer;
 void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s);
+void parseHandoutContainer(QXmlStreamReader& in, HandoutContainer& _s);
 void write(const HandoutContainer& v, LEOutputStream& out);
 class ExControlStg;
 void parseExControlStg(LEInputStream& in, ExControlStg& _s);
+void parseExControlStg(QXmlStreamReader& in, ExControlStg& _s);
 void write(const ExControlStg& v, LEOutputStream& out);
 class ExOleObjStg;
 void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s);
+void parseExOleObjStg(QXmlStreamReader& in, ExOleObjStg& _s);
 void write(const ExOleObjStg& v, LEOutputStream& out);
 class UserEditAtom;
 void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s);
+void parseUserEditAtom(QXmlStreamReader& in, UserEditAtom& _s);
 void write(const UserEditAtom& v, LEOutputStream& out);
 class VbaProjectStg;
 void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s);
+void parseVbaProjectStg(QXmlStreamReader& in, VbaProjectStg& _s);
 void write(const VbaProjectStg& v, LEOutputStream& out);
 class SlideProgTagscontainer;
 void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s);
+void parseSlideProgTagscontainer(QXmlStreamReader& in, SlideProgTagscontainer& _s);
 void write(const SlideProgTagscontainer& v, LEOutputStream& out);
 class SlideAtom;
 void parseSlideAtom(LEInputStream& in, SlideAtom& _s);
+void parseSlideAtom(QXmlStreamReader& in, SlideAtom& _s);
 void write(const SlideAtom& v, LEOutputStream& out);
 class SlideShowSlideInfoAtom;
 void parseSlideShowSlideInfoAtom(LEInputStream& in, SlideShowSlideInfoAtom& _s);
+void parseSlideShowSlideInfoAtom(QXmlStreamReader& in, SlideShowSlideInfoAtom& _s);
 void write(const SlideShowSlideInfoAtom& v, LEOutputStream& out);
 class SlideShowDocInfoAtom;
 void parseSlideShowDocInfoAtom(LEInputStream& in, SlideShowDocInfoAtom& _s);
+void parseSlideShowDocInfoAtom(QXmlStreamReader& in, SlideShowDocInfoAtom& _s);
 void write(const SlideShowDocInfoAtom& v, LEOutputStream& out);
 class SlideSchemeColorSchemeAtom;
 void parseSlideSchemeColorSchemeAtom(LEInputStream& in, SlideSchemeColorSchemeAtom& _s);
+void parseSlideSchemeColorSchemeAtom(QXmlStreamReader& in, SlideSchemeColorSchemeAtom& _s);
 void write(const SlideSchemeColorSchemeAtom& v, LEOutputStream& out);
 class RoundTripSlideRecord;
 void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s);
+void parseRoundTripSlideRecord(QXmlStreamReader& in, RoundTripSlideRecord& _s);
 void write(const RoundTripSlideRecord& v, LEOutputStream& out);
 class NamedShowsContainer;
 void parseNamedShowsContainer(LEInputStream& in, NamedShowsContainer& _s);
+void parseNamedShowsContainer(QXmlStreamReader& in, NamedShowsContainer& _s);
 void write(const NamedShowsContainer& v, LEOutputStream& out);
 class SummaryContainer;
 void parseSummaryContainer(LEInputStream& in, SummaryContainer& _s);
+void parseSummaryContainer(QXmlStreamReader& in, SummaryContainer& _s);
 void write(const SummaryContainer& v, LEOutputStream& out);
 class DocRoutingSlipAtom;
 void parseDocRoutingSlipAtom(LEInputStream& in, DocRoutingSlipAtom& _s);
+void parseDocRoutingSlipAtom(QXmlStreamReader& in, DocRoutingSlipAtom& _s);
 void write(const DocRoutingSlipAtom& v, LEOutputStream& out);
 class PrintOptionsAtom;
 void parsePrintOptionsAtom(LEInputStream& in, PrintOptionsAtom& _s);
+void parsePrintOptionsAtom(QXmlStreamReader& in, PrintOptionsAtom& _s);
 void write(const PrintOptionsAtom& v, LEOutputStream& out);
 class RoundTripCustomTableStyles12Atom;
 void parseRoundTripCustomTableStyles12Atom(LEInputStream& in, RoundTripCustomTableStyles12Atom& _s);
+void parseRoundTripCustomTableStyles12Atom(QXmlStreamReader& in, RoundTripCustomTableStyles12Atom& _s);
 void write(const RoundTripCustomTableStyles12Atom& v, LEOutputStream& out);
 class ColorStruct;
 void parseColorStruct(LEInputStream& in, ColorStruct& _s);
+void parseColorStruct(QXmlStreamReader& in, ColorStruct& _s);
 void write(const ColorStruct& v, LEOutputStream& out);
 class ExObjListAtom;
 void parseExObjListAtom(LEInputStream& in, ExObjListAtom& _s);
+void parseExObjListAtom(QXmlStreamReader& in, ExObjListAtom& _s);
 void write(const ExObjListAtom& v, LEOutputStream& out);
 class ExAviMovieContainer;
 void parseExAviMovieContainer(LEInputStream& in, ExAviMovieContainer& _s);
+void parseExAviMovieContainer(QXmlStreamReader& in, ExAviMovieContainer& _s);
 void write(const ExAviMovieContainer& v, LEOutputStream& out);
 class ExCDAudioContainer;
 void parseExCDAudioContainer(LEInputStream& in, ExCDAudioContainer& _s);
+void parseExCDAudioContainer(QXmlStreamReader& in, ExCDAudioContainer& _s);
 void write(const ExCDAudioContainer& v, LEOutputStream& out);
 class ExControlContainer;
 void parseExControlContainer(LEInputStream& in, ExControlContainer& _s);
+void parseExControlContainer(QXmlStreamReader& in, ExControlContainer& _s);
 void write(const ExControlContainer& v, LEOutputStream& out);
 class ExHyperlinkContainer;
 void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s);
+void parseExHyperlinkContainer(QXmlStreamReader& in, ExHyperlinkContainer& _s);
 void write(const ExHyperlinkContainer& v, LEOutputStream& out);
 class ExMCIMovieContainer;
 void parseExMCIMovieContainer(LEInputStream& in, ExMCIMovieContainer& _s);
+void parseExMCIMovieContainer(QXmlStreamReader& in, ExMCIMovieContainer& _s);
 void write(const ExMCIMovieContainer& v, LEOutputStream& out);
 class ExMIDIAudioContainer;
 void parseExMIDIAudioContainer(LEInputStream& in, ExMIDIAudioContainer& _s);
+void parseExMIDIAudioContainer(QXmlStreamReader& in, ExMIDIAudioContainer& _s);
 void write(const ExMIDIAudioContainer& v, LEOutputStream& out);
 class ExWAVAudioEmbeddedContainer;
 void parseExWAVAudioEmbeddedContainer(LEInputStream& in, ExWAVAudioEmbeddedContainer& _s);
+void parseExWAVAudioEmbeddedContainer(QXmlStreamReader& in, ExWAVAudioEmbeddedContainer& _s);
 void write(const ExWAVAudioEmbeddedContainer& v, LEOutputStream& out);
 class ExWAVAudioLinkContainer;
 void parseExWAVAudioLinkContainer(LEInputStream& in, ExWAVAudioLinkContainer& _s);
+void parseExWAVAudioLinkContainer(QXmlStreamReader& in, ExWAVAudioLinkContainer& _s);
 void write(const ExWAVAudioLinkContainer& v, LEOutputStream& out);
 class UnknownExObjListSubContainerChild;
 void parseUnknownExObjListSubContainerChild(LEInputStream& in, UnknownExObjListSubContainerChild& _s);
+void parseUnknownExObjListSubContainerChild(QXmlStreamReader& in, UnknownExObjListSubContainerChild& _s);
 void write(const UnknownExObjListSubContainerChild& v, LEOutputStream& out);
 class ExOleLinkAtom;
 void parseExOleLinkAtom(LEInputStream& in, ExOleLinkAtom& _s);
+void parseExOleLinkAtom(QXmlStreamReader& in, ExOleLinkAtom& _s);
 void write(const ExOleLinkAtom& v, LEOutputStream& out);
 class ExOleObjAtom;
 void parseExOleObjAtom(LEInputStream& in, ExOleObjAtom& _s);
+void parseExOleObjAtom(QXmlStreamReader& in, ExOleObjAtom& _s);
 void write(const ExOleObjAtom& v, LEOutputStream& out);
 class MenuNameAtom;
 void parseMenuNameAtom(LEInputStream& in, MenuNameAtom& _s);
+void parseMenuNameAtom(QXmlStreamReader& in, MenuNameAtom& _s);
 void write(const MenuNameAtom& v, LEOutputStream& out);
 class ProgIDAtom;
 void parseProgIDAtom(LEInputStream& in, ProgIDAtom& _s);
+void parseProgIDAtom(QXmlStreamReader& in, ProgIDAtom& _s);
 void write(const ProgIDAtom& v, LEOutputStream& out);
 class ClipboardNameAtom;
 void parseClipboardNameAtom(LEInputStream& in, ClipboardNameAtom& _s);
+void parseClipboardNameAtom(QXmlStreamReader& in, ClipboardNameAtom& _s);
 void write(const ClipboardNameAtom& v, LEOutputStream& out);
 class MetafileBlob;
 void parseMetafileBlob(LEInputStream& in, MetafileBlob& _s);
+void parseMetafileBlob(QXmlStreamReader& in, MetafileBlob& _s);
 void write(const MetafileBlob& v, LEOutputStream& out);
 class OfficeArtFDGG;
 void parseOfficeArtFDGG(LEInputStream& in, OfficeArtFDGG& _s);
+void parseOfficeArtFDGG(QXmlStreamReader& in, OfficeArtFDGG& _s);
 void write(const OfficeArtFDGG& v, LEOutputStream& out);
 class OfficeArtFDG;
 void parseOfficeArtFDG(LEInputStream& in, OfficeArtFDG& _s);
+void parseOfficeArtFDG(QXmlStreamReader& in, OfficeArtFDG& _s);
 void write(const OfficeArtFDG& v, LEOutputStream& out);
 class OfficeArtFRITContainer;
 void parseOfficeArtFRITContainer(LEInputStream& in, OfficeArtFRITContainer& _s);
+void parseOfficeArtFRITContainer(QXmlStreamReader& in, OfficeArtFRITContainer& _s);
 void write(const OfficeArtFRITContainer& v, LEOutputStream& out);
 class OfficeArtFRIT;
 void parseOfficeArtFRIT(LEInputStream& in, OfficeArtFRIT& _s);
+void parseOfficeArtFRIT(QXmlStreamReader& in, OfficeArtFRIT& _s);
 void write(const OfficeArtFRIT& v, LEOutputStream& out);
 class OfficeArtBStoreContainer;
 void parseOfficeArtBStoreContainer(LEInputStream& in, OfficeArtBStoreContainer& _s);
+void parseOfficeArtBStoreContainer(QXmlStreamReader& in, OfficeArtBStoreContainer& _s);
 void write(const OfficeArtBStoreContainer& v, LEOutputStream& out);
 class OfficeArtSpgrContainer;
 void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s);
+void parseOfficeArtSpgrContainer(QXmlStreamReader& in, OfficeArtSpgrContainer& _s);
 void write(const OfficeArtSpgrContainer& v, LEOutputStream& out);
 class OfficeArtSolverContainer;
 void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s);
+void parseOfficeArtSolverContainer(QXmlStreamReader& in, OfficeArtSolverContainer& _s);
 void write(const OfficeArtSolverContainer& v, LEOutputStream& out);
 class OfficeArtFSPGR;
 void parseOfficeArtFSPGR(LEInputStream& in, OfficeArtFSPGR& _s);
+void parseOfficeArtFSPGR(QXmlStreamReader& in, OfficeArtFSPGR& _s);
 void write(const OfficeArtFSPGR& v, LEOutputStream& out);
 class OfficeArtFSP;
 void parseOfficeArtFSP(LEInputStream& in, OfficeArtFSP& _s);
+void parseOfficeArtFSP(QXmlStreamReader& in, OfficeArtFSP& _s);
 void write(const OfficeArtFSP& v, LEOutputStream& out);
 class OfficeArtFOPT;
 void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s);
+void parseOfficeArtFOPT(QXmlStreamReader& in, OfficeArtFOPT& _s);
 void write(const OfficeArtFOPT& v, LEOutputStream& out);
 class OfficeArtFOPTEComplexData;
 void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s);
+void parseOfficeArtFOPTEComplexData(QXmlStreamReader& in, OfficeArtFOPTEComplexData& _s);
 void write(const OfficeArtFOPTEComplexData& v, LEOutputStream& out);
 class FixedPoint;
 void parseFixedPoint(LEInputStream& in, FixedPoint& _s);
+void parseFixedPoint(QXmlStreamReader& in, FixedPoint& _s);
 void write(const FixedPoint& v, LEOutputStream& out);
 class OfficeArtCOLORREF;
 void parseOfficeArtCOLORREF(LEInputStream& in, OfficeArtCOLORREF& _s);
+void parseOfficeArtCOLORREF(QXmlStreamReader& in, OfficeArtCOLORREF& _s);
 void write(const OfficeArtCOLORREF& v, LEOutputStream& out);
 class OfficeArtChildAnchor;
 void parseOfficeArtChildAnchor(LEInputStream& in, OfficeArtChildAnchor& _s);
+void parseOfficeArtChildAnchor(QXmlStreamReader& in, OfficeArtChildAnchor& _s);
 void write(const OfficeArtChildAnchor& v, LEOutputStream& out);
 class OfficeArtFPSPL;
 void parseOfficeArtFPSPL(LEInputStream& in, OfficeArtFPSPL& _s);
+void parseOfficeArtFPSPL(QXmlStreamReader& in, OfficeArtFPSPL& _s);
 void write(const OfficeArtFPSPL& v, LEOutputStream& out);
 class OfficeArtSecondaryFOPT;
 void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s);
+void parseOfficeArtSecondaryFOPT(QXmlStreamReader& in, OfficeArtSecondaryFOPT& _s);
 void write(const OfficeArtSecondaryFOPT& v, LEOutputStream& out);
 class OfficeArtTertiaryFOPT;
 void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s);
+void parseOfficeArtTertiaryFOPT(QXmlStreamReader& in, OfficeArtTertiaryFOPT& _s);
 void write(const OfficeArtTertiaryFOPT& v, LEOutputStream& out);
 class RectStruct;
 void parseRectStruct(LEInputStream& in, RectStruct& _s);
+void parseRectStruct(QXmlStreamReader& in, RectStruct& _s);
 void write(const RectStruct& v, LEOutputStream& out);
 class SmallRectStruct;
 void parseSmallRectStruct(LEInputStream& in, SmallRectStruct& _s);
+void parseSmallRectStruct(QXmlStreamReader& in, SmallRectStruct& _s);
 void write(const SmallRectStruct& v, LEOutputStream& out);
 class ShapeFlagsAtom;
 void parseShapeFlagsAtom(LEInputStream& in, ShapeFlagsAtom& _s);
+void parseShapeFlagsAtom(QXmlStreamReader& in, ShapeFlagsAtom& _s);
 void write(const ShapeFlagsAtom& v, LEOutputStream& out);
 class ShapeFlags10Atom;
 void parseShapeFlags10Atom(LEInputStream& in, ShapeFlags10Atom& _s);
+void parseShapeFlags10Atom(QXmlStreamReader& in, ShapeFlags10Atom& _s);
 void write(const ShapeFlags10Atom& v, LEOutputStream& out);
 class ExObjRefAtom;
 void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s);
+void parseExObjRefAtom(QXmlStreamReader& in, ExObjRefAtom& _s);
 void write(const ExObjRefAtom& v, LEOutputStream& out);
 class AnimationInfoContainer;
 void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s);
+void parseAnimationInfoContainer(QXmlStreamReader& in, AnimationInfoContainer& _s);
 void write(const AnimationInfoContainer& v, LEOutputStream& out);
 class InteractiveInfoAtom;
 void parseInteractiveInfoAtom(LEInputStream& in, InteractiveInfoAtom& _s);
+void parseInteractiveInfoAtom(QXmlStreamReader& in, InteractiveInfoAtom& _s);
 void write(const InteractiveInfoAtom& v, LEOutputStream& out);
 class MacroNameAtom;
 void parseMacroNameAtom(LEInputStream& in, MacroNameAtom& _s);
+void parseMacroNameAtom(QXmlStreamReader& in, MacroNameAtom& _s);
 void write(const MacroNameAtom& v, LEOutputStream& out);
 class PlaceholderAtom;
 void parsePlaceholderAtom(LEInputStream& in, PlaceholderAtom& _s);
+void parsePlaceholderAtom(QXmlStreamReader& in, PlaceholderAtom& _s);
 void write(const PlaceholderAtom& v, LEOutputStream& out);
 class RecolorInfoAtom;
 void parseRecolorInfoAtom(LEInputStream& in, RecolorInfoAtom& _s);
+void parseRecolorInfoAtom(QXmlStreamReader& in, RecolorInfoAtom& _s);
 void write(const RecolorInfoAtom& v, LEOutputStream& out);
 class OutlineTextRefAtom;
 void parseOutlineTextRefAtom(LEInputStream& in, OutlineTextRefAtom& _s);
+void parseOutlineTextRefAtom(QXmlStreamReader& in, OutlineTextRefAtom& _s);
 void write(const OutlineTextRefAtom& v, LEOutputStream& out);
 class ShapeClientRoundtripDataSubcontainerOrAtom;
 void parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream& in, ShapeClientRoundtripDataSubcontainerOrAtom& _s);
+void parseShapeClientRoundtripDataSubcontainerOrAtom(QXmlStreamReader& in, ShapeClientRoundtripDataSubcontainerOrAtom& _s);
 void write(const ShapeClientRoundtripDataSubcontainerOrAtom& v, LEOutputStream& out);
 class OfficeArtClientTextBox;
 void parseOfficeArtClientTextBox(LEInputStream& in, OfficeArtClientTextBox& _s);
+void parseOfficeArtClientTextBox(QXmlStreamReader& in, OfficeArtClientTextBox& _s);
 void write(const OfficeArtClientTextBox& v, LEOutputStream& out);
 class TextRulerAtom;
 void parseTextRulerAtom(LEInputStream& in, TextRulerAtom& _s);
+void parseTextRulerAtom(QXmlStreamReader& in, TextRulerAtom& _s);
 void write(const TextRulerAtom& v, LEOutputStream& out);
 class OfficeArtIDCL;
 void parseOfficeArtIDCL(LEInputStream& in, OfficeArtIDCL& _s);
+void parseOfficeArtIDCL(QXmlStreamReader& in, OfficeArtIDCL& _s);
 void write(const OfficeArtIDCL& v, LEOutputStream& out);
 class OfficeArtFOPTEOPID;
 void parseOfficeArtFOPTEOPID(LEInputStream& in, OfficeArtFOPTEOPID& _s);
+void parseOfficeArtFOPTEOPID(QXmlStreamReader& in, OfficeArtFOPTEOPID& _s);
 void write(const OfficeArtFOPTEOPID& v, LEOutputStream& out);
 class OfficeArtColorMRUContainer;
 void parseOfficeArtColorMRUContainer(LEInputStream& in, OfficeArtColorMRUContainer& _s);
+void parseOfficeArtColorMRUContainer(QXmlStreamReader& in, OfficeArtColorMRUContainer& _s);
 void write(const OfficeArtColorMRUContainer& v, LEOutputStream& out);
 class MSOCR;
 void parseMSOCR(LEInputStream& in, MSOCR& _s);
+void parseMSOCR(QXmlStreamReader& in, MSOCR& _s);
 void write(const MSOCR& v, LEOutputStream& out);
 class OfficeArtSplitMenuColorContainer;
 void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenuColorContainer& _s);
+void parseOfficeArtSplitMenuColorContainer(QXmlStreamReader& in, OfficeArtSplitMenuColorContainer& _s);
 void write(const OfficeArtSplitMenuColorContainer& v, LEOutputStream& out);
 class todo;
 void parsetodo(LEInputStream& in, todo& _s);
+void parsetodo(QXmlStreamReader& in, todo& _s);
 void write(const todo& v, LEOutputStream& out);
 class FibBase;
 void parseFibBase(LEInputStream& in, FibBase& _s);
+void parseFibBase(QXmlStreamReader& in, FibBase& _s);
 void write(const FibBase& v, LEOutputStream& out);
 class FibRgW97;
 void parseFibRgW97(LEInputStream& in, FibRgW97& _s);
+void parseFibRgW97(QXmlStreamReader& in, FibRgW97& _s);
 void write(const FibRgW97& v, LEOutputStream& out);
 class FibRgLw97;
 void parseFibRgLw97(LEInputStream& in, FibRgLw97& _s);
+void parseFibRgLw97(QXmlStreamReader& in, FibRgLw97& _s);
 void write(const FibRgLw97& v, LEOutputStream& out);
 class FibRgFcLcb97;
 void parseFibRgFcLcb97(LEInputStream& in, FibRgFcLcb97& _s);
+void parseFibRgFcLcb97(QXmlStreamReader& in, FibRgFcLcb97& _s);
 void write(const FibRgFcLcb97& v, LEOutputStream& out);
 class FibRgFcLcb2000;
 void parseFibRgFcLcb2000(LEInputStream& in, FibRgFcLcb2000& _s);
+void parseFibRgFcLcb2000(QXmlStreamReader& in, FibRgFcLcb2000& _s);
 void write(const FibRgFcLcb2000& v, LEOutputStream& out);
 class FibRgFcLcb2002;
 void parseFibRgFcLcb2002(LEInputStream& in, FibRgFcLcb2002& _s);
+void parseFibRgFcLcb2002(QXmlStreamReader& in, FibRgFcLcb2002& _s);
 void write(const FibRgFcLcb2002& v, LEOutputStream& out);
 class LPStshi;
 void parseLPStshi(LEInputStream& in, LPStshi& _s);
+void parseLPStshi(QXmlStreamReader& in, LPStshi& _s);
 void write(const LPStshi& v, LEOutputStream& out);
 class LPStd;
 void parseLPStd(LEInputStream& in, LPStd& _s);
+void parseLPStd(QXmlStreamReader& in, LPStd& _s);
 void write(const LPStd& v, LEOutputStream& out);
 class PlcfSed;
 void parsePlcfSed(LEInputStream& in, PlcfSed& _s);
+void parsePlcfSed(QXmlStreamReader& in, PlcfSed& _s);
 void write(const PlcfSed& v, LEOutputStream& out);
 class Sed;
 void parseSed(LEInputStream& in, Sed& _s);
+void parseSed(QXmlStreamReader& in, Sed& _s);
 void write(const Sed& v, LEOutputStream& out);
 class Plcfhdd;
 void parsePlcfhdd(LEInputStream& in, Plcfhdd& _s);
+void parsePlcfhdd(QXmlStreamReader& in, Plcfhdd& _s);
 void write(const Plcfhdd& v, LEOutputStream& out);
 class PlcBteChpx;
 void parsePlcBteChpx(LEInputStream& in, PlcBteChpx& _s);
+void parsePlcBteChpx(QXmlStreamReader& in, PlcBteChpx& _s);
 void write(const PlcBteChpx& v, LEOutputStream& out);
 class PlcfBtePapx;
 void parsePlcfBtePapx(LEInputStream& in, PlcfBtePapx& _s);
+void parsePlcfBtePapx(QXmlStreamReader& in, PlcfBtePapx& _s);
 void write(const PlcfBtePapx& v, LEOutputStream& out);
 class Tcg;
 void parseTcg(LEInputStream& in, Tcg& _s);
+void parseTcg(QXmlStreamReader& in, Tcg& _s);
 void write(const Tcg& v, LEOutputStream& out);
 class PrcData;
 void parsePrcData(LEInputStream& in, PrcData& _s);
+void parsePrcData(QXmlStreamReader& in, PrcData& _s);
 void write(const PrcData& v, LEOutputStream& out);
 class Sprm;
 void parseSprm(LEInputStream& in, Sprm& _s);
+void parseSprm(QXmlStreamReader& in, Sprm& _s);
 void write(const Sprm& v, LEOutputStream& out);
 class Pcdt;
 void parsePcdt(LEInputStream& in, Pcdt& _s);
+void parsePcdt(QXmlStreamReader& in, Pcdt& _s);
 void write(const Pcdt& v, LEOutputStream& out);
 class FCompressed;
 void parseFCompressed(LEInputStream& in, FCompressed& _s);
+void parseFCompressed(QXmlStreamReader& in, FCompressed& _s);
 void write(const FCompressed& v, LEOutputStream& out);
 class Prm0;
 void parsePrm0(LEInputStream& in, Prm0& _s);
+void parsePrm0(QXmlStreamReader& in, Prm0& _s);
 void write(const Prm0& v, LEOutputStream& out);
 class Prm1;
 void parsePrm1(LEInputStream& in, Prm1& _s);
+void parsePrm1(QXmlStreamReader& in, Prm1& _s);
 void write(const Prm1& v, LEOutputStream& out);
 class SttbfFfn;
 void parseSttbfFfn(LEInputStream& in, SttbfFfn& _s);
+void parseSttbfFfn(QXmlStreamReader& in, SttbfFfn& _s);
 void write(const SttbfFfn& v, LEOutputStream& out);
 class SttbfFfnEntry;
 void parseSttbfFfnEntry(LEInputStream& in, SttbfFfnEntry& _s);
+void parseSttbfFfnEntry(QXmlStreamReader& in, SttbfFfnEntry& _s);
 void write(const SttbfFfnEntry& v, LEOutputStream& out);
 class CodePageString;
 void parseCodePageString(LEInputStream& in, CodePageString& _s);
+void parseCodePageString(QXmlStreamReader& in, CodePageString& _s);
 void write(const CodePageString& v, LEOutputStream& out);
 class FILETIME;
 void parseFILETIME(LEInputStream& in, FILETIME& _s);
+void parseFILETIME(QXmlStreamReader& in, FILETIME& _s);
 void write(const FILETIME& v, LEOutputStream& out);
 class ClipboardData;
 void parseClipboardData(LEInputStream& in, ClipboardData& _s);
+void parseClipboardData(QXmlStreamReader& in, ClipboardData& _s);
 void write(const ClipboardData& v, LEOutputStream& out);
 class PropertyIdentifierAndOffset;
 void parsePropertyIdentifierAndOffset(LEInputStream& in, PropertyIdentifierAndOffset& _s);
+void parsePropertyIdentifierAndOffset(QXmlStreamReader& in, PropertyIdentifierAndOffset& _s);
 void write(const PropertyIdentifierAndOffset& v, LEOutputStream& out);
 class TypedPropertyValue;
 void parseTypedPropertyValue(LEInputStream& in, TypedPropertyValue& _s);
+void parseTypedPropertyValue(QXmlStreamReader& in, TypedPropertyValue& _s);
 void write(const TypedPropertyValue& v, LEOutputStream& out);
 class PropertySet;
 void parsePropertySet(LEInputStream& in, PropertySet& _s);
+void parsePropertySet(QXmlStreamReader& in, PropertySet& _s);
 void write(const PropertySet& v, LEOutputStream& out);
 class PropertySetStream;
 void parsePropertySetStream(LEInputStream& in, PropertySetStream& _s);
+void parsePropertySetStream(QXmlStreamReader& in, PropertySetStream& _s);
 void write(const PropertySetStream& v, LEOutputStream& out);
 class SummaryInformationPropertySetStream;
 void parseSummaryInformationPropertySetStream(LEInputStream& in, SummaryInformationPropertySetStream& _s);
+void parseSummaryInformationPropertySetStream(QXmlStreamReader& in, SummaryInformationPropertySetStream& _s);
 void write(const SummaryInformationPropertySetStream& v, LEOutputStream& out);
 class DocumentSummaryInformationPropertySetStream;
 void parseDocumentSummaryInformationPropertySetStream(LEInputStream& in, DocumentSummaryInformationPropertySetStream& _s);
+void parseDocumentSummaryInformationPropertySetStream(QXmlStreamReader& in, DocumentSummaryInformationPropertySetStream& _s);
 void write(const DocumentSummaryInformationPropertySetStream& v, LEOutputStream& out);
 class PicturesStream;
 void parsePicturesStream(LEInputStream& in, PicturesStream& _s);
+void parsePicturesStream(QXmlStreamReader& in, PicturesStream& _s);
 void write(const PicturesStream& v, LEOutputStream& out);
 class OfficeArtMetafileHeader;
 void parseOfficeArtMetafileHeader(LEInputStream& in, OfficeArtMetafileHeader& _s);
+void parseOfficeArtMetafileHeader(QXmlStreamReader& in, OfficeArtMetafileHeader& _s);
 void write(const OfficeArtMetafileHeader& v, LEOutputStream& out);
 class ScalingStruct;
 void parseScalingStruct(LEInputStream& in, ScalingStruct& _s);
+void parseScalingStruct(QXmlStreamReader& in, ScalingStruct& _s);
 void write(const ScalingStruct& v, LEOutputStream& out);
 class NoZoomViewInfoAtom;
 void parseNoZoomViewInfoAtom(LEInputStream& in, NoZoomViewInfoAtom& _s);
+void parseNoZoomViewInfoAtom(QXmlStreamReader& in, NoZoomViewInfoAtom& _s);
 void write(const NoZoomViewInfoAtom& v, LEOutputStream& out);
 class VBAInfoContainer;
 void parseVBAInfoContainer(LEInputStream& in, VBAInfoContainer& _s);
+void parseVBAInfoContainer(QXmlStreamReader& in, VBAInfoContainer& _s);
 void write(const VBAInfoContainer& v, LEOutputStream& out);
 class NormalViewSetInfoAtom;
 void parseNormalViewSetInfoAtom(LEInputStream& in, NormalViewSetInfoAtom& _s);
+void parseNormalViewSetInfoAtom(QXmlStreamReader& in, NormalViewSetInfoAtom& _s);
 void write(const NormalViewSetInfoAtom& v, LEOutputStream& out);
 class MasterPersistAtom;
 void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s);
+void parseMasterPersistAtom(QXmlStreamReader& in, MasterPersistAtom& _s);
 void write(const MasterPersistAtom& v, LEOutputStream& out);
 class TextContainer;
 void parseTextContainer(LEInputStream& in, TextContainer& _s);
+void parseTextContainer(QXmlStreamReader& in, TextContainer& _s);
 void write(const TextContainer& v, LEOutputStream& out);
 class TextContainerMeta;
 void parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s);
+void parseTextContainerMeta(QXmlStreamReader& in, TextContainerMeta& _s);
 void write(const TextContainerMeta& v, LEOutputStream& out);
 class TextClientDataSubContainerOrAtom;
 void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s);
+void parseTextClientDataSubContainerOrAtom(QXmlStreamReader& in, TextClientDataSubContainerOrAtom& _s);
 void write(const TextClientDataSubContainerOrAtom& v, LEOutputStream& out);
 class SlidePersistAtom;
 void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s);
+void parseSlidePersistAtom(QXmlStreamReader& in, SlidePersistAtom& _s);
 void write(const SlidePersistAtom& v, LEOutputStream& out);
 class TextRuler;
 void parseTextRuler(LEInputStream& in, TextRuler& _s);
+void parseTextRuler(QXmlStreamReader& in, TextRuler& _s);
 void write(const TextRuler& v, LEOutputStream& out);
 class TextPFException;
 void parseTextPFException(LEInputStream& in, TextPFException& _s);
+void parseTextPFException(QXmlStreamReader& in, TextPFException& _s);
 void write(const TextPFException& v, LEOutputStream& out);
 class TextCFException;
 void parseTextCFException(LEInputStream& in, TextCFException& _s);
+void parseTextCFException(QXmlStreamReader& in, TextCFException& _s);
 void write(const TextCFException& v, LEOutputStream& out);
 class FontCollectionEntry;
 void parseFontCollectionEntry(LEInputStream& in, FontCollectionEntry& _s);
+void parseFontCollectionEntry(QXmlStreamReader& in, FontCollectionEntry& _s);
 void write(const FontCollectionEntry& v, LEOutputStream& out);
 class KinsokuContainer;
 void parseKinsokuContainer(LEInputStream& in, KinsokuContainer& _s);
+void parseKinsokuContainer(QXmlStreamReader& in, KinsokuContainer& _s);
 void write(const KinsokuContainer& v, LEOutputStream& out);
 class TextSIException;
 void parseTextSIException(LEInputStream& in, TextSIException& _s);
+void parseTextSIException(QXmlStreamReader& in, TextSIException& _s);
 void write(const TextSIException& v, LEOutputStream& out);
 class TextMasterStyleLevel;
 void parseTextMasterStyleLevel(LEInputStream& in, TextMasterStyleLevel& _s);
+void parseTextMasterStyleLevel(QXmlStreamReader& in, TextMasterStyleLevel& _s);
 void write(const TextMasterStyleLevel& v, LEOutputStream& out);
 class DocumentAtom;
 void parseDocumentAtom(LEInputStream& in, DocumentAtom& _s);
+void parseDocumentAtom(QXmlStreamReader& in, DocumentAtom& _s);
 void write(const DocumentAtom& v, LEOutputStream& out);
 class ProgStringTagContainer;
 void parseProgStringTagContainer(LEInputStream& in, ProgStringTagContainer& _s);
+void parseProgStringTagContainer(QXmlStreamReader& in, ProgStringTagContainer& _s);
 void write(const ProgStringTagContainer& v, LEOutputStream& out);
 class ExObjListContainer;
 void parseExObjListContainer(LEInputStream& in, ExObjListContainer& _s);
+void parseExObjListContainer(QXmlStreamReader& in, ExObjListContainer& _s);
 void write(const ExObjListContainer& v, LEOutputStream& out);
 class ExOleLinkContainer;
 void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s);
+void parseExOleLinkContainer(QXmlStreamReader& in, ExOleLinkContainer& _s);
 void write(const ExOleLinkContainer& v, LEOutputStream& out);
 class ExOleEmbedContainer;
 void parseExOleEmbedContainer(LEInputStream& in, ExOleEmbedContainer& _s);
+void parseExOleEmbedContainer(QXmlStreamReader& in, ExOleEmbedContainer& _s);
 void write(const ExOleEmbedContainer& v, LEOutputStream& out);
 class OfficeArtFDGGBlock;
 void parseOfficeArtFDGGBlock(LEInputStream& in, OfficeArtFDGGBlock& _s);
+void parseOfficeArtFDGGBlock(QXmlStreamReader& in, OfficeArtFDGGBlock& _s);
 void write(const OfficeArtFDGGBlock& v, LEOutputStream& out);
 class ProtectionBooleanProperties;
 void parseProtectionBooleanProperties(LEInputStream& in, ProtectionBooleanProperties& _s);
+void parseProtectionBooleanProperties(QXmlStreamReader& in, ProtectionBooleanProperties& _s);
 void write(const ProtectionBooleanProperties& v, LEOutputStream& out);
 class Rotation;
 void parseRotation(LEInputStream& in, Rotation& _s);
+void parseRotation(QXmlStreamReader& in, Rotation& _s);
 void write(const Rotation& v, LEOutputStream& out);
 class ITxid;
 void parseITxid(LEInputStream& in, ITxid& _s);
+void parseITxid(QXmlStreamReader& in, ITxid& _s);
 void write(const ITxid& v, LEOutputStream& out);
 class DxTextLeft;
 void parseDxTextLeft(LEInputStream& in, DxTextLeft& _s);
+void parseDxTextLeft(QXmlStreamReader& in, DxTextLeft& _s);
 void write(const DxTextLeft& v, LEOutputStream& out);
 class DyTextTop;
 void parseDyTextTop(LEInputStream& in, DyTextTop& _s);
+void parseDyTextTop(QXmlStreamReader& in, DyTextTop& _s);
 void write(const DyTextTop& v, LEOutputStream& out);
 class DxTextRight;
 void parseDxTextRight(LEInputStream& in, DxTextRight& _s);
+void parseDxTextRight(QXmlStreamReader& in, DxTextRight& _s);
 void write(const DxTextRight& v, LEOutputStream& out);
 class DyTextBottom;
 void parseDyTextBottom(LEInputStream& in, DyTextBottom& _s);
+void parseDyTextBottom(QXmlStreamReader& in, DyTextBottom& _s);
 void write(const DyTextBottom& v, LEOutputStream& out);
 class WrapText;
 void parseWrapText(LEInputStream& in, WrapText& _s);
+void parseWrapText(QXmlStreamReader& in, WrapText& _s);
 void write(const WrapText& v, LEOutputStream& out);
 class AnchorText;
 void parseAnchorText(LEInputStream& in, AnchorText& _s);
+void parseAnchorText(QXmlStreamReader& in, AnchorText& _s);
 void write(const AnchorText& v, LEOutputStream& out);
 class TextBooleanProperties;
 void parseTextBooleanProperties(LEInputStream& in, TextBooleanProperties& _s);
+void parseTextBooleanProperties(QXmlStreamReader& in, TextBooleanProperties& _s);
 void write(const TextBooleanProperties& v, LEOutputStream& out);
 class HspNext;
 void parseHspNext(LEInputStream& in, HspNext& _s);
+void parseHspNext(QXmlStreamReader& in, HspNext& _s);
 void write(const HspNext& v, LEOutputStream& out);
 class ShapePath;
 void parseShapePath(LEInputStream& in, ShapePath& _s);
+void parseShapePath(QXmlStreamReader& in, ShapePath& _s);
 void write(const ShapePath& v, LEOutputStream& out);
 class GeometryBooleanProperties;
 void parseGeometryBooleanProperties(LEInputStream& in, GeometryBooleanProperties& _s);
+void parseGeometryBooleanProperties(QXmlStreamReader& in, GeometryBooleanProperties& _s);
 void write(const GeometryBooleanProperties& v, LEOutputStream& out);
 class FillType;
 void parseFillType(LEInputStream& in, FillType& _s);
+void parseFillType(QXmlStreamReader& in, FillType& _s);
 void write(const FillType& v, LEOutputStream& out);
 class FillColor;
 void parseFillColor(LEInputStream& in, FillColor& _s);
+void parseFillColor(QXmlStreamReader& in, FillColor& _s);
 void write(const FillColor& v, LEOutputStream& out);
 class FillBackColor;
 void parseFillBackColor(LEInputStream& in, FillBackColor& _s);
+void parseFillBackColor(QXmlStreamReader& in, FillBackColor& _s);
 void write(const FillBackColor& v, LEOutputStream& out);
 class FillBlip;
 void parseFillBlip(LEInputStream& in, FillBlip& _s);
+void parseFillBlip(QXmlStreamReader& in, FillBlip& _s);
 void write(const FillBlip& v, LEOutputStream& out);
 class FillRectRight;
 void parseFillRectRight(LEInputStream& in, FillRectRight& _s);
+void parseFillRectRight(QXmlStreamReader& in, FillRectRight& _s);
 void write(const FillRectRight& v, LEOutputStream& out);
 class FillRectBottom;
 void parseFillRectBottom(LEInputStream& in, FillRectBottom& _s);
+void parseFillRectBottom(QXmlStreamReader& in, FillRectBottom& _s);
 void write(const FillRectBottom& v, LEOutputStream& out);
 class FillStyleBooleanProperties;
 void parseFillStyleBooleanProperties(LEInputStream& in, FillStyleBooleanProperties& _s);
+void parseFillStyleBooleanProperties(QXmlStreamReader& in, FillStyleBooleanProperties& _s);
 void write(const FillStyleBooleanProperties& v, LEOutputStream& out);
 class LineColor;
 void parseLineColor(LEInputStream& in, LineColor& _s);
+void parseLineColor(QXmlStreamReader& in, LineColor& _s);
 void write(const LineColor& v, LEOutputStream& out);
 class LineBackColor;
 void parseLineBackColor(LEInputStream& in, LineBackColor& _s);
+void parseLineBackColor(QXmlStreamReader& in, LineBackColor& _s);
 void write(const LineBackColor& v, LEOutputStream& out);
 class LineFillBlip;
 void parseLineFillBlip(LEInputStream& in, LineFillBlip& _s);
+void parseLineFillBlip(QXmlStreamReader& in, LineFillBlip& _s);
 void write(const LineFillBlip& v, LEOutputStream& out);
 class LineWidth;
 void parseLineWidth(LEInputStream& in, LineWidth& _s);
+void parseLineWidth(QXmlStreamReader& in, LineWidth& _s);
 void write(const LineWidth& v, LEOutputStream& out);
 class LineStartArrowhead;
 void parseLineStartArrowhead(LEInputStream& in, LineStartArrowhead& _s);
+void parseLineStartArrowhead(QXmlStreamReader& in, LineStartArrowhead& _s);
 void write(const LineStartArrowhead& v, LEOutputStream& out);
 class LineEndArrowhead;
 void parseLineEndArrowhead(LEInputStream& in, LineEndArrowhead& _s);
+void parseLineEndArrowhead(QXmlStreamReader& in, LineEndArrowhead& _s);
 void write(const LineEndArrowhead& v, LEOutputStream& out);
 class LineJoinStyle;
 void parseLineJoinStyle(LEInputStream& in, LineJoinStyle& _s);
+void parseLineJoinStyle(QXmlStreamReader& in, LineJoinStyle& _s);
 void write(const LineJoinStyle& v, LEOutputStream& out);
 class LineStyleBooleanProperties;
 void parseLineStyleBooleanProperties(LEInputStream& in, LineStyleBooleanProperties& _s);
+void parseLineStyleBooleanProperties(QXmlStreamReader& in, LineStyleBooleanProperties& _s);
 void write(const LineStyleBooleanProperties& v, LEOutputStream& out);
 class ShadowColor;
 void parseShadowColor(LEInputStream& in, ShadowColor& _s);
+void parseShadowColor(QXmlStreamReader& in, ShadowColor& _s);
 void write(const ShadowColor& v, LEOutputStream& out);
 class ShadowStyleBooleanPropertiesr;
 void parseShadowStyleBooleanPropertiesr(LEInputStream& in, ShadowStyleBooleanPropertiesr& _s);
+void parseShadowStyleBooleanPropertiesr(QXmlStreamReader& in, ShadowStyleBooleanPropertiesr& _s);
 void write(const ShadowStyleBooleanPropertiesr& v, LEOutputStream& out);
 class HspMaster;
 void parseHspMaster(LEInputStream& in, HspMaster& _s);
+void parseHspMaster(QXmlStreamReader& in, HspMaster& _s);
 void write(const HspMaster& v, LEOutputStream& out);
 class BWMode;
 void parseBWMode(LEInputStream& in, BWMode& _s);
+void parseBWMode(QXmlStreamReader& in, BWMode& _s);
 void write(const BWMode& v, LEOutputStream& out);
 class ShapeBooleanProperties;
 void parseShapeBooleanProperties(LEInputStream& in, ShapeBooleanProperties& _s);
+void parseShapeBooleanProperties(QXmlStreamReader& in, ShapeBooleanProperties& _s);
 void write(const ShapeBooleanProperties& v, LEOutputStream& out);
 class LidRegroup;
 void parseLidRegroup(LEInputStream& in, LidRegroup& _s);
+void parseLidRegroup(QXmlStreamReader& in, LidRegroup& _s);
 void write(const LidRegroup& v, LEOutputStream& out);
 class WzFillId;
 void parseWzFillId(LEInputStream& in, WzFillId& _s);
+void parseWzFillId(QXmlStreamReader& in, WzFillId& _s);
 void write(const WzFillId& v, LEOutputStream& out);
 class OfficeArtClientAnchor;
 void parseOfficeArtClientAnchor(LEInputStream& in, OfficeArtClientAnchor& _s);
+void parseOfficeArtClientAnchor(QXmlStreamReader& in, OfficeArtClientAnchor& _s);
 void write(const OfficeArtClientAnchor& v, LEOutputStream& out);
 class MouseInteractiveInfoContainer;
 void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s);
+void parseMouseInteractiveInfoContainer(QXmlStreamReader& in, MouseInteractiveInfoContainer& _s);
 void write(const MouseInteractiveInfoContainer& v, LEOutputStream& out);
 class OfficeArtFOPTE;
 void parseOfficeArtFOPTE(LEInputStream& in, OfficeArtFOPTE& _s);
+void parseOfficeArtFOPTE(QXmlStreamReader& in, OfficeArtFOPTE& _s);
 void write(const OfficeArtFOPTE& v, LEOutputStream& out);
 class Fib;
 void parseFib(LEInputStream& in, Fib& _s);
+void parseFib(QXmlStreamReader& in, Fib& _s);
 void write(const Fib& v, LEOutputStream& out);
 class STSH;
 void parseSTSH(LEInputStream& in, STSH& _s);
+void parseSTSH(QXmlStreamReader& in, STSH& _s);
 void write(const STSH& v, LEOutputStream& out);
 class Clx;
 void parseClx(LEInputStream& in, Clx& _s);
+void parseClx(QXmlStreamReader& in, Clx& _s);
 void write(const Clx& v, LEOutputStream& out);
 class Pcr;
 void parsePcr(LEInputStream& in, Pcr& _s);
+void parsePcr(QXmlStreamReader& in, Pcr& _s);
 void write(const Pcr& v, LEOutputStream& out);
 class Prm;
 void parsePrm(LEInputStream& in, Prm& _s);
+void parsePrm(QXmlStreamReader& in, Prm& _s);
 void write(const Prm& v, LEOutputStream& out);
 class OfficeArtBlipEMF;
 void parseOfficeArtBlipEMF(LEInputStream& in, OfficeArtBlipEMF& _s);
+void parseOfficeArtBlipEMF(QXmlStreamReader& in, OfficeArtBlipEMF& _s);
 void write(const OfficeArtBlipEMF& v, LEOutputStream& out);
 class OfficeArtBlipWMF;
 void parseOfficeArtBlipWMF(LEInputStream& in, OfficeArtBlipWMF& _s);
+void parseOfficeArtBlipWMF(QXmlStreamReader& in, OfficeArtBlipWMF& _s);
 void write(const OfficeArtBlipWMF& v, LEOutputStream& out);
 class OfficeArtBlipPICT;
 void parseOfficeArtBlipPICT(LEInputStream& in, OfficeArtBlipPICT& _s);
+void parseOfficeArtBlipPICT(QXmlStreamReader& in, OfficeArtBlipPICT& _s);
 void write(const OfficeArtBlipPICT& v, LEOutputStream& out);
 class OfficeArtBlip;
 void parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s);
+void parseOfficeArtBlip(QXmlStreamReader& in, OfficeArtBlip& _s);
 void write(const OfficeArtBlip& v, LEOutputStream& out);
 class ZoomViewInfoAtom;
 void parseZoomViewInfoAtom(LEInputStream& in, ZoomViewInfoAtom& _s);
+void parseZoomViewInfoAtom(QXmlStreamReader& in, ZoomViewInfoAtom& _s);
 void write(const ZoomViewInfoAtom& v, LEOutputStream& out);
 class DocProgTagsSubContainerOrAtom;
 void parseDocProgTagsSubContainerOrAtom(LEInputStream& in, DocProgTagsSubContainerOrAtom& _s);
+void parseDocProgTagsSubContainerOrAtom(QXmlStreamReader& in, DocProgTagsSubContainerOrAtom& _s);
 void write(const DocProgTagsSubContainerOrAtom& v, LEOutputStream& out);
 class NotesTextViewInfoContainer;
 void parseNotesTextViewInfoContainer(LEInputStream& in, NotesTextViewInfoContainer& _s);
+void parseNotesTextViewInfoContainer(QXmlStreamReader& in, NotesTextViewInfoContainer& _s);
 void write(const NotesTextViewInfoContainer& v, LEOutputStream& out);
 class OutlineViewInfoContainer;
 void parseOutlineViewInfoContainer(LEInputStream& in, OutlineViewInfoContainer& _s);
+void parseOutlineViewInfoContainer(QXmlStreamReader& in, OutlineViewInfoContainer& _s);
 void write(const OutlineViewInfoContainer& v, LEOutputStream& out);
 class NormalViewSetInfoContainer;
 void parseNormalViewSetInfoContainer(LEInputStream& in, NormalViewSetInfoContainer& _s);
+void parseNormalViewSetInfoContainer(QXmlStreamReader& in, NormalViewSetInfoContainer& _s);
 void write(const NormalViewSetInfoContainer& v, LEOutputStream& out);
 class SlideListWithTextSubContainerOrAtom;
 void parseSlideListWithTextSubContainerOrAtom(LEInputStream& in, SlideListWithTextSubContainerOrAtom& _s);
+void parseSlideListWithTextSubContainerOrAtom(QXmlStreamReader& in, SlideListWithTextSubContainerOrAtom& _s);
 void write(const SlideListWithTextSubContainerOrAtom& v, LEOutputStream& out);
 class TextContainerInteractiveInfo;
 void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteractiveInfo& _s);
+void parseTextContainerInteractiveInfo(QXmlStreamReader& in, TextContainerInteractiveInfo& _s);
 void write(const TextContainerInteractiveInfo& v, LEOutputStream& out);
 class TextPFRun;
 void parseTextPFRun(LEInputStream& in, TextPFRun& _s);
+void parseTextPFRun(QXmlStreamReader& in, TextPFRun& _s);
 void write(const TextPFRun& v, LEOutputStream& out);
 class TextCFRun;
 void parseTextCFRun(LEInputStream& in, TextCFRun& _s);
+void parseTextCFRun(QXmlStreamReader& in, TextCFRun& _s);
 void write(const TextCFRun& v, LEOutputStream& out);
 class TextCFExceptionAtom;
 void parseTextCFExceptionAtom(LEInputStream& in, TextCFExceptionAtom& _s);
+void parseTextCFExceptionAtom(QXmlStreamReader& in, TextCFExceptionAtom& _s);
 void write(const TextCFExceptionAtom& v, LEOutputStream& out);
 class DefaultRulerAtom;
 void parseDefaultRulerAtom(LEInputStream& in, DefaultRulerAtom& _s);
+void parseDefaultRulerAtom(QXmlStreamReader& in, DefaultRulerAtom& _s);
 void write(const DefaultRulerAtom& v, LEOutputStream& out);
 class TextPFExceptionAtom;
 void parseTextPFExceptionAtom(LEInputStream& in, TextPFExceptionAtom& _s);
+void parseTextPFExceptionAtom(QXmlStreamReader& in, TextPFExceptionAtom& _s);
 void write(const TextPFExceptionAtom& v, LEOutputStream& out);
 class TextSIRun;
 void parseTextSIRun(LEInputStream& in, TextSIRun& _s);
+void parseTextSIRun(QXmlStreamReader& in, TextSIRun& _s);
 void write(const TextSIRun& v, LEOutputStream& out);
 class TextSIExceptionAtom;
 void parseTextSIExceptionAtom(LEInputStream& in, TextSIExceptionAtom& _s);
+void parseTextSIExceptionAtom(QXmlStreamReader& in, TextSIExceptionAtom& _s);
 void write(const TextSIExceptionAtom& v, LEOutputStream& out);
 class TextMasterStyleAtom;
 void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s);
+void parseTextMasterStyleAtom(QXmlStreamReader& in, TextMasterStyleAtom& _s);
 void write(const TextMasterStyleAtom& v, LEOutputStream& out);
 class SlideProgTagsSubContainerOrAtom;
 void parseSlideProgTagsSubContainerOrAtom(LEInputStream& in, SlideProgTagsSubContainerOrAtom& _s);
+void parseSlideProgTagsSubContainerOrAtom(QXmlStreamReader& in, SlideProgTagsSubContainerOrAtom& _s);
 void write(const SlideProgTagsSubContainerOrAtom& v, LEOutputStream& out);
 class ExObjListSubContainer;
 void parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _s);
+void parseExObjListSubContainer(QXmlStreamReader& in, ExObjListSubContainer& _s);
 void write(const ExObjListSubContainer& v, LEOutputStream& out);
 class OfficeArtDggContainer;
 void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s);
+void parseOfficeArtDggContainer(QXmlStreamReader& in, OfficeArtDggContainer& _s);
 void write(const OfficeArtDggContainer& v, LEOutputStream& out);
 class OfficeArtFOPTEChoice;
 void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s);
+void parseOfficeArtFOPTEChoice(QXmlStreamReader& in, OfficeArtFOPTEChoice& _s);
 void write(const OfficeArtFOPTEChoice& v, LEOutputStream& out);
 class OfficeArtClientData;
 void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s);
+void parseOfficeArtClientData(QXmlStreamReader& in, OfficeArtClientData& _s);
 void write(const OfficeArtClientData& v, LEOutputStream& out);
 class WordDocument;
 void parseWordDocument(LEInputStream& in, WordDocument& _s);
+void parseWordDocument(QXmlStreamReader& in, WordDocument& _s);
 void write(const WordDocument& v, LEOutputStream& out);
 class Table;
 void parseTable(LEInputStream& in, Table& _s);
+void parseTable(QXmlStreamReader& in, Table& _s);
 void write(const Table& v, LEOutputStream& out);
 class Pcd;
 void parsePcd(LEInputStream& in, Pcd& _s);
+void parsePcd(QXmlStreamReader& in, Pcd& _s);
 void write(const Pcd& v, LEOutputStream& out);
 class OfficeArtFBSE;
 void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s);
+void parseOfficeArtFBSE(QXmlStreamReader& in, OfficeArtFBSE& _s);
 void write(const OfficeArtFBSE& v, LEOutputStream& out);
 class OfficeArtBStoreContainerFileBlock;
 void parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBStoreContainerFileBlock& _s);
+void parseOfficeArtBStoreContainerFileBlock(QXmlStreamReader& in, OfficeArtBStoreContainerFileBlock& _s);
 void write(const OfficeArtBStoreContainerFileBlock& v, LEOutputStream& out);
 class SlideViewInfoInstance;
 void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s);
+void parseSlideViewInfoInstance(QXmlStreamReader& in, SlideViewInfoInstance& _s);
 void write(const SlideViewInfoInstance& v, LEOutputStream& out);
 class DocumentTextInfoContainer;
 void parseDocumentTextInfoContainer(LEInputStream& in, DocumentTextInfoContainer& _s);
+void parseDocumentTextInfoContainer(QXmlStreamReader& in, DocumentTextInfoContainer& _s);
 void write(const DocumentTextInfoContainer& v, LEOutputStream& out);
 class DrawingGroupContainer;
 void parseDrawingGroupContainer(LEInputStream& in, DrawingGroupContainer& _s);
+void parseDrawingGroupContainer(QXmlStreamReader& in, DrawingGroupContainer& _s);
 void write(const DrawingGroupContainer& v, LEOutputStream& out);
 class OfficeArtSpContainer;
 void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s);
+void parseOfficeArtSpContainer(QXmlStreamReader& in, OfficeArtSpContainer& _s);
 void write(const OfficeArtSpContainer& v, LEOutputStream& out);
 class DocumentContainer;
 void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s);
+void parseDocumentContainer(QXmlStreamReader& in, DocumentContainer& _s);
 void write(const DocumentContainer& v, LEOutputStream& out);
 class DocInfoListSubContainerOrAtom;
 void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContainerOrAtom& _s);
+void parseDocInfoListSubContainerOrAtom(QXmlStreamReader& in, DocInfoListSubContainerOrAtom& _s);
 void write(const DocInfoListSubContainerOrAtom& v, LEOutputStream& out);
 class OfficeArtDgContainer;
 void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s);
+void parseOfficeArtDgContainer(QXmlStreamReader& in, OfficeArtDgContainer& _s);
 void write(const OfficeArtDgContainer& v, LEOutputStream& out);
 class OfficeArtSpgrContainerFileBlock;
 void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContainerFileBlock& _s);
+void parseOfficeArtSpgrContainerFileBlock(QXmlStreamReader& in, OfficeArtSpgrContainerFileBlock& _s);
 void write(const OfficeArtSpgrContainerFileBlock& v, LEOutputStream& out);
 class DrawingContainer;
 void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s);
+void parseDrawingContainer(QXmlStreamReader& in, DrawingContainer& _s);
 void write(const DrawingContainer& v, LEOutputStream& out);
 class MainMasterContainer;
 void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s);
+void parseMainMasterContainer(QXmlStreamReader& in, MainMasterContainer& _s);
 void write(const MainMasterContainer& v, LEOutputStream& out);
 class SlideContainer;
 void parseSlideContainer(LEInputStream& in, SlideContainer& _s);
+void parseSlideContainer(QXmlStreamReader& in, SlideContainer& _s);
 void write(const SlideContainer& v, LEOutputStream& out);
 class MasterOrSlideContainer;
 void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s);
+void parseMasterOrSlideContainer(QXmlStreamReader& in, MasterOrSlideContainer& _s);
 void write(const MasterOrSlideContainer& v, LEOutputStream& out);
 class PowerPointStruct;
 void parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s);
+void parsePowerPointStruct(QXmlStreamReader& in, PowerPointStruct& _s);
 void write(const PowerPointStruct& v, LEOutputStream& out);
 class RecordHeader : public Introspectable {
 private:
@@ -25514,6 +25808,8 @@ void write(const RecordHeader& _s, LEOutputStream& out) {
     out.writeuint16(_s.recType);
     out.writeuint32(_s.recLen);
 }
+void parseRecordHeader(QXmlStreamReader& in, RecordHeader& _s) {
+}
 void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -25581,6 +25877,8 @@ void write(const CurrentUserAtom& _s, LEOutputStream& out) {
         out.writeBytes(_s.unicodeUserName);
     }
 }
+void parseCurrentUserAtom(QXmlStreamReader& in, CurrentUserAtom& _s) {
+}
 void parseTODOS(LEInputStream& in, TODOS& _s) {
     LEInputStream::Mark _m;
         bool _atend;
@@ -25605,11 +25903,15 @@ void write(const TODOS& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseTODOS(QXmlStreamReader& in, TODOS& _s) {
+}
 void parseByte(LEInputStream& in, Byte& _s) {
     _s.b = in.readuint8();
 }
 void write(const Byte& _s, LEOutputStream& out) {
     out.writeuint8(_s.b);
+}
+void parseByte(QXmlStreamReader& in, Byte& _s) {
 }
 void parseCurrentUserStream(LEInputStream& in, CurrentUserStream& _s) {
     LEInputStream::Mark _m;
@@ -25637,6 +25939,8 @@ void write(const CurrentUserStream& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseCurrentUserStream(QXmlStreamReader& in, CurrentUserStream& _s) {
+}
 void parseOfficeArtBStoreDelay(LEInputStream& in, OfficeArtBStoreDelay& _s) {
     LEInputStream::Mark _m;
         bool _atend;
@@ -25661,6 +25965,8 @@ void write(const OfficeArtBStoreDelay& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseOfficeArtBStoreDelay(QXmlStreamReader& in, OfficeArtBStoreDelay& _s) {
+}
 void parseOfficeArtRecordHeader(LEInputStream& in, OfficeArtRecordHeader& _s) {
     _s.recVer = in.readuint4();
     _s.recInstance = in.readuint12();
@@ -25672,6 +25978,8 @@ void write(const OfficeArtRecordHeader& _s, LEOutputStream& out) {
     out.writeuint12(_s.recInstance);
     out.writeuint16(_s.recType);
     out.writeuint32(_s.recLen);
+}
+void parseOfficeArtRecordHeader(QXmlStreamReader& in, OfficeArtRecordHeader& _s) {
 }
 void parseOfficeArtBlipJPEG(LEInputStream& in, OfficeArtBlipJPEG& _s) {
     int _c;
@@ -25706,6 +26014,8 @@ void write(const OfficeArtBlipJPEG& _s, LEOutputStream& out) {
     out.writeuint8(_s.tag);
     out.writeBytes(_s.BLIPFileData);
 }
+void parseOfficeArtBlipJPEG(QXmlStreamReader& in, OfficeArtBlipJPEG& _s) {
+}
 void parseOfficeArtBlipPNG(LEInputStream& in, OfficeArtBlipPNG& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -25738,6 +26048,8 @@ void write(const OfficeArtBlipPNG& _s, LEOutputStream& out) {
     }
     out.writeuint8(_s.tag);
     out.writeBytes(_s.BLIPFileData);
+}
+void parseOfficeArtBlipPNG(QXmlStreamReader& in, OfficeArtBlipPNG& _s) {
 }
 void parseOfficeArtBlipDIB(LEInputStream& in, OfficeArtBlipDIB& _s) {
     int _c;
@@ -25772,6 +26084,8 @@ void write(const OfficeArtBlipDIB& _s, LEOutputStream& out) {
     out.writeuint8(_s.tag);
     out.writeBytes(_s.BLIPFileData);
 }
+void parseOfficeArtBlipDIB(QXmlStreamReader& in, OfficeArtBlipDIB& _s) {
+}
 void parseOfficeArtBlipTIFF(LEInputStream& in, OfficeArtBlipTIFF& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -25805,6 +26119,8 @@ void write(const OfficeArtBlipTIFF& _s, LEOutputStream& out) {
     out.writeuint8(_s.tag);
     out.writeBytes(_s.BLIPFileData);
 }
+void parseOfficeArtBlipTIFF(QXmlStreamReader& in, OfficeArtBlipTIFF& _s) {
+}
 void parseRECT(LEInputStream& in, RECT& _s) {
     _s.left = in.readint32();
     _s.top = in.readint32();
@@ -25817,6 +26133,8 @@ void write(const RECT& _s, LEOutputStream& out) {
     out.writeint32(_s.right);
     out.writeint32(_s.bottom);
 }
+void parseRECT(QXmlStreamReader& in, RECT& _s) {
+}
 void parsePOINT(LEInputStream& in, POINT& _s) {
     _s.x = in.readint32();
     _s.y = in.readint32();
@@ -25824,6 +26142,8 @@ void parsePOINT(LEInputStream& in, POINT& _s) {
 void write(const POINT& _s, LEOutputStream& out) {
     out.writeint32(_s.x);
     out.writeint32(_s.y);
+}
+void parsePOINT(QXmlStreamReader& in, POINT& _s) {
 }
 void parsePowerPointStructs(LEInputStream& in, PowerPointStructs& _s) {
     LEInputStream::Mark _m;
@@ -25849,6 +26169,8 @@ void write(const PowerPointStructs& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parsePowerPointStructs(QXmlStreamReader& in, PowerPointStructs& _s) {
+}
 void parseSoundCollectionContainer(LEInputStream& in, SoundCollectionContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -25868,6 +26190,8 @@ void parseSoundCollectionContainer(LEInputStream& in, SoundCollectionContainer& 
 void write(const SoundCollectionContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseSoundCollectionContainer(QXmlStreamReader& in, SoundCollectionContainer& _s) {
 }
 void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersContainer& _s) {
     int _c;
@@ -25889,6 +26213,8 @@ void write(const SlideHeadersFootersContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseSlideHeadersFootersContainer(QXmlStreamReader& in, SlideHeadersFootersContainer& _s) {
+}
 void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -25908,6 +26234,8 @@ void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersCon
 void write(const NotesHeadersFootersContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseNotesHeadersFootersContainer(QXmlStreamReader& in, NotesHeadersFootersContainer& _s) {
 }
 void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s) {
     int _c;
@@ -25929,6 +26257,8 @@ void write(const PerSlideHeadersFootersContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parsePerSlideHeadersFootersContainer(QXmlStreamReader& in, PerSlideHeadersFootersContainer& _s) {
+}
 void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -25946,6 +26276,8 @@ void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s) {
 }
 void write(const EndDocumentAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
+}
+void parseEndDocumentAtom(QXmlStreamReader& in, EndDocumentAtom& _s) {
 }
 void parseDocInfoListContainer(LEInputStream& in, DocInfoListContainer& _s) {
     LEInputStream::Mark _m;
@@ -25982,6 +26314,8 @@ void write(const DocInfoListContainer& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseDocInfoListContainer(QXmlStreamReader& in, DocInfoListContainer& _s) {
+}
 void parseSlideViewInfoAtom(LEInputStream& in, SlideViewInfoAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -26005,6 +26339,8 @@ void write(const SlideViewInfoAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.unused1);
     out.writeuint8(_s.fSnapToGrid);
     out.writeuint8(_s.fSnapToShape);
+}
+void parseSlideViewInfoAtom(QXmlStreamReader& in, SlideViewInfoAtom& _s) {
 }
 void parseGuideAtom(LEInputStream& in, GuideAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26037,6 +26373,8 @@ void write(const GuideAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.type);
     out.writeint32(_s.pos);
 }
+void parseGuideAtom(QXmlStreamReader& in, GuideAtom& _s) {
+}
 void parseDocProgTagsContainer(LEInputStream& in, DocProgTagsContainer& _s) {
     LEInputStream::Mark _m;
         bool _atend;
@@ -26063,6 +26401,8 @@ void write(const DocProgTagsContainer& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseDocProgTagsContainer(QXmlStreamReader& in, DocProgTagsContainer& _s) {
+}
 void parseDocProgBinaryTagContainerOrAtom(LEInputStream& in, DocProgBinaryTagContainerOrAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -26083,6 +26423,8 @@ void write(const DocProgBinaryTagContainerOrAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseDocProgBinaryTagContainerOrAtom(QXmlStreamReader& in, DocProgBinaryTagContainerOrAtom& _s) {
+}
 void parseSorterViewInfoContainer(LEInputStream& in, SorterViewInfoContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -26102,6 +26444,8 @@ void parseSorterViewInfoContainer(LEInputStream& in, SorterViewInfoContainer& _s
 void write(const SorterViewInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseSorterViewInfoContainer(QXmlStreamReader& in, SorterViewInfoContainer& _s) {
 }
 void parseVBAInfoAtom(LEInputStream& in, VBAInfoAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26133,6 +26477,8 @@ void write(const VBAInfoAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.fHasMacros);
     out.writeuint32(_s.version);
 }
+void parseVBAInfoAtom(QXmlStreamReader& in, VBAInfoAtom& _s) {
+}
 void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -26160,6 +26506,8 @@ void write(const MasterListWithTextContainer& _s, LEOutputStream& out) {
     foreach (MasterPersistAtom _i, _s.rgMasterPersistAtom) {
         write(_i, out);
     }
+}
+void parseMasterListWithTextContainer(QXmlStreamReader& in, MasterListWithTextContainer& _s) {
 }
 void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContainer& _s) {
     LEInputStream::Mark _m;
@@ -26196,6 +26544,8 @@ void write(const SlideListWithTextContainer& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseSlideListWithTextContainer(QXmlStreamReader& in, SlideListWithTextContainer& _s) {
+}
 void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -26216,6 +26566,8 @@ void write(const NotesListWithTextContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseNotesListWithTextContainer(QXmlStreamReader& in, NotesListWithTextContainer& _s) {
+}
 void parseTextHeaderAtom(LEInputStream& in, TextHeaderAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -26235,6 +26587,8 @@ void parseTextHeaderAtom(LEInputStream& in, TextHeaderAtom& _s) {
 void write(const TextHeaderAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeuint32(_s.textType);
+}
+void parseTextHeaderAtom(QXmlStreamReader& in, TextHeaderAtom& _s) {
 }
 void parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s) {
     int _c;
@@ -26266,6 +26620,8 @@ void write(const TextCharsAtom& _s, LEOutputStream& out) {
         out.writeuint16(_i);
     }
 }
+void parseTextCharsAtom(QXmlStreamReader& in, TextCharsAtom& _s) {
+}
 void parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -26285,6 +26641,8 @@ void parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s) {
 void write(const TextBytesAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.textChars);
+}
+void parseTextBytesAtom(QXmlStreamReader& in, TextBytesAtom& _s) {
 }
 void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s) {
     LEInputStream::Mark _m;
@@ -26312,6 +26670,8 @@ void write(const MasterTextPropAtom& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseMasterTextPropAtom(QXmlStreamReader& in, MasterTextPropAtom& _s) {
+}
 void parseMasterTextPropRun(LEInputStream& in, MasterTextPropRun& _s) {
     _s.count = in.readuint32();
     _s.indentLevel = in.readuint16();
@@ -26322,6 +26682,8 @@ void parseMasterTextPropRun(LEInputStream& in, MasterTextPropRun& _s) {
 void write(const MasterTextPropRun& _s, LEOutputStream& out) {
     out.writeuint32(_s.count);
     out.writeuint16(_s.indentLevel);
+}
+void parseMasterTextPropRun(QXmlStreamReader& in, MasterTextPropRun& _s) {
 }
 void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s) {
     int _c;
@@ -26343,6 +26705,8 @@ void write(const StyleTextPropAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseStyleTextPropAtom(QXmlStreamReader& in, StyleTextPropAtom& _s) {
+}
 void parseSlideNumberMCAtom(LEInputStream& in, SlideNumberMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -26362,6 +26726,8 @@ void parseSlideNumberMCAtom(LEInputStream& in, SlideNumberMCAtom& _s) {
 void write(const SlideNumberMCAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeint32(_s.position);
+}
+void parseSlideNumberMCAtom(QXmlStreamReader& in, SlideNumberMCAtom& _s) {
 }
 void parseDateTimeMCAtom(LEInputStream& in, DateTimeMCAtom& _s) {
     int _c;
@@ -26390,6 +26756,8 @@ void write(const DateTimeMCAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.index);
     out.writeBytes(_s.unused);
 }
+void parseDateTimeMCAtom(QXmlStreamReader& in, DateTimeMCAtom& _s) {
+}
 void parseGenericDateMCAtom(LEInputStream& in, GenericDateMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -26409,6 +26777,8 @@ void parseGenericDateMCAtom(LEInputStream& in, GenericDateMCAtom& _s) {
 void write(const GenericDateMCAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeint32(_s.position);
+}
+void parseGenericDateMCAtom(QXmlStreamReader& in, GenericDateMCAtom& _s) {
 }
 void parseHeaderMCAtom(LEInputStream& in, HeaderMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26430,6 +26800,8 @@ void write(const HeaderMCAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeint32(_s.position);
 }
+void parseHeaderMCAtom(QXmlStreamReader& in, HeaderMCAtom& _s) {
+}
 void parseFooterMCAtom(LEInputStream& in, FooterMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -26449,6 +26821,8 @@ void parseFooterMCAtom(LEInputStream& in, FooterMCAtom& _s) {
 void write(const FooterMCAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeint32(_s.position);
+}
+void parseFooterMCAtom(QXmlStreamReader& in, FooterMCAtom& _s) {
 }
 void parseRTFDateTimeMCAtom(LEInputStream& in, RTFDateTimeMCAtom& _s) {
     int _c;
@@ -26475,6 +26849,8 @@ void write(const RTFDateTimeMCAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.position);
     out.writeBytes(_s.format);
 }
+void parseRTFDateTimeMCAtom(QXmlStreamReader& in, RTFDateTimeMCAtom& _s) {
+}
 void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -26499,6 +26875,8 @@ void write(const TextBookmarkAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.end);
     out.writeint32(_s.bookmarkID);
 }
+void parseTextBookmarkAtom(QXmlStreamReader& in, TextBookmarkAtom& _s) {
+}
 void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -26522,6 +26900,8 @@ void write(const MouseTextInteractiveInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.range);
 }
+void parseMouseTextInteractiveInfoAtom(QXmlStreamReader& in, MouseTextInteractiveInfoAtom& _s) {
+}
 void parseSlideId(LEInputStream& in, SlideId& _s) {
     _s.slideId = in.readuint32();
     if (!(((quint32)_s.slideId)>=100)) {
@@ -26533,6 +26913,8 @@ void parseSlideId(LEInputStream& in, SlideId& _s) {
 }
 void write(const SlideId& _s, LEOutputStream& out) {
     out.writeuint32(_s.slideId);
+}
+void parseSlideId(QXmlStreamReader& in, SlideId& _s) {
 }
 void parseTabStops(LEInputStream& in, TabStops& _s) {
     int _c;
@@ -26550,6 +26932,8 @@ void write(const TabStops& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseTabStops(QXmlStreamReader& in, TabStops& _s) {
+}
 void parseTabStop(LEInputStream& in, TabStop& _s) {
     _s.position = in.readint16();
     _s.type = in.readuint16();
@@ -26557,6 +26941,8 @@ void parseTabStop(LEInputStream& in, TabStop& _s) {
 void write(const TabStop& _s, LEOutputStream& out) {
     out.writeint16(_s.position);
     out.writeuint16(_s.type);
+}
+void parseTabStop(QXmlStreamReader& in, TabStop& _s) {
 }
 void parseColorIndexStruct(LEInputStream& in, ColorIndexStruct& _s) {
     _s.red = in.readuint8();
@@ -26569,6 +26955,8 @@ void write(const ColorIndexStruct& _s, LEOutputStream& out) {
     out.writeuint8(_s.green);
     out.writeuint8(_s.blue);
     out.writeuint8(_s.index);
+}
+void parseColorIndexStruct(QXmlStreamReader& in, ColorIndexStruct& _s) {
 }
 void parseBulletFlags(LEInputStream& in, BulletFlags& _s) {
     _s.fHasBullet = in.readbit();
@@ -26583,6 +26971,8 @@ void write(const BulletFlags& _s, LEOutputStream& out) {
     out.writebit(_s.fBulletHasColor);
     out.writebit(_s.fBulletHasSize);
     out.writeuint12(_s.reserved);
+}
+void parseBulletFlags(QXmlStreamReader& in, BulletFlags& _s) {
 }
 void parsePFMasks(LEInputStream& in, PFMasks& _s) {
     _s.hasBullet = in.readbit();
@@ -26642,6 +27032,8 @@ void write(const PFMasks& _s, LEOutputStream& out) {
     out.writebit(_s.bulletHasScheme);
     out.writeuint6(_s.reserved2);
 }
+void parsePFMasks(QXmlStreamReader& in, PFMasks& _s) {
+}
 void parseCFMasks(LEInputStream& in, CFMasks& _s) {
     _s.bold = in.readbit();
     _s.italic = in.readbit();
@@ -26694,6 +27086,8 @@ void write(const CFMasks& _s, LEOutputStream& out) {
     out.writebit(_s.pp11ext);
     out.writeuint5(_s.reserved);
 }
+void parseCFMasks(QXmlStreamReader& in, CFMasks& _s) {
+}
 void parseCFStyle(LEInputStream& in, CFStyle& _s) {
     _s.bold = in.readbit();
     _s.italic = in.readbit();
@@ -26722,6 +27116,8 @@ void write(const CFStyle& _s, LEOutputStream& out) {
     out.writeuint4(_s.pp9rt);
     out.writeuint2(_s.unused4);
 }
+void parseCFStyle(QXmlStreamReader& in, CFStyle& _s) {
+}
 void parseFontCollectionContainer(LEInputStream& in, FontCollectionContainer& _s) {
     LEInputStream::Mark _m;
         bool _atend;
@@ -26747,6 +27143,8 @@ void write(const FontCollectionContainer& _s, LEOutputStream& out) {
     foreach (FontCollectionEntry _i, _s.rgFontCollectionEntry) {
         write(_i, out);
     }
+}
+void parseFontCollectionContainer(QXmlStreamReader& in, FontCollectionContainer& _s) {
 }
 void parseFontEntityAtom(LEInputStream& in, FontEntityAtom& _s) {
     int _c;
@@ -26799,6 +27197,8 @@ void write(const FontEntityAtom& _s, LEOutputStream& out) {
     out.writeuint4(_s.reserved);
     out.writeuint8(_s.lfPitchAndFamily);
 }
+void parseFontEntityAtom(QXmlStreamReader& in, FontEntityAtom& _s) {
+}
 void parseFontEmbedDataBlob(LEInputStream& in, FontEmbedDataBlob& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -26821,6 +27221,8 @@ void parseFontEmbedDataBlob(LEInputStream& in, FontEmbedDataBlob& _s) {
 void write(const FontEmbedDataBlob& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.data);
+}
+void parseFontEmbedDataBlob(QXmlStreamReader& in, FontEmbedDataBlob& _s) {
 }
 void parseKinsokuAtom(LEInputStream& in, KinsokuAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26845,6 +27247,8 @@ void write(const KinsokuAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeuint32(_s.level);
 }
+void parseKinsokuAtom(QXmlStreamReader& in, KinsokuAtom& _s) {
+}
 void parseKinsokuLeadingAtom(LEInputStream& in, KinsokuLeadingAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -26862,6 +27266,8 @@ void write(const KinsokuLeadingAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeuint16(_s.kinsokuLeading);
 }
+void parseKinsokuLeadingAtom(QXmlStreamReader& in, KinsokuLeadingAtom& _s) {
+}
 void parseKinsokuFollowingAtom(LEInputStream& in, KinsokuFollowingAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -26878,6 +27284,8 @@ void parseKinsokuFollowingAtom(LEInputStream& in, KinsokuFollowingAtom& _s) {
 void write(const KinsokuFollowingAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeuint16(_s.kinsokuFollowing);
+}
+void parseKinsokuFollowingAtom(QXmlStreamReader& in, KinsokuFollowingAtom& _s) {
 }
 void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s) {
     LEInputStream::Mark _m;
@@ -26905,6 +27313,8 @@ void write(const TextSpecialInfoAtom& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseTextSpecialInfoAtom(QXmlStreamReader& in, TextSpecialInfoAtom& _s) {
+}
 void parseSmartTags(LEInputStream& in, SmartTags& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -26919,6 +27329,8 @@ void write(const SmartTags& _s, LEOutputStream& out) {
     foreach (quint32 _i, _s.rgSmartTagIndex) {
         out.writeuint32(_i);
     }
+}
+void parseSmartTags(QXmlStreamReader& in, SmartTags& _s) {
 }
 void parseExOleEmbedAtom(LEInputStream& in, ExOleEmbedAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26951,6 +27363,8 @@ void write(const ExOleEmbedAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.fIsTable);
     out.writeuint8(_s.unused);
 }
+void parseExOleEmbedAtom(QXmlStreamReader& in, ExOleEmbedAtom& _s) {
+}
 void parsePointStruct(LEInputStream& in, PointStruct& _s) {
     _s.x = in.readint32();
     _s.y = in.readint32();
@@ -26958,6 +27372,8 @@ void parsePointStruct(LEInputStream& in, PointStruct& _s) {
 void write(const PointStruct& _s, LEOutputStream& out) {
     out.writeint32(_s.x);
     out.writeint32(_s.y);
+}
+void parsePointStruct(QXmlStreamReader& in, PointStruct& _s) {
 }
 void parseRatioStruct(LEInputStream& in, RatioStruct& _s) {
     _s.numer = in.readint32();
@@ -26969,6 +27385,8 @@ void parseRatioStruct(LEInputStream& in, RatioStruct& _s) {
 void write(const RatioStruct& _s, LEOutputStream& out) {
     out.writeint32(_s.numer);
     out.writeint32(_s.denom);
+}
+void parseRatioStruct(QXmlStreamReader& in, RatioStruct& _s) {
 }
 void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s) {
     LEInputStream::Mark _m;
@@ -26996,6 +27414,8 @@ void write(const PersistDirectoryAtom& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parsePersistDirectoryAtom(QXmlStreamReader& in, PersistDirectoryAtom& _s) {
+}
 void parseUnknownDocumentContainerChild(LEInputStream& in, UnknownDocumentContainerChild& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27015,6 +27435,8 @@ void parseUnknownDocumentContainerChild(LEInputStream& in, UnknownDocumentContai
 void write(const UnknownDocumentContainerChild& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseUnknownDocumentContainerChild(QXmlStreamReader& in, UnknownDocumentContainerChild& _s) {
 }
 void parseUnknownDocumentContainerChild2(LEInputStream& in, UnknownDocumentContainerChild2& _s) {
     int _c;
@@ -27036,6 +27458,8 @@ void write(const UnknownDocumentContainerChild2& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseUnknownDocumentContainerChild2(QXmlStreamReader& in, UnknownDocumentContainerChild2& _s) {
+}
 void parseUnknownDocumentContainerChild3(LEInputStream& in, UnknownDocumentContainerChild3& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27055,6 +27479,8 @@ void parseUnknownDocumentContainerChild3(LEInputStream& in, UnknownDocumentConta
 void write(const UnknownDocumentContainerChild3& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseUnknownDocumentContainerChild3(QXmlStreamReader& in, UnknownDocumentContainerChild3& _s) {
 }
 void parseUnknownDocumentContainerChild4(LEInputStream& in, UnknownDocumentContainerChild4& _s) {
     int _c;
@@ -27076,6 +27502,8 @@ void write(const UnknownDocumentContainerChild4& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseUnknownDocumentContainerChild4(QXmlStreamReader& in, UnknownDocumentContainerChild4& _s) {
+}
 void parseUnknownOfficeArtClientDataChild(LEInputStream& in, UnknownOfficeArtClientDataChild& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27095,6 +27523,8 @@ void parseUnknownOfficeArtClientDataChild(LEInputStream& in, UnknownOfficeArtCli
 void write(const UnknownOfficeArtClientDataChild& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseUnknownOfficeArtClientDataChild(QXmlStreamReader& in, UnknownOfficeArtClientDataChild& _s) {
 }
 void parseUnknownSlideContainerChild(LEInputStream& in, UnknownSlideContainerChild& _s) {
     int _c;
@@ -27116,6 +27546,8 @@ void write(const UnknownSlideContainerChild& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseUnknownSlideContainerChild(QXmlStreamReader& in, UnknownSlideContainerChild& _s) {
+}
 void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27134,17 +27566,23 @@ void write(const PersistDirectoryEntry& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parsePersistDirectoryEntry(QXmlStreamReader& in, PersistDirectoryEntry& _s) {
+}
 void parsePersistOffsetEntry(LEInputStream& in, PersistOffsetEntry& _s) {
     _s.anon = in.readuint32();
 }
 void write(const PersistOffsetEntry& _s, LEOutputStream& out) {
     out.writeuint32(_s.anon);
 }
+void parsePersistOffsetEntry(QXmlStreamReader& in, PersistOffsetEntry& _s) {
+}
 void parsePersistIdRef(LEInputStream& in, PersistIdRef& _s) {
     _s.anon = in.readuint32();
 }
 void write(const PersistIdRef& _s, LEOutputStream& out) {
     out.writeuint32(_s.anon);
+}
+void parsePersistIdRef(QXmlStreamReader& in, PersistIdRef& _s) {
 }
 void parseSchemeListElementColorSchemeAtom(LEInputStream& in, SchemeListElementColorSchemeAtom& _s) {
     int _c;
@@ -27174,6 +27612,8 @@ void write(const SchemeListElementColorSchemeAtom& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseSchemeListElementColorSchemeAtom(QXmlStreamReader& in, SchemeListElementColorSchemeAtom& _s) {
+}
 void parseRoundTripOArtTextStyles12Atom(LEInputStream& in, RoundTripOArtTextStyles12Atom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27193,6 +27633,8 @@ void parseRoundTripOArtTextStyles12Atom(LEInputStream& in, RoundTripOArtTextStyl
 void write(const RoundTripOArtTextStyles12Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseRoundTripOArtTextStyles12Atom(QXmlStreamReader& in, RoundTripOArtTextStyles12Atom& _s) {
 }
 void parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s) {
     int _c;
@@ -27216,6 +27658,8 @@ void parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s) {
 void write(const SlideNameAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseSlideNameAtom(QXmlStreamReader& in, SlideNameAtom& _s) {
 }
 void parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s) {
     LEInputStream::Mark _m;
@@ -27243,6 +27687,8 @@ void write(const SlideProgTagsContainer& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseSlideProgTagsContainer(QXmlStreamReader& in, SlideProgTagsContainer& _s) {
+}
 void parseSlideProgBinaryTagContainer(LEInputStream& in, SlideProgBinaryTagContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27262,6 +27708,8 @@ void parseSlideProgBinaryTagContainer(LEInputStream& in, SlideProgBinaryTagConta
 void write(const SlideProgBinaryTagContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseSlideProgBinaryTagContainer(QXmlStreamReader& in, SlideProgBinaryTagContainer& _s) {
 }
 void parseTagNameAtom(LEInputStream& in, TagNameAtom& _s) {
     int _c;
@@ -27287,6 +27735,8 @@ void write(const TagNameAtom& _s, LEOutputStream& out) {
         out.writeuint16(_i);
     }
 }
+void parseTagNameAtom(QXmlStreamReader& in, TagNameAtom& _s) {
+}
 void parseTagValueAtom(LEInputStream& in, TagValueAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27311,6 +27761,8 @@ void write(const TagValueAtom& _s, LEOutputStream& out) {
         out.writeuint16(_i);
     }
 }
+void parseTagValueAtom(QXmlStreamReader& in, TagValueAtom& _s) {
+}
 void parseRoundTripMainMasterRecord(LEInputStream& in, RoundTripMainMasterRecord& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27324,6 +27776,8 @@ void parseRoundTripMainMasterRecord(LEInputStream& in, RoundTripMainMasterRecord
 void write(const RoundTripMainMasterRecord& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseRoundTripMainMasterRecord(QXmlStreamReader& in, RoundTripMainMasterRecord& _s) {
 }
 void parseTemplateNameAtom(LEInputStream& in, TemplateNameAtom& _s) {
     int _c;
@@ -27352,6 +27806,8 @@ void write(const TemplateNameAtom& _s, LEOutputStream& out) {
         out.writeuint16(_i);
     }
 }
+void parseTemplateNameAtom(QXmlStreamReader& in, TemplateNameAtom& _s) {
+}
 void parseRoundTripSlideSyncInfo12Container(LEInputStream& in, RoundTripSlideSyncInfo12Container& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27371,6 +27827,8 @@ void parseRoundTripSlideSyncInfo12Container(LEInputStream& in, RoundTripSlideSyn
 void write(const RoundTripSlideSyncInfo12Container& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseRoundTripSlideSyncInfo12Container(QXmlStreamReader& in, RoundTripSlideSyncInfo12Container& _s) {
 }
 void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
     int _c;
@@ -27392,6 +27850,8 @@ void write(const NotesContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseNotesContainer(QXmlStreamReader& in, NotesContainer& _s) {
+}
 void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27411,6 +27871,8 @@ void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s) {
 void write(const HandoutContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseHandoutContainer(QXmlStreamReader& in, HandoutContainer& _s) {
 }
 void parseExControlStg(LEInputStream& in, ExControlStg& _s) {
     int _c;
@@ -27432,6 +27894,8 @@ void write(const ExControlStg& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseExControlStg(QXmlStreamReader& in, ExControlStg& _s) {
+}
 void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27451,6 +27915,8 @@ void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s) {
 void write(const ExOleObjStg& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseExOleObjStg(QXmlStreamReader& in, ExOleObjStg& _s) {
 }
 void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -27509,6 +27975,8 @@ void write(const UserEditAtom& _s, LEOutputStream& out) {
         out.writeuint32(_s.encryptSessionPersistIdRef);
     }
 }
+void parseUserEditAtom(QXmlStreamReader& in, UserEditAtom& _s) {
+}
 void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27529,6 +27997,8 @@ void write(const VbaProjectStg& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseVbaProjectStg(QXmlStreamReader& in, VbaProjectStg& _s) {
+}
 void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27548,6 +28018,8 @@ void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s) 
 void write(const SlideProgTagscontainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseSlideProgTagscontainer(QXmlStreamReader& in, SlideProgTagscontainer& _s) {
 }
 void parseSlideAtom(LEInputStream& in, SlideAtom& _s) {
     int _c;
@@ -27581,6 +28053,8 @@ void write(const SlideAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.notesIdRef);
     out.writeuint16(_s.slideFlags);
     out.writeuint16(_s.unused);
+}
+void parseSlideAtom(QXmlStreamReader& in, SlideAtom& _s) {
 }
 void parseSlideShowSlideInfoAtom(LEInputStream& in, SlideShowSlideInfoAtom& _s) {
     int _c;
@@ -27643,6 +28117,8 @@ void write(const SlideShowSlideInfoAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.speed);
     out.writeBytes(_s.unused);
 }
+void parseSlideShowSlideInfoAtom(QXmlStreamReader& in, SlideShowSlideInfoAtom& _s) {
+}
 void parseSlideShowDocInfoAtom(LEInputStream& in, SlideShowDocInfoAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27665,6 +28141,8 @@ void parseSlideShowDocInfoAtom(LEInputStream& in, SlideShowDocInfoAtom& _s) {
 void write(const SlideShowDocInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseSlideShowDocInfoAtom(QXmlStreamReader& in, SlideShowDocInfoAtom& _s) {
 }
 void parseSlideSchemeColorSchemeAtom(LEInputStream& in, SlideSchemeColorSchemeAtom& _s) {
     int _c;
@@ -27694,6 +28172,8 @@ void write(const SlideSchemeColorSchemeAtom& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseSlideSchemeColorSchemeAtom(QXmlStreamReader& in, SlideSchemeColorSchemeAtom& _s) {
+}
 void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27707,6 +28187,8 @@ void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s) {
 void write(const RoundTripSlideRecord& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseRoundTripSlideRecord(QXmlStreamReader& in, RoundTripSlideRecord& _s) {
 }
 void parseNamedShowsContainer(LEInputStream& in, NamedShowsContainer& _s) {
     int _c;
@@ -27728,6 +28210,8 @@ void write(const NamedShowsContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseNamedShowsContainer(QXmlStreamReader& in, NamedShowsContainer& _s) {
+}
 void parseSummaryContainer(LEInputStream& in, SummaryContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27748,6 +28232,8 @@ void write(const SummaryContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseSummaryContainer(QXmlStreamReader& in, SummaryContainer& _s) {
+}
 void parseDocRoutingSlipAtom(LEInputStream& in, DocRoutingSlipAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27767,6 +28253,8 @@ void parseDocRoutingSlipAtom(LEInputStream& in, DocRoutingSlipAtom& _s) {
 void write(const DocRoutingSlipAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseDocRoutingSlipAtom(QXmlStreamReader& in, DocRoutingSlipAtom& _s) {
 }
 void parsePrintOptionsAtom(LEInputStream& in, PrintOptionsAtom& _s) {
     int _c;
@@ -27791,6 +28279,8 @@ void write(const PrintOptionsAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parsePrintOptionsAtom(QXmlStreamReader& in, PrintOptionsAtom& _s) {
+}
 void parseRoundTripCustomTableStyles12Atom(LEInputStream& in, RoundTripCustomTableStyles12Atom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27811,6 +28301,8 @@ void write(const RoundTripCustomTableStyles12Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseRoundTripCustomTableStyles12Atom(QXmlStreamReader& in, RoundTripCustomTableStyles12Atom& _s) {
+}
 void parseColorStruct(LEInputStream& in, ColorStruct& _s) {
     _s.red = in.readuint8();
     _s.green = in.readuint8();
@@ -27822,6 +28314,8 @@ void write(const ColorStruct& _s, LEOutputStream& out) {
     out.writeuint8(_s.green);
     out.writeuint8(_s.blue);
     out.writeuint8(_s.unused);
+}
+void parseColorStruct(QXmlStreamReader& in, ColorStruct& _s) {
 }
 void parseExObjListAtom(LEInputStream& in, ExObjListAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -27846,6 +28340,8 @@ void write(const ExObjListAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeint32(_s.exObjIdSeed);
 }
+void parseExObjListAtom(QXmlStreamReader& in, ExObjListAtom& _s) {
+}
 void parseExAviMovieContainer(LEInputStream& in, ExAviMovieContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27865,6 +28361,8 @@ void parseExAviMovieContainer(LEInputStream& in, ExAviMovieContainer& _s) {
 void write(const ExAviMovieContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseExAviMovieContainer(QXmlStreamReader& in, ExAviMovieContainer& _s) {
 }
 void parseExCDAudioContainer(LEInputStream& in, ExCDAudioContainer& _s) {
     int _c;
@@ -27886,6 +28384,8 @@ void write(const ExCDAudioContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseExCDAudioContainer(QXmlStreamReader& in, ExCDAudioContainer& _s) {
+}
 void parseExControlContainer(LEInputStream& in, ExControlContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27905,6 +28405,8 @@ void parseExControlContainer(LEInputStream& in, ExControlContainer& _s) {
 void write(const ExControlContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseExControlContainer(QXmlStreamReader& in, ExControlContainer& _s) {
 }
 void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s) {
     int _c;
@@ -27926,6 +28428,8 @@ void write(const ExHyperlinkContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseExHyperlinkContainer(QXmlStreamReader& in, ExHyperlinkContainer& _s) {
+}
 void parseExMCIMovieContainer(LEInputStream& in, ExMCIMovieContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27945,6 +28449,8 @@ void parseExMCIMovieContainer(LEInputStream& in, ExMCIMovieContainer& _s) {
 void write(const ExMCIMovieContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseExMCIMovieContainer(QXmlStreamReader& in, ExMCIMovieContainer& _s) {
 }
 void parseExMIDIAudioContainer(LEInputStream& in, ExMIDIAudioContainer& _s) {
     int _c;
@@ -27966,6 +28472,8 @@ void write(const ExMIDIAudioContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseExMIDIAudioContainer(QXmlStreamReader& in, ExMIDIAudioContainer& _s) {
+}
 void parseExWAVAudioEmbeddedContainer(LEInputStream& in, ExWAVAudioEmbeddedContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -27985,6 +28493,8 @@ void parseExWAVAudioEmbeddedContainer(LEInputStream& in, ExWAVAudioEmbeddedConta
 void write(const ExWAVAudioEmbeddedContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseExWAVAudioEmbeddedContainer(QXmlStreamReader& in, ExWAVAudioEmbeddedContainer& _s) {
 }
 void parseExWAVAudioLinkContainer(LEInputStream& in, ExWAVAudioLinkContainer& _s) {
     int _c;
@@ -28006,6 +28516,8 @@ void write(const ExWAVAudioLinkContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseExWAVAudioLinkContainer(QXmlStreamReader& in, ExWAVAudioLinkContainer& _s) {
+}
 void parseUnknownExObjListSubContainerChild(LEInputStream& in, UnknownExObjListSubContainerChild& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28025,6 +28537,8 @@ void parseUnknownExObjListSubContainerChild(LEInputStream& in, UnknownExObjListS
 void write(const UnknownExObjListSubContainerChild& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseUnknownExObjListSubContainerChild(QXmlStreamReader& in, UnknownExObjListSubContainerChild& _s) {
 }
 void parseExOleLinkAtom(LEInputStream& in, ExOleLinkAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -28049,6 +28563,8 @@ void write(const ExOleLinkAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.slideIdRef);
     out.writeuint32(_s.oleUpdateMode);
     out.writeuint32(_s.unused);
+}
+void parseExOleLinkAtom(QXmlStreamReader& in, ExOleLinkAtom& _s) {
 }
 void parseExOleObjAtom(LEInputStream& in, ExOleObjAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -28080,6 +28596,8 @@ void write(const ExOleObjAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.persistIdRef);
     out.writeuint32(_s.unused);
 }
+void parseExOleObjAtom(QXmlStreamReader& in, ExOleObjAtom& _s) {
+}
 void parseMenuNameAtom(LEInputStream& in, MenuNameAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28102,6 +28620,8 @@ void parseMenuNameAtom(LEInputStream& in, MenuNameAtom& _s) {
 void write(const MenuNameAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.menuName);
+}
+void parseMenuNameAtom(QXmlStreamReader& in, MenuNameAtom& _s) {
 }
 void parseProgIDAtom(LEInputStream& in, ProgIDAtom& _s) {
     int _c;
@@ -28126,6 +28646,8 @@ void write(const ProgIDAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.progId);
 }
+void parseProgIDAtom(QXmlStreamReader& in, ProgIDAtom& _s) {
+}
 void parseClipboardNameAtom(LEInputStream& in, ClipboardNameAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28148,6 +28670,8 @@ void parseClipboardNameAtom(LEInputStream& in, ClipboardNameAtom& _s) {
 void write(const ClipboardNameAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.clipboardName);
+}
+void parseClipboardNameAtom(QXmlStreamReader& in, ClipboardNameAtom& _s) {
 }
 void parseMetafileBlob(LEInputStream& in, MetafileBlob& _s) {
     int _c;
@@ -28178,6 +28702,8 @@ void write(const MetafileBlob& _s, LEOutputStream& out) {
     out.writeint16(_s.yExt);
     out.writeBytes(_s.data);
 }
+void parseMetafileBlob(QXmlStreamReader& in, MetafileBlob& _s) {
+}
 void parseOfficeArtFDGG(LEInputStream& in, OfficeArtFDGG& _s) {
     _s.spidMax = in.readuint32();
     if (!(((quint32)_s.spidMax)<67098623)) {
@@ -28195,6 +28721,8 @@ void write(const OfficeArtFDGG& _s, LEOutputStream& out) {
     out.writeuint32(_s.cidcl);
     out.writeuint32(_s.cspSaved);
     out.writeuint32(_s.cdgSaved);
+}
+void parseOfficeArtFDGG(QXmlStreamReader& in, OfficeArtFDGG& _s) {
 }
 void parseOfficeArtFDG(LEInputStream& in, OfficeArtFDG& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -28217,6 +28745,8 @@ void write(const OfficeArtFDG& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeuint32(_s.csp);
     out.writeuint32(_s.spidCur);
+}
+void parseOfficeArtFDG(QXmlStreamReader& in, OfficeArtFDG& _s) {
 }
 void parseOfficeArtFRITContainer(LEInputStream& in, OfficeArtFRITContainer& _s) {
     int _c;
@@ -28243,6 +28773,8 @@ void write(const OfficeArtFRITContainer& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseOfficeArtFRITContainer(QXmlStreamReader& in, OfficeArtFRITContainer& _s) {
+}
 void parseOfficeArtFRIT(LEInputStream& in, OfficeArtFRIT& _s) {
     _s.fridNew = in.readuint16();
     _s.fridOld = in.readuint16();
@@ -28250,6 +28782,8 @@ void parseOfficeArtFRIT(LEInputStream& in, OfficeArtFRIT& _s) {
 void write(const OfficeArtFRIT& _s, LEOutputStream& out) {
     out.writeuint16(_s.fridNew);
     out.writeuint16(_s.fridOld);
+}
+void parseOfficeArtFRIT(QXmlStreamReader& in, OfficeArtFRIT& _s) {
 }
 void parseOfficeArtBStoreContainer(LEInputStream& in, OfficeArtBStoreContainer& _s) {
     LEInputStream::Mark _m;
@@ -28273,6 +28807,8 @@ void write(const OfficeArtBStoreContainer& _s, LEOutputStream& out) {
     foreach (OfficeArtBStoreContainerFileBlock _i, _s.rgfb) {
         write(_i, out);
     }
+}
+void parseOfficeArtBStoreContainer(QXmlStreamReader& in, OfficeArtBStoreContainer& _s) {
 }
 void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s) {
     LEInputStream::Mark _m;
@@ -28300,6 +28836,8 @@ void write(const OfficeArtSpgrContainer& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseOfficeArtSpgrContainer(QXmlStreamReader& in, OfficeArtSpgrContainer& _s) {
+}
 void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28316,6 +28854,8 @@ void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& 
 void write(const OfficeArtSolverContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseOfficeArtSolverContainer(QXmlStreamReader& in, OfficeArtSolverContainer& _s) {
 }
 void parseOfficeArtFSPGR(LEInputStream& in, OfficeArtFSPGR& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -28342,6 +28882,8 @@ void write(const OfficeArtFSPGR& _s, LEOutputStream& out) {
     out.writeint32(_s.yTop);
     out.writeint32(_s.xRight);
     out.writeint32(_s.yBottom);
+}
+void parseOfficeArtFSPGR(QXmlStreamReader& in, OfficeArtFSPGR& _s) {
 }
 void parseOfficeArtFSP(LEInputStream& in, OfficeArtFSP& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -28389,6 +28931,8 @@ void write(const OfficeArtFSP& _s, LEOutputStream& out) {
     out.writebit(_s.fHaveSpt);
     out.writeuint20(_s.unused1);
 }
+void parseOfficeArtFSP(QXmlStreamReader& in, OfficeArtFSP& _s) {
+}
 void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28414,6 +28958,8 @@ void write(const OfficeArtFOPT& _s, LEOutputStream& out) {
     }
     out.writeBytes(_s.complexData);
 }
+void parseOfficeArtFOPT(QXmlStreamReader& in, OfficeArtFOPT& _s) {
+}
 void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28423,6 +28969,8 @@ void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData
 void write(const OfficeArtFOPTEComplexData& _s, LEOutputStream& out) {
     out.writeBytes(_s.data);
 }
+void parseOfficeArtFOPTEComplexData(QXmlStreamReader& in, OfficeArtFOPTEComplexData& _s) {
+}
 void parseFixedPoint(LEInputStream& in, FixedPoint& _s) {
     _s.integral = in.readint16();
     _s.fractional = in.readuint16();
@@ -28430,6 +28978,8 @@ void parseFixedPoint(LEInputStream& in, FixedPoint& _s) {
 void write(const FixedPoint& _s, LEOutputStream& out) {
     out.writeint16(_s.integral);
     out.writeuint16(_s.fractional);
+}
+void parseFixedPoint(QXmlStreamReader& in, FixedPoint& _s) {
 }
 void parseOfficeArtCOLORREF(LEInputStream& in, OfficeArtCOLORREF& _s) {
     _s.red = in.readuint8();
@@ -28457,6 +29007,8 @@ void write(const OfficeArtCOLORREF& _s, LEOutputStream& out) {
     out.writebit(_s.unused2);
     out.writebit(_s.unused3);
 }
+void parseOfficeArtCOLORREF(QXmlStreamReader& in, OfficeArtCOLORREF& _s) {
+}
 void parseOfficeArtChildAnchor(LEInputStream& in, OfficeArtChildAnchor& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -28483,6 +29035,8 @@ void write(const OfficeArtChildAnchor& _s, LEOutputStream& out) {
     out.writeint32(_s.xRight);
     out.writeint32(_s.yBottom);
 }
+void parseOfficeArtChildAnchor(QXmlStreamReader& in, OfficeArtChildAnchor& _s) {
+}
 void parseOfficeArtFPSPL(LEInputStream& in, OfficeArtFPSPL& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
@@ -28507,6 +29061,8 @@ void write(const OfficeArtFPSPL& _s, LEOutputStream& out) {
     out.writebit(_s.reserved1);
     out.writebit(_s.fLast);
 }
+void parseOfficeArtFPSPL(QXmlStreamReader& in, OfficeArtFPSPL& _s) {
+}
 void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28523,6 +29079,8 @@ void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) 
 void write(const OfficeArtSecondaryFOPT& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseOfficeArtSecondaryFOPT(QXmlStreamReader& in, OfficeArtSecondaryFOPT& _s) {
 }
 void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
     int _c;
@@ -28549,6 +29107,8 @@ void write(const OfficeArtTertiaryFOPT& _s, LEOutputStream& out) {
     }
     out.writeBytes(_s.complexData);
 }
+void parseOfficeArtTertiaryFOPT(QXmlStreamReader& in, OfficeArtTertiaryFOPT& _s) {
+}
 void parseRectStruct(LEInputStream& in, RectStruct& _s) {
     _s.top = in.readint32();
     _s.left = in.readint32();
@@ -28561,6 +29121,8 @@ void write(const RectStruct& _s, LEOutputStream& out) {
     out.writeint32(_s.right);
     out.writeint32(_s.bottom);
 }
+void parseRectStruct(QXmlStreamReader& in, RectStruct& _s) {
+}
 void parseSmallRectStruct(LEInputStream& in, SmallRectStruct& _s) {
     _s.top = in.readint16();
     _s.left = in.readint16();
@@ -28572,6 +29134,8 @@ void write(const SmallRectStruct& _s, LEOutputStream& out) {
     out.writeint16(_s.left);
     out.writeint16(_s.right);
     out.writeint16(_s.bottom);
+}
+void parseSmallRectStruct(QXmlStreamReader& in, SmallRectStruct& _s) {
 }
 void parseShapeFlagsAtom(LEInputStream& in, ShapeFlagsAtom& _s) {
     int _c;
@@ -28596,6 +29160,8 @@ void write(const ShapeFlagsAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseShapeFlagsAtom(QXmlStreamReader& in, ShapeFlagsAtom& _s) {
+}
 void parseShapeFlags10Atom(LEInputStream& in, ShapeFlags10Atom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28618,6 +29184,8 @@ void parseShapeFlags10Atom(LEInputStream& in, ShapeFlags10Atom& _s) {
 void write(const ShapeFlags10Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseShapeFlags10Atom(QXmlStreamReader& in, ShapeFlags10Atom& _s) {
 }
 void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s) {
     int _c;
@@ -28642,6 +29210,8 @@ void write(const ExObjRefAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseExObjRefAtom(QXmlStreamReader& in, ExObjRefAtom& _s) {
+}
 void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28661,6 +29231,8 @@ void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) 
 void write(const AnimationInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseAnimationInfoContainer(QXmlStreamReader& in, AnimationInfoContainer& _s) {
 }
 void parseInteractiveInfoAtom(LEInputStream& in, InteractiveInfoAtom& _s) {
     int _c;
@@ -28716,6 +29288,8 @@ void write(const InteractiveInfoAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.hyperlinkType);
     out.writeBytes(_s.unused);
 }
+void parseInteractiveInfoAtom(QXmlStreamReader& in, InteractiveInfoAtom& _s) {
+}
 void parseMacroNameAtom(LEInputStream& in, MacroNameAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28738,6 +29312,8 @@ void parseMacroNameAtom(LEInputStream& in, MacroNameAtom& _s) {
 void write(const MacroNameAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.macroName);
+}
+void parseMacroNameAtom(QXmlStreamReader& in, MacroNameAtom& _s) {
 }
 void parsePlaceholderAtom(LEInputStream& in, PlaceholderAtom& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -28765,6 +29341,8 @@ void write(const PlaceholderAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.size);
     out.writeuint16(_s.unused);
 }
+void parsePlaceholderAtom(QXmlStreamReader& in, PlaceholderAtom& _s) {
+}
 void parseRecolorInfoAtom(LEInputStream& in, RecolorInfoAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28784,6 +29362,8 @@ void parseRecolorInfoAtom(LEInputStream& in, RecolorInfoAtom& _s) {
 void write(const RecolorInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseRecolorInfoAtom(QXmlStreamReader& in, RecolorInfoAtom& _s) {
 }
 void parseOutlineTextRefAtom(LEInputStream& in, OutlineTextRefAtom& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -28808,6 +29388,8 @@ void write(const OutlineTextRefAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeint32(_s.index);
 }
+void parseOutlineTextRefAtom(QXmlStreamReader& in, OutlineTextRefAtom& _s) {
+}
 void parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream& in, ShapeClientRoundtripDataSubcontainerOrAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28821,6 +29403,8 @@ void parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream& in, ShapeCli
 void write(const ShapeClientRoundtripDataSubcontainerOrAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
+}
+void parseShapeClientRoundtripDataSubcontainerOrAtom(QXmlStreamReader& in, ShapeClientRoundtripDataSubcontainerOrAtom& _s) {
 }
 void parseOfficeArtClientTextBox(LEInputStream& in, OfficeArtClientTextBox& _s) {
     LEInputStream::Mark _m;
@@ -28848,6 +29432,8 @@ void write(const OfficeArtClientTextBox& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseOfficeArtClientTextBox(QXmlStreamReader& in, OfficeArtClientTextBox& _s) {
+}
 void parseTextRulerAtom(LEInputStream& in, TextRulerAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28868,6 +29454,8 @@ void write(const TextRulerAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
+void parseTextRulerAtom(QXmlStreamReader& in, TextRulerAtom& _s) {
+}
 void parseOfficeArtIDCL(LEInputStream& in, OfficeArtIDCL& _s) {
     _s.dgid = in.readuint32();
     _s.cspidCur = in.readuint32();
@@ -28875,6 +29463,8 @@ void parseOfficeArtIDCL(LEInputStream& in, OfficeArtIDCL& _s) {
 void write(const OfficeArtIDCL& _s, LEOutputStream& out) {
     out.writeuint32(_s.dgid);
     out.writeuint32(_s.cspidCur);
+}
+void parseOfficeArtIDCL(QXmlStreamReader& in, OfficeArtIDCL& _s) {
 }
 void parseOfficeArtFOPTEOPID(LEInputStream& in, OfficeArtFOPTEOPID& _s) {
     _s.opid = in.readuint14();
@@ -28885,6 +29475,8 @@ void write(const OfficeArtFOPTEOPID& _s, LEOutputStream& out) {
     out.writeuint14(_s.opid);
     out.writebit(_s.fBid);
     out.writebit(_s.fComplex);
+}
+void parseOfficeArtFOPTEOPID(QXmlStreamReader& in, OfficeArtFOPTEOPID& _s) {
 }
 void parseOfficeArtColorMRUContainer(LEInputStream& in, OfficeArtColorMRUContainer& _s) {
     int _c;
@@ -28911,6 +29503,8 @@ void write(const OfficeArtColorMRUContainer& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseOfficeArtColorMRUContainer(QXmlStreamReader& in, OfficeArtColorMRUContainer& _s) {
+}
 void parseMSOCR(LEInputStream& in, MSOCR& _s) {
     _s.red = in.readuint8();
     _s.green = in.readuint8();
@@ -28926,6 +29520,8 @@ void write(const MSOCR& _s, LEOutputStream& out) {
     out.writeuint3(_s.unused1);
     out.writebit(_s.fSchemeIndex);
     out.writeuint4(_s.unused2);
+}
+void parseMSOCR(QXmlStreamReader& in, MSOCR& _s) {
 }
 void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenuColorContainer& _s) {
     int _c;
@@ -28955,6 +29551,8 @@ void write(const OfficeArtSplitMenuColorContainer& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseOfficeArtSplitMenuColorContainer(QXmlStreamReader& in, OfficeArtSplitMenuColorContainer& _s) {
+}
 void parsetodo(LEInputStream& in, todo& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28965,6 +29563,8 @@ void parsetodo(LEInputStream& in, todo& _s) {
 void write(const todo& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.anon);
+}
+void parsetodo(QXmlStreamReader& in, todo& _s) {
 }
 void parseFibBase(LEInputStream& in, FibBase& _s) {
     _s.wIdent = in.readuint16();
@@ -29053,6 +29653,8 @@ void write(const FibBase& _s, LEOutputStream& out) {
     out.writeuint32(_s.reserved5);
     out.writeuint32(_s.reserved6);
 }
+void parseFibBase(QXmlStreamReader& in, FibBase& _s) {
+}
 void parseFibRgW97(LEInputStream& in, FibRgW97& _s) {
     _s.reserved1 = in.readuint16();
     _s.reserved2 = in.readuint16();
@@ -29084,6 +29686,8 @@ void write(const FibRgW97& _s, LEOutputStream& out) {
     out.writeuint16(_s.reserved12);
     out.writeuint16(_s.reserved13);
     out.writeuint16(_s.lidFE);
+}
+void parseFibRgW97(QXmlStreamReader& in, FibRgW97& _s) {
 }
 void parseFibRgLw97(LEInputStream& in, FibRgLw97& _s) {
     _s.cbMac = in.readuint32();
@@ -29162,6 +29766,8 @@ void write(const FibRgLw97& _s, LEOutputStream& out) {
     out.writeuint32(_s.reserved12);
     out.writeuint32(_s.reserved13);
     out.writeuint32(_s.reserved14);
+}
+void parseFibRgLw97(QXmlStreamReader& in, FibRgLw97& _s) {
 }
 void parseFibRgFcLcb97(LEInputStream& in, FibRgFcLcb97& _s) {
     _s.fcStshfOrig = in.readuint32();
@@ -29539,6 +30145,8 @@ void write(const FibRgFcLcb97& _s, LEOutputStream& out) {
     out.writeuint32(_s.fcSttbfUssr);
     out.writeuint32(_s.lcbSttbfUssr);
 }
+void parseFibRgFcLcb97(QXmlStreamReader& in, FibRgFcLcb97& _s) {
+}
 void parseFibRgFcLcb2000(LEInputStream& in, FibRgFcLcb2000& _s) {
     _s.fcPlcfTch = in.readuint32();
     _s.lcbPlcfTch = in.readuint32();
@@ -29602,6 +30210,8 @@ void write(const FibRgFcLcb2000& _s, LEOutputStream& out) {
     out.writeuint32(_s.lcbPgdEdnOld);
     out.writeuint32(_s.fcBkdEdnOld);
     out.writeuint32(_s.lcbBkdEdnOld);
+}
+void parseFibRgFcLcb2000(QXmlStreamReader& in, FibRgFcLcb2000& _s) {
 }
 void parseFibRgFcLcb2002(LEInputStream& in, FibRgFcLcb2002& _s) {
     _s.fcUnused1 = in.readuint32();
@@ -29707,6 +30317,8 @@ void write(const FibRgFcLcb2002& _s, LEOutputStream& out) {
     out.writeuint32(_s.fcPlcffactoid);
     out.writeuint32(_s.lcbPlcffactoid);
 }
+void parseFibRgFcLcb2002(QXmlStreamReader& in, FibRgFcLcb2002& _s) {
+}
 void parseLPStshi(LEInputStream& in, LPStshi& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -29717,6 +30329,8 @@ void parseLPStshi(LEInputStream& in, LPStshi& _s) {
 void write(const LPStshi& _s, LEOutputStream& out) {
     out.writeuint16(_s.cbSthi);
     out.writeBytes(_s.stshi);
+}
+void parseLPStshi(QXmlStreamReader& in, LPStshi& _s) {
 }
 void parseLPStd(LEInputStream& in, LPStd& _s) {
     int _c;
@@ -29735,6 +30349,8 @@ void write(const LPStd& _s, LEOutputStream& out) {
     if (_s.cbStd%2==1) {
         out.writeuint8(_s.padding);
     }
+}
+void parseLPStd(QXmlStreamReader& in, LPStd& _s) {
 }
 void parsePlcfSed(LEInputStream& in, PlcfSed& _s) {
     int _c;
@@ -29757,6 +30373,8 @@ void write(const PlcfSed& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parsePlcfSed(QXmlStreamReader& in, PlcfSed& _s) {
+}
 void parseSed(LEInputStream& in, Sed& _s) {
     _s.fn = in.readuint16();
     _s.fcSepx = in.readint32();
@@ -29768,6 +30386,8 @@ void write(const Sed& _s, LEOutputStream& out) {
     out.writeint32(_s.fcSepx);
     out.writeuint16(_s.fnMpr);
     out.writeuint32(_s.fcMpr);
+}
+void parseSed(QXmlStreamReader& in, Sed& _s) {
 }
 void parsePlcfhdd(LEInputStream& in, Plcfhdd& _s) {
     int _c;
@@ -29781,6 +30401,8 @@ void write(const Plcfhdd& _s, LEOutputStream& out) {
     foreach (quint32 _i, _s.aCP) {
         out.writeuint32(_i);
     }
+}
+void parsePlcfhdd(QXmlStreamReader& in, Plcfhdd& _s) {
 }
 void parsePlcBteChpx(LEInputStream& in, PlcBteChpx& _s) {
     int _c;
@@ -29802,6 +30424,8 @@ void write(const PlcBteChpx& _s, LEOutputStream& out) {
         out.writeuint32(_i);
     }
 }
+void parsePlcBteChpx(QXmlStreamReader& in, PlcBteChpx& _s) {
+}
 void parsePlcfBtePapx(LEInputStream& in, PlcfBtePapx& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -29822,6 +30446,8 @@ void write(const PlcfBtePapx& _s, LEOutputStream& out) {
         out.writeuint32(_i);
     }
 }
+void parsePlcfBtePapx(QXmlStreamReader& in, PlcfBtePapx& _s) {
+}
 void parseTcg(LEInputStream& in, Tcg& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -29835,6 +30461,8 @@ void parseTcg(LEInputStream& in, Tcg& _s) {
 void write(const Tcg& _s, LEOutputStream& out) {
     out.writeuint8(_s.nTcgVer);
     out.writeBytes(_s.todo);
+}
+void parseTcg(QXmlStreamReader& in, Tcg& _s) {
 }
 void parsePrcData(LEInputStream& in, PrcData& _s) {
     int _c;
@@ -29861,6 +30489,8 @@ void write(const PrcData& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parsePrcData(QXmlStreamReader& in, PrcData& _s) {
+}
 void parseSprm(LEInputStream& in, Sprm& _s) {
     _s.ispmd = in.readuint9();
     _s.fSpec = in.readbit();
@@ -29872,6 +30502,8 @@ void write(const Sprm& _s, LEOutputStream& out) {
     out.writebit(_s.fSpec);
     out.writeuint3(_s.sgc);
     out.writeuint3(_s.spra);
+}
+void parseSprm(QXmlStreamReader& in, Sprm& _s) {
 }
 void parsePcdt(LEInputStream& in, Pcdt& _s) {
     int _c;
@@ -29894,6 +30526,8 @@ void write(const Pcdt& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parsePcdt(QXmlStreamReader& in, Pcdt& _s) {
+}
 void parseFCompressed(LEInputStream& in, FCompressed& _s) {
     _s.fc = in.readuint30();
     _s.fCompressed = in.readbit();
@@ -29903,6 +30537,8 @@ void write(const FCompressed& _s, LEOutputStream& out) {
     out.writeuint30(_s.fc);
     out.writebit(_s.fCompressed);
     out.writebit(_s.r1);
+}
+void parseFCompressed(QXmlStreamReader& in, FCompressed& _s) {
 }
 void parsePrm0(LEInputStream& in, Prm0& _s) {
     _s.fComplex = in.readbit();
@@ -29917,6 +30553,8 @@ void write(const Prm0& _s, LEOutputStream& out) {
     out.writeuint7(_s.isprm);
     out.writeuint8(_s.val);
 }
+void parsePrm0(QXmlStreamReader& in, Prm0& _s) {
+}
 void parsePrm1(LEInputStream& in, Prm1& _s) {
     _s.fComplex = in.readbit();
     if (!(((bool)_s.fComplex) == true)) {
@@ -29927,6 +30565,8 @@ void parsePrm1(LEInputStream& in, Prm1& _s) {
 void write(const Prm1& _s, LEOutputStream& out) {
     out.writebit(_s.fComplex);
     out.writeuint15(_s.igrpprl);
+}
+void parsePrm1(QXmlStreamReader& in, Prm1& _s) {
 }
 void parseSttbfFfn(LEInputStream& in, SttbfFfn& _s) {
     int _c;
@@ -29949,6 +30589,8 @@ void write(const SttbfFfn& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseSttbfFfn(QXmlStreamReader& in, SttbfFfn& _s) {
+}
 void parseSttbfFfnEntry(LEInputStream& in, SttbfFfnEntry& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -29959,6 +30601,8 @@ void parseSttbfFfnEntry(LEInputStream& in, SttbfFfnEntry& _s) {
 void write(const SttbfFfnEntry& _s, LEOutputStream& out) {
     out.writeuint8(_s.cchData);
     out.writeBytes(_s.Data);
+}
+void parseSttbfFfnEntry(QXmlStreamReader& in, SttbfFfnEntry& _s) {
 }
 void parseCodePageString(LEInputStream& in, CodePageString& _s) {
     int _c;
@@ -29974,6 +30618,8 @@ void write(const CodePageString& _s, LEOutputStream& out) {
     out.writeuint32(_s.size);
     out.writeBytes(_s.characters);
 }
+void parseCodePageString(QXmlStreamReader& in, CodePageString& _s) {
+}
 void parseFILETIME(LEInputStream& in, FILETIME& _s) {
     _s.dwLowDateTime = in.readuint32();
     _s.dwHighDateTime = in.readuint32();
@@ -29981,6 +30627,8 @@ void parseFILETIME(LEInputStream& in, FILETIME& _s) {
 void write(const FILETIME& _s, LEOutputStream& out) {
     out.writeuint32(_s.dwLowDateTime);
     out.writeuint32(_s.dwHighDateTime);
+}
+void parseFILETIME(QXmlStreamReader& in, FILETIME& _s) {
 }
 void parseClipboardData(LEInputStream& in, ClipboardData& _s) {
     int _c;
@@ -29995,6 +30643,8 @@ void write(const ClipboardData& _s, LEOutputStream& out) {
     out.writeuint32(_s.format);
     out.writeBytes(_s.data);
 }
+void parseClipboardData(QXmlStreamReader& in, ClipboardData& _s) {
+}
 void parsePropertyIdentifierAndOffset(LEInputStream& in, PropertyIdentifierAndOffset& _s) {
     _s.propertyIdentifier = in.readuint32();
     _s.offset = in.readuint32();
@@ -30003,9 +30653,14 @@ void write(const PropertyIdentifierAndOffset& _s, LEOutputStream& out) {
     out.writeuint32(_s.propertyIdentifier);
     out.writeuint32(_s.offset);
 }
+void parsePropertyIdentifierAndOffset(QXmlStreamReader& in, PropertyIdentifierAndOffset& _s) {
+}
 void parseTypedPropertyValue(LEInputStream& in, TypedPropertyValue& _s) {
     _s.type = in.readuint16();
     _s.padding = in.readuint16();
+    if (!(((quint16)_s.padding) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint16)_s.padding) == 0");
+    }
     _s._has_vt_I2 = _s.type==2;
     if (_s._has_vt_I2) {
         _s.vt_I2 = in.readuint16();
@@ -30053,6 +30708,8 @@ void write(const TypedPropertyValue& _s, LEOutputStream& out) {
         if (_s.vg_CF) write(*_s.vg_CF, out);
     }
 }
+void parseTypedPropertyValue(QXmlStreamReader& in, TypedPropertyValue& _s) {
+}
 void parsePropertySet(LEInputStream& in, PropertySet& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -30078,6 +30735,8 @@ void write(const PropertySet& _s, LEOutputStream& out) {
     foreach (TypedPropertyValue _i, _s.property) {
         write(_i, out);
     }
+}
+void parsePropertySet(QXmlStreamReader& in, PropertySet& _s) {
 }
 void parsePropertySetStream(LEInputStream& in, PropertySetStream& _s) {
     int _c;
@@ -30150,6 +30809,8 @@ void write(const PropertySetStream& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parsePropertySetStream(QXmlStreamReader& in, PropertySetStream& _s) {
+}
 void parseSummaryInformationPropertySetStream(LEInputStream& in, SummaryInformationPropertySetStream& _s) {
     parsePropertySetStream(in, _s.propertySet);
     if (!(_s.propertySet.version == 0)) {
@@ -30158,6 +30819,8 @@ void parseSummaryInformationPropertySetStream(LEInputStream& in, SummaryInformat
 }
 void write(const SummaryInformationPropertySetStream& _s, LEOutputStream& out) {
     write(_s.propertySet, out);
+}
+void parseSummaryInformationPropertySetStream(QXmlStreamReader& in, SummaryInformationPropertySetStream& _s) {
 }
 void parseDocumentSummaryInformationPropertySetStream(LEInputStream& in, DocumentSummaryInformationPropertySetStream& _s) {
     parsePropertySetStream(in, _s.propertySet);
@@ -30168,11 +30831,15 @@ void parseDocumentSummaryInformationPropertySetStream(LEInputStream& in, Documen
 void write(const DocumentSummaryInformationPropertySetStream& _s, LEOutputStream& out) {
     write(_s.propertySet, out);
 }
+void parseDocumentSummaryInformationPropertySetStream(QXmlStreamReader& in, DocumentSummaryInformationPropertySetStream& _s) {
+}
 void parsePicturesStream(LEInputStream& in, PicturesStream& _s) {
     parseOfficeArtBStoreDelay(in, _s.anon1);
 }
 void write(const PicturesStream& _s, LEOutputStream& out) {
     write(_s.anon1, out);
+}
+void parsePicturesStream(QXmlStreamReader& in, PicturesStream& _s) {
 }
 void parseOfficeArtMetafileHeader(LEInputStream& in, OfficeArtMetafileHeader& _s) {
     _s.cbSize = in.readuint32();
@@ -30190,6 +30857,8 @@ void write(const OfficeArtMetafileHeader& _s, LEOutputStream& out) {
     out.writeuint8(_s.compression);
     out.writeuint8(_s.filter);
 }
+void parseOfficeArtMetafileHeader(QXmlStreamReader& in, OfficeArtMetafileHeader& _s) {
+}
 void parseScalingStruct(LEInputStream& in, ScalingStruct& _s) {
     parseRatioStruct(in, _s.x);
     parseRatioStruct(in, _s.y);
@@ -30197,6 +30866,8 @@ void parseScalingStruct(LEInputStream& in, ScalingStruct& _s) {
 void write(const ScalingStruct& _s, LEOutputStream& out) {
     write(_s.x, out);
     write(_s.y, out);
+}
+void parseScalingStruct(QXmlStreamReader& in, ScalingStruct& _s) {
 }
 void parseNoZoomViewInfoAtom(LEInputStream& in, NoZoomViewInfoAtom& _s) {
     int _c;
@@ -30231,6 +30902,8 @@ void write(const NoZoomViewInfoAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.fDraftMode);
     out.writeuint16(_s.unused3);
 }
+void parseNoZoomViewInfoAtom(QXmlStreamReader& in, NoZoomViewInfoAtom& _s) {
+}
 void parseVBAInfoContainer(LEInputStream& in, VBAInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -30250,6 +30923,8 @@ void parseVBAInfoContainer(LEInputStream& in, VBAInfoContainer& _s) {
 void write(const VBAInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.vbaInfoAtom, out);
+}
+void parseVBAInfoContainer(QXmlStreamReader& in, VBAInfoContainer& _s) {
 }
 void parseNormalViewSetInfoAtom(LEInputStream& in, NormalViewSetInfoAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -30290,6 +30965,8 @@ void write(const NormalViewSetInfoAtom& _s, LEOutputStream& out) {
     out.writebit(_s.fHideThumbnails);
     out.writebit(_s.fBarSnapped);
     out.writeuint6(_s.reserved);
+}
+void parseNormalViewSetInfoAtom(QXmlStreamReader& in, NormalViewSetInfoAtom& _s) {
 }
 void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -30344,6 +31021,8 @@ void write(const MasterPersistAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.reserved5);
     out.writeuint32(_s.masterId);
     out.writeuint32(_s.reserved6);
+}
+void parseMasterPersistAtom(QXmlStreamReader& in, MasterPersistAtom& _s) {
 }
 void parseTextContainer(LEInputStream& in, TextContainer& _s) {
     LEInputStream::Mark _m;
@@ -30459,6 +31138,8 @@ void write(const TextContainer& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseTextContainer(QXmlStreamReader& in, TextContainer& _s) {
+}
 void parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
@@ -30512,6 +31193,8 @@ void write(const TextContainerMeta& _s, LEOutputStream& out) {
         write(*_s.meta.rtfdatetimemcatom, out);
     }
 }
+void parseTextContainerMeta(QXmlStreamReader& in, TextContainerMeta& _s) {
+}
 void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
@@ -30540,6 +31223,8 @@ void write(const TextClientDataSubContainerOrAtom& _s, LEOutputStream& out) {
     } else if (_s.anon.textruleratom) {
         write(*_s.anon.textruleratom, out);
     }
+}
+void parseTextClientDataSubContainerOrAtom(QXmlStreamReader& in, TextClientDataSubContainerOrAtom& _s) {
 }
 void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -30599,6 +31284,8 @@ void write(const SlidePersistAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.cTexts);
     write(_s.slideId, out);
     out.writeuint32(_s.reserved5);
+}
+void parseSlidePersistAtom(QXmlStreamReader& in, SlidePersistAtom& _s) {
 }
 void parseTextRuler(LEInputStream& in, TextRuler& _s) {
     _s.fDefaultTabSize = in.readbit();
@@ -30724,6 +31411,8 @@ void write(const TextRuler& _s, LEOutputStream& out) {
     if (_s.fIndent5) {
         out.writeuint16(_s.indent5);
     }
+}
+void parseTextRuler(QXmlStreamReader& in, TextRuler& _s) {
 }
 void parseTextPFException(LEInputStream& in, TextPFException& _s) {
     parsePFMasks(in, _s.masks);
@@ -30852,6 +31541,8 @@ void write(const TextPFException& _s, LEOutputStream& out) {
         out.writeuint16(_s.textDirection);
     }
 }
+void parseTextPFException(QXmlStreamReader& in, TextPFException& _s) {
+}
 void parseTextCFException(LEInputStream& in, TextCFException& _s) {
     parseCFMasks(in, _s.masks);
     if (!(_s.masks.pp10ext == false)) {
@@ -30938,6 +31629,8 @@ void write(const TextCFException& _s, LEOutputStream& out) {
         out.writeint16(_s.position);
     }
 }
+void parseTextCFException(QXmlStreamReader& in, TextCFException& _s) {
+}
 void parseFontCollectionEntry(LEInputStream& in, FontCollectionEntry& _s) {
     LEInputStream::Mark _m;
     parseFontEntityAtom(in, _s.fontEntityAtom);
@@ -30989,6 +31682,8 @@ void write(const FontCollectionEntry& _s, LEOutputStream& out) {
     if (_s.fontEmbedData3) write(*_s.fontEmbedData3, out);
     if (_s.fontEmbedData4) write(*_s.fontEmbedData4, out);
 }
+void parseFontCollectionEntry(QXmlStreamReader& in, FontCollectionEntry& _s) {
+}
 void parseKinsokuContainer(LEInputStream& in, KinsokuContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -31019,6 +31714,8 @@ void write(const KinsokuContainer& _s, LEOutputStream& out) {
     if (_s.kinsokuAtom.level==2) {
         if (_s.kinsokuFollowingAtom) write(*_s.kinsokuFollowingAtom, out);
     }
+}
+void parseKinsokuContainer(QXmlStreamReader& in, KinsokuContainer& _s) {
 }
 void parseTextSIException(LEInputStream& in, TextSIException& _s) {
     _s.spell = in.readbit();
@@ -31121,6 +31818,8 @@ void write(const TextSIException& _s, LEOutputStream& out) {
         if (_s.smartTags) write(*_s.smartTags, out);
     }
 }
+void parseTextSIException(QXmlStreamReader& in, TextSIException& _s) {
+}
 void parseTextMasterStyleLevel(LEInputStream& in, TextMasterStyleLevel& _s) {
     parseTextPFException(in, _s.pf);
     parseTextCFException(in, _s.cf);
@@ -31128,6 +31827,8 @@ void parseTextMasterStyleLevel(LEInputStream& in, TextMasterStyleLevel& _s) {
 void write(const TextMasterStyleLevel& _s, LEOutputStream& out) {
     write(_s.pf, out);
     write(_s.cf, out);
+}
+void parseTextMasterStyleLevel(QXmlStreamReader& in, TextMasterStyleLevel& _s) {
 }
 void parseDocumentAtom(LEInputStream& in, DocumentAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -31178,6 +31879,8 @@ void write(const DocumentAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.fRightToLeft);
     out.writeuint8(_s.fShowComments);
 }
+void parseDocumentAtom(QXmlStreamReader& in, DocumentAtom& _s) {
+}
 void parseProgStringTagContainer(LEInputStream& in, ProgStringTagContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -31196,6 +31899,8 @@ void write(const ProgStringTagContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.tagNameAtom, out);
     write(_s.tagValueAtom, out);
+}
+void parseProgStringTagContainer(QXmlStreamReader& in, ProgStringTagContainer& _s) {
 }
 void parseExObjListContainer(LEInputStream& in, ExObjListContainer& _s) {
     LEInputStream::Mark _m;
@@ -31227,6 +31932,8 @@ void write(const ExObjListContainer& _s, LEOutputStream& out) {
     foreach (ExObjListSubContainer _i, _s.rgChildRec) {
         write(_i, out);
     }
+}
+void parseExObjListContainer(QXmlStreamReader& in, ExObjListContainer& _s) {
 }
 void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s) {
     LEInputStream::Mark _m;
@@ -31292,6 +31999,8 @@ void write(const ExOleLinkContainer& _s, LEOutputStream& out) {
     if (_s.clipboardNameAtom) write(*_s.clipboardNameAtom, out);
     if (_s.metafile) write(*_s.metafile, out);
 }
+void parseExOleLinkContainer(QXmlStreamReader& in, ExOleLinkContainer& _s) {
+}
 void parseExOleEmbedContainer(LEInputStream& in, ExOleEmbedContainer& _s) {
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -31356,6 +32065,8 @@ void write(const ExOleEmbedContainer& _s, LEOutputStream& out) {
     if (_s.clipboardNameAtom) write(*_s.clipboardNameAtom, out);
     if (_s.metafile) write(*_s.metafile, out);
 }
+void parseExOleEmbedContainer(QXmlStreamReader& in, ExOleEmbedContainer& _s) {
+}
 void parseOfficeArtFDGGBlock(LEInputStream& in, OfficeArtFDGGBlock& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -31382,6 +32093,8 @@ void write(const OfficeArtFDGGBlock& _s, LEOutputStream& out) {
     foreach (OfficeArtIDCL _i, _s.Rgidcl) {
         write(_i, out);
     }
+}
+void parseOfficeArtFDGGBlock(QXmlStreamReader& in, OfficeArtFDGGBlock& _s) {
 }
 void parseProtectionBooleanProperties(LEInputStream& in, ProtectionBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31442,6 +32155,8 @@ void write(const ProtectionBooleanProperties& _s, LEOutputStream& out) {
     out.writebit(_s.fUsefLockAgainstUngrouping);
     out.writeuint6(_s.unused2);
 }
+void parseProtectionBooleanProperties(QXmlStreamReader& in, ProtectionBooleanProperties& _s) {
+}
 void parseRotation(LEInputStream& in, Rotation& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0004)) {
@@ -31458,6 +32173,8 @@ void parseRotation(LEInputStream& in, Rotation& _s) {
 void write(const Rotation& _s, LEOutputStream& out) {
     write(_s.opid, out);
     write(_s.rotation, out);
+}
+void parseRotation(QXmlStreamReader& in, Rotation& _s) {
 }
 void parseITxid(LEInputStream& in, ITxid& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31476,6 +32193,8 @@ void write(const ITxid& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.iTxid);
 }
+void parseITxid(QXmlStreamReader& in, ITxid& _s) {
+}
 void parseDxTextLeft(LEInputStream& in, DxTextLeft& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0081)) {
@@ -31492,6 +32211,8 @@ void parseDxTextLeft(LEInputStream& in, DxTextLeft& _s) {
 void write(const DxTextLeft& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.dxTextLeft);
+}
+void parseDxTextLeft(QXmlStreamReader& in, DxTextLeft& _s) {
 }
 void parseDyTextTop(LEInputStream& in, DyTextTop& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31510,6 +32231,8 @@ void write(const DyTextTop& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.dyTextTop);
 }
+void parseDyTextTop(QXmlStreamReader& in, DyTextTop& _s) {
+}
 void parseDxTextRight(LEInputStream& in, DxTextRight& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0083)) {
@@ -31527,6 +32250,8 @@ void write(const DxTextRight& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.dxTextRight);
 }
+void parseDxTextRight(QXmlStreamReader& in, DxTextRight& _s) {
+}
 void parseDyTextBottom(LEInputStream& in, DyTextBottom& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0084)) {
@@ -31543,6 +32268,8 @@ void parseDyTextBottom(LEInputStream& in, DyTextBottom& _s) {
 void write(const DyTextBottom& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.dyTextBottom);
+}
+void parseDyTextBottom(QXmlStreamReader& in, DyTextBottom& _s) {
 }
 void parseWrapText(LEInputStream& in, WrapText& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31564,6 +32291,8 @@ void write(const WrapText& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.wrapText);
 }
+void parseWrapText(QXmlStreamReader& in, WrapText& _s) {
+}
 void parseAnchorText(LEInputStream& in, AnchorText& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0087)) {
@@ -31583,6 +32312,8 @@ void parseAnchorText(LEInputStream& in, AnchorText& _s) {
 void write(const AnchorText& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.anchorText);
+}
+void parseAnchorText(QXmlStreamReader& in, AnchorText& _s) {
 }
 void parseTextBooleanProperties(LEInputStream& in, TextBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31627,6 +32358,8 @@ void write(const TextBooleanProperties& _s, LEOutputStream& out) {
     out.writeuint3(_s.unused6a);
     out.writeuint8(_s.unused6b);
 }
+void parseTextBooleanProperties(QXmlStreamReader& in, TextBooleanProperties& _s) {
+}
 void parseHspNext(LEInputStream& in, HspNext& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x008A)) {
@@ -31643,6 +32376,8 @@ void parseHspNext(LEInputStream& in, HspNext& _s) {
 void write(const HspNext& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.hspNext);
+}
+void parseHspNext(QXmlStreamReader& in, HspNext& _s) {
 }
 void parseShapePath(LEInputStream& in, ShapePath& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31663,6 +32398,8 @@ void parseShapePath(LEInputStream& in, ShapePath& _s) {
 void write(const ShapePath& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.shapePath);
+}
+void parseShapePath(QXmlStreamReader& in, ShapePath& _s) {
 }
 void parseGeometryBooleanProperties(LEInputStream& in, GeometryBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31715,6 +32452,8 @@ void write(const GeometryBooleanProperties& _s, LEOutputStream& out) {
     out.writebit(_s.unused3b);
     out.writeuint8(_s.unused4);
 }
+void parseGeometryBooleanProperties(QXmlStreamReader& in, GeometryBooleanProperties& _s) {
+}
 void parseFillType(LEInputStream& in, FillType& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0180)) {
@@ -31735,6 +32474,8 @@ void write(const FillType& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.fillType);
 }
+void parseFillType(QXmlStreamReader& in, FillType& _s) {
+}
 void parseFillColor(LEInputStream& in, FillColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0181)) {
@@ -31751,6 +32492,8 @@ void parseFillColor(LEInputStream& in, FillColor& _s) {
 void write(const FillColor& _s, LEOutputStream& out) {
     write(_s.opid, out);
     write(_s.fillColor, out);
+}
+void parseFillColor(QXmlStreamReader& in, FillColor& _s) {
 }
 void parseFillBackColor(LEInputStream& in, FillBackColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31769,6 +32512,8 @@ void write(const FillBackColor& _s, LEOutputStream& out) {
     write(_s.opid, out);
     write(_s.fillBackColor, out);
 }
+void parseFillBackColor(QXmlStreamReader& in, FillBackColor& _s) {
+}
 void parseFillBlip(LEInputStream& in, FillBlip& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0186)) {
@@ -31779,6 +32524,8 @@ void parseFillBlip(LEInputStream& in, FillBlip& _s) {
 void write(const FillBlip& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.fillBlip);
+}
+void parseFillBlip(QXmlStreamReader& in, FillBlip& _s) {
 }
 void parseFillRectRight(LEInputStream& in, FillRectRight& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31797,6 +32544,8 @@ void write(const FillRectRight& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.fillRectRight);
 }
+void parseFillRectRight(QXmlStreamReader& in, FillRectRight& _s) {
+}
 void parseFillRectBottom(LEInputStream& in, FillRectBottom& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0194)) {
@@ -31813,6 +32562,8 @@ void parseFillRectBottom(LEInputStream& in, FillRectBottom& _s) {
 void write(const FillRectBottom& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.fillRectBottom);
+}
+void parseFillRectBottom(QXmlStreamReader& in, FillRectBottom& _s) {
 }
 void parseFillStyleBooleanProperties(LEInputStream& in, FillStyleBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31865,6 +32616,8 @@ void write(const FillStyleBooleanProperties& _s, LEOutputStream& out) {
     out.writebit(_s.unused2a);
     out.writeuint8(_s.unused2b);
 }
+void parseFillStyleBooleanProperties(QXmlStreamReader& in, FillStyleBooleanProperties& _s) {
+}
 void parseLineColor(LEInputStream& in, LineColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01C0)) {
@@ -31882,6 +32635,8 @@ void write(const LineColor& _s, LEOutputStream& out) {
     write(_s.opid, out);
     write(_s.lineColor, out);
 }
+void parseLineColor(QXmlStreamReader& in, LineColor& _s) {
+}
 void parseLineBackColor(LEInputStream& in, LineBackColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01C2)) {
@@ -31893,6 +32648,8 @@ void write(const LineBackColor& _s, LEOutputStream& out) {
     write(_s.opid, out);
     write(_s.lineBackColor, out);
 }
+void parseLineBackColor(QXmlStreamReader& in, LineBackColor& _s) {
+}
 void parseLineFillBlip(LEInputStream& in, LineFillBlip& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01C5)) {
@@ -31903,6 +32660,8 @@ void parseLineFillBlip(LEInputStream& in, LineFillBlip& _s) {
 void write(const LineFillBlip& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.lineFillBlip);
+}
+void parseLineFillBlip(QXmlStreamReader& in, LineFillBlip& _s) {
 }
 void parseLineWidth(LEInputStream& in, LineWidth& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31920,6 +32679,8 @@ void parseLineWidth(LEInputStream& in, LineWidth& _s) {
 void write(const LineWidth& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.lineWidth);
+}
+void parseLineWidth(QXmlStreamReader& in, LineWidth& _s) {
 }
 void parseLineStartArrowhead(LEInputStream& in, LineStartArrowhead& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -31941,6 +32702,8 @@ void write(const LineStartArrowhead& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.lineStartArrowhead);
 }
+void parseLineStartArrowhead(QXmlStreamReader& in, LineStartArrowhead& _s) {
+}
 void parseLineEndArrowhead(LEInputStream& in, LineEndArrowhead& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01D1)) {
@@ -31961,6 +32724,8 @@ void write(const LineEndArrowhead& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.lineEndArrowhead);
 }
+void parseLineEndArrowhead(QXmlStreamReader& in, LineEndArrowhead& _s) {
+}
 void parseLineJoinStyle(LEInputStream& in, LineJoinStyle& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01D6)) {
@@ -31980,6 +32745,8 @@ void parseLineJoinStyle(LEInputStream& in, LineJoinStyle& _s) {
 void write(const LineJoinStyle& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.lineJoinStyle);
+}
+void parseLineJoinStyle(QXmlStreamReader& in, LineJoinStyle& _s) {
 }
 void parseLineStyleBooleanProperties(LEInputStream& in, LineStyleBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32040,6 +32807,8 @@ void write(const LineStyleBooleanProperties& _s, LEOutputStream& out) {
     out.writebit(_s.fUsefLineOpaqueBackColor);
     out.writeuint6(_s.unused4);
 }
+void parseLineStyleBooleanProperties(QXmlStreamReader& in, LineStyleBooleanProperties& _s) {
+}
 void parseShadowColor(LEInputStream& in, ShadowColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0201)) {
@@ -32056,6 +32825,8 @@ void parseShadowColor(LEInputStream& in, ShadowColor& _s) {
 void write(const ShadowColor& _s, LEOutputStream& out) {
     write(_s.opid, out);
     write(_s.shadowColor, out);
+}
+void parseShadowColor(QXmlStreamReader& in, ShadowColor& _s) {
 }
 void parseShadowStyleBooleanPropertiesr(LEInputStream& in, ShadowStyleBooleanPropertiesr& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32084,6 +32855,8 @@ void write(const ShadowStyleBooleanPropertiesr& _s, LEOutputStream& out) {
     out.writebit(_s.fUsefShadow);
     out.writeuint14(_s.unused2);
 }
+void parseShadowStyleBooleanPropertiesr(QXmlStreamReader& in, ShadowStyleBooleanPropertiesr& _s) {
+}
 void parseHspMaster(LEInputStream& in, HspMaster& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0301)) {
@@ -32100,6 +32873,8 @@ void parseHspMaster(LEInputStream& in, HspMaster& _s) {
 void write(const HspMaster& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.hspMaster);
+}
+void parseHspMaster(QXmlStreamReader& in, HspMaster& _s) {
 }
 void parseBWMode(LEInputStream& in, BWMode& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32120,6 +32895,8 @@ void parseBWMode(LEInputStream& in, BWMode& _s) {
 void write(const BWMode& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.bWMode);
+}
+void parseBWMode(QXmlStreamReader& in, BWMode& _s) {
 }
 void parseShapeBooleanProperties(LEInputStream& in, ShapeBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32188,6 +32965,8 @@ void write(const ShapeBooleanProperties& _s, LEOutputStream& out) {
     out.writebit(_s.unused6);
     out.writeuint4(_s.unused7);
 }
+void parseShapeBooleanProperties(QXmlStreamReader& in, ShapeBooleanProperties& _s) {
+}
 void parseLidRegroup(LEInputStream& in, LidRegroup& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0388)) {
@@ -32205,6 +32984,8 @@ void write(const LidRegroup& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeuint32(_s.lidRegroup);
 }
+void parseLidRegroup(QXmlStreamReader& in, LidRegroup& _s) {
+}
 void parseWzFillId(LEInputStream& in, WzFillId& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0403)) {
@@ -32215,6 +32996,8 @@ void parseWzFillId(LEInputStream& in, WzFillId& _s) {
 void write(const WzFillId& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.wzFillId);
+}
+void parseWzFillId(QXmlStreamReader& in, WzFillId& _s) {
 }
 void parseOfficeArtClientAnchor(LEInputStream& in, OfficeArtClientAnchor& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -32248,6 +33031,8 @@ void write(const OfficeArtClientAnchor& _s, LEOutputStream& out) {
         if (_s.rect2) write(*_s.rect2, out);
     }
 }
+void parseOfficeArtClientAnchor(QXmlStreamReader& in, OfficeArtClientAnchor& _s) {
+}
 void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -32272,6 +33057,8 @@ void write(const MouseInteractiveInfoContainer& _s, LEOutputStream& out) {
         if (_s.macroNameAtom) write(*_s.macroNameAtom, out);
     }
 }
+void parseMouseInteractiveInfoContainer(QXmlStreamReader& in, MouseInteractiveInfoContainer& _s) {
+}
 void parseOfficeArtFOPTE(LEInputStream& in, OfficeArtFOPTE& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
     _s.op = in.readint32();
@@ -32279,6 +33066,8 @@ void parseOfficeArtFOPTE(LEInputStream& in, OfficeArtFOPTE& _s) {
 void write(const OfficeArtFOPTE& _s, LEOutputStream& out) {
     write(_s.opid, out);
     out.writeint32(_s.op);
+}
+void parseOfficeArtFOPTE(QXmlStreamReader& in, OfficeArtFOPTE& _s) {
 }
 void parseFib(LEInputStream& in, Fib& _s) {
     int _c;
@@ -32334,6 +33123,8 @@ void write(const Fib& _s, LEOutputStream& out) {
     out.writeBytes(_s.fibRgCswNew);
     out.writeBytes(_s.trail);
 }
+void parseFib(QXmlStreamReader& in, Fib& _s) {
+}
 void parseSTSH(LEInputStream& in, STSH& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -32349,6 +33140,8 @@ void write(const STSH& _s, LEOutputStream& out) {
     foreach (LPStd _i, _s.rglpstd) {
         write(_i, out);
     }
+}
+void parseSTSH(QXmlStreamReader& in, STSH& _s) {
 }
 void parseClx(LEInputStream& in, Clx& _s) {
     LEInputStream::Mark _m;
@@ -32376,6 +33169,8 @@ void write(const Clx& _s, LEOutputStream& out) {
     }
     write(_s.pcdt, out);
 }
+void parseClx(QXmlStreamReader& in, Clx& _s) {
+}
 void parsePcr(LEInputStream& in, Pcr& _s) {
     _s.clxt = in.readuint8();
     if (!(((quint8)_s.clxt) == 1)) {
@@ -32386,6 +33181,8 @@ void parsePcr(LEInputStream& in, Pcr& _s) {
 void write(const Pcr& _s, LEOutputStream& out) {
     out.writeuint8(_s.clxt);
     write(_s.prcData, out);
+}
+void parsePcr(QXmlStreamReader& in, Pcr& _s) {
 }
 void parsePrm(LEInputStream& in, Prm& _s) {
     LEInputStream::Mark _m;
@@ -32407,6 +33204,8 @@ void write(const Prm& _s, LEOutputStream& out) {
     } else if (_s.prm.prm1) {
         write(*_s.prm.prm1, out);
     }
+}
+void parsePrm(QXmlStreamReader& in, Prm& _s) {
 }
 void parseOfficeArtBlipEMF(LEInputStream& in, OfficeArtBlipEMF& _s) {
     int _c;
@@ -32441,6 +33240,8 @@ void write(const OfficeArtBlipEMF& _s, LEOutputStream& out) {
     write(_s.metafileHeader, out);
     out.writeBytes(_s.BLIPFileData);
 }
+void parseOfficeArtBlipEMF(QXmlStreamReader& in, OfficeArtBlipEMF& _s) {
+}
 void parseOfficeArtBlipWMF(LEInputStream& in, OfficeArtBlipWMF& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -32474,6 +33275,8 @@ void write(const OfficeArtBlipWMF& _s, LEOutputStream& out) {
     write(_s.metafileHeader, out);
     out.writeBytes(_s.BLIPFileData);
 }
+void parseOfficeArtBlipWMF(QXmlStreamReader& in, OfficeArtBlipWMF& _s) {
+}
 void parseOfficeArtBlipPICT(LEInputStream& in, OfficeArtBlipPICT& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -32506,6 +33309,8 @@ void write(const OfficeArtBlipPICT& _s, LEOutputStream& out) {
     }
     write(_s.metafileHeader, out);
     out.writeBytes(_s.BLIPFileData);
+}
+void parseOfficeArtBlipPICT(QXmlStreamReader& in, OfficeArtBlipPICT& _s) {
 }
 void parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s) {
     LEInputStream::Mark _m;
@@ -32568,6 +33373,8 @@ void write(const OfficeArtBlip& _s, LEOutputStream& out) {
         write(*_s.anon.officeartbliptiff, out);
     }
 }
+void parseOfficeArtBlip(QXmlStreamReader& in, OfficeArtBlip& _s) {
+}
 void parseZoomViewInfoAtom(LEInputStream& in, ZoomViewInfoAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -32604,6 +33411,8 @@ void write(const ZoomViewInfoAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.fDraftMode);
     out.writeuint16(_s.unused2);
 }
+void parseZoomViewInfoAtom(QXmlStreamReader& in, ZoomViewInfoAtom& _s) {
+}
 void parseDocProgTagsSubContainerOrAtom(LEInputStream& in, DocProgTagsSubContainerOrAtom& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
@@ -32625,6 +33434,8 @@ void write(const DocProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
         write(*_s.anon.docprogbinarytagcontaineroratom, out);
     }
 }
+void parseDocProgTagsSubContainerOrAtom(QXmlStreamReader& in, DocProgTagsSubContainerOrAtom& _s) {
+}
 void parseNotesTextViewInfoContainer(LEInputStream& in, NotesTextViewInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -32642,6 +33453,8 @@ void write(const NotesTextViewInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.zoomViewInfo, out);
 }
+void parseNotesTextViewInfoContainer(QXmlStreamReader& in, NotesTextViewInfoContainer& _s) {
+}
 void parseOutlineViewInfoContainer(LEInputStream& in, OutlineViewInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -32658,6 +33471,8 @@ void parseOutlineViewInfoContainer(LEInputStream& in, OutlineViewInfoContainer& 
 void write(const OutlineViewInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.noZoomViewInfo, out);
+}
+void parseOutlineViewInfoContainer(QXmlStreamReader& in, OutlineViewInfoContainer& _s) {
 }
 void parseNormalViewSetInfoContainer(LEInputStream& in, NormalViewSetInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
@@ -32678,6 +33493,8 @@ void parseNormalViewSetInfoContainer(LEInputStream& in, NormalViewSetInfoContain
 void write(const NormalViewSetInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.normalViewSetInfoAtom, out);
+}
+void parseNormalViewSetInfoContainer(QXmlStreamReader& in, NormalViewSetInfoContainer& _s) {
 }
 void parseSlideListWithTextSubContainerOrAtom(LEInputStream& in, SlideListWithTextSubContainerOrAtom& _s) {
     LEInputStream::Mark _m;
@@ -32705,6 +33522,8 @@ void write(const SlideListWithTextSubContainerOrAtom& _s, LEOutputStream& out) {
         write(_i, out);
     }
 }
+void parseSlideListWithTextSubContainerOrAtom(QXmlStreamReader& in, SlideListWithTextSubContainerOrAtom& _s) {
+}
 void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteractiveInfo& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
@@ -32725,6 +33544,8 @@ void write(const TextContainerInteractiveInfo& _s, LEOutputStream& out) {
     } else if (_s.interactive.mousetextinteractiveinfoatom) {
         write(*_s.interactive.mousetextinteractiveinfoatom, out);
     }
+}
+void parseTextContainerInteractiveInfo(QXmlStreamReader& in, TextContainerInteractiveInfo& _s) {
 }
 void parseTextPFRun(LEInputStream& in, TextPFRun& _s) {
     _s.count = in.readuint32();
@@ -32754,6 +33575,8 @@ void write(const TextPFRun& _s, LEOutputStream& out) {
     out.writeuint16(_s.indentLevel);
     write(_s.pf, out);
 }
+void parseTextPFRun(QXmlStreamReader& in, TextPFRun& _s) {
+}
 void parseTextCFRun(LEInputStream& in, TextCFRun& _s) {
     _s.count = in.readuint32();
     if (!(((quint32)_s.count)>0)) {
@@ -32767,6 +33590,8 @@ void parseTextCFRun(LEInputStream& in, TextCFRun& _s) {
 void write(const TextCFRun& _s, LEOutputStream& out) {
     out.writeuint32(_s.count);
     write(_s.cf, out);
+}
+void parseTextCFRun(QXmlStreamReader& in, TextCFRun& _s) {
 }
 void parseTextCFExceptionAtom(LEInputStream& in, TextCFExceptionAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -32784,6 +33609,8 @@ void parseTextCFExceptionAtom(LEInputStream& in, TextCFExceptionAtom& _s) {
 void write(const TextCFExceptionAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.cf, out);
+}
+void parseTextCFExceptionAtom(QXmlStreamReader& in, TextCFExceptionAtom& _s) {
 }
 void parseDefaultRulerAtom(LEInputStream& in, DefaultRulerAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -32838,6 +33665,8 @@ void write(const DefaultRulerAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.defaultTextRuler, out);
 }
+void parseDefaultRulerAtom(QXmlStreamReader& in, DefaultRulerAtom& _s) {
+}
 void parseTextPFExceptionAtom(LEInputStream& in, TextPFExceptionAtom& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
@@ -32857,6 +33686,8 @@ void write(const TextPFExceptionAtom& _s, LEOutputStream& out) {
     out.writeuint16(_s.reserved);
     write(_s.pf, out);
 }
+void parseTextPFExceptionAtom(QXmlStreamReader& in, TextPFExceptionAtom& _s) {
+}
 void parseTextSIRun(LEInputStream& in, TextSIRun& _s) {
     _s.count = in.readuint32();
     if (!(((quint32)_s.count)>=1)) {
@@ -32867,6 +33698,8 @@ void parseTextSIRun(LEInputStream& in, TextSIRun& _s) {
 void write(const TextSIRun& _s, LEOutputStream& out) {
     out.writeuint32(_s.count);
     write(_s.si, out);
+}
+void parseTextSIRun(QXmlStreamReader& in, TextSIRun& _s) {
 }
 void parseTextSIExceptionAtom(LEInputStream& in, TextSIExceptionAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -32893,6 +33726,8 @@ void parseTextSIExceptionAtom(LEInputStream& in, TextSIExceptionAtom& _s) {
 void write(const TextSIExceptionAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.textSIException, out);
+}
+void parseTextSIExceptionAtom(QXmlStreamReader& in, TextSIExceptionAtom& _s) {
 }
 void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -32984,6 +33819,8 @@ void write(const TextMasterStyleAtom& _s, LEOutputStream& out) {
         if (_s.lstLvl5) write(*_s.lstLvl5, out);
     }
 }
+void parseTextMasterStyleAtom(QXmlStreamReader& in, TextMasterStyleAtom& _s) {
+}
 void parseSlideProgTagsSubContainerOrAtom(LEInputStream& in, SlideProgTagsSubContainerOrAtom& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
@@ -33004,6 +33841,8 @@ void write(const SlideProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
     } else if (_s.anon.slideprogbinarytagcontainer) {
         write(*_s.anon.slideprogbinarytagcontainer, out);
     }
+}
+void parseSlideProgTagsSubContainerOrAtom(QXmlStreamReader& in, SlideProgTagsSubContainerOrAtom& _s) {
 }
 void parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _s) {
     LEInputStream::Mark _m;
@@ -33098,6 +33937,8 @@ void write(const ExObjListSubContainer& _s, LEOutputStream& out) {
         write(*_s.anon.unknownexobjlistsubcontainerchild, out);
     }
 }
+void parseExObjListSubContainer(QXmlStreamReader& in, ExObjListSubContainer& _s) {
+}
 void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s) {
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -33163,6 +34004,8 @@ void write(const OfficeArtDggContainer& _s, LEOutputStream& out) {
     if (_s.colorMRU) write(*_s.colorMRU, out);
     write(_s.splitColors, out);
     if (_s.unknown) write(*_s.unknown, out);
+}
+void parseOfficeArtDggContainer(QXmlStreamReader& in, OfficeArtDggContainer& _s) {
 }
 void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s) {
     LEInputStream::Mark _m;
@@ -33457,6 +34300,8 @@ void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
         write(*_s.anon.officeartfopte, out);
     }
 }
+void parseOfficeArtFOPTEChoice(QXmlStreamReader& in, OfficeArtFOPTEChoice& _s) {
+}
 void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
     LEInputStream::Mark _m;
         bool _atend;
@@ -33591,11 +34436,15 @@ void write(const OfficeArtClientData& _s, LEOutputStream& out) {
     }
     if (_s.unknown) write(*_s.unknown, out);
 }
+void parseOfficeArtClientData(QXmlStreamReader& in, OfficeArtClientData& _s) {
+}
 void parseWordDocument(LEInputStream& in, WordDocument& _s) {
     parseFib(in, _s.fib);
 }
 void write(const WordDocument& _s, LEOutputStream& out) {
     write(_s.fib, out);
+}
+void parseWordDocument(QXmlStreamReader& in, WordDocument& _s) {
 }
 void parseTable(LEInputStream& in, Table& _s) {
     int _c;
@@ -33622,6 +34471,8 @@ void write(const Table& _s, LEOutputStream& out) {
     write(_s.sttbfFfn, out);
     out.writeBytes(_s.dop);
 }
+void parseTable(QXmlStreamReader& in, Table& _s) {
+}
 void parsePcd(LEInputStream& in, Pcd& _s) {
     _s.fNoParaLast = in.readbit();
     _s.fR1 = in.readbit();
@@ -33642,6 +34493,8 @@ void write(const Pcd& _s, LEOutputStream& out) {
     out.writeuint12(_s.fR3);
     write(_s.fc, out);
     write(_s.prm, out);
+}
+void parsePcd(QXmlStreamReader& in, Pcd& _s) {
 }
 void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s) {
     int _c;
@@ -33693,6 +34546,8 @@ void write(const OfficeArtFBSE& _s, LEOutputStream& out) {
         if (_s.embeddedBlip) write(*_s.embeddedBlip, out);
     }
 }
+void parseOfficeArtFBSE(QXmlStreamReader& in, OfficeArtFBSE& _s) {
+}
 void parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBStoreContainerFileBlock& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
@@ -33713,6 +34568,8 @@ void write(const OfficeArtBStoreContainerFileBlock& _s, LEOutputStream& out) {
     } else if (_s.anon.officeartblip) {
         write(*_s.anon.officeartblip, out);
     }
+}
+void parseOfficeArtBStoreContainerFileBlock(QXmlStreamReader& in, OfficeArtBStoreContainerFileBlock& _s) {
 }
 void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s) {
     LEInputStream::Mark _m;
@@ -33752,6 +34609,8 @@ void write(const SlideViewInfoInstance& _s, LEOutputStream& out) {
     foreach (GuideAtom _i, _s.rgGuideAtom) {
         write(_i, out);
     }
+}
+void parseSlideViewInfoInstance(QXmlStreamReader& in, SlideViewInfoInstance& _s) {
 }
 void parseDocumentTextInfoContainer(LEInputStream& in, DocumentTextInfoContainer& _s) {
     LEInputStream::Mark _m;
@@ -33828,6 +34687,8 @@ void write(const DocumentTextInfoContainer& _s, LEOutputStream& out) {
     write(_s.textSIDefaultsAtom, out);
     write(_s.textMasterStyleAtom, out);
 }
+void parseDocumentTextInfoContainer(QXmlStreamReader& in, DocumentTextInfoContainer& _s) {
+}
 void parseDrawingGroupContainer(LEInputStream& in, DrawingGroupContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -33844,6 +34705,8 @@ void parseDrawingGroupContainer(LEInputStream& in, DrawingGroupContainer& _s) {
 void write(const DrawingGroupContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.OfficeArtDgg, out);
+}
+void parseDrawingGroupContainer(QXmlStreamReader& in, DrawingGroupContainer& _s) {
 }
 void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s) {
     LEInputStream::Mark _m;
@@ -33983,6 +34846,8 @@ void write(const OfficeArtSpContainer& _s, LEOutputStream& out) {
     if (_s.clientTextbox) write(*_s.clientTextbox, out);
     if (_s.shapeSecondaryOptions2) write(*_s.shapeSecondaryOptions2, out);
     if (_s.shapeTertiaryOptions2) write(*_s.shapeTertiaryOptions2, out);
+}
+void parseOfficeArtSpContainer(QXmlStreamReader& in, OfficeArtSpContainer& _s) {
 }
 void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
     LEInputStream::Mark _m;
@@ -34230,6 +35095,8 @@ void write(const DocumentContainer& _s, LEOutputStream& out) {
     if (_s.unknown5) write(*_s.unknown5, out);
     if (_s.rtCustomTableStylesAtom2) write(*_s.rtCustomTableStylesAtom2, out);
 }
+void parseDocumentContainer(QXmlStreamReader& in, DocumentContainer& _s) {
+}
 void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContainerOrAtom& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
@@ -34290,6 +35157,8 @@ void write(const DocInfoListSubContainerOrAtom& _s, LEOutputStream& out) {
     } else if (_s.anon.vbainfocontainer) {
         write(*_s.anon.vbainfocontainer, out);
     }
+}
+void parseDocInfoListSubContainerOrAtom(QXmlStreamReader& in, DocInfoListSubContainerOrAtom& _s) {
 }
 void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
     LEInputStream::Mark _m;
@@ -34363,6 +35232,8 @@ void write(const OfficeArtDgContainer& _s, LEOutputStream& out) {
     }
     if (_s.solvers) write(*_s.solvers, out);
 }
+void parseOfficeArtDgContainer(QXmlStreamReader& in, OfficeArtDgContainer& _s) {
+}
 void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContainerFileBlock& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
@@ -34384,6 +35255,8 @@ void write(const OfficeArtSpgrContainerFileBlock& _s, LEOutputStream& out) {
         write(*_s.anon.officeartspgrcontainer, out);
     }
 }
+void parseOfficeArtSpgrContainerFileBlock(QXmlStreamReader& in, OfficeArtSpgrContainerFileBlock& _s) {
+}
 void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -34400,6 +35273,8 @@ void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s) {
 void write(const DrawingContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.OfficeArtDg, out);
+}
+void parseDrawingContainer(QXmlStreamReader& in, DrawingContainer& _s) {
 }
 void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
     LEInputStream::Mark _m;
@@ -34577,6 +35452,8 @@ void write(const MainMasterContainer& _s, LEOutputStream& out) {
     if (_s.templateNameAtom) write(*_s.templateNameAtom, out);
     if (_s.unknown3) write(*_s.unknown3, out);
 }
+void parseMainMasterContainer(QXmlStreamReader& in, MainMasterContainer& _s) {
+}
 void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
     LEInputStream::Mark _m;
         bool _atend;
@@ -34684,6 +35561,8 @@ void write(const SlideContainer& _s, LEOutputStream& out) {
     }
     if (_s.unknown) write(*_s.unknown, out);
 }
+void parseSlideContainer(QXmlStreamReader& in, SlideContainer& _s) {
+}
 void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
@@ -34704,6 +35583,8 @@ void write(const MasterOrSlideContainer& _s, LEOutputStream& out) {
     } else if (_s.anon.slidecontainer) {
         write(*_s.anon.slidecontainer, out);
     }
+}
+void parseMasterOrSlideContainer(QXmlStreamReader& in, MasterOrSlideContainer& _s) {
 }
 void parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
     LEInputStream::Mark _m;
@@ -34790,6 +35671,8 @@ void write(const PowerPointStruct& _s, LEOutputStream& out) {
         write(*_s.anon.usereditatom, out);
     }
 }
+void parsePowerPointStruct(QXmlStreamReader& in, PowerPointStruct& _s) {
+}
 }
 const Introspectable* parse(const QString& key, LEInputStream& in) {
     const Introspectable* i = 0;
@@ -34835,6 +35718,60 @@ const Introspectable* parse(const QString& key, LEInputStream& in) {
         i = new TODOS(_t);
     }
     return i;
+}
+const QMap<QString,QSharedPointer<Introspectable> > parse(QXmlStreamReader& in) {
+    QMap<QString,QSharedPointer<Introspectable> > streams;
+    // skip until first element
+    while (!in.atEnd() && !in.isStartElement()) {
+        in.readNext();
+    }
+    if (!in.isStartElement()) {
+        return streams;
+    }
+    do {
+        QString name = in.name().toString();
+        if (streams.contains(name)) {
+            return streams;
+        }
+        if ("PowerPoint Document" == name) {
+            QSharedPointer<Introspectable> _t(new PowerPointStructs());
+            parsePowerPointStructs(in, *static_cast<PowerPointStructs*>(_t.data()));
+            streams[name] = _t;
+        } else if ("Current User" == name) {
+            QSharedPointer<Introspectable> _t(new CurrentUserStream());
+            parseCurrentUserStream(in, *static_cast<CurrentUserStream*>(_t.data()));
+            streams[name] = _t;
+        } else if ("Pictures" == name) {
+            QSharedPointer<Introspectable> _t(new OfficeArtBStoreDelay());
+            parseOfficeArtBStoreDelay(in, *static_cast<OfficeArtBStoreDelay*>(_t.data()));
+            streams[name] = _t;
+        } else if ("WordDocument" == name) {
+            QSharedPointer<Introspectable> _t(new WordDocument());
+            parseWordDocument(in, *static_cast<WordDocument*>(_t.data()));
+            streams[name] = _t;
+        } else if ("1Table" == name) {
+            QSharedPointer<Introspectable> _t(new Table());
+            parseTable(in, *static_cast<Table*>(_t.data()));
+            streams[name] = _t;
+        } else if ("SummaryInformation" == name) {
+            QSharedPointer<Introspectable> _t(new SummaryInformationPropertySetStream());
+            parseSummaryInformationPropertySetStream(in, *static_cast<SummaryInformationPropertySetStream*>(_t.data()));
+            streams[name] = _t;
+        } else if ("DocumentSummaryInformation" == name) {
+            QSharedPointer<Introspectable> _t(new DocumentSummaryInformationPropertySetStream());
+            parseDocumentSummaryInformationPropertySetStream(in, *static_cast<DocumentSummaryInformationPropertySetStream*>(_t.data()));
+            streams[name] = _t;
+        } else if ("textPFRun" == name) {
+            QSharedPointer<Introspectable> _t(new TextPFRun());
+            parseTextPFRun(in, *static_cast<TextPFRun*>(_t.data()));
+            streams[name] = _t;
+        } else if ("textCFRun" == name) {
+            QSharedPointer<Introspectable> _t(new TextCFRun());
+            parseTextCFRun(in, *static_cast<TextCFRun*>(_t.data()));
+            streams[name] = _t;
+        }
+    } while (in.isStartElement());
+    return streams;
 }
 void serialize(const Introspectable* i, const QString& key, LEOutputStream& out)  {
     if ("PowerPoint Document" == key) {
