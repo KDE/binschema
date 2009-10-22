@@ -959,7 +959,7 @@
 			-->
 		</int16>
 		<uint16 name="bulletFontRef" condition="masks.bulletFont" />
-		<uint16 name="bulletSize" condition="masks.bulletSize" />
+		<int16 name="bulletSize" condition="masks.bulletSize" />
 		<type name="bulletColor" condition="masks.bulletColor" type="ColorIndexStruct" />
 		<uint16 name="textAlignment" condition="masks.align" />
 		<int16 name="lineSpacing" condition="masks.lineSpacing" />

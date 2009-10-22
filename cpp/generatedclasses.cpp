@@ -5508,7 +5508,7 @@ public:
     QSharedPointer<BulletFlags> bulletFlags;
     qint16 bulletChar;
     quint16 bulletFontRef;
-    quint16 bulletSize;
+    qint16 bulletSize;
     QSharedPointer<ColorIndexStruct> bulletColor;
     quint16 textAlignment;
     qint16 lineSpacing;
@@ -30750,7 +30750,7 @@ void parseTextPFException(LEInputStream& in, TextPFException& _s) {
     }
     _s._has_bulletSize = _s.masks.bulletSize;
     if (_s._has_bulletSize) {
-        _s.bulletSize = in.readuint16();
+        _s.bulletSize = in.readint16();
     }
     if (_s.masks.bulletColor) {
         _s.bulletColor = QSharedPointer<ColorIndexStruct>(new ColorIndexStruct());
@@ -30813,7 +30813,7 @@ void write(const TextPFException& _s, LEOutputStream& out) {
         out.writeuint16(_s.bulletFontRef);
     }
     if (_s.masks.bulletSize) {
-        out.writeuint16(_s.bulletSize);
+        out.writeint16(_s.bulletSize);
     }
     if (_s.masks.bulletColor) {
         if (_s.bulletColor) write(*_s.bulletColor, out);
