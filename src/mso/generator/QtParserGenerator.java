@@ -175,7 +175,7 @@ public class QtParserGenerator {
 			out.println("    LEInputStream::Mark _m;");
 		}
 		if (s.containsUnknownLengthArrayMember) {
-			out.println("        bool _atend;");
+			out.println("    bool _atend;");
 		}
 		for (Member m : s.members) {
 			printStructureMemberParser(out, m);
@@ -190,8 +190,11 @@ public class QtParserGenerator {
 	void printStructureXmlParser(PrintWriter out, Struct s) {
 		out.println("void parse" + s.name + "(QXmlStreamReader& in, " + s.name
 				+ "& _s) {");
-		out.println("    int depth = 0;");
 		out.println("    QXmlStreamReader::TokenType type = in.readNext();");
+		for (Member m : s.members) {
+
+		}
+		out.println("    int depth = 0;");
 		out.println("    while (!in.atEnd()) {");
 		out.println("        if (type == QXmlStreamReader::StartElement) {");
 		out.println("            depth++;");
@@ -443,17 +446,14 @@ public class QtParserGenerator {
 		out.println("    }");
 
 		// function toString
-
-		out.println("    QString toString() {");
-		out.println("        QString _s = \"" + s.name + ":\";");
-		for (Member m : s.members) {
-			out.print("        _s = _s + \"" + m.name + ": \" + ");
-			out.print(memberToString(m, ""));
-			out.println(" + \", \";");
-		}
-		out.println("        return _s;");
-		out.println("    }");
-
+		/*
+		 * out.println("    QString toString() {");
+		 * out.println("        QString _s = \"" + s.name + ":\";"); for (Member
+		 * m : s.members) { out.print("        _s = _s + \"" + m.name +
+		 * ": \" + "); out.print(memberToString(m, ""));
+		 * out.println(" + \", \";"); } out.println("        return _s;");
+		 * out.println("    }");
+		 */
 		out
 				.println("    const Introspection* getIntrospection() const { return &_introspection; }");
 
@@ -616,11 +616,14 @@ public class QtParserGenerator {
 
 	void printFixedSizeArrayParser(PrintWriter out, String s, Member m) {
 		out.println(s + "int _startPos = in.getPosition();");
-		out.println(s + "while (in.getPosition() - _startPos < "
-				+ getExpression("_s", m.size) + ") {");
+		out.println(s + "_atend = in.getPosition() - _startPos >= "
+				+ getExpression("_s", m.size) + ";");
+		out.println(s + "while (!_atend) {");
 		out.println(s + "    " + m.type + " _t;");
 		out.println(s + "    parse" + m.type + "(in, _t);");
 		out.println(s + "    _s." + m.name + ".append(_t);");
+		out.println(s + "    _atend = in.getPosition() - _startPos >= "
+				+ getExpression("_s", m.size) + ";");
 		out.println(s + "}");
 	}
 

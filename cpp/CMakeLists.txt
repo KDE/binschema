@@ -1,7 +1,7 @@
 project(QtPptXml C CXX Java)
 cmake_minimum_required(VERSION 2.6)
 
-SET (CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fexceptions -Wall")
+SET (CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fexceptions -Wall -Wno-sign-compare")
 
 FIND_PACKAGE(Qt4 4.5.0 REQUIRED)
 SET(QT_DONT_USE_QTGUI 1)
