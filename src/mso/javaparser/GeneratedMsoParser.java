@@ -5809,7 +5809,7 @@ System.out.println(in.getPosition()+" "+_s);
             _s.bulletFontRef = in.readuint16();
         }
         if (_s.masks.bulletSize) {
-            _s.bulletSize = in.readuint16();
+            _s.bulletSize = in.readint16();
         }
         if (_s.masks.bulletColor) {
             _s.bulletColor = parseColorIndexStruct(in);
@@ -5861,7 +5861,7 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint16(_s.bulletFontRef);
         }
         if (_s.masks.bulletSize) {
-            out.writeuint16(_s.bulletSize);
+            out.writeint16(_s.bulletSize);
         }
         if (_s.masks.bulletColor) {
             write(_s.bulletColor, out);
@@ -13334,7 +13334,7 @@ class TextPFException {
     BulletFlags bulletFlags;
     short bulletChar;
     int bulletFontRef;
-    int bulletSize;
+    short bulletSize;
     ColorIndexStruct bulletColor;
     int textAlignment;
     short lineSpacing;
