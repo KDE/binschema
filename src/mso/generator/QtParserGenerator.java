@@ -74,9 +74,9 @@ public class QtParserGenerator {
 		out.println("}");
 
 		out
-				.println("const QMap<QString,QSharedPointer<Introspectable> > parse(QXmlStreamReader& in) {");
+				.println("const QMap<QString,QSharedPointer<const Introspectable> > parse(QXmlStreamReader& in) {");
 		out
-				.println("    QMap<QString,QSharedPointer<Introspectable> > streams;");
+				.println("    QMap<QString,QSharedPointer<const Introspectable> > streams;");
 		out.println("    // skip until first element");
 		out.println("    while (!in.atEnd() && !in.isStartElement()) {");
 		out.println("        in.readNext();");
@@ -85,8 +85,15 @@ public class QtParserGenerator {
 		out.println("        return streams;");
 		out.println("    }");
 		out.println("    do {");
+		out.println("        in.readNext();");
+		out.println("    } while (!in.atEnd() && !in.isStartElement());");
+		out.println("    if (!in.isStartElement()) {");
+		out.println("        return streams;");
+		out.println("    }");
+		out.println("    do {");
 		out.println("        QString name = in.name().toString();");
 		out.println("        if (streams.contains(name)) {");
+		out.println("            streams.clear();");
 		out.println("            return streams;");
 		out.println("        }");
 		first = true;
@@ -102,10 +109,33 @@ public class QtParserGenerator {
 					+ s.type + "());");
 			out.println("            parse" + s.type + "(in, *static_cast<"
 					+ s.type + "*>(_t.data()));");
+			// out.println("            QSharedPointer<Introspectable> _t(new PowerPointStructs());");
+			// out.println("            parsePowerPointStructs(in, *static_cast<PowerPointStructs*>(_t.data()));");
 			out.println("            streams[name] = _t;");
 		}
+		out.println("        } else { // unknown stream should be binary");
+		out
+				.println("            QSharedPointer<Introspectable> _t(new TODOS());");
+		out
+				.println("            parseTODOS(in, *static_cast<TODOS*>(_t.data()));");
+		out.println("            streams[name] = _t;");
 		out.println("        }");
+		out.println("        do {");
+		out.println("            in.readNext();");
+		out.println("        } while (in.isWhitespace());");
 		out.println("    } while (in.isStartElement());");
+		out.println("    qDebug() << in.tokenType();");
+		out.println("    if (!in.isEndElement()) {");
+		out
+				.println("        qDebug() << \"parsing error: not at end of an element\";");
+		out.println("        streams.clear();");
+		out.println("    }");
+		out.println("    in.readNext();");
+		out.println("    if (!in.isEndDocument()) {");
+		out
+				.println("        qDebug() << \"parsing error: not at end of xml\";");
+		out.println("        streams.clear();");
+		out.println("    }");
 		out.println("    return streams;");
 		out.println("}");
 
@@ -160,6 +190,17 @@ public class QtParserGenerator {
 	void printStructureXmlParser(PrintWriter out, Struct s) {
 		out.println("void parse" + s.name + "(QXmlStreamReader& in, " + s.name
 				+ "& _s) {");
+		out.println("    int depth = 0;");
+		out.println("    QXmlStreamReader::TokenType type = in.readNext();");
+		out.println("    while (!in.atEnd()) {");
+		out.println("        if (type == QXmlStreamReader::StartElement) {");
+		out.println("            depth++;");
+		out.println("        } else if (type == QXmlStreamReader::EndElement "
+				+ "&& --depth < 0) {");
+		out.println("            return;");
+		out.println("        }");
+		out.println("        type = in.readNext();");
+		out.println("    }");
 		out.println("}");
 	}
 
