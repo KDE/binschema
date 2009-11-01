@@ -1,6 +1,7 @@
 #include "leinputstream.h"
 #include "leoutputstream.h"
 #include "introspection.h"
+#include "utils.h"
 #include "pole.h"
 #include <QBuffer>
 #include <QCoreApplication>
@@ -10,62 +11,9 @@
 #include <QVariant>
 #include <cstdio>
 
-const Introspectable* parse(const QString& key, LEInputStream& in);
-void serialize(const Introspectable* i, const QString& key, LEOutputStream& out);
-
 using namespace std;
 
-QByteArray
-escapeByteArray(const QByteArray& b) {
-    // we escape all non printable byte values
-    // printable is 9, 10, 13, 32-126
-    QByteArray exclude(96, ' ');
-    exclude[0] = 9; exclude[1] = 10; exclude[2] = 13;
-    for (int i=3; i<8; ++i) {
-        exclude[i] = i+29;
-    }
-    for (int i=8; i<96; ++i) {
-        exclude[i] = i+30;
-    }
-
-    QByteArray result = b.toPercentEncoding(exclude);
-    if (QByteArray::fromPercentEncoding(result) != b) {
-        qDebug() << "Escaping of bytearray " << b << " is not reversible.";
-        exit(1);
-    }
-    return result;
-}
-
-QVector<quint16>
-toUInt16Vector(const QString& s) {
-    QVector<quint16> v;
-    QString z = QString::fromUtf8(QByteArray::fromPercentEncoding(s.toUtf8()));
-    v.resize(z.size());
-    for (int i=0; i<z.size(); ++i) {
-        v[i] = z.utf16()[i];
-    }
-    return v;
-}
-
-QString
-toString(const QVector<quint16>& v) {
-    QString s;
-    foreach(quint16 c, v) {
-        s.append(c);
-    }
-    s = QString::fromUtf8(escapeByteArray(s.toUtf8()));
-    // TODO: implement and check reversibility
-/*
-    if (toUInt16Vector(s) != v) {
-        qDebug() << "Escaping of string " << v << " is not reversible.";
-        qDebug() << toUInt16Vector(s);
-        exit(1);
-    }
-*/
-    return s;
-}
-
-void print(QXmlStreamWriter& out, const Introspectable* i);
+void printWithCustomParser(QXmlStreamWriter& out, const Introspectable* i);
 
 void
 printStyleTextPropAtom(QXmlStreamWriter& out, const Introspectable* i, int characterCount) {
@@ -76,7 +24,7 @@ printStyleTextPropAtom(QXmlStreamWriter& out, const Introspectable* i, int chara
     out.writeStartElement(is->names[0]);
     QString type = ci->getIntrospection()->name;
     out.writeAttribute("type", type);
-    print(out, is->introspectable[0](i, 0)); // rh
+    printWithCustomParser(out, is->introspectable[0](i, 0)); // rh
     out.writeEndElement();
 
     // styles
@@ -94,7 +42,7 @@ printStyleTextPropAtom(QXmlStreamWriter& out, const Introspectable* i, int chara
             sum += cis->value[0](ci, 0).toInt();
             out.writeStartElement("rgTextPFRun");
             out.writeAttribute("type", "TextPFRun");
-            print(out, ci);
+            printWithCustomParser(out, ci);
             //qDebug() << "PF " << characterCount << " " << cis->value[0](ci, 0).toInt() << " " << sum;
             delete ci;
             out.writeEndElement();
@@ -106,7 +54,7 @@ printStyleTextPropAtom(QXmlStreamWriter& out, const Introspectable* i, int chara
             sum += cis->value[0](ci, 0).toInt();
             out.writeStartElement("rgTextCFRun");
             out.writeAttribute("type", "TextCFRun");
-            print(out, ci);
+            printWithCustomParser(out, ci);
             //qDebug() << "CF " << characterCount << " " << cis->value[0](ci, 0).toInt() << " " << sum;
             delete ci;
             out.writeEndElement();
@@ -117,7 +65,7 @@ printStyleTextPropAtom(QXmlStreamWriter& out, const Introspectable* i, int chara
 }
 
 void
-print(QXmlStreamWriter& out, const Introspectable* i) {
+printWithCustomParser(QXmlStreamWriter& out, const Introspectable* i) {
     int lastCharacterCount = 0; // needed for parsing StyleTextPropAtom
 
     const Introspection* is = i->getIntrospection();
@@ -134,13 +82,13 @@ print(QXmlStreamWriter& out, const Introspectable* i) {
                 } else if (type == "TextCharsAtom") {
                     const Introspection* cis = ci->getIntrospection();
                     lastCharacterCount = cis->value[1](ci, 0).value<QVector<quint16> >().count();
-                    print(out, ci);
+                    printWithCustomParser(out, ci);
                 } else if (type == "TextBytesAtom") {
                     const Introspection* cis = ci->getIntrospection();
                     lastCharacterCount = cis->value[1](ci, 0).toByteArray().count();
-                    print(out, ci);
+                    printWithCustomParser(out, ci);
                 } else {
-                    print(out, ci);
+                    printWithCustomParser(out, ci);
                 }
             } else {
                 QVariant v(is->value[j](i, k));
@@ -156,14 +104,6 @@ print(QXmlStreamWriter& out, const Introspectable* i) {
             out.writeEndElement();
         }
     }
-}
-
-void
-write(const QString& name, const QByteArray& data) {
-    QFile out(name);
-    out.open(QIODevice::WriteOnly);
-    out.write(data);
-    out.close();
 }
 
 void
@@ -219,7 +159,7 @@ ppttoxml(const QString& file, QIODevice* out) {
 
             xmlout.writeStartElement(i->getIntrospection()->name);
             if (i->getIntrospection()->name != "TODOS") {
-                print(xmlout, i);
+                printWithCustomParser(xmlout, i);
             }
             xmlout.writeEndElement();
 

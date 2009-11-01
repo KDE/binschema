@@ -11,7 +11,7 @@ INCLUDE(${QT_USE_FILE})
 
 QT4_ADD_RESOURCES(MSO_RCC_SRCS mso.qrc)
 
-ADD_LIBRARY(qtppt pole.cpp leinputstream.cpp generatedclasses.cpp)
+ADD_LIBRARY(qtppt pole.cpp leinputstream.cpp generatedclasses.cpp utils.cpp)
 
 ADD_EXECUTABLE(qtpptxml qtpptxml.cpp deepfiletree.cpp)
 TARGET_LINK_LIBRARIES(qtpptxml qtppt ${QT_LIBRARIES})
@@ -27,3 +27,6 @@ TARGET_LINK_LIBRARIES(ppttoxml qtppt ${QT_LIBRARIES})
 
 ADD_EXECUTABLE(toxmlandback toxmlandback.cpp)
 TARGET_LINK_LIBRARIES(toxmlandback qtppt ${QT_LIBRARIES})
+
+#ADD_EXECUTABLE(ppttosvg ppttosvg.cpp)
+#TARGET_LINK_LIBRARIES(ppttosvg qtppt ${QT_LIBRARIES})
