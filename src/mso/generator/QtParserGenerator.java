@@ -21,6 +21,12 @@ public class QtParserGenerator {
 		out.println("#include \"introspection.h\"");
 		out.println("namespace {");
 
+		out.println("void skipToStartElement(QXmlStreamReader& in) {");
+		out.println("    do {");
+		out.println("        in.readNext();");
+		out.println("    } while (!in.atEnd() && !in.isStartElement());");
+		out.println("}");
+
 		for (Struct s : mso.structs) {
 			out.println("class " + s.name + ";");
 			out.println("void parse" + s.name + "(LEInputStream& in, " + s.name
@@ -190,21 +196,22 @@ public class QtParserGenerator {
 	void printStructureXmlParser(PrintWriter out, Struct s) {
 		out.println("void parse" + s.name + "(QXmlStreamReader& in, " + s.name
 				+ "& _s) {");
-		out.println("    QXmlStreamReader::TokenType type = in.readNext();");
+		out.println("    in.readNext();");
 		for (Member m : s.members) {
-
+			printStructureMemberXmlParser(out, m);
 		}
-		out.println("    int depth = 0;");
-		out.println("    while (!in.atEnd()) {");
-		out.println("        if (type == QXmlStreamReader::StartElement) {");
-		out.println("            depth++;");
-		out.println("        } else if (type == QXmlStreamReader::EndElement "
-				+ "&& --depth < 0) {");
-		out.println("            return;");
-		out.println("        }");
-		out.println("        type = in.readNext();");
-		out.println("    }");
+		/*
+		 * out.println("    int depth = 0;");
+		 * out.println("    while (!in.atEnd()) {");
+		 * out.println("        if (type == QXmlStreamReader::StartElement) {");
+		 * out.println("            depth++;");
+		 * out.println("        } else if (type == QXmlStreamReader::EndElement "
+		 * + "&& --depth < 0) {"); out.println("            return;");
+		 * out.println("        }");
+		 * out.println("        type = in.readNext();"); out.println("    }");
+		 */
 		out.println("}");
+
 	}
 
 	String prependStructureToExpression(String expression, String structureName) {
@@ -291,6 +298,37 @@ public class QtParserGenerator {
 			printLimitationCheck(out, s, "_s." + m.name, m);
 		}
 		if (m.condition != null) {
+			out.println("    }");
+		}
+	}
+
+	void printStructureMemberXmlParser(PrintWriter out, Member m) {
+		String s = "    ";
+
+		out.println(s + "if (!in.isStartElement()) {");
+		out.println(s + "    qDebug() << \"not startelement in " + m.type
+				+ " \" << in.lineNumber();");
+		out.println(s + "    return;");
+		out.println(s + "}");
+		if (!m.isOptional && !m.isArray) {
+			out.println(s + "if (in.name() != \"" + m.name + "\") {");
+			out.println(s + "    qDebug() << \"not startelement in " + m.name
+					+ " \" << in.lineNumber();");
+			out.println(s + "    return;");
+			out.println(s + "}");
+		}
+		if (m.isOptional) {
+			out.println(s + "if (in.name() == \"" + m.name + "\") {");
+			s = s + "    ";
+		}
+		if (!m.isComplex) {
+			out.println(s + "in.readElementText();");
+		} else {
+			out.println(s + "skipToStartElement(in);");
+//			out.println(s + "parse" + m.type + "(in, _s." + m.name + ");");
+		}
+		// out.println(s + "if (in.name() == \"" + m.name + "\") {");
+		if (m.isOptional) {
 			out.println("    }");
 		}
 	}
