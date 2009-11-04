@@ -18,7 +18,7 @@ public class QtParserGenerator {
 		out.println("#include <QXmlStreamReader>");
 		out.println("#include \"leinputstream.h\"");
 		out.println("#include \"leoutputstream.h\"");
-		out.println("#include \"introspection.h\"");
+		out.println("#include \"treeintrospection.h\"");
 		out.println("namespace {");
 
 		out.println("void skipToStartElement(QXmlStreamReader& in) {");
@@ -67,14 +67,14 @@ public class QtParserGenerator {
 			out.println("if (\"" + s.key + "\" == key) {"); // TODO: fix for
 			// \001 and \005
 			// prefix
-			out.println("        " + s.type + " _t;");
-			out.println("        parse" + s.type + "(in, _t);");
-			out.println("        i = new " + s.type + "(_t);");
+			out.println("        " + s.type + " *_t = new " + s.type + "(0);");
+			out.println("        parse" + s.type + "(in, *_t);");
+			out.println("        i = _t;");
 		}
 		out.println("    } else {");
-		out.println("        TODOS _t;");
-		out.println("        parseTODOS(in, _t);");
-		out.println("        i = new TODOS(_t);");
+		out.println("        TODOS* _t = new TODOS(0);");
+		out.println("        parseTODOS(in, *_t);");
+		out.println("        i = _t;");
 		out.println("    }");
 		out.println("    return i;");
 		out.println("}");
@@ -112,7 +112,7 @@ public class QtParserGenerator {
 			}
 			out.println("if (\"" + s.key + "\" == name) {");
 			out.println("            QSharedPointer<Introspectable> _t(new "
-					+ s.type + "());");
+					+ s.type + "(0));");
 			out.println("            parse" + s.type + "(in, *static_cast<"
 					+ s.type + "*>(_t.data()));");
 			// out.println("            QSharedPointer<Introspectable> _t(new PowerPointStructs());");
@@ -121,7 +121,7 @@ public class QtParserGenerator {
 		}
 		out.println("        } else { // unknown stream should be binary");
 		out
-				.println("            QSharedPointer<Introspectable> _t(new TODOS());");
+				.println("            QSharedPointer<Introspectable> _t(new TODOS(0));");
 		out
 				.println("            parseTODOS(in, *static_cast<TODOS*>(_t.data()));");
 		out.println("            streams[name] = _t;");
@@ -241,7 +241,7 @@ public class QtParserGenerator {
 			s = s + "    ";
 			if (m.isComplex) {
 				out.println(s + "_s." + m.name + " = QSharedPointer<" + m.type
-						+ ">(new " + m.type + "());");
+						+ ">(new " + m.type + "(&_s));");
 				index = ".data()";
 			}
 		}
@@ -286,7 +286,7 @@ public class QtParserGenerator {
 				out.println(s + "for (int _i=0; _i<_c; ++_i) {");
 				if (m.isComplex) {
 					out.println(s + "    _s." + m.name + ".append(" + m.type
-							+ "());");
+							+ "(&_s));");
 				}
 				out.println(s + "    " + parse);
 				printLimitationCheck(out, "        ", "_s." + m.name + "[_i]",
@@ -325,7 +325,7 @@ public class QtParserGenerator {
 			out.println(s + "in.readElementText();");
 		} else {
 			out.println(s + "skipToStartElement(in);");
-//			out.println(s + "parse" + m.type + "(in, _s." + m.name + ");");
+			// out.println(s + "parse" + m.type + "(in, _s." + m.name + ");");
 		}
 		// out.println(s + "if (in.name() == \"" + m.name + "\") {");
 		if (m.isOptional) {
@@ -479,7 +479,15 @@ public class QtParserGenerator {
 			String d = getMemberDeclaration(m);
 			out.println("    " + d + ";");
 		}
-		out.print("    " + s.name + "() ");
+		out.print("    " + s.name
+				+ "(const Introspectable* parent) :Introspectable(parent)");
+		for (Member m : s.members) {
+			if (m.isComplex && !m.isArray && !m.isOptional && m.choices == null
+					&& m.condition == null) {
+				out.println(",");
+				out.print("        " + m.name + "(this)");
+			}
+		}
 		out.println(" {");
 		out.println("    }");
 
@@ -630,24 +638,26 @@ public class QtParserGenerator {
 		for (int i = 0; i < length; ++i) {
 			choice = choices[i];
 			out.println(s + "try {");
-			out.println(s + "    " + choice + " _t;");
-			out.println(s + "    parse" + choice + "(in, _t);");
 			out.println(s + "    _s." + m.name + "." + choice.toLowerCase()
 					+ " = QSharedPointer<" + choice + ">(" + "new " + choice
-					+ "(_t));");
+					+ "(&_s));");
+			out.println(s + "    parse" + choice + "(in, *_s." + m.name + "."
+					+ choice.toLowerCase() + ".data());");
 			out.println(s + "} catch (IncorrectValueException " + exception
 					+ ") {");
+			out.println(s + "    _s." + m.name + "." + choice.toLowerCase()
+					+ ".clear();");
 			out.println(s + "    in.rewind(_m);");
 			exception = exception + "x";
 			closing = closing + "}";
 		}
 		if (!m.isOptional) {
 			choice = choices[choices.length - 1];
-			out.println(s + "    " + choice + " _t;");
-			out.println(s + "    parse" + choice + "(in, _t);");
 			out.println(s + "    _s." + m.name + "." + choice.toLowerCase()
 					+ " = QSharedPointer<" + choice + ">(" + "new " + choice
-					+ "(_t));");
+					+ "(&_s));");
+			out.println(s + "    parse" + choice + "(in, *_s." + m.name + "."
+					+ choice.toLowerCase() + ");");
 		}
 		out.println(s + closing);
 	}
@@ -657,9 +667,9 @@ public class QtParserGenerator {
 		out.println(s + "_atend = in.getPosition() - _startPos >= "
 				+ getExpression("_s", m.size) + ";");
 		out.println(s + "while (!_atend) {");
-		out.println(s + "    " + m.type + " _t;");
-		out.println(s + "    parse" + m.type + "(in, _t);");
-		out.println(s + "    _s." + m.name + ".append(_t);");
+		out.println(s + "    _s." + m.name + ".append(&_s);");
+		out.println(s + "    parse" + m.type + "(in, _s." + m.name
+				+ ".last());");
 		out.println(s + "    _atend = in.getPosition() - _startPos >= "
 				+ getExpression("_s", m.size) + ";");
 		out.println(s + "}");
@@ -670,13 +680,15 @@ public class QtParserGenerator {
 		out.println(s + "while (!_atend) {");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
-		out.println(s + "        " + m.type + " _t;");
-		out.println(s + "        parse" + m.type + "(in, _t);");
-		out.println(s + "        _s." + m.name + ".append(_t);");
+		out.println(s + "        _s." + m.name + ".append(&_s);");
+		out.println(s + "        parse" + m.type + "(in, _s." + m.name
+				+ ".last());");
 		out.println(s + "    } catch(IncorrectValueException _e) {");
+		out.println(s + "        _s." + m.name + ".removeLast();");
 		out.println(s + "        _atend = true;");
 		out.println(s + "        in.rewind(_m);");
 		out.println(s + "    } catch(EOFException _e) {");
+		out.println(s + "        _s." + m.name + ".removeLast();");
 		out.println(s + "        _atend = true;");
 		out.println(s + "        in.rewind(_m);");
 		out.println(s + "    }");
@@ -686,10 +698,11 @@ public class QtParserGenerator {
 	void printOptionalMemberParser(PrintWriter out, String s, Member m) {
 		out.println(s + "_m = in.setMark();");
 		out.println(s + "try {");
-		out.println(s + "    " + m.type + " _t;");
-		out.println(s + "    parse" + m.type + "(in, _t);");
+		// out.println(s + "    " + m.type + " _t;");
 		out.println(s + "    _s." + m.name + " = QSharedPointer<" + m.type
-				+ ">(new " + m.type + "(_t));");
+				+ ">(new " + m.type + "(&_s));");
+		out.println(s + "    parse" + m.type + "(in, *_s." + m.name
+				+ ".data());");
 		out.println(s + "} catch(IncorrectValueException _e) {");
 		out.println(s + "    in.rewind(_m);");
 		out.println(s + "} catch(EOFException _e) {");
