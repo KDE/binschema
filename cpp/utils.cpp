@@ -1,5 +1,4 @@
 #include "utils.h"
-#include "introspection.h"
 #include "pole.h"
 #include "leinputstream.h"
 #include "leoutputstream.h"
@@ -97,7 +96,7 @@ readStreams(const QString& file) {
     // TODO add support for directories
     string prefix = "/";
     list<string> entries = storage.entries(prefix);
-    for (list<string>::const_iterator i=entries.begin(); i!=entries.end(); ++i) {
+    for (list<string>::const_iterator i=entries.begin(); i!=entries.end(); ++i){
         string path(prefix+*i);
         if (!storage.isDirectory(path)) {
             POLE::Stream stream(&storage, path);
@@ -169,7 +168,8 @@ serialize(const QMap<QString, QSharedPointer<const Introspectable> >& m) {
     QMap<QString, QSharedPointer<const Introspectable> >::const_iterator i;
     for (i = m.begin(); i!= m.end(); ++i) {
         const QString streampath(i.key());
-        const QString streamname = streampath.mid(streampath.lastIndexOf('/')+1);
+        const QString streamname
+            = streampath.mid(streampath.lastIndexOf('/')+1);
         QBuffer buffer;
         buffer.open(QIODevice::WriteOnly);
         LEOutputStream lostream(&buffer);
@@ -180,8 +180,112 @@ serialize(const QMap<QString, QSharedPointer<const Introspectable> >& m) {
     return streams;
 }
 
+void
+write(const QString& name, const QByteArray& data) {
+    QFile out(name);
+    out.open(QIODevice::WriteOnly);
+    out.write(data);
+    out.close();
+}
+
+void printWithExtendedParser(QXmlStreamWriter& out, const Introspectable* i);
+
+void
+printStyleTextPropAtom(QXmlStreamWriter& out, const Introspectable* i,
+            int characterCount) {
+    const Introspection* is = i->getIntrospection();
+
+    // rh
+    const Introspectable* ci = is->introspectable[0](i, 0);
+    out.writeStartElement(is->names[0]);
+    QString type = ci->getIntrospection()->name;
+    out.writeAttribute("type", type);
+    printWithExtendedParser(out, is->introspectable[0](i, 0)); // rh
+    out.writeEndElement();
+
+    // styles
+    QByteArray blob = is->value[1](i, 0).toByteArray();
+    QBuffer buffer;
+    buffer.setData(blob);
+    buffer.open(QIODevice::ReadOnly);
+    LEInputStream listream(&buffer);
+
+    try {
+        int sum = 0;
+        do {
+            ci = parse("textPFRun", listream);
+            const Introspection* cis = ci->getIntrospection();
+            sum += cis->value[0](ci, 0).toInt();
+            out.writeStartElement("rgTextPFRun");
+            out.writeAttribute("type", "TextPFRun");
+            printWithExtendedParser(out, ci);
+            //qDebug() << "PF " << characterCount << " " << cis->value[0](ci, 0).toInt() << " " << sum;
+            delete ci;
+            out.writeEndElement();
+        } while (sum <= characterCount);
+        sum = 0;
+        do {
+            ci = parse("textCFRun", listream);
+            const Introspection* cis = ci->getIntrospection();
+            sum += cis->value[0](ci, 0).toInt();
+            out.writeStartElement("rgTextCFRun");
+            out.writeAttribute("type", "TextCFRun");
+            printWithExtendedParser(out, ci);
+            //qDebug() << "CF " << characterCount << " " << cis->value[0](ci, 0).toInt() << " " << sum;
+            delete ci;
+            out.writeEndElement();
+        } while (sum < characterCount);
+    } catch (IOException& e) {
+        qDebug() << "Error: " << e.msg;
+    }
+}
+
+void
+printWithExtendedParser(QXmlStreamWriter& out, const Introspectable* i) {
+    int lastCharacterCount = 0; // needed for parsing StyleTextPropAtom
+
+    const Introspection* is = i->getIntrospection();
+    for (int j=0; j<is->numberOfMembers; ++j) {
+        for (int k=0; k<is->numberOfInstances[j](i); ++k) {
+            out.writeStartElement(is->names[j]);
+            const Introspectable* ci = is->introspectable[j](i, k);
+            if (ci) {
+                QString type = ci->getIntrospection()->name;
+                out.writeAttribute("type", type);
+                if (type == "StyleTextPropAtom") {
+                    // StyleTextPropAtom is currently too hard to parse by the generated code
+                    printStyleTextPropAtom(out, ci, lastCharacterCount);
+                } else if (type == "TextCharsAtom") {
+                    const Introspection* cis = ci->getIntrospection();
+                    lastCharacterCount = cis->value[1](ci, 0).value<QVector<quint16> >().count();
+                    printWithExtendedParser(out, ci);
+                } else if (type == "TextBytesAtom") {
+                    const Introspection* cis = ci->getIntrospection();
+                    lastCharacterCount = cis->value[1](ci, 0).toByteArray().count();
+                    printWithExtendedParser(out, ci);
+                } else {
+                    printWithExtendedParser(out, ci);
+                }
+            } else {
+                QVariant v(is->value[j](i, k));
+                if (v.canConvert<QVector<quint16> >()) {
+                    out.writeCharacters(toString(v.value<QVector<quint16> >()));
+                } else {
+                    if (v.type() == QVariant::ByteArray) {
+                        v = escapeByteArray(v.toByteArray());
+                    }
+                    out.writeCharacters(v.toString());
+                }
+            }
+            out.writeEndElement();
+        }
+    }
+}
+
 QByteArray
-streamsToXml(const QMap<QString, QSharedPointer<const Introspectable> >& streams) {
+streamsToXml(
+            const QMap<QString, QSharedPointer<const Introspectable> >& streams,
+            void (*printFunction)(QXmlStreamWriter&,const Introspectable*)) {
     QBuffer xml;
     xml.open(QBuffer::WriteOnly);
     QXmlStreamWriter xmlout(&xml);
@@ -194,7 +298,7 @@ streamsToXml(const QMap<QString, QSharedPointer<const Introspectable> >& streams
         xmlout.writeStartElement(in->name);
         xmlout.writeAttribute("stream-path", i.key());
         if (in->name != "TODOS") {
-            print(xmlout, i.value().data());
+            printFunction(xmlout, i.value().data());
         }
         xmlout.writeEndElement();
     }
@@ -203,10 +307,14 @@ streamsToXml(const QMap<QString, QSharedPointer<const Introspectable> >& streams
     return xml.data();
 }
 
-void
-write(const QString& name, const QByteArray& data) {
-    QFile out(name);
-    out.open(QIODevice::WriteOnly);
-    out.write(data);
-    out.close();
+QByteArray
+streamsToXml(const QMap<QString,
+            QSharedPointer<const Introspectable> >& streams) {
+    return streamsToXml(streams, print);
+}
+
+QByteArray
+streamsToExtendedXml(const QMap<QString,
+            QSharedPointer<const Introspectable> >& streams) {
+    return streamsToXml(streams, printWithExtendedParser);
 }

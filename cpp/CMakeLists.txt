@@ -9,6 +9,10 @@ SET(QT_USE_QTXML 1)
 SET(QT_USE_QTXMLPATTERNS 1)
 INCLUDE(${QT_USE_FILE})
 
+FIND_PACKAGE(PkgConfig REQUIRED)
+pkg_search_module(LIBXML2 REQUIRED libxml-2.0)
+pkg_search_module(LIBXSLT REQUIRED libxslt)
+
 QT4_ADD_RESOURCES(MSO_RCC_SRCS mso.qrc)
 
 ADD_LIBRARY(qtppt pole.cpp leinputstream.cpp generatedclasses.cpp utils.cpp)
@@ -28,5 +32,7 @@ TARGET_LINK_LIBRARIES(ppttoxml qtppt ${QT_LIBRARIES})
 ADD_EXECUTABLE(toxmlandback toxmlandback.cpp)
 TARGET_LINK_LIBRARIES(toxmlandback qtppt ${QT_LIBRARIES})
 
-#ADD_EXECUTABLE(ppttosvg ppttosvg.cpp)
-#TARGET_LINK_LIBRARIES(ppttosvg qtppt ${QT_LIBRARIES})
+INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE_DIRS} ${LIBXSLT_INCLUDE_DIRS})
+ADD_EXECUTABLE(ppttosvg ppttosvg.cpp ${MSO_RCC_SRCS})
+TARGET_LINK_LIBRARIES(ppttosvg qtppt ${QT_LIBRARIES} ${LIBXML2_LIBRARIES}
+  ${LIBXSLT_LIBRARIES})

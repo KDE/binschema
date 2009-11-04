@@ -2,6 +2,7 @@
 #define INTROSPECTION_H
 
 #include <QtCore/QVariant>
+#include <QtCore/QVector>
 
 class Introspectable;
 

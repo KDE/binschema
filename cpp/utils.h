@@ -1,15 +1,15 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <QString>
 #include <QMap>
 #include <QSharedPointer>
+#include "introspection.h"
 
-class QString;
 class QXmlStreamReader;
 class QXmlStreamWriter;
 class LEInputStream;
 class LEOutputStream;
-class Introspectable;
 
 // function declarations for accessing the generated parser classes
 const Introspectable* parse(const QString& key, LEInputStream& in);
@@ -34,6 +34,10 @@ QMap<QString, QByteArray> serialize(const QMap<QString, QSharedPointer<const Int
 
 QByteArray streamsToXml(const QMap<QString, QSharedPointer<const Introspectable> >& streams);
 
+QByteArray streamsToExtendedXml(const QMap<QString, QSharedPointer<const Introspectable> >& streams);
+
 void write(const QString& name, const QByteArray& data);
+
+void printWithExtendedParser(QXmlStreamWriter& out, const Introspectable* i);
 
 #endif
