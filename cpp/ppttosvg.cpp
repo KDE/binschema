@@ -14,28 +14,35 @@ QByteArray loadFile(const QString& filename) {
     return file.readAll();
 }
 
-int
-main(int argc, char** argv) {
-    if (argc != 2) return 1;
-
-    QString file = QString::fromLocal8Bit(argv[1]);
+void
+xmltosvg(xsltStylesheetPtr xsl, const char* filepath, FILE* out) {
+    QString file = QString::fromLocal8Bit(filepath);
     const QMap<QString, QByteArray> streams = readStreams(file);
     const QMap<QString, QSharedPointer<const Introspectable> > introspectables
             = parseStreams(streams);
     const QByteArray xml = streamsToExtendedXml(introspectables);
     xmlDocPtr pptxmldoc = xmlParseMemory(xml, xml.size());
 
-    QByteArray xslfiledata = loadFile(":/ppttosvg.xsl");
-    xmlDocPtr xsldoc = xmlParseMemory(xslfiledata, xslfiledata.size());
-    xsltStylesheetPtr xsl = xsltParseStylesheetDoc(xsldoc);
-    qDebug() << xslfiledata.size();
-
     xmlDocPtr res = xsltApplyStylesheet(xsl, pptxmldoc, 0);
 
-    xsltSaveResultToFile(stdout, res, xsl);
+    xsltSaveResultToFile(out, res, xsl);
 
     xmlFreeDoc(pptxmldoc);
     xmlFreeDoc(res);
+}
+
+int
+main(int argc, char** argv) {
+    if (argc < 2) return 1;
+
+    QByteArray xslfiledata = loadFile(":/ppttosvg.xsl");
+    xmlDocPtr xsldoc = xmlParseMemory(xslfiledata, xslfiledata.size());
+    xslfiledata.resize(0);
+    xsltStylesheetPtr xsl = xsltParseStylesheetDoc(xsldoc);
+
+    for (int i=1; i<argc; ++i) {
+        xmltosvg(xsl, argv[i], stdout);
+    }
     xsltFreeStylesheet(xsl); // this frees xsldoc too
 
     xsltCleanupGlobals();
