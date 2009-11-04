@@ -704,8 +704,10 @@ public class QtParserGenerator {
 		out.println(s + "    parse" + m.type + "(in, *_s." + m.name
 				+ ".data());");
 		out.println(s + "} catch(IncorrectValueException _e) {");
+		out.println(s + "    _s." + m.name + ".clear();");
 		out.println(s + "    in.rewind(_m);");
 		out.println(s + "} catch(EOFException _e) {");
+		out.println(s + "    _s." + m.name + ".clear();");
 		out.println(s + "    in.rewind(_m);");
 		out.println(s + "}");
 	}
