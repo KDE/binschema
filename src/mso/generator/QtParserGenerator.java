@@ -18,7 +18,7 @@ public class QtParserGenerator {
 		out.println("#include <QXmlStreamReader>");
 		out.println("#include \"leinputstream.h\"");
 		out.println("#include \"leoutputstream.h\"");
-		out.println("#include \"treeintrospection.h\"");
+		out.println("#include \"introspection.h\"");
 		out.println("namespace {");
 
 		out.println("void skipToStartElement(QXmlStreamReader& in) {");

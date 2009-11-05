@@ -1,6 +1,9 @@
 #ifndef INTROSPECTION_H
 #define INTROSPECTION_H
 
+// define TREEINTROSPECTION to let objects have a pointer to their parents
+#define TREEINTROSPECTION
+
 #include <QtCore/QVariant>
 #include <QtCore/QVector>
 
@@ -36,6 +39,14 @@ public:
 
 class Introspectable {
 public:
+#ifdef TREEINTROSPECTION
+    Introspectable const * parent; // one more 'const' would be nice ...
+
+    Introspectable(const Introspectable* p) :parent(p) {}
+#else
+    Introspectable(const Introspectable* = 0) {}
+#endif
+
     virtual ~Introspectable() {}
     virtual const Introspection* getIntrospection() const = 0;
 };
