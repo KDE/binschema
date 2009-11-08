@@ -1,4 +1,4 @@
-#include "deepfiletree.h"
+#include "msoxmlnodemodel.h"
 #include <QXmlSerializer>
 #include <QXmlQuery>
 #include <QFileInfo>
@@ -8,18 +8,16 @@
 int
 main(int argc, char** argv) {
     QCoreApplication app(argc, argv);
-    if (argc != 2) return -1;
+    if (argc != 3) return -1;
 
     QUrl queryUrl = QUrl::fromLocalFile(argv[1]);
 
     const QXmlNamePool namePool;
-    DeepFileTree fileTreeModel(namePool);
-    QXmlNodeModelIndex fileTree = fileTreeModel.toNodeIndex(
-        QFileInfo("../../tests/"));
-    //QXmlNodeModelIndex fileTree = fileTreeModel.nodeFor("/home/oever/workspace/msoparser/cpp/");
+    MsoXmlNodeModel model(namePool, argv[2]);
+    QXmlNodeModelIndex root = model.root(QXmlNodeModelIndex());
 
     QXmlQuery query(namePool);
-    query.bindVariable("fileTree", fileTree);
+    query.bindVariable("fileTree", root);
     query.setQuery(queryUrl);
 
     QFile out;

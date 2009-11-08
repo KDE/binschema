@@ -17,7 +17,7 @@ QT4_ADD_RESOURCES(MSO_RCC_SRCS mso.qrc)
 
 ADD_LIBRARY(qtppt pole.cpp leinputstream.cpp generatedclasses.cpp utils.cpp)
 
-ADD_EXECUTABLE(qtpptxml qtpptxml.cpp deepfiletree.cpp)
+ADD_EXECUTABLE(qtpptxml qtpptxml.cpp msoxmlnodemodel.cpp)
 TARGET_LINK_LIBRARIES(qtpptxml qtppt ${QT_LIBRARIES})
 
 ADD_EXECUTABLE(qtparseppt qtparseppt.cpp)
