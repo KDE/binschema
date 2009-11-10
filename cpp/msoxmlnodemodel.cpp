@@ -26,37 +26,42 @@ static const qint64 AttributeType = 4;
 static const qint64 ValueElement = 5;
 static const qint64 Value = 6;
 
+class Node {
+public:
+    enum Type { Document, RootElement, Stream };
+    const void* data;
+    int parent;
+    int prev;
+    int next;
+    int firstChild;
+    Type type;
+
+    Node() :data(0) {}
+};
+
 int
-getMemberNumber(qint64 i) {
-    return 0;
-}
-int
-getInstanceNumber(qint64 i) {
-    return 0;
-}
-qint64
-createIndex(qint64 type, int membernumber, int instancenumber) {
-    return 0;
+countItems(const QMap<QString, QSharedPointer<const Introspectable> >& streams) {
+    return streams.size() + 2;
 }
 
-const Introspectable*
-getNextElement(const Introspectable* i, qint64 adin, qint64& adout) {
-    int m = getMemberNumber(adin);
-    int in = getInstanceNumber(adin);
-    const Introspection* is = i->getIntrospection();
-    for (int j=m; j<is->numberOfMembers; ++j) {
-        for (int k=in; k<is->numberOfInstances[j](i); ++k) {
-            const Introspectable* ci = is->introspectable[j](i, k);
-            if (ci) {
-                adout = createIndex(IntrospectableNode, j, k);
-                return ci;
-            } else {
-                adout = createIndex(ValueElement, j, k);
-                return i;
-            }
-        }
+QVector<Node>
+createNodes(const QMap<QString, QSharedPointer<const Introspectable> >& streams) {
+    QVector<Node> nodes(countItems(streams));
+    nodes[0].parent = -1; nodes[0].prev = -1; nodes[0].next = -1; nodes[0].firstChild = 1;
+    nodes[0].type = Node::Document;
+    nodes[1].parent =  0; nodes[1].prev = -1; nodes[1].next = -1; nodes[1].firstChild = (streams.size()) ?2 :-1;
+    nodes[1].type = Node::RootElement;
+    QMap<QString, QSharedPointer<const Introspectable> >::const_iterator it = streams.begin();
+    for (int i=2; i<streams.size()+2; ++i) {
+        nodes[i].data = it.value().data();
+        nodes[i].parent = 1;
+        nodes[i].prev = (i) ?i-1 :-1;
+        nodes[i].next = (i-1 == streams.size()) ?-1 :i+1;
+        nodes[i].firstChild = -1;
+        nodes[i].type = Node::Stream;
+        ++it;
     }
-    return 0;
+    return nodes;
 }
 
 }
@@ -66,6 +71,8 @@ public:
     QXmlNamePool namepool;
     QString filepath;
     const QMap<QString, QSharedPointer<const Introspectable> > streams;
+    const QVector<Node> nodes;
+    const QXmlName ppt;
     const QXmlName directory;
     const QXmlName file;
     const QXmlName olestream;
@@ -83,6 +90,8 @@ public:
     Private(const QXmlNamePool& pool, const char* filepath_) :namepool(pool),
             filepath(filepath_),
             streams(read(filepath_)),
+            nodes(createNodes(streams)),
+            ppt(QXmlName(namepool, QLatin1String("ppt"))),
             directory(QXmlName(namepool, QLatin1String("directory"))),
             file(QXmlName(namepool, QLatin1String("file"))),
             olestream(QXmlName(namepool, QLatin1String("olestream"))),
@@ -91,33 +100,6 @@ public:
             size(QXmlName(namepool, QLatin1String("size"))),
             type(QXmlName(namepool, QLatin1String("type"))) {
     }
-
-    const Introspectable* getPreviousStream(const Introspectable* i) {
-        const Introspectable* ps = 0;
-        QMap<QString, QSharedPointer<const Introspectable> >::const_iterator it = streams.begin();
-        while (it != streams.end()) {
-            if (it.value() == i) {
-                return ps;
-            }
-            ps = it.value().data();
-            ++it;
-        }
-        return 0;
-    }
-
-    const Introspectable* getNextStream(const Introspectable* i) {
-        const Introspectable* ps = 0;
-        QMap<QString, QSharedPointer<const Introspectable> >::const_iterator it = streams.begin();
-        while (it != streams.end()) {
-            if (ps == i) {
-                return it.value().data();
-            }
-            ps = it.value().data();
-            ++it;
-        }
-        return 0;
-    }
-
 };
 
 MsoXmlNodeModel::MsoXmlNodeModel(const QXmlNamePool& pool, const char* filepath) :d(new Private(pool, filepath)) {
@@ -129,66 +111,20 @@ MsoXmlNodeModel::~MsoXmlNodeModel() {
 QVector<QXmlNodeModelIndex>
 MsoXmlNodeModel::attributes(const QXmlNodeModelIndex& element) const {
     QVector<QXmlNodeModelIndex> v;
-    qint64 type = element.additionalData();
-    if (type != IntrospectableNode) {
-        return v;
-    }
-    v.append(createIndex(element.data(), AttributeType));    
     return v;
 }
 
 QXmlNodeModelIndex
 MsoXmlNodeModel::nextFromSimpleAxis(SimpleAxis axis, const QXmlNodeModelIndex& origin) const {
-    const Introspectable* i = static_cast<const Introspectable*>(origin.internalPointer());
-    qint64 type = origin.additionalData();
-    QXmlNodeModelIndex node;
-
-    if (type == Document) {
-        node = createIndex((void*)0, File);
-    } else if (type == File) {
-        if (axis == Parent) {
-            node = createIndex((void*)0, Document);
-        } else if (axis == FirstChild) {
-            const Introspectable* cs = d->getNextStream(0);
-            if (cs) {
-                node = createIndex((void*)cs, OLEStream);
-            }
-        }
-    } else if (type == OLEStream) {
-        if (axis == Parent) {
-            node = createIndex((void*)0, File);
-        } else if (axis == PreviousSibling) {
-            const Introspectable* ps = d->getPreviousStream(i);
-            if (ps) {
-                node = createIndex((void*)ps, OLEStream);
-            }
-        } else if (axis == NextSibling) {
-            const Introspectable* ns = d->getNextStream(i);
-            if (ns) {
-                node = createIndex((void*)ns, OLEStream);
-            }
-        } else if (axis == FirstChild) {
-            qint64 additionalData;
-            const Introspection* ci = getNextElement(i, 0, additionalData);
-            if (ci) {
-                node = createIndex((void*)ci, additionalData);
-            }
-        }
-    } else if (type == IntrospectableNode) {
-        if (axis == Parent) {
-            if (i->parent->parent) { // parent is an introspectable
-                node = createIndex((void*)i->parent, 
-    } else if (type == AttributeType) {
-        if (axis == Parent) {
-            node = createIndex(origin.data(), IntrospectableNode);
-        }
-    } else if (type % 2 == 0) { // ValueElement
-        if (axis = Parent) {
-            node = createIndex(element.data(), IntrospectableNode);
-        }
-    } else { // Value
+    int i = -1;
+    switch (axis) {
+        case Parent:          i = d->nodes[origin.data()].parent;     break;
+        case FirstChild:      i = d->nodes[origin.data()].firstChild; break;
+        case PreviousSibling: i = d->nodes[origin.data()].prev;       break;
+        case NextSibling:     i = d->nodes[origin.data()].next;       break;
+        default: break;
     }
-    return node;
+    return (i == -1) ?QXmlNodeModelIndex() :createIndex(i);
 }
 
 QUrl
@@ -198,7 +134,11 @@ MsoXmlNodeModel::baseUri(const QXmlNodeModelIndex& n) const {
 QXmlNodeModelIndex::DocumentOrder
 MsoXmlNodeModel::compareOrder(const QXmlNodeModelIndex& ni1, const QXmlNodeModelIndex& ni2) const {
     if (ni1.data() < ni2.data()) return QXmlNodeModelIndex::Precedes;
-    return (ni1.data() == ni2.data()) ?QXmlNodeModelIndex::Is :QXmlNodeModelIndex::Follows;
+    if (ni1.data() == ni2.data()) {
+        if (ni1.additionalData() < ni2.additionalData()) return QXmlNodeModelIndex::Precedes;
+        if (ni1.additionalData() == ni2.additionalData()) return QXmlNodeModelIndex::Is;
+    }
+    return QXmlNodeModelIndex::Follows;
 }
 QUrl
 MsoXmlNodeModel::documentUri(const QXmlNodeModelIndex& n) const {
@@ -210,39 +150,20 @@ MsoXmlNodeModel::elementById(const QXmlName& id) const {
 }
 QXmlNodeModelIndex::NodeKind
 MsoXmlNodeModel::kind(const QXmlNodeModelIndex& ni) const {
-    return ni.additionalData() == Element ? QXmlNodeModelIndex::Element : QXmlNodeModelIndex::Attribute;
+    if (ni.data() == 0) return QXmlNodeModelIndex::Document;
+    return QXmlNodeModelIndex::Element; // no attributes yet
 }
 QXmlName
 MsoXmlNodeModel::name(const QXmlNodeModelIndex& ni) const {
-    QVector<QXmlNodeModelIndex> v;
-    Type type = getType(ni.data());
-    switch (type) {
-        case File:
-            switch ((Kind)ni.additionalData()) {
-                case Element: return d->getFileInfo(ni.data())->isFile() ?d->file :d->directory;
-                case AttributeName: return d->name;
-                case AttributeSize: return d->size;
-            }
-        case OLEStream:
-            switch ((Kind)ni.additionalData()) {
-                case Element: {
-                    const OleStreamElementNode& e
-                         = (const OleStreamElementNode&)d->getElementNode(ni.data());
-                    return (e.isdir) ?d->olestreamdir :d->olestream;
-                }
-                case AttributeName: return d->name;
-                case AttributeSize: return d->size;
-            }
-        case XmlElement:
-        default: {
-            QDomElement e = d->xmlelements[getIndex(ni.data())].element;
-            if (ni.additionalData() == 0) {
-                return QXmlName(d->namepool, e.nodeName());
-            } else {
-                return QXmlName(d->namepool, e.attributes().item(ni.additionalData()-1).nodeName());
-            }
-        }
+    const Introspectable* i = static_cast<const Introspectable*>(d->nodes[ni.data()].data);
+    const Introspection* si = (i) ?i->getIntrospection() :0;
+    switch (d->nodes[ni.data()].type) {
+        case Node::Document: return d->name; // should not matter
+        case Node::RootElement: return d->ppt; 
+        case Node::Stream: return QXmlName(d->namepool, si->name);
+        default: break;
     }
+    return QXmlName();
 }
 QVector<QXmlName>
 MsoXmlNodeModel::namespaceBindings(const QXmlNodeModelIndex& n) const {
@@ -254,13 +175,7 @@ MsoXmlNodeModel::nodesByIdref(const QXmlName& idref) const {
 }
 QXmlNodeModelIndex
 MsoXmlNodeModel::root(const QXmlNodeModelIndex& n) const {
-    int index = n.data();
-    ElementNode& e = d->getElementNode(n.data());
-    while (e.parentId != -1) {
-         index = e.parentId;
-         e = d->getElementNode(index);
-    }
-    return createIndex(index, 0);
+    return createIndex((qint64)0);
 }
 QString
 MsoXmlNodeModel::stringValue(const QXmlNodeModelIndex& n) const {
@@ -268,31 +183,5 @@ MsoXmlNodeModel::stringValue(const QXmlNodeModelIndex& n) const {
 }
 QVariant
 MsoXmlNodeModel::typedValue(const QXmlNodeModelIndex& n) const {
-    Type type = getType(n.data());
-    switch (type) {
-        case File: {
-            const QFileInfo* info = d->getFileInfo(n.data());
-            switch ((Kind)n.additionalData()) {
-                case AttributeName: return info->fileName();
-                case AttributeSize: return info->size();
-                default:;
-            }
-        }
-        case OLEStream: {
-            const OleStreamElementNode& e
-                = (const OleStreamElementNode&)d->getElementNode(n.data());
-            switch ((Kind)n.additionalData()) {
-                case AttributeName: return e.streamname.c_str();
-                case AttributeSize: return e.size;
-                default:;
-            }
-        }
-        case XmlElement: {
-            if (n.additionalData() > 0) {
-                QDomElement e = d->xmlelements[getIndex(n.data())].element;
-                return e.attributes().item(n.additionalData()-1).nodeValue();
-            }
-        }
-    }
     return QVariant();
 }

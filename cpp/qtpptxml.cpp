@@ -1,5 +1,6 @@
 #include "msoxmlnodemodel.h"
 #include <QXmlSerializer>
+#include <QXmlFormatter>
 #include <QXmlQuery>
 #include <QFileInfo>
 #include <QCoreApplication>
@@ -23,7 +24,7 @@ main(int argc, char** argv) {
     QFile out;
     out.open(stdout, QIODevice::WriteOnly);
 
-    QXmlSerializer serializer(query, &out);
+    QXmlFormatter serializer(query, &out);
     query.evaluateTo(&serializer);
 
     return 0;
