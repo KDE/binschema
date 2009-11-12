@@ -28,7 +28,7 @@ static const qint64 Value = 6;
 
 class Node {
 public:
-    enum Type { Document, RootElement, Stream };
+    enum Type { Document, RootElement, Stream, Introspectable };
     const void* data;
     int parent;
     int prev;
@@ -36,12 +36,63 @@ public:
     int firstChild;
     Type type;
 
-    Node() :data(0) {}
+    Node() :data(0), parent(-1), prev(-1), next(-1), firstChild(-1) {}
 };
 
 int
+countItems(const Introspectable* i) {
+    if (i == 0) return 0;
+    const Introspection* is = i->getIntrospection();
+    int n = 0;
+    for (int j=0; j<is->numberOfMembers; ++j) {
+        for (int k=0; k<is->numberOfInstances[j](i); ++k) {
+            const Introspectable* ci = is->introspectable[j](i, k);
+            if (ci) {
+                n += 1 + countItems(ci);
+            }
+        }
+    }
+    return n;
+}
+
+int
 countItems(const QMap<QString, QSharedPointer<const Introspectable> >& streams) {
-    return streams.size() + 2;
+    int n = 2;
+    QMap<QString, QSharedPointer<const Introspectable> >::const_iterator it = streams.begin();
+    while (it != streams.end()) {
+        n += 1 + countItems(it.value().data());
+        it++;
+    }
+    return n;
+}
+
+void
+addIntrospectable(QVector<Node>& nodes, const Introspectable* i, int pos, int parent) {
+    if (i == 0) return;
+    const Introspection* is = i->getIntrospection();
+    nodes[pos].parent = parent;
+    nodes[pos].data = i;
+    nodes[pos].type = Node::Introspectable;
+    int n = 0;
+    int prevp = -1;
+    int p = pos+1;
+    for (int j=0; j<is->numberOfMembers; ++j) {
+        for (int k=0; k<is->numberOfInstances[j](i); ++k) {
+            const Introspectable* ci = is->introspectable[j](i, k);
+            if (ci) {
+                if (nodes[pos].firstChild == -1) {
+                    nodes[pos].firstChild = p;
+                }
+                addIntrospectable(nodes, ci, p, pos);
+                if (prevp != -1) {
+                    nodes[p].prev = prevp;
+                    nodes[prevp].next = p;
+                }
+                prevp = p;
+                p += 1 + countItems(ci);
+            }
+        }
+    }
 }
 
 QVector<Node>
@@ -51,15 +102,20 @@ createNodes(const QMap<QString, QSharedPointer<const Introspectable> >& streams)
     nodes[0].type = Node::Document;
     nodes[1].parent =  0; nodes[1].prev = -1; nodes[1].next = -1; nodes[1].firstChild = (streams.size()) ?2 :-1;
     nodes[1].type = Node::RootElement;
+    int prevp = -1;
+    int p = 2;
     QMap<QString, QSharedPointer<const Introspectable> >::const_iterator it = streams.begin();
-    for (int i=2; i<streams.size()+2; ++i) {
-        nodes[i].data = it.value().data();
-        nodes[i].parent = 1;
-        nodes[i].prev = (i) ?i-1 :-1;
-        nodes[i].next = (i-1 == streams.size()) ?-1 :i+1;
-        nodes[i].firstChild = -1;
-        nodes[i].type = Node::Stream;
-        ++it;
+    while (it != streams.end()) {
+        const Introspectable* i = it.value().data();
+        addIntrospectable(nodes, i, p, 1);
+        if (prevp != -1) {
+            nodes[p].prev = prevp;
+            nodes[prevp].next = p;
+        }
+        nodes[p].type = Node::Stream;
+        prevp = p;
+        p += 1 + countItems(i);
+        it++;
     }
     return nodes;
 }
@@ -161,6 +217,7 @@ MsoXmlNodeModel::name(const QXmlNodeModelIndex& ni) const {
         case Node::Document: return d->name; // should not matter
         case Node::RootElement: return d->ppt; 
         case Node::Stream: return QXmlName(d->namepool, si->name);
+        case Node::Introspectable: return QXmlName(d->namepool, si->name);
         default: break;
     }
     return QXmlName();
