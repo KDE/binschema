@@ -28,7 +28,7 @@ static const qint64 Value = 6;
 
 class Node {
 public:
-    enum Type { Document, RootElement, Stream, Introspectable };
+    enum Type { Document, RootElement, Stream, Introspectable, ValueElement };
     const void* data;
     int parent;
     int prev;
@@ -49,6 +49,8 @@ countItems(const Introspectable* i) {
             const Introspectable* ci = is->introspectable[j](i, k);
             if (ci) {
                 n += 1 + countItems(ci);
+            } else {
+                n += 1; // empty value element
             }
         }
     }
@@ -90,6 +92,8 @@ addIntrospectable(QVector<Node>& nodes, const Introspectable* i, int pos, int pa
                 }
                 prevp = p;
                 p += 1 + countItems(ci);
+            } else {
+                p += 1; // skip empty position
             }
         }
     }
