@@ -18,13 +18,12 @@ using namespace std;
  **/
 namespace {
 
-static const qint64 Document = 0;
-static const qint64 File = 1;
-static const qint64 OLEStream = 2;
-static const qint64 IntrospectableNode = 3;
-static const qint64 AttributeType = 4;
-static const qint64 ValueElement = 5;
-static const qint64 Value = 6;
+/** The field additionalData() in QXmlNodeModelIndex is used for storing four
+ *  bits of information while keeping the field increasing in value with
+ *  document order. The value of the field data() is the same for each node
+ *  below another node that is not a 
+ *  numbers: field type, member number and index in the member. These fields are
+ **/
 
 class Node {
 public:
@@ -75,24 +74,25 @@ addIntrospectable(QVector<Node>& nodes, const Introspectable* i, int pos, int pa
     nodes[pos].parent = parent;
     nodes[pos].data = i;
     nodes[pos].type = Node::Introspectable;
-    int n = 0;
     int prevp = -1;
     int p = pos+1;
     for (int j=0; j<is->numberOfMembers; ++j) {
         for (int k=0; k<is->numberOfInstances[j](i); ++k) {
             const Introspectable* ci = is->introspectable[j](i, k);
             if (ci) {
-                if (nodes[pos].firstChild == -1) {
-                    nodes[pos].firstChild = p;
-                }
+            if (nodes[pos].firstChild == -1) {
+                nodes[pos].firstChild = p;
+            }
+            if (prevp != -1) {
+                nodes[p].prev = prevp;
+                nodes[prevp].next = p;
+            }
+            prevp = p;
                 addIntrospectable(nodes, ci, p, pos);
-                if (prevp != -1) {
-                    nodes[p].prev = prevp;
-                    nodes[prevp].next = p;
-                }
-                prevp = p;
                 p += 1 + countItems(ci);
             } else {
+                nodes[p].data = i;
+                nodes[p].type = Node::ValueElement;
                 p += 1; // skip empty position
             }
         }
@@ -160,6 +160,32 @@ public:
             size(QXmlName(namepool, QLatin1String("size"))),
             type(QXmlName(namepool, QLatin1String("type"))) {
     }
+
+    void getIndex(QAbstractXmlNodeModel::SimpleAxis axis, qint64& data, qint64& additionalData) {
+        if (additionalData == 1) { //asking for parent of attribute
+            additionalData = 0;
+            return;
+        }
+        additionalData = 0;
+/*
+        if (additionalData == 0 && axis == FirstChild) {
+            additionalData = 1;
+            return;
+        }
+*/
+        const Node& node = nodes[data];
+        switch (axis) {
+            case Parent:          data = node.parent;     break;
+            case FirstChild:      data = node.firstChild; break;
+            case PreviousSibling: data = node.prev;       break;
+            case NextSibling:     data = node.next;       break;
+            default: break;
+        }
+    }
+ 
+    QXmlName getName(const Introspectable* i, qint64 additionalData) {
+        return type;
+    }
 };
 
 MsoXmlNodeModel::MsoXmlNodeModel(const QXmlNamePool& pool, const char* filepath) :d(new Private(pool, filepath)) {
@@ -171,20 +197,32 @@ MsoXmlNodeModel::~MsoXmlNodeModel() {
 QVector<QXmlNodeModelIndex>
 MsoXmlNodeModel::attributes(const QXmlNodeModelIndex& element) const {
     QVector<QXmlNodeModelIndex> v;
+    const Node& node = d->nodes[element.data()];
+    if (node.type == Node::Introspectable && element.additionalData() == 0) {
+        v.append(createIndex(element.data(), 1));
+    }
     return v;
 }
 
 QXmlNodeModelIndex
 MsoXmlNodeModel::nextFromSimpleAxis(SimpleAxis axis, const QXmlNodeModelIndex& origin) const {
-    int i = -1;
-    switch (axis) {
-        case Parent:          i = d->nodes[origin.data()].parent;     break;
-        case FirstChild:      i = d->nodes[origin.data()].firstChild; break;
-        case PreviousSibling: i = d->nodes[origin.data()].prev;       break;
-        case NextSibling:     i = d->nodes[origin.data()].next;       break;
-        default: break;
+    qint64 data = -1;
+    qint64 additionalData = 0;
+    const Node& node = d->nodes[origin.data()];
+    if (node.type == Node::Introspectable) {
+        data = origin.data();
+        additionalData = origin.additionalData();
+        d->getIndex(axis, data, additionalData);
+    } else {
+        switch (axis) {
+            case Parent:          data = node.parent;     break;
+            case FirstChild:      data = node.firstChild; break;
+            case PreviousSibling: data = node.prev;       break;
+            case NextSibling:     data = node.next;       break;
+            default: break;
+        }
     }
-    return (i == -1) ?QXmlNodeModelIndex() :createIndex(i);
+    return (data == -1) ?QXmlNodeModelIndex() :createIndex(data, 0);
 }
 
 QUrl
@@ -211,6 +249,7 @@ MsoXmlNodeModel::elementById(const QXmlName& id) const {
 QXmlNodeModelIndex::NodeKind
 MsoXmlNodeModel::kind(const QXmlNodeModelIndex& ni) const {
     if (ni.data() == 0) return QXmlNodeModelIndex::Document;
+    if (ni.additionalData() == 1) return QXmlNodeModelIndex::Attribute;
     return QXmlNodeModelIndex::Element; // no attributes yet
 }
 QXmlName
@@ -221,7 +260,7 @@ MsoXmlNodeModel::name(const QXmlNodeModelIndex& ni) const {
         case Node::Document: return d->name; // should not matter
         case Node::RootElement: return d->ppt; 
         case Node::Stream: return QXmlName(d->namepool, si->name);
-        case Node::Introspectable: return QXmlName(d->namepool, si->name);
+        case Node::Introspectable: return d->getName(i, ni.additionalData());
         default: break;
     }
     return QXmlName();
@@ -244,5 +283,10 @@ MsoXmlNodeModel::stringValue(const QXmlNodeModelIndex& n) const {
 }
 QVariant
 MsoXmlNodeModel::typedValue(const QXmlNodeModelIndex& n) const {
+    if (n.additionalData() == 1) { //attribute type
+        const Introspectable* i = static_cast<const Introspectable*>(d->nodes[n.data()].data);
+        const Introspection* si = (i) ?i->getIntrospection() :0;
+        return si->name;
+    }
     return QVariant();
 }
