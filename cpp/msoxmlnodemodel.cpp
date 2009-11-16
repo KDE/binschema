@@ -34,6 +34,8 @@ public:
     int next;
     int firstChild;
     Type type;
+    int memberno;
+    int arrayno;
 
     Node() :data(0), parent(-1), prev(-1), next(-1), firstChild(-1) {}
 };
@@ -79,7 +81,6 @@ addIntrospectable(QVector<Node>& nodes, const Introspectable* i, int pos, int pa
     for (int j=0; j<is->numberOfMembers; ++j) {
         for (int k=0; k<is->numberOfInstances[j](i); ++k) {
             const Introspectable* ci = is->introspectable[j](i, k);
-            if (ci) {
             if (nodes[pos].firstChild == -1) {
                 nodes[pos].firstChild = p;
             }
@@ -88,9 +89,13 @@ addIntrospectable(QVector<Node>& nodes, const Introspectable* i, int pos, int pa
                 nodes[prevp].next = p;
             }
             prevp = p;
+            nodes[p].memberno = j;
+            nodes[p].arrayno = k;
+            if (ci) {
                 addIntrospectable(nodes, ci, p, pos);
                 p += 1 + countItems(ci);
             } else {
+                nodes[p].parent = pos;
                 nodes[p].data = i;
                 nodes[p].type = Node::ValueElement;
                 p += 1; // skip empty position
@@ -183,8 +188,12 @@ public:
         }
     }
  
-    QXmlName getName(const Introspectable* i, qint64 additionalData) {
-        return type;
+    QXmlName getName(qint64 n, qint64 a) {
+        if (a) return type;
+        const Node& node = nodes[n];
+        const Introspectable* i = static_cast<const Introspectable*>(nodes[node.parent].data);
+        const Introspection* si = i->getIntrospection();
+        return QXmlName(namepool, si->names[node.memberno]);
     }
 };
 
@@ -254,13 +263,15 @@ MsoXmlNodeModel::kind(const QXmlNodeModelIndex& ni) const {
 }
 QXmlName
 MsoXmlNodeModel::name(const QXmlNodeModelIndex& ni) const {
-    const Introspectable* i = static_cast<const Introspectable*>(d->nodes[ni.data()].data);
+    const Node& node = d->nodes[ni.data()];
+    const Introspectable* i = static_cast<const Introspectable*>(node.data);
     const Introspection* si = (i) ?i->getIntrospection() :0;
     switch (d->nodes[ni.data()].type) {
         case Node::Document: return d->name; // should not matter
         case Node::RootElement: return d->ppt; 
         case Node::Stream: return QXmlName(d->namepool, si->name);
-        case Node::Introspectable: return d->getName(i, ni.additionalData());
+        case Node::Introspectable: return d->getName(ni.data(), ni.additionalData());
+        case Node::ValueElement: return d->getName(ni.data(), ni.additionalData());
         default: break;
     }
     return QXmlName();
