@@ -7,6 +7,11 @@
 #include "leoutputstream.h"
 #include "introspection.h"
 namespace {
+void skipToStartElement(QXmlStreamReader& in) {
+    do {
+        in.readNext();
+    } while (!in.atEnd() && !in.isStartElement());
+}
 class RecordHeader;
 void parseRecordHeader(LEInputStream& in, RecordHeader& _s);
 void parseRecordHeader(QXmlStreamReader& in, RecordHeader& _s);
@@ -1188,15 +1193,7 @@ public:
     quint16 recInstance;
     quint16 recType;
     quint32 recLen;
-    RecordHeader()  {
-    }
-    QString toString() {
-        QString _s = "RecordHeader:";
-        _s = _s + "recVer: " + QString::number(recVer) + "(" + QString::number(recVer,16).toUpper() + ")" + ", ";
-        _s = _s + "recInstance: " + QString::number(recInstance) + "(" + QString::number(recInstance,16).toUpper() + ")" + ", ";
-        _s = _s + "recType: " + QString::number(recType) + "(" + QString::number(recType,16).toUpper() + ")" + ", ";
-        _s = _s + "recLen: " + QString::number(recLen) + "(" + QString::number(recLen,16).toUpper() + ")" + ", ";
-        return _s;
+    RecordHeader(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1218,23 +1215,8 @@ public:
     QByteArray ansiUserName;
     quint32 relVersion;
     QByteArray unicodeUserName;
-    CurrentUserAtom()  {
-    }
-    QString toString() {
-        QString _s = "CurrentUserAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
-        _s = _s + "headerToken: " + QString::number(headerToken) + "(" + QString::number(headerToken,16).toUpper() + ")" + ", ";
-        _s = _s + "offsetToCurrentEdit: " + QString::number(offsetToCurrentEdit) + "(" + QString::number(offsetToCurrentEdit,16).toUpper() + ")" + ", ";
-        _s = _s + "lenUserName: " + QString::number(lenUserName) + "(" + QString::number(lenUserName,16).toUpper() + ")" + ", ";
-        _s = _s + "docFileVersion: " + QString::number(docFileVersion) + "(" + QString::number(docFileVersion,16).toUpper() + ")" + ", ";
-        _s = _s + "majorVersion: " + QString::number(majorVersion) + "(" + QString::number(majorVersion,16).toUpper() + ")" + ", ";
-        _s = _s + "minorVersion: " + QString::number(minorVersion) + "(" + QString::number(minorVersion,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
-        _s = _s + "ansiUserName: " + "[array of ansiUserName]" + ", ";
-        _s = _s + "relVersion: " + QString::number(relVersion) + "(" + QString::number(relVersion,16).toUpper() + ")" + ", ";
-        _s = _s + "unicodeUserName: " + "[array of unicodeUserName]" + ", ";
-        return _s;
+    CurrentUserAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1244,12 +1226,7 @@ private:
 public:
     static const Introspection _introspection;
     QList<Byte> anon;
-    TODOS()  {
-    }
-    QString toString() {
-        QString _s = "TODOS:";
-        _s = _s + "anon: " + "[array of anon]" + ", ";
-        return _s;
+    TODOS(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1259,12 +1236,7 @@ private:
 public:
     static const Introspection _introspection;
     quint8 b;
-    Byte()  {
-    }
-    QString toString() {
-        QString _s = "Byte:";
-        _s = _s + "b: " + QString::number(b) + "(" + QString::number(b,16).toUpper() + ")" + ", ";
-        return _s;
+    Byte(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1275,13 +1247,8 @@ public:
     static const Introspection _introspection;
     CurrentUserAtom anon1;
     QList<Byte> trailing;
-    CurrentUserStream()  {
-    }
-    QString toString() {
-        QString _s = "CurrentUserStream:";
-        _s = _s + "anon1: " + anon1.toString() + ", ";
-        _s = _s + "trailing: " + "[array of trailing]" + ", ";
-        return _s;
+    CurrentUserStream(const Introspectable* parent) :Introspectable(parent),
+        anon1(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1291,12 +1258,7 @@ private:
 public:
     static const Introspection _introspection;
     QList<OfficeArtBStoreContainerFileBlock> anon1;
-    OfficeArtBStoreDelay()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBStoreDelay:";
-        _s = _s + "anon1: " + "[array of anon1]" + ", ";
-        return _s;
+    OfficeArtBStoreDelay(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1309,15 +1271,7 @@ public:
     quint16 recInstance;
     quint16 recType;
     quint32 recLen;
-    OfficeArtRecordHeader()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtRecordHeader:";
-        _s = _s + "recVer: " + QString::number(recVer) + "(" + QString::number(recVer,16).toUpper() + ")" + ", ";
-        _s = _s + "recInstance: " + QString::number(recInstance) + "(" + QString::number(recInstance,16).toUpper() + ")" + ", ";
-        _s = _s + "recType: " + QString::number(recType) + "(" + QString::number(recType,16).toUpper() + ")" + ", ";
-        _s = _s + "recLen: " + QString::number(recLen) + "(" + QString::number(recLen,16).toUpper() + ")" + ", ";
-        return _s;
+    OfficeArtRecordHeader(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1332,16 +1286,8 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipJPEG()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBlipJPEG:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgbUid1: " + "[array of rgbUid1]" + ", ";
-        _s = _s + "rgbUid2: " + "[array of rgbUid2]" + ", ";
-        _s = _s + "tag: " + QString::number(tag) + "(" + QString::number(tag,16).toUpper() + ")" + ", ";
-        _s = _s + "BLIPFileData: " + "[array of BLIPFileData]" + ", ";
-        return _s;
+    OfficeArtBlipJPEG(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1356,16 +1302,8 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipPNG()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBlipPNG:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgbUid1: " + "[array of rgbUid1]" + ", ";
-        _s = _s + "rgbUid2: " + "[array of rgbUid2]" + ", ";
-        _s = _s + "tag: " + QString::number(tag) + "(" + QString::number(tag,16).toUpper() + ")" + ", ";
-        _s = _s + "BLIPFileData: " + "[array of BLIPFileData]" + ", ";
-        return _s;
+    OfficeArtBlipPNG(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1380,16 +1318,8 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipDIB()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBlipDIB:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgbUid1: " + "[array of rgbUid1]" + ", ";
-        _s = _s + "rgbUid2: " + "[array of rgbUid2]" + ", ";
-        _s = _s + "tag: " + QString::number(tag) + "(" + QString::number(tag,16).toUpper() + ")" + ", ";
-        _s = _s + "BLIPFileData: " + "[array of BLIPFileData]" + ", ";
-        return _s;
+    OfficeArtBlipDIB(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1404,16 +1334,8 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipTIFF()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBlipTIFF:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgbUid1: " + "[array of rgbUid1]" + ", ";
-        _s = _s + "rgbUid2: " + "[array of rgbUid2]" + ", ";
-        _s = _s + "tag: " + QString::number(tag) + "(" + QString::number(tag,16).toUpper() + ")" + ", ";
-        _s = _s + "BLIPFileData: " + "[array of BLIPFileData]" + ", ";
-        return _s;
+    OfficeArtBlipTIFF(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1426,15 +1348,7 @@ public:
     qint32 top;
     qint32 right;
     qint32 bottom;
-    RECT()  {
-    }
-    QString toString() {
-        QString _s = "RECT:";
-        _s = _s + "left: " + QString::number(left) + "(" + QString::number(left,16).toUpper() + ")" + ", ";
-        _s = _s + "top: " + QString::number(top) + "(" + QString::number(top,16).toUpper() + ")" + ", ";
-        _s = _s + "right: " + QString::number(right) + "(" + QString::number(right,16).toUpper() + ")" + ", ";
-        _s = _s + "bottom: " + QString::number(bottom) + "(" + QString::number(bottom,16).toUpper() + ")" + ", ";
-        return _s;
+    RECT(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1445,13 +1359,7 @@ public:
     static const Introspection _introspection;
     qint32 x;
     qint32 y;
-    POINT()  {
-    }
-    QString toString() {
-        QString _s = "POINT:";
-        _s = _s + "x: " + QString::number(x) + "(" + QString::number(x,16).toUpper() + ")" + ", ";
-        _s = _s + "y: " + QString::number(y) + "(" + QString::number(y,16).toUpper() + ")" + ", ";
-        return _s;
+    POINT(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1461,12 +1369,7 @@ private:
 public:
     static const Introspection _introspection;
     QList<PowerPointStruct> anon;
-    PowerPointStructs()  {
-    }
-    QString toString() {
-        QString _s = "PowerPointStructs:";
-        _s = _s + "anon: " + "[array of anon]" + ", ";
-        return _s;
+    PowerPointStructs(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1477,13 +1380,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SoundCollectionContainer()  {
-    }
-    QString toString() {
-        QString _s = "SoundCollectionContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    SoundCollectionContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1494,13 +1392,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SlideHeadersFootersContainer()  {
-    }
-    QString toString() {
-        QString _s = "SlideHeadersFootersContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    SlideHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1511,13 +1404,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    NotesHeadersFootersContainer()  {
-    }
-    QString toString() {
-        QString _s = "NotesHeadersFootersContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    NotesHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1528,13 +1416,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    PerSlideHeadersFootersContainer()  {
-    }
-    QString toString() {
-        QString _s = "PerSlideHeadersFootersContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    PerSlideHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1544,12 +1427,8 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    EndDocumentAtom()  {
-    }
-    QString toString() {
-        QString _s = "EndDocumentAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        return _s;
+    EndDocumentAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1560,13 +1439,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<DocInfoListSubContainerOrAtom> rgChildRec;
-    DocInfoListContainer()  {
-    }
-    QString toString() {
-        QString _s = "DocInfoListContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgChildRec: " + "[array of rgChildRec]" + ", ";
-        return _s;
+    DocInfoListContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1579,15 +1453,8 @@ public:
     quint8 unused1;
     quint8 fSnapToGrid;
     quint8 fSnapToShape;
-    SlideViewInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "SlideViewInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + "(" + QString::number(unused1,16).toUpper() + ")" + ", ";
-        _s = _s + "fSnapToGrid: " + QString::number(fSnapToGrid) + "(" + QString::number(fSnapToGrid,16).toUpper() + ")" + ", ";
-        _s = _s + "fSnapToShape: " + QString::number(fSnapToShape) + "(" + QString::number(fSnapToShape,16).toUpper() + ")" + ", ";
-        return _s;
+    SlideViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1599,14 +1466,8 @@ public:
     RecordHeader rh;
     quint32 type;
     qint32 pos;
-    GuideAtom()  {
-    }
-    QString toString() {
-        QString _s = "GuideAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "type: " + QString::number(type) + "(" + QString::number(type,16).toUpper() + ")" + ", ";
-        _s = _s + "pos: " + QString::number(pos) + "(" + QString::number(pos,16).toUpper() + ")" + ", ";
-        return _s;
+    GuideAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1617,13 +1478,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<DocProgTagsSubContainerOrAtom> rgChildRec;
-    DocProgTagsContainer()  {
-    }
-    QString toString() {
-        QString _s = "DocProgTagsContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgChildRec: " + "[array of rgChildRec]" + ", ";
-        return _s;
+    DocProgTagsContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1634,13 +1490,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    DocProgBinaryTagContainerOrAtom()  {
-    }
-    QString toString() {
-        QString _s = "DocProgBinaryTagContainerOrAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    DocProgBinaryTagContainerOrAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1651,13 +1502,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SorterViewInfoContainer()  {
-    }
-    QString toString() {
-        QString _s = "SorterViewInfoContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    SorterViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1670,15 +1516,8 @@ public:
     quint32 persistIdRef;
     quint32 fHasMacros;
     quint32 version;
-    VBAInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "VBAInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "persistIdRef: " + QString::number(persistIdRef) + "(" + QString::number(persistIdRef,16).toUpper() + ")" + ", ";
-        _s = _s + "fHasMacros: " + QString::number(fHasMacros) + "(" + QString::number(fHasMacros,16).toUpper() + ")" + ", ";
-        _s = _s + "version: " + QString::number(version) + "(" + QString::number(version,16).toUpper() + ")" + ", ";
-        return _s;
+    VBAInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1689,13 +1528,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<MasterPersistAtom> rgMasterPersistAtom;
-    MasterListWithTextContainer()  {
-    }
-    QString toString() {
-        QString _s = "MasterListWithTextContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgMasterPersistAtom: " + "[array of rgMasterPersistAtom]" + ", ";
-        return _s;
+    MasterListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1706,13 +1540,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<SlideListWithTextSubContainerOrAtom> rgChildRec;
-    SlideListWithTextContainer()  {
-    }
-    QString toString() {
-        QString _s = "SlideListWithTextContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgChildRec: " + "[array of rgChildRec]" + ", ";
-        return _s;
+    SlideListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1723,13 +1552,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    NotesListWithTextContainer()  {
-    }
-    QString toString() {
-        QString _s = "NotesListWithTextContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    NotesListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1740,13 +1564,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint32 textType;
-    TextHeaderAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextHeaderAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "textType: " + QString::number(textType) + "(" + QString::number(textType,16).toUpper() + ")" + ", ";
-        return _s;
+    TextHeaderAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1757,13 +1576,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> textChars;
-    TextCharsAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextCharsAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "textChars: " + "[array of textChars]" + ", ";
-        return _s;
+    TextCharsAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1774,13 +1588,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray textChars;
-    TextBytesAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextBytesAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "textChars: " + "[array of textChars]" + ", ";
-        return _s;
+    TextBytesAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1791,13 +1600,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<MasterTextPropRun> rgMasterTextPropRun;
-    MasterTextPropAtom()  {
-    }
-    QString toString() {
-        QString _s = "MasterTextPropAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgMasterTextPropRun: " + "[array of rgMasterTextPropRun]" + ", ";
-        return _s;
+    MasterTextPropAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1808,13 +1612,7 @@ public:
     static const Introspection _introspection;
     quint32 count;
     quint16 indentLevel;
-    MasterTextPropRun()  {
-    }
-    QString toString() {
-        QString _s = "MasterTextPropRun:";
-        _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
-        _s = _s + "indentLevel: " + QString::number(indentLevel) + "(" + QString::number(indentLevel,16).toUpper() + ")" + ", ";
-        return _s;
+    MasterTextPropRun(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1825,13 +1623,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    StyleTextPropAtom()  {
-    }
-    QString toString() {
-        QString _s = "StyleTextPropAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    StyleTextPropAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1842,13 +1635,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    SlideNumberMCAtom()  {
-    }
-    QString toString() {
-        QString _s = "SlideNumberMCAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
-        return _s;
+    SlideNumberMCAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1861,15 +1649,8 @@ public:
     qint32 position;
     quint8 index;
     QByteArray unused;
-    DateTimeMCAtom()  {
-    }
-    QString toString() {
-        QString _s = "DateTimeMCAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
-        _s = _s + "index: " + QString::number(index) + "(" + QString::number(index,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + "[array of unused]" + ", ";
-        return _s;
+    DateTimeMCAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1880,13 +1661,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    GenericDateMCAtom()  {
-    }
-    QString toString() {
-        QString _s = "GenericDateMCAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
-        return _s;
+    GenericDateMCAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1897,13 +1673,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    HeaderMCAtom()  {
-    }
-    QString toString() {
-        QString _s = "HeaderMCAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
-        return _s;
+    HeaderMCAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1914,13 +1685,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    FooterMCAtom()  {
-    }
-    QString toString() {
-        QString _s = "FooterMCAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
-        return _s;
+    FooterMCAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1932,14 +1698,8 @@ public:
     RecordHeader rh;
     qint32 position;
     QByteArray format;
-    RTFDateTimeMCAtom()  {
-    }
-    QString toString() {
-        QString _s = "RTFDateTimeMCAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
-        _s = _s + "format: " + "[array of format]" + ", ";
-        return _s;
+    RTFDateTimeMCAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1952,15 +1712,8 @@ public:
     qint32 begin;
     qint32 end;
     qint32 bookmarkID;
-    TextBookmarkAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextBookmarkAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "begin: " + QString::number(begin) + "(" + QString::number(begin,16).toUpper() + ")" + ", ";
-        _s = _s + "end: " + QString::number(end) + "(" + QString::number(end,16).toUpper() + ")" + ", ";
-        _s = _s + "bookmarkID: " + QString::number(bookmarkID) + "(" + QString::number(bookmarkID,16).toUpper() + ")" + ", ";
-        return _s;
+    TextBookmarkAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1971,13 +1724,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray range;
-    MouseTextInteractiveInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "MouseTextInteractiveInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "range: " + "[array of range]" + ", ";
-        return _s;
+    MouseTextInteractiveInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -1987,12 +1735,7 @@ private:
 public:
     static const Introspection _introspection;
     quint32 slideId;
-    SlideId()  {
-    }
-    QString toString() {
-        QString _s = "SlideId:";
-        _s = _s + "slideId: " + QString::number(slideId) + "(" + QString::number(slideId,16).toUpper() + ")" + ", ";
-        return _s;
+    SlideId(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2003,13 +1746,7 @@ public:
     static const Introspection _introspection;
     quint16 count;
     QList<TabStop> rgTabStop;
-    TabStops()  {
-    }
-    QString toString() {
-        QString _s = "TabStops:";
-        _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
-        _s = _s + "rgTabStop: " + "[array of rgTabStop]" + ", ";
-        return _s;
+    TabStops(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2020,13 +1757,7 @@ public:
     static const Introspection _introspection;
     qint16 position;
     quint16 type;
-    TabStop()  {
-    }
-    QString toString() {
-        QString _s = "TabStop:";
-        _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
-        _s = _s + "type: " + QString::number(type) + "(" + QString::number(type,16).toUpper() + ")" + ", ";
-        return _s;
+    TabStop(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2039,15 +1770,7 @@ public:
     quint8 green;
     quint8 blue;
     quint8 index;
-    ColorIndexStruct()  {
-    }
-    QString toString() {
-        QString _s = "ColorIndexStruct:";
-        _s = _s + "red: " + QString::number(red) + "(" + QString::number(red,16).toUpper() + ")" + ", ";
-        _s = _s + "green: " + QString::number(green) + "(" + QString::number(green,16).toUpper() + ")" + ", ";
-        _s = _s + "blue: " + QString::number(blue) + "(" + QString::number(blue,16).toUpper() + ")" + ", ";
-        _s = _s + "index: " + QString::number(index) + "(" + QString::number(index,16).toUpper() + ")" + ", ";
-        return _s;
+    ColorIndexStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2061,16 +1784,7 @@ public:
     bool fBulletHasColor;
     bool fBulletHasSize;
     quint16 reserved;
-    BulletFlags()  {
-    }
-    QString toString() {
-        QString _s = "BulletFlags:";
-        _s = _s + "fHasBullet: " + QString::number(fHasBullet) + ", ";
-        _s = _s + "fBulletHasFont: " + QString::number(fBulletHasFont) + ", ";
-        _s = _s + "fBulletHasColor: " + QString::number(fBulletHasColor) + ", ";
-        _s = _s + "fBulletHasSize: " + QString::number(fBulletHasSize) + ", ";
-        _s = _s + "reserved: " + QString::number(reserved) + "(" + QString::number(reserved,16).toUpper() + ")" + ", ";
-        return _s;
+    BulletFlags(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2106,38 +1820,7 @@ public:
     bool bulletScheme;
     bool bulletHasScheme;
     quint8 reserved2;
-    PFMasks()  {
-    }
-    QString toString() {
-        QString _s = "PFMasks:";
-        _s = _s + "hasBullet: " + QString::number(hasBullet) + ", ";
-        _s = _s + "bulletHasFont: " + QString::number(bulletHasFont) + ", ";
-        _s = _s + "bulletHasColor: " + QString::number(bulletHasColor) + ", ";
-        _s = _s + "bulletHasSize: " + QString::number(bulletHasSize) + ", ";
-        _s = _s + "bulletFont: " + QString::number(bulletFont) + ", ";
-        _s = _s + "bulletColor: " + QString::number(bulletColor) + ", ";
-        _s = _s + "bulletSize: " + QString::number(bulletSize) + ", ";
-        _s = _s + "bulletChar: " + QString::number(bulletChar) + ", ";
-        _s = _s + "leftMargin: " + QString::number(leftMargin) + ", ";
-        _s = _s + "unused: " + QString::number(unused) + ", ";
-        _s = _s + "indent: " + QString::number(indent) + ", ";
-        _s = _s + "align: " + QString::number(align) + ", ";
-        _s = _s + "lineSpacing: " + QString::number(lineSpacing) + ", ";
-        _s = _s + "spaceBefore: " + QString::number(spaceBefore) + ", ";
-        _s = _s + "spaceAfter: " + QString::number(spaceAfter) + ", ";
-        _s = _s + "defaultTabSize: " + QString::number(defaultTabSize) + ", ";
-        _s = _s + "fontAlign: " + QString::number(fontAlign) + ", ";
-        _s = _s + "charWrap: " + QString::number(charWrap) + ", ";
-        _s = _s + "wordWrap: " + QString::number(wordWrap) + ", ";
-        _s = _s + "overflow: " + QString::number(overflow) + ", ";
-        _s = _s + "tabStops: " + QString::number(tabStops) + ", ";
-        _s = _s + "textDirection: " + QString::number(textDirection) + ", ";
-        _s = _s + "reserved: " + QString::number(reserved) + ", ";
-        _s = _s + "bulletBlip: " + QString::number(bulletBlip) + ", ";
-        _s = _s + "bulletScheme: " + QString::number(bulletScheme) + ", ";
-        _s = _s + "bulletHasScheme: " + QString::number(bulletHasScheme) + ", ";
-        _s = _s + "reserved2: " + QString::number(reserved2) + "(" + QString::number(reserved2,16).toUpper() + ")" + ", ";
-        return _s;
+    PFMasks(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2170,35 +1853,7 @@ public:
     bool csTypeface;
     bool pp11ext;
     quint8 reserved;
-    CFMasks()  {
-    }
-    QString toString() {
-        QString _s = "CFMasks:";
-        _s = _s + "bold: " + QString::number(bold) + ", ";
-        _s = _s + "italic: " + QString::number(italic) + ", ";
-        _s = _s + "underline: " + QString::number(underline) + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + ", ";
-        _s = _s + "shadow: " + QString::number(shadow) + ", ";
-        _s = _s + "fehint: " + QString::number(fehint) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + ", ";
-        _s = _s + "kumi: " + QString::number(kumi) + ", ";
-        _s = _s + "unused3: " + QString::number(unused3) + ", ";
-        _s = _s + "emboss: " + QString::number(emboss) + ", ";
-        _s = _s + "fHasStyle: " + QString::number(fHasStyle) + "(" + QString::number(fHasStyle,16).toUpper() + ")" + ", ";
-        _s = _s + "unused4: " + QString::number(unused4) + "(" + QString::number(unused4,16).toUpper() + ")" + ", ";
-        _s = _s + "typeface: " + QString::number(typeface) + ", ";
-        _s = _s + "size: " + QString::number(size) + ", ";
-        _s = _s + "color: " + QString::number(color) + ", ";
-        _s = _s + "position: " + QString::number(position) + ", ";
-        _s = _s + "pp10ext: " + QString::number(pp10ext) + ", ";
-        _s = _s + "oldEATypeface: " + QString::number(oldEATypeface) + ", ";
-        _s = _s + "ansiTypeface: " + QString::number(ansiTypeface) + ", ";
-        _s = _s + "symbolTypeface: " + QString::number(symbolTypeface) + ", ";
-        _s = _s + "newEATypeface: " + QString::number(newEATypeface) + ", ";
-        _s = _s + "csTypeface: " + QString::number(csTypeface) + ", ";
-        _s = _s + "pp11ext: " + QString::number(pp11ext) + ", ";
-        _s = _s + "reserved: " + QString::number(reserved) + "(" + QString::number(reserved,16).toUpper() + ")" + ", ";
-        return _s;
+    CFMasks(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2219,23 +1874,7 @@ public:
     bool emboss;
     quint8 pp9rt;
     quint8 unused4;
-    CFStyle()  {
-    }
-    QString toString() {
-        QString _s = "CFStyle:";
-        _s = _s + "bold: " + QString::number(bold) + ", ";
-        _s = _s + "italic: " + QString::number(italic) + ", ";
-        _s = _s + "underline: " + QString::number(underline) + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + ", ";
-        _s = _s + "shadow: " + QString::number(shadow) + ", ";
-        _s = _s + "fehint: " + QString::number(fehint) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + ", ";
-        _s = _s + "kumi: " + QString::number(kumi) + ", ";
-        _s = _s + "unused3: " + QString::number(unused3) + ", ";
-        _s = _s + "emboss: " + QString::number(emboss) + ", ";
-        _s = _s + "pp9rt: " + QString::number(pp9rt) + "(" + QString::number(pp9rt,16).toUpper() + ")" + ", ";
-        _s = _s + "unused4: " + QString::number(unused4) + "(" + QString::number(unused4,16).toUpper() + ")" + ", ";
-        return _s;
+    CFStyle(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2246,13 +1885,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<FontCollectionEntry> rgFontCollectionEntry;
-    FontCollectionContainer()  {
-    }
-    QString toString() {
-        QString _s = "FontCollectionContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgFontCollectionEntry: " + "[array of rgFontCollectionEntry]" + ", ";
-        return _s;
+    FontCollectionContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2272,22 +1906,8 @@ public:
     bool fNoFontSubstitution;
     quint8 reserved;
     quint8 lfPitchAndFamily;
-    FontEntityAtom()  {
-    }
-    QString toString() {
-        QString _s = "FontEntityAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "lfFaceName: " + "[array of lfFaceName]" + ", ";
-        _s = _s + "lfCharSet: " + QString::number(lfCharSet) + "(" + QString::number(lfCharSet,16).toUpper() + ")" + ", ";
-        _s = _s + "fEmbedSubsetted: " + QString::number(fEmbedSubsetted) + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
-        _s = _s + "rasterFontType: " + QString::number(rasterFontType) + ", ";
-        _s = _s + "deviceFontType: " + QString::number(deviceFontType) + ", ";
-        _s = _s + "truetypeFontType: " + QString::number(truetypeFontType) + ", ";
-        _s = _s + "fNoFontSubstitution: " + QString::number(fNoFontSubstitution) + ", ";
-        _s = _s + "reserved: " + QString::number(reserved) + "(" + QString::number(reserved,16).toUpper() + ")" + ", ";
-        _s = _s + "lfPitchAndFamily: " + QString::number(lfPitchAndFamily) + "(" + QString::number(lfPitchAndFamily,16).toUpper() + ")" + ", ";
-        return _s;
+    FontEntityAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2298,13 +1918,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray data;
-    FontEmbedDataBlob()  {
-    }
-    QString toString() {
-        QString _s = "FontEmbedDataBlob:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "data: " + "[array of data]" + ", ";
-        return _s;
+    FontEmbedDataBlob(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2315,13 +1930,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint32 level;
-    KinsokuAtom()  {
-    }
-    QString toString() {
-        QString _s = "KinsokuAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "level: " + QString::number(level) + "(" + QString::number(level,16).toUpper() + ")" + ", ";
-        return _s;
+    KinsokuAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2332,13 +1942,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint16 kinsokuLeading;
-    KinsokuLeadingAtom()  {
-    }
-    QString toString() {
-        QString _s = "KinsokuLeadingAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "kinsokuLeading: " + QString::number(kinsokuLeading) + "(" + QString::number(kinsokuLeading,16).toUpper() + ")" + ", ";
-        return _s;
+    KinsokuLeadingAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2349,13 +1954,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint16 kinsokuFollowing;
-    KinsokuFollowingAtom()  {
-    }
-    QString toString() {
-        QString _s = "KinsokuFollowingAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "kinsokuFollowing: " + QString::number(kinsokuFollowing) + "(" + QString::number(kinsokuFollowing,16).toUpper() + ")" + ", ";
-        return _s;
+    KinsokuFollowingAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2366,13 +1966,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<TextSIRun> rgSIRun;
-    TextSpecialInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextSpecialInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgSIRun: " + "[array of rgSIRun]" + ", ";
-        return _s;
+    TextSpecialInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2383,13 +1978,7 @@ public:
     static const Introspection _introspection;
     quint32 count;
     QVector<quint32> rgSmartTagIndex;
-    SmartTags()  {
-    }
-    QString toString() {
-        QString _s = "SmartTags:";
-        _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
-        _s = _s + "rgSmartTagIndex: " + "[array of rgSmartTagIndex]" + ", ";
-        return _s;
+    SmartTags(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2404,17 +1993,8 @@ public:
     quint8 fNoSizeToServer;
     quint8 fIsTable;
     quint8 unused;
-    ExOleEmbedAtom()  {
-    }
-    QString toString() {
-        QString _s = "ExOleEmbedAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "exColorFollow: " + QString::number(exColorFollow) + "(" + QString::number(exColorFollow,16).toUpper() + ")" + ", ";
-        _s = _s + "fCantLockServer: " + QString::number(fCantLockServer) + "(" + QString::number(fCantLockServer,16).toUpper() + ")" + ", ";
-        _s = _s + "fNoSizeToServer: " + QString::number(fNoSizeToServer) + "(" + QString::number(fNoSizeToServer,16).toUpper() + ")" + ", ";
-        _s = _s + "fIsTable: " + QString::number(fIsTable) + "(" + QString::number(fIsTable,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
-        return _s;
+    ExOleEmbedAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2425,13 +2005,7 @@ public:
     static const Introspection _introspection;
     qint32 x;
     qint32 y;
-    PointStruct()  {
-    }
-    QString toString() {
-        QString _s = "PointStruct:";
-        _s = _s + "x: " + QString::number(x) + "(" + QString::number(x,16).toUpper() + ")" + ", ";
-        _s = _s + "y: " + QString::number(y) + "(" + QString::number(y,16).toUpper() + ")" + ", ";
-        return _s;
+    PointStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2442,13 +2016,7 @@ public:
     static const Introspection _introspection;
     qint32 numer;
     qint32 denom;
-    RatioStruct()  {
-    }
-    QString toString() {
-        QString _s = "RatioStruct:";
-        _s = _s + "numer: " + QString::number(numer) + "(" + QString::number(numer,16).toUpper() + ")" + ", ";
-        _s = _s + "denom: " + QString::number(denom) + "(" + QString::number(denom,16).toUpper() + ")" + ", ";
-        return _s;
+    RatioStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2459,13 +2027,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<PersistDirectoryEntry> rgPersistDirEntry;
-    PersistDirectoryAtom()  {
-    }
-    QString toString() {
-        QString _s = "PersistDirectoryAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgPersistDirEntry: " + "[array of rgPersistDirEntry]" + ", ";
-        return _s;
+    PersistDirectoryAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2476,13 +2039,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownDocumentContainerChild()  {
-    }
-    QString toString() {
-        QString _s = "UnknownDocumentContainerChild:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    UnknownDocumentContainerChild(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2493,13 +2051,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownDocumentContainerChild2()  {
-    }
-    QString toString() {
-        QString _s = "UnknownDocumentContainerChild2:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    UnknownDocumentContainerChild2(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2510,13 +2063,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownDocumentContainerChild3()  {
-    }
-    QString toString() {
-        QString _s = "UnknownDocumentContainerChild3:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    UnknownDocumentContainerChild3(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2527,13 +2075,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownDocumentContainerChild4()  {
-    }
-    QString toString() {
-        QString _s = "UnknownDocumentContainerChild4:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    UnknownDocumentContainerChild4(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2544,13 +2087,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownOfficeArtClientDataChild()  {
-    }
-    QString toString() {
-        QString _s = "UnknownOfficeArtClientDataChild:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    UnknownOfficeArtClientDataChild(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2561,13 +2099,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownSlideContainerChild()  {
-    }
-    QString toString() {
-        QString _s = "UnknownSlideContainerChild:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    UnknownSlideContainerChild(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2579,14 +2112,7 @@ public:
     quint32 persistId;
     quint16 cPersist;
     QList<PersistOffsetEntry> rgPersistOffset;
-    PersistDirectoryEntry()  {
-    }
-    QString toString() {
-        QString _s = "PersistDirectoryEntry:";
-        _s = _s + "persistId: " + QString::number(persistId) + "(" + QString::number(persistId,16).toUpper() + ")" + ", ";
-        _s = _s + "cPersist: " + QString::number(cPersist) + "(" + QString::number(cPersist,16).toUpper() + ")" + ", ";
-        _s = _s + "rgPersistOffset: " + "[array of rgPersistOffset]" + ", ";
-        return _s;
+    PersistDirectoryEntry(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2596,12 +2122,7 @@ private:
 public:
     static const Introspection _introspection;
     quint32 anon;
-    PersistOffsetEntry()  {
-    }
-    QString toString() {
-        QString _s = "PersistOffsetEntry:";
-        _s = _s + "anon: " + QString::number(anon) + "(" + QString::number(anon,16).toUpper() + ")" + ", ";
-        return _s;
+    PersistOffsetEntry(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2611,12 +2132,7 @@ private:
 public:
     static const Introspection _introspection;
     quint32 anon;
-    PersistIdRef()  {
-    }
-    QString toString() {
-        QString _s = "PersistIdRef:";
-        _s = _s + "anon: " + QString::number(anon) + "(" + QString::number(anon,16).toUpper() + ")" + ", ";
-        return _s;
+    PersistIdRef(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2627,13 +2143,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<ColorStruct> rgSchemeColor;
-    SchemeListElementColorSchemeAtom()  {
-    }
-    QString toString() {
-        QString _s = "SchemeListElementColorSchemeAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgSchemeColor: " + "[array of rgSchemeColor]" + ", ";
-        return _s;
+    SchemeListElementColorSchemeAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2644,13 +2155,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    RoundTripOArtTextStyles12Atom()  {
-    }
-    QString toString() {
-        QString _s = "RoundTripOArtTextStyles12Atom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    RoundTripOArtTextStyles12Atom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2661,13 +2167,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SlideNameAtom()  {
-    }
-    QString toString() {
-        QString _s = "SlideNameAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    SlideNameAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2678,13 +2179,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<SlideProgTagsSubContainerOrAtom> rgTypeRec;
-    SlideProgTagsContainer()  {
-    }
-    QString toString() {
-        QString _s = "SlideProgTagsContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgTypeRec: " + "[array of rgTypeRec]" + ", ";
-        return _s;
+    SlideProgTagsContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2695,13 +2191,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SlideProgBinaryTagContainer()  {
-    }
-    QString toString() {
-        QString _s = "SlideProgBinaryTagContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    SlideProgBinaryTagContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2712,13 +2203,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> tagName;
-    TagNameAtom()  {
-    }
-    QString toString() {
-        QString _s = "TagNameAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "tagName: " + "[array of tagName]" + ", ";
-        return _s;
+    TagNameAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2729,13 +2215,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> tagValue;
-    TagValueAtom()  {
-    }
-    QString toString() {
-        QString _s = "TagValueAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "tagValue: " + "[array of tagValue]" + ", ";
-        return _s;
+    TagValueAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2746,13 +2227,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    RoundTripMainMasterRecord()  {
-    }
-    QString toString() {
-        QString _s = "RoundTripMainMasterRecord:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    RoundTripMainMasterRecord(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2763,13 +2239,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> templateName;
-    TemplateNameAtom()  {
-    }
-    QString toString() {
-        QString _s = "TemplateNameAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "templateName: " + "[array of templateName]" + ", ";
-        return _s;
+    TemplateNameAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2780,13 +2251,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    RoundTripSlideSyncInfo12Container()  {
-    }
-    QString toString() {
-        QString _s = "RoundTripSlideSyncInfo12Container:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    RoundTripSlideSyncInfo12Container(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2797,13 +2263,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    NotesContainer()  {
-    }
-    QString toString() {
-        QString _s = "NotesContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    NotesContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2814,13 +2275,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    HandoutContainer()  {
-    }
-    QString toString() {
-        QString _s = "HandoutContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    HandoutContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2831,13 +2287,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    ExControlStg()  {
-    }
-    QString toString() {
-        QString _s = "ExControlStg:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExControlStg(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2848,13 +2299,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    ExOleObjStg()  {
-    }
-    QString toString() {
-        QString _s = "ExOleObjStg:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExOleObjStg(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2876,23 +2322,8 @@ public:
     quint16 lastView;
     quint16 unused;
     quint32 encryptSessionPersistIdRef;
-    UserEditAtom()  {
-    }
-    QString toString() {
-        QString _s = "UserEditAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "lastSlideIdRef: " + QString::number(lastSlideIdRef) + "(" + QString::number(lastSlideIdRef,16).toUpper() + ")" + ", ";
-        _s = _s + "version: " + QString::number(version) + "(" + QString::number(version,16).toUpper() + ")" + ", ";
-        _s = _s + "minorVersion: " + QString::number(minorVersion) + "(" + QString::number(minorVersion,16).toUpper() + ")" + ", ";
-        _s = _s + "majorVersion: " + QString::number(majorVersion) + "(" + QString::number(majorVersion,16).toUpper() + ")" + ", ";
-        _s = _s + "offsetLastEdit: " + QString::number(offsetLastEdit) + "(" + QString::number(offsetLastEdit,16).toUpper() + ")" + ", ";
-        _s = _s + "offsetPersistDirectory: " + QString::number(offsetPersistDirectory) + "(" + QString::number(offsetPersistDirectory,16).toUpper() + ")" + ", ";
-        _s = _s + "docPersistIdRef: " + QString::number(docPersistIdRef) + "(" + QString::number(docPersistIdRef,16).toUpper() + ")" + ", ";
-        _s = _s + "persistIdSeed: " + QString::number(persistIdSeed) + "(" + QString::number(persistIdSeed,16).toUpper() + ")" + ", ";
-        _s = _s + "lastView: " + QString::number(lastView) + "(" + QString::number(lastView,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
-        _s = _s + "encryptSessionPersistIdRef: " + QString::number(encryptSessionPersistIdRef) + "(" + QString::number(encryptSessionPersistIdRef,16).toUpper() + ")" + ", ";
-        return _s;
+    UserEditAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2903,13 +2334,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    VbaProjectStg()  {
-    }
-    QString toString() {
-        QString _s = "VbaProjectStg:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    VbaProjectStg(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2920,13 +2346,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SlideProgTagscontainer()  {
-    }
-    QString toString() {
-        QString _s = "SlideProgTagscontainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    SlideProgTagscontainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2942,18 +2363,8 @@ public:
     quint32 notesIdRef;
     quint16 slideFlags;
     quint16 unused;
-    SlideAtom()  {
-    }
-    QString toString() {
-        QString _s = "SlideAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "geom: " + QString::number(geom) + "(" + QString::number(geom,16).toUpper() + ")" + ", ";
-        _s = _s + "rgPlaceholderTypes: " + "[array of rgPlaceholderTypes]" + ", ";
-        _s = _s + "masterIdRef: " + QString::number(masterIdRef) + "(" + QString::number(masterIdRef,16).toUpper() + ")" + ", ";
-        _s = _s + "notesIdRef: " + QString::number(notesIdRef) + "(" + QString::number(notesIdRef,16).toUpper() + ")" + ", ";
-        _s = _s + "slideFlags: " + QString::number(slideFlags) + "(" + QString::number(slideFlags,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
-        return _s;
+    SlideAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -2983,32 +2394,8 @@ public:
     quint8 reserved7;
     quint8 speed;
     QByteArray unused;
-    SlideShowSlideInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "SlideShowSlideInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "slidetime: " + QString::number(slidetime) + "(" + QString::number(slidetime,16).toUpper() + ")" + ", ";
-        _s = _s + "slideIdRef: " + QString::number(slideIdRef) + "(" + QString::number(slideIdRef,16).toUpper() + ")" + ", ";
-        _s = _s + "effectDirection: " + QString::number(effectDirection) + "(" + QString::number(effectDirection,16).toUpper() + ")" + ", ";
-        _s = _s + "effectType: " + QString::number(effectType) + "(" + QString::number(effectType,16).toUpper() + ")" + ", ";
-        _s = _s + "fManualAdvance: " + QString::number(fManualAdvance) + ", ";
-        _s = _s + "reserved: " + QString::number(reserved) + ", ";
-        _s = _s + "fHidden: " + QString::number(fHidden) + ", ";
-        _s = _s + "reserved2: " + QString::number(reserved2) + ", ";
-        _s = _s + "fSound: " + QString::number(fSound) + ", ";
-        _s = _s + "reserved3: " + QString::number(reserved3) + ", ";
-        _s = _s + "fLoopSound: " + QString::number(fLoopSound) + ", ";
-        _s = _s + "reserved4: " + QString::number(reserved4) + ", ";
-        _s = _s + "fStopSound: " + QString::number(fStopSound) + ", ";
-        _s = _s + "freserved5: " + QString::number(freserved5) + ", ";
-        _s = _s + "fAutoAdvance: " + QString::number(fAutoAdvance) + ", ";
-        _s = _s + "reserved6: " + QString::number(reserved6) + ", ";
-        _s = _s + "fCursorVisible: " + QString::number(fCursorVisible) + ", ";
-        _s = _s + "reserved7: " + QString::number(reserved7) + "(" + QString::number(reserved7,16).toUpper() + ")" + ", ";
-        _s = _s + "speed: " + QString::number(speed) + "(" + QString::number(speed,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + "[array of unused]" + ", ";
-        return _s;
+    SlideShowSlideInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3019,13 +2406,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SlideShowDocInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "SlideShowDocInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    SlideShowDocInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3036,13 +2418,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<ColorStruct> rgSchemeColor;
-    SlideSchemeColorSchemeAtom()  {
-    }
-    QString toString() {
-        QString _s = "SlideSchemeColorSchemeAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgSchemeColor: " + "[array of rgSchemeColor]" + ", ";
-        return _s;
+    SlideSchemeColorSchemeAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3053,13 +2430,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    RoundTripSlideRecord()  {
-    }
-    QString toString() {
-        QString _s = "RoundTripSlideRecord:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    RoundTripSlideRecord(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3070,13 +2442,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    NamedShowsContainer()  {
-    }
-    QString toString() {
-        QString _s = "NamedShowsContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    NamedShowsContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3087,13 +2454,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SummaryContainer()  {
-    }
-    QString toString() {
-        QString _s = "SummaryContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    SummaryContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3104,13 +2466,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    DocRoutingSlipAtom()  {
-    }
-    QString toString() {
-        QString _s = "DocRoutingSlipAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    DocRoutingSlipAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3121,13 +2478,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    PrintOptionsAtom()  {
-    }
-    QString toString() {
-        QString _s = "PrintOptionsAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    PrintOptionsAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3138,13 +2490,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    RoundTripCustomTableStyles12Atom()  {
-    }
-    QString toString() {
-        QString _s = "RoundTripCustomTableStyles12Atom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    RoundTripCustomTableStyles12Atom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3157,15 +2504,7 @@ public:
     quint8 green;
     quint8 blue;
     quint8 unused;
-    ColorStruct()  {
-    }
-    QString toString() {
-        QString _s = "ColorStruct:";
-        _s = _s + "red: " + QString::number(red) + "(" + QString::number(red,16).toUpper() + ")" + ", ";
-        _s = _s + "green: " + QString::number(green) + "(" + QString::number(green,16).toUpper() + ")" + ", ";
-        _s = _s + "blue: " + QString::number(blue) + "(" + QString::number(blue,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
-        return _s;
+    ColorStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3176,13 +2515,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 exObjIdSeed;
-    ExObjListAtom()  {
-    }
-    QString toString() {
-        QString _s = "ExObjListAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "exObjIdSeed: " + QString::number(exObjIdSeed) + "(" + QString::number(exObjIdSeed,16).toUpper() + ")" + ", ";
-        return _s;
+    ExObjListAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3193,13 +2527,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExAviMovieContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExAviMovieContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExAviMovieContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3210,13 +2539,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExCDAudioContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExCDAudioContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExCDAudioContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3227,13 +2551,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExControlContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExControlContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExControlContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3244,13 +2563,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExHyperlinkContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExHyperlinkContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExHyperlinkContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3261,13 +2575,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExMCIMovieContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExMCIMovieContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExMCIMovieContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3278,13 +2587,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExMIDIAudioContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExMIDIAudioContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExMIDIAudioContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3295,13 +2599,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExWAVAudioEmbeddedContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExWAVAudioEmbeddedContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExWAVAudioEmbeddedContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3312,13 +2611,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExWAVAudioLinkContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExWAVAudioLinkContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExWAVAudioLinkContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3329,13 +2623,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    UnknownExObjListSubContainerChild()  {
-    }
-    QString toString() {
-        QString _s = "UnknownExObjListSubContainerChild:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    UnknownExObjListSubContainerChild(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3348,15 +2637,8 @@ public:
     quint32 slideIdRef;
     quint32 oleUpdateMode;
     quint32 unused;
-    ExOleLinkAtom()  {
-    }
-    QString toString() {
-        QString _s = "ExOleLinkAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "slideIdRef: " + QString::number(slideIdRef) + "(" + QString::number(slideIdRef,16).toUpper() + ")" + ", ";
-        _s = _s + "oleUpdateMode: " + QString::number(oleUpdateMode) + "(" + QString::number(oleUpdateMode,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
-        return _s;
+    ExOleLinkAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3372,18 +2654,8 @@ public:
     quint32 subType;
     quint32 persistIdRef;
     quint32 unused;
-    ExOleObjAtom()  {
-    }
-    QString toString() {
-        QString _s = "ExOleObjAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "drawAspect: " + QString::number(drawAspect) + "(" + QString::number(drawAspect,16).toUpper() + ")" + ", ";
-        _s = _s + "type: " + QString::number(type) + "(" + QString::number(type,16).toUpper() + ")" + ", ";
-        _s = _s + "exObjId: " + QString::number(exObjId) + "(" + QString::number(exObjId,16).toUpper() + ")" + ", ";
-        _s = _s + "subType: " + QString::number(subType) + "(" + QString::number(subType,16).toUpper() + ")" + ", ";
-        _s = _s + "persistIdRef: " + QString::number(persistIdRef) + "(" + QString::number(persistIdRef,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
-        return _s;
+    ExOleObjAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3394,13 +2666,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray menuName;
-    MenuNameAtom()  {
-    }
-    QString toString() {
-        QString _s = "MenuNameAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "menuName: " + "[array of menuName]" + ", ";
-        return _s;
+    MenuNameAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3411,13 +2678,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray progId;
-    ProgIDAtom()  {
-    }
-    QString toString() {
-        QString _s = "ProgIDAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "progId: " + "[array of progId]" + ", ";
-        return _s;
+    ProgIDAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3428,13 +2690,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray clipboardName;
-    ClipboardNameAtom()  {
-    }
-    QString toString() {
-        QString _s = "ClipboardNameAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "clipboardName: " + "[array of clipboardName]" + ", ";
-        return _s;
+    ClipboardNameAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3448,16 +2705,8 @@ public:
     qint16 xExt;
     qint16 yExt;
     QByteArray data;
-    MetafileBlob()  {
-    }
-    QString toString() {
-        QString _s = "MetafileBlob:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "mm: " + QString::number(mm) + "(" + QString::number(mm,16).toUpper() + ")" + ", ";
-        _s = _s + "xExt: " + QString::number(xExt) + "(" + QString::number(xExt,16).toUpper() + ")" + ", ";
-        _s = _s + "yExt: " + QString::number(yExt) + "(" + QString::number(yExt,16).toUpper() + ")" + ", ";
-        _s = _s + "data: " + "[array of data]" + ", ";
-        return _s;
+    MetafileBlob(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3470,15 +2719,7 @@ public:
     quint32 cidcl;
     quint32 cspSaved;
     quint32 cdgSaved;
-    OfficeArtFDGG()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFDGG:";
-        _s = _s + "spidMax: " + QString::number(spidMax) + "(" + QString::number(spidMax,16).toUpper() + ")" + ", ";
-        _s = _s + "cidcl: " + QString::number(cidcl) + "(" + QString::number(cidcl,16).toUpper() + ")" + ", ";
-        _s = _s + "cspSaved: " + QString::number(cspSaved) + "(" + QString::number(cspSaved,16).toUpper() + ")" + ", ";
-        _s = _s + "cdgSaved: " + QString::number(cdgSaved) + "(" + QString::number(cdgSaved,16).toUpper() + ")" + ", ";
-        return _s;
+    OfficeArtFDGG(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3490,14 +2731,8 @@ public:
     OfficeArtRecordHeader rh;
     quint32 csp;
     quint32 spidCur;
-    OfficeArtFDG()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFDG:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "csp: " + QString::number(csp) + "(" + QString::number(csp,16).toUpper() + ")" + ", ";
-        _s = _s + "spidCur: " + QString::number(spidCur) + "(" + QString::number(spidCur,16).toUpper() + ")" + ", ";
-        return _s;
+    OfficeArtFDG(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3508,13 +2743,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtFRIT> rgfrit;
-    OfficeArtFRITContainer()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFRITContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgfrit: " + "[array of rgfrit]" + ", ";
-        return _s;
+    OfficeArtFRITContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3525,13 +2755,7 @@ public:
     static const Introspection _introspection;
     quint16 fridNew;
     quint16 fridOld;
-    OfficeArtFRIT()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFRIT:";
-        _s = _s + "fridNew: " + QString::number(fridNew) + "(" + QString::number(fridNew,16).toUpper() + ")" + ", ";
-        _s = _s + "fridOld: " + QString::number(fridOld) + "(" + QString::number(fridOld,16).toUpper() + ")" + ", ";
-        return _s;
+    OfficeArtFRIT(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3542,13 +2766,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtBStoreContainerFileBlock> rgfb;
-    OfficeArtBStoreContainer()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBStoreContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgfb: " + "[array of rgfb]" + ", ";
-        return _s;
+    OfficeArtBStoreContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3559,13 +2778,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtSpgrContainerFileBlock> rgfb;
-    OfficeArtSpgrContainer()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtSpgrContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgfb: " + "[array of rgfb]" + ", ";
-        return _s;
+    OfficeArtSpgrContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3576,13 +2790,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    OfficeArtSolverContainer()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtSolverContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    OfficeArtSolverContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3596,16 +2805,8 @@ public:
     qint32 yTop;
     qint32 xRight;
     qint32 yBottom;
-    OfficeArtFSPGR()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFSPGR:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "xLeft: " + QString::number(xLeft) + "(" + QString::number(xLeft,16).toUpper() + ")" + ", ";
-        _s = _s + "yTop: " + QString::number(yTop) + "(" + QString::number(yTop,16).toUpper() + ")" + ", ";
-        _s = _s + "xRight: " + QString::number(xRight) + "(" + QString::number(xRight,16).toUpper() + ")" + ", ";
-        _s = _s + "yBottom: " + QString::number(yBottom) + "(" + QString::number(yBottom,16).toUpper() + ")" + ", ";
-        return _s;
+    OfficeArtFSPGR(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3629,26 +2830,8 @@ public:
     bool fBackground;
     bool fHaveSpt;
     quint32 unused1;
-    OfficeArtFSP()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFSP:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "spid: " + QString::number(spid) + "(" + QString::number(spid,16).toUpper() + ")" + ", ";
-        _s = _s + "fGroup: " + QString::number(fGroup) + ", ";
-        _s = _s + "fChild: " + QString::number(fChild) + ", ";
-        _s = _s + "fPatriarch: " + QString::number(fPatriarch) + ", ";
-        _s = _s + "fDeleted: " + QString::number(fDeleted) + ", ";
-        _s = _s + "fOleShape: " + QString::number(fOleShape) + ", ";
-        _s = _s + "fHaveMaster: " + QString::number(fHaveMaster) + ", ";
-        _s = _s + "fFlipH: " + QString::number(fFlipH) + ", ";
-        _s = _s + "fFlipV: " + QString::number(fFlipV) + ", ";
-        _s = _s + "fConnector: " + QString::number(fConnector) + ", ";
-        _s = _s + "fHaveAnchor: " + QString::number(fHaveAnchor) + ", ";
-        _s = _s + "fBackground: " + QString::number(fBackground) + ", ";
-        _s = _s + "fHaveSpt: " + QString::number(fHaveSpt) + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + "(" + QString::number(unused1,16).toUpper() + ")" + ", ";
-        return _s;
+    OfficeArtFSP(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3660,14 +2843,8 @@ public:
     OfficeArtRecordHeader rh;
     QList<OfficeArtFOPTEChoice> fopt;
     QByteArray complexData;
-    OfficeArtFOPT()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFOPT:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "fopt: " + "[array of fopt]" + ", ";
-        _s = _s + "complexData: " + "[array of complexData]" + ", ";
-        return _s;
+    OfficeArtFOPT(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3677,12 +2854,7 @@ private:
 public:
     static const Introspection _introspection;
     QByteArray data;
-    OfficeArtFOPTEComplexData()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFOPTEComplexData:";
-        _s = _s + "data: " + "[array of data]" + ", ";
-        return _s;
+    OfficeArtFOPTEComplexData(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3693,13 +2865,7 @@ public:
     static const Introspection _introspection;
     qint16 integral;
     quint16 fractional;
-    FixedPoint()  {
-    }
-    QString toString() {
-        QString _s = "FixedPoint:";
-        _s = _s + "integral: " + QString::number(integral) + "(" + QString::number(integral,16).toUpper() + ")" + ", ";
-        _s = _s + "fractional: " + QString::number(fractional) + "(" + QString::number(fractional,16).toUpper() + ")" + ", ";
-        return _s;
+    FixedPoint(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3719,22 +2885,7 @@ public:
     bool unused1;
     bool unused2;
     bool unused3;
-    OfficeArtCOLORREF()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtCOLORREF:";
-        _s = _s + "red: " + QString::number(red) + "(" + QString::number(red,16).toUpper() + ")" + ", ";
-        _s = _s + "green: " + QString::number(green) + "(" + QString::number(green,16).toUpper() + ")" + ", ";
-        _s = _s + "blue: " + QString::number(blue) + "(" + QString::number(blue,16).toUpper() + ")" + ", ";
-        _s = _s + "fPaletteIndex: " + QString::number(fPaletteIndex) + ", ";
-        _s = _s + "fPaletteRGB: " + QString::number(fPaletteRGB) + ", ";
-        _s = _s + "fSystemRGB: " + QString::number(fSystemRGB) + ", ";
-        _s = _s + "fSchemeIndex: " + QString::number(fSchemeIndex) + ", ";
-        _s = _s + "fSysIndex: " + QString::number(fSysIndex) + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + ", ";
-        _s = _s + "unused3: " + QString::number(unused3) + ", ";
-        return _s;
+    OfficeArtCOLORREF(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3748,16 +2899,8 @@ public:
     qint32 yTop;
     qint32 xRight;
     qint32 yBottom;
-    OfficeArtChildAnchor()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtChildAnchor:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "xLeft: " + QString::number(xLeft) + "(" + QString::number(xLeft,16).toUpper() + ")" + ", ";
-        _s = _s + "yTop: " + QString::number(yTop) + "(" + QString::number(yTop,16).toUpper() + ")" + ", ";
-        _s = _s + "xRight: " + QString::number(xRight) + "(" + QString::number(xRight,16).toUpper() + ")" + ", ";
-        _s = _s + "yBottom: " + QString::number(yBottom) + "(" + QString::number(yBottom,16).toUpper() + ")" + ", ";
-        return _s;
+    OfficeArtChildAnchor(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3770,15 +2913,8 @@ public:
     quint32 spid;
     bool reserved1;
     bool fLast;
-    OfficeArtFPSPL()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFPSPL:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "spid: " + QString::number(spid) + "(" + QString::number(spid,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved1: " + QString::number(reserved1) + ", ";
-        _s = _s + "fLast: " + QString::number(fLast) + ", ";
-        return _s;
+    OfficeArtFPSPL(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3789,13 +2925,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    OfficeArtSecondaryFOPT()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtSecondaryFOPT:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    OfficeArtSecondaryFOPT(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3807,14 +2938,8 @@ public:
     OfficeArtRecordHeader rh;
     QList<OfficeArtFOPTE> fopt;
     QByteArray complexData;
-    OfficeArtTertiaryFOPT()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtTertiaryFOPT:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "fopt: " + "[array of fopt]" + ", ";
-        _s = _s + "complexData: " + "[array of complexData]" + ", ";
-        return _s;
+    OfficeArtTertiaryFOPT(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3827,15 +2952,7 @@ public:
     qint32 left;
     qint32 right;
     qint32 bottom;
-    RectStruct()  {
-    }
-    QString toString() {
-        QString _s = "RectStruct:";
-        _s = _s + "top: " + QString::number(top) + "(" + QString::number(top,16).toUpper() + ")" + ", ";
-        _s = _s + "left: " + QString::number(left) + "(" + QString::number(left,16).toUpper() + ")" + ", ";
-        _s = _s + "right: " + QString::number(right) + "(" + QString::number(right,16).toUpper() + ")" + ", ";
-        _s = _s + "bottom: " + QString::number(bottom) + "(" + QString::number(bottom,16).toUpper() + ")" + ", ";
-        return _s;
+    RectStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3848,15 +2965,7 @@ public:
     qint16 left;
     qint16 right;
     qint16 bottom;
-    SmallRectStruct()  {
-    }
-    QString toString() {
-        QString _s = "SmallRectStruct:";
-        _s = _s + "top: " + QString::number(top) + "(" + QString::number(top,16).toUpper() + ")" + ", ";
-        _s = _s + "left: " + QString::number(left) + "(" + QString::number(left,16).toUpper() + ")" + ", ";
-        _s = _s + "right: " + QString::number(right) + "(" + QString::number(right,16).toUpper() + ")" + ", ";
-        _s = _s + "bottom: " + QString::number(bottom) + "(" + QString::number(bottom,16).toUpper() + ")" + ", ";
-        return _s;
+    SmallRectStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3867,13 +2976,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ShapeFlagsAtom()  {
-    }
-    QString toString() {
-        QString _s = "ShapeFlagsAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ShapeFlagsAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3884,13 +2988,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ShapeFlags10Atom()  {
-    }
-    QString toString() {
-        QString _s = "ShapeFlags10Atom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ShapeFlags10Atom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3901,13 +3000,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExObjRefAtom()  {
-    }
-    QString toString() {
-        QString _s = "ExObjRefAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ExObjRefAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3918,13 +3012,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    AnimationInfoContainer()  {
-    }
-    QString toString() {
-        QString _s = "AnimationInfoContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    AnimationInfoContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3946,24 +3035,8 @@ public:
     quint8 reserved;
     quint8 hyperlinkType;
     QByteArray unused;
-    InteractiveInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "InteractiveInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "soundIdRef: " + QString::number(soundIdRef) + "(" + QString::number(soundIdRef,16).toUpper() + ")" + ", ";
-        _s = _s + "exHyperlinkIdRef: " + QString::number(exHyperlinkIdRef) + "(" + QString::number(exHyperlinkIdRef,16).toUpper() + ")" + ", ";
-        _s = _s + "action: " + QString::number(action) + "(" + QString::number(action,16).toUpper() + ")" + ", ";
-        _s = _s + "oleVerb: " + QString::number(oleVerb) + "(" + QString::number(oleVerb,16).toUpper() + ")" + ", ";
-        _s = _s + "jump: " + QString::number(jump) + "(" + QString::number(jump,16).toUpper() + ")" + ", ";
-        _s = _s + "fAnimated: " + QString::number(fAnimated) + ", ";
-        _s = _s + "fStopSound: " + QString::number(fStopSound) + ", ";
-        _s = _s + "fCustomSoundReturn: " + QString::number(fCustomSoundReturn) + ", ";
-        _s = _s + "fVisited: " + QString::number(fVisited) + ", ";
-        _s = _s + "reserved: " + QString::number(reserved) + "(" + QString::number(reserved,16).toUpper() + ")" + ", ";
-        _s = _s + "hyperlinkType: " + QString::number(hyperlinkType) + "(" + QString::number(hyperlinkType,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + "[array of unused]" + ", ";
-        return _s;
+    InteractiveInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3974,13 +3047,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray macroName;
-    MacroNameAtom()  {
-    }
-    QString toString() {
-        QString _s = "MacroNameAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "macroName: " + "[array of macroName]" + ", ";
-        return _s;
+    MacroNameAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -3994,16 +3062,8 @@ public:
     quint8 placementId;
     quint8 size;
     quint16 unused;
-    PlaceholderAtom()  {
-    }
-    QString toString() {
-        QString _s = "PlaceholderAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
-        _s = _s + "placementId: " + QString::number(placementId) + "(" + QString::number(placementId,16).toUpper() + ")" + ", ";
-        _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
-        return _s;
+    PlaceholderAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4014,13 +3074,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    RecolorInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "RecolorInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    RecolorInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4031,13 +3086,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     qint32 index;
-    OutlineTextRefAtom()  {
-    }
-    QString toString() {
-        QString _s = "OutlineTextRefAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "index: " + QString::number(index) + "(" + QString::number(index,16).toUpper() + ")" + ", ";
-        return _s;
+    OutlineTextRefAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4048,13 +3098,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ShapeClientRoundtripDataSubcontainerOrAtom()  {
-    }
-    QString toString() {
-        QString _s = "ShapeClientRoundtripDataSubcontainerOrAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    ShapeClientRoundtripDataSubcontainerOrAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4065,13 +3110,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<TextClientDataSubContainerOrAtom> rgChildRec;
-    OfficeArtClientTextBox()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtClientTextBox:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgChildRec: " + "[array of rgChildRec]" + ", ";
-        return _s;
+    OfficeArtClientTextBox(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4082,13 +3122,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    TextRulerAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextRulerAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    TextRulerAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4099,13 +3134,7 @@ public:
     static const Introspection _introspection;
     quint32 dgid;
     quint32 cspidCur;
-    OfficeArtIDCL()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtIDCL:";
-        _s = _s + "dgid: " + QString::number(dgid) + "(" + QString::number(dgid,16).toUpper() + ")" + ", ";
-        _s = _s + "cspidCur: " + QString::number(cspidCur) + "(" + QString::number(cspidCur,16).toUpper() + ")" + ", ";
-        return _s;
+    OfficeArtIDCL(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4117,14 +3146,7 @@ public:
     quint16 opid;
     bool fBid;
     bool fComplex;
-    OfficeArtFOPTEOPID()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFOPTEOPID:";
-        _s = _s + "opid: " + QString::number(opid) + "(" + QString::number(opid,16).toUpper() + ")" + ", ";
-        _s = _s + "fBid: " + QString::number(fBid) + ", ";
-        _s = _s + "fComplex: " + QString::number(fComplex) + ", ";
-        return _s;
+    OfficeArtFOPTEOPID(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4135,13 +3157,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<MSOCR> rgmsocr;
-    OfficeArtColorMRUContainer()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtColorMRUContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgmsocr: " + "[array of rgmsocr]" + ", ";
-        return _s;
+    OfficeArtColorMRUContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4156,17 +3173,7 @@ public:
     quint8 unused1;
     bool fSchemeIndex;
     quint8 unused2;
-    MSOCR()  {
-    }
-    QString toString() {
-        QString _s = "MSOCR:";
-        _s = _s + "red: " + QString::number(red) + "(" + QString::number(red,16).toUpper() + ")" + ", ";
-        _s = _s + "green: " + QString::number(green) + "(" + QString::number(green,16).toUpper() + ")" + ", ";
-        _s = _s + "blue: " + QString::number(blue) + "(" + QString::number(blue,16).toUpper() + ")" + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + "(" + QString::number(unused1,16).toUpper() + ")" + ", ";
-        _s = _s + "fSchemeIndex: " + QString::number(fSchemeIndex) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + "(" + QString::number(unused2,16).toUpper() + ")" + ", ";
-        return _s;
+    MSOCR(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4177,13 +3184,8 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<MSOCR> smca;
-    OfficeArtSplitMenuColorContainer()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtSplitMenuColorContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "smca: " + "[array of smca]" + ", ";
-        return _s;
+    OfficeArtSplitMenuColorContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4194,13 +3196,8 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray anon;
-    todo()  {
-    }
-    QString toString() {
-        QString _s = "todo:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "anon: " + "[array of anon]" + ", ";
-        return _s;
+    todo(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4240,42 +3237,7 @@ public:
     quint16 reserved4;
     quint32 reserved5;
     quint32 reserved6;
-    FibBase()  {
-    }
-    QString toString() {
-        QString _s = "FibBase:";
-        _s = _s + "wIdent: " + QString::number(wIdent) + "(" + QString::number(wIdent,16).toUpper() + ")" + ", ";
-        _s = _s + "nFib: " + QString::number(nFib) + "(" + QString::number(nFib,16).toUpper() + ")" + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
-        _s = _s + "lid: " + QString::number(lid) + "(" + QString::number(lid,16).toUpper() + ")" + ", ";
-        _s = _s + "pnNext: " + QString::number(pnNext) + "(" + QString::number(pnNext,16).toUpper() + ")" + ", ";
-        _s = _s + "fDot: " + QString::number(fDot) + ", ";
-        _s = _s + "fGlsy: " + QString::number(fGlsy) + ", ";
-        _s = _s + "fComplex: " + QString::number(fComplex) + ", ";
-        _s = _s + "fHasPic: " + QString::number(fHasPic) + ", ";
-        _s = _s + "cQuickSaves: " + QString::number(cQuickSaves) + "(" + QString::number(cQuickSaves,16).toUpper() + ")" + ", ";
-        _s = _s + "fEncrypted: " + QString::number(fEncrypted) + ", ";
-        _s = _s + "fWhichTblStm: " + QString::number(fWhichTblStm) + ", ";
-        _s = _s + "fReadOnlyRecommended: " + QString::number(fReadOnlyRecommended) + ", ";
-        _s = _s + "fWriteReservation: " + QString::number(fWriteReservation) + ", ";
-        _s = _s + "fExtChar: " + QString::number(fExtChar) + ", ";
-        _s = _s + "fLoadOverride: " + QString::number(fLoadOverride) + ", ";
-        _s = _s + "fFarEast: " + QString::number(fFarEast) + ", ";
-        _s = _s + "fObfuscated: " + QString::number(fObfuscated) + ", ";
-        _s = _s + "nFibBack: " + QString::number(nFibBack) + "(" + QString::number(nFibBack,16).toUpper() + ")" + ", ";
-        _s = _s + "IKey: " + QString::number(IKey) + "(" + QString::number(IKey,16).toUpper() + ")" + ", ";
-        _s = _s + "envr: " + QString::number(envr) + "(" + QString::number(envr,16).toUpper() + ")" + ", ";
-        _s = _s + "fMac: " + QString::number(fMac) + ", ";
-        _s = _s + "fEmptySpecial: " + QString::number(fEmptySpecial) + ", ";
-        _s = _s + "fLoadOverridePage: " + QString::number(fLoadOverridePage) + ", ";
-        _s = _s + "reserved1: " + QString::number(reserved1) + ", ";
-        _s = _s + "reserved2: " + QString::number(reserved2) + ", ";
-        _s = _s + "fSpare0: " + QString::number(fSpare0) + "(" + QString::number(fSpare0,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved3: " + QString::number(reserved3) + "(" + QString::number(reserved3,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved4: " + QString::number(reserved4) + "(" + QString::number(reserved4,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved5: " + QString::number(reserved5) + "(" + QString::number(reserved5,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved6: " + QString::number(reserved6) + "(" + QString::number(reserved6,16).toUpper() + ")" + ", ";
-        return _s;
+    FibBase(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4298,25 +3260,7 @@ public:
     quint16 reserved12;
     quint16 reserved13;
     quint16 lidFE;
-    FibRgW97()  {
-    }
-    QString toString() {
-        QString _s = "FibRgW97:";
-        _s = _s + "reserved1: " + QString::number(reserved1) + "(" + QString::number(reserved1,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved2: " + QString::number(reserved2) + "(" + QString::number(reserved2,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved3: " + QString::number(reserved3) + "(" + QString::number(reserved3,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved4: " + QString::number(reserved4) + "(" + QString::number(reserved4,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved5: " + QString::number(reserved5) + "(" + QString::number(reserved5,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved6: " + QString::number(reserved6) + "(" + QString::number(reserved6,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved7: " + QString::number(reserved7) + "(" + QString::number(reserved7,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved8: " + QString::number(reserved8) + "(" + QString::number(reserved8,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved9: " + QString::number(reserved9) + "(" + QString::number(reserved9,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved10: " + QString::number(reserved10) + "(" + QString::number(reserved10,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved11: " + QString::number(reserved11) + "(" + QString::number(reserved11,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved12: " + QString::number(reserved12) + "(" + QString::number(reserved12,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved13: " + QString::number(reserved13) + "(" + QString::number(reserved13,16).toUpper() + ")" + ", ";
-        _s = _s + "lidFE: " + QString::number(lidFE) + "(" + QString::number(lidFE,16).toUpper() + ")" + ", ";
-        return _s;
+    FibRgW97(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4347,33 +3291,7 @@ public:
     quint32 reserved12;
     quint32 reserved13;
     quint32 reserved14;
-    FibRgLw97()  {
-    }
-    QString toString() {
-        QString _s = "FibRgLw97:";
-        _s = _s + "cbMac: " + QString::number(cbMac) + "(" + QString::number(cbMac,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved1: " + QString::number(reserved1) + "(" + QString::number(reserved1,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved2: " + QString::number(reserved2) + "(" + QString::number(reserved2,16).toUpper() + ")" + ", ";
-        _s = _s + "ccpText: " + QString::number(ccpText) + "(" + QString::number(ccpText,16).toUpper() + ")" + ", ";
-        _s = _s + "ccpFtn: " + QString::number(ccpFtn) + "(" + QString::number(ccpFtn,16).toUpper() + ")" + ", ";
-        _s = _s + "ccpHdd: " + QString::number(ccpHdd) + "(" + QString::number(ccpHdd,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved3: " + QString::number(reserved3) + "(" + QString::number(reserved3,16).toUpper() + ")" + ", ";
-        _s = _s + "ccpAtn: " + QString::number(ccpAtn) + "(" + QString::number(ccpAtn,16).toUpper() + ")" + ", ";
-        _s = _s + "ccpEdn: " + QString::number(ccpEdn) + "(" + QString::number(ccpEdn,16).toUpper() + ")" + ", ";
-        _s = _s + "ccpTxbx: " + QString::number(ccpTxbx) + "(" + QString::number(ccpTxbx,16).toUpper() + ")" + ", ";
-        _s = _s + "ccpHdrTxbx: " + QString::number(ccpHdrTxbx) + "(" + QString::number(ccpHdrTxbx,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved4: " + QString::number(reserved4) + "(" + QString::number(reserved4,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved5: " + QString::number(reserved5) + "(" + QString::number(reserved5,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved6: " + QString::number(reserved6) + "(" + QString::number(reserved6,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved7: " + QString::number(reserved7) + "(" + QString::number(reserved7,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved8: " + QString::number(reserved8) + "(" + QString::number(reserved8,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved9: " + QString::number(reserved9) + "(" + QString::number(reserved9,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved10: " + QString::number(reserved10) + "(" + QString::number(reserved10,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved11: " + QString::number(reserved11) + "(" + QString::number(reserved11,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved12: " + QString::number(reserved12) + "(" + QString::number(reserved12,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved13: " + QString::number(reserved13) + "(" + QString::number(reserved13,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved14: " + QString::number(reserved14) + "(" + QString::number(reserved14,16).toUpper() + ")" + ", ";
-        return _s;
+    FibRgLw97(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4568,197 +3486,7 @@ public:
     quint32 lcbSttbListNames;
     quint32 fcSttbfUssr;
     quint32 lcbSttbfUssr;
-    FibRgFcLcb97()  {
-    }
-    QString toString() {
-        QString _s = "FibRgFcLcb97:";
-        _s = _s + "fcStshfOrig: " + QString::number(fcStshfOrig) + "(" + QString::number(fcStshfOrig,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbStshfOrig: " + QString::number(lcbStshfOrig) + "(" + QString::number(lcbStshfOrig,16).toUpper() + ")" + ", ";
-        _s = _s + "fcStshf: " + QString::number(fcStshf) + "(" + QString::number(fcStshf,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbStshf: " + QString::number(lcbStshf) + "(" + QString::number(lcbStshf,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcffndRef: " + QString::number(fcPlcffndRef) + "(" + QString::number(fcPlcffndRef,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcffndRef: " + QString::number(lcbPlcffndRef) + "(" + QString::number(lcbPlcffndRef,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcffndTxt: " + QString::number(fcPlcffndTxt) + "(" + QString::number(fcPlcffndTxt,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcffndTxt: " + QString::number(lcbPlcffndTxt) + "(" + QString::number(lcbPlcffndTxt,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfandRef: " + QString::number(fcPlcfandRef) + "(" + QString::number(fcPlcfandRef,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfandRef: " + QString::number(lcbPlcfandRef) + "(" + QString::number(lcbPlcfandRef,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfandTxt: " + QString::number(fcPlcfandTxt) + "(" + QString::number(fcPlcfandTxt,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfandTxt: " + QString::number(lcbPlcfandTxt) + "(" + QString::number(lcbPlcfandTxt,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfSed: " + QString::number(fcPlcfSed) + "(" + QString::number(fcPlcfSed,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfSed: " + QString::number(lcbPlcfSed) + "(" + QString::number(lcbPlcfSed,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcPad: " + QString::number(fcPlcPad) + "(" + QString::number(fcPlcPad,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcPad: " + QString::number(lcbPlcPad) + "(" + QString::number(lcbPlcPad,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfPhe: " + QString::number(fcPlcfPhe) + "(" + QString::number(fcPlcfPhe,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfPhe: " + QString::number(lcbPlcfPhe) + "(" + QString::number(lcbPlcfPhe,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfGlsy: " + QString::number(fcSttbfGlsy) + "(" + QString::number(fcSttbfGlsy,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfGlsy: " + QString::number(lcbSttbfGlsy) + "(" + QString::number(lcbSttbfGlsy,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfGlsy: " + QString::number(fcPlcfGlsy) + "(" + QString::number(fcPlcfGlsy,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfGlsy: " + QString::number(lcbPlcfGlsy) + "(" + QString::number(lcbPlcfGlsy,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfHdd: " + QString::number(fcPlcfHdd) + "(" + QString::number(fcPlcfHdd,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfHdd: " + QString::number(lcbPlcfHdd) + "(" + QString::number(lcbPlcfHdd,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfBteChpx: " + QString::number(fcPlcfBteChpx) + "(" + QString::number(fcPlcfBteChpx,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfBteChpx: " + QString::number(lcbPlcfBteChpx) + "(" + QString::number(lcbPlcfBteChpx,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfBtePapx: " + QString::number(fcPlcfBtePapx) + "(" + QString::number(fcPlcfBtePapx,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfBtePapx: " + QString::number(lcbPlcfBtePapx) + "(" + QString::number(lcbPlcfBtePapx,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfSea: " + QString::number(fcPlcfSea) + "(" + QString::number(fcPlcfSea,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfSea: " + QString::number(lcbPlcfSea) + "(" + QString::number(lcbPlcfSea,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfFfn: " + QString::number(fcSttbfFfn) + "(" + QString::number(fcSttbfFfn,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfFfn: " + QString::number(lcbSttbfFfn) + "(" + QString::number(lcbSttbfFfn,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfFldMom: " + QString::number(fcPlcfFldMom) + "(" + QString::number(fcPlcfFldMom,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfFldMom: " + QString::number(lcbPlcfFldMom) + "(" + QString::number(lcbPlcfFldMom,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfFldHdr: " + QString::number(fcPlcfFldHdr) + "(" + QString::number(fcPlcfFldHdr,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfFldHdr: " + QString::number(lcbPlcfFldHdr) + "(" + QString::number(lcbPlcfFldHdr,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfFldFtn: " + QString::number(fcPlcfFldFtn) + "(" + QString::number(fcPlcfFldFtn,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfFldFtn: " + QString::number(lcbPlcfFldFtn) + "(" + QString::number(lcbPlcfFldFtn,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfFldAtn: " + QString::number(fcPlcfFldAtn) + "(" + QString::number(fcPlcfFldAtn,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfFldAtn: " + QString::number(lcbPlcfFldAtn) + "(" + QString::number(lcbPlcfFldAtn,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfFldMcr: " + QString::number(fcPlcfFldMcr) + "(" + QString::number(fcPlcfFldMcr,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfFldMcr: " + QString::number(lcbPlcfFldMcr) + "(" + QString::number(lcbPlcfFldMcr,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfBkmk: " + QString::number(fcSttbfBkmk) + "(" + QString::number(fcSttbfBkmk,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfBkmk: " + QString::number(lcbSttbfBkmk) + "(" + QString::number(lcbSttbfBkmk,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfBkf: " + QString::number(fcPlcfBkf) + "(" + QString::number(fcPlcfBkf,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfBkf: " + QString::number(lcbPlcfBkf) + "(" + QString::number(lcbPlcfBkf,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfBkl: " + QString::number(fcPlcfBkl) + "(" + QString::number(fcPlcfBkl,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfBkl: " + QString::number(lcbPlcfBkl) + "(" + QString::number(lcbPlcfBkl,16).toUpper() + ")" + ", ";
-        _s = _s + "fcCmds: " + QString::number(fcCmds) + "(" + QString::number(fcCmds,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbCmds: " + QString::number(lcbCmds) + "(" + QString::number(lcbCmds,16).toUpper() + ")" + ", ";
-        _s = _s + "fcUnused1: " + QString::number(fcUnused1) + "(" + QString::number(fcUnused1,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbUnused1: " + QString::number(lcbUnused1) + "(" + QString::number(lcbUnused1,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfMcr: " + QString::number(fcSttbfMcr) + "(" + QString::number(fcSttbfMcr,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfMcr: " + QString::number(lcbSttbfMcr) + "(" + QString::number(lcbSttbfMcr,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPrDrvr: " + QString::number(fcPrDrvr) + "(" + QString::number(fcPrDrvr,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPrDrvr: " + QString::number(lcbPrDrvr) + "(" + QString::number(lcbPrDrvr,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPrEnvPort: " + QString::number(fcPrEnvPort) + "(" + QString::number(fcPrEnvPort,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPrEnvPort: " + QString::number(lcbPrEnvPort) + "(" + QString::number(lcbPrEnvPort,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPrEnvLand: " + QString::number(fcPrEnvLand) + "(" + QString::number(fcPrEnvLand,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPrEnvLand: " + QString::number(lcbPrEnvLand) + "(" + QString::number(lcbPrEnvLand,16).toUpper() + ")" + ", ";
-        _s = _s + "fcWss: " + QString::number(fcWss) + "(" + QString::number(fcWss,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbWss: " + QString::number(lcbWss) + "(" + QString::number(lcbWss,16).toUpper() + ")" + ", ";
-        _s = _s + "fcDop: " + QString::number(fcDop) + "(" + QString::number(fcDop,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbDop: " + QString::number(lcbDop) + "(" + QString::number(lcbDop,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfAssoc: " + QString::number(fcSttbfAssoc) + "(" + QString::number(fcSttbfAssoc,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfAssoc: " + QString::number(lcbSttbfAssoc) + "(" + QString::number(lcbSttbfAssoc,16).toUpper() + ")" + ", ";
-        _s = _s + "fcClx: " + QString::number(fcClx) + "(" + QString::number(fcClx,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbClx: " + QString::number(lcbClx) + "(" + QString::number(lcbClx,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfPgdFtn: " + QString::number(fcPlcfPgdFtn) + "(" + QString::number(fcPlcfPgdFtn,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfPgdFtn: " + QString::number(lcbPlcfPgdFtn) + "(" + QString::number(lcbPlcfPgdFtn,16).toUpper() + ")" + ", ";
-        _s = _s + "fcAutosaveSource: " + QString::number(fcAutosaveSource) + "(" + QString::number(fcAutosaveSource,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbAutosaveSource: " + QString::number(lcbAutosaveSource) + "(" + QString::number(lcbAutosaveSource,16).toUpper() + ")" + ", ";
-        _s = _s + "fcGrpXstAtnOwners: " + QString::number(fcGrpXstAtnOwners) + "(" + QString::number(fcGrpXstAtnOwners,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbGrpXstAtnOwners: " + QString::number(lcbGrpXstAtnOwners) + "(" + QString::number(lcbGrpXstAtnOwners,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfAtnBkmk: " + QString::number(fcSttbfAtnBkmk) + "(" + QString::number(fcSttbfAtnBkmk,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfAtnBkmk: " + QString::number(lcbSttbfAtnBkmk) + "(" + QString::number(lcbSttbfAtnBkmk,16).toUpper() + ")" + ", ";
-        _s = _s + "fcUnused2: " + QString::number(fcUnused2) + "(" + QString::number(fcUnused2,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbUnused2: " + QString::number(lcbUnused2) + "(" + QString::number(lcbUnused2,16).toUpper() + ")" + ", ";
-        _s = _s + "fcUnused3: " + QString::number(fcUnused3) + "(" + QString::number(fcUnused3,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbUnused3: " + QString::number(lcbUnused3) + "(" + QString::number(lcbUnused3,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcSpaMom: " + QString::number(fcPlcSpaMom) + "(" + QString::number(fcPlcSpaMom,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcSpaMom: " + QString::number(lcbPlcSpaMom) + "(" + QString::number(lcbPlcSpaMom,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcSpaHdr: " + QString::number(fcPlcSpaHdr) + "(" + QString::number(fcPlcSpaHdr,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcSpaHdr: " + QString::number(lcbPlcSpaHdr) + "(" + QString::number(lcbPlcSpaHdr,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfAtnBkf: " + QString::number(fcPlcfAtnBkf) + "(" + QString::number(fcPlcfAtnBkf,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfAtnBkf: " + QString::number(lcbPlcfAtnBkf) + "(" + QString::number(lcbPlcfAtnBkf,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfAtnBkl: " + QString::number(fcPlcfAtnBkl) + "(" + QString::number(fcPlcfAtnBkl,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfAtnBkl: " + QString::number(lcbPlcfAtnBkl) + "(" + QString::number(lcbPlcfAtnBkl,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPms: " + QString::number(fcPms) + "(" + QString::number(fcPms,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPms: " + QString::number(lcbPms) + "(" + QString::number(lcbPms,16).toUpper() + ")" + ", ";
-        _s = _s + "fcFormFldSttbs: " + QString::number(fcFormFldSttbs) + "(" + QString::number(fcFormFldSttbs,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbFormFldSttbs: " + QString::number(lcbFormFldSttbs) + "(" + QString::number(lcbFormFldSttbs,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfendRef: " + QString::number(fcPlcfendRef) + "(" + QString::number(fcPlcfendRef,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfendRef: " + QString::number(lcbPlcfendRef) + "(" + QString::number(lcbPlcfendRef,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfendTxt: " + QString::number(fcPlcfendTxt) + "(" + QString::number(fcPlcfendTxt,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfendTxt: " + QString::number(lcbPlcfendTxt) + "(" + QString::number(lcbPlcfendTxt,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfFldEdn: " + QString::number(fcPlcfFldEdn) + "(" + QString::number(fcPlcfFldEdn,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfFldEdn: " + QString::number(lcbPlcfFldEdn) + "(" + QString::number(lcbPlcfFldEdn,16).toUpper() + ")" + ", ";
-        _s = _s + "fcUnused4: " + QString::number(fcUnused4) + "(" + QString::number(fcUnused4,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbUnused4: " + QString::number(lcbUnused4) + "(" + QString::number(lcbUnused4,16).toUpper() + ")" + ", ";
-        _s = _s + "fcDggInfo: " + QString::number(fcDggInfo) + "(" + QString::number(fcDggInfo,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbDggInfo: " + QString::number(lcbDggInfo) + "(" + QString::number(lcbDggInfo,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfRMark: " + QString::number(fcSttbfRMark) + "(" + QString::number(fcSttbfRMark,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfRMark: " + QString::number(lcbSttbfRMark) + "(" + QString::number(lcbSttbfRMark,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfCaption: " + QString::number(fcSttbfCaption) + "(" + QString::number(fcSttbfCaption,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfCaption: " + QString::number(lcbSttbfCaption) + "(" + QString::number(lcbSttbfCaption,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfAutoCaption: " + QString::number(fcSttbfAutoCaption) + "(" + QString::number(fcSttbfAutoCaption,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfAutoCaption: " + QString::number(lcbSttbfAutoCaption) + "(" + QString::number(lcbSttbfAutoCaption,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfWkb: " + QString::number(fcPlcfWkb) + "(" + QString::number(fcPlcfWkb,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfWkb: " + QString::number(lcbPlcfWkb) + "(" + QString::number(lcbPlcfWkb,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfSpl: " + QString::number(fcPlcfSpl) + "(" + QString::number(fcPlcfSpl,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfSpl: " + QString::number(lcbPlcfSpl) + "(" + QString::number(lcbPlcfSpl,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcftxbxTxt: " + QString::number(fcPlcftxbxTxt) + "(" + QString::number(fcPlcftxbxTxt,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcftxbxTxt: " + QString::number(lcbPlcftxbxTxt) + "(" + QString::number(lcbPlcftxbxTxt,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfFldTxbx: " + QString::number(fcPlcfFldTxbx) + "(" + QString::number(fcPlcfFldTxbx,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfFldTxbx: " + QString::number(lcbPlcfFldTxbx) + "(" + QString::number(lcbPlcfFldTxbx,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfHdrtxbxTxt: " + QString::number(fcPlcfHdrtxbxTxt) + "(" + QString::number(fcPlcfHdrtxbxTxt,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfHdrtxbxTxt: " + QString::number(lcbPlcfHdrtxbxTxt) + "(" + QString::number(lcbPlcfHdrtxbxTxt,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcffldHdrTxbx: " + QString::number(fcPlcffldHdrTxbx) + "(" + QString::number(fcPlcffldHdrTxbx,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcffldHdrTxbx: " + QString::number(lcbPlcffldHdrTxbx) + "(" + QString::number(lcbPlcffldHdrTxbx,16).toUpper() + ")" + ", ";
-        _s = _s + "fcStwUser: " + QString::number(fcStwUser) + "(" + QString::number(fcStwUser,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbStwUser: " + QString::number(lcbStwUser) + "(" + QString::number(lcbStwUser,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbTtmbd: " + QString::number(fcSttbTtmbd) + "(" + QString::number(fcSttbTtmbd,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbTtmbd: " + QString::number(lcbSttbTtmbd) + "(" + QString::number(lcbSttbTtmbd,16).toUpper() + ")" + ", ";
-        _s = _s + "fcCookieData: " + QString::number(fcCookieData) + "(" + QString::number(fcCookieData,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbCookieData: " + QString::number(lcbCookieData) + "(" + QString::number(lcbCookieData,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPgdMotherOldOld: " + QString::number(fcPgdMotherOldOld) + "(" + QString::number(fcPgdMotherOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPgdMotherOldOld: " + QString::number(lcbPgdMotherOldOld) + "(" + QString::number(lcbPgdMotherOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcBkdMotherOldOld: " + QString::number(fcBkdMotherOldOld) + "(" + QString::number(fcBkdMotherOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbBkdMotherOldOld: " + QString::number(lcbBkdMotherOldOld) + "(" + QString::number(lcbBkdMotherOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPgdFtnOldOld: " + QString::number(fcPgdFtnOldOld) + "(" + QString::number(fcPgdFtnOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPgdFtnOldOld: " + QString::number(lcbPgdFtnOldOld) + "(" + QString::number(lcbPgdFtnOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcBkdFtnOldOld: " + QString::number(fcBkdFtnOldOld) + "(" + QString::number(fcBkdFtnOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbBkdFtnOldOld: " + QString::number(lcbBkdFtnOldOld) + "(" + QString::number(lcbBkdFtnOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPgdEdnOldOld: " + QString::number(fcPgdEdnOldOld) + "(" + QString::number(fcPgdEdnOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPgdEdnOldOld: " + QString::number(lcbPgdEdnOldOld) + "(" + QString::number(lcbPgdEdnOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcBkdEdnOldOld: " + QString::number(fcBkdEdnOldOld) + "(" + QString::number(fcBkdEdnOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbBkdEdnOldOld: " + QString::number(lcbBkdEdnOldOld) + "(" + QString::number(lcbBkdEdnOldOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfIntlFld: " + QString::number(fcSttbfIntlFld) + "(" + QString::number(fcSttbfIntlFld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfIntlFld: " + QString::number(lcbSttbfIntlFld) + "(" + QString::number(lcbSttbfIntlFld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcRouteSlip: " + QString::number(fcRouteSlip) + "(" + QString::number(fcRouteSlip,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbRouteSlip: " + QString::number(lcbRouteSlip) + "(" + QString::number(lcbRouteSlip,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbSavedBy: " + QString::number(fcSttbSavedBy) + "(" + QString::number(fcSttbSavedBy,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbSavedBy: " + QString::number(lcbSttbSavedBy) + "(" + QString::number(lcbSttbSavedBy,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbFnm: " + QString::number(fcSttbFnm) + "(" + QString::number(fcSttbFnm,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbFnm: " + QString::number(lcbSttbFnm) + "(" + QString::number(lcbSttbFnm,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlfLst: " + QString::number(fcPlfLst) + "(" + QString::number(fcPlfLst,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlfLst: " + QString::number(lcbPlfLst) + "(" + QString::number(lcbPlfLst,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlfLfo: " + QString::number(fcPlfLfo) + "(" + QString::number(fcPlfLfo,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlfLfo: " + QString::number(lcbPlfLfo) + "(" + QString::number(lcbPlfLfo,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfTxbxBkd: " + QString::number(fcPlcfTxbxBkd) + "(" + QString::number(fcPlcfTxbxBkd,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfTxbxBkd: " + QString::number(lcbPlcfTxbxBkd) + "(" + QString::number(lcbPlcfTxbxBkd,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfTxbxHdrBkd: " + QString::number(fcPlcfTxbxHdrBkd) + "(" + QString::number(fcPlcfTxbxHdrBkd,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfTxbxHdrBkd: " + QString::number(lcbPlcfTxbxHdrBkd) + "(" + QString::number(lcbPlcfTxbxHdrBkd,16).toUpper() + ")" + ", ";
-        _s = _s + "fcDocUndoWord9: " + QString::number(fcDocUndoWord9) + "(" + QString::number(fcDocUndoWord9,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbDocUndoWord9: " + QString::number(lcbDocUndoWord9) + "(" + QString::number(lcbDocUndoWord9,16).toUpper() + ")" + ", ";
-        _s = _s + "fcRgbUse: " + QString::number(fcRgbUse) + "(" + QString::number(fcRgbUse,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbRgbUse: " + QString::number(lcbRgbUse) + "(" + QString::number(lcbRgbUse,16).toUpper() + ")" + ", ";
-        _s = _s + "fcUsp: " + QString::number(fcUsp) + "(" + QString::number(fcUsp,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbUsp: " + QString::number(lcbUsp) + "(" + QString::number(lcbUsp,16).toUpper() + ")" + ", ";
-        _s = _s + "fcUskf: " + QString::number(fcUskf) + "(" + QString::number(fcUskf,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbUskf: " + QString::number(lcbUskf) + "(" + QString::number(lcbUskf,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcupcRgbUse: " + QString::number(fcPlcupcRgbUse) + "(" + QString::number(fcPlcupcRgbUse,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcupcRgbUse: " + QString::number(lcbPlcupcRgbUse) + "(" + QString::number(lcbPlcupcRgbUse,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcupcUsp: " + QString::number(fcPlcupcUsp) + "(" + QString::number(fcPlcupcUsp,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcupcUsp: " + QString::number(lcbPlcupcUsp) + "(" + QString::number(lcbPlcupcUsp,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbGlsyStyle: " + QString::number(fcSttbGlsyStyle) + "(" + QString::number(fcSttbGlsyStyle,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbGlsyStyle: " + QString::number(lcbSttbGlsyStyle) + "(" + QString::number(lcbSttbGlsyStyle,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlgosl: " + QString::number(fcPlgosl) + "(" + QString::number(fcPlgosl,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlgosl: " + QString::number(lcbPlgosl) + "(" + QString::number(lcbPlgosl,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcocx: " + QString::number(fcPlcocx) + "(" + QString::number(fcPlcocx,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcocx: " + QString::number(lcbPlcocx) + "(" + QString::number(lcbPlcocx,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfBteLvc: " + QString::number(fcPlcfBteLvc) + "(" + QString::number(fcPlcfBteLvc,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfBteLvc: " + QString::number(lcbPlcfBteLvc) + "(" + QString::number(lcbPlcfBteLvc,16).toUpper() + ")" + ", ";
-        _s = _s + "dwLowDateTime: " + QString::number(dwLowDateTime) + "(" + QString::number(dwLowDateTime,16).toUpper() + ")" + ", ";
-        _s = _s + "dwHighDateTime: " + QString::number(dwHighDateTime) + "(" + QString::number(dwHighDateTime,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfLvcPre10: " + QString::number(fcPlcfLvcPre10) + "(" + QString::number(fcPlcfLvcPre10,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfLvcPre10: " + QString::number(lcbPlcfLvcPre10) + "(" + QString::number(lcbPlcfLvcPre10,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfAsumy: " + QString::number(fcPlcfAsumy) + "(" + QString::number(fcPlcfAsumy,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfAsumy: " + QString::number(lcbPlcfAsumy) + "(" + QString::number(lcbPlcfAsumy,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfGram: " + QString::number(fcPlcfGram) + "(" + QString::number(fcPlcfGram,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfGram: " + QString::number(lcbPlcfGram) + "(" + QString::number(lcbPlcfGram,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbListNames: " + QString::number(fcSttbListNames) + "(" + QString::number(fcSttbListNames,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbListNames: " + QString::number(lcbSttbListNames) + "(" + QString::number(lcbSttbListNames,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfUssr: " + QString::number(fcSttbfUssr) + "(" + QString::number(fcSttbfUssr,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfUssr: " + QString::number(lcbSttbfUssr) + "(" + QString::number(lcbSttbfUssr,16).toUpper() + ")" + ", ";
-        return _s;
+    FibRgFcLcb97(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4797,41 +3525,7 @@ public:
     quint32 lcbPgdEdnOld;
     quint32 fcBkdEdnOld;
     quint32 lcbBkdEdnOld;
-    FibRgFcLcb2000()  {
-    }
-    QString toString() {
-        QString _s = "FibRgFcLcb2000:";
-        _s = _s + "fcPlcfTch: " + QString::number(fcPlcfTch) + "(" + QString::number(fcPlcfTch,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfTch: " + QString::number(lcbPlcfTch) + "(" + QString::number(lcbPlcfTch,16).toUpper() + ")" + ", ";
-        _s = _s + "fcRmdThreading: " + QString::number(fcRmdThreading) + "(" + QString::number(fcRmdThreading,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbRmdThreading: " + QString::number(lcbRmdThreading) + "(" + QString::number(lcbRmdThreading,16).toUpper() + ")" + ", ";
-        _s = _s + "fcMid: " + QString::number(fcMid) + "(" + QString::number(fcMid,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbMid: " + QString::number(lcbMid) + "(" + QString::number(lcbMid,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbRgtplc: " + QString::number(fcSttbRgtplc) + "(" + QString::number(fcSttbRgtplc,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbRgtplc: " + QString::number(lcbSttbRgtplc) + "(" + QString::number(lcbSttbRgtplc,16).toUpper() + ")" + ", ";
-        _s = _s + "fcMsoEnvelope: " + QString::number(fcMsoEnvelope) + "(" + QString::number(fcMsoEnvelope,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbMsoEnvelope: " + QString::number(lcbMsoEnvelope) + "(" + QString::number(lcbMsoEnvelope,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfLad: " + QString::number(fcPlcfLad) + "(" + QString::number(fcPlcfLad,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfLad: " + QString::number(lcbPlcfLad) + "(" + QString::number(lcbPlcfLad,16).toUpper() + ")" + ", ";
-        _s = _s + "fcRgDofr: " + QString::number(fcRgDofr) + "(" + QString::number(fcRgDofr,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbRgDofr: " + QString::number(lcbRgDofr) + "(" + QString::number(lcbRgDofr,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcosl: " + QString::number(fcPlcosl) + "(" + QString::number(fcPlcosl,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcosl: " + QString::number(lcbPlcosl) + "(" + QString::number(lcbPlcosl,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfCookieOld: " + QString::number(fcPlcfCookieOld) + "(" + QString::number(fcPlcfCookieOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfCookieOld: " + QString::number(lcbPlcfCookieOld) + "(" + QString::number(lcbPlcfCookieOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPgdMotherOld: " + QString::number(fcPgdMotherOld) + "(" + QString::number(fcPgdMotherOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPgdMotherOld: " + QString::number(lcbPgdMotherOld) + "(" + QString::number(lcbPgdMotherOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcBkdMotherOld: " + QString::number(fcBkdMotherOld) + "(" + QString::number(fcBkdMotherOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbBkdMotherOld: " + QString::number(lcbBkdMotherOld) + "(" + QString::number(lcbBkdMotherOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPgdFtnOld: " + QString::number(fcPgdFtnOld) + "(" + QString::number(fcPgdFtnOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPgdFtnOld: " + QString::number(lcbPgdFtnOld) + "(" + QString::number(lcbPgdFtnOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcBkdFtnOld: " + QString::number(fcBkdFtnOld) + "(" + QString::number(fcBkdFtnOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbBkdFtnOld: " + QString::number(lcbBkdFtnOld) + "(" + QString::number(lcbBkdFtnOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPgdEdnOld: " + QString::number(fcPgdEdnOld) + "(" + QString::number(fcPgdEdnOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPgdEdnOld: " + QString::number(lcbPgdEdnOld) + "(" + QString::number(lcbPgdEdnOld,16).toUpper() + ")" + ", ";
-        _s = _s + "fcBkdEdnOld: " + QString::number(fcBkdEdnOld) + "(" + QString::number(fcBkdEdnOld,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbBkdEdnOld: " + QString::number(lcbBkdEdnOld) + "(" + QString::number(lcbBkdEdnOld,16).toUpper() + ")" + ", ";
-        return _s;
+    FibRgFcLcb2000(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4890,61 +3584,7 @@ public:
     quint32 lcbUnused2;
     quint32 fcPlcffactoid;
     quint32 lcbPlcffactoid;
-    FibRgFcLcb2002()  {
-    }
-    QString toString() {
-        QString _s = "FibRgFcLcb2002:";
-        _s = _s + "fcUnused1: " + QString::number(fcUnused1) + "(" + QString::number(fcUnused1,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbUnused1: " + QString::number(lcbUnused1) + "(" + QString::number(lcbUnused1,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfPgp: " + QString::number(fcPlcfPgp) + "(" + QString::number(fcPlcfPgp,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfPgp: " + QString::number(lcbPlcfPgp) + "(" + QString::number(lcbPlcfPgp,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfuim: " + QString::number(fcPlcfuim) + "(" + QString::number(fcPlcfuim,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfuim: " + QString::number(lcbPlcfuim) + "(" + QString::number(lcbPlcfuim,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlfguidUim: " + QString::number(fcPlfguidUim) + "(" + QString::number(fcPlfguidUim,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlfguidUim: " + QString::number(lcbPlfguidUim) + "(" + QString::number(lcbPlfguidUim,16).toUpper() + ")" + ", ";
-        _s = _s + "fcAtrdExtra: " + QString::number(fcAtrdExtra) + "(" + QString::number(fcAtrdExtra,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbAtrdExtra: " + QString::number(lcbAtrdExtra) + "(" + QString::number(lcbAtrdExtra,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlrsid: " + QString::number(fcPlrsid) + "(" + QString::number(fcPlrsid,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlrsid: " + QString::number(lcbPlrsid) + "(" + QString::number(lcbPlrsid,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfBkmkFactoid: " + QString::number(fcSttbfBkmkFactoid) + "(" + QString::number(fcSttbfBkmkFactoid,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfBkmkFactoid: " + QString::number(lcbSttbfBkmkFactoid) + "(" + QString::number(lcbSttbfBkmkFactoid,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfBkfFactoid: " + QString::number(fcPlcfBkfFactoid) + "(" + QString::number(fcPlcfBkfFactoid,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfBkfFactoid: " + QString::number(lcbPlcfBkfFactoid) + "(" + QString::number(lcbPlcfBkfFactoid,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfcookie: " + QString::number(fcPlcfcookie) + "(" + QString::number(fcPlcfcookie,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfcookie: " + QString::number(lcbPlcfcookie) + "(" + QString::number(lcbPlcfcookie,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfBklFactoid: " + QString::number(fcPlcfBklFactoid) + "(" + QString::number(fcPlcfBklFactoid,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfBklFactoid: " + QString::number(lcbPlcfBklFactoid) + "(" + QString::number(lcbPlcfBklFactoid,16).toUpper() + ")" + ", ";
-        _s = _s + "fcFactoidData: " + QString::number(fcFactoidData) + "(" + QString::number(fcFactoidData,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbFactoidData: " + QString::number(lcbFactoidData) + "(" + QString::number(lcbFactoidData,16).toUpper() + ")" + ", ";
-        _s = _s + "fcDocUndo: " + QString::number(fcDocUndo) + "(" + QString::number(fcDocUndo,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbDocUndo: " + QString::number(lcbDocUndo) + "(" + QString::number(lcbDocUndo,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfBkmkFcc: " + QString::number(fcSttbfBkmkFcc) + "(" + QString::number(fcSttbfBkmkFcc,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfBkmkFcc: " + QString::number(lcbSttbfBkmkFcc) + "(" + QString::number(lcbSttbfBkmkFcc,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfBkfFcc: " + QString::number(fcPlcfBkfFcc) + "(" + QString::number(fcPlcfBkfFcc,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfBkfFcc: " + QString::number(lcbPlcfBkfFcc) + "(" + QString::number(lcbPlcfBkfFcc,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfBklFcc: " + QString::number(fcPlcfBklFcc) + "(" + QString::number(fcPlcfBklFcc,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfBklFcc: " + QString::number(lcbPlcfBklFcc) + "(" + QString::number(lcbPlcfBklFcc,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSttbfbkmkBPRepairs: " + QString::number(fcSttbfbkmkBPRepairs) + "(" + QString::number(fcSttbfbkmkBPRepairs,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbSttbfbkmkBPRepairs: " + QString::number(lcbSttbfbkmkBPRepairs) + "(" + QString::number(lcbSttbfbkmkBPRepairs,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfbkfBPRepairs: " + QString::number(fcPlcfbkfBPRepairs) + "(" + QString::number(fcPlcfbkfBPRepairs,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfbkfBPRepairs: " + QString::number(lcbPlcfbkfBPRepairs) + "(" + QString::number(lcbPlcfbkfBPRepairs,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfbklBPRepairs: " + QString::number(fcPlcfbklBPRepairs) + "(" + QString::number(fcPlcfbklBPRepairs,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfbklBPRepairs: " + QString::number(lcbPlcfbklBPRepairs) + "(" + QString::number(lcbPlcfbklBPRepairs,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPmsNew: " + QString::number(fcPmsNew) + "(" + QString::number(fcPmsNew,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPmsNew: " + QString::number(lcbPmsNew) + "(" + QString::number(lcbPmsNew,16).toUpper() + ")" + ", ";
-        _s = _s + "fcODSO: " + QString::number(fcODSO) + "(" + QString::number(fcODSO,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbODSO: " + QString::number(lcbODSO) + "(" + QString::number(lcbODSO,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfpmiOldXP: " + QString::number(fcPlcfpmiOldXP) + "(" + QString::number(fcPlcfpmiOldXP,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfpmiOldXP: " + QString::number(lcbPlcfpmiOldXP) + "(" + QString::number(lcbPlcfpmiOldXP,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfpmiNewXP: " + QString::number(fcPlcfpmiNewXP) + "(" + QString::number(fcPlcfpmiNewXP,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfpmiNewXP: " + QString::number(lcbPlcfpmiNewXP) + "(" + QString::number(lcbPlcfpmiNewXP,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcfpmiMixedXP: " + QString::number(fcPlcfpmiMixedXP) + "(" + QString::number(fcPlcfpmiMixedXP,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcfpmiMixedXP: " + QString::number(lcbPlcfpmiMixedXP) + "(" + QString::number(lcbPlcfpmiMixedXP,16).toUpper() + ")" + ", ";
-        _s = _s + "fcUnused2: " + QString::number(fcUnused2) + "(" + QString::number(fcUnused2,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbUnused2: " + QString::number(lcbUnused2) + "(" + QString::number(lcbUnused2,16).toUpper() + ")" + ", ";
-        _s = _s + "fcPlcffactoid: " + QString::number(fcPlcffactoid) + "(" + QString::number(fcPlcffactoid,16).toUpper() + ")" + ", ";
-        _s = _s + "lcbPlcffactoid: " + QString::number(lcbPlcffactoid) + "(" + QString::number(lcbPlcffactoid,16).toUpper() + ")" + ", ";
-        return _s;
+    FibRgFcLcb2002(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4955,13 +3595,7 @@ public:
     static const Introspection _introspection;
     quint16 cbSthi;
     QByteArray stshi;
-    LPStshi()  {
-    }
-    QString toString() {
-        QString _s = "LPStshi:";
-        _s = _s + "cbSthi: " + QString::number(cbSthi) + "(" + QString::number(cbSthi,16).toUpper() + ")" + ", ";
-        _s = _s + "stshi: " + "[array of stshi]" + ", ";
-        return _s;
+    LPStshi(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4974,14 +3608,7 @@ public:
     quint16 cbStd;
     QByteArray std;
     quint8 padding;
-    LPStd()  {
-    }
-    QString toString() {
-        QString _s = "LPStd:";
-        _s = _s + "cbStd: " + QString::number(cbStd) + "(" + QString::number(cbStd,16).toUpper() + ")" + ", ";
-        _s = _s + "std: " + "[array of std]" + ", ";
-        _s = _s + "padding: " + QString::number(padding) + "(" + QString::number(padding,16).toUpper() + ")" + ", ";
-        return _s;
+    LPStd(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -4992,13 +3619,7 @@ public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
     QList<Sed> aSed;
-    PlcfSed()  {
-    }
-    QString toString() {
-        QString _s = "PlcfSed:";
-        _s = _s + "aCP: " + "[array of aCP]" + ", ";
-        _s = _s + "aSed: " + "[array of aSed]" + ", ";
-        return _s;
+    PlcfSed(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5011,15 +3632,7 @@ public:
     qint32 fcSepx;
     quint16 fnMpr;
     quint32 fcMpr;
-    Sed()  {
-    }
-    QString toString() {
-        QString _s = "Sed:";
-        _s = _s + "fn: " + QString::number(fn) + "(" + QString::number(fn,16).toUpper() + ")" + ", ";
-        _s = _s + "fcSepx: " + QString::number(fcSepx) + "(" + QString::number(fcSepx,16).toUpper() + ")" + ", ";
-        _s = _s + "fnMpr: " + QString::number(fnMpr) + "(" + QString::number(fnMpr,16).toUpper() + ")" + ", ";
-        _s = _s + "fcMpr: " + QString::number(fcMpr) + "(" + QString::number(fcMpr,16).toUpper() + ")" + ", ";
-        return _s;
+    Sed(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5029,12 +3642,7 @@ private:
 public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
-    Plcfhdd()  {
-    }
-    QString toString() {
-        QString _s = "Plcfhdd:";
-        _s = _s + "aCP: " + "[array of aCP]" + ", ";
-        return _s;
+    Plcfhdd(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5045,13 +3653,7 @@ public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
     QVector<quint32> aPnBteChpx;
-    PlcBteChpx()  {
-    }
-    QString toString() {
-        QString _s = "PlcBteChpx:";
-        _s = _s + "aCP: " + "[array of aCP]" + ", ";
-        _s = _s + "aPnBteChpx: " + "[array of aPnBteChpx]" + ", ";
-        return _s;
+    PlcBteChpx(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5062,13 +3664,7 @@ public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
     QVector<quint32> aPnBteChpx;
-    PlcfBtePapx()  {
-    }
-    QString toString() {
-        QString _s = "PlcfBtePapx:";
-        _s = _s + "aCP: " + "[array of aCP]" + ", ";
-        _s = _s + "aPnBteChpx: " + "[array of aPnBteChpx]" + ", ";
-        return _s;
+    PlcfBtePapx(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5079,13 +3675,7 @@ public:
     static const Introspection _introspection;
     quint8 nTcgVer;
     QByteArray todo;
-    Tcg()  {
-    }
-    QString toString() {
-        QString _s = "Tcg:";
-        _s = _s + "nTcgVer: " + QString::number(nTcgVer) + "(" + QString::number(nTcgVer,16).toUpper() + ")" + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
+    Tcg(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5096,13 +3686,7 @@ public:
     static const Introspection _introspection;
     qint16 cbGrpprl;
     QList<Sprm> GrpPrl;
-    PrcData()  {
-    }
-    QString toString() {
-        QString _s = "PrcData:";
-        _s = _s + "cbGrpprl: " + QString::number(cbGrpprl) + "(" + QString::number(cbGrpprl,16).toUpper() + ")" + ", ";
-        _s = _s + "GrpPrl: " + "[array of GrpPrl]" + ", ";
-        return _s;
+    PrcData(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5115,15 +3699,7 @@ public:
     bool fSpec;
     quint8 sgc;
     quint8 spra;
-    Sprm()  {
-    }
-    QString toString() {
-        QString _s = "Sprm:";
-        _s = _s + "ispmd: " + QString::number(ispmd) + "(" + QString::number(ispmd,16).toUpper() + ")" + ", ";
-        _s = _s + "fSpec: " + QString::number(fSpec) + ", ";
-        _s = _s + "sgc: " + QString::number(sgc) + "(" + QString::number(sgc,16).toUpper() + ")" + ", ";
-        _s = _s + "spra: " + QString::number(spra) + "(" + QString::number(spra,16).toUpper() + ")" + ", ";
-        return _s;
+    Sprm(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5135,14 +3711,7 @@ public:
     quint8 clxt;
     quint32 lcb;
     QList<Pcd> PlcPcd;
-    Pcdt()  {
-    }
-    QString toString() {
-        QString _s = "Pcdt:";
-        _s = _s + "clxt: " + QString::number(clxt) + "(" + QString::number(clxt,16).toUpper() + ")" + ", ";
-        _s = _s + "lcb: " + QString::number(lcb) + "(" + QString::number(lcb,16).toUpper() + ")" + ", ";
-        _s = _s + "PlcPcd: " + "[array of PlcPcd]" + ", ";
-        return _s;
+    Pcdt(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5154,14 +3723,7 @@ public:
     quint32 fc;
     bool fCompressed;
     bool r1;
-    FCompressed()  {
-    }
-    QString toString() {
-        QString _s = "FCompressed:";
-        _s = _s + "fc: " + QString::number(fc) + "(" + QString::number(fc,16).toUpper() + ")" + ", ";
-        _s = _s + "fCompressed: " + QString::number(fCompressed) + ", ";
-        _s = _s + "r1: " + QString::number(r1) + ", ";
-        return _s;
+    FCompressed(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5173,14 +3735,7 @@ public:
     bool fComplex;
     quint8 isprm;
     quint8 val;
-    Prm0()  {
-    }
-    QString toString() {
-        QString _s = "Prm0:";
-        _s = _s + "fComplex: " + QString::number(fComplex) + ", ";
-        _s = _s + "isprm: " + QString::number(isprm) + "(" + QString::number(isprm,16).toUpper() + ")" + ", ";
-        _s = _s + "val: " + QString::number(val) + "(" + QString::number(val,16).toUpper() + ")" + ", ";
-        return _s;
+    Prm0(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5191,13 +3746,7 @@ public:
     static const Introspection _introspection;
     bool fComplex;
     quint16 igrpprl;
-    Prm1()  {
-    }
-    QString toString() {
-        QString _s = "Prm1:";
-        _s = _s + "fComplex: " + QString::number(fComplex) + ", ";
-        _s = _s + "igrpprl: " + QString::number(igrpprl) + "(" + QString::number(igrpprl,16).toUpper() + ")" + ", ";
-        return _s;
+    Prm1(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5209,14 +3758,7 @@ public:
     quint16 cData;
     quint16 cbExtra;
     QList<SttbfFfnEntry> data;
-    SttbfFfn()  {
-    }
-    QString toString() {
-        QString _s = "SttbfFfn:";
-        _s = _s + "cData: " + QString::number(cData) + "(" + QString::number(cData,16).toUpper() + ")" + ", ";
-        _s = _s + "cbExtra: " + QString::number(cbExtra) + "(" + QString::number(cbExtra,16).toUpper() + ")" + ", ";
-        _s = _s + "data: " + "[array of data]" + ", ";
-        return _s;
+    SttbfFfn(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5227,13 +3769,7 @@ public:
     static const Introspection _introspection;
     quint8 cchData;
     QByteArray Data;
-    SttbfFfnEntry()  {
-    }
-    QString toString() {
-        QString _s = "SttbfFfnEntry:";
-        _s = _s + "cchData: " + QString::number(cchData) + "(" + QString::number(cchData,16).toUpper() + ")" + ", ";
-        _s = _s + "Data: " + "[array of Data]" + ", ";
-        return _s;
+    SttbfFfnEntry(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5244,13 +3780,7 @@ public:
     static const Introspection _introspection;
     quint32 size;
     QByteArray characters;
-    CodePageString()  {
-    }
-    QString toString() {
-        QString _s = "CodePageString:";
-        _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
-        _s = _s + "characters: " + "[array of characters]" + ", ";
-        return _s;
+    CodePageString(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5261,13 +3791,7 @@ public:
     static const Introspection _introspection;
     quint32 dwLowDateTime;
     quint32 dwHighDateTime;
-    FILETIME()  {
-    }
-    QString toString() {
-        QString _s = "FILETIME:";
-        _s = _s + "dwLowDateTime: " + QString::number(dwLowDateTime) + "(" + QString::number(dwLowDateTime,16).toUpper() + ")" + ", ";
-        _s = _s + "dwHighDateTime: " + QString::number(dwHighDateTime) + "(" + QString::number(dwHighDateTime,16).toUpper() + ")" + ", ";
-        return _s;
+    FILETIME(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5279,14 +3803,7 @@ public:
     quint32 size;
     quint32 format;
     QByteArray data;
-    ClipboardData()  {
-    }
-    QString toString() {
-        QString _s = "ClipboardData:";
-        _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
-        _s = _s + "format: " + QString::number(format) + "(" + QString::number(format,16).toUpper() + ")" + ", ";
-        _s = _s + "data: " + "[array of data]" + ", ";
-        return _s;
+    ClipboardData(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5297,13 +3814,7 @@ public:
     static const Introspection _introspection;
     quint32 propertyIdentifier;
     quint32 offset;
-    PropertyIdentifierAndOffset()  {
-    }
-    QString toString() {
-        QString _s = "PropertyIdentifierAndOffset:";
-        _s = _s + "propertyIdentifier: " + QString::number(propertyIdentifier) + "(" + QString::number(propertyIdentifier,16).toUpper() + ")" + ", ";
-        _s = _s + "offset: " + QString::number(offset) + "(" + QString::number(offset,16).toUpper() + ")" + ", ";
-        return _s;
+    PropertyIdentifierAndOffset(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5323,19 +3834,7 @@ public:
     QSharedPointer<CodePageString> vt_lpstr;
     QSharedPointer<FILETIME> vg_FILETIME;
     QSharedPointer<ClipboardData> vg_CF;
-    TypedPropertyValue()  {
-    }
-    QString toString() {
-        QString _s = "TypedPropertyValue:";
-        _s = _s + "type: " + QString::number(type) + "(" + QString::number(type,16).toUpper() + ")" + ", ";
-        _s = _s + "padding: " + QString::number(padding) + "(" + QString::number(padding,16).toUpper() + ")" + ", ";
-        _s = _s + "vt_I2: " + QString::number(vt_I2) + "(" + QString::number(vt_I2,16).toUpper() + ")" + ", ";
-        _s = _s + "paddingI2: " + QString::number(paddingI2) + "(" + QString::number(paddingI2,16).toUpper() + ")" + ", ";
-        _s = _s + "vg_ERROR: " + QString::number(vg_ERROR) + "(" + QString::number(vg_ERROR,16).toUpper() + ")" + ", ";
-        _s = _s + "vt_lpstr: " + ((vt_lpstr)?vt_lpstr->toString() :"null") + ", ";
-        _s = _s + "vg_FILETIME: " + ((vg_FILETIME)?vg_FILETIME->toString() :"null") + ", ";
-        _s = _s + "vg_CF: " + ((vg_CF)?vg_CF->toString() :"null") + ", ";
-        return _s;
+    TypedPropertyValue(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5348,15 +3847,7 @@ public:
     quint32 numProperties;
     QList<PropertyIdentifierAndOffset> propertyIdentifierAndOffset;
     QList<TypedPropertyValue> property;
-    PropertySet()  {
-    }
-    QString toString() {
-        QString _s = "PropertySet:";
-        _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
-        _s = _s + "numProperties: " + QString::number(numProperties) + "(" + QString::number(numProperties,16).toUpper() + ")" + ", ";
-        _s = _s + "propertyIdentifierAndOffset: " + "[array of propertyIdentifierAndOffset]" + ", ";
-        _s = _s + "property: " + "[array of property]" + ", ";
-        return _s;
+    PropertySet(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5379,23 +3870,8 @@ public:
     PropertySet propertySet1;
     QSharedPointer<PropertySet> propertySet2;
     QList<Byte> padding;
-    PropertySetStream()  {
-    }
-    QString toString() {
-        QString _s = "PropertySetStream:";
-        _s = _s + "byteOrder: " + QString::number(byteOrder) + "(" + QString::number(byteOrder,16).toUpper() + ")" + ", ";
-        _s = _s + "version: " + QString::number(version) + "(" + QString::number(version,16).toUpper() + ")" + ", ";
-        _s = _s + "systemIdentifier: " + QString::number(systemIdentifier) + "(" + QString::number(systemIdentifier,16).toUpper() + ")" + ", ";
-        _s = _s + "clsID: " + "[array of clsID]" + ", ";
-        _s = _s + "numPropertySets: " + QString::number(numPropertySets) + "(" + QString::number(numPropertySets,16).toUpper() + ")" + ", ";
-        _s = _s + "fmtID0: " + "[array of fmtID0]" + ", ";
-        _s = _s + "offset0: " + QString::number(offset0) + "(" + QString::number(offset0,16).toUpper() + ")" + ", ";
-        _s = _s + "fmtID1: " + "[array of fmtID1]" + ", ";
-        _s = _s + "offset1: " + QString::number(offset1) + "(" + QString::number(offset1,16).toUpper() + ")" + ", ";
-        _s = _s + "propertySet1: " + propertySet1.toString() + ", ";
-        _s = _s + "propertySet2: " + ((propertySet2)?propertySet2->toString() :"null") + ", ";
-        _s = _s + "padding: " + "[array of padding]" + ", ";
-        return _s;
+    PropertySetStream(const Introspectable* parent) :Introspectable(parent),
+        propertySet1(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5405,12 +3881,8 @@ private:
 public:
     static const Introspection _introspection;
     PropertySetStream propertySet;
-    SummaryInformationPropertySetStream()  {
-    }
-    QString toString() {
-        QString _s = "SummaryInformationPropertySetStream:";
-        _s = _s + "propertySet: " + propertySet.toString() + ", ";
-        return _s;
+    SummaryInformationPropertySetStream(const Introspectable* parent) :Introspectable(parent),
+        propertySet(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5420,12 +3892,8 @@ private:
 public:
     static const Introspection _introspection;
     PropertySetStream propertySet;
-    DocumentSummaryInformationPropertySetStream()  {
-    }
-    QString toString() {
-        QString _s = "DocumentSummaryInformationPropertySetStream:";
-        _s = _s + "propertySet: " + propertySet.toString() + ", ";
-        return _s;
+    DocumentSummaryInformationPropertySetStream(const Introspectable* parent) :Introspectable(parent),
+        propertySet(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5435,12 +3903,8 @@ private:
 public:
     static const Introspection _introspection;
     OfficeArtBStoreDelay anon1;
-    PicturesStream()  {
-    }
-    QString toString() {
-        QString _s = "PicturesStream:";
-        _s = _s + "anon1: " + anon1.toString() + ", ";
-        return _s;
+    PicturesStream(const Introspectable* parent) :Introspectable(parent),
+        anon1(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5455,17 +3919,9 @@ public:
     quint32 cbsave;
     quint8 compression;
     quint8 filter;
-    OfficeArtMetafileHeader()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtMetafileHeader:";
-        _s = _s + "cbSize: " + QString::number(cbSize) + "(" + QString::number(cbSize,16).toUpper() + ")" + ", ";
-        _s = _s + "rcBounds: " + rcBounds.toString() + ", ";
-        _s = _s + "ptSize: " + ptSize.toString() + ", ";
-        _s = _s + "cbsave: " + QString::number(cbsave) + "(" + QString::number(cbsave,16).toUpper() + ")" + ", ";
-        _s = _s + "compression: " + QString::number(compression) + "(" + QString::number(compression,16).toUpper() + ")" + ", ";
-        _s = _s + "filter: " + QString::number(filter) + "(" + QString::number(filter,16).toUpper() + ")" + ", ";
-        return _s;
+    OfficeArtMetafileHeader(const Introspectable* parent) :Introspectable(parent),
+        rcBounds(this),
+        ptSize(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5476,13 +3932,9 @@ public:
     static const Introspection _introspection;
     RatioStruct x;
     RatioStruct y;
-    ScalingStruct()  {
-    }
-    QString toString() {
-        QString _s = "ScalingStruct:";
-        _s = _s + "x: " + x.toString() + ", ";
-        _s = _s + "y: " + y.toString() + ", ";
-        return _s;
+    ScalingStruct(const Introspectable* parent) :Introspectable(parent),
+        x(this),
+        y(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5498,18 +3950,10 @@ public:
     quint8 unused2;
     quint8 fDraftMode;
     quint16 unused3;
-    NoZoomViewInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "NoZoomViewInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "curScale: " + curScale.toString() + ", ";
-        _s = _s + "unused1: " + "[array of unused1]" + ", ";
-        _s = _s + "origin: " + origin.toString() + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + "(" + QString::number(unused2,16).toUpper() + ")" + ", ";
-        _s = _s + "fDraftMode: " + QString::number(fDraftMode) + "(" + QString::number(fDraftMode,16).toUpper() + ")" + ", ";
-        _s = _s + "unused3: " + QString::number(unused3) + "(" + QString::number(unused3,16).toUpper() + ")" + ", ";
-        return _s;
+    NoZoomViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        curScale(this),
+        origin(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5520,13 +3964,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     VBAInfoAtom vbaInfoAtom;
-    VBAInfoContainer()  {
-    }
-    QString toString() {
-        QString _s = "VBAInfoContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "vbaInfoAtom: " + vbaInfoAtom.toString() + ", ";
-        return _s;
+    VBAInfoContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        vbaInfoAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5544,20 +3984,10 @@ public:
     bool fHideThumbnails;
     bool fBarSnapped;
     quint8 reserved;
-    NormalViewSetInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "NormalViewSetInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "leftPortion: " + leftPortion.toString() + ", ";
-        _s = _s + "topPortion: " + topPortion.toString() + ", ";
-        _s = _s + "vertBarState: " + QString::number(vertBarState) + "(" + QString::number(vertBarState,16).toUpper() + ")" + ", ";
-        _s = _s + "horizBarState: " + QString::number(horizBarState) + "(" + QString::number(horizBarState,16).toUpper() + ")" + ", ";
-        _s = _s + "fPreferSingleSet: " + QString::number(fPreferSingleSet) + "(" + QString::number(fPreferSingleSet,16).toUpper() + ")" + ", ";
-        _s = _s + "fHideThumbnails: " + QString::number(fHideThumbnails) + ", ";
-        _s = _s + "fBarSnapped: " + QString::number(fBarSnapped) + ", ";
-        _s = _s + "reserved: " + QString::number(reserved) + "(" + QString::number(reserved,16).toUpper() + ")" + ", ";
-        return _s;
+    NormalViewSetInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        leftPortion(this),
+        topPortion(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5576,21 +4006,9 @@ public:
     quint32 reserved5;
     quint32 masterId;
     quint32 reserved6;
-    MasterPersistAtom()  {
-    }
-    QString toString() {
-        QString _s = "MasterPersistAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "persistIdRef: " + persistIdRef.toString() + ", ";
-        _s = _s + "reserved1: " + QString::number(reserved1) + "(" + QString::number(reserved1,16).toUpper() + ")" + ", ";
-        _s = _s + "fNonOutLineData: " + QString::number(fNonOutLineData) + ", ";
-        _s = _s + "reserved2: " + QString::number(reserved2) + "(" + QString::number(reserved2,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved3: " + QString::number(reserved3) + "(" + QString::number(reserved3,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved4: " + QString::number(reserved4) + "(" + QString::number(reserved4,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved5: " + QString::number(reserved5) + "(" + QString::number(reserved5,16).toUpper() + ")" + ", ";
-        _s = _s + "masterId: " + QString::number(masterId) + "(" + QString::number(masterId,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved6: " + QString::number(reserved6) + "(" + QString::number(reserved6,16).toUpper() + ")" + ", ";
-        return _s;
+    MasterPersistAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        persistIdRef(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5609,19 +4027,8 @@ QSharedPointer<TextBytesAtom> textbytesatom;
     QList<TextBookmarkAtom> bookmark;
     QSharedPointer<TextSpecialInfoAtom> specialinfo;
     QList<TextContainerInteractiveInfo> interactive;
-    TextContainer()  {
-    }
-    QString toString() {
-        QString _s = "TextContainer:";
-        _s = _s + "textHeaderAtom: " + textHeaderAtom.toString() + ", ";
-        _s = _s + "text: " + "<choice>" + ", ";
-        _s = _s + "style: " + ((style)?style->toString() :"null") + ", ";
-        _s = _s + "meta: " + "[array of meta]" + ", ";
-        _s = _s + "master: " + ((master)?master->toString() :"null") + ", ";
-        _s = _s + "bookmark: " + "[array of bookmark]" + ", ";
-        _s = _s + "specialinfo: " + ((specialinfo)?specialinfo->toString() :"null") + ", ";
-        _s = _s + "interactive: " + "[array of interactive]" + ", ";
-        return _s;
+    TextContainer(const Introspectable* parent) :Introspectable(parent),
+        textHeaderAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5637,12 +4044,7 @@ QSharedPointer<HeaderMCAtom> headermcatom;
 QSharedPointer<FooterMCAtom> footermcatom;
 QSharedPointer<RTFDateTimeMCAtom> rtfdatetimemcatom;
 }; metaChoice meta;
-    TextContainerMeta()  {
-    }
-    QString toString() {
-        QString _s = "TextContainerMeta:";
-        _s = _s + "meta: " + "<choice>" + ", ";
-        return _s;
+    TextContainerMeta(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5655,12 +4057,7 @@ public:
 QSharedPointer<TextContainer> textcontainer;
 QSharedPointer<TextRulerAtom> textruleratom;
 }; anonChoice anon;
-    TextClientDataSubContainerOrAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextClientDataSubContainerOrAtom:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    TextClientDataSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5680,22 +4077,10 @@ public:
     qint32 cTexts;
     SlideId slideId;
     quint32 reserved5;
-    SlidePersistAtom()  {
-    }
-    QString toString() {
-        QString _s = "SlidePersistAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "persistIdRef: " + persistIdRef.toString() + ", ";
-        _s = _s + "reserved1: " + QString::number(reserved1) + ", ";
-        _s = _s + "fShouldCollapse: " + QString::number(fShouldCollapse) + ", ";
-        _s = _s + "fNonOutlineData: " + QString::number(fNonOutlineData) + ", ";
-        _s = _s + "reserved2: " + QString::number(reserved2) + "(" + QString::number(reserved2,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved3: " + QString::number(reserved3) + "(" + QString::number(reserved3,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved4: " + QString::number(reserved4) + "(" + QString::number(reserved4,16).toUpper() + ")" + ", ";
-        _s = _s + "cTexts: " + QString::number(cTexts) + "(" + QString::number(cTexts,16).toUpper() + ")" + ", ";
-        _s = _s + "slideId: " + slideId.toString() + ", ";
-        _s = _s + "reserved5: " + QString::number(reserved5) + "(" + QString::number(reserved5,16).toUpper() + ")" + ", ";
-        return _s;
+    SlidePersistAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        persistIdRef(this),
+        slideId(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5744,39 +4129,7 @@ public:
     quint16 indent4;
     quint16 leftMargin5;
     quint16 indent5;
-    TextRuler()  {
-    }
-    QString toString() {
-        QString _s = "TextRuler:";
-        _s = _s + "fDefaultTabSize: " + QString::number(fDefaultTabSize) + ", ";
-        _s = _s + "fCLevels: " + QString::number(fCLevels) + ", ";
-        _s = _s + "fTabStops: " + QString::number(fTabStops) + ", ";
-        _s = _s + "fLeftMargin1: " + QString::number(fLeftMargin1) + ", ";
-        _s = _s + "fLeftMargin2: " + QString::number(fLeftMargin2) + ", ";
-        _s = _s + "fLeftMargin3: " + QString::number(fLeftMargin3) + ", ";
-        _s = _s + "fLeftMargin4: " + QString::number(fLeftMargin4) + ", ";
-        _s = _s + "fLeftMargin5: " + QString::number(fLeftMargin5) + ", ";
-        _s = _s + "fIndent1: " + QString::number(fIndent1) + ", ";
-        _s = _s + "fIndent2: " + QString::number(fIndent2) + ", ";
-        _s = _s + "fIndent3: " + QString::number(fIndent3) + ", ";
-        _s = _s + "fIndent4: " + QString::number(fIndent4) + ", ";
-        _s = _s + "fIndent5: " + QString::number(fIndent5) + ", ";
-        _s = _s + "reserved1: " + QString::number(reserved1) + "(" + QString::number(reserved1,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved2: " + QString::number(reserved2) + "(" + QString::number(reserved2,16).toUpper() + ")" + ", ";
-        _s = _s + "cLevels: " + QString::number(cLevels) + "(" + QString::number(cLevels,16).toUpper() + ")" + ", ";
-        _s = _s + "defaultTabSize: " + QString::number(defaultTabSize) + "(" + QString::number(defaultTabSize,16).toUpper() + ")" + ", ";
-        _s = _s + "tabs: " + ((tabs)?tabs->toString() :"null") + ", ";
-        _s = _s + "leftMargin1: " + QString::number(leftMargin1) + "(" + QString::number(leftMargin1,16).toUpper() + ")" + ", ";
-        _s = _s + "indent1: " + QString::number(indent1) + "(" + QString::number(indent1,16).toUpper() + ")" + ", ";
-        _s = _s + "leftMargin2: " + QString::number(leftMargin2) + "(" + QString::number(leftMargin2,16).toUpper() + ")" + ", ";
-        _s = _s + "indent2: " + QString::number(indent2) + "(" + QString::number(indent2,16).toUpper() + ")" + ", ";
-        _s = _s + "leftMargin3: " + QString::number(leftMargin3) + "(" + QString::number(leftMargin3,16).toUpper() + ")" + ", ";
-        _s = _s + "indent3: " + QString::number(indent3) + "(" + QString::number(indent3,16).toUpper() + ")" + ", ";
-        _s = _s + "leftMargin4: " + QString::number(leftMargin4) + "(" + QString::number(leftMargin4,16).toUpper() + ")" + ", ";
-        _s = _s + "indent4: " + QString::number(indent4) + "(" + QString::number(indent4,16).toUpper() + ")" + ", ";
-        _s = _s + "leftMargin5: " + QString::number(leftMargin5) + "(" + QString::number(leftMargin5,16).toUpper() + ")" + ", ";
-        _s = _s + "indent5: " + QString::number(indent5) + "(" + QString::number(indent5,16).toUpper() + ")" + ", ";
-        return _s;
+    TextRuler(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5815,28 +4168,8 @@ public:
     quint16 fontAlign;
     quint16 wrapFlags;
     quint16 textDirection;
-    TextPFException()  {
-    }
-    QString toString() {
-        QString _s = "TextPFException:";
-        _s = _s + "masks: " + masks.toString() + ", ";
-        _s = _s + "bulletFlags: " + ((bulletFlags)?bulletFlags->toString() :"null") + ", ";
-        _s = _s + "bulletChar: " + QString::number(bulletChar) + "(" + QString::number(bulletChar,16).toUpper() + ")" + ", ";
-        _s = _s + "bulletFontRef: " + QString::number(bulletFontRef) + "(" + QString::number(bulletFontRef,16).toUpper() + ")" + ", ";
-        _s = _s + "bulletSize: " + QString::number(bulletSize) + "(" + QString::number(bulletSize,16).toUpper() + ")" + ", ";
-        _s = _s + "bulletColor: " + ((bulletColor)?bulletColor->toString() :"null") + ", ";
-        _s = _s + "textAlignment: " + QString::number(textAlignment) + "(" + QString::number(textAlignment,16).toUpper() + ")" + ", ";
-        _s = _s + "lineSpacing: " + QString::number(lineSpacing) + "(" + QString::number(lineSpacing,16).toUpper() + ")" + ", ";
-        _s = _s + "spaceBefore: " + QString::number(spaceBefore) + "(" + QString::number(spaceBefore,16).toUpper() + ")" + ", ";
-        _s = _s + "spaceAfter: " + QString::number(spaceAfter) + "(" + QString::number(spaceAfter,16).toUpper() + ")" + ", ";
-        _s = _s + "leftMargin: " + QString::number(leftMargin) + "(" + QString::number(leftMargin,16).toUpper() + ")" + ", ";
-        _s = _s + "indent: " + QString::number(indent) + "(" + QString::number(indent,16).toUpper() + ")" + ", ";
-        _s = _s + "defaultTabSize: " + QString::number(defaultTabSize) + "(" + QString::number(defaultTabSize,16).toUpper() + ")" + ", ";
-        _s = _s + "tabStops: " + ((tabStops)?tabStops->toString() :"null") + ", ";
-        _s = _s + "fontAlign: " + QString::number(fontAlign) + "(" + QString::number(fontAlign,16).toUpper() + ")" + ", ";
-        _s = _s + "wrapFlags: " + QString::number(wrapFlags) + "(" + QString::number(wrapFlags,16).toUpper() + ")" + ", ";
-        _s = _s + "textDirection: " + QString::number(textDirection) + "(" + QString::number(textDirection,16).toUpper() + ")" + ", ";
-        return _s;
+    TextPFException(const Introspectable* parent) :Introspectable(parent),
+        masks(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5860,20 +4193,8 @@ public:
     quint16 fontSize;
     QSharedPointer<ColorIndexStruct> color;
     qint16 position;
-    TextCFException()  {
-    }
-    QString toString() {
-        QString _s = "TextCFException:";
-        _s = _s + "masks: " + masks.toString() + ", ";
-        _s = _s + "fontStyle: " + ((fontStyle)?fontStyle->toString() :"null") + ", ";
-        _s = _s + "fontRef: " + QString::number(fontRef) + "(" + QString::number(fontRef,16).toUpper() + ")" + ", ";
-        _s = _s + "oldEAFontRef: " + QString::number(oldEAFontRef) + "(" + QString::number(oldEAFontRef,16).toUpper() + ")" + ", ";
-        _s = _s + "ansiFontRef: " + QString::number(ansiFontRef) + "(" + QString::number(ansiFontRef,16).toUpper() + ")" + ", ";
-        _s = _s + "symbolFontRef: " + QString::number(symbolFontRef) + "(" + QString::number(symbolFontRef,16).toUpper() + ")" + ", ";
-        _s = _s + "fontSize: " + QString::number(fontSize) + "(" + QString::number(fontSize,16).toUpper() + ")" + ", ";
-        _s = _s + "color: " + ((color)?color->toString() :"null") + ", ";
-        _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
-        return _s;
+    TextCFException(const Introspectable* parent) :Introspectable(parent),
+        masks(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5887,16 +4208,8 @@ public:
     QSharedPointer<FontEmbedDataBlob> fontEmbedData2;
     QSharedPointer<FontEmbedDataBlob> fontEmbedData3;
     QSharedPointer<FontEmbedDataBlob> fontEmbedData4;
-    FontCollectionEntry()  {
-    }
-    QString toString() {
-        QString _s = "FontCollectionEntry:";
-        _s = _s + "fontEntityAtom: " + fontEntityAtom.toString() + ", ";
-        _s = _s + "fontEmbedData1: " + ((fontEmbedData1)?fontEmbedData1->toString() :"null") + ", ";
-        _s = _s + "fontEmbedData2: " + ((fontEmbedData2)?fontEmbedData2->toString() :"null") + ", ";
-        _s = _s + "fontEmbedData3: " + ((fontEmbedData3)?fontEmbedData3->toString() :"null") + ", ";
-        _s = _s + "fontEmbedData4: " + ((fontEmbedData4)?fontEmbedData4->toString() :"null") + ", ";
-        return _s;
+    FontCollectionEntry(const Introspectable* parent) :Introspectable(parent),
+        fontEntityAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5909,15 +4222,9 @@ public:
     KinsokuAtom kinsokuAtom;
     QSharedPointer<KinsokuFollowingAtom> kinsokuLeadingAtom;
     QSharedPointer<KinsokuFollowingAtom> kinsokuFollowingAtom;
-    KinsokuContainer()  {
-    }
-    QString toString() {
-        QString _s = "KinsokuContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "kinsokuAtom: " + kinsokuAtom.toString() + ", ";
-        _s = _s + "kinsokuLeadingAtom: " + ((kinsokuLeadingAtom)?kinsokuLeadingAtom->toString() :"null") + ", ";
-        _s = _s + "kinsokuFollowingAtom: " + ((kinsokuFollowingAtom)?kinsokuFollowingAtom->toString() :"null") + ", ";
-        return _s;
+    KinsokuContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        kinsokuAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5957,33 +4264,7 @@ public:
     quint8 reserved3bc;
     bool grammarError;
     QSharedPointer<SmartTags> smartTags;
-    TextSIException()  {
-    }
-    QString toString() {
-        QString _s = "TextSIException:";
-        _s = _s + "spell: " + QString::number(spell) + ", ";
-        _s = _s + "lang: " + QString::number(lang) + ", ";
-        _s = _s + "altLang: " + QString::number(altLang) + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + ", ";
-        _s = _s + "fPp10ext: " + QString::number(fPp10ext) + ", ";
-        _s = _s + "fBidi: " + QString::number(fBidi) + ", ";
-        _s = _s + "unused3: " + QString::number(unused3) + ", ";
-        _s = _s + "reserved1: " + QString::number(reserved1) + ", ";
-        _s = _s + "smartTag: " + QString::number(smartTag) + ", ";
-        _s = _s + "reserved2a: " + QString::number(reserved2a) + "(" + QString::number(reserved2a,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved2b: " + QString::number(reserved2b) + "(" + QString::number(reserved2b,16).toUpper() + ")" + ", ";
-        _s = _s + "spellInfo: " + QString::number(spellInfo) + "(" + QString::number(spellInfo,16).toUpper() + ")" + ", ";
-        _s = _s + "lid: " + QString::number(lid) + "(" + QString::number(lid,16).toUpper() + ")" + ", ";
-        _s = _s + "altLid: " + QString::number(altLid) + "(" + QString::number(altLid,16).toUpper() + ")" + ", ";
-        _s = _s + "bidi: " + QString::number(bidi) + "(" + QString::number(bidi,16).toUpper() + ")" + ", ";
-        _s = _s + "pp10runid: " + QString::number(pp10runid) + "(" + QString::number(pp10runid,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved3a: " + QString::number(reserved3a) + "(" + QString::number(reserved3a,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved3b: " + QString::number(reserved3b) + "(" + QString::number(reserved3b,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved3bc: " + QString::number(reserved3bc) + "(" + QString::number(reserved3bc,16).toUpper() + ")" + ", ";
-        _s = _s + "grammarError: " + QString::number(grammarError) + ", ";
-        _s = _s + "smartTags: " + ((smartTags)?smartTags->toString() :"null") + ", ";
-        return _s;
+    TextSIException(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -5994,13 +4275,9 @@ public:
     static const Introspection _introspection;
     TextPFException pf;
     TextCFException cf;
-    TextMasterStyleLevel()  {
-    }
-    QString toString() {
-        QString _s = "TextMasterStyleLevel:";
-        _s = _s + "pf: " + pf.toString() + ", ";
-        _s = _s + "cf: " + cf.toString() + ", ";
-        return _s;
+    TextMasterStyleLevel(const Introspectable* parent) :Introspectable(parent),
+        pf(this),
+        cf(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6021,23 +4298,13 @@ public:
     quint8 fOmitTitlePlace;
     quint8 fRightToLeft;
     quint8 fShowComments;
-    DocumentAtom()  {
-    }
-    QString toString() {
-        QString _s = "DocumentAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "slideSize: " + slideSize.toString() + ", ";
-        _s = _s + "notesSize: " + notesSize.toString() + ", ";
-        _s = _s + "serverZoom: " + serverZoom.toString() + ", ";
-        _s = _s + "notesMasterPersistIdRef: " + notesMasterPersistIdRef.toString() + ", ";
-        _s = _s + "handoutMasterPersistIdRef: " + handoutMasterPersistIdRef.toString() + ", ";
-        _s = _s + "firstSlideNumber: " + QString::number(firstSlideNumber) + "(" + QString::number(firstSlideNumber,16).toUpper() + ")" + ", ";
-        _s = _s + "slideSizeType: " + QString::number(slideSizeType) + "(" + QString::number(slideSizeType,16).toUpper() + ")" + ", ";
-        _s = _s + "fSaveWithFonts: " + QString::number(fSaveWithFonts) + "(" + QString::number(fSaveWithFonts,16).toUpper() + ")" + ", ";
-        _s = _s + "fOmitTitlePlace: " + QString::number(fOmitTitlePlace) + "(" + QString::number(fOmitTitlePlace,16).toUpper() + ")" + ", ";
-        _s = _s + "fRightToLeft: " + QString::number(fRightToLeft) + "(" + QString::number(fRightToLeft,16).toUpper() + ")" + ", ";
-        _s = _s + "fShowComments: " + QString::number(fShowComments) + "(" + QString::number(fShowComments,16).toUpper() + ")" + ", ";
-        return _s;
+    DocumentAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        slideSize(this),
+        notesSize(this),
+        serverZoom(this),
+        notesMasterPersistIdRef(this),
+        handoutMasterPersistIdRef(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6049,14 +4316,10 @@ public:
     RecordHeader rh;
     TagNameAtom tagNameAtom;
     TagValueAtom tagValueAtom;
-    ProgStringTagContainer()  {
-    }
-    QString toString() {
-        QString _s = "ProgStringTagContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "tagNameAtom: " + tagNameAtom.toString() + ", ";
-        _s = _s + "tagValueAtom: " + tagValueAtom.toString() + ", ";
-        return _s;
+    ProgStringTagContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        tagNameAtom(this),
+        tagValueAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6068,14 +4331,9 @@ public:
     RecordHeader rh;
     ExObjListAtom exObjListAtom;
     QList<ExObjListSubContainer> rgChildRec;
-    ExObjListContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExObjListContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "exObjListAtom: " + exObjListAtom.toString() + ", ";
-        _s = _s + "rgChildRec: " + "[array of rgChildRec]" + ", ";
-        return _s;
+    ExObjListContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        exObjListAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6091,18 +4349,10 @@ public:
     QSharedPointer<ProgIDAtom> progIdAtom;
     QSharedPointer<ClipboardNameAtom> clipboardNameAtom;
     QSharedPointer<MetafileBlob> metafile;
-    ExOleLinkContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExOleLinkContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "exOleLinkAtom: " + exOleLinkAtom.toString() + ", ";
-        _s = _s + "exOleObjAtom: " + exOleObjAtom.toString() + ", ";
-        _s = _s + "menuNameAtom: " + ((menuNameAtom)?menuNameAtom->toString() :"null") + ", ";
-        _s = _s + "progIdAtom: " + ((progIdAtom)?progIdAtom->toString() :"null") + ", ";
-        _s = _s + "clipboardNameAtom: " + ((clipboardNameAtom)?clipboardNameAtom->toString() :"null") + ", ";
-        _s = _s + "metafile: " + ((metafile)?metafile->toString() :"null") + ", ";
-        return _s;
+    ExOleLinkContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        exOleLinkAtom(this),
+        exOleObjAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6118,18 +4368,10 @@ public:
     QSharedPointer<ProgIDAtom> progIdAtom;
     QSharedPointer<ClipboardNameAtom> clipboardNameAtom;
     QSharedPointer<MetafileBlob> metafile;
-    ExOleEmbedContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExOleEmbedContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "exOleEmbedAtom: " + exOleEmbedAtom.toString() + ", ";
-        _s = _s + "exOleObjAtom: " + exOleObjAtom.toString() + ", ";
-        _s = _s + "menuNameAtom: " + ((menuNameAtom)?menuNameAtom->toString() :"null") + ", ";
-        _s = _s + "progIdAtom: " + ((progIdAtom)?progIdAtom->toString() :"null") + ", ";
-        _s = _s + "clipboardNameAtom: " + ((clipboardNameAtom)?clipboardNameAtom->toString() :"null") + ", ";
-        _s = _s + "metafile: " + ((metafile)?metafile->toString() :"null") + ", ";
-        return _s;
+    ExOleEmbedContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        exOleEmbedAtom(this),
+        exOleObjAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6141,14 +4383,9 @@ public:
     OfficeArtRecordHeader rh;
     OfficeArtFDGG head;
     QList<OfficeArtIDCL> Rgidcl;
-    OfficeArtFDGGBlock()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFDGGBlock:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "head: " + head.toString() + ", ";
-        _s = _s + "Rgidcl: " + "[array of Rgidcl]" + ", ";
-        return _s;
+    OfficeArtFDGGBlock(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        head(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6180,34 +4417,8 @@ public:
     bool fUsefLockRotation;
     bool fUsefLockAgainstUngrouping;
     quint8 unused2;
-    ProtectionBooleanProperties()  {
-    }
-    QString toString() {
-        QString _s = "ProtectionBooleanProperties:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fLockAgainstGrouping: " + QString::number(fLockAgainstGrouping) + ", ";
-        _s = _s + "fLockAdjustHandles: " + QString::number(fLockAdjustHandles) + ", ";
-        _s = _s + "fLockText: " + QString::number(fLockText) + ", ";
-        _s = _s + "fLockVertices: " + QString::number(fLockVertices) + ", ";
-        _s = _s + "fLockCropping: " + QString::number(fLockCropping) + ", ";
-        _s = _s + "fLockAgainstSelect: " + QString::number(fLockAgainstSelect) + ", ";
-        _s = _s + "fLockPosition: " + QString::number(fLockPosition) + ", ";
-        _s = _s + "fLockAspectRatio: " + QString::number(fLockAspectRatio) + ", ";
-        _s = _s + "fLockRotation: " + QString::number(fLockRotation) + ", ";
-        _s = _s + "fLockAgainstUngrouping: " + QString::number(fLockAgainstUngrouping) + ", ";
-        _s = _s + "unused6: " + QString::number(unused6) + "(" + QString::number(unused6,16).toUpper() + ")" + ", ";
-        _s = _s + "fUsefLockAgainstGrouping: " + QString::number(fUsefLockAgainstGrouping) + ", ";
-        _s = _s + "fUseLockAdjustHandles: " + QString::number(fUseLockAdjustHandles) + ", ";
-        _s = _s + "fUseLockText: " + QString::number(fUseLockText) + ", ";
-        _s = _s + "fUsefLockVertices: " + QString::number(fUsefLockVertices) + ", ";
-        _s = _s + "fUsefLockCropping: " + QString::number(fUsefLockCropping) + ", ";
-        _s = _s + "fUsefLockAgainstSelect: " + QString::number(fUsefLockAgainstSelect) + ", ";
-        _s = _s + "fUsefLockPosition: " + QString::number(fUsefLockPosition) + ", ";
-        _s = _s + "fUsefLockAspectRatio: " + QString::number(fUsefLockAspectRatio) + ", ";
-        _s = _s + "fUsefLockRotation: " + QString::number(fUsefLockRotation) + ", ";
-        _s = _s + "fUsefLockAgainstUngrouping: " + QString::number(fUsefLockAgainstUngrouping) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + "(" + QString::number(unused2,16).toUpper() + ")" + ", ";
-        return _s;
+    ProtectionBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6218,13 +4429,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     FixedPoint rotation;
-    Rotation()  {
-    }
-    QString toString() {
-        QString _s = "Rotation:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "rotation: " + rotation.toString() + ", ";
-        return _s;
+    Rotation(const Introspectable* parent) :Introspectable(parent),
+        opid(this),
+        rotation(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6235,13 +4442,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 iTxid;
-    ITxid()  {
-    }
-    QString toString() {
-        QString _s = "ITxid:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "iTxid: " + QString::number(iTxid) + "(" + QString::number(iTxid,16).toUpper() + ")" + ", ";
-        return _s;
+    ITxid(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6252,13 +4454,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dxTextLeft;
-    DxTextLeft()  {
-    }
-    QString toString() {
-        QString _s = "DxTextLeft:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "dxTextLeft: " + QString::number(dxTextLeft) + "(" + QString::number(dxTextLeft,16).toUpper() + ")" + ", ";
-        return _s;
+    DxTextLeft(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6269,13 +4466,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dyTextTop;
-    DyTextTop()  {
-    }
-    QString toString() {
-        QString _s = "DyTextTop:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "dyTextTop: " + QString::number(dyTextTop) + "(" + QString::number(dyTextTop,16).toUpper() + ")" + ", ";
-        return _s;
+    DyTextTop(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6286,13 +4478,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dxTextRight;
-    DxTextRight()  {
-    }
-    QString toString() {
-        QString _s = "DxTextRight:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "dxTextRight: " + QString::number(dxTextRight) + "(" + QString::number(dxTextRight,16).toUpper() + ")" + ", ";
-        return _s;
+    DxTextRight(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6303,13 +4490,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dyTextBottom;
-    DyTextBottom()  {
-    }
-    QString toString() {
-        QString _s = "DyTextBottom:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "dyTextBottom: " + QString::number(dyTextBottom) + "(" + QString::number(dyTextBottom,16).toUpper() + ")" + ", ";
-        return _s;
+    DyTextBottom(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6320,13 +4502,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 wrapText;
-    WrapText()  {
-    }
-    QString toString() {
-        QString _s = "WrapText:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "wrapText: " + QString::number(wrapText) + "(" + QString::number(wrapText,16).toUpper() + ")" + ", ";
-        return _s;
+    WrapText(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6337,13 +4514,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 anchorText;
-    AnchorText()  {
-    }
-    QString toString() {
-        QString _s = "AnchorText:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "anchorText: " + QString::number(anchorText) + "(" + QString::number(anchorText,16).toUpper() + ")" + ", ";
-        return _s;
+    AnchorText(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6367,26 +4539,8 @@ public:
     bool fUsefSelectText;
     quint8 unused6a;
     quint8 unused6b;
-    TextBooleanProperties()  {
-    }
-    QString toString() {
-        QString _s = "TextBooleanProperties:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + ", ";
-        _s = _s + "fFitShapeToText: " + QString::number(fFitShapeToText) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + ", ";
-        _s = _s + "fAutoTextMargin: " + QString::number(fAutoTextMargin) + ", ";
-        _s = _s + "fSelectText: " + QString::number(fSelectText) + ", ";
-        _s = _s + "unused3a: " + QString::number(unused3a) + "(" + QString::number(unused3a,16).toUpper() + ")" + ", ";
-        _s = _s + "unused3b: " + QString::number(unused3b) + "(" + QString::number(unused3b,16).toUpper() + ")" + ", ";
-        _s = _s + "unused4: " + QString::number(unused4) + ", ";
-        _s = _s + "fUsefFitShapeToText: " + QString::number(fUsefFitShapeToText) + ", ";
-        _s = _s + "unused5: " + QString::number(unused5) + ", ";
-        _s = _s + "fUsefAutoTextMargin: " + QString::number(fUsefAutoTextMargin) + ", ";
-        _s = _s + "fUsefSelectText: " + QString::number(fUsefSelectText) + ", ";
-        _s = _s + "unused6a: " + QString::number(unused6a) + "(" + QString::number(unused6a,16).toUpper() + ")" + ", ";
-        _s = _s + "unused6b: " + QString::number(unused6b) + "(" + QString::number(unused6b,16).toUpper() + ")" + ", ";
-        return _s;
+    TextBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6397,13 +4551,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 hspNext;
-    HspNext()  {
-    }
-    QString toString() {
-        QString _s = "HspNext:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "hspNext: " + QString::number(hspNext) + "(" + QString::number(hspNext,16).toUpper() + ")" + ", ";
-        return _s;
+    HspNext(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6414,13 +4563,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 shapePath;
-    ShapePath()  {
-    }
-    QString toString() {
-        QString _s = "ShapePath:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "shapePath: " + QString::number(shapePath) + "(" + QString::number(shapePath,16).toUpper() + ")" + ", ";
-        return _s;
+    ShapePath(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6448,30 +4592,8 @@ public:
     bool unused3a;
     bool unused3b;
     quint8 unused4;
-    GeometryBooleanProperties()  {
-    }
-    QString toString() {
-        QString _s = "GeometryBooleanProperties:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fFillOk: " + QString::number(fFillOk) + ", ";
-        _s = _s + "fFillShadeShapeOK: " + QString::number(fFillShadeShapeOK) + ", ";
-        _s = _s + "fGtextOK: " + QString::number(fGtextOK) + ", ";
-        _s = _s + "fLineOK: " + QString::number(fLineOK) + ", ";
-        _s = _s + "f3DOK: " + QString::number(f3DOK) + ", ";
-        _s = _s + "fShadowOK: " + QString::number(fShadowOK) + ", ";
-        _s = _s + "unuseda: " + QString::number(unuseda) + ", ";
-        _s = _s + "unusedb: " + QString::number(unusedb) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + "(" + QString::number(unused2,16).toUpper() + ")" + ", ";
-        _s = _s + "fUsefFillOK: " + QString::number(fUsefFillOK) + ", ";
-        _s = _s + "fUsefFillShadeShapeOK: " + QString::number(fUsefFillShadeShapeOK) + ", ";
-        _s = _s + "fUsefGtextOK: " + QString::number(fUsefGtextOK) + ", ";
-        _s = _s + "fUsefLineOK: " + QString::number(fUsefLineOK) + ", ";
-        _s = _s + "fUsef3DOK: " + QString::number(fUsef3DOK) + ", ";
-        _s = _s + "fUsefShadowOK: " + QString::number(fUsefShadowOK) + ", ";
-        _s = _s + "unused3a: " + QString::number(unused3a) + ", ";
-        _s = _s + "unused3b: " + QString::number(unused3b) + ", ";
-        _s = _s + "unused4: " + QString::number(unused4) + "(" + QString::number(unused4,16).toUpper() + ")" + ", ";
-        return _s;
+    GeometryBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6482,13 +4604,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 fillType;
-    FillType()  {
-    }
-    QString toString() {
-        QString _s = "FillType:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fillType: " + QString::number(fillType) + "(" + QString::number(fillType,16).toUpper() + ")" + ", ";
-        return _s;
+    FillType(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6499,13 +4616,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF fillColor;
-    FillColor()  {
-    }
-    QString toString() {
-        QString _s = "FillColor:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fillColor: " + fillColor.toString() + ", ";
-        return _s;
+    FillColor(const Introspectable* parent) :Introspectable(parent),
+        opid(this),
+        fillColor(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6516,13 +4629,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF fillBackColor;
-    FillBackColor()  {
-    }
-    QString toString() {
-        QString _s = "FillBackColor:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fillBackColor: " + fillBackColor.toString() + ", ";
-        return _s;
+    FillBackColor(const Introspectable* parent) :Introspectable(parent),
+        opid(this),
+        fillBackColor(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6533,13 +4642,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 fillBlip;
-    FillBlip()  {
-    }
-    QString toString() {
-        QString _s = "FillBlip:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fillBlip: " + QString::number(fillBlip) + "(" + QString::number(fillBlip,16).toUpper() + ")" + ", ";
-        return _s;
+    FillBlip(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6550,13 +4654,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 fillRectRight;
-    FillRectRight()  {
-    }
-    QString toString() {
-        QString _s = "FillRectRight:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fillRectRight: " + QString::number(fillRectRight) + "(" + QString::number(fillRectRight,16).toUpper() + ")" + ", ";
-        return _s;
+    FillRectRight(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6567,13 +4666,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 fillRectBottom;
-    FillRectBottom()  {
-    }
-    QString toString() {
-        QString _s = "FillRectBottom:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fillRectBottom: " + QString::number(fillRectBottom) + "(" + QString::number(fillRectBottom,16).toUpper() + ")" + ", ";
-        return _s;
+    FillRectBottom(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6601,30 +4695,8 @@ public:
     bool fUsefRecolorFillAsPicture;
     bool unused2a;
     quint8 unused2b;
-    FillStyleBooleanProperties()  {
-    }
-    QString toString() {
-        QString _s = "FillStyleBooleanProperties:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fNoFillHitText: " + QString::number(fNoFillHitText) + ", ";
-        _s = _s + "fillUseRect: " + QString::number(fillUseRect) + ", ";
-        _s = _s + "fillShape: " + QString::number(fillShape) + ", ";
-        _s = _s + "fHitTestFill: " + QString::number(fHitTestFill) + ", ";
-        _s = _s + "fFilled: " + QString::number(fFilled) + ", ";
-        _s = _s + "fUseShapeAnchor: " + QString::number(fUseShapeAnchor) + ", ";
-        _s = _s + "fRecolorFillAsPicture: " + QString::number(fRecolorFillAsPicture) + ", ";
-        _s = _s + "unused1a: " + QString::number(unused1a) + ", ";
-        _s = _s + "unused1b: " + QString::number(unused1b) + "(" + QString::number(unused1b,16).toUpper() + ")" + ", ";
-        _s = _s + "fUseNoFillHitTest: " + QString::number(fUseNoFillHitTest) + ", ";
-        _s = _s + "fUseFillUseRext: " + QString::number(fUseFillUseRext) + ", ";
-        _s = _s + "fUseFillShape: " + QString::number(fUseFillShape) + ", ";
-        _s = _s + "fUseHitTestFill: " + QString::number(fUseHitTestFill) + ", ";
-        _s = _s + "fUseFilled: " + QString::number(fUseFilled) + ", ";
-        _s = _s + "fUseUseShapeAnchor: " + QString::number(fUseUseShapeAnchor) + ", ";
-        _s = _s + "fUsefRecolorFillAsPicture: " + QString::number(fUsefRecolorFillAsPicture) + ", ";
-        _s = _s + "unused2a: " + QString::number(unused2a) + ", ";
-        _s = _s + "unused2b: " + QString::number(unused2b) + "(" + QString::number(unused2b,16).toUpper() + ")" + ", ";
-        return _s;
+    FillStyleBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6635,13 +4707,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF lineColor;
-    LineColor()  {
-    }
-    QString toString() {
-        QString _s = "LineColor:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "lineColor: " + lineColor.toString() + ", ";
-        return _s;
+    LineColor(const Introspectable* parent) :Introspectable(parent),
+        opid(this),
+        lineColor(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6652,13 +4720,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF lineBackColor;
-    LineBackColor()  {
-    }
-    QString toString() {
-        QString _s = "LineBackColor:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "lineBackColor: " + lineBackColor.toString() + ", ";
-        return _s;
+    LineBackColor(const Introspectable* parent) :Introspectable(parent),
+        opid(this),
+        lineBackColor(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6669,13 +4733,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineFillBlip;
-    LineFillBlip()  {
-    }
-    QString toString() {
-        QString _s = "LineFillBlip:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "lineFillBlip: " + QString::number(lineFillBlip) + "(" + QString::number(lineFillBlip,16).toUpper() + ")" + ", ";
-        return _s;
+    LineFillBlip(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6686,13 +4745,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineWidth;
-    LineWidth()  {
-    }
-    QString toString() {
-        QString _s = "LineWidth:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "lineWidth: " + QString::number(lineWidth) + "(" + QString::number(lineWidth,16).toUpper() + ")" + ", ";
-        return _s;
+    LineWidth(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6703,13 +4757,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineStartArrowhead;
-    LineStartArrowhead()  {
-    }
-    QString toString() {
-        QString _s = "LineStartArrowhead:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "lineStartArrowhead: " + QString::number(lineStartArrowhead) + "(" + QString::number(lineStartArrowhead,16).toUpper() + ")" + ", ";
-        return _s;
+    LineStartArrowhead(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6720,13 +4769,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineEndArrowhead;
-    LineEndArrowhead()  {
-    }
-    QString toString() {
-        QString _s = "LineEndArrowhead:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "lineEndArrowhead: " + QString::number(lineEndArrowhead) + "(" + QString::number(lineEndArrowhead,16).toUpper() + ")" + ", ";
-        return _s;
+    LineEndArrowhead(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6737,13 +4781,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineJoinStyle;
-    LineJoinStyle()  {
-    }
-    QString toString() {
-        QString _s = "LineJoinStyle:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "lineJoinStyle: " + QString::number(lineJoinStyle) + "(" + QString::number(lineJoinStyle,16).toUpper() + ")" + ", ";
-        return _s;
+    LineJoinStyle(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6775,34 +4814,8 @@ public:
     bool unused3;
     bool fUsefLineOpaqueBackColor;
     quint8 unused4;
-    LineStyleBooleanProperties()  {
-    }
-    QString toString() {
-        QString _s = "LineStyleBooleanProperties:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fNoLineDrawDash: " + QString::number(fNoLineDrawDash) + ", ";
-        _s = _s + "fLineFillShape: " + QString::number(fLineFillShape) + ", ";
-        _s = _s + "fHitTestLine: " + QString::number(fHitTestLine) + ", ";
-        _s = _s + "fLine: " + QString::number(fLine) + ", ";
-        _s = _s + "fArrowHeadsOK: " + QString::number(fArrowHeadsOK) + ", ";
-        _s = _s + "fInsetPenOK: " + QString::number(fInsetPenOK) + ", ";
-        _s = _s + "fInsetPen: " + QString::number(fInsetPen) + ", ";
-        _s = _s + "reserved1: " + QString::number(reserved1) + ", ";
-        _s = _s + "reserved2: " + QString::number(reserved2) + ", ";
-        _s = _s + "fLineOpaqueBackColor: " + QString::number(fLineOpaqueBackColor) + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + "(" + QString::number(unused1,16).toUpper() + ")" + ", ";
-        _s = _s + "fUseNoLineDrawDash: " + QString::number(fUseNoLineDrawDash) + ", ";
-        _s = _s + "fUseLineFillShape: " + QString::number(fUseLineFillShape) + ", ";
-        _s = _s + "fUseHitTestLine: " + QString::number(fUseHitTestLine) + ", ";
-        _s = _s + "fUsefLine: " + QString::number(fUsefLine) + ", ";
-        _s = _s + "fUsefArrowHeadsOK: " + QString::number(fUsefArrowHeadsOK) + ", ";
-        _s = _s + "fUseInsetPenOK: " + QString::number(fUseInsetPenOK) + ", ";
-        _s = _s + "fUseInsetPen: " + QString::number(fUseInsetPen) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + ", ";
-        _s = _s + "unused3: " + QString::number(unused3) + ", ";
-        _s = _s + "fUsefLineOpaqueBackColor: " + QString::number(fUsefLineOpaqueBackColor) + ", ";
-        _s = _s + "unused4: " + QString::number(unused4) + "(" + QString::number(unused4,16).toUpper() + ")" + ", ";
-        return _s;
+    LineStyleBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6813,13 +4826,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF shadowColor;
-    ShadowColor()  {
-    }
-    QString toString() {
-        QString _s = "ShadowColor:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "shadowColor: " + shadowColor.toString() + ", ";
-        return _s;
+    ShadowColor(const Introspectable* parent) :Introspectable(parent),
+        opid(this),
+        shadowColor(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6835,18 +4844,8 @@ public:
     bool fUsefshadowObscured;
     bool fUsefShadow;
     quint16 unused2;
-    ShadowStyleBooleanPropertiesr()  {
-    }
-    QString toString() {
-        QString _s = "ShadowStyleBooleanPropertiesr:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fshadowObscured: " + QString::number(fshadowObscured) + ", ";
-        _s = _s + "fShadow: " + QString::number(fShadow) + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + "(" + QString::number(unused1,16).toUpper() + ")" + ", ";
-        _s = _s + "fUsefshadowObscured: " + QString::number(fUsefshadowObscured) + ", ";
-        _s = _s + "fUsefShadow: " + QString::number(fUsefShadow) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + "(" + QString::number(unused2,16).toUpper() + ")" + ", ";
-        return _s;
+    ShadowStyleBooleanPropertiesr(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6857,13 +4856,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 hspMaster;
-    HspMaster()  {
-    }
-    QString toString() {
-        QString _s = "HspMaster:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "hspMaster: " + QString::number(hspMaster) + "(" + QString::number(hspMaster,16).toUpper() + ")" + ", ";
-        return _s;
+    HspMaster(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6874,13 +4868,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 bWMode;
-    BWMode()  {
-    }
-    QString toString() {
-        QString _s = "BWMode:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "bWMode: " + QString::number(bWMode) + "(" + QString::number(bWMode,16).toUpper() + ")" + ", ";
-        return _s;
+    BWMode(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6916,38 +4905,8 @@ public:
     bool unused5;
     bool unused6;
     quint8 unused7;
-    ShapeBooleanProperties()  {
-    }
-    QString toString() {
-        QString _s = "ShapeBooleanProperties:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "fBackground: " + QString::number(fBackground) + ", ";
-        _s = _s + "reserved1: " + QString::number(reserved1) + ", ";
-        _s = _s + "fInitiator: " + QString::number(fInitiator) + ", ";
-        _s = _s + "fLockShapeType: " + QString::number(fLockShapeType) + ", ";
-        _s = _s + "fPreferRelativeResize: " + QString::number(fPreferRelativeResize) + ", ";
-        _s = _s + "fOleIcon: " + QString::number(fOleIcon) + ", ";
-        _s = _s + "fFlipVOverride: " + QString::number(fFlipVOverride) + ", ";
-        _s = _s + "fFlipHOverride: " + QString::number(fFlipHOverride) + ", ";
-        _s = _s + "fPolicyBarcode: " + QString::number(fPolicyBarcode) + ", ";
-        _s = _s + "fPolicyLabel: " + QString::number(fPolicyLabel) + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + ", ";
-        _s = _s + "unused3: " + QString::number(unused3) + "(" + QString::number(unused3,16).toUpper() + ")" + ", ";
-        _s = _s + "fUsefBackground: " + QString::number(fUsefBackground) + ", ";
-        _s = _s + "unused4: " + QString::number(unused4) + ", ";
-        _s = _s + "fUsefInitiator: " + QString::number(fUsefInitiator) + ", ";
-        _s = _s + "fUsefLockShapeType: " + QString::number(fUsefLockShapeType) + ", ";
-        _s = _s + "fusePreferrelativeResize: " + QString::number(fusePreferrelativeResize) + ", ";
-        _s = _s + "fUsefOleIcon: " + QString::number(fUsefOleIcon) + ", ";
-        _s = _s + "fUsefFlipVOverride: " + QString::number(fUsefFlipVOverride) + ", ";
-        _s = _s + "fUsefFlipHOverride: " + QString::number(fUsefFlipHOverride) + ", ";
-        _s = _s + "fUsefPolicyBarcode: " + QString::number(fUsefPolicyBarcode) + ", ";
-        _s = _s + "fUsefPolicyLabel: " + QString::number(fUsefPolicyLabel) + ", ";
-        _s = _s + "unused5: " + QString::number(unused5) + ", ";
-        _s = _s + "unused6: " + QString::number(unused6) + ", ";
-        _s = _s + "unused7: " + QString::number(unused7) + "(" + QString::number(unused7,16).toUpper() + ")" + ", ";
-        return _s;
+    ShapeBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6958,13 +4917,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lidRegroup;
-    LidRegroup()  {
-    }
-    QString toString() {
-        QString _s = "LidRegroup:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "lidRegroup: " + QString::number(lidRegroup) + "(" + QString::number(lidRegroup,16).toUpper() + ")" + ", ";
-        return _s;
+    LidRegroup(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6975,13 +4929,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 wzFillId;
-    WzFillId()  {
-    }
-    QString toString() {
-        QString _s = "WzFillId:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "wzFillId: " + QString::number(wzFillId) + "(" + QString::number(wzFillId,16).toUpper() + ")" + ", ";
-        return _s;
+    WzFillId(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6993,14 +4942,8 @@ public:
     OfficeArtRecordHeader rh;
     QSharedPointer<SmallRectStruct> rect1;
     QSharedPointer<RectStruct> rect2;
-    OfficeArtClientAnchor()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtClientAnchor:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rect1: " + ((rect1)?rect1->toString() :"null") + ", ";
-        _s = _s + "rect2: " + ((rect2)?rect2->toString() :"null") + ", ";
-        return _s;
+    OfficeArtClientAnchor(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7012,14 +4955,9 @@ public:
     RecordHeader rh;
     InteractiveInfoAtom interactiveInfoAtom;
     QSharedPointer<MacroNameAtom> macroNameAtom;
-    MouseInteractiveInfoContainer()  {
-    }
-    QString toString() {
-        QString _s = "MouseInteractiveInfoContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "interactiveInfoAtom: " + interactiveInfoAtom.toString() + ", ";
-        _s = _s + "macroNameAtom: " + ((macroNameAtom)?macroNameAtom->toString() :"null") + ", ";
-        return _s;
+    MouseInteractiveInfoContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        interactiveInfoAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7030,13 +4968,8 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 op;
-    OfficeArtFOPTE()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFOPTE:";
-        _s = _s + "opid: " + opid.toString() + ", ";
-        _s = _s + "op: " + QString::number(op) + "(" + QString::number(op,16).toUpper() + ")" + ", ";
-        return _s;
+    OfficeArtFOPTE(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7057,23 +4990,11 @@ public:
     quint16 cswNew;
     QByteArray fibRgCswNew;
     QByteArray trail;
-    Fib()  {
-    }
-    QString toString() {
-        QString _s = "Fib:";
-        _s = _s + "base: " + base.toString() + ", ";
-        _s = _s + "csw: " + QString::number(csw) + "(" + QString::number(csw,16).toUpper() + ")" + ", ";
-        _s = _s + "fibRgW: " + fibRgW.toString() + ", ";
-        _s = _s + "cslw: " + QString::number(cslw) + "(" + QString::number(cslw,16).toUpper() + ")" + ", ";
-        _s = _s + "fibRgLw: " + fibRgLw.toString() + ", ";
-        _s = _s + "cbRgFcLcb: " + QString::number(cbRgFcLcb) + "(" + QString::number(cbRgFcLcb,16).toUpper() + ")" + ", ";
-        _s = _s + "fibRgFcLcbBlob: " + fibRgFcLcbBlob.toString() + ", ";
-        _s = _s + "fibRgFcLcbBlob2: " + ((fibRgFcLcbBlob2)?fibRgFcLcbBlob2->toString() :"null") + ", ";
-        _s = _s + "fibRgFcLcbBlob3: " + ((fibRgFcLcbBlob3)?fibRgFcLcbBlob3->toString() :"null") + ", ";
-        _s = _s + "cswNew: " + QString::number(cswNew) + "(" + QString::number(cswNew,16).toUpper() + ")" + ", ";
-        _s = _s + "fibRgCswNew: " + "[array of fibRgCswNew]" + ", ";
-        _s = _s + "trail: " + "[array of trail]" + ", ";
-        return _s;
+    Fib(const Introspectable* parent) :Introspectable(parent),
+        base(this),
+        fibRgW(this),
+        fibRgLw(this),
+        fibRgFcLcbBlob(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7084,13 +5005,8 @@ public:
     static const Introspection _introspection;
     LPStshi lpstshi;
     QList<LPStd> rglpstd;
-    STSH()  {
-    }
-    QString toString() {
-        QString _s = "STSH:";
-        _s = _s + "lpstshi: " + lpstshi.toString() + ", ";
-        _s = _s + "rglpstd: " + "[array of rglpstd]" + ", ";
-        return _s;
+    STSH(const Introspectable* parent) :Introspectable(parent),
+        lpstshi(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7101,13 +5017,8 @@ public:
     static const Introspection _introspection;
     QList<Pcr> RgPrc;
     Pcdt pcdt;
-    Clx()  {
-    }
-    QString toString() {
-        QString _s = "Clx:";
-        _s = _s + "RgPrc: " + "[array of RgPrc]" + ", ";
-        _s = _s + "pcdt: " + pcdt.toString() + ", ";
-        return _s;
+    Clx(const Introspectable* parent) :Introspectable(parent),
+        pcdt(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7118,13 +5029,8 @@ public:
     static const Introspection _introspection;
     quint8 clxt;
     PrcData prcData;
-    Pcr()  {
-    }
-    QString toString() {
-        QString _s = "Pcr:";
-        _s = _s + "clxt: " + QString::number(clxt) + "(" + QString::number(clxt,16).toUpper() + ")" + ", ";
-        _s = _s + "prcData: " + prcData.toString() + ", ";
-        return _s;
+    Pcr(const Introspectable* parent) :Introspectable(parent),
+        prcData(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7136,12 +5042,7 @@ public:
     class prmChoice {public:QSharedPointer<Prm0> prm0;
 QSharedPointer<Prm1> prm1;
 }; prmChoice prm;
-    Prm()  {
-    }
-    QString toString() {
-        QString _s = "Prm:";
-        _s = _s + "prm: " + "<choice>" + ", ";
-        return _s;
+    Prm(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7156,16 +5057,9 @@ public:
     QByteArray rgbUid2;
     OfficeArtMetafileHeader metafileHeader;
     QByteArray BLIPFileData;
-    OfficeArtBlipEMF()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBlipEMF:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgbUid1: " + "[array of rgbUid1]" + ", ";
-        _s = _s + "rgbUid2: " + "[array of rgbUid2]" + ", ";
-        _s = _s + "metafileHeader: " + metafileHeader.toString() + ", ";
-        _s = _s + "BLIPFileData: " + "[array of BLIPFileData]" + ", ";
-        return _s;
+    OfficeArtBlipEMF(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        metafileHeader(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7180,16 +5074,9 @@ public:
     QByteArray rgbUid2;
     OfficeArtMetafileHeader metafileHeader;
     QByteArray BLIPFileData;
-    OfficeArtBlipWMF()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBlipWMF:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgbUid1: " + "[array of rgbUid1]" + ", ";
-        _s = _s + "rgbUid2: " + "[array of rgbUid2]" + ", ";
-        _s = _s + "metafileHeader: " + metafileHeader.toString() + ", ";
-        _s = _s + "BLIPFileData: " + "[array of BLIPFileData]" + ", ";
-        return _s;
+    OfficeArtBlipWMF(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        metafileHeader(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7204,16 +5091,9 @@ public:
     QByteArray rgbUid2;
     OfficeArtMetafileHeader metafileHeader;
     QByteArray BLIPFileData;
-    OfficeArtBlipPICT()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBlipPICT:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgbUid1: " + "[array of rgbUid1]" + ", ";
-        _s = _s + "rgbUid2: " + "[array of rgbUid2]" + ", ";
-        _s = _s + "metafileHeader: " + metafileHeader.toString() + ", ";
-        _s = _s + "BLIPFileData: " + "[array of BLIPFileData]" + ", ";
-        return _s;
+    OfficeArtBlipPICT(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        metafileHeader(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7230,12 +5110,7 @@ QSharedPointer<OfficeArtBlipPNG> officeartblippng;
 QSharedPointer<OfficeArtBlipDIB> officeartblipdib;
 QSharedPointer<OfficeArtBlipTIFF> officeartbliptiff;
 }; anonChoice anon;
-    OfficeArtBlip()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBlip:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    OfficeArtBlip(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7251,18 +5126,10 @@ public:
     quint8 fUseVarScale;
     quint8 fDraftMode;
     quint16 unused2;
-    ZoomViewInfoAtom()  {
-    }
-    QString toString() {
-        QString _s = "ZoomViewInfoAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "curScale: " + curScale.toString() + ", ";
-        _s = _s + "unused1: " + "[array of unused1]" + ", ";
-        _s = _s + "origin: " + origin.toString() + ", ";
-        _s = _s + "fUseVarScale: " + QString::number(fUseVarScale) + "(" + QString::number(fUseVarScale,16).toUpper() + ")" + ", ";
-        _s = _s + "fDraftMode: " + QString::number(fDraftMode) + "(" + QString::number(fDraftMode,16).toUpper() + ")" + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + "(" + QString::number(unused2,16).toUpper() + ")" + ", ";
-        return _s;
+    ZoomViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        curScale(this),
+        origin(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7274,12 +5141,7 @@ public:
     class anonChoice {public:QSharedPointer<ProgStringTagContainer> progstringtagcontainer;
 QSharedPointer<DocProgBinaryTagContainerOrAtom> docprogbinarytagcontaineroratom;
 }; anonChoice anon;
-    DocProgTagsSubContainerOrAtom()  {
-    }
-    QString toString() {
-        QString _s = "DocProgTagsSubContainerOrAtom:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    DocProgTagsSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7290,13 +5152,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     ZoomViewInfoAtom zoomViewInfo;
-    NotesTextViewInfoContainer()  {
-    }
-    QString toString() {
-        QString _s = "NotesTextViewInfoContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "zoomViewInfo: " + zoomViewInfo.toString() + ", ";
-        return _s;
+    NotesTextViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        zoomViewInfo(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7307,13 +5165,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     NoZoomViewInfoAtom noZoomViewInfo;
-    OutlineViewInfoContainer()  {
-    }
-    QString toString() {
-        QString _s = "OutlineViewInfoContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "noZoomViewInfo: " + noZoomViewInfo.toString() + ", ";
-        return _s;
+    OutlineViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        noZoomViewInfo(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7324,13 +5178,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     NormalViewSetInfoAtom normalViewSetInfoAtom;
-    NormalViewSetInfoContainer()  {
-    }
-    QString toString() {
-        QString _s = "NormalViewSetInfoContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "normalViewSetInfoAtom: " + normalViewSetInfoAtom.toString() + ", ";
-        return _s;
+    NormalViewSetInfoContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        normalViewSetInfoAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7341,13 +5191,8 @@ public:
     static const Introspection _introspection;
     SlidePersistAtom slidePersistAtom;
     QList<TextContainer> atoms;
-    SlideListWithTextSubContainerOrAtom()  {
-    }
-    QString toString() {
-        QString _s = "SlideListWithTextSubContainerOrAtom:";
-        _s = _s + "slidePersistAtom: " + slidePersistAtom.toString() + ", ";
-        _s = _s + "atoms: " + "[array of atoms]" + ", ";
-        return _s;
+    SlideListWithTextSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent),
+        slidePersistAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7359,12 +5204,7 @@ public:
     class interactiveChoice {public:QSharedPointer<MouseInteractiveInfoContainer> mouseinteractiveinfocontainer;
 QSharedPointer<MouseTextInteractiveInfoAtom> mousetextinteractiveinfoatom;
 }; interactiveChoice interactive;
-    TextContainerInteractiveInfo()  {
-    }
-    QString toString() {
-        QString _s = "TextContainerInteractiveInfo:";
-        _s = _s + "interactive: " + "<choice>" + ", ";
-        return _s;
+    TextContainerInteractiveInfo(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7376,14 +5216,8 @@ public:
     quint32 count;
     quint16 indentLevel;
     TextPFException pf;
-    TextPFRun()  {
-    }
-    QString toString() {
-        QString _s = "TextPFRun:";
-        _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
-        _s = _s + "indentLevel: " + QString::number(indentLevel) + "(" + QString::number(indentLevel,16).toUpper() + ")" + ", ";
-        _s = _s + "pf: " + pf.toString() + ", ";
-        return _s;
+    TextPFRun(const Introspectable* parent) :Introspectable(parent),
+        pf(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7394,13 +5228,8 @@ public:
     static const Introspection _introspection;
     quint32 count;
     TextCFException cf;
-    TextCFRun()  {
-    }
-    QString toString() {
-        QString _s = "TextCFRun:";
-        _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
-        _s = _s + "cf: " + cf.toString() + ", ";
-        return _s;
+    TextCFRun(const Introspectable* parent) :Introspectable(parent),
+        cf(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7411,13 +5240,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextCFException cf;
-    TextCFExceptionAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextCFExceptionAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "cf: " + cf.toString() + ", ";
-        return _s;
+    TextCFExceptionAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        cf(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7428,13 +5253,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextRuler defaultTextRuler;
-    DefaultRulerAtom()  {
-    }
-    QString toString() {
-        QString _s = "DefaultRulerAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "defaultTextRuler: " + defaultTextRuler.toString() + ", ";
-        return _s;
+    DefaultRulerAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        defaultTextRuler(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7446,14 +5267,9 @@ public:
     RecordHeader rh;
     quint16 reserved;
     TextPFException pf;
-    TextPFExceptionAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextPFExceptionAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "reserved: " + QString::number(reserved) + "(" + QString::number(reserved,16).toUpper() + ")" + ", ";
-        _s = _s + "pf: " + pf.toString() + ", ";
-        return _s;
+    TextPFExceptionAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        pf(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7464,13 +5280,8 @@ public:
     static const Introspection _introspection;
     quint32 count;
     TextSIException si;
-    TextSIRun()  {
-    }
-    QString toString() {
-        QString _s = "TextSIRun:";
-        _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
-        _s = _s + "si: " + si.toString() + ", ";
-        return _s;
+    TextSIRun(const Introspectable* parent) :Introspectable(parent),
+        si(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7481,13 +5292,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextSIException textSIException;
-    TextSIExceptionAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextSIExceptionAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "textSIException: " + textSIException.toString() + ", ";
-        return _s;
+    TextSIExceptionAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        textSIException(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7513,23 +5320,8 @@ public:
     QSharedPointer<TextMasterStyleLevel> lstLvl4;
     quint16 lstLvl5level;
     QSharedPointer<TextMasterStyleLevel> lstLvl5;
-    TextMasterStyleAtom()  {
-    }
-    QString toString() {
-        QString _s = "TextMasterStyleAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "cLevels: " + QString::number(cLevels) + "(" + QString::number(cLevels,16).toUpper() + ")" + ", ";
-        _s = _s + "lstLvl1level: " + QString::number(lstLvl1level) + "(" + QString::number(lstLvl1level,16).toUpper() + ")" + ", ";
-        _s = _s + "lstLvl1: " + ((lstLvl1)?lstLvl1->toString() :"null") + ", ";
-        _s = _s + "lstLvl2level: " + QString::number(lstLvl2level) + "(" + QString::number(lstLvl2level,16).toUpper() + ")" + ", ";
-        _s = _s + "lstLvl2: " + ((lstLvl2)?lstLvl2->toString() :"null") + ", ";
-        _s = _s + "lstLvl3level: " + QString::number(lstLvl3level) + "(" + QString::number(lstLvl3level,16).toUpper() + ")" + ", ";
-        _s = _s + "lstLvl3: " + ((lstLvl3)?lstLvl3->toString() :"null") + ", ";
-        _s = _s + "lstLvl4level: " + QString::number(lstLvl4level) + "(" + QString::number(lstLvl4level,16).toUpper() + ")" + ", ";
-        _s = _s + "lstLvl4: " + ((lstLvl4)?lstLvl4->toString() :"null") + ", ";
-        _s = _s + "lstLvl5level: " + QString::number(lstLvl5level) + "(" + QString::number(lstLvl5level,16).toUpper() + ")" + ", ";
-        _s = _s + "lstLvl5: " + ((lstLvl5)?lstLvl5->toString() :"null") + ", ";
-        return _s;
+    TextMasterStyleAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7541,12 +5333,7 @@ public:
     class anonChoice {public:QSharedPointer<ProgStringTagContainer> progstringtagcontainer;
 QSharedPointer<SlideProgBinaryTagContainer> slideprogbinarytagcontainer;
 }; anonChoice anon;
-    SlideProgTagsSubContainerOrAtom()  {
-    }
-    QString toString() {
-        QString _s = "SlideProgTagsSubContainerOrAtom:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    SlideProgTagsSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7567,12 +5354,7 @@ QSharedPointer<ExWAVAudioEmbeddedContainer> exwavaudioembeddedcontainer;
 QSharedPointer<ExWAVAudioLinkContainer> exwavaudiolinkcontainer;
 QSharedPointer<UnknownExObjListSubContainerChild> unknownexobjlistsubcontainerchild;
 }; anonChoice anon;
-    ExObjListSubContainer()  {
-    }
-    QString toString() {
-        QString _s = "ExObjListSubContainer:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    ExObjListSubContainer(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7589,19 +5371,11 @@ public:
     QSharedPointer<OfficeArtColorMRUContainer> colorMRU;
     OfficeArtSplitMenuColorContainer splitColors;
     QSharedPointer<OfficeArtTertiaryFOPT> unknown;
-    OfficeArtDggContainer()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtDggContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "drawingGroup: " + drawingGroup.toString() + ", ";
-        _s = _s + "blipStore: " + ((blipStore)?blipStore->toString() :"null") + ", ";
-        _s = _s + "drawingPrimaryOptions: " + drawingPrimaryOptions.toString() + ", ";
-        _s = _s + "drawingTertiaryOptions: " + ((drawingTertiaryOptions)?drawingTertiaryOptions->toString() :"null") + ", ";
-        _s = _s + "colorMRU: " + ((colorMRU)?colorMRU->toString() :"null") + ", ";
-        _s = _s + "splitColors: " + splitColors.toString() + ", ";
-        _s = _s + "unknown: " + ((unknown)?unknown->toString() :"null") + ", ";
-        return _s;
+    OfficeArtDggContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        drawingGroup(this),
+        drawingPrimaryOptions(this),
+        splitColors(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7647,12 +5421,7 @@ QSharedPointer<LidRegroup> lidregroup;
 QSharedPointer<BWMode> bwmode;
 QSharedPointer<OfficeArtFOPTE> officeartfopte;
 }; anonChoice anon;
-    OfficeArtFOPTEChoice()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFOPTEChoice:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    OfficeArtFOPTEChoice(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7672,22 +5441,8 @@ public:
     QSharedPointer<RecolorInfoAtom> recolorInfoAtom;
     QList<ShapeClientRoundtripDataSubcontainerOrAtom> rgShapeClientRoundtripData;
     QSharedPointer<UnknownOfficeArtClientDataChild> unknown;
-    OfficeArtClientData()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtClientData:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "shapeFlagsAtom: " + ((shapeFlagsAtom)?shapeFlagsAtom->toString() :"null") + ", ";
-        _s = _s + "shapeFlags10Atom: " + ((shapeFlags10Atom)?shapeFlags10Atom->toString() :"null") + ", ";
-        _s = _s + "exObjRefAtom: " + ((exObjRefAtom)?exObjRefAtom->toString() :"null") + ", ";
-        _s = _s + "animationInfo: " + ((animationInfo)?animationInfo->toString() :"null") + ", ";
-        _s = _s + "mouseClickInteractiveInfo: " + ((mouseClickInteractiveInfo)?mouseClickInteractiveInfo->toString() :"null") + ", ";
-        _s = _s + "mouseOverInteractiveInfo: " + ((mouseOverInteractiveInfo)?mouseOverInteractiveInfo->toString() :"null") + ", ";
-        _s = _s + "placeholderAtom: " + ((placeholderAtom)?placeholderAtom->toString() :"null") + ", ";
-        _s = _s + "recolorInfoAtom: " + ((recolorInfoAtom)?recolorInfoAtom->toString() :"null") + ", ";
-        _s = _s + "rgShapeClientRoundtripData: " + "[array of rgShapeClientRoundtripData]" + ", ";
-        _s = _s + "unknown: " + ((unknown)?unknown->toString() :"null") + ", ";
-        return _s;
+    OfficeArtClientData(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7697,12 +5452,8 @@ private:
 public:
     static const Introspection _introspection;
     Fib fib;
-    WordDocument()  {
-    }
-    QString toString() {
-        QString _s = "WordDocument:";
-        _s = _s + "fib: " + fib.toString() + ", ";
-        return _s;
+    WordDocument(const Introspectable* parent) :Introspectable(parent),
+        fib(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7720,20 +5471,15 @@ public:
     Clx clx;
     SttbfFfn sttbfFfn;
     QByteArray dop;
-    Table()  {
-    }
-    QString toString() {
-        QString _s = "Table:";
-        _s = _s + "stsh: " + stsh.toString() + ", ";
-        _s = _s + "plcfSed: " + plcfSed.toString() + ", ";
-        _s = _s + "plcfHdd: " + plcfHdd.toString() + ", ";
-        _s = _s + "plcfBteChpx: " + plcfBteChpx.toString() + ", ";
-        _s = _s + "plcfBtePapx: " + plcfBtePapx.toString() + ", ";
-        _s = _s + "cmds: " + cmds.toString() + ", ";
-        _s = _s + "clx: " + clx.toString() + ", ";
-        _s = _s + "sttbfFfn: " + sttbfFfn.toString() + ", ";
-        _s = _s + "dop: " + "[array of dop]" + ", ";
-        return _s;
+    Table(const Introspectable* parent) :Introspectable(parent),
+        stsh(this),
+        plcfSed(this),
+        plcfHdd(this),
+        plcfBteChpx(this),
+        plcfBtePapx(this),
+        cmds(this),
+        clx(this),
+        sttbfFfn(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7749,18 +5495,9 @@ public:
     quint16 fR3;
     FCompressed fc;
     Prm prm;
-    Pcd()  {
-    }
-    QString toString() {
-        QString _s = "Pcd:";
-        _s = _s + "fNoParaLast: " + QString::number(fNoParaLast) + ", ";
-        _s = _s + "fR1: " + QString::number(fR1) + ", ";
-        _s = _s + "fDirtly: " + QString::number(fDirtly) + ", ";
-        _s = _s + "fR2: " + QString::number(fR2) + ", ";
-        _s = _s + "fR3: " + QString::number(fR3) + "(" + QString::number(fR3,16).toUpper() + ")" + ", ";
-        _s = _s + "fc: " + fc.toString() + ", ";
-        _s = _s + "prm: " + prm.toString() + ", ";
-        return _s;
+    Pcd(const Introspectable* parent) :Introspectable(parent),
+        fc(this),
+        prm(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7783,25 +5520,8 @@ public:
     quint8 unused3;
     QByteArray nameData;
     QSharedPointer<OfficeArtBlip> embeddedBlip;
-    OfficeArtFBSE()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtFBSE:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "btWin32: " + QString::number(btWin32) + "(" + QString::number(btWin32,16).toUpper() + ")" + ", ";
-        _s = _s + "btMacOS: " + QString::number(btMacOS) + "(" + QString::number(btMacOS,16).toUpper() + ")" + ", ";
-        _s = _s + "rgbUid: " + "[array of rgbUid]" + ", ";
-        _s = _s + "tag: " + QString::number(tag) + "(" + QString::number(tag,16).toUpper() + ")" + ", ";
-        _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
-        _s = _s + "cRef: " + QString::number(cRef) + "(" + QString::number(cRef,16).toUpper() + ")" + ", ";
-        _s = _s + "foDelay: " + QString::number(foDelay) + "(" + QString::number(foDelay,16).toUpper() + ")" + ", ";
-        _s = _s + "unused1: " + QString::number(unused1) + "(" + QString::number(unused1,16).toUpper() + ")" + ", ";
-        _s = _s + "cbName: " + QString::number(cbName) + "(" + QString::number(cbName,16).toUpper() + ")" + ", ";
-        _s = _s + "unused2: " + QString::number(unused2) + "(" + QString::number(unused2,16).toUpper() + ")" + ", ";
-        _s = _s + "unused3: " + QString::number(unused3) + "(" + QString::number(unused3,16).toUpper() + ")" + ", ";
-        _s = _s + "nameData: " + "[array of nameData]" + ", ";
-        _s = _s + "embeddedBlip: " + ((embeddedBlip)?embeddedBlip->toString() :"null") + ", ";
-        return _s;
+    OfficeArtFBSE(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7813,12 +5533,7 @@ public:
     class anonChoice {public:QSharedPointer<OfficeArtFBSE> officeartfbse;
 QSharedPointer<OfficeArtBlip> officeartblip;
 }; anonChoice anon;
-    OfficeArtBStoreContainerFileBlock()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtBStoreContainerFileBlock:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    OfficeArtBStoreContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7831,15 +5546,10 @@ public:
     SlideViewInfoAtom slideViewInfoAtom;
     ZoomViewInfoAtom zoomViewInfoAtom;
     QList<GuideAtom> rgGuideAtom;
-    SlideViewInfoInstance()  {
-    }
-    QString toString() {
-        QString _s = "SlideViewInfoInstance:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "slideViewInfoAtom: " + slideViewInfoAtom.toString() + ", ";
-        _s = _s + "zoomViewInfoAtom: " + zoomViewInfoAtom.toString() + ", ";
-        _s = _s + "rgGuideAtom: " + "[array of rgGuideAtom]" + ", ";
-        return _s;
+    SlideViewInfoInstance(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        slideViewInfoAtom(this),
+        zoomViewInfoAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7856,19 +5566,10 @@ public:
     QSharedPointer<DefaultRulerAtom> defaultRulerAtom;
     TextSIExceptionAtom textSIDefaultsAtom;
     TextMasterStyleAtom textMasterStyleAtom;
-    DocumentTextInfoContainer()  {
-    }
-    QString toString() {
-        QString _s = "DocumentTextInfoContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "kinsoku: " + ((kinsoku)?kinsoku->toString() :"null") + ", ";
-        _s = _s + "fontCollection: " + ((fontCollection)?fontCollection->toString() :"null") + ", ";
-        _s = _s + "textCFDefaultsAtom: " + ((textCFDefaultsAtom)?textCFDefaultsAtom->toString() :"null") + ", ";
-        _s = _s + "textPFDefaultsAtom: " + ((textPFDefaultsAtom)?textPFDefaultsAtom->toString() :"null") + ", ";
-        _s = _s + "defaultRulerAtom: " + ((defaultRulerAtom)?defaultRulerAtom->toString() :"null") + ", ";
-        _s = _s + "textSIDefaultsAtom: " + textSIDefaultsAtom.toString() + ", ";
-        _s = _s + "textMasterStyleAtom: " + textMasterStyleAtom.toString() + ", ";
-        return _s;
+    DocumentTextInfoContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        textSIDefaultsAtom(this),
+        textMasterStyleAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7879,13 +5580,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     OfficeArtDggContainer OfficeArtDgg;
-    DrawingGroupContainer()  {
-    }
-    QString toString() {
-        QString _s = "DrawingGroupContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "OfficeArtDgg: " + OfficeArtDgg.toString() + ", ";
-        return _s;
+    DrawingGroupContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        OfficeArtDgg(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7907,24 +5604,9 @@ public:
     QSharedPointer<OfficeArtClientTextBox> clientTextbox;
     QSharedPointer<OfficeArtSecondaryFOPT> shapeSecondaryOptions2;
     QSharedPointer<OfficeArtTertiaryFOPT> shapeTertiaryOptions2;
-    OfficeArtSpContainer()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtSpContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "shapeGroup: " + ((shapeGroup)?shapeGroup->toString() :"null") + ", ";
-        _s = _s + "shapeProp: " + shapeProp.toString() + ", ";
-        _s = _s + "deletedshape: " + ((deletedshape)?deletedshape->toString() :"null") + ", ";
-        _s = _s + "shapePrimaryOptions: " + ((shapePrimaryOptions)?shapePrimaryOptions->toString() :"null") + ", ";
-        _s = _s + "shapeSecondaryOptions1: " + ((shapeSecondaryOptions1)?shapeSecondaryOptions1->toString() :"null") + ", ";
-        _s = _s + "shapeTertiaryOptions1: " + ((shapeTertiaryOptions1)?shapeTertiaryOptions1->toString() :"null") + ", ";
-        _s = _s + "childAnchor: " + ((childAnchor)?childAnchor->toString() :"null") + ", ";
-        _s = _s + "clientAnchor: " + ((clientAnchor)?clientAnchor->toString() :"null") + ", ";
-        _s = _s + "clientData: " + ((clientData)?clientData->toString() :"null") + ", ";
-        _s = _s + "clientTextbox: " + ((clientTextbox)?clientTextbox->toString() :"null") + ", ";
-        _s = _s + "shapeSecondaryOptions2: " + ((shapeSecondaryOptions2)?shapeSecondaryOptions2->toString() :"null") + ", ";
-        _s = _s + "shapeTertiaryOptions2: " + ((shapeTertiaryOptions2)?shapeTertiaryOptions2->toString() :"null") + ", ";
-        return _s;
+    OfficeArtSpContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        shapeProp(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -7959,37 +5641,13 @@ public:
     QSharedPointer<UnknownDocumentContainerChild3> unknown4;
     QSharedPointer<UnknownDocumentContainerChild4> unknown5;
     QSharedPointer<RoundTripCustomTableStyles12Atom> rtCustomTableStylesAtom2;
-    DocumentContainer()  {
-    }
-    QString toString() {
-        QString _s = "DocumentContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "documentAtom: " + documentAtom.toString() + ", ";
-        _s = _s + "exObjList: " + ((exObjList)?exObjList->toString() :"null") + ", ";
-        _s = _s + "documentTextInfo: " + documentTextInfo.toString() + ", ";
-        _s = _s + "soundCollection: " + ((soundCollection)?soundCollection->toString() :"null") + ", ";
-        _s = _s + "drawingGroup: " + drawingGroup.toString() + ", ";
-        _s = _s + "masterList: " + masterList.toString() + ", ";
-        _s = _s + "docInfoList: " + ((docInfoList)?docInfoList->toString() :"null") + ", ";
-        _s = _s + "slideHF: " + ((slideHF)?slideHF->toString() :"null") + ", ";
-        _s = _s + "notesHF: " + ((notesHF)?notesHF->toString() :"null") + ", ";
-        _s = _s + "slideList: " + ((slideList)?slideList->toString() :"null") + ", ";
-        _s = _s + "slideHF2: " + ((slideHF2)?slideHF2->toString() :"null") + ", ";
-        _s = _s + "notesList: " + ((notesList)?notesList->toString() :"null") + ", ";
-        _s = _s + "slideShowDocInfoAtom: " + ((slideShowDocInfoAtom)?slideShowDocInfoAtom->toString() :"null") + ", ";
-        _s = _s + "namedShows: " + ((namedShows)?namedShows->toString() :"null") + ", ";
-        _s = _s + "summary: " + ((summary)?summary->toString() :"null") + ", ";
-        _s = _s + "docRoutingSlipAtom: " + ((docRoutingSlipAtom)?docRoutingSlipAtom->toString() :"null") + ", ";
-        _s = _s + "printOptionsAtom: " + ((printOptionsAtom)?printOptionsAtom->toString() :"null") + ", ";
-        _s = _s + "rtCustomTableStylesAtom1: " + ((rtCustomTableStylesAtom1)?rtCustomTableStylesAtom1->toString() :"null") + ", ";
-        _s = _s + "unknown1: " + ((unknown1)?unknown1->toString() :"null") + ", ";
-        _s = _s + "endDocumentAtom: " + endDocumentAtom.toString() + ", ";
-        _s = _s + "unknown2: " + ((unknown2)?unknown2->toString() :"null") + ", ";
-        _s = _s + "unknown3: " + ((unknown3)?unknown3->toString() :"null") + ", ";
-        _s = _s + "unknown4: " + ((unknown4)?unknown4->toString() :"null") + ", ";
-        _s = _s + "unknown5: " + ((unknown5)?unknown5->toString() :"null") + ", ";
-        _s = _s + "rtCustomTableStylesAtom2: " + ((rtCustomTableStylesAtom2)?rtCustomTableStylesAtom2->toString() :"null") + ", ";
-        return _s;
+    DocumentContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        documentAtom(this),
+        documentTextInfo(this),
+        drawingGroup(this),
+        masterList(this),
+        endDocumentAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -8006,12 +5664,7 @@ QSharedPointer<SlideViewInfoInstance> slideviewinfoinstance;
 QSharedPointer<SorterViewInfoContainer> sorterviewinfocontainer;
 QSharedPointer<VBAInfoContainer> vbainfocontainer;
 }; anonChoice anon;
-    DocInfoListSubContainerOrAtom()  {
-    }
-    QString toString() {
-        QString _s = "DocInfoListSubContainerOrAtom:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    DocInfoListSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -8027,18 +5680,10 @@ public:
     QSharedPointer<OfficeArtSpContainer> shape;
     QList<OfficeArtSpgrContainerFileBlock> deletedShapes;
     QSharedPointer<OfficeArtSolverContainer> solvers;
-    OfficeArtDgContainer()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtDgContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "drawingData: " + drawingData.toString() + ", ";
-        _s = _s + "regroupItems: " + ((regroupItems)?regroupItems->toString() :"null") + ", ";
-        _s = _s + "groupShape: " + groupShape.toString() + ", ";
-        _s = _s + "shape: " + ((shape)?shape->toString() :"null") + ", ";
-        _s = _s + "deletedShapes: " + "[array of deletedShapes]" + ", ";
-        _s = _s + "solvers: " + ((solvers)?solvers->toString() :"null") + ", ";
-        return _s;
+    OfficeArtDgContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        drawingData(this),
+        groupShape(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -8050,12 +5695,7 @@ public:
     class anonChoice {public:QSharedPointer<OfficeArtSpContainer> officeartspcontainer;
 QSharedPointer<OfficeArtSpgrContainer> officeartspgrcontainer;
 }; anonChoice anon;
-    OfficeArtSpgrContainerFileBlock()  {
-    }
-    QString toString() {
-        QString _s = "OfficeArtSpgrContainerFileBlock:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    OfficeArtSpgrContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -8066,13 +5706,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     OfficeArtDgContainer OfficeArtDg;
-    DrawingContainer()  {
-    }
-    QString toString() {
-        QString _s = "DrawingContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "OfficeArtDg: " + OfficeArtDg.toString() + ", ";
-        return _s;
+    DrawingContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        OfficeArtDg(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -8097,27 +5733,11 @@ public:
     QSharedPointer<UnknownSlideContainerChild> unknown2;
     QSharedPointer<TemplateNameAtom> templateNameAtom;
     QSharedPointer<SlideProgTagsContainer> unknown3;
-    MainMasterContainer()  {
-    }
-    QString toString() {
-        QString _s = "MainMasterContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "slideAtom: " + slideAtom.toString() + ", ";
-        _s = _s + "unknown: " + ((unknown)?unknown->toString() :"null") + ", ";
-        _s = _s + "rgSchemeListElementColorScheme: " + "[array of rgSchemeListElementColorScheme]" + ", ";
-        _s = _s + "rgTextMasterStyle: " + "[array of rgTextMasterStyle]" + ", ";
-        _s = _s + "roundTripOArtTextSTyles12Atom: " + ((roundTripOArtTextSTyles12Atom)?roundTripOArtTextSTyles12Atom->toString() :"null") + ", ";
-        _s = _s + "slideShowInfoAtom: " + ((slideShowInfoAtom)?slideShowInfoAtom->toString() :"null") + ", ";
-        _s = _s + "perSlideHeadersFootersContainer: " + ((perSlideHeadersFootersContainer)?perSlideHeadersFootersContainer->toString() :"null") + ", ";
-        _s = _s + "drawing: " + drawing.toString() + ", ";
-        _s = _s + "slideSchemeColorSchemeAtom: " + slideSchemeColorSchemeAtom.toString() + ", ";
-        _s = _s + "slideNameAtom: " + ((slideNameAtom)?slideNameAtom->toString() :"null") + ", ";
-        _s = _s + "slideProgTagsContainer: " + ((slideProgTagsContainer)?slideProgTagsContainer->toString() :"null") + ", ";
-        _s = _s + "rgRoundTripMainMaster: " + "[array of rgRoundTripMainMaster]" + ", ";
-        _s = _s + "unknown2: " + ((unknown2)?unknown2->toString() :"null") + ", ";
-        _s = _s + "templateNameAtom: " + ((templateNameAtom)?templateNameAtom->toString() :"null") + ", ";
-        _s = _s + "unknown3: " + ((unknown3)?unknown3->toString() :"null") + ", ";
-        return _s;
+    MainMasterContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        slideAtom(this),
+        drawing(this),
+        slideSchemeColorSchemeAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -8137,22 +5757,11 @@ public:
     QSharedPointer<SlideProgTagscontainer> slideProgTagsContainer;
     QList<RoundTripSlideRecord> rgRoundTripSlide;
     QSharedPointer<UnknownSlideContainerChild> unknown;
-    SlideContainer()  {
-    }
-    QString toString() {
-        QString _s = "SlideContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "slideAtom: " + slideAtom.toString() + ", ";
-        _s = _s + "slideShowSlideInfoAtom: " + ((slideShowSlideInfoAtom)?slideShowSlideInfoAtom->toString() :"null") + ", ";
-        _s = _s + "perSlideHFContainer: " + ((perSlideHFContainer)?perSlideHFContainer->toString() :"null") + ", ";
-        _s = _s + "rtSlideSyncInfo12: " + ((rtSlideSyncInfo12)?rtSlideSyncInfo12->toString() :"null") + ", ";
-        _s = _s + "drawing: " + drawing.toString() + ", ";
-        _s = _s + "slideSchemeColorSchemeAtom: " + slideSchemeColorSchemeAtom.toString() + ", ";
-        _s = _s + "slideNameAtom: " + ((slideNameAtom)?slideNameAtom->toString() :"null") + ", ";
-        _s = _s + "slideProgTagsContainer: " + ((slideProgTagsContainer)?slideProgTagsContainer->toString() :"null") + ", ";
-        _s = _s + "rgRoundTripSlide: " + "[array of rgRoundTripSlide]" + ", ";
-        _s = _s + "unknown: " + ((unknown)?unknown->toString() :"null") + ", ";
-        return _s;
+    SlideContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        slideAtom(this),
+        drawing(this),
+        slideSchemeColorSchemeAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -8164,12 +5773,7 @@ public:
     class anonChoice {public:QSharedPointer<MainMasterContainer> mainmastercontainer;
 QSharedPointer<SlideContainer> slidecontainer;
 }; anonChoice anon;
-    MasterOrSlideContainer()  {
-    }
-    QString toString() {
-        QString _s = "MasterOrSlideContainer:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    MasterOrSlideContainer(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -8189,12 +5793,7 @@ QSharedPointer<ExControlStg> excontrolstg;
 QSharedPointer<VbaProjectStg> vbaprojectstg;
 QSharedPointer<UserEditAtom> usereditatom;
 }; anonChoice anon;
-    PowerPointStruct()  {
-    }
-    QString toString() {
-        QString _s = "PowerPointStruct:";
-        _s = _s + "anon: " + "<choice>" + ", ";
-        return _s;
+    PowerPointStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -25809,6 +23408,43 @@ void write(const RecordHeader& _s, LEOutputStream& out) {
     out.writeuint32(_s.recLen);
 }
 void parseRecordHeader(QXmlStreamReader& in, RecordHeader& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "recVer") {
+        qDebug() << "not startelement in recVer " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint12 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "recInstance") {
+        qDebug() << "not startelement in recInstance " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "recType") {
+        qDebug() << "not startelement in recType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "recLen") {
+        qDebug() << "not startelement in recLen " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s) {
     int _c;
@@ -25878,21 +23514,123 @@ void write(const CurrentUserAtom& _s, LEOutputStream& out) {
     }
 }
 void parseCurrentUserAtom(QXmlStreamReader& in, CurrentUserAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "size") {
+        qDebug() << "not startelement in size " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "headerToken") {
+        qDebug() << "not startelement in headerToken " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "offsetToCurrentEdit") {
+        qDebug() << "not startelement in offsetToCurrentEdit " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lenUserName") {
+        qDebug() << "not startelement in lenUserName " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "docFileVersion") {
+        qDebug() << "not startelement in docFileVersion " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "majorVersion") {
+        qDebug() << "not startelement in majorVersion " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "minorVersion") {
+        qDebug() << "not startelement in minorVersion " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "relVersion") {
+        qDebug() << "not startelement in relVersion " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTODOS(LEInputStream& in, TODOS& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            Byte _t;
-            parseByte(in, _t);
-            _s.anon.append(_t);
+            _s.anon.append(&_s);
+            parseByte(in, _s.anon.last());
         } catch(IncorrectValueException _e) {
+            _s.anon.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.anon.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -25904,6 +23642,12 @@ void write(const TODOS& _s, LEOutputStream& out) {
     }
 }
 void parseTODOS(QXmlStreamReader& in, TODOS& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Byte " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseByte(LEInputStream& in, Byte& _s) {
     _s.b = in.readuint8();
@@ -25912,22 +23656,33 @@ void write(const Byte& _s, LEOutputStream& out) {
     out.writeuint8(_s.b);
 }
 void parseByte(QXmlStreamReader& in, Byte& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "b") {
+        qDebug() << "not startelement in b " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseCurrentUserStream(LEInputStream& in, CurrentUserStream& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseCurrentUserAtom(in, _s.anon1);
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            Byte _t;
-            parseByte(in, _t);
-            _s.trailing.append(_t);
+            _s.trailing.append(&_s);
+            parseByte(in, _s.trailing.last());
         } catch(IncorrectValueException _e) {
+            _s.trailing.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.trailing.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -25940,21 +23695,37 @@ void write(const CurrentUserStream& _s, LEOutputStream& out) {
     }
 }
 void parseCurrentUserStream(QXmlStreamReader& in, CurrentUserStream& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in CurrentUserAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon1") {
+        qDebug() << "not startelement in anon1 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Byte " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOfficeArtBStoreDelay(LEInputStream& in, OfficeArtBStoreDelay& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            OfficeArtBStoreContainerFileBlock _t;
-            parseOfficeArtBStoreContainerFileBlock(in, _t);
-            _s.anon1.append(_t);
+            _s.anon1.append(&_s);
+            parseOfficeArtBStoreContainerFileBlock(in, _s.anon1.last());
         } catch(IncorrectValueException _e) {
+            _s.anon1.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.anon1.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -25966,6 +23737,12 @@ void write(const OfficeArtBStoreDelay& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtBStoreDelay(QXmlStreamReader& in, OfficeArtBStoreDelay& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtBStoreContainerFileBlock " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOfficeArtRecordHeader(LEInputStream& in, OfficeArtRecordHeader& _s) {
     _s.recVer = in.readuint4();
@@ -25980,6 +23757,43 @@ void write(const OfficeArtRecordHeader& _s, LEOutputStream& out) {
     out.writeuint32(_s.recLen);
 }
 void parseOfficeArtRecordHeader(QXmlStreamReader& in, OfficeArtRecordHeader& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "recVer") {
+        qDebug() << "not startelement in recVer " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint12 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "recInstance") {
+        qDebug() << "not startelement in recInstance " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "recType") {
+        qDebug() << "not startelement in recType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "recLen") {
+        qDebug() << "not startelement in recLen " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtBlipJPEG(LEInputStream& in, OfficeArtBlipJPEG& _s) {
     int _c;
@@ -26015,6 +23829,40 @@ void write(const OfficeArtBlipJPEG& _s, LEOutputStream& out) {
     out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipJPEG(QXmlStreamReader& in, OfficeArtBlipJPEG& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "tag") {
+        qDebug() << "not startelement in tag " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtBlipPNG(LEInputStream& in, OfficeArtBlipPNG& _s) {
     int _c;
@@ -26050,6 +23898,40 @@ void write(const OfficeArtBlipPNG& _s, LEOutputStream& out) {
     out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipPNG(QXmlStreamReader& in, OfficeArtBlipPNG& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "tag") {
+        qDebug() << "not startelement in tag " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtBlipDIB(LEInputStream& in, OfficeArtBlipDIB& _s) {
     int _c;
@@ -26085,6 +23967,40 @@ void write(const OfficeArtBlipDIB& _s, LEOutputStream& out) {
     out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipDIB(QXmlStreamReader& in, OfficeArtBlipDIB& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "tag") {
+        qDebug() << "not startelement in tag " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtBlipTIFF(LEInputStream& in, OfficeArtBlipTIFF& _s) {
     int _c;
@@ -26120,6 +24036,40 @@ void write(const OfficeArtBlipTIFF& _s, LEOutputStream& out) {
     out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipTIFF(QXmlStreamReader& in, OfficeArtBlipTIFF& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "tag") {
+        qDebug() << "not startelement in tag " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseRECT(LEInputStream& in, RECT& _s) {
     _s.left = in.readint32();
@@ -26134,6 +24084,43 @@ void write(const RECT& _s, LEOutputStream& out) {
     out.writeint32(_s.bottom);
 }
 void parseRECT(QXmlStreamReader& in, RECT& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "left") {
+        qDebug() << "not startelement in left " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "top") {
+        qDebug() << "not startelement in top " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "right") {
+        qDebug() << "not startelement in right " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bottom") {
+        qDebug() << "not startelement in bottom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePOINT(LEInputStream& in, POINT& _s) {
     _s.x = in.readint32();
@@ -26144,21 +24131,41 @@ void write(const POINT& _s, LEOutputStream& out) {
     out.writeint32(_s.y);
 }
 void parsePOINT(QXmlStreamReader& in, POINT& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "x") {
+        qDebug() << "not startelement in x " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "y") {
+        qDebug() << "not startelement in y " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePowerPointStructs(LEInputStream& in, PowerPointStructs& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            PowerPointStruct _t;
-            parsePowerPointStruct(in, _t);
-            _s.anon.append(_t);
+            _s.anon.append(&_s);
+            parsePowerPointStruct(in, _s.anon.last());
         } catch(IncorrectValueException _e) {
+            _s.anon.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.anon.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -26170,6 +24177,12 @@ void write(const PowerPointStructs& _s, LEOutputStream& out) {
     }
 }
 void parsePowerPointStructs(QXmlStreamReader& in, PowerPointStructs& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PowerPointStruct " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSoundCollectionContainer(LEInputStream& in, SoundCollectionContainer& _s) {
     int _c;
@@ -26192,6 +24205,21 @@ void write(const SoundCollectionContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseSoundCollectionContainer(QXmlStreamReader& in, SoundCollectionContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersContainer& _s) {
     int _c;
@@ -26214,6 +24242,21 @@ void write(const SlideHeadersFootersContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseSlideHeadersFootersContainer(QXmlStreamReader& in, SlideHeadersFootersContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersContainer& _s) {
     int _c;
@@ -26236,6 +24279,21 @@ void write(const NotesHeadersFootersContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseNotesHeadersFootersContainer(QXmlStreamReader& in, NotesHeadersFootersContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s) {
     int _c;
@@ -26258,6 +24316,21 @@ void write(const PerSlideHeadersFootersContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parsePerSlideHeadersFootersContainer(QXmlStreamReader& in, PerSlideHeadersFootersContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26278,10 +24351,20 @@ void write(const EndDocumentAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
 }
 void parseEndDocumentAtom(QXmlStreamReader& in, EndDocumentAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseDocInfoListContainer(LEInputStream& in, DocInfoListContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -26296,13 +24379,14 @@ void parseDocInfoListContainer(LEInputStream& in, DocInfoListContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            DocInfoListSubContainerOrAtom _t;
-            parseDocInfoListSubContainerOrAtom(in, _t);
-            _s.rgChildRec.append(_t);
+            _s.rgChildRec.append(&_s);
+            parseDocInfoListSubContainerOrAtom(in, _s.rgChildRec.last());
         } catch(IncorrectValueException _e) {
+            _s.rgChildRec.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.rgChildRec.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -26315,6 +24399,21 @@ void write(const DocInfoListContainer& _s, LEOutputStream& out) {
     }
 }
 void parseDocInfoListContainer(QXmlStreamReader& in, DocInfoListContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in DocInfoListSubContainerOrAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSlideViewInfoAtom(LEInputStream& in, SlideViewInfoAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26341,6 +24440,43 @@ void write(const SlideViewInfoAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.fSnapToShape);
 }
 void parseSlideViewInfoAtom(QXmlStreamReader& in, SlideViewInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSnapToGrid") {
+        qDebug() << "not startelement in fSnapToGrid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSnapToShape") {
+        qDebug() << "not startelement in fSnapToShape " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseGuideAtom(LEInputStream& in, GuideAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26374,10 +24510,38 @@ void write(const GuideAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.pos);
 }
 void parseGuideAtom(QXmlStreamReader& in, GuideAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "type") {
+        qDebug() << "not startelement in type " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pos") {
+        qDebug() << "not startelement in pos " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseDocProgTagsContainer(LEInputStream& in, DocProgTagsContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -26389,10 +24553,11 @@ void parseDocProgTagsContainer(LEInputStream& in, DocProgTagsContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1388");
     }
     int _startPos = in.getPosition();
-    while (in.getPosition() - _startPos < _s.rh.recLen) {
-        DocProgTagsSubContainerOrAtom _t;
-        parseDocProgTagsSubContainerOrAtom(in, _t);
-        _s.rgChildRec.append(_t);
+    _atend = in.getPosition() - _startPos >= _s.rh.recLen;
+    while (!_atend) {
+        _s.rgChildRec.append(&_s);
+        parseDocProgTagsSubContainerOrAtom(in, _s.rgChildRec.last());
+        _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
 }
 void write(const DocProgTagsContainer& _s, LEOutputStream& out) {
@@ -26402,6 +24567,21 @@ void write(const DocProgTagsContainer& _s, LEOutputStream& out) {
     }
 }
 void parseDocProgTagsContainer(QXmlStreamReader& in, DocProgTagsContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in DocProgTagsSubContainerOrAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseDocProgBinaryTagContainerOrAtom(LEInputStream& in, DocProgBinaryTagContainerOrAtom& _s) {
     int _c;
@@ -26424,6 +24604,21 @@ void write(const DocProgBinaryTagContainerOrAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseDocProgBinaryTagContainerOrAtom(QXmlStreamReader& in, DocProgBinaryTagContainerOrAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSorterViewInfoContainer(LEInputStream& in, SorterViewInfoContainer& _s) {
     int _c;
@@ -26446,6 +24641,21 @@ void write(const SorterViewInfoContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseSorterViewInfoContainer(QXmlStreamReader& in, SorterViewInfoContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseVBAInfoAtom(LEInputStream& in, VBAInfoAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26478,6 +24688,43 @@ void write(const VBAInfoAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.version);
 }
 void parseVBAInfoAtom(QXmlStreamReader& in, VBAInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "persistIdRef") {
+        qDebug() << "not startelement in persistIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHasMacros") {
+        qDebug() << "not startelement in fHasMacros " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "version") {
+        qDebug() << "not startelement in version " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextContainer& _s) {
     int _c;
@@ -26497,7 +24744,7 @@ void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextConta
     }
     _c = _s.rh.recLen/28;
         for (int _i=0; _i<_c; ++_i) {
-        _s.rgMasterPersistAtom.append(MasterPersistAtom());
+        _s.rgMasterPersistAtom.append(MasterPersistAtom(&_s));
         parseMasterPersistAtom(in, _s.rgMasterPersistAtom[_i]);
     }
 }
@@ -26508,10 +24755,25 @@ void write(const MasterListWithTextContainer& _s, LEOutputStream& out) {
     }
 }
 void parseMasterListWithTextContainer(QXmlStreamReader& in, MasterListWithTextContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MasterPersistAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -26526,13 +24788,14 @@ void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContain
     while (!_atend) {
         _m = in.setMark();
         try {
-            SlideListWithTextSubContainerOrAtom _t;
-            parseSlideListWithTextSubContainerOrAtom(in, _t);
-            _s.rgChildRec.append(_t);
+            _s.rgChildRec.append(&_s);
+            parseSlideListWithTextSubContainerOrAtom(in, _s.rgChildRec.last());
         } catch(IncorrectValueException _e) {
+            _s.rgChildRec.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.rgChildRec.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -26545,6 +24808,21 @@ void write(const SlideListWithTextContainer& _s, LEOutputStream& out) {
     }
 }
 void parseSlideListWithTextContainer(QXmlStreamReader& in, SlideListWithTextContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideListWithTextSubContainerOrAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContainer& _s) {
     int _c;
@@ -26567,6 +24845,21 @@ void write(const NotesListWithTextContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseNotesListWithTextContainer(QXmlStreamReader& in, NotesListWithTextContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextHeaderAtom(LEInputStream& in, TextHeaderAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26589,6 +24882,25 @@ void write(const TextHeaderAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.textType);
 }
 void parseTextHeaderAtom(QXmlStreamReader& in, TextHeaderAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "textType") {
+        qDebug() << "not startelement in textType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s) {
     int _c;
@@ -26621,6 +24933,21 @@ void write(const TextCharsAtom& _s, LEOutputStream& out) {
     }
 }
 void parseTextCharsAtom(QXmlStreamReader& in, TextCharsAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s) {
     int _c;
@@ -26643,10 +24970,25 @@ void write(const TextBytesAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.textChars);
 }
 void parseTextBytesAtom(QXmlStreamReader& in, TextBytesAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -26658,10 +25000,11 @@ void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFA2");
     }
     int _startPos = in.getPosition();
-    while (in.getPosition() - _startPos < _s.rh.recLen) {
-        MasterTextPropRun _t;
-        parseMasterTextPropRun(in, _t);
-        _s.rgMasterTextPropRun.append(_t);
+    _atend = in.getPosition() - _startPos >= _s.rh.recLen;
+    while (!_atend) {
+        _s.rgMasterTextPropRun.append(&_s);
+        parseMasterTextPropRun(in, _s.rgMasterTextPropRun.last());
+        _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
 }
 void write(const MasterTextPropAtom& _s, LEOutputStream& out) {
@@ -26671,6 +25014,21 @@ void write(const MasterTextPropAtom& _s, LEOutputStream& out) {
     }
 }
 void parseMasterTextPropAtom(QXmlStreamReader& in, MasterTextPropAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MasterTextPropRun " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseMasterTextPropRun(LEInputStream& in, MasterTextPropRun& _s) {
     _s.count = in.readuint32();
@@ -26684,6 +25042,25 @@ void write(const MasterTextPropRun& _s, LEOutputStream& out) {
     out.writeuint16(_s.indentLevel);
 }
 void parseMasterTextPropRun(QXmlStreamReader& in, MasterTextPropRun& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "count") {
+        qDebug() << "not startelement in count " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "indentLevel") {
+        qDebug() << "not startelement in indentLevel " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s) {
     int _c;
@@ -26706,6 +25083,21 @@ void write(const StyleTextPropAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseStyleTextPropAtom(QXmlStreamReader& in, StyleTextPropAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideNumberMCAtom(LEInputStream& in, SlideNumberMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26728,6 +25120,25 @@ void write(const SlideNumberMCAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.position);
 }
 void parseSlideNumberMCAtom(QXmlStreamReader& in, SlideNumberMCAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "position") {
+        qDebug() << "not startelement in position " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseDateTimeMCAtom(LEInputStream& in, DateTimeMCAtom& _s) {
     int _c;
@@ -26757,6 +25168,39 @@ void write(const DateTimeMCAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.unused);
 }
 void parseDateTimeMCAtom(QXmlStreamReader& in, DateTimeMCAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "position") {
+        qDebug() << "not startelement in position " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "index") {
+        qDebug() << "not startelement in index " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseGenericDateMCAtom(LEInputStream& in, GenericDateMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26779,6 +25223,25 @@ void write(const GenericDateMCAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.position);
 }
 void parseGenericDateMCAtom(QXmlStreamReader& in, GenericDateMCAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "position") {
+        qDebug() << "not startelement in position " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseHeaderMCAtom(LEInputStream& in, HeaderMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26801,6 +25264,25 @@ void write(const HeaderMCAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.position);
 }
 void parseHeaderMCAtom(QXmlStreamReader& in, HeaderMCAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "position") {
+        qDebug() << "not startelement in position " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFooterMCAtom(LEInputStream& in, FooterMCAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26823,6 +25305,25 @@ void write(const FooterMCAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.position);
 }
 void parseFooterMCAtom(QXmlStreamReader& in, FooterMCAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "position") {
+        qDebug() << "not startelement in position " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseRTFDateTimeMCAtom(LEInputStream& in, RTFDateTimeMCAtom& _s) {
     int _c;
@@ -26850,6 +25351,30 @@ void write(const RTFDateTimeMCAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.format);
 }
 void parseRTFDateTimeMCAtom(QXmlStreamReader& in, RTFDateTimeMCAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "position") {
+        qDebug() << "not startelement in position " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -26876,6 +25401,43 @@ void write(const TextBookmarkAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.bookmarkID);
 }
 void parseTextBookmarkAtom(QXmlStreamReader& in, TextBookmarkAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "begin") {
+        qDebug() << "not startelement in begin " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "end") {
+        qDebug() << "not startelement in end " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bookmarkID") {
+        qDebug() << "not startelement in bookmarkID " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s) {
     int _c;
@@ -26901,6 +25463,21 @@ void write(const MouseTextInteractiveInfoAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.range);
 }
 void parseMouseTextInteractiveInfoAtom(QXmlStreamReader& in, MouseTextInteractiveInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideId(LEInputStream& in, SlideId& _s) {
     _s.slideId = in.readuint32();
@@ -26915,6 +25492,16 @@ void write(const SlideId& _s, LEOutputStream& out) {
     out.writeuint32(_s.slideId);
 }
 void parseSlideId(QXmlStreamReader& in, SlideId& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideId") {
+        qDebug() << "not startelement in slideId " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTabStops(LEInputStream& in, TabStops& _s) {
     int _c;
@@ -26922,7 +25509,7 @@ void parseTabStops(LEInputStream& in, TabStops& _s) {
     _s.count = in.readuint16();
     _c = _s.count;
         for (int _i=0; _i<_c; ++_i) {
-        _s.rgTabStop.append(TabStop());
+        _s.rgTabStop.append(TabStop(&_s));
         parseTabStop(in, _s.rgTabStop[_i]);
     }
 }
@@ -26933,6 +25520,21 @@ void write(const TabStops& _s, LEOutputStream& out) {
     }
 }
 void parseTabStops(QXmlStreamReader& in, TabStops& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "count") {
+        qDebug() << "not startelement in count " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TabStop " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTabStop(LEInputStream& in, TabStop& _s) {
     _s.position = in.readint16();
@@ -26943,6 +25545,25 @@ void write(const TabStop& _s, LEOutputStream& out) {
     out.writeuint16(_s.type);
 }
 void parseTabStop(QXmlStreamReader& in, TabStop& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "position") {
+        qDebug() << "not startelement in position " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "type") {
+        qDebug() << "not startelement in type " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseColorIndexStruct(LEInputStream& in, ColorIndexStruct& _s) {
     _s.red = in.readuint8();
@@ -26957,6 +25578,43 @@ void write(const ColorIndexStruct& _s, LEOutputStream& out) {
     out.writeuint8(_s.index);
 }
 void parseColorIndexStruct(QXmlStreamReader& in, ColorIndexStruct& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "red") {
+        qDebug() << "not startelement in red " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "green") {
+        qDebug() << "not startelement in green " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "blue") {
+        qDebug() << "not startelement in blue " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "index") {
+        qDebug() << "not startelement in index " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseBulletFlags(LEInputStream& in, BulletFlags& _s) {
     _s.fHasBullet = in.readbit();
@@ -26973,6 +25631,52 @@ void write(const BulletFlags& _s, LEOutputStream& out) {
     out.writeuint12(_s.reserved);
 }
 void parseBulletFlags(QXmlStreamReader& in, BulletFlags& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHasBullet") {
+        qDebug() << "not startelement in fHasBullet " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fBulletHasFont") {
+        qDebug() << "not startelement in fBulletHasFont " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fBulletHasColor") {
+        qDebug() << "not startelement in fBulletHasColor " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fBulletHasSize") {
+        qDebug() << "not startelement in fBulletHasSize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint12 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved") {
+        qDebug() << "not startelement in reserved " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePFMasks(LEInputStream& in, PFMasks& _s) {
     _s.hasBullet = in.readbit();
@@ -27033,6 +25737,250 @@ void write(const PFMasks& _s, LEOutputStream& out) {
     out.writeuint6(_s.reserved2);
 }
 void parsePFMasks(QXmlStreamReader& in, PFMasks& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "hasBullet") {
+        qDebug() << "not startelement in hasBullet " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletHasFont") {
+        qDebug() << "not startelement in bulletHasFont " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletHasColor") {
+        qDebug() << "not startelement in bulletHasColor " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletHasSize") {
+        qDebug() << "not startelement in bulletHasSize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletFont") {
+        qDebug() << "not startelement in bulletFont " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletColor") {
+        qDebug() << "not startelement in bulletColor " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletSize") {
+        qDebug() << "not startelement in bulletSize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletChar") {
+        qDebug() << "not startelement in bulletChar " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "leftMargin") {
+        qDebug() << "not startelement in leftMargin " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "indent") {
+        qDebug() << "not startelement in indent " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "align") {
+        qDebug() << "not startelement in align " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lineSpacing") {
+        qDebug() << "not startelement in lineSpacing " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spaceBefore") {
+        qDebug() << "not startelement in spaceBefore " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spaceAfter") {
+        qDebug() << "not startelement in spaceAfter " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "defaultTabSize") {
+        qDebug() << "not startelement in defaultTabSize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fontAlign") {
+        qDebug() << "not startelement in fontAlign " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "charWrap") {
+        qDebug() << "not startelement in charWrap " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "wordWrap") {
+        qDebug() << "not startelement in wordWrap " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "overflow") {
+        qDebug() << "not startelement in overflow " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "tabStops") {
+        qDebug() << "not startelement in tabStops " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "textDirection") {
+        qDebug() << "not startelement in textDirection " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved") {
+        qDebug() << "not startelement in reserved " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletBlip") {
+        qDebug() << "not startelement in bulletBlip " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletScheme") {
+        qDebug() << "not startelement in bulletScheme " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletHasScheme") {
+        qDebug() << "not startelement in bulletHasScheme " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint6 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseCFMasks(LEInputStream& in, CFMasks& _s) {
     _s.bold = in.readbit();
@@ -27087,6 +26035,223 @@ void write(const CFMasks& _s, LEOutputStream& out) {
     out.writeuint5(_s.reserved);
 }
 void parseCFMasks(QXmlStreamReader& in, CFMasks& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bold") {
+        qDebug() << "not startelement in bold " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "italic") {
+        qDebug() << "not startelement in italic " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "underline") {
+        qDebug() << "not startelement in underline " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "shadow") {
+        qDebug() << "not startelement in shadow " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fehint") {
+        qDebug() << "not startelement in fehint " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "kumi") {
+        qDebug() << "not startelement in kumi " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3") {
+        qDebug() << "not startelement in unused3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "emboss") {
+        qDebug() << "not startelement in emboss " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHasStyle") {
+        qDebug() << "not startelement in fHasStyle " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint2 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused4") {
+        qDebug() << "not startelement in unused4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "typeface") {
+        qDebug() << "not startelement in typeface " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "size") {
+        qDebug() << "not startelement in size " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "color") {
+        qDebug() << "not startelement in color " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "position") {
+        qDebug() << "not startelement in position " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pp10ext") {
+        qDebug() << "not startelement in pp10ext " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "oldEATypeface") {
+        qDebug() << "not startelement in oldEATypeface " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ansiTypeface") {
+        qDebug() << "not startelement in ansiTypeface " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "symbolTypeface") {
+        qDebug() << "not startelement in symbolTypeface " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "newEATypeface") {
+        qDebug() << "not startelement in newEATypeface " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "csTypeface") {
+        qDebug() << "not startelement in csTypeface " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pp11ext") {
+        qDebug() << "not startelement in pp11ext " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint5 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved") {
+        qDebug() << "not startelement in reserved " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseCFStyle(LEInputStream& in, CFStyle& _s) {
     _s.bold = in.readbit();
@@ -27117,10 +26282,119 @@ void write(const CFStyle& _s, LEOutputStream& out) {
     out.writeuint2(_s.unused4);
 }
 void parseCFStyle(QXmlStreamReader& in, CFStyle& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bold") {
+        qDebug() << "not startelement in bold " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "italic") {
+        qDebug() << "not startelement in italic " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "underline") {
+        qDebug() << "not startelement in underline " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "shadow") {
+        qDebug() << "not startelement in shadow " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fehint") {
+        qDebug() << "not startelement in fehint " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "kumi") {
+        qDebug() << "not startelement in kumi " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3") {
+        qDebug() << "not startelement in unused3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "emboss") {
+        qDebug() << "not startelement in emboss " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pp9rt") {
+        qDebug() << "not startelement in pp9rt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint2 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused4") {
+        qDebug() << "not startelement in unused4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFontCollectionContainer(LEInputStream& in, FontCollectionContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -27132,10 +26406,11 @@ void parseFontCollectionContainer(LEInputStream& in, FontCollectionContainer& _s
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x07D5");
     }
     int _startPos = in.getPosition();
-    while (in.getPosition() - _startPos < _s.rh.recLen) {
-        FontCollectionEntry _t;
-        parseFontCollectionEntry(in, _t);
-        _s.rgFontCollectionEntry.append(_t);
+    _atend = in.getPosition() - _startPos >= _s.rh.recLen;
+    while (!_atend) {
+        _s.rgFontCollectionEntry.append(&_s);
+        parseFontCollectionEntry(in, _s.rgFontCollectionEntry.last());
+        _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
 }
 void write(const FontCollectionContainer& _s, LEOutputStream& out) {
@@ -27145,6 +26420,21 @@ void write(const FontCollectionContainer& _s, LEOutputStream& out) {
     }
 }
 void parseFontCollectionContainer(QXmlStreamReader& in, FontCollectionContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FontCollectionEntry " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseFontEntityAtom(LEInputStream& in, FontEntityAtom& _s) {
     int _c;
@@ -27198,6 +26488,102 @@ void write(const FontEntityAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.lfPitchAndFamily);
 }
 void parseFontEntityAtom(QXmlStreamReader& in, FontEntityAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lfCharSet") {
+        qDebug() << "not startelement in lfCharSet " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fEmbedSubsetted") {
+        qDebug() << "not startelement in fEmbedSubsetted " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint7 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rasterFontType") {
+        qDebug() << "not startelement in rasterFontType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "deviceFontType") {
+        qDebug() << "not startelement in deviceFontType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "truetypeFontType") {
+        qDebug() << "not startelement in truetypeFontType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fNoFontSubstitution") {
+        qDebug() << "not startelement in fNoFontSubstitution " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved") {
+        qDebug() << "not startelement in reserved " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lfPitchAndFamily") {
+        qDebug() << "not startelement in lfPitchAndFamily " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFontEmbedDataBlob(LEInputStream& in, FontEmbedDataBlob& _s) {
     int _c;
@@ -27223,6 +26609,21 @@ void write(const FontEmbedDataBlob& _s, LEOutputStream& out) {
     out.writeBytes(_s.data);
 }
 void parseFontEmbedDataBlob(QXmlStreamReader& in, FontEmbedDataBlob& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseKinsokuAtom(LEInputStream& in, KinsokuAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -27248,6 +26649,25 @@ void write(const KinsokuAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.level);
 }
 void parseKinsokuAtom(QXmlStreamReader& in, KinsokuAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "level") {
+        qDebug() << "not startelement in level " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseKinsokuLeadingAtom(LEInputStream& in, KinsokuLeadingAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -27267,6 +26687,25 @@ void write(const KinsokuLeadingAtom& _s, LEOutputStream& out) {
     out.writeuint16(_s.kinsokuLeading);
 }
 void parseKinsokuLeadingAtom(QXmlStreamReader& in, KinsokuLeadingAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "kinsokuLeading") {
+        qDebug() << "not startelement in kinsokuLeading " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseKinsokuFollowingAtom(LEInputStream& in, KinsokuFollowingAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -27286,10 +26725,29 @@ void write(const KinsokuFollowingAtom& _s, LEOutputStream& out) {
     out.writeuint16(_s.kinsokuFollowing);
 }
 void parseKinsokuFollowingAtom(QXmlStreamReader& in, KinsokuFollowingAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "kinsokuFollowing") {
+        qDebug() << "not startelement in kinsokuFollowing " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -27301,10 +26759,11 @@ void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFAA");
     }
     int _startPos = in.getPosition();
-    while (in.getPosition() - _startPos < _s.rh.recLen) {
-        TextSIRun _t;
-        parseTextSIRun(in, _t);
-        _s.rgSIRun.append(_t);
+    _atend = in.getPosition() - _startPos >= _s.rh.recLen;
+    while (!_atend) {
+        _s.rgSIRun.append(&_s);
+        parseTextSIRun(in, _s.rgSIRun.last());
+        _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
 }
 void write(const TextSpecialInfoAtom& _s, LEOutputStream& out) {
@@ -27314,6 +26773,21 @@ void write(const TextSpecialInfoAtom& _s, LEOutputStream& out) {
     }
 }
 void parseTextSpecialInfoAtom(QXmlStreamReader& in, TextSpecialInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextSIRun " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSmartTags(LEInputStream& in, SmartTags& _s) {
     int _c;
@@ -27331,6 +26805,21 @@ void write(const SmartTags& _s, LEOutputStream& out) {
     }
 }
 void parseSmartTags(QXmlStreamReader& in, SmartTags& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "count") {
+        qDebug() << "not startelement in count " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExOleEmbedAtom(LEInputStream& in, ExOleEmbedAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -27364,6 +26853,61 @@ void write(const ExOleEmbedAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.unused);
 }
 void parseExOleEmbedAtom(QXmlStreamReader& in, ExOleEmbedAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "exColorFollow") {
+        qDebug() << "not startelement in exColorFollow " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fCantLockServer") {
+        qDebug() << "not startelement in fCantLockServer " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fNoSizeToServer") {
+        qDebug() << "not startelement in fNoSizeToServer " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fIsTable") {
+        qDebug() << "not startelement in fIsTable " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePointStruct(LEInputStream& in, PointStruct& _s) {
     _s.x = in.readint32();
@@ -27374,6 +26918,25 @@ void write(const PointStruct& _s, LEOutputStream& out) {
     out.writeint32(_s.y);
 }
 void parsePointStruct(QXmlStreamReader& in, PointStruct& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "x") {
+        qDebug() << "not startelement in x " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "y") {
+        qDebug() << "not startelement in y " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseRatioStruct(LEInputStream& in, RatioStruct& _s) {
     _s.numer = in.readint32();
@@ -27387,10 +26950,29 @@ void write(const RatioStruct& _s, LEOutputStream& out) {
     out.writeint32(_s.denom);
 }
 void parseRatioStruct(QXmlStreamReader& in, RatioStruct& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "numer") {
+        qDebug() << "not startelement in numer " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "denom") {
+        qDebug() << "not startelement in denom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -27402,10 +26984,11 @@ void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1772");
     }
     int _startPos = in.getPosition();
-    while (in.getPosition() - _startPos < _s.rh.recLen) {
-        PersistDirectoryEntry _t;
-        parsePersistDirectoryEntry(in, _t);
-        _s.rgPersistDirEntry.append(_t);
+    _atend = in.getPosition() - _startPos >= _s.rh.recLen;
+    while (!_atend) {
+        _s.rgPersistDirEntry.append(&_s);
+        parsePersistDirectoryEntry(in, _s.rgPersistDirEntry.last());
+        _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
 }
 void write(const PersistDirectoryAtom& _s, LEOutputStream& out) {
@@ -27415,6 +26998,21 @@ void write(const PersistDirectoryAtom& _s, LEOutputStream& out) {
     }
 }
 void parsePersistDirectoryAtom(QXmlStreamReader& in, PersistDirectoryAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PersistDirectoryEntry " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseUnknownDocumentContainerChild(LEInputStream& in, UnknownDocumentContainerChild& _s) {
     int _c;
@@ -27437,6 +27035,21 @@ void write(const UnknownDocumentContainerChild& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseUnknownDocumentContainerChild(QXmlStreamReader& in, UnknownDocumentContainerChild& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseUnknownDocumentContainerChild2(LEInputStream& in, UnknownDocumentContainerChild2& _s) {
     int _c;
@@ -27459,6 +27072,21 @@ void write(const UnknownDocumentContainerChild2& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseUnknownDocumentContainerChild2(QXmlStreamReader& in, UnknownDocumentContainerChild2& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseUnknownDocumentContainerChild3(LEInputStream& in, UnknownDocumentContainerChild3& _s) {
     int _c;
@@ -27481,6 +27109,21 @@ void write(const UnknownDocumentContainerChild3& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseUnknownDocumentContainerChild3(QXmlStreamReader& in, UnknownDocumentContainerChild3& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseUnknownDocumentContainerChild4(LEInputStream& in, UnknownDocumentContainerChild4& _s) {
     int _c;
@@ -27503,6 +27146,21 @@ void write(const UnknownDocumentContainerChild4& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseUnknownDocumentContainerChild4(QXmlStreamReader& in, UnknownDocumentContainerChild4& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseUnknownOfficeArtClientDataChild(LEInputStream& in, UnknownOfficeArtClientDataChild& _s) {
     int _c;
@@ -27525,6 +27183,21 @@ void write(const UnknownOfficeArtClientDataChild& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseUnknownOfficeArtClientDataChild(QXmlStreamReader& in, UnknownOfficeArtClientDataChild& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseUnknownSlideContainerChild(LEInputStream& in, UnknownSlideContainerChild& _s) {
     int _c;
@@ -27547,6 +27220,21 @@ void write(const UnknownSlideContainerChild& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseUnknownSlideContainerChild(QXmlStreamReader& in, UnknownSlideContainerChild& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s) {
     int _c;
@@ -27555,7 +27243,7 @@ void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s) {
     _s.cPersist = in.readuint12();
     _c = _s.cPersist;
         for (int _i=0; _i<_c; ++_i) {
-        _s.rgPersistOffset.append(PersistOffsetEntry());
+        _s.rgPersistOffset.append(PersistOffsetEntry(&_s));
         parsePersistOffsetEntry(in, _s.rgPersistOffset[_i]);
     }
 }
@@ -27567,6 +27255,30 @@ void write(const PersistDirectoryEntry& _s, LEOutputStream& out) {
     }
 }
 void parsePersistDirectoryEntry(QXmlStreamReader& in, PersistDirectoryEntry& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint20 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "persistId") {
+        qDebug() << "not startelement in persistId " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint12 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cPersist") {
+        qDebug() << "not startelement in cPersist " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PersistOffsetEntry " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parsePersistOffsetEntry(LEInputStream& in, PersistOffsetEntry& _s) {
     _s.anon = in.readuint32();
@@ -27575,6 +27287,16 @@ void write(const PersistOffsetEntry& _s, LEOutputStream& out) {
     out.writeuint32(_s.anon);
 }
 void parsePersistOffsetEntry(QXmlStreamReader& in, PersistOffsetEntry& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePersistIdRef(LEInputStream& in, PersistIdRef& _s) {
     _s.anon = in.readuint32();
@@ -27583,6 +27305,16 @@ void write(const PersistIdRef& _s, LEOutputStream& out) {
     out.writeuint32(_s.anon);
 }
 void parsePersistIdRef(QXmlStreamReader& in, PersistIdRef& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSchemeListElementColorSchemeAtom(LEInputStream& in, SchemeListElementColorSchemeAtom& _s) {
     int _c;
@@ -27602,7 +27334,7 @@ void parseSchemeListElementColorSchemeAtom(LEInputStream& in, SchemeListElementC
     }
     _c = 8;
         for (int _i=0; _i<_c; ++_i) {
-        _s.rgSchemeColor.append(ColorStruct());
+        _s.rgSchemeColor.append(ColorStruct(&_s));
         parseColorStruct(in, _s.rgSchemeColor[_i]);
     }
 }
@@ -27613,6 +27345,21 @@ void write(const SchemeListElementColorSchemeAtom& _s, LEOutputStream& out) {
     }
 }
 void parseSchemeListElementColorSchemeAtom(QXmlStreamReader& in, SchemeListElementColorSchemeAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ColorStruct " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseRoundTripOArtTextStyles12Atom(LEInputStream& in, RoundTripOArtTextStyles12Atom& _s) {
     int _c;
@@ -27635,6 +27382,21 @@ void write(const RoundTripOArtTextStyles12Atom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseRoundTripOArtTextStyles12Atom(QXmlStreamReader& in, RoundTripOArtTextStyles12Atom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s) {
     int _c;
@@ -27660,10 +27422,25 @@ void write(const SlideNameAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseSlideNameAtom(QXmlStreamReader& in, SlideNameAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -27675,10 +27452,11 @@ void parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s) 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1388");
     }
     int _startPos = in.getPosition();
-    while (in.getPosition() - _startPos < _s.rh.recLen) {
-        SlideProgTagsSubContainerOrAtom _t;
-        parseSlideProgTagsSubContainerOrAtom(in, _t);
-        _s.rgTypeRec.append(_t);
+    _atend = in.getPosition() - _startPos >= _s.rh.recLen;
+    while (!_atend) {
+        _s.rgTypeRec.append(&_s);
+        parseSlideProgTagsSubContainerOrAtom(in, _s.rgTypeRec.last());
+        _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
 }
 void write(const SlideProgTagsContainer& _s, LEOutputStream& out) {
@@ -27688,6 +27466,21 @@ void write(const SlideProgTagsContainer& _s, LEOutputStream& out) {
     }
 }
 void parseSlideProgTagsContainer(QXmlStreamReader& in, SlideProgTagsContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideProgTagsSubContainerOrAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSlideProgBinaryTagContainer(LEInputStream& in, SlideProgBinaryTagContainer& _s) {
     int _c;
@@ -27710,6 +27503,21 @@ void write(const SlideProgBinaryTagContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseSlideProgBinaryTagContainer(QXmlStreamReader& in, SlideProgBinaryTagContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTagNameAtom(LEInputStream& in, TagNameAtom& _s) {
     int _c;
@@ -27736,6 +27544,21 @@ void write(const TagNameAtom& _s, LEOutputStream& out) {
     }
 }
 void parseTagNameAtom(QXmlStreamReader& in, TagNameAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTagValueAtom(LEInputStream& in, TagValueAtom& _s) {
     int _c;
@@ -27762,6 +27585,21 @@ void write(const TagValueAtom& _s, LEOutputStream& out) {
     }
 }
 void parseTagValueAtom(QXmlStreamReader& in, TagValueAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseRoundTripMainMasterRecord(LEInputStream& in, RoundTripMainMasterRecord& _s) {
     int _c;
@@ -27778,6 +27616,21 @@ void write(const RoundTripMainMasterRecord& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseRoundTripMainMasterRecord(QXmlStreamReader& in, RoundTripMainMasterRecord& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTemplateNameAtom(LEInputStream& in, TemplateNameAtom& _s) {
     int _c;
@@ -27807,6 +27660,21 @@ void write(const TemplateNameAtom& _s, LEOutputStream& out) {
     }
 }
 void parseTemplateNameAtom(QXmlStreamReader& in, TemplateNameAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseRoundTripSlideSyncInfo12Container(LEInputStream& in, RoundTripSlideSyncInfo12Container& _s) {
     int _c;
@@ -27829,6 +27697,21 @@ void write(const RoundTripSlideSyncInfo12Container& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseRoundTripSlideSyncInfo12Container(QXmlStreamReader& in, RoundTripSlideSyncInfo12Container& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
     int _c;
@@ -27851,6 +27734,21 @@ void write(const NotesContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseNotesContainer(QXmlStreamReader& in, NotesContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s) {
     int _c;
@@ -27873,6 +27771,21 @@ void write(const HandoutContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseHandoutContainer(QXmlStreamReader& in, HandoutContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExControlStg(LEInputStream& in, ExControlStg& _s) {
     int _c;
@@ -27895,6 +27808,21 @@ void write(const ExControlStg& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExControlStg(QXmlStreamReader& in, ExControlStg& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s) {
     int _c;
@@ -27917,6 +27845,21 @@ void write(const ExOleObjStg& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExOleObjStg(QXmlStreamReader& in, ExOleObjStg& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -27976,6 +27919,115 @@ void write(const UserEditAtom& _s, LEOutputStream& out) {
     }
 }
 void parseUserEditAtom(QXmlStreamReader& in, UserEditAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lastSlideIdRef") {
+        qDebug() << "not startelement in lastSlideIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "version") {
+        qDebug() << "not startelement in version " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "minorVersion") {
+        qDebug() << "not startelement in minorVersion " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "majorVersion") {
+        qDebug() << "not startelement in majorVersion " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "offsetLastEdit") {
+        qDebug() << "not startelement in offsetLastEdit " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "offsetPersistDirectory") {
+        qDebug() << "not startelement in offsetPersistDirectory " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "docPersistIdRef") {
+        qDebug() << "not startelement in docPersistIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "persistIdSeed") {
+        qDebug() << "not startelement in persistIdSeed " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lastView") {
+        qDebug() << "not startelement in lastView " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "encryptSessionPersistIdRef") {
+        qDebug() << "not startelement in encryptSessionPersistIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s) {
     int _c;
@@ -27998,6 +28050,21 @@ void write(const VbaProjectStg& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseVbaProjectStg(QXmlStreamReader& in, VbaProjectStg& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s) {
     int _c;
@@ -28020,6 +28087,21 @@ void write(const SlideProgTagscontainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseSlideProgTagscontainer(QXmlStreamReader& in, SlideProgTagscontainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideAtom(LEInputStream& in, SlideAtom& _s) {
     int _c;
@@ -28055,6 +28137,66 @@ void write(const SlideAtom& _s, LEOutputStream& out) {
     out.writeuint16(_s.unused);
 }
 void parseSlideAtom(QXmlStreamReader& in, SlideAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "geom") {
+        qDebug() << "not startelement in geom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "masterIdRef") {
+        qDebug() << "not startelement in masterIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "notesIdRef") {
+        qDebug() << "not startelement in notesIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideFlags") {
+        qDebug() << "not startelement in slideFlags " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideShowSlideInfoAtom(LEInputStream& in, SlideShowSlideInfoAtom& _s) {
     int _c;
@@ -28118,6 +28260,192 @@ void write(const SlideShowSlideInfoAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.unused);
 }
 void parseSlideShowSlideInfoAtom(QXmlStreamReader& in, SlideShowSlideInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slidetime") {
+        qDebug() << "not startelement in slidetime " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideIdRef") {
+        qDebug() << "not startelement in slideIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "effectDirection") {
+        qDebug() << "not startelement in effectDirection " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "effectType") {
+        qDebug() << "not startelement in effectType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fManualAdvance") {
+        qDebug() << "not startelement in fManualAdvance " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved") {
+        qDebug() << "not startelement in reserved " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHidden") {
+        qDebug() << "not startelement in fHidden " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSound") {
+        qDebug() << "not startelement in fSound " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved3") {
+        qDebug() << "not startelement in reserved3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLoopSound") {
+        qDebug() << "not startelement in fLoopSound " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved4") {
+        qDebug() << "not startelement in reserved4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fStopSound") {
+        qDebug() << "not startelement in fStopSound " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "freserved5") {
+        qDebug() << "not startelement in freserved5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fAutoAdvance") {
+        qDebug() << "not startelement in fAutoAdvance " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved6") {
+        qDebug() << "not startelement in reserved6 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fCursorVisible") {
+        qDebug() << "not startelement in fCursorVisible " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint3 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved7") {
+        qDebug() << "not startelement in reserved7 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "speed") {
+        qDebug() << "not startelement in speed " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideShowDocInfoAtom(LEInputStream& in, SlideShowDocInfoAtom& _s) {
     int _c;
@@ -28143,6 +28471,21 @@ void write(const SlideShowDocInfoAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseSlideShowDocInfoAtom(QXmlStreamReader& in, SlideShowDocInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideSchemeColorSchemeAtom(LEInputStream& in, SlideSchemeColorSchemeAtom& _s) {
     int _c;
@@ -28162,7 +28505,7 @@ void parseSlideSchemeColorSchemeAtom(LEInputStream& in, SlideSchemeColorSchemeAt
     }
     _c = 8;
         for (int _i=0; _i<_c; ++_i) {
-        _s.rgSchemeColor.append(ColorStruct());
+        _s.rgSchemeColor.append(ColorStruct(&_s));
         parseColorStruct(in, _s.rgSchemeColor[_i]);
     }
 }
@@ -28173,6 +28516,21 @@ void write(const SlideSchemeColorSchemeAtom& _s, LEOutputStream& out) {
     }
 }
 void parseSlideSchemeColorSchemeAtom(QXmlStreamReader& in, SlideSchemeColorSchemeAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ColorStruct " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s) {
     int _c;
@@ -28189,6 +28547,21 @@ void write(const RoundTripSlideRecord& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseRoundTripSlideRecord(QXmlStreamReader& in, RoundTripSlideRecord& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseNamedShowsContainer(LEInputStream& in, NamedShowsContainer& _s) {
     int _c;
@@ -28211,6 +28584,21 @@ void write(const NamedShowsContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseNamedShowsContainer(QXmlStreamReader& in, NamedShowsContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSummaryContainer(LEInputStream& in, SummaryContainer& _s) {
     int _c;
@@ -28233,6 +28621,21 @@ void write(const SummaryContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseSummaryContainer(QXmlStreamReader& in, SummaryContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseDocRoutingSlipAtom(LEInputStream& in, DocRoutingSlipAtom& _s) {
     int _c;
@@ -28255,6 +28658,21 @@ void write(const DocRoutingSlipAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseDocRoutingSlipAtom(QXmlStreamReader& in, DocRoutingSlipAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePrintOptionsAtom(LEInputStream& in, PrintOptionsAtom& _s) {
     int _c;
@@ -28280,6 +28698,21 @@ void write(const PrintOptionsAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parsePrintOptionsAtom(QXmlStreamReader& in, PrintOptionsAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseRoundTripCustomTableStyles12Atom(LEInputStream& in, RoundTripCustomTableStyles12Atom& _s) {
     int _c;
@@ -28302,6 +28735,21 @@ void write(const RoundTripCustomTableStyles12Atom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseRoundTripCustomTableStyles12Atom(QXmlStreamReader& in, RoundTripCustomTableStyles12Atom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseColorStruct(LEInputStream& in, ColorStruct& _s) {
     _s.red = in.readuint8();
@@ -28316,6 +28764,43 @@ void write(const ColorStruct& _s, LEOutputStream& out) {
     out.writeuint8(_s.unused);
 }
 void parseColorStruct(QXmlStreamReader& in, ColorStruct& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "red") {
+        qDebug() << "not startelement in red " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "green") {
+        qDebug() << "not startelement in green " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "blue") {
+        qDebug() << "not startelement in blue " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExObjListAtom(LEInputStream& in, ExObjListAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -28341,6 +28826,25 @@ void write(const ExObjListAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.exObjIdSeed);
 }
 void parseExObjListAtom(QXmlStreamReader& in, ExObjListAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "exObjIdSeed") {
+        qDebug() << "not startelement in exObjIdSeed " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExAviMovieContainer(LEInputStream& in, ExAviMovieContainer& _s) {
     int _c;
@@ -28363,6 +28867,21 @@ void write(const ExAviMovieContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExAviMovieContainer(QXmlStreamReader& in, ExAviMovieContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExCDAudioContainer(LEInputStream& in, ExCDAudioContainer& _s) {
     int _c;
@@ -28385,6 +28904,21 @@ void write(const ExCDAudioContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExCDAudioContainer(QXmlStreamReader& in, ExCDAudioContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExControlContainer(LEInputStream& in, ExControlContainer& _s) {
     int _c;
@@ -28407,6 +28941,21 @@ void write(const ExControlContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExControlContainer(QXmlStreamReader& in, ExControlContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s) {
     int _c;
@@ -28429,6 +28978,21 @@ void write(const ExHyperlinkContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExHyperlinkContainer(QXmlStreamReader& in, ExHyperlinkContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExMCIMovieContainer(LEInputStream& in, ExMCIMovieContainer& _s) {
     int _c;
@@ -28451,6 +29015,21 @@ void write(const ExMCIMovieContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExMCIMovieContainer(QXmlStreamReader& in, ExMCIMovieContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExMIDIAudioContainer(LEInputStream& in, ExMIDIAudioContainer& _s) {
     int _c;
@@ -28473,6 +29052,21 @@ void write(const ExMIDIAudioContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExMIDIAudioContainer(QXmlStreamReader& in, ExMIDIAudioContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExWAVAudioEmbeddedContainer(LEInputStream& in, ExWAVAudioEmbeddedContainer& _s) {
     int _c;
@@ -28495,6 +29089,21 @@ void write(const ExWAVAudioEmbeddedContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExWAVAudioEmbeddedContainer(QXmlStreamReader& in, ExWAVAudioEmbeddedContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExWAVAudioLinkContainer(LEInputStream& in, ExWAVAudioLinkContainer& _s) {
     int _c;
@@ -28517,6 +29126,21 @@ void write(const ExWAVAudioLinkContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExWAVAudioLinkContainer(QXmlStreamReader& in, ExWAVAudioLinkContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseUnknownExObjListSubContainerChild(LEInputStream& in, UnknownExObjListSubContainerChild& _s) {
     int _c;
@@ -28539,6 +29163,21 @@ void write(const UnknownExObjListSubContainerChild& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseUnknownExObjListSubContainerChild(QXmlStreamReader& in, UnknownExObjListSubContainerChild& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExOleLinkAtom(LEInputStream& in, ExOleLinkAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -28565,6 +29204,43 @@ void write(const ExOleLinkAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.unused);
 }
 void parseExOleLinkAtom(QXmlStreamReader& in, ExOleLinkAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideIdRef") {
+        qDebug() << "not startelement in slideIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "oleUpdateMode") {
+        qDebug() << "not startelement in oleUpdateMode " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExOleObjAtom(LEInputStream& in, ExOleObjAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -28597,6 +29273,70 @@ void write(const ExOleObjAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.unused);
 }
 void parseExOleObjAtom(QXmlStreamReader& in, ExOleObjAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "drawAspect") {
+        qDebug() << "not startelement in drawAspect " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "type") {
+        qDebug() << "not startelement in type " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "exObjId") {
+        qDebug() << "not startelement in exObjId " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "subType") {
+        qDebug() << "not startelement in subType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "persistIdRef") {
+        qDebug() << "not startelement in persistIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseMenuNameAtom(LEInputStream& in, MenuNameAtom& _s) {
     int _c;
@@ -28622,6 +29362,21 @@ void write(const MenuNameAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.menuName);
 }
 void parseMenuNameAtom(QXmlStreamReader& in, MenuNameAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseProgIDAtom(LEInputStream& in, ProgIDAtom& _s) {
     int _c;
@@ -28647,6 +29402,21 @@ void write(const ProgIDAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.progId);
 }
 void parseProgIDAtom(QXmlStreamReader& in, ProgIDAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseClipboardNameAtom(LEInputStream& in, ClipboardNameAtom& _s) {
     int _c;
@@ -28672,6 +29442,21 @@ void write(const ClipboardNameAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.clipboardName);
 }
 void parseClipboardNameAtom(QXmlStreamReader& in, ClipboardNameAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseMetafileBlob(LEInputStream& in, MetafileBlob& _s) {
     int _c;
@@ -28703,6 +29488,48 @@ void write(const MetafileBlob& _s, LEOutputStream& out) {
     out.writeBytes(_s.data);
 }
 void parseMetafileBlob(QXmlStreamReader& in, MetafileBlob& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "mm") {
+        qDebug() << "not startelement in mm " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "xExt") {
+        qDebug() << "not startelement in xExt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "yExt") {
+        qDebug() << "not startelement in yExt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtFDGG(LEInputStream& in, OfficeArtFDGG& _s) {
     _s.spidMax = in.readuint32();
@@ -28723,6 +29550,43 @@ void write(const OfficeArtFDGG& _s, LEOutputStream& out) {
     out.writeuint32(_s.cdgSaved);
 }
 void parseOfficeArtFDGG(QXmlStreamReader& in, OfficeArtFDGG& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spidMax") {
+        qDebug() << "not startelement in spidMax " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cidcl") {
+        qDebug() << "not startelement in cidcl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cspSaved") {
+        qDebug() << "not startelement in cspSaved " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cdgSaved") {
+        qDebug() << "not startelement in cdgSaved " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtFDG(LEInputStream& in, OfficeArtFDG& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -28747,6 +29611,34 @@ void write(const OfficeArtFDG& _s, LEOutputStream& out) {
     out.writeuint32(_s.spidCur);
 }
 void parseOfficeArtFDG(QXmlStreamReader& in, OfficeArtFDG& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "csp") {
+        qDebug() << "not startelement in csp " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spidCur") {
+        qDebug() << "not startelement in spidCur " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtFRITContainer(LEInputStream& in, OfficeArtFRITContainer& _s) {
     int _c;
@@ -28763,7 +29655,7 @@ void parseOfficeArtFRITContainer(LEInputStream& in, OfficeArtFRITContainer& _s) 
     }
     _c = _s.rh.recInstance;
         for (int _i=0; _i<_c; ++_i) {
-        _s.rgfrit.append(OfficeArtFRIT());
+        _s.rgfrit.append(OfficeArtFRIT(&_s));
         parseOfficeArtFRIT(in, _s.rgfrit[_i]);
     }
 }
@@ -28774,6 +29666,21 @@ void write(const OfficeArtFRITContainer& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtFRITContainer(QXmlStreamReader& in, OfficeArtFRITContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFRIT " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOfficeArtFRIT(LEInputStream& in, OfficeArtFRIT& _s) {
     _s.fridNew = in.readuint16();
@@ -28784,10 +29691,29 @@ void write(const OfficeArtFRIT& _s, LEOutputStream& out) {
     out.writeuint16(_s.fridOld);
 }
 void parseOfficeArtFRIT(QXmlStreamReader& in, OfficeArtFRIT& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fridNew") {
+        qDebug() << "not startelement in fridNew " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fridOld") {
+        qDebug() << "not startelement in fridOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtBStoreContainer(LEInputStream& in, OfficeArtBStoreContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -28796,10 +29722,11 @@ void parseOfficeArtBStoreContainer(LEInputStream& in, OfficeArtBStoreContainer& 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x0F001");
     }
     int _startPos = in.getPosition();
-    while (in.getPosition() - _startPos < _s.rh.recLen) {
-        OfficeArtBStoreContainerFileBlock _t;
-        parseOfficeArtBStoreContainerFileBlock(in, _t);
-        _s.rgfb.append(_t);
+    _atend = in.getPosition() - _startPos >= _s.rh.recLen;
+    while (!_atend) {
+        _s.rgfb.append(&_s);
+        parseOfficeArtBStoreContainerFileBlock(in, _s.rgfb.last());
+        _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
 }
 void write(const OfficeArtBStoreContainer& _s, LEOutputStream& out) {
@@ -28809,10 +29736,25 @@ void write(const OfficeArtBStoreContainer& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtBStoreContainer(QXmlStreamReader& in, OfficeArtBStoreContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtBStoreContainerFileBlock " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -28824,10 +29766,11 @@ void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s) 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x0F003");
     }
     int _startPos = in.getPosition();
-    while (in.getPosition() - _startPos < _s.rh.recLen) {
-        OfficeArtSpgrContainerFileBlock _t;
-        parseOfficeArtSpgrContainerFileBlock(in, _t);
-        _s.rgfb.append(_t);
+    _atend = in.getPosition() - _startPos >= _s.rh.recLen;
+    while (!_atend) {
+        _s.rgfb.append(&_s);
+        parseOfficeArtSpgrContainerFileBlock(in, _s.rgfb.last());
+        _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
 }
 void write(const OfficeArtSpgrContainer& _s, LEOutputStream& out) {
@@ -28837,6 +29780,21 @@ void write(const OfficeArtSpgrContainer& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtSpgrContainer(QXmlStreamReader& in, OfficeArtSpgrContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtSpgrContainerFileBlock " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s) {
     int _c;
@@ -28856,6 +29814,21 @@ void write(const OfficeArtSolverContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseOfficeArtSolverContainer(QXmlStreamReader& in, OfficeArtSolverContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtFSPGR(LEInputStream& in, OfficeArtFSPGR& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -28884,6 +29857,52 @@ void write(const OfficeArtFSPGR& _s, LEOutputStream& out) {
     out.writeint32(_s.yBottom);
 }
 void parseOfficeArtFSPGR(QXmlStreamReader& in, OfficeArtFSPGR& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "xLeft") {
+        qDebug() << "not startelement in xLeft " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "yTop") {
+        qDebug() << "not startelement in yTop " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "xRight") {
+        qDebug() << "not startelement in xRight " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "yBottom") {
+        qDebug() << "not startelement in yBottom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtFSP(LEInputStream& in, OfficeArtFSP& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -28932,6 +29951,142 @@ void write(const OfficeArtFSP& _s, LEOutputStream& out) {
     out.writeuint20(_s.unused1);
 }
 void parseOfficeArtFSP(QXmlStreamReader& in, OfficeArtFSP& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spid") {
+        qDebug() << "not startelement in spid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fGroup") {
+        qDebug() << "not startelement in fGroup " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fChild") {
+        qDebug() << "not startelement in fChild " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fPatriarch") {
+        qDebug() << "not startelement in fPatriarch " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fDeleted") {
+        qDebug() << "not startelement in fDeleted " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fOleShape") {
+        qDebug() << "not startelement in fOleShape " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHaveMaster") {
+        qDebug() << "not startelement in fHaveMaster " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fFlipH") {
+        qDebug() << "not startelement in fFlipH " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fFlipV") {
+        qDebug() << "not startelement in fFlipV " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fConnector") {
+        qDebug() << "not startelement in fConnector " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHaveAnchor") {
+        qDebug() << "not startelement in fHaveAnchor " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fBackground") {
+        qDebug() << "not startelement in fBackground " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHaveSpt") {
+        qDebug() << "not startelement in fHaveSpt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint20 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s) {
     int _c;
@@ -28945,7 +30100,7 @@ void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s) {
     }
     _c = _s.rh.recInstance;
         for (int _i=0; _i<_c; ++_i) {
-        _s.fopt.append(OfficeArtFOPTEChoice());
+        _s.fopt.append(OfficeArtFOPTEChoice(&_s));
         parseOfficeArtFOPTEChoice(in, _s.fopt[_i]);
     }
     _c = _s.rh.recLen-6*_s.rh.recInstance;
@@ -28959,6 +30114,26 @@ void write(const OfficeArtFOPT& _s, LEOutputStream& out) {
     out.writeBytes(_s.complexData);
 }
 void parseOfficeArtFOPT(QXmlStreamReader& in, OfficeArtFOPT& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEChoice " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s) {
     int _c;
@@ -28970,6 +30145,12 @@ void write(const OfficeArtFOPTEComplexData& _s, LEOutputStream& out) {
     out.writeBytes(_s.data);
 }
 void parseOfficeArtFOPTEComplexData(QXmlStreamReader& in, OfficeArtFOPTEComplexData& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFixedPoint(LEInputStream& in, FixedPoint& _s) {
     _s.integral = in.readint16();
@@ -28980,6 +30161,25 @@ void write(const FixedPoint& _s, LEOutputStream& out) {
     out.writeuint16(_s.fractional);
 }
 void parseFixedPoint(QXmlStreamReader& in, FixedPoint& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "integral") {
+        qDebug() << "not startelement in integral " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fractional") {
+        qDebug() << "not startelement in fractional " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtCOLORREF(LEInputStream& in, OfficeArtCOLORREF& _s) {
     _s.red = in.readuint8();
@@ -29008,6 +30208,106 @@ void write(const OfficeArtCOLORREF& _s, LEOutputStream& out) {
     out.writebit(_s.unused3);
 }
 void parseOfficeArtCOLORREF(QXmlStreamReader& in, OfficeArtCOLORREF& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "red") {
+        qDebug() << "not startelement in red " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "green") {
+        qDebug() << "not startelement in green " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "blue") {
+        qDebug() << "not startelement in blue " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fPaletteIndex") {
+        qDebug() << "not startelement in fPaletteIndex " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fPaletteRGB") {
+        qDebug() << "not startelement in fPaletteRGB " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSystemRGB") {
+        qDebug() << "not startelement in fSystemRGB " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSchemeIndex") {
+        qDebug() << "not startelement in fSchemeIndex " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSysIndex") {
+        qDebug() << "not startelement in fSysIndex " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3") {
+        qDebug() << "not startelement in unused3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtChildAnchor(LEInputStream& in, OfficeArtChildAnchor& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -29036,6 +30336,52 @@ void write(const OfficeArtChildAnchor& _s, LEOutputStream& out) {
     out.writeint32(_s.yBottom);
 }
 void parseOfficeArtChildAnchor(QXmlStreamReader& in, OfficeArtChildAnchor& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "xLeft") {
+        qDebug() << "not startelement in xLeft " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "yTop") {
+        qDebug() << "not startelement in yTop " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "xRight") {
+        qDebug() << "not startelement in xRight " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "yBottom") {
+        qDebug() << "not startelement in yBottom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtFPSPL(LEInputStream& in, OfficeArtFPSPL& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -29062,6 +30408,43 @@ void write(const OfficeArtFPSPL& _s, LEOutputStream& out) {
     out.writebit(_s.fLast);
 }
 void parseOfficeArtFPSPL(QXmlStreamReader& in, OfficeArtFPSPL& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint30 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spid") {
+        qDebug() << "not startelement in spid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLast") {
+        qDebug() << "not startelement in fLast " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) {
     int _c;
@@ -29081,6 +30464,21 @@ void write(const OfficeArtSecondaryFOPT& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseOfficeArtSecondaryFOPT(QXmlStreamReader& in, OfficeArtSecondaryFOPT& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
     int _c;
@@ -29094,7 +30492,7 @@ void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
     }
     _c = _s.rh.recInstance;
         for (int _i=0; _i<_c; ++_i) {
-        _s.fopt.append(OfficeArtFOPTE());
+        _s.fopt.append(OfficeArtFOPTE(&_s));
         parseOfficeArtFOPTE(in, _s.fopt[_i]);
     }
     _c = _s.rh.recLen-6*_s.rh.recInstance;
@@ -29108,6 +30506,26 @@ void write(const OfficeArtTertiaryFOPT& _s, LEOutputStream& out) {
     out.writeBytes(_s.complexData);
 }
 void parseOfficeArtTertiaryFOPT(QXmlStreamReader& in, OfficeArtTertiaryFOPT& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTE " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseRectStruct(LEInputStream& in, RectStruct& _s) {
     _s.top = in.readint32();
@@ -29122,6 +30540,43 @@ void write(const RectStruct& _s, LEOutputStream& out) {
     out.writeint32(_s.bottom);
 }
 void parseRectStruct(QXmlStreamReader& in, RectStruct& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "top") {
+        qDebug() << "not startelement in top " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "left") {
+        qDebug() << "not startelement in left " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "right") {
+        qDebug() << "not startelement in right " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bottom") {
+        qDebug() << "not startelement in bottom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSmallRectStruct(LEInputStream& in, SmallRectStruct& _s) {
     _s.top = in.readint16();
@@ -29136,6 +30591,43 @@ void write(const SmallRectStruct& _s, LEOutputStream& out) {
     out.writeint16(_s.bottom);
 }
 void parseSmallRectStruct(QXmlStreamReader& in, SmallRectStruct& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "top") {
+        qDebug() << "not startelement in top " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "left") {
+        qDebug() << "not startelement in left " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "right") {
+        qDebug() << "not startelement in right " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bottom") {
+        qDebug() << "not startelement in bottom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseShapeFlagsAtom(LEInputStream& in, ShapeFlagsAtom& _s) {
     int _c;
@@ -29161,6 +30653,21 @@ void write(const ShapeFlagsAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseShapeFlagsAtom(QXmlStreamReader& in, ShapeFlagsAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseShapeFlags10Atom(LEInputStream& in, ShapeFlags10Atom& _s) {
     int _c;
@@ -29186,6 +30693,21 @@ void write(const ShapeFlags10Atom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseShapeFlags10Atom(QXmlStreamReader& in, ShapeFlags10Atom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s) {
     int _c;
@@ -29211,6 +30733,21 @@ void write(const ExObjRefAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseExObjRefAtom(QXmlStreamReader& in, ExObjRefAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) {
     int _c;
@@ -29233,6 +30770,21 @@ void write(const AnimationInfoContainer& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseAnimationInfoContainer(QXmlStreamReader& in, AnimationInfoContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseInteractiveInfoAtom(LEInputStream& in, InteractiveInfoAtom& _s) {
     int _c;
@@ -29289,6 +30841,120 @@ void write(const InteractiveInfoAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.unused);
 }
 void parseInteractiveInfoAtom(QXmlStreamReader& in, InteractiveInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "soundIdRef") {
+        qDebug() << "not startelement in soundIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "exHyperlinkIdRef") {
+        qDebug() << "not startelement in exHyperlinkIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "action") {
+        qDebug() << "not startelement in action " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "oleVerb") {
+        qDebug() << "not startelement in oleVerb " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "jump") {
+        qDebug() << "not startelement in jump " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fAnimated") {
+        qDebug() << "not startelement in fAnimated " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fStopSound") {
+        qDebug() << "not startelement in fStopSound " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fCustomSoundReturn") {
+        qDebug() << "not startelement in fCustomSoundReturn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fVisited") {
+        qDebug() << "not startelement in fVisited " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved") {
+        qDebug() << "not startelement in reserved " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "hyperlinkType") {
+        qDebug() << "not startelement in hyperlinkType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseMacroNameAtom(LEInputStream& in, MacroNameAtom& _s) {
     int _c;
@@ -29314,6 +30980,21 @@ void write(const MacroNameAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.macroName);
 }
 void parseMacroNameAtom(QXmlStreamReader& in, MacroNameAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePlaceholderAtom(LEInputStream& in, PlaceholderAtom& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -29342,6 +31023,52 @@ void write(const PlaceholderAtom& _s, LEOutputStream& out) {
     out.writeuint16(_s.unused);
 }
 void parsePlaceholderAtom(QXmlStreamReader& in, PlaceholderAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "position") {
+        qDebug() << "not startelement in position " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "placementId") {
+        qDebug() << "not startelement in placementId " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "size") {
+        qDebug() << "not startelement in size " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseRecolorInfoAtom(LEInputStream& in, RecolorInfoAtom& _s) {
     int _c;
@@ -29364,6 +31091,21 @@ void write(const RecolorInfoAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseRecolorInfoAtom(QXmlStreamReader& in, RecolorInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOutlineTextRefAtom(LEInputStream& in, OutlineTextRefAtom& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -29389,6 +31131,25 @@ void write(const OutlineTextRefAtom& _s, LEOutputStream& out) {
     out.writeint32(_s.index);
 }
 void parseOutlineTextRefAtom(QXmlStreamReader& in, OutlineTextRefAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "index") {
+        qDebug() << "not startelement in index " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream& in, ShapeClientRoundtripDataSubcontainerOrAtom& _s) {
     int _c;
@@ -29405,10 +31166,25 @@ void write(const ShapeClientRoundtripDataSubcontainerOrAtom& _s, LEOutputStream&
     out.writeBytes(_s.todo);
 }
 void parseShapeClientRoundtripDataSubcontainerOrAtom(QXmlStreamReader& in, ShapeClientRoundtripDataSubcontainerOrAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtClientTextBox(LEInputStream& in, OfficeArtClientTextBox& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0 || _s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0 || _s.rh.recVer == 0xF");
@@ -29420,10 +31196,11 @@ void parseOfficeArtClientTextBox(LEInputStream& in, OfficeArtClientTextBox& _s) 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF00D");
     }
     int _startPos = in.getPosition();
-    while (in.getPosition() - _startPos < _s.rh.recLen) {
-        TextClientDataSubContainerOrAtom _t;
-        parseTextClientDataSubContainerOrAtom(in, _t);
-        _s.rgChildRec.append(_t);
+    _atend = in.getPosition() - _startPos >= _s.rh.recLen;
+    while (!_atend) {
+        _s.rgChildRec.append(&_s);
+        parseTextClientDataSubContainerOrAtom(in, _s.rgChildRec.last());
+        _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
 }
 void write(const OfficeArtClientTextBox& _s, LEOutputStream& out) {
@@ -29433,6 +31210,21 @@ void write(const OfficeArtClientTextBox& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtClientTextBox(QXmlStreamReader& in, OfficeArtClientTextBox& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextClientDataSubContainerOrAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextRulerAtom(LEInputStream& in, TextRulerAtom& _s) {
     int _c;
@@ -29455,6 +31247,21 @@ void write(const TextRulerAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseTextRulerAtom(QXmlStreamReader& in, TextRulerAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtIDCL(LEInputStream& in, OfficeArtIDCL& _s) {
     _s.dgid = in.readuint32();
@@ -29465,6 +31272,25 @@ void write(const OfficeArtIDCL& _s, LEOutputStream& out) {
     out.writeuint32(_s.cspidCur);
 }
 void parseOfficeArtIDCL(QXmlStreamReader& in, OfficeArtIDCL& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "dgid") {
+        qDebug() << "not startelement in dgid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cspidCur") {
+        qDebug() << "not startelement in cspidCur " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtFOPTEOPID(LEInputStream& in, OfficeArtFOPTEOPID& _s) {
     _s.opid = in.readuint14();
@@ -29477,6 +31303,34 @@ void write(const OfficeArtFOPTEOPID& _s, LEOutputStream& out) {
     out.writebit(_s.fComplex);
 }
 void parseOfficeArtFOPTEOPID(QXmlStreamReader& in, OfficeArtFOPTEOPID& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint14 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fBid") {
+        qDebug() << "not startelement in fBid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fComplex") {
+        qDebug() << "not startelement in fComplex " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtColorMRUContainer(LEInputStream& in, OfficeArtColorMRUContainer& _s) {
     int _c;
@@ -29493,7 +31347,7 @@ void parseOfficeArtColorMRUContainer(LEInputStream& in, OfficeArtColorMRUContain
     }
     _c = _s.rh.recInstance;
         for (int _i=0; _i<_c; ++_i) {
-        _s.rgmsocr.append(MSOCR());
+        _s.rgmsocr.append(MSOCR(&_s));
         parseMSOCR(in, _s.rgmsocr[_i]);
     }
 }
@@ -29504,6 +31358,21 @@ void write(const OfficeArtColorMRUContainer& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtColorMRUContainer(QXmlStreamReader& in, OfficeArtColorMRUContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MSOCR " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseMSOCR(LEInputStream& in, MSOCR& _s) {
     _s.red = in.readuint8();
@@ -29522,6 +31391,61 @@ void write(const MSOCR& _s, LEOutputStream& out) {
     out.writeuint4(_s.unused2);
 }
 void parseMSOCR(QXmlStreamReader& in, MSOCR& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "red") {
+        qDebug() << "not startelement in red " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "green") {
+        qDebug() << "not startelement in green " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "blue") {
+        qDebug() << "not startelement in blue " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint3 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSchemeIndex") {
+        qDebug() << "not startelement in fSchemeIndex " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenuColorContainer& _s) {
     int _c;
@@ -29541,7 +31465,7 @@ void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenu
     }
     _c = 4;
         for (int _i=0; _i<_c; ++_i) {
-        _s.smca.append(MSOCR());
+        _s.smca.append(MSOCR(&_s));
         parseMSOCR(in, _s.smca[_i]);
     }
 }
@@ -29552,6 +31476,21 @@ void write(const OfficeArtSplitMenuColorContainer& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtSplitMenuColorContainer(QXmlStreamReader& in, OfficeArtSplitMenuColorContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MSOCR " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parsetodo(LEInputStream& in, todo& _s) {
     int _c;
@@ -29565,6 +31504,21 @@ void write(const todo& _s, LEOutputStream& out) {
     out.writeBytes(_s.anon);
 }
 void parsetodo(QXmlStreamReader& in, todo& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFibBase(LEInputStream& in, FibBase& _s) {
     _s.wIdent = in.readuint16();
@@ -29654,6 +31608,286 @@ void write(const FibBase& _s, LEOutputStream& out) {
     out.writeuint32(_s.reserved6);
 }
 void parseFibBase(QXmlStreamReader& in, FibBase& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "wIdent") {
+        qDebug() << "not startelement in wIdent " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "nFib") {
+        qDebug() << "not startelement in nFib " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused") {
+        qDebug() << "not startelement in unused " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lid") {
+        qDebug() << "not startelement in lid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pnNext") {
+        qDebug() << "not startelement in pnNext " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fDot") {
+        qDebug() << "not startelement in fDot " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fGlsy") {
+        qDebug() << "not startelement in fGlsy " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fComplex") {
+        qDebug() << "not startelement in fComplex " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHasPic") {
+        qDebug() << "not startelement in fHasPic " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cQuickSaves") {
+        qDebug() << "not startelement in cQuickSaves " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fEncrypted") {
+        qDebug() << "not startelement in fEncrypted " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fWhichTblStm") {
+        qDebug() << "not startelement in fWhichTblStm " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fReadOnlyRecommended") {
+        qDebug() << "not startelement in fReadOnlyRecommended " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fWriteReservation") {
+        qDebug() << "not startelement in fWriteReservation " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fExtChar") {
+        qDebug() << "not startelement in fExtChar " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLoadOverride") {
+        qDebug() << "not startelement in fLoadOverride " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fFarEast") {
+        qDebug() << "not startelement in fFarEast " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fObfuscated") {
+        qDebug() << "not startelement in fObfuscated " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "nFibBack") {
+        qDebug() << "not startelement in nFibBack " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "IKey") {
+        qDebug() << "not startelement in IKey " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "envr") {
+        qDebug() << "not startelement in envr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fMac") {
+        qDebug() << "not startelement in fMac " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fEmptySpecial") {
+        qDebug() << "not startelement in fEmptySpecial " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLoadOverridePage") {
+        qDebug() << "not startelement in fLoadOverridePage " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint3 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSpare0") {
+        qDebug() << "not startelement in fSpare0 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved3") {
+        qDebug() << "not startelement in reserved3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved4") {
+        qDebug() << "not startelement in reserved4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved5") {
+        qDebug() << "not startelement in reserved5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved6") {
+        qDebug() << "not startelement in reserved6 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFibRgW97(LEInputStream& in, FibRgW97& _s) {
     _s.reserved1 = in.readuint16();
@@ -29688,6 +31922,133 @@ void write(const FibRgW97& _s, LEOutputStream& out) {
     out.writeuint16(_s.lidFE);
 }
 void parseFibRgW97(QXmlStreamReader& in, FibRgW97& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved3") {
+        qDebug() << "not startelement in reserved3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved4") {
+        qDebug() << "not startelement in reserved4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved5") {
+        qDebug() << "not startelement in reserved5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved6") {
+        qDebug() << "not startelement in reserved6 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved7") {
+        qDebug() << "not startelement in reserved7 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved8") {
+        qDebug() << "not startelement in reserved8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved9") {
+        qDebug() << "not startelement in reserved9 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved10") {
+        qDebug() << "not startelement in reserved10 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved11") {
+        qDebug() << "not startelement in reserved11 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved12") {
+        qDebug() << "not startelement in reserved12 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved13") {
+        qDebug() << "not startelement in reserved13 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lidFE") {
+        qDebug() << "not startelement in lidFE " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFibRgLw97(LEInputStream& in, FibRgLw97& _s) {
     _s.cbMac = in.readuint32();
@@ -29768,6 +32129,205 @@ void write(const FibRgLw97& _s, LEOutputStream& out) {
     out.writeuint32(_s.reserved14);
 }
 void parseFibRgLw97(QXmlStreamReader& in, FibRgLw97& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cbMac") {
+        qDebug() << "not startelement in cbMac " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ccpText") {
+        qDebug() << "not startelement in ccpText " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ccpFtn") {
+        qDebug() << "not startelement in ccpFtn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ccpHdd") {
+        qDebug() << "not startelement in ccpHdd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved3") {
+        qDebug() << "not startelement in reserved3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ccpAtn") {
+        qDebug() << "not startelement in ccpAtn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ccpEdn") {
+        qDebug() << "not startelement in ccpEdn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ccpTxbx") {
+        qDebug() << "not startelement in ccpTxbx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ccpHdrTxbx") {
+        qDebug() << "not startelement in ccpHdrTxbx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved4") {
+        qDebug() << "not startelement in reserved4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved5") {
+        qDebug() << "not startelement in reserved5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved6") {
+        qDebug() << "not startelement in reserved6 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved7") {
+        qDebug() << "not startelement in reserved7 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved8") {
+        qDebug() << "not startelement in reserved8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved9") {
+        qDebug() << "not startelement in reserved9 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved10") {
+        qDebug() << "not startelement in reserved10 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved11") {
+        qDebug() << "not startelement in reserved11 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved12") {
+        qDebug() << "not startelement in reserved12 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved13") {
+        qDebug() << "not startelement in reserved13 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved14") {
+        qDebug() << "not startelement in reserved14 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFibRgFcLcb97(LEInputStream& in, FibRgFcLcb97& _s) {
     _s.fcStshfOrig = in.readuint32();
@@ -30146,6 +32706,1681 @@ void write(const FibRgFcLcb97& _s, LEOutputStream& out) {
     out.writeuint32(_s.lcbSttbfUssr);
 }
 void parseFibRgFcLcb97(QXmlStreamReader& in, FibRgFcLcb97& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcStshfOrig") {
+        qDebug() << "not startelement in fcStshfOrig " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbStshfOrig") {
+        qDebug() << "not startelement in lcbStshfOrig " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcStshf") {
+        qDebug() << "not startelement in fcStshf " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbStshf") {
+        qDebug() << "not startelement in lcbStshf " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcffndRef") {
+        qDebug() << "not startelement in fcPlcffndRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcffndRef") {
+        qDebug() << "not startelement in lcbPlcffndRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcffndTxt") {
+        qDebug() << "not startelement in fcPlcffndTxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcffndTxt") {
+        qDebug() << "not startelement in lcbPlcffndTxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfandRef") {
+        qDebug() << "not startelement in fcPlcfandRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfandRef") {
+        qDebug() << "not startelement in lcbPlcfandRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfandTxt") {
+        qDebug() << "not startelement in fcPlcfandTxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfandTxt") {
+        qDebug() << "not startelement in lcbPlcfandTxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfSed") {
+        qDebug() << "not startelement in fcPlcfSed " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfSed") {
+        qDebug() << "not startelement in lcbPlcfSed " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcPad") {
+        qDebug() << "not startelement in fcPlcPad " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcPad") {
+        qDebug() << "not startelement in lcbPlcPad " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfPhe") {
+        qDebug() << "not startelement in fcPlcfPhe " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfPhe") {
+        qDebug() << "not startelement in lcbPlcfPhe " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfGlsy") {
+        qDebug() << "not startelement in fcSttbfGlsy " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfGlsy") {
+        qDebug() << "not startelement in lcbSttbfGlsy " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfGlsy") {
+        qDebug() << "not startelement in fcPlcfGlsy " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfGlsy") {
+        qDebug() << "not startelement in lcbPlcfGlsy " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfHdd") {
+        qDebug() << "not startelement in fcPlcfHdd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfHdd") {
+        qDebug() << "not startelement in lcbPlcfHdd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfBteChpx") {
+        qDebug() << "not startelement in fcPlcfBteChpx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfBteChpx") {
+        qDebug() << "not startelement in lcbPlcfBteChpx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfBtePapx") {
+        qDebug() << "not startelement in fcPlcfBtePapx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfBtePapx") {
+        qDebug() << "not startelement in lcbPlcfBtePapx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfSea") {
+        qDebug() << "not startelement in fcPlcfSea " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfSea") {
+        qDebug() << "not startelement in lcbPlcfSea " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfFfn") {
+        qDebug() << "not startelement in fcSttbfFfn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfFfn") {
+        qDebug() << "not startelement in lcbSttbfFfn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfFldMom") {
+        qDebug() << "not startelement in fcPlcfFldMom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfFldMom") {
+        qDebug() << "not startelement in lcbPlcfFldMom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfFldHdr") {
+        qDebug() << "not startelement in fcPlcfFldHdr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfFldHdr") {
+        qDebug() << "not startelement in lcbPlcfFldHdr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfFldFtn") {
+        qDebug() << "not startelement in fcPlcfFldFtn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfFldFtn") {
+        qDebug() << "not startelement in lcbPlcfFldFtn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfFldAtn") {
+        qDebug() << "not startelement in fcPlcfFldAtn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfFldAtn") {
+        qDebug() << "not startelement in lcbPlcfFldAtn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfFldMcr") {
+        qDebug() << "not startelement in fcPlcfFldMcr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfFldMcr") {
+        qDebug() << "not startelement in lcbPlcfFldMcr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfBkmk") {
+        qDebug() << "not startelement in fcSttbfBkmk " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfBkmk") {
+        qDebug() << "not startelement in lcbSttbfBkmk " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfBkf") {
+        qDebug() << "not startelement in fcPlcfBkf " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfBkf") {
+        qDebug() << "not startelement in lcbPlcfBkf " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfBkl") {
+        qDebug() << "not startelement in fcPlcfBkl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfBkl") {
+        qDebug() << "not startelement in lcbPlcfBkl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcCmds") {
+        qDebug() << "not startelement in fcCmds " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbCmds") {
+        qDebug() << "not startelement in lcbCmds " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcUnused1") {
+        qDebug() << "not startelement in fcUnused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbUnused1") {
+        qDebug() << "not startelement in lcbUnused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfMcr") {
+        qDebug() << "not startelement in fcSttbfMcr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfMcr") {
+        qDebug() << "not startelement in lcbSttbfMcr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPrDrvr") {
+        qDebug() << "not startelement in fcPrDrvr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPrDrvr") {
+        qDebug() << "not startelement in lcbPrDrvr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPrEnvPort") {
+        qDebug() << "not startelement in fcPrEnvPort " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPrEnvPort") {
+        qDebug() << "not startelement in lcbPrEnvPort " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPrEnvLand") {
+        qDebug() << "not startelement in fcPrEnvLand " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPrEnvLand") {
+        qDebug() << "not startelement in lcbPrEnvLand " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcWss") {
+        qDebug() << "not startelement in fcWss " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbWss") {
+        qDebug() << "not startelement in lcbWss " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcDop") {
+        qDebug() << "not startelement in fcDop " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbDop") {
+        qDebug() << "not startelement in lcbDop " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfAssoc") {
+        qDebug() << "not startelement in fcSttbfAssoc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfAssoc") {
+        qDebug() << "not startelement in lcbSttbfAssoc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcClx") {
+        qDebug() << "not startelement in fcClx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbClx") {
+        qDebug() << "not startelement in lcbClx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfPgdFtn") {
+        qDebug() << "not startelement in fcPlcfPgdFtn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfPgdFtn") {
+        qDebug() << "not startelement in lcbPlcfPgdFtn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcAutosaveSource") {
+        qDebug() << "not startelement in fcAutosaveSource " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbAutosaveSource") {
+        qDebug() << "not startelement in lcbAutosaveSource " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcGrpXstAtnOwners") {
+        qDebug() << "not startelement in fcGrpXstAtnOwners " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbGrpXstAtnOwners") {
+        qDebug() << "not startelement in lcbGrpXstAtnOwners " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfAtnBkmk") {
+        qDebug() << "not startelement in fcSttbfAtnBkmk " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfAtnBkmk") {
+        qDebug() << "not startelement in lcbSttbfAtnBkmk " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcUnused2") {
+        qDebug() << "not startelement in fcUnused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbUnused2") {
+        qDebug() << "not startelement in lcbUnused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcUnused3") {
+        qDebug() << "not startelement in fcUnused3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbUnused3") {
+        qDebug() << "not startelement in lcbUnused3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcSpaMom") {
+        qDebug() << "not startelement in fcPlcSpaMom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcSpaMom") {
+        qDebug() << "not startelement in lcbPlcSpaMom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcSpaHdr") {
+        qDebug() << "not startelement in fcPlcSpaHdr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcSpaHdr") {
+        qDebug() << "not startelement in lcbPlcSpaHdr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfAtnBkf") {
+        qDebug() << "not startelement in fcPlcfAtnBkf " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfAtnBkf") {
+        qDebug() << "not startelement in lcbPlcfAtnBkf " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfAtnBkl") {
+        qDebug() << "not startelement in fcPlcfAtnBkl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfAtnBkl") {
+        qDebug() << "not startelement in lcbPlcfAtnBkl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPms") {
+        qDebug() << "not startelement in fcPms " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPms") {
+        qDebug() << "not startelement in lcbPms " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcFormFldSttbs") {
+        qDebug() << "not startelement in fcFormFldSttbs " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbFormFldSttbs") {
+        qDebug() << "not startelement in lcbFormFldSttbs " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfendRef") {
+        qDebug() << "not startelement in fcPlcfendRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfendRef") {
+        qDebug() << "not startelement in lcbPlcfendRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfendTxt") {
+        qDebug() << "not startelement in fcPlcfendTxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfendTxt") {
+        qDebug() << "not startelement in lcbPlcfendTxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfFldEdn") {
+        qDebug() << "not startelement in fcPlcfFldEdn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfFldEdn") {
+        qDebug() << "not startelement in lcbPlcfFldEdn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcUnused4") {
+        qDebug() << "not startelement in fcUnused4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbUnused4") {
+        qDebug() << "not startelement in lcbUnused4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcDggInfo") {
+        qDebug() << "not startelement in fcDggInfo " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbDggInfo") {
+        qDebug() << "not startelement in lcbDggInfo " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfRMark") {
+        qDebug() << "not startelement in fcSttbfRMark " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfRMark") {
+        qDebug() << "not startelement in lcbSttbfRMark " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfCaption") {
+        qDebug() << "not startelement in fcSttbfCaption " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfCaption") {
+        qDebug() << "not startelement in lcbSttbfCaption " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfAutoCaption") {
+        qDebug() << "not startelement in fcSttbfAutoCaption " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfAutoCaption") {
+        qDebug() << "not startelement in lcbSttbfAutoCaption " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfWkb") {
+        qDebug() << "not startelement in fcPlcfWkb " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfWkb") {
+        qDebug() << "not startelement in lcbPlcfWkb " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfSpl") {
+        qDebug() << "not startelement in fcPlcfSpl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfSpl") {
+        qDebug() << "not startelement in lcbPlcfSpl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcftxbxTxt") {
+        qDebug() << "not startelement in fcPlcftxbxTxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcftxbxTxt") {
+        qDebug() << "not startelement in lcbPlcftxbxTxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfFldTxbx") {
+        qDebug() << "not startelement in fcPlcfFldTxbx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfFldTxbx") {
+        qDebug() << "not startelement in lcbPlcfFldTxbx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfHdrtxbxTxt") {
+        qDebug() << "not startelement in fcPlcfHdrtxbxTxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfHdrtxbxTxt") {
+        qDebug() << "not startelement in lcbPlcfHdrtxbxTxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcffldHdrTxbx") {
+        qDebug() << "not startelement in fcPlcffldHdrTxbx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcffldHdrTxbx") {
+        qDebug() << "not startelement in lcbPlcffldHdrTxbx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcStwUser") {
+        qDebug() << "not startelement in fcStwUser " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbStwUser") {
+        qDebug() << "not startelement in lcbStwUser " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbTtmbd") {
+        qDebug() << "not startelement in fcSttbTtmbd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbTtmbd") {
+        qDebug() << "not startelement in lcbSttbTtmbd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcCookieData") {
+        qDebug() << "not startelement in fcCookieData " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbCookieData") {
+        qDebug() << "not startelement in lcbCookieData " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPgdMotherOldOld") {
+        qDebug() << "not startelement in fcPgdMotherOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPgdMotherOldOld") {
+        qDebug() << "not startelement in lcbPgdMotherOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcBkdMotherOldOld") {
+        qDebug() << "not startelement in fcBkdMotherOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbBkdMotherOldOld") {
+        qDebug() << "not startelement in lcbBkdMotherOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPgdFtnOldOld") {
+        qDebug() << "not startelement in fcPgdFtnOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPgdFtnOldOld") {
+        qDebug() << "not startelement in lcbPgdFtnOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcBkdFtnOldOld") {
+        qDebug() << "not startelement in fcBkdFtnOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbBkdFtnOldOld") {
+        qDebug() << "not startelement in lcbBkdFtnOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPgdEdnOldOld") {
+        qDebug() << "not startelement in fcPgdEdnOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPgdEdnOldOld") {
+        qDebug() << "not startelement in lcbPgdEdnOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcBkdEdnOldOld") {
+        qDebug() << "not startelement in fcBkdEdnOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbBkdEdnOldOld") {
+        qDebug() << "not startelement in lcbBkdEdnOldOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfIntlFld") {
+        qDebug() << "not startelement in fcSttbfIntlFld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfIntlFld") {
+        qDebug() << "not startelement in lcbSttbfIntlFld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcRouteSlip") {
+        qDebug() << "not startelement in fcRouteSlip " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbRouteSlip") {
+        qDebug() << "not startelement in lcbRouteSlip " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbSavedBy") {
+        qDebug() << "not startelement in fcSttbSavedBy " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbSavedBy") {
+        qDebug() << "not startelement in lcbSttbSavedBy " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbFnm") {
+        qDebug() << "not startelement in fcSttbFnm " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbFnm") {
+        qDebug() << "not startelement in lcbSttbFnm " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlfLst") {
+        qDebug() << "not startelement in fcPlfLst " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlfLst") {
+        qDebug() << "not startelement in lcbPlfLst " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlfLfo") {
+        qDebug() << "not startelement in fcPlfLfo " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlfLfo") {
+        qDebug() << "not startelement in lcbPlfLfo " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfTxbxBkd") {
+        qDebug() << "not startelement in fcPlcfTxbxBkd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfTxbxBkd") {
+        qDebug() << "not startelement in lcbPlcfTxbxBkd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfTxbxHdrBkd") {
+        qDebug() << "not startelement in fcPlcfTxbxHdrBkd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfTxbxHdrBkd") {
+        qDebug() << "not startelement in lcbPlcfTxbxHdrBkd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcDocUndoWord9") {
+        qDebug() << "not startelement in fcDocUndoWord9 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbDocUndoWord9") {
+        qDebug() << "not startelement in lcbDocUndoWord9 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcRgbUse") {
+        qDebug() << "not startelement in fcRgbUse " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbRgbUse") {
+        qDebug() << "not startelement in lcbRgbUse " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcUsp") {
+        qDebug() << "not startelement in fcUsp " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbUsp") {
+        qDebug() << "not startelement in lcbUsp " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcUskf") {
+        qDebug() << "not startelement in fcUskf " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbUskf") {
+        qDebug() << "not startelement in lcbUskf " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcupcRgbUse") {
+        qDebug() << "not startelement in fcPlcupcRgbUse " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcupcRgbUse") {
+        qDebug() << "not startelement in lcbPlcupcRgbUse " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcupcUsp") {
+        qDebug() << "not startelement in fcPlcupcUsp " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcupcUsp") {
+        qDebug() << "not startelement in lcbPlcupcUsp " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbGlsyStyle") {
+        qDebug() << "not startelement in fcSttbGlsyStyle " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbGlsyStyle") {
+        qDebug() << "not startelement in lcbSttbGlsyStyle " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlgosl") {
+        qDebug() << "not startelement in fcPlgosl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlgosl") {
+        qDebug() << "not startelement in lcbPlgosl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcocx") {
+        qDebug() << "not startelement in fcPlcocx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcocx") {
+        qDebug() << "not startelement in lcbPlcocx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfBteLvc") {
+        qDebug() << "not startelement in fcPlcfBteLvc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfBteLvc") {
+        qDebug() << "not startelement in lcbPlcfBteLvc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "dwLowDateTime") {
+        qDebug() << "not startelement in dwLowDateTime " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "dwHighDateTime") {
+        qDebug() << "not startelement in dwHighDateTime " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfLvcPre10") {
+        qDebug() << "not startelement in fcPlcfLvcPre10 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfLvcPre10") {
+        qDebug() << "not startelement in lcbPlcfLvcPre10 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfAsumy") {
+        qDebug() << "not startelement in fcPlcfAsumy " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfAsumy") {
+        qDebug() << "not startelement in lcbPlcfAsumy " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfGram") {
+        qDebug() << "not startelement in fcPlcfGram " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfGram") {
+        qDebug() << "not startelement in lcbPlcfGram " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbListNames") {
+        qDebug() << "not startelement in fcSttbListNames " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbListNames") {
+        qDebug() << "not startelement in lcbSttbListNames " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfUssr") {
+        qDebug() << "not startelement in fcSttbfUssr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfUssr") {
+        qDebug() << "not startelement in lcbSttbfUssr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFibRgFcLcb2000(LEInputStream& in, FibRgFcLcb2000& _s) {
     _s.fcPlcfTch = in.readuint32();
@@ -30212,6 +34447,277 @@ void write(const FibRgFcLcb2000& _s, LEOutputStream& out) {
     out.writeuint32(_s.lcbBkdEdnOld);
 }
 void parseFibRgFcLcb2000(QXmlStreamReader& in, FibRgFcLcb2000& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfTch") {
+        qDebug() << "not startelement in fcPlcfTch " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfTch") {
+        qDebug() << "not startelement in lcbPlcfTch " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcRmdThreading") {
+        qDebug() << "not startelement in fcRmdThreading " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbRmdThreading") {
+        qDebug() << "not startelement in lcbRmdThreading " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcMid") {
+        qDebug() << "not startelement in fcMid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbMid") {
+        qDebug() << "not startelement in lcbMid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbRgtplc") {
+        qDebug() << "not startelement in fcSttbRgtplc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbRgtplc") {
+        qDebug() << "not startelement in lcbSttbRgtplc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcMsoEnvelope") {
+        qDebug() << "not startelement in fcMsoEnvelope " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbMsoEnvelope") {
+        qDebug() << "not startelement in lcbMsoEnvelope " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfLad") {
+        qDebug() << "not startelement in fcPlcfLad " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfLad") {
+        qDebug() << "not startelement in lcbPlcfLad " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcRgDofr") {
+        qDebug() << "not startelement in fcRgDofr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbRgDofr") {
+        qDebug() << "not startelement in lcbRgDofr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcosl") {
+        qDebug() << "not startelement in fcPlcosl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcosl") {
+        qDebug() << "not startelement in lcbPlcosl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfCookieOld") {
+        qDebug() << "not startelement in fcPlcfCookieOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfCookieOld") {
+        qDebug() << "not startelement in lcbPlcfCookieOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPgdMotherOld") {
+        qDebug() << "not startelement in fcPgdMotherOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPgdMotherOld") {
+        qDebug() << "not startelement in lcbPgdMotherOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcBkdMotherOld") {
+        qDebug() << "not startelement in fcBkdMotherOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbBkdMotherOld") {
+        qDebug() << "not startelement in lcbBkdMotherOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPgdFtnOld") {
+        qDebug() << "not startelement in fcPgdFtnOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPgdFtnOld") {
+        qDebug() << "not startelement in lcbPgdFtnOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcBkdFtnOld") {
+        qDebug() << "not startelement in fcBkdFtnOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbBkdFtnOld") {
+        qDebug() << "not startelement in lcbBkdFtnOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPgdEdnOld") {
+        qDebug() << "not startelement in fcPgdEdnOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPgdEdnOld") {
+        qDebug() << "not startelement in lcbPgdEdnOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcBkdEdnOld") {
+        qDebug() << "not startelement in fcBkdEdnOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbBkdEdnOld") {
+        qDebug() << "not startelement in lcbBkdEdnOld " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFibRgFcLcb2002(LEInputStream& in, FibRgFcLcb2002& _s) {
     _s.fcUnused1 = in.readuint32();
@@ -30318,6 +34824,457 @@ void write(const FibRgFcLcb2002& _s, LEOutputStream& out) {
     out.writeuint32(_s.lcbPlcffactoid);
 }
 void parseFibRgFcLcb2002(QXmlStreamReader& in, FibRgFcLcb2002& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcUnused1") {
+        qDebug() << "not startelement in fcUnused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbUnused1") {
+        qDebug() << "not startelement in lcbUnused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfPgp") {
+        qDebug() << "not startelement in fcPlcfPgp " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfPgp") {
+        qDebug() << "not startelement in lcbPlcfPgp " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfuim") {
+        qDebug() << "not startelement in fcPlcfuim " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfuim") {
+        qDebug() << "not startelement in lcbPlcfuim " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlfguidUim") {
+        qDebug() << "not startelement in fcPlfguidUim " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlfguidUim") {
+        qDebug() << "not startelement in lcbPlfguidUim " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcAtrdExtra") {
+        qDebug() << "not startelement in fcAtrdExtra " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbAtrdExtra") {
+        qDebug() << "not startelement in lcbAtrdExtra " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlrsid") {
+        qDebug() << "not startelement in fcPlrsid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlrsid") {
+        qDebug() << "not startelement in lcbPlrsid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfBkmkFactoid") {
+        qDebug() << "not startelement in fcSttbfBkmkFactoid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfBkmkFactoid") {
+        qDebug() << "not startelement in lcbSttbfBkmkFactoid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfBkfFactoid") {
+        qDebug() << "not startelement in fcPlcfBkfFactoid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfBkfFactoid") {
+        qDebug() << "not startelement in lcbPlcfBkfFactoid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfcookie") {
+        qDebug() << "not startelement in fcPlcfcookie " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfcookie") {
+        qDebug() << "not startelement in lcbPlcfcookie " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfBklFactoid") {
+        qDebug() << "not startelement in fcPlcfBklFactoid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfBklFactoid") {
+        qDebug() << "not startelement in lcbPlcfBklFactoid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcFactoidData") {
+        qDebug() << "not startelement in fcFactoidData " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbFactoidData") {
+        qDebug() << "not startelement in lcbFactoidData " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcDocUndo") {
+        qDebug() << "not startelement in fcDocUndo " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbDocUndo") {
+        qDebug() << "not startelement in lcbDocUndo " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfBkmkFcc") {
+        qDebug() << "not startelement in fcSttbfBkmkFcc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfBkmkFcc") {
+        qDebug() << "not startelement in lcbSttbfBkmkFcc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfBkfFcc") {
+        qDebug() << "not startelement in fcPlcfBkfFcc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfBkfFcc") {
+        qDebug() << "not startelement in lcbPlcfBkfFcc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfBklFcc") {
+        qDebug() << "not startelement in fcPlcfBklFcc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfBklFcc") {
+        qDebug() << "not startelement in lcbPlcfBklFcc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSttbfbkmkBPRepairs") {
+        qDebug() << "not startelement in fcSttbfbkmkBPRepairs " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbSttbfbkmkBPRepairs") {
+        qDebug() << "not startelement in lcbSttbfbkmkBPRepairs " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfbkfBPRepairs") {
+        qDebug() << "not startelement in fcPlcfbkfBPRepairs " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfbkfBPRepairs") {
+        qDebug() << "not startelement in lcbPlcfbkfBPRepairs " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfbklBPRepairs") {
+        qDebug() << "not startelement in fcPlcfbklBPRepairs " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfbklBPRepairs") {
+        qDebug() << "not startelement in lcbPlcfbklBPRepairs " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPmsNew") {
+        qDebug() << "not startelement in fcPmsNew " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPmsNew") {
+        qDebug() << "not startelement in lcbPmsNew " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcODSO") {
+        qDebug() << "not startelement in fcODSO " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbODSO") {
+        qDebug() << "not startelement in lcbODSO " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfpmiOldXP") {
+        qDebug() << "not startelement in fcPlcfpmiOldXP " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfpmiOldXP") {
+        qDebug() << "not startelement in lcbPlcfpmiOldXP " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfpmiNewXP") {
+        qDebug() << "not startelement in fcPlcfpmiNewXP " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfpmiNewXP") {
+        qDebug() << "not startelement in lcbPlcfpmiNewXP " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcfpmiMixedXP") {
+        qDebug() << "not startelement in fcPlcfpmiMixedXP " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcfpmiMixedXP") {
+        qDebug() << "not startelement in lcbPlcfpmiMixedXP " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcUnused2") {
+        qDebug() << "not startelement in fcUnused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbUnused2") {
+        qDebug() << "not startelement in lcbUnused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcPlcffactoid") {
+        qDebug() << "not startelement in fcPlcffactoid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcbPlcffactoid") {
+        qDebug() << "not startelement in lcbPlcffactoid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseLPStshi(LEInputStream& in, LPStshi& _s) {
     int _c;
@@ -30331,6 +35288,21 @@ void write(const LPStshi& _s, LEOutputStream& out) {
     out.writeBytes(_s.stshi);
 }
 void parseLPStshi(QXmlStreamReader& in, LPStshi& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cbSthi") {
+        qDebug() << "not startelement in cbSthi " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseLPStd(LEInputStream& in, LPStd& _s) {
     int _c;
@@ -30351,6 +35323,30 @@ void write(const LPStd& _s, LEOutputStream& out) {
     }
 }
 void parseLPStd(QXmlStreamReader& in, LPStd& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cbStd") {
+        qDebug() << "not startelement in cbStd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "padding") {
+        qDebug() << "not startelement in padding " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePlcfSed(LEInputStream& in, PlcfSed& _s) {
     int _c;
@@ -30361,7 +35357,7 @@ void parsePlcfSed(LEInputStream& in, PlcfSed& _s) {
     }
     _c = 1;
         for (int _i=0; _i<_c; ++_i) {
-        _s.aSed.append(Sed());
+        _s.aSed.append(Sed(&_s));
         parseSed(in, _s.aSed[_i]);
     }
 }
@@ -30374,6 +35370,17 @@ void write(const PlcfSed& _s, LEOutputStream& out) {
     }
 }
 void parsePlcfSed(QXmlStreamReader& in, PlcfSed& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Sed " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSed(LEInputStream& in, Sed& _s) {
     _s.fn = in.readuint16();
@@ -30388,6 +35395,43 @@ void write(const Sed& _s, LEOutputStream& out) {
     out.writeuint32(_s.fcMpr);
 }
 void parseSed(QXmlStreamReader& in, Sed& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fn") {
+        qDebug() << "not startelement in fn " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcSepx") {
+        qDebug() << "not startelement in fcSepx " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fnMpr") {
+        qDebug() << "not startelement in fnMpr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fcMpr") {
+        qDebug() << "not startelement in fcMpr " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePlcfhdd(LEInputStream& in, Plcfhdd& _s) {
     int _c;
@@ -30403,6 +35447,12 @@ void write(const Plcfhdd& _s, LEOutputStream& out) {
     }
 }
 void parsePlcfhdd(QXmlStreamReader& in, Plcfhdd& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePlcBteChpx(LEInputStream& in, PlcBteChpx& _s) {
     int _c;
@@ -30425,6 +35475,17 @@ void write(const PlcBteChpx& _s, LEOutputStream& out) {
     }
 }
 void parsePlcBteChpx(QXmlStreamReader& in, PlcBteChpx& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePlcfBtePapx(LEInputStream& in, PlcfBtePapx& _s) {
     int _c;
@@ -30447,6 +35508,17 @@ void write(const PlcfBtePapx& _s, LEOutputStream& out) {
     }
 }
 void parsePlcfBtePapx(QXmlStreamReader& in, PlcfBtePapx& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTcg(LEInputStream& in, Tcg& _s) {
     int _c;
@@ -30463,6 +35535,21 @@ void write(const Tcg& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseTcg(QXmlStreamReader& in, Tcg& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "nTcgVer") {
+        qDebug() << "not startelement in nTcgVer " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePrcData(LEInputStream& in, PrcData& _s) {
     int _c;
@@ -30479,7 +35566,7 @@ void parsePrcData(LEInputStream& in, PrcData& _s) {
     }
     _c = _s.cbGrpprl/2;
         for (int _i=0; _i<_c; ++_i) {
-        _s.GrpPrl.append(Sprm());
+        _s.GrpPrl.append(Sprm(&_s));
         parseSprm(in, _s.GrpPrl[_i]);
     }
 }
@@ -30490,6 +35577,21 @@ void write(const PrcData& _s, LEOutputStream& out) {
     }
 }
 void parsePrcData(QXmlStreamReader& in, PrcData& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cbGrpprl") {
+        qDebug() << "not startelement in cbGrpprl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Sprm " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSprm(LEInputStream& in, Sprm& _s) {
     _s.ispmd = in.readuint9();
@@ -30504,6 +35606,43 @@ void write(const Sprm& _s, LEOutputStream& out) {
     out.writeuint3(_s.spra);
 }
 void parseSprm(QXmlStreamReader& in, Sprm& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint9 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ispmd") {
+        qDebug() << "not startelement in ispmd " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSpec") {
+        qDebug() << "not startelement in fSpec " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint3 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "sgc") {
+        qDebug() << "not startelement in sgc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint3 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spra") {
+        qDebug() << "not startelement in spra " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePcdt(LEInputStream& in, Pcdt& _s) {
     int _c;
@@ -30515,7 +35654,7 @@ void parsePcdt(LEInputStream& in, Pcdt& _s) {
     _s.lcb = in.readuint32();
     _c = _s.lcb/8;
         for (int _i=0; _i<_c; ++_i) {
-        _s.PlcPcd.append(Pcd());
+        _s.PlcPcd.append(Pcd(&_s));
         parsePcd(in, _s.PlcPcd[_i]);
     }
 }
@@ -30527,6 +35666,30 @@ void write(const Pcdt& _s, LEOutputStream& out) {
     }
 }
 void parsePcdt(QXmlStreamReader& in, Pcdt& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "clxt") {
+        qDebug() << "not startelement in clxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lcb") {
+        qDebug() << "not startelement in lcb " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Pcd " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseFCompressed(LEInputStream& in, FCompressed& _s) {
     _s.fc = in.readuint30();
@@ -30539,6 +35702,34 @@ void write(const FCompressed& _s, LEOutputStream& out) {
     out.writebit(_s.r1);
 }
 void parseFCompressed(QXmlStreamReader& in, FCompressed& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint30 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fc") {
+        qDebug() << "not startelement in fc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fCompressed") {
+        qDebug() << "not startelement in fCompressed " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "r1") {
+        qDebug() << "not startelement in r1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePrm0(LEInputStream& in, Prm0& _s) {
     _s.fComplex = in.readbit();
@@ -30554,6 +35745,34 @@ void write(const Prm0& _s, LEOutputStream& out) {
     out.writeuint8(_s.val);
 }
 void parsePrm0(QXmlStreamReader& in, Prm0& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fComplex") {
+        qDebug() << "not startelement in fComplex " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint7 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "isprm") {
+        qDebug() << "not startelement in isprm " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "val") {
+        qDebug() << "not startelement in val " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePrm1(LEInputStream& in, Prm1& _s) {
     _s.fComplex = in.readbit();
@@ -30567,6 +35786,25 @@ void write(const Prm1& _s, LEOutputStream& out) {
     out.writeuint15(_s.igrpprl);
 }
 void parsePrm1(QXmlStreamReader& in, Prm1& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fComplex") {
+        qDebug() << "not startelement in fComplex " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint15 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "igrpprl") {
+        qDebug() << "not startelement in igrpprl " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSttbfFfn(LEInputStream& in, SttbfFfn& _s) {
     int _c;
@@ -30578,7 +35816,7 @@ void parseSttbfFfn(LEInputStream& in, SttbfFfn& _s) {
     }
     _c = _s.cData;
         for (int _i=0; _i<_c; ++_i) {
-        _s.data.append(SttbfFfnEntry());
+        _s.data.append(SttbfFfnEntry(&_s));
         parseSttbfFfnEntry(in, _s.data[_i]);
     }
 }
@@ -30590,6 +35828,30 @@ void write(const SttbfFfn& _s, LEOutputStream& out) {
     }
 }
 void parseSttbfFfn(QXmlStreamReader& in, SttbfFfn& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cData") {
+        qDebug() << "not startelement in cData " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cbExtra") {
+        qDebug() << "not startelement in cbExtra " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SttbfFfnEntry " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSttbfFfnEntry(LEInputStream& in, SttbfFfnEntry& _s) {
     int _c;
@@ -30603,6 +35865,21 @@ void write(const SttbfFfnEntry& _s, LEOutputStream& out) {
     out.writeBytes(_s.Data);
 }
 void parseSttbfFfnEntry(QXmlStreamReader& in, SttbfFfnEntry& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cchData") {
+        qDebug() << "not startelement in cchData " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseCodePageString(LEInputStream& in, CodePageString& _s) {
     int _c;
@@ -30619,6 +35896,21 @@ void write(const CodePageString& _s, LEOutputStream& out) {
     out.writeBytes(_s.characters);
 }
 void parseCodePageString(QXmlStreamReader& in, CodePageString& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "size") {
+        qDebug() << "not startelement in size " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFILETIME(LEInputStream& in, FILETIME& _s) {
     _s.dwLowDateTime = in.readuint32();
@@ -30629,6 +35921,25 @@ void write(const FILETIME& _s, LEOutputStream& out) {
     out.writeuint32(_s.dwHighDateTime);
 }
 void parseFILETIME(QXmlStreamReader& in, FILETIME& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "dwLowDateTime") {
+        qDebug() << "not startelement in dwLowDateTime " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "dwHighDateTime") {
+        qDebug() << "not startelement in dwHighDateTime " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseClipboardData(LEInputStream& in, ClipboardData& _s) {
     int _c;
@@ -30644,6 +35955,30 @@ void write(const ClipboardData& _s, LEOutputStream& out) {
     out.writeBytes(_s.data);
 }
 void parseClipboardData(QXmlStreamReader& in, ClipboardData& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "size") {
+        qDebug() << "not startelement in size " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "format") {
+        qDebug() << "not startelement in format " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePropertyIdentifierAndOffset(LEInputStream& in, PropertyIdentifierAndOffset& _s) {
     _s.propertyIdentifier = in.readuint32();
@@ -30654,13 +35989,29 @@ void write(const PropertyIdentifierAndOffset& _s, LEOutputStream& out) {
     out.writeuint32(_s.offset);
 }
 void parsePropertyIdentifierAndOffset(QXmlStreamReader& in, PropertyIdentifierAndOffset& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "propertyIdentifier") {
+        qDebug() << "not startelement in propertyIdentifier " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "offset") {
+        qDebug() << "not startelement in offset " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTypedPropertyValue(LEInputStream& in, TypedPropertyValue& _s) {
     _s.type = in.readuint16();
     _s.padding = in.readuint16();
-    if (!(((quint16)_s.padding) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint16)_s.padding) == 0");
-    }
     _s._has_vt_I2 = _s.type==2;
     if (_s._has_vt_I2) {
         _s.vt_I2 = in.readuint16();
@@ -30674,15 +36025,15 @@ void parseTypedPropertyValue(LEInputStream& in, TypedPropertyValue& _s) {
         _s.vg_ERROR = in.readuint32();
     }
     if (_s.type==30) {
-        _s.vt_lpstr = QSharedPointer<CodePageString>(new CodePageString());
+        _s.vt_lpstr = QSharedPointer<CodePageString>(new CodePageString(&_s));
         parseCodePageString(in, *_s.vt_lpstr.data());
     }
     if (_s.type==64) {
-        _s.vg_FILETIME = QSharedPointer<FILETIME>(new FILETIME());
+        _s.vg_FILETIME = QSharedPointer<FILETIME>(new FILETIME(&_s));
         parseFILETIME(in, *_s.vg_FILETIME.data());
     }
     if (_s.type==71) {
-        _s.vg_CF = QSharedPointer<ClipboardData>(new ClipboardData());
+        _s.vg_CF = QSharedPointer<ClipboardData>(new ClipboardData(&_s));
         parseClipboardData(in, *_s.vg_CF.data());
     }
 }
@@ -30709,6 +36060,79 @@ void write(const TypedPropertyValue& _s, LEOutputStream& out) {
     }
 }
 void parseTypedPropertyValue(QXmlStreamReader& in, TypedPropertyValue& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "type") {
+        qDebug() << "not startelement in type " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "padding") {
+        qDebug() << "not startelement in padding " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "vt_I2") {
+        qDebug() << "not startelement in vt_I2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "paddingI2") {
+        qDebug() << "not startelement in paddingI2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "vg_ERROR") {
+        qDebug() << "not startelement in vg_ERROR " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in CodePageString " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "vt_lpstr") {
+        qDebug() << "not startelement in vt_lpstr " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FILETIME " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "vg_FILETIME") {
+        qDebug() << "not startelement in vg_FILETIME " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ClipboardData " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "vg_CF") {
+        qDebug() << "not startelement in vg_CF " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parsePropertySet(LEInputStream& in, PropertySet& _s) {
     int _c;
@@ -30717,12 +36141,12 @@ void parsePropertySet(LEInputStream& in, PropertySet& _s) {
     _s.numProperties = in.readuint32();
     _c = _s.numProperties;
         for (int _i=0; _i<_c; ++_i) {
-        _s.propertyIdentifierAndOffset.append(PropertyIdentifierAndOffset());
+        _s.propertyIdentifierAndOffset.append(PropertyIdentifierAndOffset(&_s));
         parsePropertyIdentifierAndOffset(in, _s.propertyIdentifierAndOffset[_i]);
     }
     _c = _s.numProperties;
         for (int _i=0; _i<_c; ++_i) {
-        _s.property.append(TypedPropertyValue());
+        _s.property.append(TypedPropertyValue(&_s));
         parseTypedPropertyValue(in, _s.property[_i]);
     }
 }
@@ -30737,11 +36161,40 @@ void write(const PropertySet& _s, LEOutputStream& out) {
     }
 }
 void parsePropertySet(QXmlStreamReader& in, PropertySet& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "size") {
+        qDebug() << "not startelement in size " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "numProperties") {
+        qDebug() << "not startelement in numProperties " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PropertyIdentifierAndOffset " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TypedPropertyValue " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parsePropertySetStream(LEInputStream& in, PropertySetStream& _s) {
     int _c;
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     _s.byteOrder = in.readuint16();
     if (!(((quint16)_s.byteOrder) == 0xFFFE)) {
         throw IncorrectValueException(in.getPosition(), "((quint16)_s.byteOrder) == 0xFFFE");
@@ -30768,20 +36221,21 @@ void parsePropertySetStream(LEInputStream& in, PropertySetStream& _s) {
     }
     parsePropertySet(in, _s.propertySet1);
     if (_s.numPropertySets==2) {
-        _s.propertySet2 = QSharedPointer<PropertySet>(new PropertySet());
+        _s.propertySet2 = QSharedPointer<PropertySet>(new PropertySet(&_s));
         parsePropertySet(in, *_s.propertySet2.data());
     }
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            Byte _t;
-            parseByte(in, _t);
-            _s.padding.append(_t);
+            _s.padding.append(&_s);
+            parseByte(in, _s.padding.last());
         } catch(IncorrectValueException _e) {
+            _s.padding.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.padding.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -30810,6 +36264,99 @@ void write(const PropertySetStream& _s, LEOutputStream& out) {
     }
 }
 void parsePropertySetStream(QXmlStreamReader& in, PropertySetStream& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "byteOrder") {
+        qDebug() << "not startelement in byteOrder " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "version") {
+        qDebug() << "not startelement in version " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "systemIdentifier") {
+        qDebug() << "not startelement in systemIdentifier " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "numPropertySets") {
+        qDebug() << "not startelement in numPropertySets " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "offset0") {
+        qDebug() << "not startelement in offset0 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "offset1") {
+        qDebug() << "not startelement in offset1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PropertySet " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "propertySet1") {
+        qDebug() << "not startelement in propertySet1 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PropertySet " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "propertySet2") {
+        qDebug() << "not startelement in propertySet2 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Byte " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSummaryInformationPropertySetStream(LEInputStream& in, SummaryInformationPropertySetStream& _s) {
     parsePropertySetStream(in, _s.propertySet);
@@ -30821,6 +36368,16 @@ void write(const SummaryInformationPropertySetStream& _s, LEOutputStream& out) {
     write(_s.propertySet, out);
 }
 void parseSummaryInformationPropertySetStream(QXmlStreamReader& in, SummaryInformationPropertySetStream& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PropertySetStream " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "propertySet") {
+        qDebug() << "not startelement in propertySet " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseDocumentSummaryInformationPropertySetStream(LEInputStream& in, DocumentSummaryInformationPropertySetStream& _s) {
     parsePropertySetStream(in, _s.propertySet);
@@ -30832,6 +36389,16 @@ void write(const DocumentSummaryInformationPropertySetStream& _s, LEOutputStream
     write(_s.propertySet, out);
 }
 void parseDocumentSummaryInformationPropertySetStream(QXmlStreamReader& in, DocumentSummaryInformationPropertySetStream& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PropertySetStream " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "propertySet") {
+        qDebug() << "not startelement in propertySet " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parsePicturesStream(LEInputStream& in, PicturesStream& _s) {
     parseOfficeArtBStoreDelay(in, _s.anon1);
@@ -30840,6 +36407,16 @@ void write(const PicturesStream& _s, LEOutputStream& out) {
     write(_s.anon1, out);
 }
 void parsePicturesStream(QXmlStreamReader& in, PicturesStream& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtBStoreDelay " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon1") {
+        qDebug() << "not startelement in anon1 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOfficeArtMetafileHeader(LEInputStream& in, OfficeArtMetafileHeader& _s) {
     _s.cbSize = in.readuint32();
@@ -30858,6 +36435,61 @@ void write(const OfficeArtMetafileHeader& _s, LEOutputStream& out) {
     out.writeuint8(_s.filter);
 }
 void parseOfficeArtMetafileHeader(QXmlStreamReader& in, OfficeArtMetafileHeader& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cbSize") {
+        qDebug() << "not startelement in cbSize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RECT " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rcBounds") {
+        qDebug() << "not startelement in rcBounds " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in POINT " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ptSize") {
+        qDebug() << "not startelement in ptSize " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cbsave") {
+        qDebug() << "not startelement in cbsave " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "compression") {
+        qDebug() << "not startelement in compression " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "filter") {
+        qDebug() << "not startelement in filter " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseScalingStruct(LEInputStream& in, ScalingStruct& _s) {
     parseRatioStruct(in, _s.x);
@@ -30868,6 +36500,25 @@ void write(const ScalingStruct& _s, LEOutputStream& out) {
     write(_s.y, out);
 }
 void parseScalingStruct(QXmlStreamReader& in, ScalingStruct& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RatioStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "x") {
+        qDebug() << "not startelement in x " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RatioStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "y") {
+        qDebug() << "not startelement in y " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseNoZoomViewInfoAtom(LEInputStream& in, NoZoomViewInfoAtom& _s) {
     int _c;
@@ -30903,6 +36554,66 @@ void write(const NoZoomViewInfoAtom& _s, LEOutputStream& out) {
     out.writeuint16(_s.unused3);
 }
 void parseNoZoomViewInfoAtom(QXmlStreamReader& in, NoZoomViewInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ScalingStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "curScale") {
+        qDebug() << "not startelement in curScale " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PointStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "origin") {
+        qDebug() << "not startelement in origin " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fDraftMode") {
+        qDebug() << "not startelement in fDraftMode " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3") {
+        qDebug() << "not startelement in unused3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseVBAInfoContainer(LEInputStream& in, VBAInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
@@ -30925,6 +36636,25 @@ void write(const VBAInfoContainer& _s, LEOutputStream& out) {
     write(_s.vbaInfoAtom, out);
 }
 void parseVBAInfoContainer(QXmlStreamReader& in, VBAInfoContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in VBAInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "vbaInfoAtom") {
+        qDebug() << "not startelement in vbaInfoAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseNormalViewSetInfoAtom(LEInputStream& in, NormalViewSetInfoAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -30967,6 +36697,88 @@ void write(const NormalViewSetInfoAtom& _s, LEOutputStream& out) {
     out.writeuint6(_s.reserved);
 }
 void parseNormalViewSetInfoAtom(QXmlStreamReader& in, NormalViewSetInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RatioStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "leftPortion") {
+        qDebug() << "not startelement in leftPortion " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RatioStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "topPortion") {
+        qDebug() << "not startelement in topPortion " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "vertBarState") {
+        qDebug() << "not startelement in vertBarState " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "horizBarState") {
+        qDebug() << "not startelement in horizBarState " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fPreferSingleSet") {
+        qDebug() << "not startelement in fPreferSingleSet " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHideThumbnails") {
+        qDebug() << "not startelement in fHideThumbnails " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fBarSnapped") {
+        qDebug() << "not startelement in fBarSnapped " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint6 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved") {
+        qDebug() << "not startelement in reserved " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -31023,96 +36835,193 @@ void write(const MasterPersistAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.reserved6);
 }
 void parseMasterPersistAtom(QXmlStreamReader& in, MasterPersistAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PersistIdRef " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "persistIdRef") {
+        qDebug() << "not startelement in persistIdRef " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint2 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fNonOutLineData") {
+        qDebug() << "not startelement in fNonOutLineData " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint5 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved3") {
+        qDebug() << "not startelement in reserved3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved4") {
+        qDebug() << "not startelement in reserved4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved5") {
+        qDebug() << "not startelement in reserved5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "masterId") {
+        qDebug() << "not startelement in masterId " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved6") {
+        qDebug() << "not startelement in reserved6 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextContainer(LEInputStream& in, TextContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseTextHeaderAtom(in, _s.textHeaderAtom);
     _m = in.setMark();
     try {
-        TextCharsAtom _t;
-        parseTextCharsAtom(in, _t);
-        _s.text.textcharsatom = QSharedPointer<TextCharsAtom>(new TextCharsAtom(_t));
+        _s.text.textcharsatom = QSharedPointer<TextCharsAtom>(new TextCharsAtom(&_s));
+        parseTextCharsAtom(in, *_s.text.textcharsatom.data());
     } catch (IncorrectValueException _x) {
+        _s.text.textcharsatom.clear();
         in.rewind(_m);
     try {
-        TextBytesAtom _t;
-        parseTextBytesAtom(in, _t);
-        _s.text.textbytesatom = QSharedPointer<TextBytesAtom>(new TextBytesAtom(_t));
+        _s.text.textbytesatom = QSharedPointer<TextBytesAtom>(new TextBytesAtom(&_s));
+        parseTextBytesAtom(in, *_s.text.textbytesatom.data());
     } catch (IncorrectValueException _xx) {
+        _s.text.textbytesatom.clear();
         in.rewind(_m);
     }}
     _m = in.setMark();
     try {
-        StyleTextPropAtom _t;
-        parseStyleTextPropAtom(in, _t);
-        _s.style = QSharedPointer<StyleTextPropAtom>(new StyleTextPropAtom(_t));
+        _s.style = QSharedPointer<StyleTextPropAtom>(new StyleTextPropAtom(&_s));
+        parseStyleTextPropAtom(in, *_s.style.data());
     } catch(IncorrectValueException _e) {
+        _s.style.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.style.clear();
         in.rewind(_m);
     }
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            TextContainerMeta _t;
-            parseTextContainerMeta(in, _t);
-            _s.meta.append(_t);
+            _s.meta.append(&_s);
+            parseTextContainerMeta(in, _s.meta.last());
         } catch(IncorrectValueException _e) {
+            _s.meta.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.meta.removeLast();
             _atend = true;
             in.rewind(_m);
         }
     }
     _m = in.setMark();
     try {
-        MasterTextPropAtom _t;
-        parseMasterTextPropAtom(in, _t);
-        _s.master = QSharedPointer<MasterTextPropAtom>(new MasterTextPropAtom(_t));
+        _s.master = QSharedPointer<MasterTextPropAtom>(new MasterTextPropAtom(&_s));
+        parseMasterTextPropAtom(in, *_s.master.data());
     } catch(IncorrectValueException _e) {
+        _s.master.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.master.clear();
         in.rewind(_m);
     }
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            TextBookmarkAtom _t;
-            parseTextBookmarkAtom(in, _t);
-            _s.bookmark.append(_t);
+            _s.bookmark.append(&_s);
+            parseTextBookmarkAtom(in, _s.bookmark.last());
         } catch(IncorrectValueException _e) {
+            _s.bookmark.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.bookmark.removeLast();
             _atend = true;
             in.rewind(_m);
         }
     }
     _m = in.setMark();
     try {
-        TextSpecialInfoAtom _t;
-        parseTextSpecialInfoAtom(in, _t);
-        _s.specialinfo = QSharedPointer<TextSpecialInfoAtom>(new TextSpecialInfoAtom(_t));
+        _s.specialinfo = QSharedPointer<TextSpecialInfoAtom>(new TextSpecialInfoAtom(&_s));
+        parseTextSpecialInfoAtom(in, *_s.specialinfo.data());
     } catch(IncorrectValueException _e) {
+        _s.specialinfo.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.specialinfo.clear();
         in.rewind(_m);
     }
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            TextContainerInteractiveInfo _t;
-            parseTextContainerInteractiveInfo(in, _t);
-            _s.interactive.append(_t);
+            _s.interactive.append(&_s);
+            parseTextContainerInteractiveInfo(in, _s.interactive.last());
         } catch(IncorrectValueException _e) {
+            _s.interactive.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.interactive.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -31139,43 +37048,95 @@ void write(const TextContainer& _s, LEOutputStream& out) {
     }
 }
 void parseTextContainer(QXmlStreamReader& in, TextContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextHeaderAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "textHeaderAtom") {
+        qDebug() << "not startelement in textHeaderAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "text") {
+        in.readElementText();
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in StyleTextPropAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "style") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextContainerMeta " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MasterTextPropAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "master") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextBookmarkAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextSpecialInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "specialinfo") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextContainerInteractiveInfo " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        SlideNumberMCAtom _t;
-        parseSlideNumberMCAtom(in, _t);
-        _s.meta.slidenumbermcatom = QSharedPointer<SlideNumberMCAtom>(new SlideNumberMCAtom(_t));
+        _s.meta.slidenumbermcatom = QSharedPointer<SlideNumberMCAtom>(new SlideNumberMCAtom(&_s));
+        parseSlideNumberMCAtom(in, *_s.meta.slidenumbermcatom.data());
     } catch (IncorrectValueException _x) {
+        _s.meta.slidenumbermcatom.clear();
         in.rewind(_m);
     try {
-        DateTimeMCAtom _t;
-        parseDateTimeMCAtom(in, _t);
-        _s.meta.datetimemcatom = QSharedPointer<DateTimeMCAtom>(new DateTimeMCAtom(_t));
+        _s.meta.datetimemcatom = QSharedPointer<DateTimeMCAtom>(new DateTimeMCAtom(&_s));
+        parseDateTimeMCAtom(in, *_s.meta.datetimemcatom.data());
     } catch (IncorrectValueException _xx) {
+        _s.meta.datetimemcatom.clear();
         in.rewind(_m);
     try {
-        GenericDateMCAtom _t;
-        parseGenericDateMCAtom(in, _t);
-        _s.meta.genericdatemcatom = QSharedPointer<GenericDateMCAtom>(new GenericDateMCAtom(_t));
+        _s.meta.genericdatemcatom = QSharedPointer<GenericDateMCAtom>(new GenericDateMCAtom(&_s));
+        parseGenericDateMCAtom(in, *_s.meta.genericdatemcatom.data());
     } catch (IncorrectValueException _xxx) {
+        _s.meta.genericdatemcatom.clear();
         in.rewind(_m);
     try {
-        HeaderMCAtom _t;
-        parseHeaderMCAtom(in, _t);
-        _s.meta.headermcatom = QSharedPointer<HeaderMCAtom>(new HeaderMCAtom(_t));
+        _s.meta.headermcatom = QSharedPointer<HeaderMCAtom>(new HeaderMCAtom(&_s));
+        parseHeaderMCAtom(in, *_s.meta.headermcatom.data());
     } catch (IncorrectValueException _xxxx) {
+        _s.meta.headermcatom.clear();
         in.rewind(_m);
     try {
-        FooterMCAtom _t;
-        parseFooterMCAtom(in, _t);
-        _s.meta.footermcatom = QSharedPointer<FooterMCAtom>(new FooterMCAtom(_t));
+        _s.meta.footermcatom = QSharedPointer<FooterMCAtom>(new FooterMCAtom(&_s));
+        parseFooterMCAtom(in, *_s.meta.footermcatom.data());
     } catch (IncorrectValueException _xxxxx) {
+        _s.meta.footermcatom.clear();
         in.rewind(_m);
-        RTFDateTimeMCAtom _t;
-        parseRTFDateTimeMCAtom(in, _t);
-        _s.meta.rtfdatetimemcatom = QSharedPointer<RTFDateTimeMCAtom>(new RTFDateTimeMCAtom(_t));
+        _s.meta.rtfdatetimemcatom = QSharedPointer<RTFDateTimeMCAtom>(new RTFDateTimeMCAtom(&_s));
+        parseRTFDateTimeMCAtom(in, *_s.meta.rtfdatetimemcatom);
     }}}}}
 }
 void write(const TextContainerMeta& _s, LEOutputStream& out) {
@@ -31194,25 +37155,34 @@ void write(const TextContainerMeta& _s, LEOutputStream& out) {
     }
 }
 void parseTextContainerMeta(QXmlStreamReader& in, TextContainerMeta& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "meta") {
+        qDebug() << "not startelement in meta " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        OutlineTextRefAtom _t;
-        parseOutlineTextRefAtom(in, _t);
-        _s.anon.outlinetextrefatom = QSharedPointer<OutlineTextRefAtom>(new OutlineTextRefAtom(_t));
+        _s.anon.outlinetextrefatom = QSharedPointer<OutlineTextRefAtom>(new OutlineTextRefAtom(&_s));
+        parseOutlineTextRefAtom(in, *_s.anon.outlinetextrefatom.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.outlinetextrefatom.clear();
         in.rewind(_m);
     try {
-        TextContainer _t;
-        parseTextContainer(in, _t);
-        _s.anon.textcontainer = QSharedPointer<TextContainer>(new TextContainer(_t));
+        _s.anon.textcontainer = QSharedPointer<TextContainer>(new TextContainer(&_s));
+        parseTextContainer(in, *_s.anon.textcontainer.data());
     } catch (IncorrectValueException _xx) {
+        _s.anon.textcontainer.clear();
         in.rewind(_m);
-        TextRulerAtom _t;
-        parseTextRulerAtom(in, _t);
-        _s.anon.textruleratom = QSharedPointer<TextRulerAtom>(new TextRulerAtom(_t));
+        _s.anon.textruleratom = QSharedPointer<TextRulerAtom>(new TextRulerAtom(&_s));
+        parseTextRulerAtom(in, *_s.anon.textruleratom);
     }}
 }
 void write(const TextClientDataSubContainerOrAtom& _s, LEOutputStream& out) {
@@ -31225,6 +37195,16 @@ void write(const TextClientDataSubContainerOrAtom& _s, LEOutputStream& out) {
     }
 }
 void parseTextClientDataSubContainerOrAtom(QXmlStreamReader& in, TextClientDataSubContainerOrAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -31286,6 +37266,106 @@ void write(const SlidePersistAtom& _s, LEOutputStream& out) {
     out.writeuint32(_s.reserved5);
 }
 void parseSlidePersistAtom(QXmlStreamReader& in, SlidePersistAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PersistIdRef " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "persistIdRef") {
+        qDebug() << "not startelement in persistIdRef " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fShouldCollapse") {
+        qDebug() << "not startelement in fShouldCollapse " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fNonOutlineData") {
+        qDebug() << "not startelement in fNonOutlineData " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint5 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved3") {
+        qDebug() << "not startelement in reserved3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved4") {
+        qDebug() << "not startelement in reserved4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cTexts") {
+        qDebug() << "not startelement in cTexts " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideId " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideId") {
+        qDebug() << "not startelement in slideId " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved5") {
+        qDebug() << "not startelement in reserved5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextRuler(LEInputStream& in, TextRuler& _s) {
     _s.fDefaultTabSize = in.readbit();
@@ -31312,7 +37392,7 @@ void parseTextRuler(LEInputStream& in, TextRuler& _s) {
         _s.defaultTabSize = in.readuint16();
     }
     if (_s.fTabStops) {
-        _s.tabs = QSharedPointer<TabStops>(new TabStops());
+        _s.tabs = QSharedPointer<TabStops>(new TabStops(&_s));
         parseTabStops(in, *_s.tabs.data());
     }
     _s._has_leftMargin1 = _s.fLeftMargin1;
@@ -31413,6 +37493,259 @@ void write(const TextRuler& _s, LEOutputStream& out) {
     }
 }
 void parseTextRuler(QXmlStreamReader& in, TextRuler& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fDefaultTabSize") {
+        qDebug() << "not startelement in fDefaultTabSize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fCLevels") {
+        qDebug() << "not startelement in fCLevels " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fTabStops") {
+        qDebug() << "not startelement in fTabStops " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLeftMargin1") {
+        qDebug() << "not startelement in fLeftMargin1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLeftMargin2") {
+        qDebug() << "not startelement in fLeftMargin2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLeftMargin3") {
+        qDebug() << "not startelement in fLeftMargin3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLeftMargin4") {
+        qDebug() << "not startelement in fLeftMargin4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLeftMargin5") {
+        qDebug() << "not startelement in fLeftMargin5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fIndent1") {
+        qDebug() << "not startelement in fIndent1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fIndent2") {
+        qDebug() << "not startelement in fIndent2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fIndent3") {
+        qDebug() << "not startelement in fIndent3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fIndent4") {
+        qDebug() << "not startelement in fIndent4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fIndent5") {
+        qDebug() << "not startelement in fIndent5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint3 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cLevels") {
+        qDebug() << "not startelement in cLevels " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "defaultTabSize") {
+        qDebug() << "not startelement in defaultTabSize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TabStops " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "tabs") {
+        qDebug() << "not startelement in tabs " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "leftMargin1") {
+        qDebug() << "not startelement in leftMargin1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "indent1") {
+        qDebug() << "not startelement in indent1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "leftMargin2") {
+        qDebug() << "not startelement in leftMargin2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "indent2") {
+        qDebug() << "not startelement in indent2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "leftMargin3") {
+        qDebug() << "not startelement in leftMargin3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "indent3") {
+        qDebug() << "not startelement in indent3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "leftMargin4") {
+        qDebug() << "not startelement in leftMargin4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "indent4") {
+        qDebug() << "not startelement in indent4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "leftMargin5") {
+        qDebug() << "not startelement in leftMargin5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "indent5") {
+        qDebug() << "not startelement in indent5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextPFException(LEInputStream& in, TextPFException& _s) {
     parsePFMasks(in, _s.masks);
@@ -31426,7 +37759,7 @@ void parseTextPFException(LEInputStream& in, TextPFException& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.masks.bulletScheme == false");
     }
     if (_s.masks.hasBullet||_s.masks.bulletHasFont||_s.masks.bulletHasColor||_s.masks.bulletHasSize) {
-        _s.bulletFlags = QSharedPointer<BulletFlags>(new BulletFlags());
+        _s.bulletFlags = QSharedPointer<BulletFlags>(new BulletFlags(&_s));
         parseBulletFlags(in, *_s.bulletFlags.data());
     }
     _s._has_bulletChar = _s.masks.bulletChar;
@@ -31442,7 +37775,7 @@ void parseTextPFException(LEInputStream& in, TextPFException& _s) {
         _s.bulletSize = in.readint16();
     }
     if (_s.masks.bulletColor) {
-        _s.bulletColor = QSharedPointer<ColorIndexStruct>(new ColorIndexStruct());
+        _s.bulletColor = QSharedPointer<ColorIndexStruct>(new ColorIndexStruct(&_s));
         parseColorIndexStruct(in, *_s.bulletColor.data());
     }
     _s._has_textAlignment = _s.masks.align;
@@ -31474,7 +37807,7 @@ void parseTextPFException(LEInputStream& in, TextPFException& _s) {
         _s.defaultTabSize = in.readuint16();
     }
     if (_s.masks.tabStops) {
-        _s.tabStops = QSharedPointer<TabStops>(new TabStops());
+        _s.tabStops = QSharedPointer<TabStops>(new TabStops(&_s));
         parseTabStops(in, *_s.tabStops.data());
     }
     _s._has_fontAlign = _s.masks.fontAlign;
@@ -31542,6 +37875,160 @@ void write(const TextPFException& _s, LEOutputStream& out) {
     }
 }
 void parseTextPFException(QXmlStreamReader& in, TextPFException& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PFMasks " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "masks") {
+        qDebug() << "not startelement in masks " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in BulletFlags " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletFlags") {
+        qDebug() << "not startelement in bulletFlags " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletChar") {
+        qDebug() << "not startelement in bulletChar " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletFontRef") {
+        qDebug() << "not startelement in bulletFontRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletSize") {
+        qDebug() << "not startelement in bulletSize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ColorIndexStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bulletColor") {
+        qDebug() << "not startelement in bulletColor " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "textAlignment") {
+        qDebug() << "not startelement in textAlignment " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lineSpacing") {
+        qDebug() << "not startelement in lineSpacing " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spaceBefore") {
+        qDebug() << "not startelement in spaceBefore " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spaceAfter") {
+        qDebug() << "not startelement in spaceAfter " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "leftMargin") {
+        qDebug() << "not startelement in leftMargin " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "indent") {
+        qDebug() << "not startelement in indent " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "defaultTabSize") {
+        qDebug() << "not startelement in defaultTabSize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TabStops " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "tabStops") {
+        qDebug() << "not startelement in tabStops " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fontAlign") {
+        qDebug() << "not startelement in fontAlign " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "wrapFlags") {
+        qDebug() << "not startelement in wrapFlags " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "textDirection") {
+        qDebug() << "not startelement in textDirection " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextCFException(LEInputStream& in, TextCFException& _s) {
     parseCFMasks(in, _s.masks);
@@ -31558,7 +38045,7 @@ void parseTextCFException(LEInputStream& in, TextCFException& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.masks.pp11ext == false");
     }
     if (_s.masks.bold || _s.masks.italic || _s.masks.underline || _s.masks.shadow || _s.masks.fehint || _s.masks.kumi || _s.masks.emboss || _s.masks.fHasStyle != 0) {
-        _s.fontStyle = QSharedPointer<CFStyle>(new CFStyle());
+        _s.fontStyle = QSharedPointer<CFStyle>(new CFStyle(&_s));
         parseCFStyle(in, *_s.fontStyle.data());
     }
     _s._has_fontRef = _s.masks.typeface;
@@ -31588,7 +38075,7 @@ void parseTextCFException(LEInputStream& in, TextCFException& _s) {
         }
     }
     if (_s.masks.color) {
-        _s.color = QSharedPointer<ColorIndexStruct>(new ColorIndexStruct());
+        _s.color = QSharedPointer<ColorIndexStruct>(new ColorIndexStruct(&_s));
         parseColorIndexStruct(in, *_s.color.data());
     }
     _s._has_position = _s.masks.position;
@@ -31630,48 +38117,134 @@ void write(const TextCFException& _s, LEOutputStream& out) {
     }
 }
 void parseTextCFException(QXmlStreamReader& in, TextCFException& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in CFMasks " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "masks") {
+        qDebug() << "not startelement in masks " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in CFStyle " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fontStyle") {
+        qDebug() << "not startelement in fontStyle " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fontRef") {
+        qDebug() << "not startelement in fontRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "oldEAFontRef") {
+        qDebug() << "not startelement in oldEAFontRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "ansiFontRef") {
+        qDebug() << "not startelement in ansiFontRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "symbolFontRef") {
+        qDebug() << "not startelement in symbolFontRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fontSize") {
+        qDebug() << "not startelement in fontSize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ColorIndexStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "color") {
+        qDebug() << "not startelement in color " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "position") {
+        qDebug() << "not startelement in position " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFontCollectionEntry(LEInputStream& in, FontCollectionEntry& _s) {
     LEInputStream::Mark _m;
     parseFontEntityAtom(in, _s.fontEntityAtom);
     _m = in.setMark();
     try {
-        FontEmbedDataBlob _t;
-        parseFontEmbedDataBlob(in, _t);
-        _s.fontEmbedData1 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(_t));
+        _s.fontEmbedData1 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
+        parseFontEmbedDataBlob(in, *_s.fontEmbedData1.data());
     } catch(IncorrectValueException _e) {
+        _s.fontEmbedData1.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.fontEmbedData1.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        FontEmbedDataBlob _t;
-        parseFontEmbedDataBlob(in, _t);
-        _s.fontEmbedData2 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(_t));
+        _s.fontEmbedData2 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
+        parseFontEmbedDataBlob(in, *_s.fontEmbedData2.data());
     } catch(IncorrectValueException _e) {
+        _s.fontEmbedData2.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.fontEmbedData2.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        FontEmbedDataBlob _t;
-        parseFontEmbedDataBlob(in, _t);
-        _s.fontEmbedData3 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(_t));
+        _s.fontEmbedData3 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
+        parseFontEmbedDataBlob(in, *_s.fontEmbedData3.data());
     } catch(IncorrectValueException _e) {
+        _s.fontEmbedData3.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.fontEmbedData3.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        FontEmbedDataBlob _t;
-        parseFontEmbedDataBlob(in, _t);
-        _s.fontEmbedData4 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(_t));
+        _s.fontEmbedData4 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
+        parseFontEmbedDataBlob(in, *_s.fontEmbedData4.data());
     } catch(IncorrectValueException _e) {
+        _s.fontEmbedData4.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.fontEmbedData4.clear();
         in.rewind(_m);
     }
 }
@@ -31683,6 +38256,44 @@ void write(const FontCollectionEntry& _s, LEOutputStream& out) {
     if (_s.fontEmbedData4) write(*_s.fontEmbedData4, out);
 }
 void parseFontCollectionEntry(QXmlStreamReader& in, FontCollectionEntry& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FontEntityAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fontEntityAtom") {
+        qDebug() << "not startelement in fontEntityAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FontEmbedDataBlob " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "fontEmbedData1") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FontEmbedDataBlob " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "fontEmbedData2") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FontEmbedDataBlob " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "fontEmbedData3") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FontEmbedDataBlob " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "fontEmbedData4") {
+        skipToStartElement(in);
+    }
 }
 void parseKinsokuContainer(LEInputStream& in, KinsokuContainer& _s) {
     parseRecordHeader(in, _s.rh);
@@ -31697,11 +38308,11 @@ void parseKinsokuContainer(LEInputStream& in, KinsokuContainer& _s) {
     }
     parseKinsokuAtom(in, _s.kinsokuAtom);
     if (_s.kinsokuAtom.level==2) {
-        _s.kinsokuLeadingAtom = QSharedPointer<KinsokuFollowingAtom>(new KinsokuFollowingAtom());
+        _s.kinsokuLeadingAtom = QSharedPointer<KinsokuFollowingAtom>(new KinsokuFollowingAtom(&_s));
         parseKinsokuFollowingAtom(in, *_s.kinsokuLeadingAtom.data());
     }
     if (_s.kinsokuAtom.level==2) {
-        _s.kinsokuFollowingAtom = QSharedPointer<KinsokuFollowingAtom>(new KinsokuFollowingAtom());
+        _s.kinsokuFollowingAtom = QSharedPointer<KinsokuFollowingAtom>(new KinsokuFollowingAtom(&_s));
         parseKinsokuFollowingAtom(in, *_s.kinsokuFollowingAtom.data());
     }
 }
@@ -31716,6 +38327,43 @@ void write(const KinsokuContainer& _s, LEOutputStream& out) {
     }
 }
 void parseKinsokuContainer(QXmlStreamReader& in, KinsokuContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in KinsokuAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "kinsokuAtom") {
+        qDebug() << "not startelement in kinsokuAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in KinsokuFollowingAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "kinsokuLeadingAtom") {
+        qDebug() << "not startelement in kinsokuLeadingAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in KinsokuFollowingAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "kinsokuFollowingAtom") {
+        qDebug() << "not startelement in kinsokuFollowingAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextSIException(LEInputStream& in, TextSIException& _s) {
     _s.spell = in.readbit();
@@ -31770,7 +38418,7 @@ void parseTextSIException(LEInputStream& in, TextSIException& _s) {
         _s.grammarError = in.readbit();
     }
     if (_s.smartTag) {
-        _s.smartTags = QSharedPointer<SmartTags>(new SmartTags());
+        _s.smartTags = QSharedPointer<SmartTags>(new SmartTags(&_s));
         parseSmartTags(in, *_s.smartTags.data());
     }
 }
@@ -31819,6 +38467,205 @@ void write(const TextSIException& _s, LEOutputStream& out) {
     }
 }
 void parseTextSIException(QXmlStreamReader& in, TextSIException& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spell") {
+        qDebug() << "not startelement in spell " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lang") {
+        qDebug() << "not startelement in lang " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "altLang") {
+        qDebug() << "not startelement in altLang " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fPp10ext") {
+        qDebug() << "not startelement in fPp10ext " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fBidi") {
+        qDebug() << "not startelement in fBidi " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3") {
+        qDebug() << "not startelement in unused3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "smartTag") {
+        qDebug() << "not startelement in smartTag " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint2 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2a") {
+        qDebug() << "not startelement in reserved2a " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint20 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2b") {
+        qDebug() << "not startelement in reserved2b " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "spellInfo") {
+        qDebug() << "not startelement in spellInfo " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lid") {
+        qDebug() << "not startelement in lid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "altLid") {
+        qDebug() << "not startelement in altLid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bidi") {
+        qDebug() << "not startelement in bidi " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pp10runid") {
+        qDebug() << "not startelement in pp10runid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved3a") {
+        qDebug() << "not startelement in reserved3a " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved3b") {
+        qDebug() << "not startelement in reserved3b " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint7 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved3bc") {
+        qDebug() << "not startelement in reserved3bc " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "grammarError") {
+        qDebug() << "not startelement in grammarError " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SmartTags " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "smartTags") {
+        qDebug() << "not startelement in smartTags " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextMasterStyleLevel(LEInputStream& in, TextMasterStyleLevel& _s) {
     parseTextPFException(in, _s.pf);
@@ -31829,6 +38676,25 @@ void write(const TextMasterStyleLevel& _s, LEOutputStream& out) {
     write(_s.cf, out);
 }
 void parseTextMasterStyleLevel(QXmlStreamReader& in, TextMasterStyleLevel& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextPFException " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pf") {
+        qDebug() << "not startelement in pf " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextCFException " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cf") {
+        qDebug() << "not startelement in cf " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseDocumentAtom(LEInputStream& in, DocumentAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -31880,6 +38746,115 @@ void write(const DocumentAtom& _s, LEOutputStream& out) {
     out.writeuint8(_s.fShowComments);
 }
 void parseDocumentAtom(QXmlStreamReader& in, DocumentAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PointStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideSize") {
+        qDebug() << "not startelement in slideSize " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PointStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "notesSize") {
+        qDebug() << "not startelement in notesSize " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RatioStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "serverZoom") {
+        qDebug() << "not startelement in serverZoom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PersistIdRef " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "notesMasterPersistIdRef") {
+        qDebug() << "not startelement in notesMasterPersistIdRef " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PersistIdRef " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "handoutMasterPersistIdRef") {
+        qDebug() << "not startelement in handoutMasterPersistIdRef " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "firstSlideNumber") {
+        qDebug() << "not startelement in firstSlideNumber " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideSizeType") {
+        qDebug() << "not startelement in slideSizeType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSaveWithFonts") {
+        qDebug() << "not startelement in fSaveWithFonts " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fOmitTitlePlace") {
+        qDebug() << "not startelement in fOmitTitlePlace " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fRightToLeft") {
+        qDebug() << "not startelement in fRightToLeft " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fShowComments") {
+        qDebug() << "not startelement in fShowComments " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseProgStringTagContainer(LEInputStream& in, ProgStringTagContainer& _s) {
     parseRecordHeader(in, _s.rh);
@@ -31901,10 +38876,38 @@ void write(const ProgStringTagContainer& _s, LEOutputStream& out) {
     write(_s.tagValueAtom, out);
 }
 void parseProgStringTagContainer(QXmlStreamReader& in, ProgStringTagContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TagNameAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "tagNameAtom") {
+        qDebug() << "not startelement in tagNameAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TagValueAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "tagValueAtom") {
+        qDebug() << "not startelement in tagValueAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseExObjListContainer(LEInputStream& in, ExObjListContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -31920,10 +38923,11 @@ void parseExObjListContainer(LEInputStream& in, ExObjListContainer& _s) {
     }
     parseExObjListAtom(in, _s.exObjListAtom);
     int _startPos = in.getPosition();
-    while (in.getPosition() - _startPos < _s.rh.recLen-12) {
-        ExObjListSubContainer _t;
-        parseExObjListSubContainer(in, _t);
-        _s.rgChildRec.append(_t);
+    _atend = in.getPosition() - _startPos >= _s.rh.recLen-12;
+    while (!_atend) {
+        _s.rgChildRec.append(&_s);
+        parseExObjListSubContainer(in, _s.rgChildRec.last());
+        _atend = in.getPosition() - _startPos >= _s.rh.recLen-12;
     }
 }
 void write(const ExObjListContainer& _s, LEOutputStream& out) {
@@ -31934,6 +38938,30 @@ void write(const ExObjListContainer& _s, LEOutputStream& out) {
     }
 }
 void parseExObjListContainer(QXmlStreamReader& in, ExObjListContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ExObjListAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "exObjListAtom") {
+        qDebug() << "not startelement in exObjListAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ExObjListSubContainer " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s) {
     LEInputStream::Mark _m;
@@ -31951,42 +38979,46 @@ void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s) {
     parseExOleObjAtom(in, _s.exOleObjAtom);
     _m = in.setMark();
     try {
-        MenuNameAtom _t;
-        parseMenuNameAtom(in, _t);
-        _s.menuNameAtom = QSharedPointer<MenuNameAtom>(new MenuNameAtom(_t));
+        _s.menuNameAtom = QSharedPointer<MenuNameAtom>(new MenuNameAtom(&_s));
+        parseMenuNameAtom(in, *_s.menuNameAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.menuNameAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.menuNameAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        ProgIDAtom _t;
-        parseProgIDAtom(in, _t);
-        _s.progIdAtom = QSharedPointer<ProgIDAtom>(new ProgIDAtom(_t));
+        _s.progIdAtom = QSharedPointer<ProgIDAtom>(new ProgIDAtom(&_s));
+        parseProgIDAtom(in, *_s.progIdAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.progIdAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.progIdAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        ClipboardNameAtom _t;
-        parseClipboardNameAtom(in, _t);
-        _s.clipboardNameAtom = QSharedPointer<ClipboardNameAtom>(new ClipboardNameAtom(_t));
+        _s.clipboardNameAtom = QSharedPointer<ClipboardNameAtom>(new ClipboardNameAtom(&_s));
+        parseClipboardNameAtom(in, *_s.clipboardNameAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.clipboardNameAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.clipboardNameAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        MetafileBlob _t;
-        parseMetafileBlob(in, _t);
-        _s.metafile = QSharedPointer<MetafileBlob>(new MetafileBlob(_t));
+        _s.metafile = QSharedPointer<MetafileBlob>(new MetafileBlob(&_s));
+        parseMetafileBlob(in, *_s.metafile.data());
     } catch(IncorrectValueException _e) {
+        _s.metafile.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.metafile.clear();
         in.rewind(_m);
     }
 }
@@ -32000,6 +39032,62 @@ void write(const ExOleLinkContainer& _s, LEOutputStream& out) {
     if (_s.metafile) write(*_s.metafile, out);
 }
 void parseExOleLinkContainer(QXmlStreamReader& in, ExOleLinkContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ExOleLinkAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "exOleLinkAtom") {
+        qDebug() << "not startelement in exOleLinkAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ExOleObjAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "exOleObjAtom") {
+        qDebug() << "not startelement in exOleObjAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MenuNameAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "menuNameAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ProgIDAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "progIdAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ClipboardNameAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "clipboardNameAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MetafileBlob " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "metafile") {
+        skipToStartElement(in);
+    }
 }
 void parseExOleEmbedContainer(LEInputStream& in, ExOleEmbedContainer& _s) {
     LEInputStream::Mark _m;
@@ -32017,42 +39105,46 @@ void parseExOleEmbedContainer(LEInputStream& in, ExOleEmbedContainer& _s) {
     parseExOleObjAtom(in, _s.exOleObjAtom);
     _m = in.setMark();
     try {
-        MenuNameAtom _t;
-        parseMenuNameAtom(in, _t);
-        _s.menuNameAtom = QSharedPointer<MenuNameAtom>(new MenuNameAtom(_t));
+        _s.menuNameAtom = QSharedPointer<MenuNameAtom>(new MenuNameAtom(&_s));
+        parseMenuNameAtom(in, *_s.menuNameAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.menuNameAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.menuNameAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        ProgIDAtom _t;
-        parseProgIDAtom(in, _t);
-        _s.progIdAtom = QSharedPointer<ProgIDAtom>(new ProgIDAtom(_t));
+        _s.progIdAtom = QSharedPointer<ProgIDAtom>(new ProgIDAtom(&_s));
+        parseProgIDAtom(in, *_s.progIdAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.progIdAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.progIdAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        ClipboardNameAtom _t;
-        parseClipboardNameAtom(in, _t);
-        _s.clipboardNameAtom = QSharedPointer<ClipboardNameAtom>(new ClipboardNameAtom(_t));
+        _s.clipboardNameAtom = QSharedPointer<ClipboardNameAtom>(new ClipboardNameAtom(&_s));
+        parseClipboardNameAtom(in, *_s.clipboardNameAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.clipboardNameAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.clipboardNameAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        MetafileBlob _t;
-        parseMetafileBlob(in, _t);
-        _s.metafile = QSharedPointer<MetafileBlob>(new MetafileBlob(_t));
+        _s.metafile = QSharedPointer<MetafileBlob>(new MetafileBlob(&_s));
+        parseMetafileBlob(in, *_s.metafile.data());
     } catch(IncorrectValueException _e) {
+        _s.metafile.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.metafile.clear();
         in.rewind(_m);
     }
 }
@@ -32066,6 +39158,62 @@ void write(const ExOleEmbedContainer& _s, LEOutputStream& out) {
     if (_s.metafile) write(*_s.metafile, out);
 }
 void parseExOleEmbedContainer(QXmlStreamReader& in, ExOleEmbedContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ExOleEmbedAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "exOleEmbedAtom") {
+        qDebug() << "not startelement in exOleEmbedAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ExOleObjAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "exOleObjAtom") {
+        qDebug() << "not startelement in exOleObjAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MenuNameAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "menuNameAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ProgIDAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "progIdAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ClipboardNameAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "clipboardNameAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MetafileBlob " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "metafile") {
+        skipToStartElement(in);
+    }
 }
 void parseOfficeArtFDGGBlock(LEInputStream& in, OfficeArtFDGGBlock& _s) {
     int _c;
@@ -32083,7 +39231,7 @@ void parseOfficeArtFDGGBlock(LEInputStream& in, OfficeArtFDGGBlock& _s) {
     parseOfficeArtFDGG(in, _s.head);
     _c = _s.head.cidcl-1;
         for (int _i=0; _i<_c; ++_i) {
-        _s.Rgidcl.append(OfficeArtIDCL());
+        _s.Rgidcl.append(OfficeArtIDCL(&_s));
         parseOfficeArtIDCL(in, _s.Rgidcl[_i]);
     }
 }
@@ -32095,6 +39243,30 @@ void write(const OfficeArtFDGGBlock& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtFDGGBlock(QXmlStreamReader& in, OfficeArtFDGGBlock& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFDGG " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "head") {
+        qDebug() << "not startelement in head " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtIDCL " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseProtectionBooleanProperties(LEInputStream& in, ProtectionBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32156,6 +39328,214 @@ void write(const ProtectionBooleanProperties& _s, LEOutputStream& out) {
     out.writeuint6(_s.unused2);
 }
 void parseProtectionBooleanProperties(QXmlStreamReader& in, ProtectionBooleanProperties& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockAgainstGrouping") {
+        qDebug() << "not startelement in fLockAgainstGrouping " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockAdjustHandles") {
+        qDebug() << "not startelement in fLockAdjustHandles " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockText") {
+        qDebug() << "not startelement in fLockText " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockVertices") {
+        qDebug() << "not startelement in fLockVertices " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockCropping") {
+        qDebug() << "not startelement in fLockCropping " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockAgainstSelect") {
+        qDebug() << "not startelement in fLockAgainstSelect " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockPosition") {
+        qDebug() << "not startelement in fLockPosition " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockAspectRatio") {
+        qDebug() << "not startelement in fLockAspectRatio " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockRotation") {
+        qDebug() << "not startelement in fLockRotation " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockAgainstUngrouping") {
+        qDebug() << "not startelement in fLockAgainstUngrouping " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint6 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused6") {
+        qDebug() << "not startelement in unused6 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLockAgainstGrouping") {
+        qDebug() << "not startelement in fUsefLockAgainstGrouping " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseLockAdjustHandles") {
+        qDebug() << "not startelement in fUseLockAdjustHandles " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseLockText") {
+        qDebug() << "not startelement in fUseLockText " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLockVertices") {
+        qDebug() << "not startelement in fUsefLockVertices " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLockCropping") {
+        qDebug() << "not startelement in fUsefLockCropping " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLockAgainstSelect") {
+        qDebug() << "not startelement in fUsefLockAgainstSelect " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLockPosition") {
+        qDebug() << "not startelement in fUsefLockPosition " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLockAspectRatio") {
+        qDebug() << "not startelement in fUsefLockAspectRatio " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLockRotation") {
+        qDebug() << "not startelement in fUsefLockRotation " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLockAgainstUngrouping") {
+        qDebug() << "not startelement in fUsefLockAgainstUngrouping " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint6 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseRotation(LEInputStream& in, Rotation& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32175,6 +39555,25 @@ void write(const Rotation& _s, LEOutputStream& out) {
     write(_s.rotation, out);
 }
 void parseRotation(QXmlStreamReader& in, Rotation& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FixedPoint " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rotation") {
+        qDebug() << "not startelement in rotation " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseITxid(LEInputStream& in, ITxid& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32194,6 +39593,25 @@ void write(const ITxid& _s, LEOutputStream& out) {
     out.writeint32(_s.iTxid);
 }
 void parseITxid(QXmlStreamReader& in, ITxid& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "iTxid") {
+        qDebug() << "not startelement in iTxid " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseDxTextLeft(LEInputStream& in, DxTextLeft& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32213,6 +39631,25 @@ void write(const DxTextLeft& _s, LEOutputStream& out) {
     out.writeint32(_s.dxTextLeft);
 }
 void parseDxTextLeft(QXmlStreamReader& in, DxTextLeft& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "dxTextLeft") {
+        qDebug() << "not startelement in dxTextLeft " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseDyTextTop(LEInputStream& in, DyTextTop& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32232,6 +39669,25 @@ void write(const DyTextTop& _s, LEOutputStream& out) {
     out.writeint32(_s.dyTextTop);
 }
 void parseDyTextTop(QXmlStreamReader& in, DyTextTop& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "dyTextTop") {
+        qDebug() << "not startelement in dyTextTop " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseDxTextRight(LEInputStream& in, DxTextRight& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32251,6 +39707,25 @@ void write(const DxTextRight& _s, LEOutputStream& out) {
     out.writeint32(_s.dxTextRight);
 }
 void parseDxTextRight(QXmlStreamReader& in, DxTextRight& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "dxTextRight") {
+        qDebug() << "not startelement in dxTextRight " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseDyTextBottom(LEInputStream& in, DyTextBottom& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32270,6 +39745,25 @@ void write(const DyTextBottom& _s, LEOutputStream& out) {
     out.writeint32(_s.dyTextBottom);
 }
 void parseDyTextBottom(QXmlStreamReader& in, DyTextBottom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "dyTextBottom") {
+        qDebug() << "not startelement in dyTextBottom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseWrapText(LEInputStream& in, WrapText& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32292,6 +39786,25 @@ void write(const WrapText& _s, LEOutputStream& out) {
     out.writeuint32(_s.wrapText);
 }
 void parseWrapText(QXmlStreamReader& in, WrapText& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "wrapText") {
+        qDebug() << "not startelement in wrapText " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseAnchorText(LEInputStream& in, AnchorText& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32314,6 +39827,25 @@ void write(const AnchorText& _s, LEOutputStream& out) {
     out.writeuint32(_s.anchorText);
 }
 void parseAnchorText(QXmlStreamReader& in, AnchorText& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anchorText") {
+        qDebug() << "not startelement in anchorText " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextBooleanProperties(LEInputStream& in, TextBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32359,6 +39891,142 @@ void write(const TextBooleanProperties& _s, LEOutputStream& out) {
     out.writeuint8(_s.unused6b);
 }
 void parseTextBooleanProperties(QXmlStreamReader& in, TextBooleanProperties& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fFitShapeToText") {
+        qDebug() << "not startelement in fFitShapeToText " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fAutoTextMargin") {
+        qDebug() << "not startelement in fAutoTextMargin " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fSelectText") {
+        qDebug() << "not startelement in fSelectText " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint3 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3a") {
+        qDebug() << "not startelement in unused3a " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3b") {
+        qDebug() << "not startelement in unused3b " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused4") {
+        qDebug() << "not startelement in unused4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefFitShapeToText") {
+        qDebug() << "not startelement in fUsefFitShapeToText " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused5") {
+        qDebug() << "not startelement in unused5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefAutoTextMargin") {
+        qDebug() << "not startelement in fUsefAutoTextMargin " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefSelectText") {
+        qDebug() << "not startelement in fUsefSelectText " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint3 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused6a") {
+        qDebug() << "not startelement in unused6a " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused6b") {
+        qDebug() << "not startelement in unused6b " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseHspNext(LEInputStream& in, HspNext& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32378,6 +40046,25 @@ void write(const HspNext& _s, LEOutputStream& out) {
     out.writeint32(_s.hspNext);
 }
 void parseHspNext(QXmlStreamReader& in, HspNext& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "hspNext") {
+        qDebug() << "not startelement in hspNext " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseShapePath(LEInputStream& in, ShapePath& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32400,6 +40087,25 @@ void write(const ShapePath& _s, LEOutputStream& out) {
     out.writeuint32(_s.shapePath);
 }
 void parseShapePath(QXmlStreamReader& in, ShapePath& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "shapePath") {
+        qDebug() << "not startelement in shapePath " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseGeometryBooleanProperties(LEInputStream& in, GeometryBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32453,6 +40159,178 @@ void write(const GeometryBooleanProperties& _s, LEOutputStream& out) {
     out.writeuint8(_s.unused4);
 }
 void parseGeometryBooleanProperties(QXmlStreamReader& in, GeometryBooleanProperties& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fFillOk") {
+        qDebug() << "not startelement in fFillOk " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fFillShadeShapeOK") {
+        qDebug() << "not startelement in fFillShadeShapeOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fGtextOK") {
+        qDebug() << "not startelement in fGtextOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLineOK") {
+        qDebug() << "not startelement in fLineOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "f3DOK") {
+        qDebug() << "not startelement in f3DOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fShadowOK") {
+        qDebug() << "not startelement in fShadowOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unuseda") {
+        qDebug() << "not startelement in unuseda " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unusedb") {
+        qDebug() << "not startelement in unusedb " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefFillOK") {
+        qDebug() << "not startelement in fUsefFillOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefFillShadeShapeOK") {
+        qDebug() << "not startelement in fUsefFillShadeShapeOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefGtextOK") {
+        qDebug() << "not startelement in fUsefGtextOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLineOK") {
+        qDebug() << "not startelement in fUsefLineOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsef3DOK") {
+        qDebug() << "not startelement in fUsef3DOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefShadowOK") {
+        qDebug() << "not startelement in fUsefShadowOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3a") {
+        qDebug() << "not startelement in unused3a " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3b") {
+        qDebug() << "not startelement in unused3b " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused4") {
+        qDebug() << "not startelement in unused4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFillType(LEInputStream& in, FillType& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32475,6 +40353,25 @@ void write(const FillType& _s, LEOutputStream& out) {
     out.writeuint32(_s.fillType);
 }
 void parseFillType(QXmlStreamReader& in, FillType& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fillType") {
+        qDebug() << "not startelement in fillType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFillColor(LEInputStream& in, FillColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32494,6 +40391,25 @@ void write(const FillColor& _s, LEOutputStream& out) {
     write(_s.fillColor, out);
 }
 void parseFillColor(QXmlStreamReader& in, FillColor& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtCOLORREF " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fillColor") {
+        qDebug() << "not startelement in fillColor " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseFillBackColor(LEInputStream& in, FillBackColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32513,6 +40429,25 @@ void write(const FillBackColor& _s, LEOutputStream& out) {
     write(_s.fillBackColor, out);
 }
 void parseFillBackColor(QXmlStreamReader& in, FillBackColor& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtCOLORREF " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fillBackColor") {
+        qDebug() << "not startelement in fillBackColor " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseFillBlip(LEInputStream& in, FillBlip& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32526,6 +40461,25 @@ void write(const FillBlip& _s, LEOutputStream& out) {
     out.writeuint32(_s.fillBlip);
 }
 void parseFillBlip(QXmlStreamReader& in, FillBlip& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fillBlip") {
+        qDebug() << "not startelement in fillBlip " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFillRectRight(LEInputStream& in, FillRectRight& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32545,6 +40499,25 @@ void write(const FillRectRight& _s, LEOutputStream& out) {
     out.writeint32(_s.fillRectRight);
 }
 void parseFillRectRight(QXmlStreamReader& in, FillRectRight& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fillRectRight") {
+        qDebug() << "not startelement in fillRectRight " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFillRectBottom(LEInputStream& in, FillRectBottom& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32564,6 +40537,25 @@ void write(const FillRectBottom& _s, LEOutputStream& out) {
     out.writeint32(_s.fillRectBottom);
 }
 void parseFillRectBottom(QXmlStreamReader& in, FillRectBottom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fillRectBottom") {
+        qDebug() << "not startelement in fillRectBottom " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFillStyleBooleanProperties(LEInputStream& in, FillStyleBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32617,6 +40609,178 @@ void write(const FillStyleBooleanProperties& _s, LEOutputStream& out) {
     out.writeuint8(_s.unused2b);
 }
 void parseFillStyleBooleanProperties(QXmlStreamReader& in, FillStyleBooleanProperties& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fNoFillHitText") {
+        qDebug() << "not startelement in fNoFillHitText " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fillUseRect") {
+        qDebug() << "not startelement in fillUseRect " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fillShape") {
+        qDebug() << "not startelement in fillShape " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHitTestFill") {
+        qDebug() << "not startelement in fHitTestFill " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fFilled") {
+        qDebug() << "not startelement in fFilled " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseShapeAnchor") {
+        qDebug() << "not startelement in fUseShapeAnchor " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fRecolorFillAsPicture") {
+        qDebug() << "not startelement in fRecolorFillAsPicture " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1a") {
+        qDebug() << "not startelement in unused1a " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1b") {
+        qDebug() << "not startelement in unused1b " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseNoFillHitTest") {
+        qDebug() << "not startelement in fUseNoFillHitTest " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseFillUseRext") {
+        qDebug() << "not startelement in fUseFillUseRext " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseFillShape") {
+        qDebug() << "not startelement in fUseFillShape " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseHitTestFill") {
+        qDebug() << "not startelement in fUseHitTestFill " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseFilled") {
+        qDebug() << "not startelement in fUseFilled " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseUseShapeAnchor") {
+        qDebug() << "not startelement in fUseUseShapeAnchor " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefRecolorFillAsPicture") {
+        qDebug() << "not startelement in fUsefRecolorFillAsPicture " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2a") {
+        qDebug() << "not startelement in unused2a " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2b") {
+        qDebug() << "not startelement in unused2b " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseLineColor(LEInputStream& in, LineColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32636,6 +40800,25 @@ void write(const LineColor& _s, LEOutputStream& out) {
     write(_s.lineColor, out);
 }
 void parseLineColor(QXmlStreamReader& in, LineColor& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtCOLORREF " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lineColor") {
+        qDebug() << "not startelement in lineColor " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseLineBackColor(LEInputStream& in, LineBackColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32649,6 +40832,25 @@ void write(const LineBackColor& _s, LEOutputStream& out) {
     write(_s.lineBackColor, out);
 }
 void parseLineBackColor(QXmlStreamReader& in, LineBackColor& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtCOLORREF " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lineBackColor") {
+        qDebug() << "not startelement in lineBackColor " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseLineFillBlip(LEInputStream& in, LineFillBlip& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32662,6 +40864,25 @@ void write(const LineFillBlip& _s, LEOutputStream& out) {
     out.writeuint32(_s.lineFillBlip);
 }
 void parseLineFillBlip(QXmlStreamReader& in, LineFillBlip& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lineFillBlip") {
+        qDebug() << "not startelement in lineFillBlip " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseLineWidth(LEInputStream& in, LineWidth& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32681,6 +40902,25 @@ void write(const LineWidth& _s, LEOutputStream& out) {
     out.writeuint32(_s.lineWidth);
 }
 void parseLineWidth(QXmlStreamReader& in, LineWidth& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lineWidth") {
+        qDebug() << "not startelement in lineWidth " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseLineStartArrowhead(LEInputStream& in, LineStartArrowhead& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32703,6 +40943,25 @@ void write(const LineStartArrowhead& _s, LEOutputStream& out) {
     out.writeuint32(_s.lineStartArrowhead);
 }
 void parseLineStartArrowhead(QXmlStreamReader& in, LineStartArrowhead& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lineStartArrowhead") {
+        qDebug() << "not startelement in lineStartArrowhead " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseLineEndArrowhead(LEInputStream& in, LineEndArrowhead& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32725,6 +40984,25 @@ void write(const LineEndArrowhead& _s, LEOutputStream& out) {
     out.writeuint32(_s.lineEndArrowhead);
 }
 void parseLineEndArrowhead(QXmlStreamReader& in, LineEndArrowhead& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lineEndArrowhead") {
+        qDebug() << "not startelement in lineEndArrowhead " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseLineJoinStyle(LEInputStream& in, LineJoinStyle& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32747,6 +41025,25 @@ void write(const LineJoinStyle& _s, LEOutputStream& out) {
     out.writeuint32(_s.lineJoinStyle);
 }
 void parseLineJoinStyle(QXmlStreamReader& in, LineJoinStyle& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lineJoinStyle") {
+        qDebug() << "not startelement in lineJoinStyle " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseLineStyleBooleanProperties(LEInputStream& in, LineStyleBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32808,6 +41105,214 @@ void write(const LineStyleBooleanProperties& _s, LEOutputStream& out) {
     out.writeuint6(_s.unused4);
 }
 void parseLineStyleBooleanProperties(QXmlStreamReader& in, LineStyleBooleanProperties& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fNoLineDrawDash") {
+        qDebug() << "not startelement in fNoLineDrawDash " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLineFillShape") {
+        qDebug() << "not startelement in fLineFillShape " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHitTestLine") {
+        qDebug() << "not startelement in fHitTestLine " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLine") {
+        qDebug() << "not startelement in fLine " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fArrowHeadsOK") {
+        qDebug() << "not startelement in fArrowHeadsOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fInsetPenOK") {
+        qDebug() << "not startelement in fInsetPenOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fInsetPen") {
+        qDebug() << "not startelement in fInsetPen " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLineOpaqueBackColor") {
+        qDebug() << "not startelement in fLineOpaqueBackColor " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint6 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseNoLineDrawDash") {
+        qDebug() << "not startelement in fUseNoLineDrawDash " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseLineFillShape") {
+        qDebug() << "not startelement in fUseLineFillShape " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseHitTestLine") {
+        qDebug() << "not startelement in fUseHitTestLine " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLine") {
+        qDebug() << "not startelement in fUsefLine " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefArrowHeadsOK") {
+        qDebug() << "not startelement in fUsefArrowHeadsOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseInsetPenOK") {
+        qDebug() << "not startelement in fUseInsetPenOK " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseInsetPen") {
+        qDebug() << "not startelement in fUseInsetPen " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3") {
+        qDebug() << "not startelement in unused3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLineOpaqueBackColor") {
+        qDebug() << "not startelement in fUsefLineOpaqueBackColor " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint6 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused4") {
+        qDebug() << "not startelement in unused4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseShadowColor(LEInputStream& in, ShadowColor& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32827,6 +41332,25 @@ void write(const ShadowColor& _s, LEOutputStream& out) {
     write(_s.shadowColor, out);
 }
 void parseShadowColor(QXmlStreamReader& in, ShadowColor& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtCOLORREF " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "shadowColor") {
+        qDebug() << "not startelement in shadowColor " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseShadowStyleBooleanPropertiesr(LEInputStream& in, ShadowStyleBooleanPropertiesr& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32856,6 +41380,70 @@ void write(const ShadowStyleBooleanPropertiesr& _s, LEOutputStream& out) {
     out.writeuint14(_s.unused2);
 }
 void parseShadowStyleBooleanPropertiesr(QXmlStreamReader& in, ShadowStyleBooleanPropertiesr& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fshadowObscured") {
+        qDebug() << "not startelement in fshadowObscured " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fShadow") {
+        qDebug() << "not startelement in fShadow " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint14 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefshadowObscured") {
+        qDebug() << "not startelement in fUsefshadowObscured " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefShadow") {
+        qDebug() << "not startelement in fUsefShadow " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint14 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseHspMaster(LEInputStream& in, HspMaster& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32875,6 +41463,25 @@ void write(const HspMaster& _s, LEOutputStream& out) {
     out.writeuint32(_s.hspMaster);
 }
 void parseHspMaster(QXmlStreamReader& in, HspMaster& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "hspMaster") {
+        qDebug() << "not startelement in hspMaster " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseBWMode(LEInputStream& in, BWMode& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32897,6 +41504,25 @@ void write(const BWMode& _s, LEOutputStream& out) {
     out.writeuint32(_s.bWMode);
 }
 void parseBWMode(QXmlStreamReader& in, BWMode& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "bWMode") {
+        qDebug() << "not startelement in bWMode " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseShapeBooleanProperties(LEInputStream& in, ShapeBooleanProperties& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32966,6 +41592,250 @@ void write(const ShapeBooleanProperties& _s, LEOutputStream& out) {
     out.writeuint4(_s.unused7);
 }
 void parseShapeBooleanProperties(QXmlStreamReader& in, ShapeBooleanProperties& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fBackground") {
+        qDebug() << "not startelement in fBackground " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fInitiator") {
+        qDebug() << "not startelement in fInitiator " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fLockShapeType") {
+        qDebug() << "not startelement in fLockShapeType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fPreferRelativeResize") {
+        qDebug() << "not startelement in fPreferRelativeResize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fOleIcon") {
+        qDebug() << "not startelement in fOleIcon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fFlipVOverride") {
+        qDebug() << "not startelement in fFlipVOverride " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fFlipHOverride") {
+        qDebug() << "not startelement in fFlipHOverride " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fPolicyBarcode") {
+        qDebug() << "not startelement in fPolicyBarcode " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fPolicyLabel") {
+        qDebug() << "not startelement in fPolicyLabel " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3") {
+        qDebug() << "not startelement in unused3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefBackground") {
+        qDebug() << "not startelement in fUsefBackground " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused4") {
+        qDebug() << "not startelement in unused4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefInitiator") {
+        qDebug() << "not startelement in fUsefInitiator " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefLockShapeType") {
+        qDebug() << "not startelement in fUsefLockShapeType " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fusePreferrelativeResize") {
+        qDebug() << "not startelement in fusePreferrelativeResize " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefOleIcon") {
+        qDebug() << "not startelement in fUsefOleIcon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefFlipVOverride") {
+        qDebug() << "not startelement in fUsefFlipVOverride " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefFlipHOverride") {
+        qDebug() << "not startelement in fUsefFlipHOverride " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefPolicyBarcode") {
+        qDebug() << "not startelement in fUsefPolicyBarcode " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUsefPolicyLabel") {
+        qDebug() << "not startelement in fUsefPolicyLabel " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused5") {
+        qDebug() << "not startelement in unused5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused6") {
+        qDebug() << "not startelement in unused6 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused7") {
+        qDebug() << "not startelement in unused7 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseLidRegroup(LEInputStream& in, LidRegroup& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32985,6 +41855,25 @@ void write(const LidRegroup& _s, LEOutputStream& out) {
     out.writeuint32(_s.lidRegroup);
 }
 void parseLidRegroup(QXmlStreamReader& in, LidRegroup& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lidRegroup") {
+        qDebug() << "not startelement in lidRegroup " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseWzFillId(LEInputStream& in, WzFillId& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -32998,6 +41887,25 @@ void write(const WzFillId& _s, LEOutputStream& out) {
     out.writeint32(_s.wzFillId);
 }
 void parseWzFillId(QXmlStreamReader& in, WzFillId& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "wzFillId") {
+        qDebug() << "not startelement in wzFillId " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtClientAnchor(LEInputStream& in, OfficeArtClientAnchor& _s) {
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -33014,11 +41922,11 @@ void parseOfficeArtClientAnchor(LEInputStream& in, OfficeArtClientAnchor& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x8 || _s.rh.recLen == 0x10");
     }
     if (_s.rh.recLen==0x8) {
-        _s.rect1 = QSharedPointer<SmallRectStruct>(new SmallRectStruct());
+        _s.rect1 = QSharedPointer<SmallRectStruct>(new SmallRectStruct(&_s));
         parseSmallRectStruct(in, *_s.rect1.data());
     }
     if (_s.rh.recLen==0x10) {
-        _s.rect2 = QSharedPointer<RectStruct>(new RectStruct());
+        _s.rect2 = QSharedPointer<RectStruct>(new RectStruct(&_s));
         parseRectStruct(in, *_s.rect2.data());
     }
 }
@@ -33032,6 +41940,34 @@ void write(const OfficeArtClientAnchor& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtClientAnchor(QXmlStreamReader& in, OfficeArtClientAnchor& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SmallRectStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rect1") {
+        qDebug() << "not startelement in rect1 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RectStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rect2") {
+        qDebug() << "not startelement in rect2 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
@@ -33046,7 +41982,7 @@ void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoC
     }
     parseInteractiveInfoAtom(in, _s.interactiveInfoAtom);
     if (_s.rh.recLen>24) {
-        _s.macroNameAtom = QSharedPointer<MacroNameAtom>(new MacroNameAtom());
+        _s.macroNameAtom = QSharedPointer<MacroNameAtom>(new MacroNameAtom(&_s));
         parseMacroNameAtom(in, *_s.macroNameAtom.data());
     }
 }
@@ -33058,6 +41994,34 @@ void write(const MouseInteractiveInfoContainer& _s, LEOutputStream& out) {
     }
 }
 void parseMouseInteractiveInfoContainer(QXmlStreamReader& in, MouseInteractiveInfoContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in InteractiveInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "interactiveInfoAtom") {
+        qDebug() << "not startelement in interactiveInfoAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MacroNameAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "macroNameAtom") {
+        qDebug() << "not startelement in macroNameAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOfficeArtFOPTE(LEInputStream& in, OfficeArtFOPTE& _s) {
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -33068,6 +42032,25 @@ void write(const OfficeArtFOPTE& _s, LEOutputStream& out) {
     out.writeint32(_s.op);
 }
 void parseOfficeArtFOPTE(QXmlStreamReader& in, OfficeArtFOPTE& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "op") {
+        qDebug() << "not startelement in op " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseFib(LEInputStream& in, Fib& _s) {
     int _c;
@@ -33089,11 +42072,11 @@ void parseFib(LEInputStream& in, Fib& _s) {
     }
     parseFibRgFcLcb97(in, _s.fibRgFcLcbBlob);
     if (_s.cbRgFcLcb>=0x6C) {
-        _s.fibRgFcLcbBlob2 = QSharedPointer<FibRgFcLcb2000>(new FibRgFcLcb2000());
+        _s.fibRgFcLcbBlob2 = QSharedPointer<FibRgFcLcb2000>(new FibRgFcLcb2000(&_s));
         parseFibRgFcLcb2000(in, *_s.fibRgFcLcbBlob2.data());
     }
     if (_s.cbRgFcLcb>=0x88) {
-        _s.fibRgFcLcbBlob3 = QSharedPointer<FibRgFcLcb2002>(new FibRgFcLcb2002());
+        _s.fibRgFcLcbBlob3 = QSharedPointer<FibRgFcLcb2002>(new FibRgFcLcb2002(&_s));
         parseFibRgFcLcb2002(in, *_s.fibRgFcLcbBlob3.data());
     }
     _s.cswNew = in.readuint16();
@@ -33124,6 +42107,107 @@ void write(const Fib& _s, LEOutputStream& out) {
     out.writeBytes(_s.trail);
 }
 void parseFib(QXmlStreamReader& in, Fib& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FibBase " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "base") {
+        qDebug() << "not startelement in base " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "csw") {
+        qDebug() << "not startelement in csw " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FibRgW97 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fibRgW") {
+        qDebug() << "not startelement in fibRgW " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cslw") {
+        qDebug() << "not startelement in cslw " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FibRgLw97 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fibRgLw") {
+        qDebug() << "not startelement in fibRgLw " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cbRgFcLcb") {
+        qDebug() << "not startelement in cbRgFcLcb " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FibRgFcLcb97 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fibRgFcLcbBlob") {
+        qDebug() << "not startelement in fibRgFcLcbBlob " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FibRgFcLcb2000 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fibRgFcLcbBlob2") {
+        qDebug() << "not startelement in fibRgFcLcbBlob2 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FibRgFcLcb2002 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fibRgFcLcbBlob3") {
+        qDebug() << "not startelement in fibRgFcLcbBlob3 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cswNew") {
+        qDebug() << "not startelement in cswNew " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSTSH(LEInputStream& in, STSH& _s) {
     int _c;
@@ -33131,7 +42215,7 @@ void parseSTSH(LEInputStream& in, STSH& _s) {
     parseLPStshi(in, _s.lpstshi);
     _c = 20;
         for (int _i=0; _i<_c; ++_i) {
-        _s.rglpstd.append(LPStd());
+        _s.rglpstd.append(LPStd(&_s));
         parseLPStd(in, _s.rglpstd[_i]);
     }
 }
@@ -33142,21 +42226,37 @@ void write(const STSH& _s, LEOutputStream& out) {
     }
 }
 void parseSTSH(QXmlStreamReader& in, STSH& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in LPStshi " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lpstshi") {
+        qDebug() << "not startelement in lpstshi " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in LPStd " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseClx(LEInputStream& in, Clx& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            Pcr _t;
-            parsePcr(in, _t);
-            _s.RgPrc.append(_t);
+            _s.RgPrc.append(&_s);
+            parsePcr(in, _s.RgPrc.last());
         } catch(IncorrectValueException _e) {
+            _s.RgPrc.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.RgPrc.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -33170,6 +42270,21 @@ void write(const Clx& _s, LEOutputStream& out) {
     write(_s.pcdt, out);
 }
 void parseClx(QXmlStreamReader& in, Clx& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Pcr " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Pcdt " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pcdt") {
+        qDebug() << "not startelement in pcdt " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parsePcr(LEInputStream& in, Pcr& _s) {
     _s.clxt = in.readuint8();
@@ -33183,19 +42298,37 @@ void write(const Pcr& _s, LEOutputStream& out) {
     write(_s.prcData, out);
 }
 void parsePcr(QXmlStreamReader& in, Pcr& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "clxt") {
+        qDebug() << "not startelement in clxt " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PrcData " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "prcData") {
+        qDebug() << "not startelement in prcData " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parsePrm(LEInputStream& in, Prm& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        Prm0 _t;
-        parsePrm0(in, _t);
-        _s.prm.prm0 = QSharedPointer<Prm0>(new Prm0(_t));
+        _s.prm.prm0 = QSharedPointer<Prm0>(new Prm0(&_s));
+        parsePrm0(in, *_s.prm.prm0.data());
     } catch (IncorrectValueException _x) {
+        _s.prm.prm0.clear();
         in.rewind(_m);
-        Prm1 _t;
-        parsePrm1(in, _t);
-        _s.prm.prm1 = QSharedPointer<Prm1>(new Prm1(_t));
+        _s.prm.prm1 = QSharedPointer<Prm1>(new Prm1(&_s));
+        parsePrm1(in, *_s.prm.prm1);
     }
 }
 void write(const Prm& _s, LEOutputStream& out) {
@@ -33206,6 +42339,16 @@ void write(const Prm& _s, LEOutputStream& out) {
     }
 }
 void parsePrm(QXmlStreamReader& in, Prm& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "prm") {
+        qDebug() << "not startelement in prm " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtBlipEMF(LEInputStream& in, OfficeArtBlipEMF& _s) {
     int _c;
@@ -33241,6 +42384,40 @@ void write(const OfficeArtBlipEMF& _s, LEOutputStream& out) {
     out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipEMF(QXmlStreamReader& in, OfficeArtBlipEMF& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtMetafileHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "metafileHeader") {
+        qDebug() << "not startelement in metafileHeader " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtBlipWMF(LEInputStream& in, OfficeArtBlipWMF& _s) {
     int _c;
@@ -33276,6 +42453,40 @@ void write(const OfficeArtBlipWMF& _s, LEOutputStream& out) {
     out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipWMF(QXmlStreamReader& in, OfficeArtBlipWMF& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtMetafileHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "metafileHeader") {
+        qDebug() << "not startelement in metafileHeader " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtBlipPICT(LEInputStream& in, OfficeArtBlipPICT& _s) {
     int _c;
@@ -33311,49 +42522,82 @@ void write(const OfficeArtBlipPICT& _s, LEOutputStream& out) {
     out.writeBytes(_s.BLIPFileData);
 }
 void parseOfficeArtBlipPICT(QXmlStreamReader& in, OfficeArtBlipPICT& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtMetafileHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "metafileHeader") {
+        qDebug() << "not startelement in metafileHeader " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        OfficeArtBlipEMF _t;
-        parseOfficeArtBlipEMF(in, _t);
-        _s.anon.officeartblipemf = QSharedPointer<OfficeArtBlipEMF>(new OfficeArtBlipEMF(_t));
+        _s.anon.officeartblipemf = QSharedPointer<OfficeArtBlipEMF>(new OfficeArtBlipEMF(&_s));
+        parseOfficeArtBlipEMF(in, *_s.anon.officeartblipemf.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.officeartblipemf.clear();
         in.rewind(_m);
     try {
-        OfficeArtBlipWMF _t;
-        parseOfficeArtBlipWMF(in, _t);
-        _s.anon.officeartblipwmf = QSharedPointer<OfficeArtBlipWMF>(new OfficeArtBlipWMF(_t));
+        _s.anon.officeartblipwmf = QSharedPointer<OfficeArtBlipWMF>(new OfficeArtBlipWMF(&_s));
+        parseOfficeArtBlipWMF(in, *_s.anon.officeartblipwmf.data());
     } catch (IncorrectValueException _xx) {
+        _s.anon.officeartblipwmf.clear();
         in.rewind(_m);
     try {
-        OfficeArtBlipPICT _t;
-        parseOfficeArtBlipPICT(in, _t);
-        _s.anon.officeartblippict = QSharedPointer<OfficeArtBlipPICT>(new OfficeArtBlipPICT(_t));
+        _s.anon.officeartblippict = QSharedPointer<OfficeArtBlipPICT>(new OfficeArtBlipPICT(&_s));
+        parseOfficeArtBlipPICT(in, *_s.anon.officeartblippict.data());
     } catch (IncorrectValueException _xxx) {
+        _s.anon.officeartblippict.clear();
         in.rewind(_m);
     try {
-        OfficeArtBlipJPEG _t;
-        parseOfficeArtBlipJPEG(in, _t);
-        _s.anon.officeartblipjpeg = QSharedPointer<OfficeArtBlipJPEG>(new OfficeArtBlipJPEG(_t));
+        _s.anon.officeartblipjpeg = QSharedPointer<OfficeArtBlipJPEG>(new OfficeArtBlipJPEG(&_s));
+        parseOfficeArtBlipJPEG(in, *_s.anon.officeartblipjpeg.data());
     } catch (IncorrectValueException _xxxx) {
+        _s.anon.officeartblipjpeg.clear();
         in.rewind(_m);
     try {
-        OfficeArtBlipPNG _t;
-        parseOfficeArtBlipPNG(in, _t);
-        _s.anon.officeartblippng = QSharedPointer<OfficeArtBlipPNG>(new OfficeArtBlipPNG(_t));
+        _s.anon.officeartblippng = QSharedPointer<OfficeArtBlipPNG>(new OfficeArtBlipPNG(&_s));
+        parseOfficeArtBlipPNG(in, *_s.anon.officeartblippng.data());
     } catch (IncorrectValueException _xxxxx) {
+        _s.anon.officeartblippng.clear();
         in.rewind(_m);
     try {
-        OfficeArtBlipDIB _t;
-        parseOfficeArtBlipDIB(in, _t);
-        _s.anon.officeartblipdib = QSharedPointer<OfficeArtBlipDIB>(new OfficeArtBlipDIB(_t));
+        _s.anon.officeartblipdib = QSharedPointer<OfficeArtBlipDIB>(new OfficeArtBlipDIB(&_s));
+        parseOfficeArtBlipDIB(in, *_s.anon.officeartblipdib.data());
     } catch (IncorrectValueException _xxxxxx) {
+        _s.anon.officeartblipdib.clear();
         in.rewind(_m);
-        OfficeArtBlipTIFF _t;
-        parseOfficeArtBlipTIFF(in, _t);
-        _s.anon.officeartbliptiff = QSharedPointer<OfficeArtBlipTIFF>(new OfficeArtBlipTIFF(_t));
+        _s.anon.officeartbliptiff = QSharedPointer<OfficeArtBlipTIFF>(new OfficeArtBlipTIFF(&_s));
+        parseOfficeArtBlipTIFF(in, *_s.anon.officeartbliptiff);
     }}}}}}
 }
 void write(const OfficeArtBlip& _s, LEOutputStream& out) {
@@ -33374,6 +42618,16 @@ void write(const OfficeArtBlip& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtBlip(QXmlStreamReader& in, OfficeArtBlip& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseZoomViewInfoAtom(LEInputStream& in, ZoomViewInfoAtom& _s) {
     int _c;
@@ -33412,19 +42666,78 @@ void write(const ZoomViewInfoAtom& _s, LEOutputStream& out) {
     out.writeuint16(_s.unused2);
 }
 void parseZoomViewInfoAtom(QXmlStreamReader& in, ZoomViewInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ScalingStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "curScale") {
+        qDebug() << "not startelement in curScale " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PointStruct " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "origin") {
+        qDebug() << "not startelement in origin " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fUseVarScale") {
+        qDebug() << "not startelement in fUseVarScale " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fDraftMode") {
+        qDebug() << "not startelement in fDraftMode " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseDocProgTagsSubContainerOrAtom(LEInputStream& in, DocProgTagsSubContainerOrAtom& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        ProgStringTagContainer _t;
-        parseProgStringTagContainer(in, _t);
-        _s.anon.progstringtagcontainer = QSharedPointer<ProgStringTagContainer>(new ProgStringTagContainer(_t));
+        _s.anon.progstringtagcontainer = QSharedPointer<ProgStringTagContainer>(new ProgStringTagContainer(&_s));
+        parseProgStringTagContainer(in, *_s.anon.progstringtagcontainer.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.progstringtagcontainer.clear();
         in.rewind(_m);
-        DocProgBinaryTagContainerOrAtom _t;
-        parseDocProgBinaryTagContainerOrAtom(in, _t);
-        _s.anon.docprogbinarytagcontaineroratom = QSharedPointer<DocProgBinaryTagContainerOrAtom>(new DocProgBinaryTagContainerOrAtom(_t));
+        _s.anon.docprogbinarytagcontaineroratom = QSharedPointer<DocProgBinaryTagContainerOrAtom>(new DocProgBinaryTagContainerOrAtom(&_s));
+        parseDocProgBinaryTagContainerOrAtom(in, *_s.anon.docprogbinarytagcontaineroratom);
     }
 }
 void write(const DocProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
@@ -33435,6 +42748,16 @@ void write(const DocProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
     }
 }
 void parseDocProgTagsSubContainerOrAtom(QXmlStreamReader& in, DocProgTagsSubContainerOrAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseNotesTextViewInfoContainer(LEInputStream& in, NotesTextViewInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
@@ -33454,6 +42777,25 @@ void write(const NotesTextViewInfoContainer& _s, LEOutputStream& out) {
     write(_s.zoomViewInfo, out);
 }
 void parseNotesTextViewInfoContainer(QXmlStreamReader& in, NotesTextViewInfoContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ZoomViewInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "zoomViewInfo") {
+        qDebug() << "not startelement in zoomViewInfo " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOutlineViewInfoContainer(LEInputStream& in, OutlineViewInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
@@ -33473,6 +42815,25 @@ void write(const OutlineViewInfoContainer& _s, LEOutputStream& out) {
     write(_s.noZoomViewInfo, out);
 }
 void parseOutlineViewInfoContainer(QXmlStreamReader& in, OutlineViewInfoContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in NoZoomViewInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "noZoomViewInfo") {
+        qDebug() << "not startelement in noZoomViewInfo " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseNormalViewSetInfoContainer(LEInputStream& in, NormalViewSetInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
@@ -33495,22 +42856,42 @@ void write(const NormalViewSetInfoContainer& _s, LEOutputStream& out) {
     write(_s.normalViewSetInfoAtom, out);
 }
 void parseNormalViewSetInfoContainer(QXmlStreamReader& in, NormalViewSetInfoContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in NormalViewSetInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "normalViewSetInfoAtom") {
+        qDebug() << "not startelement in normalViewSetInfoAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSlideListWithTextSubContainerOrAtom(LEInputStream& in, SlideListWithTextSubContainerOrAtom& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseSlidePersistAtom(in, _s.slidePersistAtom);
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            TextContainer _t;
-            parseTextContainer(in, _t);
-            _s.atoms.append(_t);
+            _s.atoms.append(&_s);
+            parseTextContainer(in, _s.atoms.last());
         } catch(IncorrectValueException _e) {
+            _s.atoms.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.atoms.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -33523,19 +42904,33 @@ void write(const SlideListWithTextSubContainerOrAtom& _s, LEOutputStream& out) {
     }
 }
 void parseSlideListWithTextSubContainerOrAtom(QXmlStreamReader& in, SlideListWithTextSubContainerOrAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlidePersistAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slidePersistAtom") {
+        qDebug() << "not startelement in slidePersistAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextContainer " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteractiveInfo& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        MouseInteractiveInfoContainer _t;
-        parseMouseInteractiveInfoContainer(in, _t);
-        _s.interactive.mouseinteractiveinfocontainer = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(_t));
+        _s.interactive.mouseinteractiveinfocontainer = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
+        parseMouseInteractiveInfoContainer(in, *_s.interactive.mouseinteractiveinfocontainer.data());
     } catch (IncorrectValueException _x) {
+        _s.interactive.mouseinteractiveinfocontainer.clear();
         in.rewind(_m);
-        MouseTextInteractiveInfoAtom _t;
-        parseMouseTextInteractiveInfoAtom(in, _t);
-        _s.interactive.mousetextinteractiveinfoatom = QSharedPointer<MouseTextInteractiveInfoAtom>(new MouseTextInteractiveInfoAtom(_t));
+        _s.interactive.mousetextinteractiveinfoatom = QSharedPointer<MouseTextInteractiveInfoAtom>(new MouseTextInteractiveInfoAtom(&_s));
+        parseMouseTextInteractiveInfoAtom(in, *_s.interactive.mousetextinteractiveinfoatom);
     }
 }
 void write(const TextContainerInteractiveInfo& _s, LEOutputStream& out) {
@@ -33546,6 +42941,16 @@ void write(const TextContainerInteractiveInfo& _s, LEOutputStream& out) {
     }
 }
 void parseTextContainerInteractiveInfo(QXmlStreamReader& in, TextContainerInteractiveInfo& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "interactive") {
+        qDebug() << "not startelement in interactive " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseTextPFRun(LEInputStream& in, TextPFRun& _s) {
     _s.count = in.readuint32();
@@ -33576,6 +42981,34 @@ void write(const TextPFRun& _s, LEOutputStream& out) {
     write(_s.pf, out);
 }
 void parseTextPFRun(QXmlStreamReader& in, TextPFRun& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "count") {
+        qDebug() << "not startelement in count " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "indentLevel") {
+        qDebug() << "not startelement in indentLevel " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextPFException " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pf") {
+        qDebug() << "not startelement in pf " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextCFRun(LEInputStream& in, TextCFRun& _s) {
     _s.count = in.readuint32();
@@ -33592,6 +43025,25 @@ void write(const TextCFRun& _s, LEOutputStream& out) {
     write(_s.cf, out);
 }
 void parseTextCFRun(QXmlStreamReader& in, TextCFRun& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "count") {
+        qDebug() << "not startelement in count " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextCFException " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cf") {
+        qDebug() << "not startelement in cf " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextCFExceptionAtom(LEInputStream& in, TextCFExceptionAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -33611,6 +43063,25 @@ void write(const TextCFExceptionAtom& _s, LEOutputStream& out) {
     write(_s.cf, out);
 }
 void parseTextCFExceptionAtom(QXmlStreamReader& in, TextCFExceptionAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextCFException " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cf") {
+        qDebug() << "not startelement in cf " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseDefaultRulerAtom(LEInputStream& in, DefaultRulerAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -33666,6 +43137,25 @@ void write(const DefaultRulerAtom& _s, LEOutputStream& out) {
     write(_s.defaultTextRuler, out);
 }
 void parseDefaultRulerAtom(QXmlStreamReader& in, DefaultRulerAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextRuler " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "defaultTextRuler") {
+        qDebug() << "not startelement in defaultTextRuler " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextPFExceptionAtom(LEInputStream& in, TextPFExceptionAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -33687,6 +43177,34 @@ void write(const TextPFExceptionAtom& _s, LEOutputStream& out) {
     write(_s.pf, out);
 }
 void parseTextPFExceptionAtom(QXmlStreamReader& in, TextPFExceptionAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved") {
+        qDebug() << "not startelement in reserved " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextPFException " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pf") {
+        qDebug() << "not startelement in pf " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextSIRun(LEInputStream& in, TextSIRun& _s) {
     _s.count = in.readuint32();
@@ -33700,6 +43218,25 @@ void write(const TextSIRun& _s, LEOutputStream& out) {
     write(_s.si, out);
 }
 void parseTextSIRun(QXmlStreamReader& in, TextSIRun& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "count") {
+        qDebug() << "not startelement in count " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextSIException " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "si") {
+        qDebug() << "not startelement in si " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextSIExceptionAtom(LEInputStream& in, TextSIExceptionAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -33728,6 +43265,25 @@ void write(const TextSIExceptionAtom& _s, LEOutputStream& out) {
     write(_s.textSIException, out);
 }
 void parseTextSIExceptionAtom(QXmlStreamReader& in, TextSIExceptionAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextSIException " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "textSIException") {
+        qDebug() << "not startelement in textSIException " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
     parseRecordHeader(in, _s.rh);
@@ -33749,7 +43305,7 @@ void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
         _s.lstLvl1level = in.readuint16();
     }
     if (_s.cLevels>0) {
-        _s.lstLvl1 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel());
+        _s.lstLvl1 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel(&_s));
         parseTextMasterStyleLevel(in, *_s.lstLvl1.data());
     }
     _s._has_lstLvl2level = _s.cLevels>1 && _s.rh.recInstance>=5;
@@ -33757,7 +43313,7 @@ void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
         _s.lstLvl2level = in.readuint16();
     }
     if (_s.cLevels>1) {
-        _s.lstLvl2 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel());
+        _s.lstLvl2 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel(&_s));
         parseTextMasterStyleLevel(in, *_s.lstLvl2.data());
     }
     _s._has_lstLvl3level = _s.cLevels>2 && _s.rh.recInstance>=5;
@@ -33765,7 +43321,7 @@ void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
         _s.lstLvl3level = in.readuint16();
     }
     if (_s.cLevels>2) {
-        _s.lstLvl3 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel());
+        _s.lstLvl3 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel(&_s));
         parseTextMasterStyleLevel(in, *_s.lstLvl3.data());
     }
     _s._has_lstLvl4level = _s.cLevels>3 && _s.rh.recInstance>=5;
@@ -33773,7 +43329,7 @@ void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
         _s.lstLvl4level = in.readuint16();
     }
     if (_s.cLevels>3) {
-        _s.lstLvl4 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel());
+        _s.lstLvl4 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel(&_s));
         parseTextMasterStyleLevel(in, *_s.lstLvl4.data());
     }
     _s._has_lstLvl5level = _s.cLevels>4 && _s.rh.recInstance>=5;
@@ -33781,7 +43337,7 @@ void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
         _s.lstLvl5level = in.readuint16();
     }
     if (_s.cLevels>4) {
-        _s.lstLvl5 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel());
+        _s.lstLvl5 = QSharedPointer<TextMasterStyleLevel>(new TextMasterStyleLevel(&_s));
         parseTextMasterStyleLevel(in, *_s.lstLvl5.data());
     }
 }
@@ -33820,19 +43376,127 @@ void write(const TextMasterStyleAtom& _s, LEOutputStream& out) {
     }
 }
 void parseTextMasterStyleAtom(QXmlStreamReader& in, TextMasterStyleAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cLevels") {
+        qDebug() << "not startelement in cLevels " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lstLvl1level") {
+        qDebug() << "not startelement in lstLvl1level " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextMasterStyleLevel " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lstLvl1") {
+        qDebug() << "not startelement in lstLvl1 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lstLvl2level") {
+        qDebug() << "not startelement in lstLvl2level " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextMasterStyleLevel " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lstLvl2") {
+        qDebug() << "not startelement in lstLvl2 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lstLvl3level") {
+        qDebug() << "not startelement in lstLvl3level " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextMasterStyleLevel " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lstLvl3") {
+        qDebug() << "not startelement in lstLvl3 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lstLvl4level") {
+        qDebug() << "not startelement in lstLvl4level " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextMasterStyleLevel " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lstLvl4") {
+        qDebug() << "not startelement in lstLvl4 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lstLvl5level") {
+        qDebug() << "not startelement in lstLvl5level " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextMasterStyleLevel " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "lstLvl5") {
+        qDebug() << "not startelement in lstLvl5 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSlideProgTagsSubContainerOrAtom(LEInputStream& in, SlideProgTagsSubContainerOrAtom& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        ProgStringTagContainer _t;
-        parseProgStringTagContainer(in, _t);
-        _s.anon.progstringtagcontainer = QSharedPointer<ProgStringTagContainer>(new ProgStringTagContainer(_t));
+        _s.anon.progstringtagcontainer = QSharedPointer<ProgStringTagContainer>(new ProgStringTagContainer(&_s));
+        parseProgStringTagContainer(in, *_s.anon.progstringtagcontainer.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.progstringtagcontainer.clear();
         in.rewind(_m);
-        SlideProgBinaryTagContainer _t;
-        parseSlideProgBinaryTagContainer(in, _t);
-        _s.anon.slideprogbinarytagcontainer = QSharedPointer<SlideProgBinaryTagContainer>(new SlideProgBinaryTagContainer(_t));
+        _s.anon.slideprogbinarytagcontainer = QSharedPointer<SlideProgBinaryTagContainer>(new SlideProgBinaryTagContainer(&_s));
+        parseSlideProgBinaryTagContainer(in, *_s.anon.slideprogbinarytagcontainer);
     }
 }
 void write(const SlideProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
@@ -33843,73 +43507,82 @@ void write(const SlideProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
     }
 }
 void parseSlideProgTagsSubContainerOrAtom(QXmlStreamReader& in, SlideProgTagsSubContainerOrAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        ExAviMovieContainer _t;
-        parseExAviMovieContainer(in, _t);
-        _s.anon.exavimoviecontainer = QSharedPointer<ExAviMovieContainer>(new ExAviMovieContainer(_t));
+        _s.anon.exavimoviecontainer = QSharedPointer<ExAviMovieContainer>(new ExAviMovieContainer(&_s));
+        parseExAviMovieContainer(in, *_s.anon.exavimoviecontainer.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.exavimoviecontainer.clear();
         in.rewind(_m);
     try {
-        ExCDAudioContainer _t;
-        parseExCDAudioContainer(in, _t);
-        _s.anon.excdaudiocontainer = QSharedPointer<ExCDAudioContainer>(new ExCDAudioContainer(_t));
+        _s.anon.excdaudiocontainer = QSharedPointer<ExCDAudioContainer>(new ExCDAudioContainer(&_s));
+        parseExCDAudioContainer(in, *_s.anon.excdaudiocontainer.data());
     } catch (IncorrectValueException _xx) {
+        _s.anon.excdaudiocontainer.clear();
         in.rewind(_m);
     try {
-        ExControlContainer _t;
-        parseExControlContainer(in, _t);
-        _s.anon.excontrolcontainer = QSharedPointer<ExControlContainer>(new ExControlContainer(_t));
+        _s.anon.excontrolcontainer = QSharedPointer<ExControlContainer>(new ExControlContainer(&_s));
+        parseExControlContainer(in, *_s.anon.excontrolcontainer.data());
     } catch (IncorrectValueException _xxx) {
+        _s.anon.excontrolcontainer.clear();
         in.rewind(_m);
     try {
-        ExHyperlinkContainer _t;
-        parseExHyperlinkContainer(in, _t);
-        _s.anon.exhyperlinkcontainer = QSharedPointer<ExHyperlinkContainer>(new ExHyperlinkContainer(_t));
+        _s.anon.exhyperlinkcontainer = QSharedPointer<ExHyperlinkContainer>(new ExHyperlinkContainer(&_s));
+        parseExHyperlinkContainer(in, *_s.anon.exhyperlinkcontainer.data());
     } catch (IncorrectValueException _xxxx) {
+        _s.anon.exhyperlinkcontainer.clear();
         in.rewind(_m);
     try {
-        ExMCIMovieContainer _t;
-        parseExMCIMovieContainer(in, _t);
-        _s.anon.exmcimoviecontainer = QSharedPointer<ExMCIMovieContainer>(new ExMCIMovieContainer(_t));
+        _s.anon.exmcimoviecontainer = QSharedPointer<ExMCIMovieContainer>(new ExMCIMovieContainer(&_s));
+        parseExMCIMovieContainer(in, *_s.anon.exmcimoviecontainer.data());
     } catch (IncorrectValueException _xxxxx) {
+        _s.anon.exmcimoviecontainer.clear();
         in.rewind(_m);
     try {
-        ExMIDIAudioContainer _t;
-        parseExMIDIAudioContainer(in, _t);
-        _s.anon.exmidiaudiocontainer = QSharedPointer<ExMIDIAudioContainer>(new ExMIDIAudioContainer(_t));
+        _s.anon.exmidiaudiocontainer = QSharedPointer<ExMIDIAudioContainer>(new ExMIDIAudioContainer(&_s));
+        parseExMIDIAudioContainer(in, *_s.anon.exmidiaudiocontainer.data());
     } catch (IncorrectValueException _xxxxxx) {
+        _s.anon.exmidiaudiocontainer.clear();
         in.rewind(_m);
     try {
-        ExOleEmbedContainer _t;
-        parseExOleEmbedContainer(in, _t);
-        _s.anon.exoleembedcontainer = QSharedPointer<ExOleEmbedContainer>(new ExOleEmbedContainer(_t));
+        _s.anon.exoleembedcontainer = QSharedPointer<ExOleEmbedContainer>(new ExOleEmbedContainer(&_s));
+        parseExOleEmbedContainer(in, *_s.anon.exoleembedcontainer.data());
     } catch (IncorrectValueException _xxxxxxx) {
+        _s.anon.exoleembedcontainer.clear();
         in.rewind(_m);
     try {
-        ExOleLinkContainer _t;
-        parseExOleLinkContainer(in, _t);
-        _s.anon.exolelinkcontainer = QSharedPointer<ExOleLinkContainer>(new ExOleLinkContainer(_t));
+        _s.anon.exolelinkcontainer = QSharedPointer<ExOleLinkContainer>(new ExOleLinkContainer(&_s));
+        parseExOleLinkContainer(in, *_s.anon.exolelinkcontainer.data());
     } catch (IncorrectValueException _xxxxxxxx) {
+        _s.anon.exolelinkcontainer.clear();
         in.rewind(_m);
     try {
-        ExWAVAudioEmbeddedContainer _t;
-        parseExWAVAudioEmbeddedContainer(in, _t);
-        _s.anon.exwavaudioembeddedcontainer = QSharedPointer<ExWAVAudioEmbeddedContainer>(new ExWAVAudioEmbeddedContainer(_t));
+        _s.anon.exwavaudioembeddedcontainer = QSharedPointer<ExWAVAudioEmbeddedContainer>(new ExWAVAudioEmbeddedContainer(&_s));
+        parseExWAVAudioEmbeddedContainer(in, *_s.anon.exwavaudioembeddedcontainer.data());
     } catch (IncorrectValueException _xxxxxxxxx) {
+        _s.anon.exwavaudioembeddedcontainer.clear();
         in.rewind(_m);
     try {
-        ExWAVAudioLinkContainer _t;
-        parseExWAVAudioLinkContainer(in, _t);
-        _s.anon.exwavaudiolinkcontainer = QSharedPointer<ExWAVAudioLinkContainer>(new ExWAVAudioLinkContainer(_t));
+        _s.anon.exwavaudiolinkcontainer = QSharedPointer<ExWAVAudioLinkContainer>(new ExWAVAudioLinkContainer(&_s));
+        parseExWAVAudioLinkContainer(in, *_s.anon.exwavaudiolinkcontainer.data());
     } catch (IncorrectValueException _xxxxxxxxxx) {
+        _s.anon.exwavaudiolinkcontainer.clear();
         in.rewind(_m);
-        UnknownExObjListSubContainerChild _t;
-        parseUnknownExObjListSubContainerChild(in, _t);
-        _s.anon.unknownexobjlistsubcontainerchild = QSharedPointer<UnknownExObjListSubContainerChild>(new UnknownExObjListSubContainerChild(_t));
+        _s.anon.unknownexobjlistsubcontainerchild = QSharedPointer<UnknownExObjListSubContainerChild>(new UnknownExObjListSubContainerChild(&_s));
+        parseUnknownExObjListSubContainerChild(in, *_s.anon.unknownexobjlistsubcontainerchild);
     }}}}}}}}}}
 }
 void write(const ExObjListSubContainer& _s, LEOutputStream& out) {
@@ -33938,6 +43611,16 @@ void write(const ExObjListSubContainer& _s, LEOutputStream& out) {
     }
 }
 void parseExObjListSubContainer(QXmlStreamReader& in, ExObjListSubContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s) {
     LEInputStream::Mark _m;
@@ -33954,44 +43637,48 @@ void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s) {
     parseOfficeArtFDGGBlock(in, _s.drawingGroup);
     _m = in.setMark();
     try {
-        OfficeArtBStoreContainer _t;
-        parseOfficeArtBStoreContainer(in, _t);
-        _s.blipStore = QSharedPointer<OfficeArtBStoreContainer>(new OfficeArtBStoreContainer(_t));
+        _s.blipStore = QSharedPointer<OfficeArtBStoreContainer>(new OfficeArtBStoreContainer(&_s));
+        parseOfficeArtBStoreContainer(in, *_s.blipStore.data());
     } catch(IncorrectValueException _e) {
+        _s.blipStore.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.blipStore.clear();
         in.rewind(_m);
     }
     parseOfficeArtFOPT(in, _s.drawingPrimaryOptions);
     _m = in.setMark();
     try {
-        OfficeArtTertiaryFOPT _t;
-        parseOfficeArtTertiaryFOPT(in, _t);
-        _s.drawingTertiaryOptions = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(_t));
+        _s.drawingTertiaryOptions = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
+        parseOfficeArtTertiaryFOPT(in, *_s.drawingTertiaryOptions.data());
     } catch(IncorrectValueException _e) {
+        _s.drawingTertiaryOptions.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.drawingTertiaryOptions.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtColorMRUContainer _t;
-        parseOfficeArtColorMRUContainer(in, _t);
-        _s.colorMRU = QSharedPointer<OfficeArtColorMRUContainer>(new OfficeArtColorMRUContainer(_t));
+        _s.colorMRU = QSharedPointer<OfficeArtColorMRUContainer>(new OfficeArtColorMRUContainer(&_s));
+        parseOfficeArtColorMRUContainer(in, *_s.colorMRU.data());
     } catch(IncorrectValueException _e) {
+        _s.colorMRU.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.colorMRU.clear();
         in.rewind(_m);
     }
     parseOfficeArtSplitMenuColorContainer(in, _s.splitColors);
     _m = in.setMark();
     try {
-        OfficeArtTertiaryFOPT _t;
-        parseOfficeArtTertiaryFOPT(in, _t);
-        _s.unknown = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(_t));
+        _s.unknown = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
+        parseOfficeArtTertiaryFOPT(in, *_s.unknown.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown.clear();
         in.rewind(_m);
     }
 }
@@ -34006,223 +43693,287 @@ void write(const OfficeArtDggContainer& _s, LEOutputStream& out) {
     if (_s.unknown) write(*_s.unknown, out);
 }
 void parseOfficeArtDggContainer(QXmlStreamReader& in, OfficeArtDggContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFDGGBlock " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "drawingGroup") {
+        qDebug() << "not startelement in drawingGroup " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtBStoreContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "blipStore") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPT " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "drawingPrimaryOptions") {
+        qDebug() << "not startelement in drawingPrimaryOptions " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtTertiaryFOPT " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "drawingTertiaryOptions") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtColorMRUContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "colorMRU") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtSplitMenuColorContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "splitColors") {
+        qDebug() << "not startelement in splitColors " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtTertiaryFOPT " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown") {
+        skipToStartElement(in);
+    }
 }
 void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        ProtectionBooleanProperties _t;
-        parseProtectionBooleanProperties(in, _t);
-        _s.anon.protectionbooleanproperties = QSharedPointer<ProtectionBooleanProperties>(new ProtectionBooleanProperties(_t));
+        _s.anon.protectionbooleanproperties = QSharedPointer<ProtectionBooleanProperties>(new ProtectionBooleanProperties(&_s));
+        parseProtectionBooleanProperties(in, *_s.anon.protectionbooleanproperties.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.protectionbooleanproperties.clear();
         in.rewind(_m);
     try {
-        ITxid _t;
-        parseITxid(in, _t);
-        _s.anon.itxid = QSharedPointer<ITxid>(new ITxid(_t));
+        _s.anon.itxid = QSharedPointer<ITxid>(new ITxid(&_s));
+        parseITxid(in, *_s.anon.itxid.data());
     } catch (IncorrectValueException _xx) {
+        _s.anon.itxid.clear();
         in.rewind(_m);
     try {
-        DxTextLeft _t;
-        parseDxTextLeft(in, _t);
-        _s.anon.dxtextleft = QSharedPointer<DxTextLeft>(new DxTextLeft(_t));
+        _s.anon.dxtextleft = QSharedPointer<DxTextLeft>(new DxTextLeft(&_s));
+        parseDxTextLeft(in, *_s.anon.dxtextleft.data());
     } catch (IncorrectValueException _xxx) {
+        _s.anon.dxtextleft.clear();
         in.rewind(_m);
     try {
-        DyTextTop _t;
-        parseDyTextTop(in, _t);
-        _s.anon.dytexttop = QSharedPointer<DyTextTop>(new DyTextTop(_t));
+        _s.anon.dytexttop = QSharedPointer<DyTextTop>(new DyTextTop(&_s));
+        parseDyTextTop(in, *_s.anon.dytexttop.data());
     } catch (IncorrectValueException _xxxx) {
+        _s.anon.dytexttop.clear();
         in.rewind(_m);
     try {
-        DxTextRight _t;
-        parseDxTextRight(in, _t);
-        _s.anon.dxtextright = QSharedPointer<DxTextRight>(new DxTextRight(_t));
+        _s.anon.dxtextright = QSharedPointer<DxTextRight>(new DxTextRight(&_s));
+        parseDxTextRight(in, *_s.anon.dxtextright.data());
     } catch (IncorrectValueException _xxxxx) {
+        _s.anon.dxtextright.clear();
         in.rewind(_m);
     try {
-        DyTextBottom _t;
-        parseDyTextBottom(in, _t);
-        _s.anon.dytextbottom = QSharedPointer<DyTextBottom>(new DyTextBottom(_t));
+        _s.anon.dytextbottom = QSharedPointer<DyTextBottom>(new DyTextBottom(&_s));
+        parseDyTextBottom(in, *_s.anon.dytextbottom.data());
     } catch (IncorrectValueException _xxxxxx) {
+        _s.anon.dytextbottom.clear();
         in.rewind(_m);
     try {
-        WrapText _t;
-        parseWrapText(in, _t);
-        _s.anon.wraptext = QSharedPointer<WrapText>(new WrapText(_t));
+        _s.anon.wraptext = QSharedPointer<WrapText>(new WrapText(&_s));
+        parseWrapText(in, *_s.anon.wraptext.data());
     } catch (IncorrectValueException _xxxxxxx) {
+        _s.anon.wraptext.clear();
         in.rewind(_m);
     try {
-        AnchorText _t;
-        parseAnchorText(in, _t);
-        _s.anon.anchortext = QSharedPointer<AnchorText>(new AnchorText(_t));
+        _s.anon.anchortext = QSharedPointer<AnchorText>(new AnchorText(&_s));
+        parseAnchorText(in, *_s.anon.anchortext.data());
     } catch (IncorrectValueException _xxxxxxxx) {
+        _s.anon.anchortext.clear();
         in.rewind(_m);
     try {
-        TextBooleanProperties _t;
-        parseTextBooleanProperties(in, _t);
-        _s.anon.textbooleanproperties = QSharedPointer<TextBooleanProperties>(new TextBooleanProperties(_t));
+        _s.anon.textbooleanproperties = QSharedPointer<TextBooleanProperties>(new TextBooleanProperties(&_s));
+        parseTextBooleanProperties(in, *_s.anon.textbooleanproperties.data());
     } catch (IncorrectValueException _xxxxxxxxx) {
+        _s.anon.textbooleanproperties.clear();
         in.rewind(_m);
     try {
-        HspNext _t;
-        parseHspNext(in, _t);
-        _s.anon.hspnext = QSharedPointer<HspNext>(new HspNext(_t));
+        _s.anon.hspnext = QSharedPointer<HspNext>(new HspNext(&_s));
+        parseHspNext(in, *_s.anon.hspnext.data());
     } catch (IncorrectValueException _xxxxxxxxxx) {
+        _s.anon.hspnext.clear();
         in.rewind(_m);
     try {
-        ShapePath _t;
-        parseShapePath(in, _t);
-        _s.anon.shapepath = QSharedPointer<ShapePath>(new ShapePath(_t));
+        _s.anon.shapepath = QSharedPointer<ShapePath>(new ShapePath(&_s));
+        parseShapePath(in, *_s.anon.shapepath.data());
     } catch (IncorrectValueException _xxxxxxxxxxx) {
+        _s.anon.shapepath.clear();
         in.rewind(_m);
     try {
-        GeometryBooleanProperties _t;
-        parseGeometryBooleanProperties(in, _t);
-        _s.anon.geometrybooleanproperties = QSharedPointer<GeometryBooleanProperties>(new GeometryBooleanProperties(_t));
+        _s.anon.geometrybooleanproperties = QSharedPointer<GeometryBooleanProperties>(new GeometryBooleanProperties(&_s));
+        parseGeometryBooleanProperties(in, *_s.anon.geometrybooleanproperties.data());
     } catch (IncorrectValueException _xxxxxxxxxxxx) {
+        _s.anon.geometrybooleanproperties.clear();
         in.rewind(_m);
     try {
-        FillType _t;
-        parseFillType(in, _t);
-        _s.anon.filltype = QSharedPointer<FillType>(new FillType(_t));
+        _s.anon.filltype = QSharedPointer<FillType>(new FillType(&_s));
+        parseFillType(in, *_s.anon.filltype.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxx) {
+        _s.anon.filltype.clear();
         in.rewind(_m);
     try {
-        FillColor _t;
-        parseFillColor(in, _t);
-        _s.anon.fillcolor = QSharedPointer<FillColor>(new FillColor(_t));
+        _s.anon.fillcolor = QSharedPointer<FillColor>(new FillColor(&_s));
+        parseFillColor(in, *_s.anon.fillcolor.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
+        _s.anon.fillcolor.clear();
         in.rewind(_m);
     try {
-        FillBackColor _t;
-        parseFillBackColor(in, _t);
-        _s.anon.fillbackcolor = QSharedPointer<FillBackColor>(new FillBackColor(_t));
+        _s.anon.fillbackcolor = QSharedPointer<FillBackColor>(new FillBackColor(&_s));
+        parseFillBackColor(in, *_s.anon.fillbackcolor.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxx) {
+        _s.anon.fillbackcolor.clear();
         in.rewind(_m);
     try {
-        FillBlip _t;
-        parseFillBlip(in, _t);
-        _s.anon.fillblip = QSharedPointer<FillBlip>(new FillBlip(_t));
+        _s.anon.fillblip = QSharedPointer<FillBlip>(new FillBlip(&_s));
+        parseFillBlip(in, *_s.anon.fillblip.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxx) {
+        _s.anon.fillblip.clear();
         in.rewind(_m);
     try {
-        FillStyleBooleanProperties _t;
-        parseFillStyleBooleanProperties(in, _t);
-        _s.anon.fillstylebooleanproperties = QSharedPointer<FillStyleBooleanProperties>(new FillStyleBooleanProperties(_t));
+        _s.anon.fillstylebooleanproperties = QSharedPointer<FillStyleBooleanProperties>(new FillStyleBooleanProperties(&_s));
+        parseFillStyleBooleanProperties(in, *_s.anon.fillstylebooleanproperties.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxx) {
+        _s.anon.fillstylebooleanproperties.clear();
         in.rewind(_m);
     try {
-        LineColor _t;
-        parseLineColor(in, _t);
-        _s.anon.linecolor = QSharedPointer<LineColor>(new LineColor(_t));
+        _s.anon.linecolor = QSharedPointer<LineColor>(new LineColor(&_s));
+        parseLineColor(in, *_s.anon.linecolor.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxx) {
+        _s.anon.linecolor.clear();
         in.rewind(_m);
     try {
-        LineBackColor _t;
-        parseLineBackColor(in, _t);
-        _s.anon.linebackcolor = QSharedPointer<LineBackColor>(new LineBackColor(_t));
+        _s.anon.linebackcolor = QSharedPointer<LineBackColor>(new LineBackColor(&_s));
+        parseLineBackColor(in, *_s.anon.linebackcolor.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxx) {
+        _s.anon.linebackcolor.clear();
         in.rewind(_m);
     try {
-        LineFillBlip _t;
-        parseLineFillBlip(in, _t);
-        _s.anon.linefillblip = QSharedPointer<LineFillBlip>(new LineFillBlip(_t));
+        _s.anon.linefillblip = QSharedPointer<LineFillBlip>(new LineFillBlip(&_s));
+        parseLineFillBlip(in, *_s.anon.linefillblip.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.linefillblip.clear();
         in.rewind(_m);
     try {
-        LineWidth _t;
-        parseLineWidth(in, _t);
-        _s.anon.linewidth = QSharedPointer<LineWidth>(new LineWidth(_t));
+        _s.anon.linewidth = QSharedPointer<LineWidth>(new LineWidth(&_s));
+        parseLineWidth(in, *_s.anon.linewidth.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.linewidth.clear();
         in.rewind(_m);
     try {
-        FillRectRight _t;
-        parseFillRectRight(in, _t);
-        _s.anon.fillrectright = QSharedPointer<FillRectRight>(new FillRectRight(_t));
+        _s.anon.fillrectright = QSharedPointer<FillRectRight>(new FillRectRight(&_s));
+        parseFillRectRight(in, *_s.anon.fillrectright.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.fillrectright.clear();
         in.rewind(_m);
     try {
-        FillRectBottom _t;
-        parseFillRectBottom(in, _t);
-        _s.anon.fillrectbottom = QSharedPointer<FillRectBottom>(new FillRectBottom(_t));
+        _s.anon.fillrectbottom = QSharedPointer<FillRectBottom>(new FillRectBottom(&_s));
+        parseFillRectBottom(in, *_s.anon.fillrectbottom.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.fillrectbottom.clear();
         in.rewind(_m);
     try {
-        WzFillId _t;
-        parseWzFillId(in, _t);
-        _s.anon.wzfillid = QSharedPointer<WzFillId>(new WzFillId(_t));
+        _s.anon.wzfillid = QSharedPointer<WzFillId>(new WzFillId(&_s));
+        parseWzFillId(in, *_s.anon.wzfillid.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.wzfillid.clear();
         in.rewind(_m);
     try {
-        LineStyleBooleanProperties _t;
-        parseLineStyleBooleanProperties(in, _t);
-        _s.anon.linestylebooleanproperties = QSharedPointer<LineStyleBooleanProperties>(new LineStyleBooleanProperties(_t));
+        _s.anon.linestylebooleanproperties = QSharedPointer<LineStyleBooleanProperties>(new LineStyleBooleanProperties(&_s));
+        parseLineStyleBooleanProperties(in, *_s.anon.linestylebooleanproperties.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.linestylebooleanproperties.clear();
         in.rewind(_m);
     try {
-        LineStartArrowhead _t;
-        parseLineStartArrowhead(in, _t);
-        _s.anon.linestartarrowhead = QSharedPointer<LineStartArrowhead>(new LineStartArrowhead(_t));
+        _s.anon.linestartarrowhead = QSharedPointer<LineStartArrowhead>(new LineStartArrowhead(&_s));
+        parseLineStartArrowhead(in, *_s.anon.linestartarrowhead.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.linestartarrowhead.clear();
         in.rewind(_m);
     try {
-        LineEndArrowhead _t;
-        parseLineEndArrowhead(in, _t);
-        _s.anon.lineendarrowhead = QSharedPointer<LineEndArrowhead>(new LineEndArrowhead(_t));
+        _s.anon.lineendarrowhead = QSharedPointer<LineEndArrowhead>(new LineEndArrowhead(&_s));
+        parseLineEndArrowhead(in, *_s.anon.lineendarrowhead.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.lineendarrowhead.clear();
         in.rewind(_m);
     try {
-        LineJoinStyle _t;
-        parseLineJoinStyle(in, _t);
-        _s.anon.linejoinstyle = QSharedPointer<LineJoinStyle>(new LineJoinStyle(_t));
+        _s.anon.linejoinstyle = QSharedPointer<LineJoinStyle>(new LineJoinStyle(&_s));
+        parseLineJoinStyle(in, *_s.anon.linejoinstyle.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.linejoinstyle.clear();
         in.rewind(_m);
     try {
-        ShadowColor _t;
-        parseShadowColor(in, _t);
-        _s.anon.shadowcolor = QSharedPointer<ShadowColor>(new ShadowColor(_t));
+        _s.anon.shadowcolor = QSharedPointer<ShadowColor>(new ShadowColor(&_s));
+        parseShadowColor(in, *_s.anon.shadowcolor.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.shadowcolor.clear();
         in.rewind(_m);
     try {
-        ShadowStyleBooleanPropertiesr _t;
-        parseShadowStyleBooleanPropertiesr(in, _t);
-        _s.anon.shadowstylebooleanpropertiesr = QSharedPointer<ShadowStyleBooleanPropertiesr>(new ShadowStyleBooleanPropertiesr(_t));
+        _s.anon.shadowstylebooleanpropertiesr = QSharedPointer<ShadowStyleBooleanPropertiesr>(new ShadowStyleBooleanPropertiesr(&_s));
+        parseShadowStyleBooleanPropertiesr(in, *_s.anon.shadowstylebooleanpropertiesr.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.shadowstylebooleanpropertiesr.clear();
         in.rewind(_m);
     try {
-        ShapeBooleanProperties _t;
-        parseShapeBooleanProperties(in, _t);
-        _s.anon.shapebooleanproperties = QSharedPointer<ShapeBooleanProperties>(new ShapeBooleanProperties(_t));
+        _s.anon.shapebooleanproperties = QSharedPointer<ShapeBooleanProperties>(new ShapeBooleanProperties(&_s));
+        parseShapeBooleanProperties(in, *_s.anon.shapebooleanproperties.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.shapebooleanproperties.clear();
         in.rewind(_m);
     try {
-        HspMaster _t;
-        parseHspMaster(in, _t);
-        _s.anon.hspmaster = QSharedPointer<HspMaster>(new HspMaster(_t));
+        _s.anon.hspmaster = QSharedPointer<HspMaster>(new HspMaster(&_s));
+        parseHspMaster(in, *_s.anon.hspmaster.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.hspmaster.clear();
         in.rewind(_m);
     try {
-        Rotation _t;
-        parseRotation(in, _t);
-        _s.anon.rotation = QSharedPointer<Rotation>(new Rotation(_t));
+        _s.anon.rotation = QSharedPointer<Rotation>(new Rotation(&_s));
+        parseRotation(in, *_s.anon.rotation.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.rotation.clear();
         in.rewind(_m);
     try {
-        LidRegroup _t;
-        parseLidRegroup(in, _t);
-        _s.anon.lidregroup = QSharedPointer<LidRegroup>(new LidRegroup(_t));
+        _s.anon.lidregroup = QSharedPointer<LidRegroup>(new LidRegroup(&_s));
+        parseLidRegroup(in, *_s.anon.lidregroup.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.lidregroup.clear();
         in.rewind(_m);
     try {
-        BWMode _t;
-        parseBWMode(in, _t);
-        _s.anon.bwmode = QSharedPointer<BWMode>(new BWMode(_t));
+        _s.anon.bwmode = QSharedPointer<BWMode>(new BWMode(&_s));
+        parseBWMode(in, *_s.anon.bwmode.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.bwmode.clear();
         in.rewind(_m);
-        OfficeArtFOPTE _t;
-        parseOfficeArtFOPTE(in, _t);
-        _s.anon.officeartfopte = QSharedPointer<OfficeArtFOPTE>(new OfficeArtFOPTE(_t));
+        _s.anon.officeartfopte = QSharedPointer<OfficeArtFOPTE>(new OfficeArtFOPTE(&_s));
+        parseOfficeArtFOPTE(in, *_s.anon.officeartfopte);
     }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 }
 void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
@@ -34301,10 +44052,20 @@ void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtFOPTEChoice(QXmlStreamReader& in, OfficeArtFOPTEChoice& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -34317,107 +44078,117 @@ void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
     }
     _m = in.setMark();
     try {
-        ShapeFlagsAtom _t;
-        parseShapeFlagsAtom(in, _t);
-        _s.shapeFlagsAtom = QSharedPointer<ShapeFlagsAtom>(new ShapeFlagsAtom(_t));
+        _s.shapeFlagsAtom = QSharedPointer<ShapeFlagsAtom>(new ShapeFlagsAtom(&_s));
+        parseShapeFlagsAtom(in, *_s.shapeFlagsAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.shapeFlagsAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.shapeFlagsAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        ShapeFlags10Atom _t;
-        parseShapeFlags10Atom(in, _t);
-        _s.shapeFlags10Atom = QSharedPointer<ShapeFlags10Atom>(new ShapeFlags10Atom(_t));
+        _s.shapeFlags10Atom = QSharedPointer<ShapeFlags10Atom>(new ShapeFlags10Atom(&_s));
+        parseShapeFlags10Atom(in, *_s.shapeFlags10Atom.data());
     } catch(IncorrectValueException _e) {
+        _s.shapeFlags10Atom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.shapeFlags10Atom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        ExObjRefAtom _t;
-        parseExObjRefAtom(in, _t);
-        _s.exObjRefAtom = QSharedPointer<ExObjRefAtom>(new ExObjRefAtom(_t));
+        _s.exObjRefAtom = QSharedPointer<ExObjRefAtom>(new ExObjRefAtom(&_s));
+        parseExObjRefAtom(in, *_s.exObjRefAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.exObjRefAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.exObjRefAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        AnimationInfoContainer _t;
-        parseAnimationInfoContainer(in, _t);
-        _s.animationInfo = QSharedPointer<AnimationInfoContainer>(new AnimationInfoContainer(_t));
+        _s.animationInfo = QSharedPointer<AnimationInfoContainer>(new AnimationInfoContainer(&_s));
+        parseAnimationInfoContainer(in, *_s.animationInfo.data());
     } catch(IncorrectValueException _e) {
+        _s.animationInfo.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.animationInfo.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        MouseInteractiveInfoContainer _t;
-        parseMouseInteractiveInfoContainer(in, _t);
-        _s.mouseClickInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(_t));
+        _s.mouseClickInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
+        parseMouseInteractiveInfoContainer(in, *_s.mouseClickInteractiveInfo.data());
     } catch(IncorrectValueException _e) {
+        _s.mouseClickInteractiveInfo.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.mouseClickInteractiveInfo.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        MouseInteractiveInfoContainer _t;
-        parseMouseInteractiveInfoContainer(in, _t);
-        _s.mouseOverInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(_t));
+        _s.mouseOverInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
+        parseMouseInteractiveInfoContainer(in, *_s.mouseOverInteractiveInfo.data());
     } catch(IncorrectValueException _e) {
+        _s.mouseOverInteractiveInfo.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.mouseOverInteractiveInfo.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        PlaceholderAtom _t;
-        parsePlaceholderAtom(in, _t);
-        _s.placeholderAtom = QSharedPointer<PlaceholderAtom>(new PlaceholderAtom(_t));
+        _s.placeholderAtom = QSharedPointer<PlaceholderAtom>(new PlaceholderAtom(&_s));
+        parsePlaceholderAtom(in, *_s.placeholderAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.placeholderAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.placeholderAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        RecolorInfoAtom _t;
-        parseRecolorInfoAtom(in, _t);
-        _s.recolorInfoAtom = QSharedPointer<RecolorInfoAtom>(new RecolorInfoAtom(_t));
+        _s.recolorInfoAtom = QSharedPointer<RecolorInfoAtom>(new RecolorInfoAtom(&_s));
+        parseRecolorInfoAtom(in, *_s.recolorInfoAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.recolorInfoAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.recolorInfoAtom.clear();
         in.rewind(_m);
     }
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            ShapeClientRoundtripDataSubcontainerOrAtom _t;
-            parseShapeClientRoundtripDataSubcontainerOrAtom(in, _t);
-            _s.rgShapeClientRoundtripData.append(_t);
+            _s.rgShapeClientRoundtripData.append(&_s);
+            parseShapeClientRoundtripDataSubcontainerOrAtom(in, _s.rgShapeClientRoundtripData.last());
         } catch(IncorrectValueException _e) {
+            _s.rgShapeClientRoundtripData.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.rgShapeClientRoundtripData.removeLast();
             _atend = true;
             in.rewind(_m);
         }
     }
     _m = in.setMark();
     try {
-        UnknownOfficeArtClientDataChild _t;
-        parseUnknownOfficeArtClientDataChild(in, _t);
-        _s.unknown = QSharedPointer<UnknownOfficeArtClientDataChild>(new UnknownOfficeArtClientDataChild(_t));
+        _s.unknown = QSharedPointer<UnknownOfficeArtClientDataChild>(new UnknownOfficeArtClientDataChild(&_s));
+        parseUnknownOfficeArtClientDataChild(in, *_s.unknown.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown.clear();
         in.rewind(_m);
     }
 }
@@ -34437,6 +44208,84 @@ void write(const OfficeArtClientData& _s, LEOutputStream& out) {
     if (_s.unknown) write(*_s.unknown, out);
 }
 void parseOfficeArtClientData(QXmlStreamReader& in, OfficeArtClientData& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ShapeFlagsAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "shapeFlagsAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ShapeFlags10Atom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "shapeFlags10Atom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ExObjRefAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "exObjRefAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in AnimationInfoContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "animationInfo") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MouseInteractiveInfoContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "mouseClickInteractiveInfo") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MouseInteractiveInfoContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "mouseOverInteractiveInfo") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PlaceholderAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "placeholderAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecolorInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "recolorInfoAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ShapeClientRoundtripDataSubcontainerOrAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in UnknownOfficeArtClientDataChild " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown") {
+        skipToStartElement(in);
+    }
 }
 void parseWordDocument(LEInputStream& in, WordDocument& _s) {
     parseFib(in, _s.fib);
@@ -34445,6 +44294,16 @@ void write(const WordDocument& _s, LEOutputStream& out) {
     write(_s.fib, out);
 }
 void parseWordDocument(QXmlStreamReader& in, WordDocument& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Fib " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fib") {
+        qDebug() << "not startelement in fib " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseTable(LEInputStream& in, Table& _s) {
     int _c;
@@ -34472,6 +44331,84 @@ void write(const Table& _s, LEOutputStream& out) {
     out.writeBytes(_s.dop);
 }
 void parseTable(QXmlStreamReader& in, Table& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in STSH " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "stsh") {
+        qDebug() << "not startelement in stsh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PlcfSed " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "plcfSed") {
+        qDebug() << "not startelement in plcfSed " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Plcfhdd " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "plcfHdd") {
+        qDebug() << "not startelement in plcfHdd " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PlcBteChpx " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "plcfBteChpx") {
+        qDebug() << "not startelement in plcfBteChpx " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PlcfBtePapx " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "plcfBtePapx") {
+        qDebug() << "not startelement in plcfBtePapx " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Tcg " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cmds") {
+        qDebug() << "not startelement in cmds " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Clx " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "clx") {
+        qDebug() << "not startelement in clx " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SttbfFfn " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "sttbfFfn") {
+        qDebug() << "not startelement in sttbfFfn " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePcd(LEInputStream& in, Pcd& _s) {
     _s.fNoParaLast = in.readbit();
@@ -34495,6 +44432,70 @@ void write(const Pcd& _s, LEOutputStream& out) {
     write(_s.prm, out);
 }
 void parsePcd(QXmlStreamReader& in, Pcd& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fNoParaLast") {
+        qDebug() << "not startelement in fNoParaLast " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fR1") {
+        qDebug() << "not startelement in fR1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fDirtly") {
+        qDebug() << "not startelement in fDirtly " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fR2") {
+        qDebug() << "not startelement in fR2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint12 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fR3") {
+        qDebug() << "not startelement in fR3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FCompressed " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fc") {
+        qDebug() << "not startelement in fc " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Prm " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "prm") {
+        qDebug() << "not startelement in prm " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s) {
     int _c;
@@ -34524,7 +44525,7 @@ void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s) {
     _c = _s.cbName;
     _s.nameData.resize(_c);    in.readBytes(_s.nameData);
     if (_s.rh.recLen > 36 + _s.cbName) {
-        _s.embeddedBlip = QSharedPointer<OfficeArtBlip>(new OfficeArtBlip());
+        _s.embeddedBlip = QSharedPointer<OfficeArtBlip>(new OfficeArtBlip(&_s));
         parseOfficeArtBlip(in, *_s.embeddedBlip.data());
     }
 }
@@ -34547,19 +44548,137 @@ void write(const OfficeArtFBSE& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtFBSE(QXmlStreamReader& in, OfficeArtFBSE& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "btWin32") {
+        qDebug() << "not startelement in btWin32 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "btMacOS") {
+        qDebug() << "not startelement in btMacOS " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "tag") {
+        qDebug() << "not startelement in tag " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "size") {
+        qDebug() << "not startelement in size " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cRef") {
+        qDebug() << "not startelement in cRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "foDelay") {
+        qDebug() << "not startelement in foDelay " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused1") {
+        qDebug() << "not startelement in unused1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cbName") {
+        qDebug() << "not startelement in cbName " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused2") {
+        qDebug() << "not startelement in unused2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unused3") {
+        qDebug() << "not startelement in unused3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtBlip " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "embeddedBlip") {
+        qDebug() << "not startelement in embeddedBlip " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBStoreContainerFileBlock& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        OfficeArtFBSE _t;
-        parseOfficeArtFBSE(in, _t);
-        _s.anon.officeartfbse = QSharedPointer<OfficeArtFBSE>(new OfficeArtFBSE(_t));
+        _s.anon.officeartfbse = QSharedPointer<OfficeArtFBSE>(new OfficeArtFBSE(&_s));
+        parseOfficeArtFBSE(in, *_s.anon.officeartfbse.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.officeartfbse.clear();
         in.rewind(_m);
-        OfficeArtBlip _t;
-        parseOfficeArtBlip(in, _t);
-        _s.anon.officeartblip = QSharedPointer<OfficeArtBlip>(new OfficeArtBlip(_t));
+        _s.anon.officeartblip = QSharedPointer<OfficeArtBlip>(new OfficeArtBlip(&_s));
+        parseOfficeArtBlip(in, *_s.anon.officeartblip);
     }
 }
 void write(const OfficeArtBStoreContainerFileBlock& _s, LEOutputStream& out) {
@@ -34570,10 +44689,20 @@ void write(const OfficeArtBStoreContainerFileBlock& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtBStoreContainerFileBlock(QXmlStreamReader& in, OfficeArtBStoreContainerFileBlock& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -34590,13 +44719,14 @@ void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            GuideAtom _t;
-            parseGuideAtom(in, _t);
-            _s.rgGuideAtom.append(_t);
+            _s.rgGuideAtom.append(&_s);
+            parseGuideAtom(in, _s.rgGuideAtom.last());
         } catch(IncorrectValueException _e) {
+            _s.rgGuideAtom.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.rgGuideAtom.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -34611,6 +44741,39 @@ void write(const SlideViewInfoInstance& _s, LEOutputStream& out) {
     }
 }
 void parseSlideViewInfoInstance(QXmlStreamReader& in, SlideViewInfoInstance& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideViewInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideViewInfoAtom") {
+        qDebug() << "not startelement in slideViewInfoAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ZoomViewInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "zoomViewInfoAtom") {
+        qDebug() << "not startelement in zoomViewInfoAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in GuideAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseDocumentTextInfoContainer(LEInputStream& in, DocumentTextInfoContainer& _s) {
     LEInputStream::Mark _m;
@@ -34626,52 +44789,57 @@ void parseDocumentTextInfoContainer(LEInputStream& in, DocumentTextInfoContainer
     }
     _m = in.setMark();
     try {
-        KinsokuContainer _t;
-        parseKinsokuContainer(in, _t);
-        _s.kinsoku = QSharedPointer<KinsokuContainer>(new KinsokuContainer(_t));
+        _s.kinsoku = QSharedPointer<KinsokuContainer>(new KinsokuContainer(&_s));
+        parseKinsokuContainer(in, *_s.kinsoku.data());
     } catch(IncorrectValueException _e) {
+        _s.kinsoku.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.kinsoku.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        FontCollectionContainer _t;
-        parseFontCollectionContainer(in, _t);
-        _s.fontCollection = QSharedPointer<FontCollectionContainer>(new FontCollectionContainer(_t));
+        _s.fontCollection = QSharedPointer<FontCollectionContainer>(new FontCollectionContainer(&_s));
+        parseFontCollectionContainer(in, *_s.fontCollection.data());
     } catch(IncorrectValueException _e) {
+        _s.fontCollection.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.fontCollection.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        TextCFExceptionAtom _t;
-        parseTextCFExceptionAtom(in, _t);
-        _s.textCFDefaultsAtom = QSharedPointer<TextCFExceptionAtom>(new TextCFExceptionAtom(_t));
+        _s.textCFDefaultsAtom = QSharedPointer<TextCFExceptionAtom>(new TextCFExceptionAtom(&_s));
+        parseTextCFExceptionAtom(in, *_s.textCFDefaultsAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.textCFDefaultsAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.textCFDefaultsAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        TextPFExceptionAtom _t;
-        parseTextPFExceptionAtom(in, _t);
-        _s.textPFDefaultsAtom = QSharedPointer<TextPFExceptionAtom>(new TextPFExceptionAtom(_t));
+        _s.textPFDefaultsAtom = QSharedPointer<TextPFExceptionAtom>(new TextPFExceptionAtom(&_s));
+        parseTextPFExceptionAtom(in, *_s.textPFDefaultsAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.textPFDefaultsAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.textPFDefaultsAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        DefaultRulerAtom _t;
-        parseDefaultRulerAtom(in, _t);
-        _s.defaultRulerAtom = QSharedPointer<DefaultRulerAtom>(new DefaultRulerAtom(_t));
+        _s.defaultRulerAtom = QSharedPointer<DefaultRulerAtom>(new DefaultRulerAtom(&_s));
+        parseDefaultRulerAtom(in, *_s.defaultRulerAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.defaultRulerAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.defaultRulerAtom.clear();
         in.rewind(_m);
     }
     parseTextSIExceptionAtom(in, _s.textSIDefaultsAtom);
@@ -34688,6 +44856,69 @@ void write(const DocumentTextInfoContainer& _s, LEOutputStream& out) {
     write(_s.textMasterStyleAtom, out);
 }
 void parseDocumentTextInfoContainer(QXmlStreamReader& in, DocumentTextInfoContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in KinsokuContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "kinsoku") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FontCollectionContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "fontCollection") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextCFExceptionAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "textCFDefaultsAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextPFExceptionAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "textPFDefaultsAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in DefaultRulerAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "defaultRulerAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextSIExceptionAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "textSIDefaultsAtom") {
+        qDebug() << "not startelement in textSIDefaultsAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextMasterStyleAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "textMasterStyleAtom") {
+        qDebug() << "not startelement in textMasterStyleAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseDrawingGroupContainer(LEInputStream& in, DrawingGroupContainer& _s) {
     parseRecordHeader(in, _s.rh);
@@ -34707,6 +44938,25 @@ void write(const DrawingGroupContainer& _s, LEOutputStream& out) {
     write(_s.OfficeArtDgg, out);
 }
 void parseDrawingGroupContainer(QXmlStreamReader& in, DrawingGroupContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtDggContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "OfficeArtDgg") {
+        qDebug() << "not startelement in OfficeArtDgg " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s) {
     LEInputStream::Mark _m;
@@ -34722,113 +44972,124 @@ void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s) {
     }
     _m = in.setMark();
     try {
-        OfficeArtFSPGR _t;
-        parseOfficeArtFSPGR(in, _t);
-        _s.shapeGroup = QSharedPointer<OfficeArtFSPGR>(new OfficeArtFSPGR(_t));
+        _s.shapeGroup = QSharedPointer<OfficeArtFSPGR>(new OfficeArtFSPGR(&_s));
+        parseOfficeArtFSPGR(in, *_s.shapeGroup.data());
     } catch(IncorrectValueException _e) {
+        _s.shapeGroup.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.shapeGroup.clear();
         in.rewind(_m);
     }
     parseOfficeArtFSP(in, _s.shapeProp);
     _m = in.setMark();
     try {
-        OfficeArtFPSPL _t;
-        parseOfficeArtFPSPL(in, _t);
-        _s.deletedshape = QSharedPointer<OfficeArtFPSPL>(new OfficeArtFPSPL(_t));
+        _s.deletedshape = QSharedPointer<OfficeArtFPSPL>(new OfficeArtFPSPL(&_s));
+        parseOfficeArtFPSPL(in, *_s.deletedshape.data());
     } catch(IncorrectValueException _e) {
+        _s.deletedshape.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.deletedshape.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtFOPT _t;
-        parseOfficeArtFOPT(in, _t);
-        _s.shapePrimaryOptions = QSharedPointer<OfficeArtFOPT>(new OfficeArtFOPT(_t));
+        _s.shapePrimaryOptions = QSharedPointer<OfficeArtFOPT>(new OfficeArtFOPT(&_s));
+        parseOfficeArtFOPT(in, *_s.shapePrimaryOptions.data());
     } catch(IncorrectValueException _e) {
+        _s.shapePrimaryOptions.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.shapePrimaryOptions.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtSecondaryFOPT _t;
-        parseOfficeArtSecondaryFOPT(in, _t);
-        _s.shapeSecondaryOptions1 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(_t));
+        _s.shapeSecondaryOptions1 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(&_s));
+        parseOfficeArtSecondaryFOPT(in, *_s.shapeSecondaryOptions1.data());
     } catch(IncorrectValueException _e) {
+        _s.shapeSecondaryOptions1.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.shapeSecondaryOptions1.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtTertiaryFOPT _t;
-        parseOfficeArtTertiaryFOPT(in, _t);
-        _s.shapeTertiaryOptions1 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(_t));
+        _s.shapeTertiaryOptions1 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
+        parseOfficeArtTertiaryFOPT(in, *_s.shapeTertiaryOptions1.data());
     } catch(IncorrectValueException _e) {
+        _s.shapeTertiaryOptions1.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.shapeTertiaryOptions1.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtChildAnchor _t;
-        parseOfficeArtChildAnchor(in, _t);
-        _s.childAnchor = QSharedPointer<OfficeArtChildAnchor>(new OfficeArtChildAnchor(_t));
+        _s.childAnchor = QSharedPointer<OfficeArtChildAnchor>(new OfficeArtChildAnchor(&_s));
+        parseOfficeArtChildAnchor(in, *_s.childAnchor.data());
     } catch(IncorrectValueException _e) {
+        _s.childAnchor.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.childAnchor.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtClientAnchor _t;
-        parseOfficeArtClientAnchor(in, _t);
-        _s.clientAnchor = QSharedPointer<OfficeArtClientAnchor>(new OfficeArtClientAnchor(_t));
+        _s.clientAnchor = QSharedPointer<OfficeArtClientAnchor>(new OfficeArtClientAnchor(&_s));
+        parseOfficeArtClientAnchor(in, *_s.clientAnchor.data());
     } catch(IncorrectValueException _e) {
+        _s.clientAnchor.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.clientAnchor.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtClientData _t;
-        parseOfficeArtClientData(in, _t);
-        _s.clientData = QSharedPointer<OfficeArtClientData>(new OfficeArtClientData(_t));
+        _s.clientData = QSharedPointer<OfficeArtClientData>(new OfficeArtClientData(&_s));
+        parseOfficeArtClientData(in, *_s.clientData.data());
     } catch(IncorrectValueException _e) {
+        _s.clientData.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.clientData.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtClientTextBox _t;
-        parseOfficeArtClientTextBox(in, _t);
-        _s.clientTextbox = QSharedPointer<OfficeArtClientTextBox>(new OfficeArtClientTextBox(_t));
+        _s.clientTextbox = QSharedPointer<OfficeArtClientTextBox>(new OfficeArtClientTextBox(&_s));
+        parseOfficeArtClientTextBox(in, *_s.clientTextbox.data());
     } catch(IncorrectValueException _e) {
+        _s.clientTextbox.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.clientTextbox.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtSecondaryFOPT _t;
-        parseOfficeArtSecondaryFOPT(in, _t);
-        _s.shapeSecondaryOptions2 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(_t));
+        _s.shapeSecondaryOptions2 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(&_s));
+        parseOfficeArtSecondaryFOPT(in, *_s.shapeSecondaryOptions2.data());
     } catch(IncorrectValueException _e) {
+        _s.shapeSecondaryOptions2.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.shapeSecondaryOptions2.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        OfficeArtTertiaryFOPT _t;
-        parseOfficeArtTertiaryFOPT(in, _t);
-        _s.shapeTertiaryOptions2 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(_t));
+        _s.shapeTertiaryOptions2 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
+        parseOfficeArtTertiaryFOPT(in, *_s.shapeTertiaryOptions2.data());
     } catch(IncorrectValueException _e) {
+        _s.shapeTertiaryOptions2.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.shapeTertiaryOptions2.clear();
         in.rewind(_m);
     }
 }
@@ -34848,6 +45109,102 @@ void write(const OfficeArtSpContainer& _s, LEOutputStream& out) {
     if (_s.shapeTertiaryOptions2) write(*_s.shapeTertiaryOptions2, out);
 }
 void parseOfficeArtSpContainer(QXmlStreamReader& in, OfficeArtSpContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFSPGR " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "shapeGroup") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFSP " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "shapeProp") {
+        qDebug() << "not startelement in shapeProp " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFPSPL " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "deletedshape") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPT " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "shapePrimaryOptions") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtSecondaryFOPT " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "shapeSecondaryOptions1") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtTertiaryFOPT " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "shapeTertiaryOptions1") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtChildAnchor " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "childAnchor") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtClientAnchor " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "clientAnchor") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtClientData " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "clientData") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtClientTextBox " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "clientTextbox") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtSecondaryFOPT " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "shapeSecondaryOptions2") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtTertiaryFOPT " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "shapeTertiaryOptions2") {
+        skipToStartElement(in);
+    }
 }
 void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
     LEInputStream::Mark _m;
@@ -34864,206 +45221,226 @@ void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
     parseDocumentAtom(in, _s.documentAtom);
     _m = in.setMark();
     try {
-        ExObjListContainer _t;
-        parseExObjListContainer(in, _t);
-        _s.exObjList = QSharedPointer<ExObjListContainer>(new ExObjListContainer(_t));
+        _s.exObjList = QSharedPointer<ExObjListContainer>(new ExObjListContainer(&_s));
+        parseExObjListContainer(in, *_s.exObjList.data());
     } catch(IncorrectValueException _e) {
+        _s.exObjList.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.exObjList.clear();
         in.rewind(_m);
     }
     parseDocumentTextInfoContainer(in, _s.documentTextInfo);
     _m = in.setMark();
     try {
-        SoundCollectionContainer _t;
-        parseSoundCollectionContainer(in, _t);
-        _s.soundCollection = QSharedPointer<SoundCollectionContainer>(new SoundCollectionContainer(_t));
+        _s.soundCollection = QSharedPointer<SoundCollectionContainer>(new SoundCollectionContainer(&_s));
+        parseSoundCollectionContainer(in, *_s.soundCollection.data());
     } catch(IncorrectValueException _e) {
+        _s.soundCollection.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.soundCollection.clear();
         in.rewind(_m);
     }
     parseDrawingGroupContainer(in, _s.drawingGroup);
     parseMasterListWithTextContainer(in, _s.masterList);
     _m = in.setMark();
     try {
-        DocInfoListContainer _t;
-        parseDocInfoListContainer(in, _t);
-        _s.docInfoList = QSharedPointer<DocInfoListContainer>(new DocInfoListContainer(_t));
+        _s.docInfoList = QSharedPointer<DocInfoListContainer>(new DocInfoListContainer(&_s));
+        parseDocInfoListContainer(in, *_s.docInfoList.data());
     } catch(IncorrectValueException _e) {
+        _s.docInfoList.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.docInfoList.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        SlideHeadersFootersContainer _t;
-        parseSlideHeadersFootersContainer(in, _t);
-        _s.slideHF = QSharedPointer<SlideHeadersFootersContainer>(new SlideHeadersFootersContainer(_t));
+        _s.slideHF = QSharedPointer<SlideHeadersFootersContainer>(new SlideHeadersFootersContainer(&_s));
+        parseSlideHeadersFootersContainer(in, *_s.slideHF.data());
     } catch(IncorrectValueException _e) {
+        _s.slideHF.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.slideHF.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        NotesHeadersFootersContainer _t;
-        parseNotesHeadersFootersContainer(in, _t);
-        _s.notesHF = QSharedPointer<NotesHeadersFootersContainer>(new NotesHeadersFootersContainer(_t));
+        _s.notesHF = QSharedPointer<NotesHeadersFootersContainer>(new NotesHeadersFootersContainer(&_s));
+        parseNotesHeadersFootersContainer(in, *_s.notesHF.data());
     } catch(IncorrectValueException _e) {
+        _s.notesHF.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.notesHF.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        SlideListWithTextContainer _t;
-        parseSlideListWithTextContainer(in, _t);
-        _s.slideList = QSharedPointer<SlideListWithTextContainer>(new SlideListWithTextContainer(_t));
+        _s.slideList = QSharedPointer<SlideListWithTextContainer>(new SlideListWithTextContainer(&_s));
+        parseSlideListWithTextContainer(in, *_s.slideList.data());
     } catch(IncorrectValueException _e) {
+        _s.slideList.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.slideList.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        SlideHeadersFootersContainer _t;
-        parseSlideHeadersFootersContainer(in, _t);
-        _s.slideHF2 = QSharedPointer<SlideHeadersFootersContainer>(new SlideHeadersFootersContainer(_t));
+        _s.slideHF2 = QSharedPointer<SlideHeadersFootersContainer>(new SlideHeadersFootersContainer(&_s));
+        parseSlideHeadersFootersContainer(in, *_s.slideHF2.data());
     } catch(IncorrectValueException _e) {
+        _s.slideHF2.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.slideHF2.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        NotesListWithTextContainer _t;
-        parseNotesListWithTextContainer(in, _t);
-        _s.notesList = QSharedPointer<NotesListWithTextContainer>(new NotesListWithTextContainer(_t));
+        _s.notesList = QSharedPointer<NotesListWithTextContainer>(new NotesListWithTextContainer(&_s));
+        parseNotesListWithTextContainer(in, *_s.notesList.data());
     } catch(IncorrectValueException _e) {
+        _s.notesList.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.notesList.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        SlideShowDocInfoAtom _t;
-        parseSlideShowDocInfoAtom(in, _t);
-        _s.slideShowDocInfoAtom = QSharedPointer<SlideShowDocInfoAtom>(new SlideShowDocInfoAtom(_t));
+        _s.slideShowDocInfoAtom = QSharedPointer<SlideShowDocInfoAtom>(new SlideShowDocInfoAtom(&_s));
+        parseSlideShowDocInfoAtom(in, *_s.slideShowDocInfoAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.slideShowDocInfoAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.slideShowDocInfoAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        NamedShowsContainer _t;
-        parseNamedShowsContainer(in, _t);
-        _s.namedShows = QSharedPointer<NamedShowsContainer>(new NamedShowsContainer(_t));
+        _s.namedShows = QSharedPointer<NamedShowsContainer>(new NamedShowsContainer(&_s));
+        parseNamedShowsContainer(in, *_s.namedShows.data());
     } catch(IncorrectValueException _e) {
+        _s.namedShows.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.namedShows.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        SummaryContainer _t;
-        parseSummaryContainer(in, _t);
-        _s.summary = QSharedPointer<SummaryContainer>(new SummaryContainer(_t));
+        _s.summary = QSharedPointer<SummaryContainer>(new SummaryContainer(&_s));
+        parseSummaryContainer(in, *_s.summary.data());
     } catch(IncorrectValueException _e) {
+        _s.summary.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.summary.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        DocRoutingSlipAtom _t;
-        parseDocRoutingSlipAtom(in, _t);
-        _s.docRoutingSlipAtom = QSharedPointer<DocRoutingSlipAtom>(new DocRoutingSlipAtom(_t));
+        _s.docRoutingSlipAtom = QSharedPointer<DocRoutingSlipAtom>(new DocRoutingSlipAtom(&_s));
+        parseDocRoutingSlipAtom(in, *_s.docRoutingSlipAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.docRoutingSlipAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.docRoutingSlipAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        PrintOptionsAtom _t;
-        parsePrintOptionsAtom(in, _t);
-        _s.printOptionsAtom = QSharedPointer<PrintOptionsAtom>(new PrintOptionsAtom(_t));
+        _s.printOptionsAtom = QSharedPointer<PrintOptionsAtom>(new PrintOptionsAtom(&_s));
+        parsePrintOptionsAtom(in, *_s.printOptionsAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.printOptionsAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.printOptionsAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        RoundTripCustomTableStyles12Atom _t;
-        parseRoundTripCustomTableStyles12Atom(in, _t);
-        _s.rtCustomTableStylesAtom1 = QSharedPointer<RoundTripCustomTableStyles12Atom>(new RoundTripCustomTableStyles12Atom(_t));
+        _s.rtCustomTableStylesAtom1 = QSharedPointer<RoundTripCustomTableStyles12Atom>(new RoundTripCustomTableStyles12Atom(&_s));
+        parseRoundTripCustomTableStyles12Atom(in, *_s.rtCustomTableStylesAtom1.data());
     } catch(IncorrectValueException _e) {
+        _s.rtCustomTableStylesAtom1.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.rtCustomTableStylesAtom1.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        UnknownDocumentContainerChild _t;
-        parseUnknownDocumentContainerChild(in, _t);
-        _s.unknown1 = QSharedPointer<UnknownDocumentContainerChild>(new UnknownDocumentContainerChild(_t));
+        _s.unknown1 = QSharedPointer<UnknownDocumentContainerChild>(new UnknownDocumentContainerChild(&_s));
+        parseUnknownDocumentContainerChild(in, *_s.unknown1.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown1.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown1.clear();
         in.rewind(_m);
     }
     parseEndDocumentAtom(in, _s.endDocumentAtom);
     _m = in.setMark();
     try {
-        UnknownDocumentContainerChild3 _t;
-        parseUnknownDocumentContainerChild3(in, _t);
-        _s.unknown2 = QSharedPointer<UnknownDocumentContainerChild3>(new UnknownDocumentContainerChild3(_t));
+        _s.unknown2 = QSharedPointer<UnknownDocumentContainerChild3>(new UnknownDocumentContainerChild3(&_s));
+        parseUnknownDocumentContainerChild3(in, *_s.unknown2.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown2.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown2.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        UnknownDocumentContainerChild2 _t;
-        parseUnknownDocumentContainerChild2(in, _t);
-        _s.unknown3 = QSharedPointer<UnknownDocumentContainerChild2>(new UnknownDocumentContainerChild2(_t));
+        _s.unknown3 = QSharedPointer<UnknownDocumentContainerChild2>(new UnknownDocumentContainerChild2(&_s));
+        parseUnknownDocumentContainerChild2(in, *_s.unknown3.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown3.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown3.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        UnknownDocumentContainerChild3 _t;
-        parseUnknownDocumentContainerChild3(in, _t);
-        _s.unknown4 = QSharedPointer<UnknownDocumentContainerChild3>(new UnknownDocumentContainerChild3(_t));
+        _s.unknown4 = QSharedPointer<UnknownDocumentContainerChild3>(new UnknownDocumentContainerChild3(&_s));
+        parseUnknownDocumentContainerChild3(in, *_s.unknown4.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown4.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown4.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        UnknownDocumentContainerChild4 _t;
-        parseUnknownDocumentContainerChild4(in, _t);
-        _s.unknown5 = QSharedPointer<UnknownDocumentContainerChild4>(new UnknownDocumentContainerChild4(_t));
+        _s.unknown5 = QSharedPointer<UnknownDocumentContainerChild4>(new UnknownDocumentContainerChild4(&_s));
+        parseUnknownDocumentContainerChild4(in, *_s.unknown5.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown5.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown5.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        RoundTripCustomTableStyles12Atom _t;
-        parseRoundTripCustomTableStyles12Atom(in, _t);
-        _s.rtCustomTableStylesAtom2 = QSharedPointer<RoundTripCustomTableStyles12Atom>(new RoundTripCustomTableStyles12Atom(_t));
+        _s.rtCustomTableStylesAtom2 = QSharedPointer<RoundTripCustomTableStyles12Atom>(new RoundTripCustomTableStyles12Atom(&_s));
+        parseRoundTripCustomTableStyles12Atom(in, *_s.rtCustomTableStylesAtom2.data());
     } catch(IncorrectValueException _e) {
+        _s.rtCustomTableStylesAtom2.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.rtCustomTableStylesAtom2.clear();
         in.rewind(_m);
     }
 }
@@ -35096,49 +45473,243 @@ void write(const DocumentContainer& _s, LEOutputStream& out) {
     if (_s.rtCustomTableStylesAtom2) write(*_s.rtCustomTableStylesAtom2, out);
 }
 void parseDocumentContainer(QXmlStreamReader& in, DocumentContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in DocumentAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "documentAtom") {
+        qDebug() << "not startelement in documentAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in ExObjListContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "exObjList") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in DocumentTextInfoContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "documentTextInfo") {
+        qDebug() << "not startelement in documentTextInfo " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SoundCollectionContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "soundCollection") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in DrawingGroupContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "drawingGroup") {
+        qDebug() << "not startelement in drawingGroup " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MasterListWithTextContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "masterList") {
+        qDebug() << "not startelement in masterList " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in DocInfoListContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "docInfoList") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideHeadersFootersContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "slideHF") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in NotesHeadersFootersContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "notesHF") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideListWithTextContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "slideList") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideHeadersFootersContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "slideHF2") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in NotesListWithTextContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "notesList") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideShowDocInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "slideShowDocInfoAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in NamedShowsContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "namedShows") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SummaryContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "summary") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in DocRoutingSlipAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "docRoutingSlipAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PrintOptionsAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "printOptionsAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RoundTripCustomTableStyles12Atom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "rtCustomTableStylesAtom1") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in UnknownDocumentContainerChild " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown1") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in EndDocumentAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "endDocumentAtom") {
+        qDebug() << "not startelement in endDocumentAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in UnknownDocumentContainerChild3 " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown2") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in UnknownDocumentContainerChild2 " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown3") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in UnknownDocumentContainerChild3 " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown4") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in UnknownDocumentContainerChild4 " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown5") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RoundTripCustomTableStyles12Atom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "rtCustomTableStylesAtom2") {
+        skipToStartElement(in);
+    }
 }
 void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContainerOrAtom& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        DocProgTagsContainer _t;
-        parseDocProgTagsContainer(in, _t);
-        _s.anon.docprogtagscontainer = QSharedPointer<DocProgTagsContainer>(new DocProgTagsContainer(_t));
+        _s.anon.docprogtagscontainer = QSharedPointer<DocProgTagsContainer>(new DocProgTagsContainer(&_s));
+        parseDocProgTagsContainer(in, *_s.anon.docprogtagscontainer.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.docprogtagscontainer.clear();
         in.rewind(_m);
     try {
-        NormalViewSetInfoContainer _t;
-        parseNormalViewSetInfoContainer(in, _t);
-        _s.anon.normalviewsetinfocontainer = QSharedPointer<NormalViewSetInfoContainer>(new NormalViewSetInfoContainer(_t));
+        _s.anon.normalviewsetinfocontainer = QSharedPointer<NormalViewSetInfoContainer>(new NormalViewSetInfoContainer(&_s));
+        parseNormalViewSetInfoContainer(in, *_s.anon.normalviewsetinfocontainer.data());
     } catch (IncorrectValueException _xx) {
+        _s.anon.normalviewsetinfocontainer.clear();
         in.rewind(_m);
     try {
-        NotesTextViewInfoContainer _t;
-        parseNotesTextViewInfoContainer(in, _t);
-        _s.anon.notestextviewinfocontainer = QSharedPointer<NotesTextViewInfoContainer>(new NotesTextViewInfoContainer(_t));
+        _s.anon.notestextviewinfocontainer = QSharedPointer<NotesTextViewInfoContainer>(new NotesTextViewInfoContainer(&_s));
+        parseNotesTextViewInfoContainer(in, *_s.anon.notestextviewinfocontainer.data());
     } catch (IncorrectValueException _xxx) {
+        _s.anon.notestextviewinfocontainer.clear();
         in.rewind(_m);
     try {
-        OutlineViewInfoContainer _t;
-        parseOutlineViewInfoContainer(in, _t);
-        _s.anon.outlineviewinfocontainer = QSharedPointer<OutlineViewInfoContainer>(new OutlineViewInfoContainer(_t));
+        _s.anon.outlineviewinfocontainer = QSharedPointer<OutlineViewInfoContainer>(new OutlineViewInfoContainer(&_s));
+        parseOutlineViewInfoContainer(in, *_s.anon.outlineviewinfocontainer.data());
     } catch (IncorrectValueException _xxxx) {
+        _s.anon.outlineviewinfocontainer.clear();
         in.rewind(_m);
     try {
-        SlideViewInfoInstance _t;
-        parseSlideViewInfoInstance(in, _t);
-        _s.anon.slideviewinfoinstance = QSharedPointer<SlideViewInfoInstance>(new SlideViewInfoInstance(_t));
+        _s.anon.slideviewinfoinstance = QSharedPointer<SlideViewInfoInstance>(new SlideViewInfoInstance(&_s));
+        parseSlideViewInfoInstance(in, *_s.anon.slideviewinfoinstance.data());
     } catch (IncorrectValueException _xxxxx) {
+        _s.anon.slideviewinfoinstance.clear();
         in.rewind(_m);
     try {
-        SorterViewInfoContainer _t;
-        parseSorterViewInfoContainer(in, _t);
-        _s.anon.sorterviewinfocontainer = QSharedPointer<SorterViewInfoContainer>(new SorterViewInfoContainer(_t));
+        _s.anon.sorterviewinfocontainer = QSharedPointer<SorterViewInfoContainer>(new SorterViewInfoContainer(&_s));
+        parseSorterViewInfoContainer(in, *_s.anon.sorterviewinfocontainer.data());
     } catch (IncorrectValueException _xxxxxx) {
+        _s.anon.sorterviewinfocontainer.clear();
         in.rewind(_m);
-        VBAInfoContainer _t;
-        parseVBAInfoContainer(in, _t);
-        _s.anon.vbainfocontainer = QSharedPointer<VBAInfoContainer>(new VBAInfoContainer(_t));
+        _s.anon.vbainfocontainer = QSharedPointer<VBAInfoContainer>(new VBAInfoContainer(&_s));
+        parseVBAInfoContainer(in, *_s.anon.vbainfocontainer);
     }}}}}}
 }
 void write(const DocInfoListSubContainerOrAtom& _s, LEOutputStream& out) {
@@ -35159,10 +45730,20 @@ void write(const DocInfoListSubContainerOrAtom& _s, LEOutputStream& out) {
     }
 }
 void parseDocInfoListSubContainerOrAtom(QXmlStreamReader& in, DocInfoListSubContainerOrAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -35176,48 +45757,52 @@ void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
     parseOfficeArtFDG(in, _s.drawingData);
     _m = in.setMark();
     try {
-        OfficeArtFRITContainer _t;
-        parseOfficeArtFRITContainer(in, _t);
-        _s.regroupItems = QSharedPointer<OfficeArtFRITContainer>(new OfficeArtFRITContainer(_t));
+        _s.regroupItems = QSharedPointer<OfficeArtFRITContainer>(new OfficeArtFRITContainer(&_s));
+        parseOfficeArtFRITContainer(in, *_s.regroupItems.data());
     } catch(IncorrectValueException _e) {
+        _s.regroupItems.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.regroupItems.clear();
         in.rewind(_m);
     }
     parseOfficeArtSpgrContainer(in, _s.groupShape);
     _m = in.setMark();
     try {
-        OfficeArtSpContainer _t;
-        parseOfficeArtSpContainer(in, _t);
-        _s.shape = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(_t));
+        _s.shape = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(&_s));
+        parseOfficeArtSpContainer(in, *_s.shape.data());
     } catch(IncorrectValueException _e) {
+        _s.shape.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.shape.clear();
         in.rewind(_m);
     }
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            OfficeArtSpgrContainerFileBlock _t;
-            parseOfficeArtSpgrContainerFileBlock(in, _t);
-            _s.deletedShapes.append(_t);
+            _s.deletedShapes.append(&_s);
+            parseOfficeArtSpgrContainerFileBlock(in, _s.deletedShapes.last());
         } catch(IncorrectValueException _e) {
+            _s.deletedShapes.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.deletedShapes.removeLast();
             _atend = true;
             in.rewind(_m);
         }
     }
     _m = in.setMark();
     try {
-        OfficeArtSolverContainer _t;
-        parseOfficeArtSolverContainer(in, _t);
-        _s.solvers = QSharedPointer<OfficeArtSolverContainer>(new OfficeArtSolverContainer(_t));
+        _s.solvers = QSharedPointer<OfficeArtSolverContainer>(new OfficeArtSolverContainer(&_s));
+        parseOfficeArtSolverContainer(in, *_s.solvers.data());
     } catch(IncorrectValueException _e) {
+        _s.solvers.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.solvers.clear();
         in.rewind(_m);
     }
 }
@@ -35233,19 +45818,72 @@ void write(const OfficeArtDgContainer& _s, LEOutputStream& out) {
     if (_s.solvers) write(*_s.solvers, out);
 }
 void parseOfficeArtDgContainer(QXmlStreamReader& in, OfficeArtDgContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFDG " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "drawingData") {
+        qDebug() << "not startelement in drawingData " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFRITContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "regroupItems") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtSpgrContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "groupShape") {
+        qDebug() << "not startelement in groupShape " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtSpContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "shape") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtSpgrContainerFileBlock " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtSolverContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "solvers") {
+        skipToStartElement(in);
+    }
 }
 void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContainerFileBlock& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        OfficeArtSpContainer _t;
-        parseOfficeArtSpContainer(in, _t);
-        _s.anon.officeartspcontainer = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(_t));
+        _s.anon.officeartspcontainer = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(&_s));
+        parseOfficeArtSpContainer(in, *_s.anon.officeartspcontainer.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.officeartspcontainer.clear();
         in.rewind(_m);
-        OfficeArtSpgrContainer _t;
-        parseOfficeArtSpgrContainer(in, _t);
-        _s.anon.officeartspgrcontainer = QSharedPointer<OfficeArtSpgrContainer>(new OfficeArtSpgrContainer(_t));
+        _s.anon.officeartspgrcontainer = QSharedPointer<OfficeArtSpgrContainer>(new OfficeArtSpgrContainer(&_s));
+        parseOfficeArtSpgrContainer(in, *_s.anon.officeartspgrcontainer);
     }
 }
 void write(const OfficeArtSpgrContainerFileBlock& _s, LEOutputStream& out) {
@@ -35256,6 +45894,16 @@ void write(const OfficeArtSpgrContainerFileBlock& _s, LEOutputStream& out) {
     }
 }
 void parseOfficeArtSpgrContainerFileBlock(QXmlStreamReader& in, OfficeArtSpgrContainerFileBlock& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s) {
     parseRecordHeader(in, _s.rh);
@@ -35275,10 +45923,29 @@ void write(const DrawingContainer& _s, LEOutputStream& out) {
     write(_s.OfficeArtDg, out);
 }
 void parseDrawingContainer(QXmlStreamReader& in, DrawingContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtDgContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "OfficeArtDg") {
+        qDebug() << "not startelement in OfficeArtDg " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -35292,25 +45959,27 @@ void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
     parseSlideAtom(in, _s.slideAtom);
     _m = in.setMark();
     try {
-        SlideShowSlideInfoAtom _t;
-        parseSlideShowSlideInfoAtom(in, _t);
-        _s.unknown = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(_t));
+        _s.unknown = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(&_s));
+        parseSlideShowSlideInfoAtom(in, *_s.unknown.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown.clear();
         in.rewind(_m);
     }
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            SchemeListElementColorSchemeAtom _t;
-            parseSchemeListElementColorSchemeAtom(in, _t);
-            _s.rgSchemeListElementColorScheme.append(_t);
+            _s.rgSchemeListElementColorScheme.append(&_s);
+            parseSchemeListElementColorSchemeAtom(in, _s.rgSchemeListElementColorScheme.last());
         } catch(IncorrectValueException _e) {
+            _s.rgSchemeListElementColorScheme.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.rgSchemeListElementColorScheme.removeLast();
             _atend = true;
             in.rewind(_m);
         }
@@ -35319,112 +45988,122 @@ void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            TextMasterStyleAtom _t;
-            parseTextMasterStyleAtom(in, _t);
-            _s.rgTextMasterStyle.append(_t);
+            _s.rgTextMasterStyle.append(&_s);
+            parseTextMasterStyleAtom(in, _s.rgTextMasterStyle.last());
         } catch(IncorrectValueException _e) {
+            _s.rgTextMasterStyle.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.rgTextMasterStyle.removeLast();
             _atend = true;
             in.rewind(_m);
         }
     }
     _m = in.setMark();
     try {
-        RoundTripOArtTextStyles12Atom _t;
-        parseRoundTripOArtTextStyles12Atom(in, _t);
-        _s.roundTripOArtTextSTyles12Atom = QSharedPointer<RoundTripOArtTextStyles12Atom>(new RoundTripOArtTextStyles12Atom(_t));
+        _s.roundTripOArtTextSTyles12Atom = QSharedPointer<RoundTripOArtTextStyles12Atom>(new RoundTripOArtTextStyles12Atom(&_s));
+        parseRoundTripOArtTextStyles12Atom(in, *_s.roundTripOArtTextSTyles12Atom.data());
     } catch(IncorrectValueException _e) {
+        _s.roundTripOArtTextSTyles12Atom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.roundTripOArtTextSTyles12Atom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        SlideShowSlideInfoAtom _t;
-        parseSlideShowSlideInfoAtom(in, _t);
-        _s.slideShowInfoAtom = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(_t));
+        _s.slideShowInfoAtom = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(&_s));
+        parseSlideShowSlideInfoAtom(in, *_s.slideShowInfoAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.slideShowInfoAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.slideShowInfoAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        PerSlideHeadersFootersContainer _t;
-        parsePerSlideHeadersFootersContainer(in, _t);
-        _s.perSlideHeadersFootersContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(_t));
+        _s.perSlideHeadersFootersContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
+        parsePerSlideHeadersFootersContainer(in, *_s.perSlideHeadersFootersContainer.data());
     } catch(IncorrectValueException _e) {
+        _s.perSlideHeadersFootersContainer.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.perSlideHeadersFootersContainer.clear();
         in.rewind(_m);
     }
     parseDrawingContainer(in, _s.drawing);
     parseSlideSchemeColorSchemeAtom(in, _s.slideSchemeColorSchemeAtom);
     _m = in.setMark();
     try {
-        SlideNameAtom _t;
-        parseSlideNameAtom(in, _t);
-        _s.slideNameAtom = QSharedPointer<SlideNameAtom>(new SlideNameAtom(_t));
+        _s.slideNameAtom = QSharedPointer<SlideNameAtom>(new SlideNameAtom(&_s));
+        parseSlideNameAtom(in, *_s.slideNameAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.slideNameAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.slideNameAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        SlideProgTagsContainer _t;
-        parseSlideProgTagsContainer(in, _t);
-        _s.slideProgTagsContainer = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(_t));
+        _s.slideProgTagsContainer = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(&_s));
+        parseSlideProgTagsContainer(in, *_s.slideProgTagsContainer.data());
     } catch(IncorrectValueException _e) {
+        _s.slideProgTagsContainer.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.slideProgTagsContainer.clear();
         in.rewind(_m);
     }
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            RoundTripMainMasterRecord _t;
-            parseRoundTripMainMasterRecord(in, _t);
-            _s.rgRoundTripMainMaster.append(_t);
+            _s.rgRoundTripMainMaster.append(&_s);
+            parseRoundTripMainMasterRecord(in, _s.rgRoundTripMainMaster.last());
         } catch(IncorrectValueException _e) {
+            _s.rgRoundTripMainMaster.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.rgRoundTripMainMaster.removeLast();
             _atend = true;
             in.rewind(_m);
         }
     }
     _m = in.setMark();
     try {
-        UnknownSlideContainerChild _t;
-        parseUnknownSlideContainerChild(in, _t);
-        _s.unknown2 = QSharedPointer<UnknownSlideContainerChild>(new UnknownSlideContainerChild(_t));
+        _s.unknown2 = QSharedPointer<UnknownSlideContainerChild>(new UnknownSlideContainerChild(&_s));
+        parseUnknownSlideContainerChild(in, *_s.unknown2.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown2.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown2.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        TemplateNameAtom _t;
-        parseTemplateNameAtom(in, _t);
-        _s.templateNameAtom = QSharedPointer<TemplateNameAtom>(new TemplateNameAtom(_t));
+        _s.templateNameAtom = QSharedPointer<TemplateNameAtom>(new TemplateNameAtom(&_s));
+        parseTemplateNameAtom(in, *_s.templateNameAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.templateNameAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.templateNameAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        SlideProgTagsContainer _t;
-        parseSlideProgTagsContainer(in, _t);
-        _s.unknown3 = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(_t));
+        _s.unknown3 = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(&_s));
+        parseSlideProgTagsContainer(in, *_s.unknown3.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown3.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown3.clear();
         in.rewind(_m);
     }
 }
@@ -35453,10 +46132,125 @@ void write(const MainMasterContainer& _s, LEOutputStream& out) {
     if (_s.unknown3) write(*_s.unknown3, out);
 }
 void parseMainMasterContainer(QXmlStreamReader& in, MainMasterContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideAtom") {
+        qDebug() << "not startelement in slideAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideShowSlideInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SchemeListElementColorSchemeAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextMasterStyleAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RoundTripOArtTextStyles12Atom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "roundTripOArtTextSTyles12Atom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideShowSlideInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "slideShowInfoAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PerSlideHeadersFootersContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "perSlideHeadersFootersContainer") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in DrawingContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "drawing") {
+        qDebug() << "not startelement in drawing " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideSchemeColorSchemeAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideSchemeColorSchemeAtom") {
+        qDebug() << "not startelement in slideSchemeColorSchemeAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideNameAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "slideNameAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideProgTagsContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "slideProgTagsContainer") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RoundTripMainMasterRecord " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in UnknownSlideContainerChild " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown2") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TemplateNameAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "templateNameAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideProgTagsContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown3") {
+        skipToStartElement(in);
+    }
 }
 void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
     LEInputStream::Mark _m;
-        bool _atend;
+    bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -35470,79 +46264,86 @@ void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
     parseSlideAtom(in, _s.slideAtom);
     _m = in.setMark();
     try {
-        SlideShowSlideInfoAtom _t;
-        parseSlideShowSlideInfoAtom(in, _t);
-        _s.slideShowSlideInfoAtom = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(_t));
+        _s.slideShowSlideInfoAtom = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(&_s));
+        parseSlideShowSlideInfoAtom(in, *_s.slideShowSlideInfoAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.slideShowSlideInfoAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.slideShowSlideInfoAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        PerSlideHeadersFootersContainer _t;
-        parsePerSlideHeadersFootersContainer(in, _t);
-        _s.perSlideHFContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(_t));
+        _s.perSlideHFContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
+        parsePerSlideHeadersFootersContainer(in, *_s.perSlideHFContainer.data());
     } catch(IncorrectValueException _e) {
+        _s.perSlideHFContainer.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.perSlideHFContainer.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        RoundTripSlideSyncInfo12Container _t;
-        parseRoundTripSlideSyncInfo12Container(in, _t);
-        _s.rtSlideSyncInfo12 = QSharedPointer<RoundTripSlideSyncInfo12Container>(new RoundTripSlideSyncInfo12Container(_t));
+        _s.rtSlideSyncInfo12 = QSharedPointer<RoundTripSlideSyncInfo12Container>(new RoundTripSlideSyncInfo12Container(&_s));
+        parseRoundTripSlideSyncInfo12Container(in, *_s.rtSlideSyncInfo12.data());
     } catch(IncorrectValueException _e) {
+        _s.rtSlideSyncInfo12.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.rtSlideSyncInfo12.clear();
         in.rewind(_m);
     }
     parseDrawingContainer(in, _s.drawing);
     parseSlideSchemeColorSchemeAtom(in, _s.slideSchemeColorSchemeAtom);
     _m = in.setMark();
     try {
-        SlideNameAtom _t;
-        parseSlideNameAtom(in, _t);
-        _s.slideNameAtom = QSharedPointer<SlideNameAtom>(new SlideNameAtom(_t));
+        _s.slideNameAtom = QSharedPointer<SlideNameAtom>(new SlideNameAtom(&_s));
+        parseSlideNameAtom(in, *_s.slideNameAtom.data());
     } catch(IncorrectValueException _e) {
+        _s.slideNameAtom.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.slideNameAtom.clear();
         in.rewind(_m);
     }
     _m = in.setMark();
     try {
-        SlideProgTagscontainer _t;
-        parseSlideProgTagscontainer(in, _t);
-        _s.slideProgTagsContainer = QSharedPointer<SlideProgTagscontainer>(new SlideProgTagscontainer(_t));
+        _s.slideProgTagsContainer = QSharedPointer<SlideProgTagscontainer>(new SlideProgTagscontainer(&_s));
+        parseSlideProgTagscontainer(in, *_s.slideProgTagsContainer.data());
     } catch(IncorrectValueException _e) {
+        _s.slideProgTagsContainer.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.slideProgTagsContainer.clear();
         in.rewind(_m);
     }
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
         try {
-            RoundTripSlideRecord _t;
-            parseRoundTripSlideRecord(in, _t);
-            _s.rgRoundTripSlide.append(_t);
+            _s.rgRoundTripSlide.append(&_s);
+            parseRoundTripSlideRecord(in, _s.rgRoundTripSlide.last());
         } catch(IncorrectValueException _e) {
+            _s.rgRoundTripSlide.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
+            _s.rgRoundTripSlide.removeLast();
             _atend = true;
             in.rewind(_m);
         }
     }
     _m = in.setMark();
     try {
-        UnknownSlideContainerChild _t;
-        parseUnknownSlideContainerChild(in, _t);
-        _s.unknown = QSharedPointer<UnknownSlideContainerChild>(new UnknownSlideContainerChild(_t));
+        _s.unknown = QSharedPointer<UnknownSlideContainerChild>(new UnknownSlideContainerChild(&_s));
+        parseUnknownSlideContainerChild(in, *_s.unknown.data());
     } catch(IncorrectValueException _e) {
+        _s.unknown.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
+        _s.unknown.clear();
         in.rewind(_m);
     }
 }
@@ -35562,19 +46363,102 @@ void write(const SlideContainer& _s, LEOutputStream& out) {
     if (_s.unknown) write(*_s.unknown, out);
 }
 void parseSlideContainer(QXmlStreamReader& in, SlideContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideAtom") {
+        qDebug() << "not startelement in slideAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideShowSlideInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "slideShowSlideInfoAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PerSlideHeadersFootersContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "perSlideHFContainer") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RoundTripSlideSyncInfo12Container " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "rtSlideSyncInfo12") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in DrawingContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "drawing") {
+        qDebug() << "not startelement in drawing " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideSchemeColorSchemeAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "slideSchemeColorSchemeAtom") {
+        qDebug() << "not startelement in slideSchemeColorSchemeAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideNameAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "slideNameAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SlideProgTagscontainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "slideProgTagsContainer") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RoundTripSlideRecord " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in UnknownSlideContainerChild " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "unknown") {
+        skipToStartElement(in);
+    }
 }
 void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        MainMasterContainer _t;
-        parseMainMasterContainer(in, _t);
-        _s.anon.mainmastercontainer = QSharedPointer<MainMasterContainer>(new MainMasterContainer(_t));
+        _s.anon.mainmastercontainer = QSharedPointer<MainMasterContainer>(new MainMasterContainer(&_s));
+        parseMainMasterContainer(in, *_s.anon.mainmastercontainer.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.mainmastercontainer.clear();
         in.rewind(_m);
-        SlideContainer _t;
-        parseSlideContainer(in, _t);
-        _s.anon.slidecontainer = QSharedPointer<SlideContainer>(new SlideContainer(_t));
+        _s.anon.slidecontainer = QSharedPointer<SlideContainer>(new SlideContainer(&_s));
+        parseSlideContainer(in, *_s.anon.slidecontainer);
     }
 }
 void write(const MasterOrSlideContainer& _s, LEOutputStream& out) {
@@ -35585,67 +46469,76 @@ void write(const MasterOrSlideContainer& _s, LEOutputStream& out) {
     }
 }
 void parseMasterOrSlideContainer(QXmlStreamReader& in, MasterOrSlideContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 void parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        DocumentContainer _t;
-        parseDocumentContainer(in, _t);
-        _s.anon.documentcontainer = QSharedPointer<DocumentContainer>(new DocumentContainer(_t));
+        _s.anon.documentcontainer = QSharedPointer<DocumentContainer>(new DocumentContainer(&_s));
+        parseDocumentContainer(in, *_s.anon.documentcontainer.data());
     } catch (IncorrectValueException _x) {
+        _s.anon.documentcontainer.clear();
         in.rewind(_m);
     try {
-        MasterOrSlideContainer _t;
-        parseMasterOrSlideContainer(in, _t);
-        _s.anon.masterorslidecontainer = QSharedPointer<MasterOrSlideContainer>(new MasterOrSlideContainer(_t));
+        _s.anon.masterorslidecontainer = QSharedPointer<MasterOrSlideContainer>(new MasterOrSlideContainer(&_s));
+        parseMasterOrSlideContainer(in, *_s.anon.masterorslidecontainer.data());
     } catch (IncorrectValueException _xx) {
+        _s.anon.masterorslidecontainer.clear();
         in.rewind(_m);
     try {
-        PersistDirectoryAtom _t;
-        parsePersistDirectoryAtom(in, _t);
-        _s.anon.persistdirectoryatom = QSharedPointer<PersistDirectoryAtom>(new PersistDirectoryAtom(_t));
+        _s.anon.persistdirectoryatom = QSharedPointer<PersistDirectoryAtom>(new PersistDirectoryAtom(&_s));
+        parsePersistDirectoryAtom(in, *_s.anon.persistdirectoryatom.data());
     } catch (IncorrectValueException _xxx) {
+        _s.anon.persistdirectoryatom.clear();
         in.rewind(_m);
     try {
-        NotesContainer _t;
-        parseNotesContainer(in, _t);
-        _s.anon.notescontainer = QSharedPointer<NotesContainer>(new NotesContainer(_t));
+        _s.anon.notescontainer = QSharedPointer<NotesContainer>(new NotesContainer(&_s));
+        parseNotesContainer(in, *_s.anon.notescontainer.data());
     } catch (IncorrectValueException _xxxx) {
+        _s.anon.notescontainer.clear();
         in.rewind(_m);
     try {
-        HandoutContainer _t;
-        parseHandoutContainer(in, _t);
-        _s.anon.handoutcontainer = QSharedPointer<HandoutContainer>(new HandoutContainer(_t));
+        _s.anon.handoutcontainer = QSharedPointer<HandoutContainer>(new HandoutContainer(&_s));
+        parseHandoutContainer(in, *_s.anon.handoutcontainer.data());
     } catch (IncorrectValueException _xxxxx) {
+        _s.anon.handoutcontainer.clear();
         in.rewind(_m);
     try {
-        SlideContainer _t;
-        parseSlideContainer(in, _t);
-        _s.anon.slidecontainer = QSharedPointer<SlideContainer>(new SlideContainer(_t));
+        _s.anon.slidecontainer = QSharedPointer<SlideContainer>(new SlideContainer(&_s));
+        parseSlideContainer(in, *_s.anon.slidecontainer.data());
     } catch (IncorrectValueException _xxxxxx) {
+        _s.anon.slidecontainer.clear();
         in.rewind(_m);
     try {
-        ExOleObjStg _t;
-        parseExOleObjStg(in, _t);
-        _s.anon.exoleobjstg = QSharedPointer<ExOleObjStg>(new ExOleObjStg(_t));
+        _s.anon.exoleobjstg = QSharedPointer<ExOleObjStg>(new ExOleObjStg(&_s));
+        parseExOleObjStg(in, *_s.anon.exoleobjstg.data());
     } catch (IncorrectValueException _xxxxxxx) {
+        _s.anon.exoleobjstg.clear();
         in.rewind(_m);
     try {
-        ExControlStg _t;
-        parseExControlStg(in, _t);
-        _s.anon.excontrolstg = QSharedPointer<ExControlStg>(new ExControlStg(_t));
+        _s.anon.excontrolstg = QSharedPointer<ExControlStg>(new ExControlStg(&_s));
+        parseExControlStg(in, *_s.anon.excontrolstg.data());
     } catch (IncorrectValueException _xxxxxxxx) {
+        _s.anon.excontrolstg.clear();
         in.rewind(_m);
     try {
-        VbaProjectStg _t;
-        parseVbaProjectStg(in, _t);
-        _s.anon.vbaprojectstg = QSharedPointer<VbaProjectStg>(new VbaProjectStg(_t));
+        _s.anon.vbaprojectstg = QSharedPointer<VbaProjectStg>(new VbaProjectStg(&_s));
+        parseVbaProjectStg(in, *_s.anon.vbaprojectstg.data());
     } catch (IncorrectValueException _xxxxxxxxx) {
+        _s.anon.vbaprojectstg.clear();
         in.rewind(_m);
-        UserEditAtom _t;
-        parseUserEditAtom(in, _t);
-        _s.anon.usereditatom = QSharedPointer<UserEditAtom>(new UserEditAtom(_t));
+        _s.anon.usereditatom = QSharedPointer<UserEditAtom>(new UserEditAtom(&_s));
+        parseUserEditAtom(in, *_s.anon.usereditatom);
     }}}}}}}}}
 }
 void write(const PowerPointStruct& _s, LEOutputStream& out) {
@@ -35672,55 +46565,65 @@ void write(const PowerPointStruct& _s, LEOutputStream& out) {
     }
 }
 void parsePowerPointStruct(QXmlStreamReader& in, PowerPointStruct& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in choice " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "anon") {
+        qDebug() << "not startelement in anon " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
 }
 }
 const Introspectable* parse(const QString& key, LEInputStream& in) {
     const Introspectable* i = 0;
     if ("PowerPoint Document" == key) {
-        PowerPointStructs _t;
-        parsePowerPointStructs(in, _t);
-        i = new PowerPointStructs(_t);
+        PowerPointStructs *_t = new PowerPointStructs(0);
+        parsePowerPointStructs(in, *_t);
+        i = _t;
     } else if ("Current User" == key) {
-        CurrentUserStream _t;
-        parseCurrentUserStream(in, _t);
-        i = new CurrentUserStream(_t);
+        CurrentUserStream *_t = new CurrentUserStream(0);
+        parseCurrentUserStream(in, *_t);
+        i = _t;
     } else if ("Pictures" == key) {
-        OfficeArtBStoreDelay _t;
-        parseOfficeArtBStoreDelay(in, _t);
-        i = new OfficeArtBStoreDelay(_t);
+        OfficeArtBStoreDelay *_t = new OfficeArtBStoreDelay(0);
+        parseOfficeArtBStoreDelay(in, *_t);
+        i = _t;
     } else if ("WordDocument" == key) {
-        WordDocument _t;
-        parseWordDocument(in, _t);
-        i = new WordDocument(_t);
+        WordDocument *_t = new WordDocument(0);
+        parseWordDocument(in, *_t);
+        i = _t;
     } else if ("1Table" == key) {
-        Table _t;
-        parseTable(in, _t);
-        i = new Table(_t);
+        Table *_t = new Table(0);
+        parseTable(in, *_t);
+        i = _t;
     } else if ("SummaryInformation" == key) {
-        SummaryInformationPropertySetStream _t;
-        parseSummaryInformationPropertySetStream(in, _t);
-        i = new SummaryInformationPropertySetStream(_t);
+        SummaryInformationPropertySetStream *_t = new SummaryInformationPropertySetStream(0);
+        parseSummaryInformationPropertySetStream(in, *_t);
+        i = _t;
     } else if ("DocumentSummaryInformation" == key) {
-        DocumentSummaryInformationPropertySetStream _t;
-        parseDocumentSummaryInformationPropertySetStream(in, _t);
-        i = new DocumentSummaryInformationPropertySetStream(_t);
+        DocumentSummaryInformationPropertySetStream *_t = new DocumentSummaryInformationPropertySetStream(0);
+        parseDocumentSummaryInformationPropertySetStream(in, *_t);
+        i = _t;
     } else if ("textPFRun" == key) {
-        TextPFRun _t;
-        parseTextPFRun(in, _t);
-        i = new TextPFRun(_t);
+        TextPFRun *_t = new TextPFRun(0);
+        parseTextPFRun(in, *_t);
+        i = _t;
     } else if ("textCFRun" == key) {
-        TextCFRun _t;
-        parseTextCFRun(in, _t);
-        i = new TextCFRun(_t);
+        TextCFRun *_t = new TextCFRun(0);
+        parseTextCFRun(in, *_t);
+        i = _t;
     } else {
-        TODOS _t;
-        parseTODOS(in, _t);
-        i = new TODOS(_t);
+        TODOS* _t = new TODOS(0);
+        parseTODOS(in, *_t);
+        i = _t;
     }
     return i;
 }
-const QMap<QString,QSharedPointer<Introspectable> > parse(QXmlStreamReader& in) {
-    QMap<QString,QSharedPointer<Introspectable> > streams;
+const QMap<QString,QSharedPointer<const Introspectable> > parse(QXmlStreamReader& in) {
+    QMap<QString,QSharedPointer<const Introspectable> > streams;
     // skip until first element
     while (!in.atEnd() && !in.isStartElement()) {
         in.readNext();
@@ -35729,48 +46632,72 @@ const QMap<QString,QSharedPointer<Introspectable> > parse(QXmlStreamReader& in) 
         return streams;
     }
     do {
+        in.readNext();
+    } while (!in.atEnd() && !in.isStartElement());
+    if (!in.isStartElement()) {
+        return streams;
+    }
+    do {
         QString name = in.name().toString();
         if (streams.contains(name)) {
+            streams.clear();
             return streams;
         }
         if ("PowerPoint Document" == name) {
-            QSharedPointer<Introspectable> _t(new PowerPointStructs());
+            QSharedPointer<Introspectable> _t(new PowerPointStructs(0));
             parsePowerPointStructs(in, *static_cast<PowerPointStructs*>(_t.data()));
             streams[name] = _t;
         } else if ("Current User" == name) {
-            QSharedPointer<Introspectable> _t(new CurrentUserStream());
+            QSharedPointer<Introspectable> _t(new CurrentUserStream(0));
             parseCurrentUserStream(in, *static_cast<CurrentUserStream*>(_t.data()));
             streams[name] = _t;
         } else if ("Pictures" == name) {
-            QSharedPointer<Introspectable> _t(new OfficeArtBStoreDelay());
+            QSharedPointer<Introspectable> _t(new OfficeArtBStoreDelay(0));
             parseOfficeArtBStoreDelay(in, *static_cast<OfficeArtBStoreDelay*>(_t.data()));
             streams[name] = _t;
         } else if ("WordDocument" == name) {
-            QSharedPointer<Introspectable> _t(new WordDocument());
+            QSharedPointer<Introspectable> _t(new WordDocument(0));
             parseWordDocument(in, *static_cast<WordDocument*>(_t.data()));
             streams[name] = _t;
         } else if ("1Table" == name) {
-            QSharedPointer<Introspectable> _t(new Table());
+            QSharedPointer<Introspectable> _t(new Table(0));
             parseTable(in, *static_cast<Table*>(_t.data()));
             streams[name] = _t;
         } else if ("SummaryInformation" == name) {
-            QSharedPointer<Introspectable> _t(new SummaryInformationPropertySetStream());
+            QSharedPointer<Introspectable> _t(new SummaryInformationPropertySetStream(0));
             parseSummaryInformationPropertySetStream(in, *static_cast<SummaryInformationPropertySetStream*>(_t.data()));
             streams[name] = _t;
         } else if ("DocumentSummaryInformation" == name) {
-            QSharedPointer<Introspectable> _t(new DocumentSummaryInformationPropertySetStream());
+            QSharedPointer<Introspectable> _t(new DocumentSummaryInformationPropertySetStream(0));
             parseDocumentSummaryInformationPropertySetStream(in, *static_cast<DocumentSummaryInformationPropertySetStream*>(_t.data()));
             streams[name] = _t;
         } else if ("textPFRun" == name) {
-            QSharedPointer<Introspectable> _t(new TextPFRun());
+            QSharedPointer<Introspectable> _t(new TextPFRun(0));
             parseTextPFRun(in, *static_cast<TextPFRun*>(_t.data()));
             streams[name] = _t;
         } else if ("textCFRun" == name) {
-            QSharedPointer<Introspectable> _t(new TextCFRun());
+            QSharedPointer<Introspectable> _t(new TextCFRun(0));
             parseTextCFRun(in, *static_cast<TextCFRun*>(_t.data()));
             streams[name] = _t;
+        } else { // unknown stream should be binary
+            QSharedPointer<Introspectable> _t(new TODOS(0));
+            parseTODOS(in, *static_cast<TODOS*>(_t.data()));
+            streams[name] = _t;
         }
+        do {
+            in.readNext();
+        } while (in.isWhitespace());
     } while (in.isStartElement());
+    qDebug() << in.tokenType();
+    if (!in.isEndElement()) {
+        qDebug() << "parsing error: not at end of an element";
+        streams.clear();
+    }
+    in.readNext();
+    if (!in.isEndDocument()) {
+        qDebug() << "parsing error: not at end of xml";
+        streams.clear();
+    }
     return streams;
 }
 void serialize(const Introspectable* i, const QString& key, LEOutputStream& out)  {
