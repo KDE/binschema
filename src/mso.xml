@@ -303,13 +303,63 @@
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
+	<struct name="HeadersFootersAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFDA" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<int16 name="formatId">
+			<limitation expression="&gt;=0" />
+			<limitation expression="&lt;=13" />
+		</int16>
+		<bit name="fHasDate" />
+		<bit name="fHasTodayDate" />
+		<bit name="fHasUserDate" />
+		<bit name="fHasSlideNumber" />
+		<bit name="fHasHeader" />
+		<bit name="fHasFooter" />
+		<uint2 name="reserved1" />
+		<uint8 name="reserved2" />
+	</struct>
+	<struct name="UserDateAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" expression="%2==0" />
+			<limitation name="recLen" expression="&lt;=510" />
+		</type>
+		<uint8 name="userDate" count="rh.recLen" />
+	</struct>
+	<struct name="HeaderAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint8 name="footer" count="rh.recLen" />
+	</struct>
+	<struct name="FooterAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="2" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint8 name="footer" count="rh.recLen" />
+	</struct>
 	<struct name="PerSlideHeadersFootersContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFD9" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="hfAtom" type="HeadersFootersAtom" />
+		<type name="userDateAtom" type="UserDateAtom" optional="true" />
+		<type name="footerAtom" type="FooterAtom" optional="true" />
 	</struct>
 	<struct name="EndDocumentAtom">
 		<type name="rh" type="RecordHeader">

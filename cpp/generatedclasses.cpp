@@ -80,6 +80,22 @@ class NotesHeadersFootersContainer;
 void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersContainer& _s);
 void parseNotesHeadersFootersContainer(QXmlStreamReader& in, NotesHeadersFootersContainer& _s);
 void write(const NotesHeadersFootersContainer& v, LEOutputStream& out);
+class HeadersFootersAtom;
+void parseHeadersFootersAtom(LEInputStream& in, HeadersFootersAtom& _s);
+void parseHeadersFootersAtom(QXmlStreamReader& in, HeadersFootersAtom& _s);
+void write(const HeadersFootersAtom& v, LEOutputStream& out);
+class UserDateAtom;
+void parseUserDateAtom(LEInputStream& in, UserDateAtom& _s);
+void parseUserDateAtom(QXmlStreamReader& in, UserDateAtom& _s);
+void write(const UserDateAtom& v, LEOutputStream& out);
+class HeaderAtom;
+void parseHeaderAtom(LEInputStream& in, HeaderAtom& _s);
+void parseHeaderAtom(QXmlStreamReader& in, HeaderAtom& _s);
+void write(const HeaderAtom& v, LEOutputStream& out);
+class FooterAtom;
+void parseFooterAtom(LEInputStream& in, FooterAtom& _s);
+void parseFooterAtom(QXmlStreamReader& in, FooterAtom& _s);
+void write(const FooterAtom& v, LEOutputStream& out);
 class PerSlideHeadersFootersContainer;
 void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s);
 void parsePerSlideHeadersFootersContainer(QXmlStreamReader& in, PerSlideHeadersFootersContainer& _s);
@@ -1409,15 +1425,74 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class HeadersFootersAtom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    qint16 formatId;
+    bool fHasDate;
+    bool fHasTodayDate;
+    bool fHasUserDate;
+    bool fHasSlideNumber;
+    bool fHasHeader;
+    bool fHasFooter;
+    quint8 reserved1;
+    quint8 reserved2;
+    HeadersFootersAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class UserDateAtom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    QByteArray userDate;
+    UserDateAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class HeaderAtom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    QByteArray footer;
+    HeaderAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class FooterAtom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    QByteArray footer;
+    FooterAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class PerSlideHeadersFootersContainer : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray todo;
+    HeadersFootersAtom hfAtom;
+    QSharedPointer<UserDateAtom> userDateAtom;
+    QSharedPointer<FooterAtom> footerAtom;
     PerSlideHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
+        rh(this),
+        hfAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -6587,7 +6662,98 @@ const Introspectable* (* const NotesHeadersFootersContainer::_Introspection::int
 };
 const Introspection NotesHeadersFootersContainer::_introspection(
     "NotesHeadersFootersContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class PerSlideHeadersFootersContainer::_Introspection {
+class HeadersFootersAtom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[10];
+    static int (* const numberOfInstances[10])(const Introspectable*);
+    static QVariant (* const value[10])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[10])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const HeadersFootersAtom*>(i)->rh);
+    }
+    static QVariant get_formatId(const Introspectable* i, int j) {
+        return static_cast<const HeadersFootersAtom*>(i)->formatId;
+    }
+    static QVariant get_fHasDate(const Introspectable* i, int j) {
+        return static_cast<const HeadersFootersAtom*>(i)->fHasDate;
+    }
+    static QVariant get_fHasTodayDate(const Introspectable* i, int j) {
+        return static_cast<const HeadersFootersAtom*>(i)->fHasTodayDate;
+    }
+    static QVariant get_fHasUserDate(const Introspectable* i, int j) {
+        return static_cast<const HeadersFootersAtom*>(i)->fHasUserDate;
+    }
+    static QVariant get_fHasSlideNumber(const Introspectable* i, int j) {
+        return static_cast<const HeadersFootersAtom*>(i)->fHasSlideNumber;
+    }
+    static QVariant get_fHasHeader(const Introspectable* i, int j) {
+        return static_cast<const HeadersFootersAtom*>(i)->fHasHeader;
+    }
+    static QVariant get_fHasFooter(const Introspectable* i, int j) {
+        return static_cast<const HeadersFootersAtom*>(i)->fHasFooter;
+    }
+    static QVariant get_reserved1(const Introspectable* i, int j) {
+        return static_cast<const HeadersFootersAtom*>(i)->reserved1;
+    }
+    static QVariant get_reserved2(const Introspectable* i, int j) {
+        return static_cast<const HeadersFootersAtom*>(i)->reserved2;
+    }
+};
+const QString HeadersFootersAtom::_Introspection::name("HeadersFootersAtom");
+const int HeadersFootersAtom::_Introspection::numberOfMembers(10);
+const QString HeadersFootersAtom::_Introspection::names[10] = {
+    "rh",
+    "formatId",
+    "fHasDate",
+    "fHasTodayDate",
+    "fHasUserDate",
+    "fHasSlideNumber",
+    "fHasHeader",
+    "fHasFooter",
+    "reserved1",
+    "reserved2",
+};
+int (* const HeadersFootersAtom::_Introspection::numberOfInstances[10])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const HeadersFootersAtom::_Introspection::value[10])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_formatId,
+    _Introspection::get_fHasDate,
+    _Introspection::get_fHasTodayDate,
+    _Introspection::get_fHasUserDate,
+    _Introspection::get_fHasSlideNumber,
+    _Introspection::get_fHasHeader,
+    _Introspection::get_fHasFooter,
+    _Introspection::get_reserved1,
+    _Introspection::get_reserved2,
+};
+const Introspectable* (* const HeadersFootersAtom::_Introspection::introspectable[10])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection HeadersFootersAtom::_introspection(
+    "HeadersFootersAtom", 10, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class UserDateAtom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
@@ -6596,32 +6762,157 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const PerSlideHeadersFootersContainer*>(i)->rh);
+        return &(static_cast<const UserDateAtom*>(i)->rh);
     }
-    static QVariant get_todo(const Introspectable* i, int j) {
-        return static_cast<const PerSlideHeadersFootersContainer*>(i)->todo;
+    static QVariant get_userDate(const Introspectable* i, int j) {
+        return static_cast<const UserDateAtom*>(i)->userDate;
     }
 };
-const QString PerSlideHeadersFootersContainer::_Introspection::name("PerSlideHeadersFootersContainer");
-const int PerSlideHeadersFootersContainer::_Introspection::numberOfMembers(2);
-const QString PerSlideHeadersFootersContainer::_Introspection::names[2] = {
+const QString UserDateAtom::_Introspection::name("UserDateAtom");
+const int UserDateAtom::_Introspection::numberOfMembers(2);
+const QString UserDateAtom::_Introspection::names[2] = {
     "rh",
-    "todo",
+    "userDate",
 };
-int (* const PerSlideHeadersFootersContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+int (* const UserDateAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const PerSlideHeadersFootersContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+QVariant (* const UserDateAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_todo,
+    _Introspection::get_userDate,
 };
-const Introspectable* (* const PerSlideHeadersFootersContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+const Introspectable* (* const UserDateAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     Introspection::null,
 };
+const Introspection UserDateAtom::_introspection(
+    "UserDateAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class HeaderAtom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const HeaderAtom*>(i)->rh);
+    }
+    static QVariant get_footer(const Introspectable* i, int j) {
+        return static_cast<const HeaderAtom*>(i)->footer;
+    }
+};
+const QString HeaderAtom::_Introspection::name("HeaderAtom");
+const int HeaderAtom::_Introspection::numberOfMembers(2);
+const QString HeaderAtom::_Introspection::names[2] = {
+    "rh",
+    "footer",
+};
+int (* const HeaderAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const HeaderAtom::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_footer,
+};
+const Introspectable* (* const HeaderAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection HeaderAtom::_introspection(
+    "HeaderAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class FooterAtom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const FooterAtom*>(i)->rh);
+    }
+    static QVariant get_footer(const Introspectable* i, int j) {
+        return static_cast<const FooterAtom*>(i)->footer;
+    }
+};
+const QString FooterAtom::_Introspection::name("FooterAtom");
+const int FooterAtom::_Introspection::numberOfMembers(2);
+const QString FooterAtom::_Introspection::names[2] = {
+    "rh",
+    "footer",
+};
+int (* const FooterAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const FooterAtom::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_footer,
+};
+const Introspectable* (* const FooterAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection FooterAtom::_introspection(
+    "FooterAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class PerSlideHeadersFootersContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[4];
+    static int (* const numberOfInstances[4])(const Introspectable*);
+    static QVariant (* const value[4])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const PerSlideHeadersFootersContainer*>(i)->rh);
+    }
+    static const Introspectable* get_hfAtom(const Introspectable* i, int j) {
+        return &(static_cast<const PerSlideHeadersFootersContainer*>(i)->hfAtom);
+    }
+    static int count_userDateAtom(const Introspectable* i) {
+        return get_userDateAtom(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_userDateAtom(const Introspectable* i, int j) {
+        return static_cast<const PerSlideHeadersFootersContainer*>(i)->userDateAtom.data();
+    }
+    static int count_footerAtom(const Introspectable* i) {
+        return get_footerAtom(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_footerAtom(const Introspectable* i, int j) {
+        return static_cast<const PerSlideHeadersFootersContainer*>(i)->footerAtom.data();
+    }
+};
+const QString PerSlideHeadersFootersContainer::_Introspection::name("PerSlideHeadersFootersContainer");
+const int PerSlideHeadersFootersContainer::_Introspection::numberOfMembers(4);
+const QString PerSlideHeadersFootersContainer::_Introspection::names[4] = {
+    "rh",
+    "hfAtom",
+    "userDateAtom",
+    "footerAtom",
+};
+int (* const PerSlideHeadersFootersContainer::_Introspection::numberOfInstances[4])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    _Introspection::count_userDateAtom,
+    _Introspection::count_footerAtom,
+};
+QVariant (* const PerSlideHeadersFootersContainer::_Introspection::value[4])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const PerSlideHeadersFootersContainer::_Introspection::introspectable[4])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    _Introspection::get_hfAtom,
+    _Introspection::get_userDateAtom,
+    _Introspection::get_footerAtom,
+};
 const Introspection PerSlideHeadersFootersContainer::_introspection(
-    "PerSlideHeadersFootersContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "PerSlideHeadersFootersContainer", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class EndDocumentAtom::_Introspection {
 public:
     static const QString name;
@@ -24295,27 +24586,168 @@ void parseNotesHeadersFootersContainer(QXmlStreamReader& in, NotesHeadersFooters
     }
     in.readElementText();
 }
-void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s) {
-    int _c;
-    LEInputStream::Mark _m;
+void parseHeadersFootersAtom(LEInputStream& in, HeadersFootersAtom& _s) {
     parseRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0xF)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
     }
     if (!(_s.rh.recInstance == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
     }
-    if (!(_s.rh.recType == 0xFD9)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFD9");
+    if (!(_s.rh.recType == 0xFDA)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFDA");
+    }
+    if (!(_s.rh.recLen == 4)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 4");
+    }
+    _s.formatId = in.readint16();
+    if (!(((qint16)_s.formatId)>=0)) {
+        throw IncorrectValueException(in.getPosition(), "((qint16)_s.formatId)>=0");
+    }
+    if (!(((qint16)_s.formatId)<=13)) {
+        throw IncorrectValueException(in.getPosition(), "((qint16)_s.formatId)<=13");
+    }
+    _s.fHasDate = in.readbit();
+    _s.fHasTodayDate = in.readbit();
+    _s.fHasUserDate = in.readbit();
+    _s.fHasSlideNumber = in.readbit();
+    _s.fHasHeader = in.readbit();
+    _s.fHasFooter = in.readbit();
+    _s.reserved1 = in.readuint2();
+    _s.reserved2 = in.readuint8();
+}
+void write(const HeadersFootersAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeint16(_s.formatId);
+    out.writebit(_s.fHasDate);
+    out.writebit(_s.fHasTodayDate);
+    out.writebit(_s.fHasUserDate);
+    out.writebit(_s.fHasSlideNumber);
+    out.writebit(_s.fHasHeader);
+    out.writebit(_s.fHasFooter);
+    out.writeuint2(_s.reserved1);
+    out.writeuint8(_s.reserved2);
+}
+void parseHeadersFootersAtom(QXmlStreamReader& in, HeadersFootersAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "formatId") {
+        qDebug() << "not startelement in formatId " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHasDate") {
+        qDebug() << "not startelement in fHasDate " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHasTodayDate") {
+        qDebug() << "not startelement in fHasTodayDate " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHasUserDate") {
+        qDebug() << "not startelement in fHasUserDate " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHasSlideNumber") {
+        qDebug() << "not startelement in fHasSlideNumber " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHasHeader") {
+        qDebug() << "not startelement in fHasHeader " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fHasFooter") {
+        qDebug() << "not startelement in fHasFooter " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint2 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
+void parseUserDateAtom(LEInputStream& in, UserDateAtom& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    }
+    if (!(_s.rh.recType == 0xFBA)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFBA");
+    }
+    if (!(_s.rh.recLen%2==0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
+    }
+    if (!(_s.rh.recLen<=510)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen<=510");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.userDate.resize(_c);    in.readBytes(_s.userDate);
 }
-void write(const PerSlideHeadersFootersContainer& _s, LEOutputStream& out) {
+void write(const UserDateAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    out.writeBytes(_s.todo);
+    out.writeBytes(_s.userDate);
 }
-void parsePerSlideHeadersFootersContainer(QXmlStreamReader& in, PerSlideHeadersFootersContainer& _s) {
+void parseUserDateAtom(QXmlStreamReader& in, UserDateAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
         qDebug() << "not startelement in RecordHeader " << in.lineNumber();
@@ -24331,6 +24763,163 @@ void parsePerSlideHeadersFootersContainer(QXmlStreamReader& in, PerSlideHeadersF
         return;
     }
     in.readElementText();
+}
+void parseHeaderAtom(LEInputStream& in, HeaderAtom& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
+    }
+    if (!(_s.rh.recInstance == 1)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 1");
+    }
+    if (!(_s.rh.recType == 0xFBA)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFBA");
+    }
+    if (!(_s.rh.recLen%2==0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
+    }
+    _c = _s.rh.recLen;
+    _s.footer.resize(_c);    in.readBytes(_s.footer);
+}
+void write(const HeaderAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.footer);
+}
+void parseHeaderAtom(QXmlStreamReader& in, HeaderAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
+void parseFooterAtom(LEInputStream& in, FooterAtom& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
+    }
+    if (!(_s.rh.recInstance == 2)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 2");
+    }
+    if (!(_s.rh.recType == 0xFBA)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFBA");
+    }
+    if (!(_s.rh.recLen%2==0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
+    }
+    _c = _s.rh.recLen;
+    _s.footer.resize(_c);    in.readBytes(_s.footer);
+}
+void write(const FooterAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.footer);
+}
+void parseFooterAtom(QXmlStreamReader& in, FooterAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
+void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s) {
+    LEInputStream::Mark _m;
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    }
+    if (!(_s.rh.recType == 0xFD9)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFD9");
+    }
+    parseHeadersFootersAtom(in, _s.hfAtom);
+    _m = in.setMark();
+    try {
+        _s.userDateAtom = QSharedPointer<UserDateAtom>(new UserDateAtom(&_s));
+        parseUserDateAtom(in, *_s.userDateAtom.data());
+    } catch(IncorrectValueException _e) {
+        _s.userDateAtom.clear();
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        _s.userDateAtom.clear();
+        in.rewind(_m);
+    }
+    _m = in.setMark();
+    try {
+        _s.footerAtom = QSharedPointer<FooterAtom>(new FooterAtom(&_s));
+        parseFooterAtom(in, *_s.footerAtom.data());
+    } catch(IncorrectValueException _e) {
+        _s.footerAtom.clear();
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        _s.footerAtom.clear();
+        in.rewind(_m);
+    }
+}
+void write(const PerSlideHeadersFootersContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.hfAtom, out);
+    if (_s.userDateAtom) write(*_s.userDateAtom, out);
+    if (_s.footerAtom) write(*_s.footerAtom, out);
+}
+void parsePerSlideHeadersFootersContainer(QXmlStreamReader& in, PerSlideHeadersFootersContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in HeadersFootersAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "hfAtom") {
+        qDebug() << "not startelement in hfAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in UserDateAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "userDateAtom") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in FooterAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "footerAtom") {
+        skipToStartElement(in);
+    }
 }
 void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s) {
     parseRecordHeader(in, _s.rh);

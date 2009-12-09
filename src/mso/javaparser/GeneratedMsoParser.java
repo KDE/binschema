@@ -534,9 +534,134 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
+    HeadersFootersAtom parseHeadersFootersAtom(LEInputStream in) throws IOException  {
+        HeadersFootersAtom _s = new HeadersFootersAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFDA)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFDA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 4)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 4 for value " + String.valueOf(_s.rh) );
+        }
+        _s.formatId = in.readint16();
+        if (!(_s.formatId>=0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.formatId>=0 for value " + String.valueOf(_s.formatId) );
+        }
+        if (!(_s.formatId<=13)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.formatId<=13 for value " + String.valueOf(_s.formatId) );
+        }
+        _s.fHasDate = in.readbit();
+        _s.fHasTodayDate = in.readbit();
+        _s.fHasUserDate = in.readbit();
+        _s.fHasSlideNumber = in.readbit();
+        _s.fHasHeader = in.readbit();
+        _s.fHasFooter = in.readbit();
+        _s.reserved1 = in.readuint2();
+        _s.reserved2 = in.readuint8();
+        return _s;
+    }
+    void write(HeadersFootersAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeint16(_s.formatId);
+        out.writebit(_s.fHasDate);
+        out.writebit(_s.fHasTodayDate);
+        out.writebit(_s.fHasUserDate);
+        out.writebit(_s.fHasSlideNumber);
+        out.writebit(_s.fHasHeader);
+        out.writebit(_s.fHasFooter);
+        out.writeuint2(_s.reserved1);
+        out.writeuint8(_s.reserved2);
+    }
+    UserDateAtom parseUserDateAtom(LEInputStream in) throws IOException  {
+        UserDateAtom _s = new UserDateAtom();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFBA)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFBA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen%2==0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2==0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen<=510)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen<=510 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.userDate = in.readBytes(_c);
+        return _s;
+    }
+    void write(UserDateAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.userDate) {
+            out.writeuint8(_i);
+        }
+    }
+    HeaderAtom parseHeaderAtom(LEInputStream in) throws IOException  {
+        HeaderAtom _s = new HeaderAtom();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFBA)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFBA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen%2==0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2==0 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.footer = in.readBytes(_c);
+        return _s;
+    }
+    void write(HeaderAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.footer) {
+            out.writeuint8(_i);
+        }
+    }
+    FooterAtom parseFooterAtom(LEInputStream in) throws IOException  {
+        FooterAtom _s = new FooterAtom();
+        int _c;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 2)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 2 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFBA)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFBA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen%2==0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2==0 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen;
+        _s.footer = in.readBytes(_c);
+        return _s;
+    }
+    void write(FooterAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.footer) {
+            out.writeuint8(_i);
+        }
+    }
     PerSlideHeadersFootersContainer parsePerSlideHeadersFootersContainer(LEInputStream in) throws IOException  {
         PerSlideHeadersFootersContainer _s = new PerSlideHeadersFootersContainer();
-        int _c;
+        Object _m;
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0xF)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
@@ -547,15 +672,36 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recType == 0xFD9)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
         }
-        _c = _s.rh.recLen;
-        _s.todo = in.readBytes(_c);
+        _s.hfAtom = parseHeadersFootersAtom(in);
+        _m = in.setMark();
+        try {
+            _s.userDateAtom = parseUserDateAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.footerAtom = parseFooterAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
         return _s;
     }
     void write(PerSlideHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        for (byte _i: _s.todo) {
-            out.writeuint8(_i);
-        }
+        write(_s.hfAtom, out);
+        if (_s.userDateAtom != null) write(_s.userDateAtom, out);
+        if (_s.footerAtom != null) write(_s.footerAtom, out);
     }
     EndDocumentAtom parseEndDocumentAtom(LEInputStream in) throws IOException  {
         EndDocumentAtom _s = new EndDocumentAtom();
@@ -10350,13 +10496,73 @@ class NotesHeadersFootersContainer {
         return _s;
     }
 }
+class HeadersFootersAtom {
+    RecordHeader rh;
+    short formatId;
+    boolean fHasDate;
+    boolean fHasTodayDate;
+    boolean fHasUserDate;
+    boolean fHasSlideNumber;
+    boolean fHasHeader;
+    boolean fHasFooter;
+    byte reserved1;
+    byte reserved2;
+    public String toString() {
+        String _s = "HeadersFootersAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "formatId: " + String.valueOf(formatId) + "(" + Integer.toHexString(formatId).toUpperCase() + "), ";
+        _s = _s + "fHasDate: " + String.valueOf(fHasDate) + ", ";
+        _s = _s + "fHasTodayDate: " + String.valueOf(fHasTodayDate) + ", ";
+        _s = _s + "fHasUserDate: " + String.valueOf(fHasUserDate) + ", ";
+        _s = _s + "fHasSlideNumber: " + String.valueOf(fHasSlideNumber) + ", ";
+        _s = _s + "fHasHeader: " + String.valueOf(fHasHeader) + ", ";
+        _s = _s + "fHasFooter: " + String.valueOf(fHasFooter) + ", ";
+        _s = _s + "reserved1: " + String.valueOf(reserved1) + "(" + Integer.toHexString(reserved1).toUpperCase() + "), ";
+        _s = _s + "reserved2: " + String.valueOf(reserved2) + "(" + Integer.toHexString(reserved2).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class UserDateAtom {
+    RecordHeader rh;
+    byte[] userDate;
+    public String toString() {
+        String _s = "UserDateAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "userDate: " + String.valueOf(userDate) + ", ";
+        return _s;
+    }
+}
+class HeaderAtom {
+    RecordHeader rh;
+    byte[] footer;
+    public String toString() {
+        String _s = "HeaderAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "footer: " + String.valueOf(footer) + ", ";
+        return _s;
+    }
+}
+class FooterAtom {
+    RecordHeader rh;
+    byte[] footer;
+    public String toString() {
+        String _s = "FooterAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "footer: " + String.valueOf(footer) + ", ";
+        return _s;
+    }
+}
 class PerSlideHeadersFootersContainer {
     RecordHeader rh;
-    byte[] todo;
+    HeadersFootersAtom hfAtom;
+    UserDateAtom userDateAtom;
+    FooterAtom footerAtom;
     public String toString() {
         String _s = "PerSlideHeadersFootersContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        _s = _s + "hfAtom: " + String.valueOf(hfAtom) + ", ";
+        _s = _s + "userDateAtom: " + String.valueOf(userDateAtom) + ", ";
+        _s = _s + "footerAtom: " + String.valueOf(footerAtom) + ", ";
         return _s;
     }
 }
