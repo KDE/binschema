@@ -488,52 +488,6 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
-    SlideHeadersFootersContainer parseSlideHeadersFootersContainer(LEInputStream in) throws IOException  {
-        SlideHeadersFootersContainer _s = new SlideHeadersFootersContainer();
-        int _c;
-        _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0xF)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance == 3)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 3 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recType == 0xFD9)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
-        }
-        _c = _s.rh.recLen;
-        _s.todo = in.readBytes(_c);
-        return _s;
-    }
-    void write(SlideHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
-        write(_s.rh, out);
-        for (byte _i: _s.todo) {
-            out.writeuint8(_i);
-        }
-    }
-    NotesHeadersFootersContainer parseNotesHeadersFootersContainer(LEInputStream in) throws IOException  {
-        NotesHeadersFootersContainer _s = new NotesHeadersFootersContainer();
-        int _c;
-        _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0xF)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance == 4)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 4 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recType == 0xFD9)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
-        }
-        _c = _s.rh.recLen;
-        _s.todo = in.readBytes(_c);
-        return _s;
-    }
-    void write(NotesHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
-        write(_s.rh, out);
-        for (byte _i: _s.todo) {
-            out.writeuint8(_i);
-        }
-    }
     HeadersFootersAtom parseHeadersFootersAtom(LEInputStream in) throws IOException  {
         HeadersFootersAtom _s = new HeadersFootersAtom();
         _s.rh = parseRecordHeader(in);
@@ -5368,6 +5322,106 @@ System.out.println(in.getPosition()+" "+_s);
         out.writeuint32(_s.cbsave);
         out.writeuint8(_s.compression);
         out.writeuint8(_s.filter);
+    }
+    SlideHeadersFootersContainer parseSlideHeadersFootersContainer(LEInputStream in) throws IOException  {
+        SlideHeadersFootersContainer _s = new SlideHeadersFootersContainer();
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 3)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 3 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFD9)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
+        }
+        _s.hfAtom = parseHeadersFootersAtom(in);
+        _m = in.setMark();
+        try {
+            _s.userDateAtom = parseUserDateAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.footerAtom = parseFooterAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(SlideHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.hfAtom, out);
+        if (_s.userDateAtom != null) write(_s.userDateAtom, out);
+        if (_s.footerAtom != null) write(_s.footerAtom, out);
+    }
+    NotesHeadersFootersContainer parseNotesHeadersFootersContainer(LEInputStream in) throws IOException  {
+        NotesHeadersFootersContainer _s = new NotesHeadersFootersContainer();
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 4)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 4 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFD9)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFD9 for value " + String.valueOf(_s.rh) );
+        }
+        _s.hfAtom = parseHeadersFootersAtom(in);
+        _m = in.setMark();
+        try {
+            _s.userDateAtom = parseUserDateAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.headerAtom = parseHeaderAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.footerAtom = parseFooterAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(NotesHeadersFootersContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.hfAtom, out);
+        if (_s.userDateAtom != null) write(_s.userDateAtom, out);
+        if (_s.headerAtom != null) write(_s.headerAtom, out);
+        if (_s.footerAtom != null) write(_s.footerAtom, out);
     }
     ScalingStruct parseScalingStruct(LEInputStream in) throws IOException  {
         ScalingStruct _s = new ScalingStruct();
@@ -10476,26 +10530,6 @@ class SoundCollectionContainer {
         return _s;
     }
 }
-class SlideHeadersFootersContainer {
-    RecordHeader rh;
-    byte[] todo;
-    public String toString() {
-        String _s = "SlideHeadersFootersContainer:";
-        _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
-        return _s;
-    }
-}
-class NotesHeadersFootersContainer {
-    RecordHeader rh;
-    byte[] todo;
-    public String toString() {
-        String _s = "NotesHeadersFootersContainer:";
-        _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
-        return _s;
-    }
-}
 class HeadersFootersAtom {
     RecordHeader rh;
     short formatId;
@@ -13311,6 +13345,36 @@ class OfficeArtMetafileHeader {
         _s = _s + "cbsave: " + String.valueOf(cbsave) + "(" + Integer.toHexString(cbsave).toUpperCase() + "), ";
         _s = _s + "compression: " + String.valueOf(compression) + "(" + Integer.toHexString(compression).toUpperCase() + "), ";
         _s = _s + "filter: " + String.valueOf(filter) + "(" + Integer.toHexString(filter).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class SlideHeadersFootersContainer {
+    RecordHeader rh;
+    HeadersFootersAtom hfAtom;
+    UserDateAtom userDateAtom;
+    FooterAtom footerAtom;
+    public String toString() {
+        String _s = "SlideHeadersFootersContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "hfAtom: " + String.valueOf(hfAtom) + ", ";
+        _s = _s + "userDateAtom: " + String.valueOf(userDateAtom) + ", ";
+        _s = _s + "footerAtom: " + String.valueOf(footerAtom) + ", ";
+        return _s;
+    }
+}
+class NotesHeadersFootersContainer {
+    RecordHeader rh;
+    HeadersFootersAtom hfAtom;
+    UserDateAtom userDateAtom;
+    HeaderAtom headerAtom;
+    FooterAtom footerAtom;
+    public String toString() {
+        String _s = "NotesHeadersFootersContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "hfAtom: " + String.valueOf(hfAtom) + ", ";
+        _s = _s + "userDateAtom: " + String.valueOf(userDateAtom) + ", ";
+        _s = _s + "headerAtom: " + String.valueOf(headerAtom) + ", ";
+        _s = _s + "footerAtom: " + String.valueOf(footerAtom) + ", ";
         return _s;
     }
 }
