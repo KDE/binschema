@@ -2,9 +2,11 @@
 
 <project name="msoparser" default="testJavaParser" basedir=".">
 
+	<property name="classpath" location="bin;/usr/share/java/xercesImpl.jar;lib/poi-3.2-FINAL-20081019.jar"/>
+
 	<target name="compileGenerator">
 		<mkdir dir="bin" />
-		<javac srcdir="src" destdir="bin" excludes="mso/javaparser/**" />
+		<javac srcdir="src" destdir="bin" excludes="mso/javaparser/**" classpath="${classpath}"/>
 	</target>
 
 	<target name="generateJavaParser" depends="compileGenerator" description="compile the source ">
@@ -12,15 +14,15 @@
 			<srcfilelist dir="src" files="mso.xsd;mso.xml" />
 			<targetfilelist dir="src/mso/javaparser" files="GeneratedMsoParser.java"/>
 		</dependset>
-		<java classname="mso.generator.ParserGeneratorRunner" classpath="bin" />
+		<java classname="mso.generator.ParserGeneratorRunner" classpath="${classpath}" />
 	</target>
 
 	<target name="compileJavaParser" depends="generateJavaParser" description="compile the source ">
-		<javac srcdir="src" destdir="bin" excludes="mso/javaparser" classpath="lib/poi-3.2-FINAL-20081019.jar" />
+		<javac srcdir="src" destdir="bin" excludes="mso/javaparser" classpath="${classpath}" />
 	</target>
 
 	<target name="testJavaParser" depends="compileJavaParser" description="compile the source ">
-		<java classname="mso.javaparser.ParserTester" classpath="bin;lib/poi-3.2-FINAL-20081019.jar" />
+		<java classname="mso.javaparser.ParserTester" classpath="${classpath}" />
 	</target>
 
 	<target name="clean">
