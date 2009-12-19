@@ -119,8 +119,7 @@ public:
     quint16 readuint9() {
         quint8 a = readuint8();
         quint8 b = getBits(1) & 0x1;
-        quint8 v = (b << 8) | a;
-        return (short) v;
+        return (b << 8) | a;
     }
 
     quint16 readuint12() {

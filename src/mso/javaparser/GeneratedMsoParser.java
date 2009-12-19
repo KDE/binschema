@@ -2450,6 +2450,22 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
+    SlideFlags parseSlideFlags(LEInputStream in) throws IOException  {
+        SlideFlags _s = new SlideFlags();
+        _s.fMasterObject = in.readbit();
+        _s.fMasterScheme = in.readbit();
+        _s.fMasterBackground = in.readbit();
+        _s.reserved1 = in.readuint5();
+        _s.reserved2 = in.readuint8();
+        return _s;
+    }
+    void write(SlideFlags _s, LEOutputStream out) throws IOException  {
+        out.writebit(_s.fMasterObject);
+        out.writebit(_s.fMasterScheme);
+        out.writebit(_s.fMasterBackground);
+        out.writeuint5(_s.reserved1);
+        out.writeuint8(_s.reserved2);
+    }
     SlideAtom parseSlideAtom(LEInputStream in) throws IOException  {
         SlideAtom _s = new SlideAtom();
         int _c;
@@ -2471,7 +2487,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.rgPlaceholderTypes = in.readBytes(_c);
         _s.masterIdRef = in.readuint32();
         _s.notesIdRef = in.readuint32();
-        _s.slideFlags = in.readuint16();
+        _s.slideFlags = parseSlideFlags(in);
         _s.unused = in.readuint16();
         return _s;
     }
@@ -2483,7 +2499,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         out.writeuint32(_s.masterIdRef);
         out.writeuint32(_s.notesIdRef);
-        out.writeuint16(_s.slideFlags);
+        write(_s.slideFlags, out);
         out.writeuint16(_s.unused);
     }
     SlideShowSlideInfoAtom parseSlideShowSlideInfoAtom(LEInputStream in) throws IOException  {
@@ -11494,13 +11510,29 @@ class SlideProgTagscontainer {
         return _s;
     }
 }
+class SlideFlags {
+    boolean fMasterObject;
+    boolean fMasterScheme;
+    boolean fMasterBackground;
+    byte reserved1;
+    byte reserved2;
+    public String toString() {
+        String _s = "SlideFlags:";
+        _s = _s + "fMasterObject: " + String.valueOf(fMasterObject) + ", ";
+        _s = _s + "fMasterScheme: " + String.valueOf(fMasterScheme) + ", ";
+        _s = _s + "fMasterBackground: " + String.valueOf(fMasterBackground) + ", ";
+        _s = _s + "reserved1: " + String.valueOf(reserved1) + "(" + Integer.toHexString(reserved1).toUpperCase() + "), ";
+        _s = _s + "reserved2: " + String.valueOf(reserved2) + "(" + Integer.toHexString(reserved2).toUpperCase() + "), ";
+        return _s;
+    }
+}
 class SlideAtom {
     RecordHeader rh;
     int geom;
     byte[] rgPlaceholderTypes;
     int masterIdRef;
     int notesIdRef;
-    int slideFlags;
+    SlideFlags slideFlags;
     int unused;
     public String toString() {
         String _s = "SlideAtom:";
@@ -11509,7 +11541,7 @@ class SlideAtom {
         _s = _s + "rgPlaceholderTypes: " + String.valueOf(rgPlaceholderTypes) + ", ";
         _s = _s + "masterIdRef: " + String.valueOf(masterIdRef) + "(" + Integer.toHexString(masterIdRef).toUpperCase() + "), ";
         _s = _s + "notesIdRef: " + String.valueOf(notesIdRef) + "(" + Integer.toHexString(notesIdRef).toUpperCase() + "), ";
-        _s = _s + "slideFlags: " + String.valueOf(slideFlags) + "(" + Integer.toHexString(slideFlags).toUpperCase() + "), ";
+        _s = _s + "slideFlags: " + String.valueOf(slideFlags) + ", ";
         _s = _s + "unused: " + String.valueOf(unused) + "(" + Integer.toHexString(unused).toUpperCase() + "), ";
         return _s;
     }

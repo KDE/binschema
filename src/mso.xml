@@ -1676,6 +1676,13 @@
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
+	<struct name="SlideFlags">
+		<bit name="fMasterObject" />
+		<bit name="fMasterScheme" />
+		<bit name="fMasterBackground" />
+		<uint5 name="reserved1" />
+		<uint8 name="reserved2" />
+	</struct>
 	<struct name="SlideAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0x2" />
@@ -1687,7 +1694,7 @@
 		<uint8 name="rgPlaceholderTypes" count="8" />
 		<uint32 name="masterIdRef" />
 		<uint32 name="notesIdRef" />
-		<uint16 name="slideFlags" />
+		<type name="slideFlags" type="SlideFlags" />
 		<uint16 name="unused" />
 	</struct>
 	<struct name="SlideShowSlideInfoAtom">

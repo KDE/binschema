@@ -376,6 +376,10 @@ class SlideProgTagscontainer;
 void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s);
 void parseSlideProgTagscontainer(QXmlStreamReader& in, SlideProgTagscontainer& _s);
 void write(const SlideProgTagscontainer& v, LEOutputStream& out);
+class SlideFlags;
+void parseSlideFlags(LEInputStream& in, SlideFlags& _s);
+void parseSlideFlags(QXmlStreamReader& in, SlideFlags& _s);
+void write(const SlideFlags& v, LEOutputStream& out);
 class SlideAtom;
 void parseSlideAtom(LEInputStream& in, SlideAtom& _s);
 void parseSlideAtom(QXmlStreamReader& in, SlideAtom& _s);
@@ -2402,6 +2406,20 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class SlideFlags : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    bool fMasterObject;
+    bool fMasterScheme;
+    bool fMasterBackground;
+    quint8 reserved1;
+    quint8 reserved2;
+    SlideFlags(const Introspectable* parent) :Introspectable(parent) {
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class SlideAtom : public Introspectable {
 private:
     class _Introspection;
@@ -2412,10 +2430,11 @@ public:
     QByteArray rgPlaceholderTypes;
     quint32 masterIdRef;
     quint32 notesIdRef;
-    quint16 slideFlags;
+    SlideFlags slideFlags;
     quint16 unused;
     SlideAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
+        rh(this),
+        slideFlags(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -10018,6 +10037,62 @@ const Introspectable* (* const SlideProgTagscontainer::_Introspection::introspec
 };
 const Introspection SlideProgTagscontainer::_introspection(
     "SlideProgTagscontainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class SlideFlags::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[5];
+    static int (* const numberOfInstances[5])(const Introspectable*);
+    static QVariant (* const value[5])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[5])(const Introspectable*, int position);
+    static QVariant get_fMasterObject(const Introspectable* i, int j) {
+        return static_cast<const SlideFlags*>(i)->fMasterObject;
+    }
+    static QVariant get_fMasterScheme(const Introspectable* i, int j) {
+        return static_cast<const SlideFlags*>(i)->fMasterScheme;
+    }
+    static QVariant get_fMasterBackground(const Introspectable* i, int j) {
+        return static_cast<const SlideFlags*>(i)->fMasterBackground;
+    }
+    static QVariant get_reserved1(const Introspectable* i, int j) {
+        return static_cast<const SlideFlags*>(i)->reserved1;
+    }
+    static QVariant get_reserved2(const Introspectable* i, int j) {
+        return static_cast<const SlideFlags*>(i)->reserved2;
+    }
+};
+const QString SlideFlags::_Introspection::name("SlideFlags");
+const int SlideFlags::_Introspection::numberOfMembers(5);
+const QString SlideFlags::_Introspection::names[5] = {
+    "fMasterObject",
+    "fMasterScheme",
+    "fMasterBackground",
+    "reserved1",
+    "reserved2",
+};
+int (* const SlideFlags::_Introspection::numberOfInstances[5])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const SlideFlags::_Introspection::value[5])(const Introspectable*, int position) = {
+    _Introspection::get_fMasterObject,
+    _Introspection::get_fMasterScheme,
+    _Introspection::get_fMasterBackground,
+    _Introspection::get_reserved1,
+    _Introspection::get_reserved2,
+};
+const Introspectable* (* const SlideFlags::_Introspection::introspectable[5])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection SlideFlags::_introspection(
+    "SlideFlags", 5, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class SlideAtom::_Introspection {
 public:
     static const QString name;
@@ -10041,8 +10116,8 @@ public:
     static QVariant get_notesIdRef(const Introspectable* i, int j) {
         return static_cast<const SlideAtom*>(i)->notesIdRef;
     }
-    static QVariant get_slideFlags(const Introspectable* i, int j) {
-        return static_cast<const SlideAtom*>(i)->slideFlags;
+    static const Introspectable* get_slideFlags(const Introspectable* i, int j) {
+        return &(static_cast<const SlideAtom*>(i)->slideFlags);
     }
     static QVariant get_unused(const Introspectable* i, int j) {
         return static_cast<const SlideAtom*>(i)->unused;
@@ -10074,7 +10149,7 @@ QVariant (* const SlideAtom::_Introspection::value[7])(const Introspectable*, in
     _Introspection::get_rgPlaceholderTypes,
     _Introspection::get_masterIdRef,
     _Introspection::get_notesIdRef,
-    _Introspection::get_slideFlags,
+    Introspection::nullValue,
     _Introspection::get_unused,
 };
 const Introspectable* (* const SlideAtom::_Introspection::introspectable[7])(const Introspectable*, int position) = {
@@ -10083,7 +10158,7 @@ const Introspectable* (* const SlideAtom::_Introspection::introspectable[7])(con
     Introspection::null,
     Introspection::null,
     Introspection::null,
-    Introspection::null,
+    _Introspection::get_slideFlags,
     Introspection::null,
 };
 const Introspection SlideAtom::_introspection(
@@ -28675,6 +28750,68 @@ void parseSlideProgTagscontainer(QXmlStreamReader& in, SlideProgTagscontainer& _
     }
     in.readElementText();
 }
+void parseSlideFlags(LEInputStream& in, SlideFlags& _s) {
+    _s.fMasterObject = in.readbit();
+    _s.fMasterScheme = in.readbit();
+    _s.fMasterBackground = in.readbit();
+    _s.reserved1 = in.readuint5();
+    _s.reserved2 = in.readuint8();
+}
+void write(const SlideFlags& _s, LEOutputStream& out) {
+    out.writebit(_s.fMasterObject);
+    out.writebit(_s.fMasterScheme);
+    out.writebit(_s.fMasterBackground);
+    out.writeuint5(_s.reserved1);
+    out.writeuint8(_s.reserved2);
+}
+void parseSlideFlags(QXmlStreamReader& in, SlideFlags& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fMasterObject") {
+        qDebug() << "not startelement in fMasterObject " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fMasterScheme") {
+        qDebug() << "not startelement in fMasterScheme " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fMasterBackground") {
+        qDebug() << "not startelement in fMasterBackground " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint5 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
 void parseSlideAtom(LEInputStream& in, SlideAtom& _s) {
     int _c;
     LEInputStream::Mark _m;
@@ -28696,7 +28833,7 @@ void parseSlideAtom(LEInputStream& in, SlideAtom& _s) {
     _s.rgPlaceholderTypes.resize(_c);    in.readBytes(_s.rgPlaceholderTypes);
     _s.masterIdRef = in.readuint32();
     _s.notesIdRef = in.readuint32();
-    _s.slideFlags = in.readuint16();
+    parseSlideFlags(in, _s.slideFlags);
     _s.unused = in.readuint16();
 }
 void write(const SlideAtom& _s, LEOutputStream& out) {
@@ -28705,7 +28842,7 @@ void write(const SlideAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.rgPlaceholderTypes);
     out.writeuint32(_s.masterIdRef);
     out.writeuint32(_s.notesIdRef);
-    out.writeuint16(_s.slideFlags);
+    write(_s.slideFlags, out);
     out.writeuint16(_s.unused);
 }
 void parseSlideAtom(QXmlStreamReader& in, SlideAtom& _s) {
@@ -28752,14 +28889,14 @@ void parseSlideAtom(QXmlStreamReader& in, SlideAtom& _s) {
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        qDebug() << "not startelement in SlideFlags " << in.lineNumber();
         return;
     }
     if (in.name() != "slideFlags") {
         qDebug() << "not startelement in slideFlags " << in.lineNumber();
         return;
     }
-    in.readElementText();
+    skipToStartElement(in);
     if (!in.isStartElement()) {
         qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;
