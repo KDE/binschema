@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mso xmlns='http://www.example.org/mso' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-	xsi:schemaLocation='http://www.example.org/mso mso.xsd'>
+<mso xmlns="http://www.example.org/mso" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/mso mso.xsd">
 	<struct name="RecordHeader">
 		<uint4 name="recVer" />
 		<uint12 name="recInstance" />
@@ -89,7 +89,7 @@
 		<uint8 name="unused2" />
 		<uint8 name="unused3" />
 		<uint8 name="nameData" count="cbName" />
-		<type name="embeddedBlip" type="OfficeArtBlip" condition="rh.recLen > 36 + cbName">
+		<type name="embeddedBlip" type="OfficeArtBlip" condition="rh.recLen &gt; 36 + cbName">
 			<!--
 				this limitation is currently not supported because it requires
 				dynamic introspection <limitation name="rh.recInstance"
@@ -462,17 +462,710 @@
 	<struct name="DocProgTagsSubContainerOrAtom">
 		<choice name="anon">
 			<type type="ProgStringTagContainer" />
-			<type type="DocProgBinaryTagContainerOrAtom" />
+			<type type="DocProgBinaryTagContainer" />
 		</choice>
 	</struct>
-	<struct name="DocProgBinaryTagContainerOrAtom">
+	<struct name="DocProgBinaryTagContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x138A" />
 		</type>
+		<type name="rec" type="DocProgBinaryTagSubContainerOrAtom" />
+	</struct>
+	<struct name="DocProgBinaryTagSubContainerOrAtom">
+		<choice name="anon">
+			<type name="__PPT9" type="PP9DocBinaryTagExtension" />
+			<type name="__PPT10" type="PP10DocBinaryTagExtension" />
+			<type name="__PPT11" type="PP11DocBinaryTagExtension" />
+			<type name="__PPT12" type="PP12DocBinaryTagExtension" />
+			<type name="__unkown" type="UnknownBinaryTag" />
+		</choice>
+	</struct>
+	<struct name="PP9DocBinaryTagExtension">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" value="0x0E" />
+		</type>
+		<uint8 name="tagName" count="14" />
+		<type name="rhData" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<type name="rgTextMasterStyle9" type="TextMasterStyle9Atom" />
+		<type name="blipCollectionContainer" type="BlipCollection9Container" />
+		<type name="textDefaultsAtom" type="TextDefaults9Atom" />
+		<type name="kinsokuContainer" type="Kinsoku9Container" />
+		<type name="rgExternalHyperlink9" type="ExHyperlink9Container" />
+		<type name="presAdvisorFlagsAtom" type="PresAdvisorFlags9Atom"
+			optional="true" />
+		<type name="envelopeDataAtom" type="EnvelopeData9Atom" optional="true" />
+		<type name="envelopeFlagsAtom" type="EnvelopeFlags9Atom" />
+		<type name="htmlDocInfoAtom" type="HTMLDocInfo9Atom" optional="true" />
+		<type name="htmlPublishInfoAtom" type="HTMLPublishInfo9Container" />
+		<type name="rgBroadcastDocInfo9" type="BroadcastDocInfo9Container" />
+		<type name="outlineTextPropsContainer" type="OutlineTextProps9Container" />
+	</struct>
+	<struct name="TextMasterStyle9Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0|1|2|3|4|5|6|7|8" />
+			<limitation name="recType" value="0x0FAD" />
+		</type>
+		<uint16 name="cLevels">
+			<limitation expression="&lt;=5" />
+		</uint16>
+		<!--
+			level field of TextMasterStyleLevel is put here, because its presence
+			depends on this structure and currently child access to parent
+			properties is not supported
+		-->
+		<uint16 name="lstLvl1level" condition="cLevels&gt;0 &amp;&amp; rh.recInstance&gt;=5" />
+		<type name="lstLvl1" type="TextMasterStyle9Level" condition="cLevels&gt;0" />
+		<uint16 name="lstLvl2level" condition="cLevels&gt;1 &amp;&amp; rh.recInstance&gt;=5" />
+		<type name="lstLvl2" type="TextMasterStyle9Level" condition="cLevels&gt;1" />
+		<uint16 name="lstLvl3level" condition="cLevels&gt;2 &amp;&amp; rh.recInstance&gt;=5" />
+		<type name="lstLvl3" type="TextMasterStyle9Level" condition="cLevels&gt;2" />
+		<uint16 name="lstLvl4level" condition="cLevels&gt;3 &amp;&amp; rh.recInstance&gt;=5" />
+		<type name="lstLvl4" type="TextMasterStyle9Level" condition="cLevels&gt;3" />
+		<uint16 name="lstLvl5level" condition="cLevels&gt;4 &amp;&amp; rh.recInstance&gt;=5" />
+		<type name="lstLvl5" type="TextMasterStyle9Level" condition="cLevels&gt;4" />
+	</struct>
+	<struct name="TextMasterStyle9Level">
+		<type name="pf9" type="TextPFException9" />
+		<type name="cf9" type="TextCFException9" />
+	</struct>
+	<struct name="TextPFException9">
+		<type name="masks" type="PFMasks">
+			<limitation name="hasBullet" value="false" />
+			<limitation name="bulletHasFont" value="false" />
+			<limitation name="bulletHasColor" value="false" />
+			<limitation name="bulletHasSize" value="false" />
+			<limitation name="bulletFont" value="false" />
+			<limitation name="bulletColor" value="false" />
+			<limitation name="bulletSize" value="false" />
+			<limitation name="bulletChar" value="false" />
+			<limitation name="leftMargin" value="false" />
+			<limitation name="indent" value="false" />
+			<limitation name="align" value="false" />
+			<limitation name="lineSpacing" value="false" />
+			<limitation name="spaceBefore" value="false" />
+			<limitation name="spaceAfter" value="false" />
+			<limitation name="defaultTabSize" value="false" />
+			<limitation name="fontAlign" value="false" />
+			<limitation name="charWrap" value="false" />
+			<limitation name="wordWrap" value="false" />
+			<limitation name="overflow" value="false" />
+			<limitation name="tabStops" value="false" />
+			<limitation name="textDirection" value="false" />
+		</type>
+		<uint16 name="bulletBlipRef" condition="masks.bulletBlip" />
+		<uint16 name="fBulletHasAutoNumber" condition="masks.bulletHasScheme">
+			<limitation value="0|1" />
+		</uint16>
+		<type name="bulletAutoNumberScheme" condition="masks.bulletScheme"
+			type="TextAutoNumberScheme" />
+	</struct>
+	<struct name="TextAutoNumberScheme">
+		<uint16 name="scheme">
+			<limitation
+				value="0x0000|0x0001|0x0002|0x0003|0x0004|0x0005|0x0006|0x0007|0x0008" />
+		</uint16>
+		<uint16 name="startNum">
+			<limitation expression="&gt;=1" />
+		</uint16>
+	</struct>
+	<struct name="TextCFException9">
+		<type name="masks" type="CFMasks">
+			<limitation name="bold" value="false" />
+			<limitation name="italic" value="false" />
+			<limitation name="underline" value="false" />
+			<limitation name="shadow" value="false" />
+			<limitation name="fehint" value="false" />
+			<limitation name="kumi" value="false" />
+			<limitation name="emboss" value="false" />
+			<limitation name="reserved" value="0" />
+			<limitation name="typeface" value="false" />
+			<limitation name="size" value="false" />
+			<limitation name="color" value="false" />
+			<limitation name="position" value="false" />
+			<limitation name="oldEATypeface" value="false" />
+			<limitation name="ansiTypeface" value="false" />
+			<limitation name="symbolTypeface" value="false" />
+			<limitation name="newEATypeface" value="false" />
+			<limitation name="csTypeface" value="false" />
+			<limitation name="pp11ext" value="false" />
+		</type>
+		<uint4 name="pp10runid" condition="masks.pp10ext" />
+		<uint20 name="unuseda" condition="masks.pp10ext" />
+		<uint8 name="unusedb" condition="masks.pp10ext" />
+	</struct>
+	<struct name="BlipCollection9Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x07F8" />
+		</type>
+		<type name="rgBlipEntityAtom" type="BlipEntityAtom" array="true"
+			size="rh.recLen" />
+		<!--
+			ToDo gBlipEntityAtom (variable): An array of BlipEntityAtom record
+			that specifies picture bullets. It MUST NOT contain more than one
+			BlipEntityAtom record with the same value of rh.recInstance.
+		-->
+	</struct>
+	<struct name="BlipEntityAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" expression="&gt;=0" />
+			<limitation name="recInstance" expression="&lt;=128" />
+			<limitation name="recType" value="0x07F9" />
+		</type>
+		<uint8 name="winBlipType">
+			<limitation value="0x02|0x03|0x05|0x06" />
+		</uint8>
+		<bit name="unused" />
+		<type name="blip" type="OfficeArtBStoreContainerFileBlock" />
+	</struct>
+	<struct name="TextDefaults9Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x00" />
+			<limitation name="recType" value="0x0FB0" />
+		</type>
+		<type name="cf9" type="TextCFException9" />
+		<type name="pf9" type="TextPFException9" />
+	</struct>
+	<struct name="Kinsoku9Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x2" />
+			<limitation name="recType" value="0x0FC8" />
+		</type>
+		<type name="kinsoku9Atom" type="Kinsoku9Atom" />
+		<type name="kinsokuLeadingAtom" type="KinsokuLeadingAtom"
+			condition="kinsoku9Atom.korLevel==2 || kinsoku9Atom.scLevel==2 || kinsoku9Atom.tcLevel==2 || kinsoku9Atom.jpnLevel==2" />
+		<type name="kinsokuFollowingAtom" type="KinsokuFollowingAtom"
+			condition="kinsoku9Atom.korLevel==2 || kinsoku9Atom.scLevel==2 || kinsoku9Atom.tcLevel==2 || kinsoku9Atom.jpnLevel==2" />
+	</struct>
+	<struct name="Kinsoku9Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x3" />
+			<limitation name="recType" value="0x0FD2" />
+			<limitation name="recLen" value="0x0004" />
+		</type>
+		<uint2 name="korLevel">
+			<limitation value="0x0|0x2" />
+		</uint2>
+		<uint2 name="scLevel">
+			<limitation value="0x0|0x2" />
+		</uint2>
+		<uint2 name="tcLevel">
+			<limitation value="0x0|0x2" />
+		</uint2>
+		<uint2 name="jpnLevel">
+			<limitation value="0x0|0x1|0x2" />
+		</uint2>
+		<uint4 name="reserveda">
+			<limitation value="0" />
+		</uint4>
+		<uint20 name="reservedb">
+			<limitation value="0" />
+		</uint20>
+	</struct>
+	<struct name="ExHyperlink9Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFE4" />
+		</type>
 		<uint8 name="todo" count="rh.recLen" />
-		<!--  <type name="rec" type="DocProgBinaryTagSubContainerOrAtom" /> -->
+	</struct>
+	<struct name="PresAdvisorFlags9Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x177A" />
+			<limitation name="recLen" value="0x4" />
+		</type>
+		<bit name="fDisableCaseStyleTitleRule" />
+		<bit name="fDisableCaseStyleBodyRule" />
+		<bit name="fDisableEndPunctuationTitleRule" />
+		<bit name="fDisableEndPunctuationBodyRule" />
+		<bit name="fDisableTooManyBulletsRule" />
+		<bit name="fDisableFontSizeTitleRule" />
+		<bit name="fDisableFontSizeBodyRule" />
+		<bit name="fDisableNumberOfLinesTitleRule" />
+		<bit name="fDisableNumberOfLinesBodyRule" />
+		<bit name="fDisableTooManyFontsRule" />
+		<bit name="fDisablePrintTip" />
+		<uint7 name="reserveda">
+			<limitation value="0" />
+		</uint7>
+		<uint7 name="reservedb">
+			<limitation value="0" />
+		</uint7>
+		<uint7 name="reservedc">
+			<limitation value="0" />
+		</uint7>
+	</struct>
+	<struct name="EnvelopeData9Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x1785" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="EnvelopeFlags9Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x1784" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<bit name="fHasEnvelope" />
+		<bit name="fEnvelopeVisible" />
+		<uint2 name="reserved1">
+			<limitation value="0x0" />
+		</uint2>
+		<bit name="fEnvelopeDirty" />
+		<uint7 name="reserved2a">
+			<limitation value="0x0" />
+		</uint7>
+		<uint20 name="reserved2b">
+			<limitation value="0x0" />
+		</uint20>
+	</struct>
+	<struct name="HTMLDocInfo9Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x177B" />
+			<limitation name="recLen" value="0x10" />
+		</type>
+		<uint32 name="unused1" />
+		<uint32 name="encoding" />
+		<!--ToDo Encoding limitation -->
+		<uint16 name="frameColorType">
+			<limitation value="0x1|0x02|0x04" />
+		</uint16>
+		<uint8 name="screenSize" />
+		<uint8 name="unused2" />
+		<uint8 name="outputType" />
+		<bit name="fShowFrame" />
+		<bit name="fResizeGraphics" />
+		<bit name="fOrganizeInFolder" />
+		<bit name="fUseLongFileNames" />
+		<bit name="fRelyOnVML" />
+		<bit name="fAllowPNG" />
+		<bit name="fShowSlideAnimation" />
+		<bit name="reserved1" />
+		<uint16 name="unused3">
+			<limitation expression="&gt;=0" />
+		</uint16>
+	</struct>
+	<struct name="HTMLPublishInfo9Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x177D" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="BroadcastDocInfo9Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x177E" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="OutlineTextProps9Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0FAE" />
+		</type>
+		<type name="rgOutlineTextProps9Entry" type="OutlineTextProps9Entry"
+			array="true" />
+	</struct>
+	<struct name="OutlineTextProps9Entry">
+		<type name="outlineTextHeaderAtom" type="OutlineTextPropsHeaderExAtom" />
+		<type name="styleTextProp9Atom" type="StyleTextProp9Atom" />
+	</struct>
+	<struct name="OutlineTextPropsHeaderExAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" expression="&gt;=0" />
+			<limitation name="recInstance" expression="&lt;=5" />
+			<limitation name="recType" value="0xFAF" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="StyleTextProp9Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFAC" />
+		</type>
+		<!--
+			<type name="rgTextPFRun" type="TextPFRun" array="true" /> <type
+			name="rgTextCFRun" type="TextCFRun" array="true" />
+		-->
+		<!-- this one seems very hard to do -->
+		<uint8 name="todo" count="rh.recLen" />
+		<limitation expression="sum(rgTextPFRun/count)=count(../text/textChars)+1" />
+		<limitation expression="sum(rgTextCFRun/count)=count(../text/textChars)" />
+	</struct>
+	<struct name="PP10DocBinaryTagExtension">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" value="0x10" />
+		</type>
+		<uint8 name="tagName" count="16" />
+		<type name="rhData" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<uint8 name="todo" count="rhData.recLen" />
+		<!--
+			<type name="fontCollectionContainer"
+			type="FontCollection10Container"/> <type name="rgTextMasterStyle10"
+			type="TextMasterStyle10Atom"/> <type name="textDefaultsAtom"
+			type="TextDefaults10Atom"/> <type name="gridSpacingAtom"
+			type="GridSpacing10Atom" optional="true"/> <type
+			name="rgCommentIndex10" type="CommentIndex10Container"/> <type
+			name="fontEmbedFlagsAtom" type="FontEmbedFlags10Atom"
+			optional="true"/> <type name="copyrightAtom" type="CopyrightAtom"/>
+			<type name="keywordsAtom" type="KeywordsAtom"/> <type
+			name="filterPrivacyFlagsAtom" type="FilterPrivacyFlags10Atom"
+			optional="true"/> <type name="outlineTextPropsContainer"
+			type="OutlineTextProps10Container"/> <type
+			name="docToolbarStatesAtom" type="DocToolbarStates10Atom"
+			optional="true"/> <type name="slideListTableContainer"
+			type="SlideListTable10Container"/> <type name="rgDiffTree10Container"
+			type="DiffTree10Container"/> <type name="modifyPasswordAtom"
+			type="ModifyPasswordAtom"/> <type name="photoAlbumInfoAtom"
+			type="PhotoAlbumInfo10Atom" optional="true"/>
+		-->
+	</struct>
+	<struct name="FontCollection10Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x07D6" />
+		</type>
+		<!-- <uint8 name="todo" count="rh.recLen" /> -->
+		<type name="rgFontCollectionEntry" type="FontCollectionEntry"
+			array="true" size="rh.recLen" />
+	</struct>
+	<struct name="TextMasterStyle10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0|1|2|3|4|5|6|7|8" />
+			<limitation name="recType" value="0x0FB2" />
+		</type>
+		<uint16 name="cLevels">
+			<limitation expression="&lt;=5" />
+		</uint16>
+		<!--
+			level field of TextMasterStyleLevel is put here, because its presence
+			depends on this structure and currently child access to parent
+			properties is not supported
+		-->
+		<uint16 name="lstLvl1level" condition="cLevels&gt;0 &amp;&amp; rh.recInstance&gt;=5" />
+		<type name="lstLvl1" type="TextMasterStyle10Level" condition="cLevels&gt;0" />
+		<uint16 name="lstLvl2level" condition="cLevels&gt;1 &amp;&amp; rh.recInstance&gt;=5" />
+		<type name="lstLvl2" type="TextMasterStyle10Level" condition="cLevels&gt;1" />
+		<uint16 name="lstLvl3level" condition="cLevels&gt;2 &amp;&amp; rh.recInstance&gt;=5" />
+		<type name="lstLvl3" type="TextMasterStyle10Level" condition="cLevels&gt;2" />
+		<uint16 name="lstLvl4level" condition="cLevels&gt;3 &amp;&amp; rh.recInstance&gt;=5" />
+		<type name="lstLvl4" type="TextMasterStyle10Level" condition="cLevels&gt;3" />
+		<uint16 name="lstLvl5level" condition="cLevels&gt;4 &amp;&amp; rh.recInstance&gt;=5" />
+		<type name="lstLvl5" type="TextMasterStyle10Level" condition="cLevels&gt;4" />
+	</struct>
+	<struct name="TextMasterStyle10Level">
+		<type name="cf10" type="TextCFException10" />
+	</struct>
+	<struct name="TextCFException10">
+		<type name="masks" type="CFMasks">
+			<limitation name="bold" value="false" />
+			<limitation name="italic" value="false" />
+			<limitation name="underline" value="false" />
+			<limitation name="shadow" value="false" />
+			<limitation name="fehint" value="false" />
+			<limitation name="kumi" value="false" />
+			<limitation name="emboss" value="false" />
+			<limitation name="reserved" value="0" />
+			<limitation name="typeface" value="false" />
+			<limitation name="size" value="false" />
+			<limitation name="color" value="false" />
+			<limitation name="position" value="false" />
+			<limitation name="pp10ext" value="false" />
+			<limitation name="oldEATypeface" value="false" />
+			<limitation name="ansiTypeface" value="false" />
+			<limitation name="symbolTypeface" value="false" />
+		</type>
+		<!--ToDo check it is correct or not -->
+		<uint16 name="newEAFontRef" condition="masks.newEATypeface" />
+		<uint16 name="csFontRef" condition="masks.csTypeface" />
+		<uint32 name="pp11ext" condition="masks.pp11ext" />
+	</struct>
+	<struct name="TextDefaults10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FB4" />
+		</type>
+		<type name="cf10" type="TextCFException10" />
+	</struct>
+	<struct name="GridSpacing10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x040D" />
+			<limitation name="recLen" value="0x08" />
+		</type>
+		<uint32 name="x">
+			<limitation expression="&gt;=23224" />
+			<limitation expression="&lt;=1179648" />
+		</uint32>
+		<uint32 name="y" condition="x==y">
+			<limitation expression="&gt;=23224" />
+			<limitation expression="&lt;=1179648" />
+		</uint32>
+	</struct>
+	<struct name="CommentIndex10Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x2EE4" />
+		</type>
+		<type name="authorNameAtom" type="AuthorNameAtom" optional="true" />
+		<type name="authorIndexAtom" type="CommentIndex10Atom" optional="true" />
+	</struct>
+	<struct name="AuthorNameAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" expression="&lt;=104" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint8 name="authorName" count="rh.recLen" />
+	</struct>
+	<struct name="CommentIndex10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x2EE5" />
+			<limitation name="recLen" value="0x08" />
+		</type>
+		<int32 name="colorIndex">
+			<limitation expression="&gt;=0" />
+		</int32>
+		<int32 name="commentIndexSeed">
+			<limitation expression="&gt;=0" />
+			<!-- To Do limitation seems tough to do -->
+		</int32>
+	</struct>
+	<struct name="FontEmbedFlags10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x32C8" />
+			<limitation name="recLen" value="0x04" />
+		</type>
+		<bit name="fSubset" />
+		<bit name="fSubsetOptionConfirmed" />
+		<uint30 name="unused" />
+	</struct>
+	<struct name="CopyrightAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x1" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" expression="&lt;=510" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint8 name="copyright" count="rh.recLen" />
+	</struct>
+	<struct name="KeywordsAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x2" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" expression="&lt;=510" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint8 name="keywords" count="rh.recLen" />
+	</struct>
+	<struct name="FilterPrivacyFlags10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x36B0" />
+			<limitation name="recLen" value="0x04" />
+		</type>
+		<bit name="fRemovePII" />
+		<uint20 name="reserved2a">
+			<limitation value="0x0" />
+		</uint20>
+		<uint6 name="reserved2b">
+			<limitation value="0x0" />
+		</uint6>
+		<uint5 name="reserved2c">
+			<limitation value="0x0" />
+		</uint5>
+	</struct>
+	<struct name="OutlineTextProps10Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0FB3" />
+		</type>
+		<type name="rgOutlineTextProps10Entry" type="OutlineTextProps10Entry"
+			array="true" />
+	</struct>
+	<struct name="OutlineTextProps10Entry">
+		<type name="outlineTextHeaderAtom" type="OutlineTextPropsHeaderExAtom" />
+		<type name="styleTextProp10Atom" type="StyleTextProp10Atom" />
+	</struct>
+	<struct name="StyleTextProp10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0xFB1" />
+		</type>
+		<type name="rgTextPFRun" type="TextPFRun" array="true" />
+		<type name="rgTextCFRun" type="TextCFRun" array="true" />
+		<!-- this one seems very hard to do -->
+		<uint8 name="todo" count="rh.recLen" />
+		<limitation expression="sum(rgTextPFRun/count)=count(../text/textChars)+1" />
+		<limitation expression="sum(rgTextCFRun/count)=count(../text/textChars)" />
+	</struct>
+	<struct name="DocToolbarStates10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x36B1" />
+			<limitation name="recLen" value="0x01" />
+		</type>
+		<bit name="fShowReviewingToolbar" />
+		<bit name="fShowReviewingGallery" />
+		<uint6 name="reserved">
+			<limitation value="0x0" />
+		</uint6>
+	</struct>
+	<struct name="SlideListTable10Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x2EF1" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="DiffTree10Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x2EEC" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="ModifyPasswordAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x03" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" expression="&lt;=510" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint8 name="modifyPassword" count="rh.recLen" />
+	</struct>
+	<struct name="PhotoAlbumInfo10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x036B2" />
+			<limitation name="recLen" value="0x06" />
+		</type>
+		<uint8 name="fUseBlackWhite" />
+		<uint8 name="fHasCaption" />
+		<uint8 name="layout">
+			<limitation value="0|1|2|3|4|5|6" />
+		</uint8>
+		<uint8 name="unused" />
+		<uint16 name="frameShape">
+			<limitation value="0x0000|0x0001|0x0002|0x0003|0x0004|0x0005|0x0006" />
+		</uint16>
+	</struct>
+	<struct name="PP11DocBinaryTagExtension">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" value="0x10" />
+		</type>
+		<uint8 name="tagName" count="16" />
+		<type name="rhData" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<type name="smartTagStore11" type="SmartTagStore11Container" />
+		<type name="outlineTextProps" type="OutlineTextProps11Container" />
+	</struct>
+	<struct name="SmartTagStore11Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x36B3" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="OutlineTextProps11Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x0FB5" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="UnknownBinaryTag">
+		<type name="tagNameAtom" type="TagNameAtom" />
+		<type name="tagData" type="BinaryTagDataBlob" />
+	</struct>
+	<struct name="BinaryTagDataBlob">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0x0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<uint8 name="data" count="rh.recLen" />
+	</struct>
+	<struct name="PP12DocBinaryTagExtension">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0FBA" />
+			<limitation name="recLen" value="0x10" />
+		</type>
+		<uint8 name="tagName" count="16" />
+		<type name="rhData" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<uint8 name="todo" count="rhData.recLen" />
 	</struct>
 	<struct name="NotesTextViewInfoContainer">
 		<type name="rh" type="RecordHeader">
@@ -538,7 +1231,6 @@
 			<limitation value="1|2" />
 		</uint32>
 	</struct>
-
 	<struct name="NormalViewSetInfoContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
@@ -1200,7 +1892,7 @@
 			<limitation name="recType" value="0x0FD2" />
 			<limitation name="recLen" value="4" />
 		</type>
-		<uint32 name='level'>
+		<uint32 name="level">
 			<!--  MS documentation does not allow value 128 -->
 			<limitation value="0|1|2|128" />
 		</uint32>
@@ -1211,15 +1903,15 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFBA" />
 		</type>
-		<uint16 name='kinsokuLeading' />
+		<uint16 name="kinsokuLeading" />
 	</struct>
 	<struct name="KinsokuFollowingAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
-			<limitation name="recInstance" value="1	" />
+			<limitation name="recInstance" value="1 " />
 			<limitation name="recType" value="0xFBA" />
 		</type>
-		<uint16 name='kinsokuFollowing' />
+		<uint16 name="kinsokuFollowing" />
 	</struct>
 	<struct name="TextSpecialInfoAtom">
 		<type name="rh" type="RecordHeader">
@@ -1535,6 +2227,7 @@
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" expression="%2 == 0 " />
 		</type>
 		<uint16 name="tagName" count="rh.recLen/2" />
 	</struct>
@@ -1642,7 +2335,8 @@
 		<uint8 name="majorVersion">
 			<limitation value="3" />
 		</uint8>
-		<uint32 name="offsetLastEdit"><!--  TODO: check with offset of this edit -->
+		<uint32 name="offsetLastEdit">
+			<!--  TODO: check with offset of this edit -->
 		</uint32>
 		<uint32 name="offsetPersistDirectory">
 			<!-- <limitation expression="&gt;offsetLastEdit" /> -->
@@ -1676,13 +2370,6 @@
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
-	<struct name="SlideFlags">
-		<bit name="fMasterObject" />
-		<bit name="fMasterScheme" />
-		<bit name="fMasterBackground" />
-		<uint5 name="reserved1" />
-		<uint8 name="reserved2" />
-	</struct>
 	<struct name="SlideAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0x2" />
@@ -1694,7 +2381,7 @@
 		<uint8 name="rgPlaceholderTypes" count="8" />
 		<uint32 name="masterIdRef" />
 		<uint32 name="notesIdRef" />
-		<type name="slideFlags" type="SlideFlags" />
+		<uint16 name="slideFlags" />
 		<uint16 name="unused" />
 	</struct>
 	<struct name="SlideShowSlideInfoAtom">
@@ -2039,7 +2726,8 @@
 			<limitation name="recType" value="0x0F000" />
 		</type>
 		<type name="drawingGroup" type="OfficeArtFDGGBlock" />
-		<type name="blipStore" type="OfficeArtBStoreContainer" optional="true" /> <!--  different from spec -->
+		<type name="blipStore" type="OfficeArtBStoreContainer" optional="true" />
+		<!--  different from spec -->
 		<type name="drawingPrimaryOptions" type="OfficeArtFOPT" />
 		<type name="drawingTertiaryOptions" type="OfficeArtTertiaryFOPT"
 			optional="true" />
@@ -2906,7 +3594,8 @@
 	</struct>
 	<struct name="OfficeArtClientTextBox">
 		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="0|0xF" /> <!--  documentations says value should be 0 -->
+			<limitation name="recVer" value="0|0xF" />
+			<!--  documentations says value should be 0 -->
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xF00D" />
 		</type>
@@ -2963,7 +3652,6 @@
 		</type>
 		<type name="smca" type="MSOCR" count="4" />
 	</struct>
-
 	<struct name="todo">
 		<!--
 			a placeholder for structures that are not in the document
