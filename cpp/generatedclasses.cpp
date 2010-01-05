@@ -27433,7 +27433,8 @@ void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s) {
     }
     _s.unused = in.readuint16();
     _c = _s.lenUserName;
-    _s.ansiUserName.resize(_c);    in.readBytes(_s.ansiUserName);
+    _s.ansiUserName.resize(_c);
+    in.readBytes(_s.ansiUserName);
     _s.relVersion = in.readuint32();
     if (!(((quint32)_s.relVersion) == 0x8 || ((quint32)_s.relVersion) == 0x9)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.relVersion) == 0x8 || ((quint32)_s.relVersion) == 0x9");
@@ -27441,7 +27442,8 @@ void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s) {
     _s._has_unicodeUserName = _s.rh.recLen==3*_s.lenUserName+0x14;
     if (_s._has_unicodeUserName) {
         _c = 2*_s.lenUserName;
-        _s.unicodeUserName.resize(_c);        in.readBytes(_s.unicodeUserName);
+        _s.unicodeUserName.resize(_c);
+        in.readBytes(_s.unicodeUserName);
     }
 }
 void write(const CurrentUserAtom& _s, LEOutputStream& out) {
@@ -27756,15 +27758,18 @@ void parseOfficeArtBlipJPEG(LEInputStream& in, OfficeArtBlipJPEG& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF01D");
     }
     _c = 16;
-    _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
+    _s.rgbUid1.resize(_c);
+    in.readBytes(_s.rgbUid1);
     _s._has_rgbUid2 = _s.rh.recInstance == 0x46B || _s.rh.recInstance == 0x6E3;
     if (_s._has_rgbUid2) {
         _c = 16;
-        _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
+        _s.rgbUid2.resize(_c);
+        in.readBytes(_s.rgbUid2);
     }
     _s.tag = in.readuint8();
     _c = _s.rh.recLen-((_s.rh.recInstance == 0x46A || _s.rh.recInstance == 0x6E2)?17:33);
-    _s.BLIPFileData.resize(_c);    in.readBytes(_s.BLIPFileData);
+    _s.BLIPFileData.resize(_c);
+    in.readBytes(_s.BLIPFileData);
 }
 void write(const OfficeArtBlipJPEG& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -27825,15 +27830,18 @@ void parseOfficeArtBlipPNG(LEInputStream& in, OfficeArtBlipPNG& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF01E");
     }
     _c = 16;
-    _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
+    _s.rgbUid1.resize(_c);
+    in.readBytes(_s.rgbUid1);
     _s._has_rgbUid2 = _s.rh.recInstance == 0x6E1;
     if (_s._has_rgbUid2) {
         _c = 16;
-        _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
+        _s.rgbUid2.resize(_c);
+        in.readBytes(_s.rgbUid2);
     }
     _s.tag = in.readuint8();
     _c = _s.rh.recLen-((_s.rh.recInstance==0x6E0)?17:33);
-    _s.BLIPFileData.resize(_c);    in.readBytes(_s.BLIPFileData);
+    _s.BLIPFileData.resize(_c);
+    in.readBytes(_s.BLIPFileData);
 }
 void write(const OfficeArtBlipPNG& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -27894,15 +27902,18 @@ void parseOfficeArtBlipDIB(LEInputStream& in, OfficeArtBlipDIB& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF01F");
     }
     _c = 16;
-    _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
+    _s.rgbUid1.resize(_c);
+    in.readBytes(_s.rgbUid1);
     _s._has_rgbUid2 = _s.rh.recInstance == 0x7A9;
     if (_s._has_rgbUid2) {
         _c = 16;
-        _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
+        _s.rgbUid2.resize(_c);
+        in.readBytes(_s.rgbUid2);
     }
     _s.tag = in.readuint8();
     _c = _s.rh.recLen-((_s.rh.recInstance==0x7A8)?17:33);
-    _s.BLIPFileData.resize(_c);    in.readBytes(_s.BLIPFileData);
+    _s.BLIPFileData.resize(_c);
+    in.readBytes(_s.BLIPFileData);
 }
 void write(const OfficeArtBlipDIB& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -27963,15 +27974,18 @@ void parseOfficeArtBlipTIFF(LEInputStream& in, OfficeArtBlipTIFF& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF020");
     }
     _c = 16;
-    _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
+    _s.rgbUid1.resize(_c);
+    in.readBytes(_s.rgbUid1);
     _s._has_rgbUid2 = _s.rh.recInstance == 0x6E5;
     if (_s._has_rgbUid2) {
         _c = 16;
-        _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
+        _s.rgbUid2.resize(_c);
+        in.readBytes(_s.rgbUid2);
     }
     _s.tag = in.readuint8();
     _c = _s.rh.recLen-((_s.rh.recInstance==0x6E4)?17:33);
-    _s.BLIPFileData.resize(_c);    in.readBytes(_s.BLIPFileData);
+    _s.BLIPFileData.resize(_c);
+    in.readBytes(_s.BLIPFileData);
 }
 void write(const OfficeArtBlipTIFF& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -28145,7 +28159,8 @@ void parseSoundCollectionContainer(LEInputStream& in, SoundCollectionContainer& 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x7E4");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const SoundCollectionContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -28323,7 +28338,8 @@ void parseUserDateAtom(LEInputStream& in, UserDateAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen<=510");
     }
     _c = _s.rh.recLen;
-    _s.userDate.resize(_c);    in.readBytes(_s.userDate);
+    _s.userDate.resize(_c);
+    in.readBytes(_s.userDate);
 }
 void write(const UserDateAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -28363,7 +28379,8 @@ void parseHeaderAtom(LEInputStream& in, HeaderAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen;
-    _s.footer.resize(_c);    in.readBytes(_s.footer);
+    _s.footer.resize(_c);
+    in.readBytes(_s.footer);
 }
 void write(const HeaderAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -28403,7 +28420,8 @@ void parseFooterAtom(LEInputStream& in, FooterAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen;
-    _s.footer.resize(_c);    in.readBytes(_s.footer);
+    _s.footer.resize(_c);
+    in.readBytes(_s.footer);
 }
 void write(const FooterAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -28961,7 +28979,8 @@ void parseExHyperlink9Container(LEInputStream& in, ExHyperlink9Container& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFE4");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExHyperlink9Container& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -29191,7 +29210,8 @@ void parseEnvelopeData9Atom(LEInputStream& in, EnvelopeData9Atom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1785");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const EnvelopeData9Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -29534,7 +29554,8 @@ void parseHTMLPublishInfo9Container(LEInputStream& in, HTMLPublishInfo9Container
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x177D");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const HTMLPublishInfo9Container& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -29571,7 +29592,8 @@ void parseBroadcastDocInfo9Container(LEInputStream& in, BroadcastDocInfo9Contain
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x177E");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const BroadcastDocInfo9Container& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -29664,7 +29686,8 @@ void parseOutlineTextPropsHeaderExAtom(LEInputStream& in, OutlineTextPropsHeader
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFAF");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const OutlineTextPropsHeaderExAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -29701,7 +29724,8 @@ void parseStyleTextProp9Atom(LEInputStream& in, StyleTextProp9Atom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFAC");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const StyleTextProp9Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -29741,7 +29765,8 @@ void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x10");
     }
     _c = 16;
-    _s.tagName.resize(_c);    in.readBytes(_s.tagName);
+    _s.tagName.resize(_c);
+    in.readBytes(_s.tagName);
     parseRecordHeader(in, _s.rhData);
     if (!(_s.rhData.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rhData.recVer == 0x0");
@@ -29753,7 +29778,8 @@ void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension
         throw IncorrectValueException(in.getPosition(), "_s.rhData.recType == 0x138B");
     }
     _c = _s.rhData.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const PP10DocBinaryTagExtension& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -29925,7 +29951,8 @@ void parseAuthorNameAtom(LEInputStream& in, AuthorNameAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen;
-    _s.authorName.resize(_c);    in.readBytes(_s.authorName);
+    _s.authorName.resize(_c);
+    in.readBytes(_s.authorName);
 }
 void write(const AuthorNameAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30089,7 +30116,8 @@ void parseCopyrightAtom(LEInputStream& in, CopyrightAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen;
-    _s.copyright.resize(_c);    in.readBytes(_s.copyright);
+    _s.copyright.resize(_c);
+    in.readBytes(_s.copyright);
 }
 void write(const CopyrightAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30132,7 +30160,8 @@ void parseKeywordsAtom(LEInputStream& in, KeywordsAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen;
-    _s.keywords.resize(_c);    in.readBytes(_s.keywords);
+    _s.keywords.resize(_c);
+    in.readBytes(_s.keywords);
 }
 void write(const KeywordsAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30338,7 +30367,8 @@ void parseStyleTextProp10Atom(LEInputStream& in, StyleTextProp10Atom& _s) {
         }
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const StyleTextProp10Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30457,7 +30487,8 @@ void parseSlideListTable10Container(LEInputStream& in, SlideListTable10Container
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x2EF1");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const SlideListTable10Container& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30494,7 +30525,8 @@ void parseDiffTree10Container(LEInputStream& in, DiffTree10Container& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x2EEC");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const DiffTree10Container& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30537,7 +30569,8 @@ void parseModifyPasswordAtom(LEInputStream& in, ModifyPasswordAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen;
-    _s.modifyPassword.resize(_c);    in.readBytes(_s.modifyPassword);
+    _s.modifyPassword.resize(_c);
+    in.readBytes(_s.modifyPassword);
 }
 void write(const ModifyPasswordAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30665,7 +30698,8 @@ void parseSmartTagStore11Container(LEInputStream& in, SmartTagStore11Container& 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x36B3");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const SmartTagStore11Container& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30702,7 +30736,8 @@ void parseOutlineTextProps11Container(LEInputStream& in, OutlineTextProps11Conta
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x0FB5");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const OutlineTextProps11Container& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30739,7 +30774,8 @@ void parseBinaryTagDataBlob(LEInputStream& in, BinaryTagDataBlob& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x138B");
     }
     _c = _s.rh.recLen;
-    _s.data.resize(_c);    in.readBytes(_s.data);
+    _s.data.resize(_c);
+    in.readBytes(_s.data);
 }
 void write(const BinaryTagDataBlob& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30779,7 +30815,8 @@ void parsePP12DocBinaryTagExtension(LEInputStream& in, PP12DocBinaryTagExtension
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x10");
     }
     _c = 16;
-    _s.tagName.resize(_c);    in.readBytes(_s.tagName);
+    _s.tagName.resize(_c);
+    in.readBytes(_s.tagName);
     parseRecordHeader(in, _s.rhData);
     if (!(_s.rhData.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rhData.recVer == 0x0");
@@ -30791,7 +30828,8 @@ void parsePP12DocBinaryTagExtension(LEInputStream& in, PP12DocBinaryTagExtension
         throw IncorrectValueException(in.getPosition(), "_s.rhData.recType == 0x138B");
     }
     _c = _s.rhData.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const PP12DocBinaryTagExtension& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30844,7 +30882,8 @@ void parseSorterViewInfoContainer(LEInputStream& in, SorterViewInfoContainer& _s
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x408");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const SorterViewInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -30953,7 +30992,7 @@ void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextConta
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%28==0");
     }
     _c = _s.rh.recLen/28;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.rgMasterPersistAtom.append(MasterPersistAtom(&_s));
         parseMasterPersistAtom(in, _s.rgMasterPersistAtom[_i]);
     }
@@ -31048,7 +31087,8 @@ void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContain
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x0FF0");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const NotesListWithTextContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -31129,7 +31169,8 @@ void parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen/2;
-    _s.textChars.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.textChars.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.textChars[_i] = in.readuint16();
         if (!(((quint16)_s.textChars[_i]) != 0)) {
             throw IncorrectValueException(in.getPosition(), "((quint16)_s.textChars[_i]) != 0");
@@ -31173,7 +31214,8 @@ void parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFA8");
     }
     _c = _s.rh.recLen;
-    _s.textChars.resize(_c);    in.readBytes(_s.textChars);
+    _s.textChars.resize(_c);
+    in.readBytes(_s.textChars);
 }
 void write(const TextBytesAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -31286,7 +31328,8 @@ void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFA1");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const StyleTextPropAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -31369,7 +31412,8 @@ void parseDateTimeMCAtom(LEInputStream& in, DateTimeMCAtom& _s) {
     _s.position = in.readint32();
     _s.index = in.readuint8();
     _c = 3;
-    _s.unused.resize(_c);    in.readBytes(_s.unused);
+    _s.unused.resize(_c);
+    in.readBytes(_s.unused);
 }
 void write(const DateTimeMCAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -31553,7 +31597,8 @@ void parseRTFDateTimeMCAtom(LEInputStream& in, RTFDateTimeMCAtom& _s) {
     }
     _s.position = in.readint32();
     _c = 128;
-    _s.format.resize(_c);    in.readBytes(_s.format);
+    _s.format.resize(_c);
+    in.readBytes(_s.format);
 }
 void write(const RTFDateTimeMCAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -31666,7 +31711,8 @@ void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveIn
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 8");
     }
     _c = 8;
-    _s.range.resize(_c);    in.readBytes(_s.range);
+    _s.range.resize(_c);
+    in.readBytes(_s.range);
 }
 void write(const MouseTextInteractiveInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -31718,7 +31764,7 @@ void parseTabStops(LEInputStream& in, TabStops& _s) {
     LEInputStream::Mark _m;
     _s.count = in.readuint16();
     _c = _s.count;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.rgTabStop.append(TabStop(&_s));
         parseTabStop(in, _s.rgTabStop[_i]);
     }
@@ -32666,7 +32712,8 @@ void parseFontEntityAtom(LEInputStream& in, FontEntityAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x44");
     }
     _c = 32;
-    _s.lfFaceName.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.lfFaceName.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.lfFaceName[_i] = in.readuint16();
     }
     _s.lfCharSet = in.readuint8();
@@ -32812,7 +32859,8 @@ void parseFontEmbedDataBlob(LEInputStream& in, FontEmbedDataBlob& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFB8");
     }
     _c = _s.rh.recLen;
-    _s.data.resize(_c);    in.readBytes(_s.data);
+    _s.data.resize(_c);
+    in.readBytes(_s.data);
 }
 void write(const FontEmbedDataBlob& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33004,7 +33052,8 @@ void parseSmartTags(LEInputStream& in, SmartTags& _s) {
     LEInputStream::Mark _m;
     _s.count = in.readuint32();
     _c = _s.count;
-    _s.rgSmartTagIndex.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.rgSmartTagIndex.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.rgSmartTagIndex[_i] = in.readuint32();
     }
 }
@@ -33238,7 +33287,8 @@ void parseUnknownDocumentContainerChild(LEInputStream& in, UnknownDocumentContai
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1773");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const UnknownDocumentContainerChild& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33275,7 +33325,8 @@ void parseUnknownDocumentContainerChild2(LEInputStream& in, UnknownDocumentConta
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1788");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const UnknownDocumentContainerChild2& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33312,7 +33363,8 @@ void parseUnknownDocumentContainerChild3(LEInputStream& in, UnknownDocumentConta
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x101A");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const UnknownDocumentContainerChild3& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33349,7 +33401,8 @@ void parseUnknownDocumentContainerChild4(LEInputStream& in, UnknownDocumentConta
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x41A");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const UnknownDocumentContainerChild4& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33386,7 +33439,8 @@ void parseUnknownOfficeArtClientDataChild(LEInputStream& in, UnknownOfficeArtCli
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFE8 || _s.rh.recType == 0x1019");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const UnknownOfficeArtClientDataChild& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33423,7 +33477,8 @@ void parseUnknownSlideContainerChild(LEInputStream& in, UnknownSlideContainerChi
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x101D");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const UnknownSlideContainerChild& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33452,7 +33507,7 @@ void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s) {
     _s.persistId = in.readuint20();
     _s.cPersist = in.readuint12();
     _c = _s.cPersist;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.rgPersistOffset.append(PersistOffsetEntry(&_s));
         parsePersistOffsetEntry(in, _s.rgPersistOffset[_i]);
     }
@@ -33543,7 +33598,7 @@ void parseSchemeListElementColorSchemeAtom(LEInputStream& in, SchemeListElementC
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x20");
     }
     _c = 8;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.rgSchemeColor.append(ColorStruct(&_s));
         parseColorStruct(in, _s.rgSchemeColor[_i]);
     }
@@ -33585,7 +33640,8 @@ void parseRoundTripOArtTextStyles12Atom(LEInputStream& in, RoundTripOArtTextStyl
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x423");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const RoundTripOArtTextStyles12Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33625,7 +33681,8 @@ void parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const SlideNameAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33706,7 +33763,8 @@ void parseSlideProgBinaryTagContainer(LEInputStream& in, SlideProgBinaryTagConta
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x138A");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const SlideProgBinaryTagContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33746,7 +33804,8 @@ void parseTagNameAtom(LEInputStream& in, TagNameAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2 == 0 ");
     }
     _c = _s.rh.recLen/2;
-    _s.tagName.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.tagName.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.tagName[_i] = in.readuint16();
     }
 }
@@ -33787,7 +33846,8 @@ void parseTagValueAtom(LEInputStream& in, TagValueAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFBA");
     }
     _c = _s.rh.recLen/2;
-    _s.tagValue.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.tagValue.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.tagValue[_i] = in.readuint16();
     }
 }
@@ -33822,7 +33882,8 @@ void parseRoundTripMainMasterRecord(LEInputStream& in, RoundTripMainMasterRecord
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x41C || _s.rh.recType == 0x40E || _s.rh.recType == 0x040F || _s.rh.recType == 0x41E || _s.rh.recType == 0x0423 || _s.rh.recType == 0x2B0D || _s.rh.recType == 0x2B0B || _s.rh.recType == 0x041D");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const RoundTripMainMasterRecord& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33862,7 +33923,8 @@ void parseTemplateNameAtom(LEInputStream& in, TemplateNameAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen/2;
-    _s.templateName.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.templateName.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.templateName[_i] = in.readuint16();
     }
 }
@@ -33903,7 +33965,8 @@ void parseRoundTripSlideSyncInfo12Container(LEInputStream& in, RoundTripSlideSyn
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x3714");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const RoundTripSlideSyncInfo12Container& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33940,7 +34003,8 @@ void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x03F0");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const NotesContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -33977,7 +34041,8 @@ void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x0FC9");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const HandoutContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34014,7 +34079,8 @@ void parseExControlStg(LEInputStream& in, ExControlStg& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1011");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExControlStg& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34051,7 +34117,8 @@ void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1011");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExOleObjStg& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34256,7 +34323,8 @@ void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1011");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const VbaProjectStg& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34293,7 +34361,8 @@ void parseSlideProgTagscontainer(LEInputStream& in, SlideProgTagscontainer& _s) 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1388");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const SlideProgTagscontainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34334,7 +34403,8 @@ void parseSlideAtom(LEInputStream& in, SlideAtom& _s) {
     }
     _s.geom = in.readuint32();
     _c = 8;
-    _s.rgPlaceholderTypes.resize(_c);    in.readBytes(_s.rgPlaceholderTypes);
+    _s.rgPlaceholderTypes.resize(_c);
+    in.readBytes(_s.rgPlaceholderTypes);
     _s.masterIdRef = in.readuint32();
     _s.notesIdRef = in.readuint32();
     _s.slideFlags = in.readuint16();
@@ -34447,7 +34517,8 @@ void parseSlideShowSlideInfoAtom(LEInputStream& in, SlideShowSlideInfoAtom& _s) 
     _s.reserved7 = in.readuint3();
     _s.speed = in.readuint8();
     _c = 3;
-    _s.unused.resize(_c);    in.readBytes(_s.unused);
+    _s.unused.resize(_c);
+    in.readBytes(_s.unused);
 }
 void write(const SlideShowSlideInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34677,7 +34748,8 @@ void parseSlideShowDocInfoAtom(LEInputStream& in, SlideShowDocInfoAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x50");
     }
     _c = 0x50;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const SlideShowDocInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34717,7 +34789,7 @@ void parseSlideSchemeColorSchemeAtom(LEInputStream& in, SlideSchemeColorSchemeAt
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x20");
     }
     _c = 8;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.rgSchemeColor.append(ColorStruct(&_s));
         parseColorStruct(in, _s.rgSchemeColor[_i]);
     }
@@ -34753,7 +34825,8 @@ void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x40E || _s.rh.recType == 0x40F || _s.rh.recType == 0x41D || _s.rh.recType == 0x3714 || _s.rh.recType == 0x2B0D || _s.rh.recType == 0x2B0B || _s.rh.recType == 0x422");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const RoundTripSlideRecord& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34790,7 +34863,8 @@ void parseNamedShowsContainer(LEInputStream& in, NamedShowsContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x410");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const NamedShowsContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34827,7 +34901,8 @@ void parseSummaryContainer(LEInputStream& in, SummaryContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x402");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const SummaryContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34864,7 +34939,8 @@ void parseDocRoutingSlipAtom(LEInputStream& in, DocRoutingSlipAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x406");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const DocRoutingSlipAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34904,7 +34980,8 @@ void parsePrintOptionsAtom(LEInputStream& in, PrintOptionsAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 5");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const PrintOptionsAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34941,7 +35018,8 @@ void parseRoundTripCustomTableStyles12Atom(LEInputStream& in, RoundTripCustomTab
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x428");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const RoundTripCustomTableStyles12Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35073,7 +35151,8 @@ void parseExAviMovieContainer(LEInputStream& in, ExAviMovieContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1006");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExAviMovieContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35110,7 +35189,8 @@ void parseExCDAudioContainer(LEInputStream& in, ExCDAudioContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x100E");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExCDAudioContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35147,7 +35227,8 @@ void parseExControlContainer(LEInputStream& in, ExControlContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFEE");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExControlContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35184,7 +35265,8 @@ void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFD7");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExHyperlinkContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35221,7 +35303,8 @@ void parseExMCIMovieContainer(LEInputStream& in, ExMCIMovieContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1007");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExMCIMovieContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35258,7 +35341,8 @@ void parseExMIDIAudioContainer(LEInputStream& in, ExMIDIAudioContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x100D");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExMIDIAudioContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35295,7 +35379,8 @@ void parseExWAVAudioEmbeddedContainer(LEInputStream& in, ExWAVAudioEmbeddedConta
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x100F");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExWAVAudioEmbeddedContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35332,7 +35417,8 @@ void parseExWAVAudioLinkContainer(LEInputStream& in, ExWAVAudioLinkContainer& _s
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1010");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExWAVAudioLinkContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35369,7 +35455,8 @@ void parseUnknownExObjListSubContainerChild(LEInputStream& in, UnknownExObjListS
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFEA");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const UnknownExObjListSubContainerChild& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35568,7 +35655,8 @@ void parseMenuNameAtom(LEInputStream& in, MenuNameAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2 == 0 ");
     }
     _c = _s.rh.recLen;
-    _s.menuName.resize(_c);    in.readBytes(_s.menuName);
+    _s.menuName.resize(_c);
+    in.readBytes(_s.menuName);
 }
 void write(const MenuNameAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35608,7 +35696,8 @@ void parseProgIDAtom(LEInputStream& in, ProgIDAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2 == 0 ");
     }
     _c = _s.rh.recLen;
-    _s.progId.resize(_c);    in.readBytes(_s.progId);
+    _s.progId.resize(_c);
+    in.readBytes(_s.progId);
 }
 void write(const ProgIDAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35648,7 +35737,8 @@ void parseClipboardNameAtom(LEInputStream& in, ClipboardNameAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2 == 0 ");
     }
     _c = _s.rh.recLen;
-    _s.clipboardName.resize(_c);    in.readBytes(_s.clipboardName);
+    _s.clipboardName.resize(_c);
+    in.readBytes(_s.clipboardName);
 }
 void write(const ClipboardNameAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35691,7 +35781,8 @@ void parseMetafileBlob(LEInputStream& in, MetafileBlob& _s) {
     _s.xExt = in.readint16();
     _s.yExt = in.readint16();
     _c = _s.rh.recLen-6;
-    _s.data.resize(_c);    in.readBytes(_s.data);
+    _s.data.resize(_c);
+    in.readBytes(_s.data);
 }
 void write(const MetafileBlob& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -35867,7 +35958,7 @@ void parseOfficeArtFRITContainer(LEInputStream& in, OfficeArtFRITContainer& _s) 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen==4*_s.rh.recInstance");
     }
     _c = _s.rh.recInstance;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.rgfrit.append(OfficeArtFRIT(&_s));
         parseOfficeArtFRIT(in, _s.rgfrit[_i]);
     }
@@ -36020,7 +36111,8 @@ void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF005");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const OfficeArtSolverContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -36312,12 +36404,13 @@ void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x0F00B");
     }
     _c = _s.rh.recInstance;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.fopt.append(OfficeArtFOPTEChoice(&_s));
         parseOfficeArtFOPTEChoice(in, _s.fopt[_i]);
     }
     _c = _s.rh.recLen-6*_s.rh.recInstance;
-    _s.complexData.resize(_c);    in.readBytes(_s.complexData);
+    _s.complexData.resize(_c);
+    in.readBytes(_s.complexData);
 }
 void write(const OfficeArtFOPT& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -36352,7 +36445,8 @@ void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData
     int _c;
     LEInputStream::Mark _m;
     _c = 0;
-    _s.data.resize(_c);    in.readBytes(_s.data);
+    _s.data.resize(_c);
+    in.readBytes(_s.data);
 }
 void write(const OfficeArtFOPTEComplexData& _s, LEOutputStream& out) {
     out.writeBytes(_s.data);
@@ -36670,7 +36764,8 @@ void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF121");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const OfficeArtSecondaryFOPT& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -36704,12 +36799,13 @@ void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF122");
     }
     _c = _s.rh.recInstance;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.fopt.append(OfficeArtFOPTE(&_s));
         parseOfficeArtFOPTE(in, _s.fopt[_i]);
     }
     _c = _s.rh.recLen-6*_s.rh.recInstance;
-    _s.complexData.resize(_c);    in.readBytes(_s.complexData);
+    _s.complexData.resize(_c);
+    in.readBytes(_s.complexData);
 }
 void write(const OfficeArtTertiaryFOPT& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -36859,7 +36955,8 @@ void parseShapeFlagsAtom(LEInputStream& in, ShapeFlagsAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 1");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ShapeFlagsAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -36899,7 +36996,8 @@ void parseShapeFlags10Atom(LEInputStream& in, ShapeFlags10Atom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 1");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ShapeFlags10Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -36939,7 +37037,8 @@ void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 4");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ExObjRefAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -36976,7 +37075,8 @@ void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1014");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const AnimationInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -37036,7 +37136,8 @@ void parseInteractiveInfoAtom(LEInputStream& in, InteractiveInfoAtom& _s) {
     _s.reserved = in.readuint4();
     _s.hyperlinkType = in.readuint8();
     _c = 3;
-    _s.unused.resize(_c);    in.readBytes(_s.unused);
+    _s.unused.resize(_c);
+    in.readBytes(_s.unused);
 }
 void write(const InteractiveInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -37186,7 +37287,8 @@ void parseMacroNameAtom(LEInputStream& in, MacroNameAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
     _c = _s.rh.recLen;
-    _s.macroName.resize(_c);    in.readBytes(_s.macroName);
+    _s.macroName.resize(_c);
+    in.readBytes(_s.macroName);
 }
 void write(const MacroNameAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -37297,7 +37399,8 @@ void parseRecolorInfoAtom(LEInputStream& in, RecolorInfoAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFE7");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const RecolorInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -37372,7 +37475,8 @@ void parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream& in, ShapeCli
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1388 || _s.rh.recType == 0xBDD || _s.rh.recType == 0x41F || _s.rh.recType == 0x420 || _s.rh.recType == 0x426");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const ShapeClientRoundtripDataSubcontainerOrAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -37453,7 +37557,8 @@ void parseTextRulerAtom(LEInputStream& in, TextRulerAtom& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFA6");
     }
     _c = _s.rh.recLen;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const TextRulerAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -37559,7 +37664,7 @@ void parseOfficeArtColorMRUContainer(LEInputStream& in, OfficeArtColorMRUContain
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen==4*_s.rh.recInstance");
     }
     _c = _s.rh.recInstance;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.rgmsocr.append(MSOCR(&_s));
         parseMSOCR(in, _s.rgmsocr[_i]);
     }
@@ -37677,7 +37782,7 @@ void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenu
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x10");
     }
     _c = 4;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.smca.append(MSOCR(&_s));
         parseMSOCR(in, _s.smca[_i]);
     }
@@ -37710,7 +37815,8 @@ void parsetodo(LEInputStream& in, todo& _s) {
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     _c = _s.rh.recLen;
-    _s.anon.resize(_c);    in.readBytes(_s.anon);
+    _s.anon.resize(_c);
+    in.readBytes(_s.anon);
 }
 void write(const todo& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -41494,7 +41600,8 @@ void parseLPStshi(LEInputStream& in, LPStshi& _s) {
     LEInputStream::Mark _m;
     _s.cbSthi = in.readuint16();
     _c = _s.cbSthi;
-    _s.stshi.resize(_c);    in.readBytes(_s.stshi);
+    _s.stshi.resize(_c);
+    in.readBytes(_s.stshi);
 }
 void write(const LPStshi& _s, LEOutputStream& out) {
     out.writeuint16(_s.cbSthi);
@@ -41522,7 +41629,8 @@ void parseLPStd(LEInputStream& in, LPStd& _s) {
     LEInputStream::Mark _m;
     _s.cbStd = in.readuint16();
     _c = _s.cbStd;
-    _s.std.resize(_c);    in.readBytes(_s.std);
+    _s.std.resize(_c);
+    in.readBytes(_s.std);
     _s._has_padding = _s.cbStd%2==1;
     if (_s._has_padding) {
         _s.padding = in.readuint8();
@@ -41565,11 +41673,12 @@ void parsePlcfSed(LEInputStream& in, PlcfSed& _s) {
     int _c;
     LEInputStream::Mark _m;
     _c = 2;
-    _s.aCP.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.aCP.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.aCP[_i] = in.readuint32();
     }
     _c = 1;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.aSed.append(Sed(&_s));
         parseSed(in, _s.aSed[_i]);
     }
@@ -41650,7 +41759,8 @@ void parsePlcfhdd(LEInputStream& in, Plcfhdd& _s) {
     int _c;
     LEInputStream::Mark _m;
     _c = 13;
-    _s.aCP.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.aCP.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.aCP[_i] = in.readuint32();
     }
 }
@@ -41671,11 +41781,13 @@ void parsePlcBteChpx(LEInputStream& in, PlcBteChpx& _s) {
     int _c;
     LEInputStream::Mark _m;
     _c = 2;
-    _s.aCP.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.aCP.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.aCP[_i] = in.readuint32();
     }
     _c = 1;
-    _s.aPnBteChpx.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.aPnBteChpx.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.aPnBteChpx[_i] = in.readuint32();
     }
 }
@@ -41704,11 +41816,13 @@ void parsePlcfBtePapx(LEInputStream& in, PlcfBtePapx& _s) {
     int _c;
     LEInputStream::Mark _m;
     _c = 2;
-    _s.aCP.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.aCP.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.aCP[_i] = in.readuint32();
     }
     _c = 1;
-    _s.aPnBteChpx.resize(_c);    for (int _i=0; _i<_c; ++_i) {
+    _s.aPnBteChpx.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
         _s.aPnBteChpx[_i] = in.readuint32();
     }
 }
@@ -41741,7 +41855,8 @@ void parseTcg(LEInputStream& in, Tcg& _s) {
         throw IncorrectValueException(in.getPosition(), "((quint8)_s.nTcgVer) == 0");
     }
     _c = 11;
-    _s.todo.resize(_c);    in.readBytes(_s.todo);
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
 }
 void write(const Tcg& _s, LEOutputStream& out) {
     out.writeuint8(_s.nTcgVer);
@@ -41778,7 +41893,7 @@ void parsePrcData(LEInputStream& in, PrcData& _s) {
         throw IncorrectValueException(in.getPosition(), "((qint16)_s.cbGrpprl)%2==0");
     }
     _c = _s.cbGrpprl/2;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.GrpPrl.append(Sprm(&_s));
         parseSprm(in, _s.GrpPrl[_i]);
     }
@@ -41866,7 +41981,7 @@ void parsePcdt(LEInputStream& in, Pcdt& _s) {
     }
     _s.lcb = in.readuint32();
     _c = _s.lcb/8;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.PlcPcd.append(Pcd(&_s));
         parsePcd(in, _s.PlcPcd[_i]);
     }
@@ -42028,7 +42143,7 @@ void parseSttbfFfn(LEInputStream& in, SttbfFfn& _s) {
         throw IncorrectValueException(in.getPosition(), "((quint16)_s.cbExtra) == 0");
     }
     _c = _s.cData;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.data.append(SttbfFfnEntry(&_s));
         parseSttbfFfnEntry(in, _s.data[_i]);
     }
@@ -42071,7 +42186,8 @@ void parseSttbfFfnEntry(LEInputStream& in, SttbfFfnEntry& _s) {
     LEInputStream::Mark _m;
     _s.cchData = in.readuint8();
     _c = _s.cchData;
-    _s.Data.resize(_c);    in.readBytes(_s.Data);
+    _s.Data.resize(_c);
+    in.readBytes(_s.Data);
 }
 void write(const SttbfFfnEntry& _s, LEOutputStream& out) {
     out.writeuint8(_s.cchData);
@@ -42099,7 +42215,8 @@ void parseCodePageString(LEInputStream& in, CodePageString& _s) {
     LEInputStream::Mark _m;
     _s.size = in.readuint32();
     _c = 4*(_s.size/4)+((_s.size%4!=0)?4:0);
-    _s.characters.resize(_c);    in.readBytes(_s.characters);
+    _s.characters.resize(_c);
+    in.readBytes(_s.characters);
 }
 void write(const CodePageString& _s, LEOutputStream& out) {
     out.writeuint32(_s.size);
@@ -42157,7 +42274,8 @@ void parseClipboardData(LEInputStream& in, ClipboardData& _s) {
     _s.size = in.readuint32();
     _s.format = in.readuint32();
     _c = 4*(_s.size/4)+((_s.size%4!=0)?4:0)-4;
-    _s.data.resize(_c);    in.readBytes(_s.data);
+    _s.data.resize(_c);
+    in.readBytes(_s.data);
 }
 void write(const ClipboardData& _s, LEOutputStream& out) {
     out.writeuint32(_s.size);
@@ -42350,12 +42468,12 @@ void parsePropertySet(LEInputStream& in, PropertySet& _s) {
     _s.size = in.readuint32();
     _s.numProperties = in.readuint32();
     _c = _s.numProperties;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.propertyIdentifierAndOffset.append(PropertyIdentifierAndOffset(&_s));
         parsePropertyIdentifierAndOffset(in, _s.propertyIdentifierAndOffset[_i]);
     }
     _c = _s.numProperties;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.property.append(TypedPropertyValue(&_s));
         parseTypedPropertyValue(in, _s.property[_i]);
     }
@@ -42412,18 +42530,21 @@ void parsePropertySetStream(LEInputStream& in, PropertySetStream& _s) {
     _s.version = in.readuint16();
     _s.systemIdentifier = in.readuint32();
     _c = 16;
-    _s.clsID.resize(_c);    in.readBytes(_s.clsID);
+    _s.clsID.resize(_c);
+    in.readBytes(_s.clsID);
     _s.numPropertySets = in.readuint32();
     if (!(((quint32)_s.numPropertySets) == 1 || ((quint32)_s.numPropertySets) == 2)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.numPropertySets) == 1 || ((quint32)_s.numPropertySets) == 2");
     }
     _c = 16;
-    _s.fmtID0.resize(_c);    in.readBytes(_s.fmtID0);
+    _s.fmtID0.resize(_c);
+    in.readBytes(_s.fmtID0);
     _s.offset0 = in.readuint32();
     _s._has_fmtID1 = _s.numPropertySets==2;
     if (_s._has_fmtID1) {
         _c = 16;
-        _s.fmtID1.resize(_c);        in.readBytes(_s.fmtID1);
+        _s.fmtID1.resize(_c);
+        in.readBytes(_s.fmtID1);
     }
     _s._has_offset1 = _s.numPropertySets==2;
     if (_s._has_offset1) {
@@ -43567,7 +43688,8 @@ void parsePP11DocBinaryTagExtension(LEInputStream& in, PP11DocBinaryTagExtension
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x10");
     }
     _c = 16;
-    _s.tagName.resize(_c);    in.readBytes(_s.tagName);
+    _s.tagName.resize(_c);
+    in.readBytes(_s.tagName);
     parseRecordHeader(in, _s.rhData);
     if (!(_s.rhData.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rhData.recVer == 0x0");
@@ -43679,7 +43801,8 @@ void parseNoZoomViewInfoAtom(LEInputStream& in, NoZoomViewInfoAtom& _s) {
     }
     parseScalingStruct(in, _s.curScale);
     _c = 24;
-    _s.unused1.resize(_c);    in.readBytes(_s.unused1);
+    _s.unused1.resize(_c);
+    in.readBytes(_s.unused1);
     parsePointStruct(in, _s.origin);
     _s.unused2 = in.readuint8();
     _s.fDraftMode = in.readuint8();
@@ -46371,7 +46494,7 @@ void parseOfficeArtFDGGBlock(LEInputStream& in, OfficeArtFDGGBlock& _s) {
     }
     parseOfficeArtFDGG(in, _s.head);
     _c = _s.head.cidcl-1;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.Rgidcl.append(OfficeArtIDCL(&_s));
         parseOfficeArtIDCL(in, _s.Rgidcl[_i]);
     }
@@ -49225,9 +49348,11 @@ void parseFib(LEInputStream& in, Fib& _s) {
         throw IncorrectValueException(in.getPosition(), "((quint16)_s.cswNew) == 0 || ((quint16)_s.cswNew) == 2 || ((quint16)_s.cswNew) == 5");
     }
     _c = 2*_s.cswNew;
-    _s.fibRgCswNew.resize(_c);    in.readBytes(_s.fibRgCswNew);
+    _s.fibRgCswNew.resize(_c);
+    in.readBytes(_s.fibRgCswNew);
     _c = _s.fibRgLw.cbMac-156-8*_s.cbRgFcLcb-2*_s.cswNew;
-    _s.trail.resize(_c);    in.readBytes(_s.trail);
+    _s.trail.resize(_c);
+    in.readBytes(_s.trail);
 }
 void write(const Fib& _s, LEOutputStream& out) {
     write(_s.base, out);
@@ -49355,7 +49480,7 @@ void parseSTSH(LEInputStream& in, STSH& _s) {
     LEInputStream::Mark _m;
     parseLPStshi(in, _s.lpstshi);
     _c = 20;
-        for (int _i=0; _i<_c; ++_i) {
+    for (int _i=0; _i<_c; ++_i) {
         _s.rglpstd.append(LPStd(&_s));
         parseLPStd(in, _s.rglpstd[_i]);
     }
@@ -49505,15 +49630,18 @@ void parseOfficeArtBlipEMF(LEInputStream& in, OfficeArtBlipEMF& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF01A");
     }
     _c = 16;
-    _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
+    _s.rgbUid1.resize(_c);
+    in.readBytes(_s.rgbUid1);
     _s._has_rgbUid2 = _s.rh.recInstance == 0x3D5;
     if (_s._has_rgbUid2) {
         _c = 16;
-        _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
+        _s.rgbUid2.resize(_c);
+        in.readBytes(_s.rgbUid2);
     }
     parseOfficeArtMetafileHeader(in, _s.metafileHeader);
     _c = _s.rh.recLen-((_s.rh.recInstance==0x3D4)?50:66);
-    _s.BLIPFileData.resize(_c);    in.readBytes(_s.BLIPFileData);
+    _s.BLIPFileData.resize(_c);
+    in.readBytes(_s.BLIPFileData);
 }
 void write(const OfficeArtBlipEMF& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -49574,15 +49702,18 @@ void parseOfficeArtBlipWMF(LEInputStream& in, OfficeArtBlipWMF& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF01B");
     }
     _c = 16;
-    _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
+    _s.rgbUid1.resize(_c);
+    in.readBytes(_s.rgbUid1);
     _s._has_rgbUid2 = _s.rh.recInstance == 0x217;
     if (_s._has_rgbUid2) {
         _c = 16;
-        _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
+        _s.rgbUid2.resize(_c);
+        in.readBytes(_s.rgbUid2);
     }
     parseOfficeArtMetafileHeader(in, _s.metafileHeader);
     _c = _s.rh.recLen-((_s.rh.recInstance==0x216)?50:66);
-    _s.BLIPFileData.resize(_c);    in.readBytes(_s.BLIPFileData);
+    _s.BLIPFileData.resize(_c);
+    in.readBytes(_s.BLIPFileData);
 }
 void write(const OfficeArtBlipWMF& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -49643,15 +49774,18 @@ void parseOfficeArtBlipPICT(LEInputStream& in, OfficeArtBlipPICT& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF01C");
     }
     _c = 16;
-    _s.rgbUid1.resize(_c);    in.readBytes(_s.rgbUid1);
+    _s.rgbUid1.resize(_c);
+    in.readBytes(_s.rgbUid1);
     _s._has_rgbUid2 = _s.rh.recInstance == 0x543;
     if (_s._has_rgbUid2) {
         _c = 16;
-        _s.rgbUid2.resize(_c);        in.readBytes(_s.rgbUid2);
+        _s.rgbUid2.resize(_c);
+        in.readBytes(_s.rgbUid2);
     }
     parseOfficeArtMetafileHeader(in, _s.metafileHeader);
     _c = _s.rh.recLen-((_s.rh.recInstance==0x542)?50:66);
-    _s.BLIPFileData.resize(_c);    in.readBytes(_s.BLIPFileData);
+    _s.BLIPFileData.resize(_c);
+    in.readBytes(_s.BLIPFileData);
 }
 void write(const OfficeArtBlipPICT& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -49788,7 +49922,8 @@ void parseZoomViewInfoAtom(LEInputStream& in, ZoomViewInfoAtom& _s) {
     }
     parseScalingStruct(in, _s.curScale);
     _c = 24;
-    _s.unused1.resize(_c);    in.readBytes(_s.unused1);
+    _s.unused1.resize(_c);
+    in.readBytes(_s.unused1);
     parsePointStruct(in, _s.origin);
     _s.fUseVarScale = in.readuint8();
     if (!(((quint8)_s.fUseVarScale) == 0 || ((quint8)_s.fUseVarScale) == 1)) {
@@ -51473,7 +51608,8 @@ void parseTable(LEInputStream& in, Table& _s) {
     parseClx(in, _s.clx);
     parseSttbfFfn(in, _s.sttbfFfn);
     _c = 600;
-    _s.dop.resize(_c);    in.readBytes(_s.dop);
+    _s.dop.resize(_c);
+    in.readBytes(_s.dop);
 }
 void write(const Table& _s, LEOutputStream& out) {
     write(_s.stsh, out);
@@ -51669,7 +51805,8 @@ void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s) {
     _s.btWin32 = in.readuint8();
     _s.btMacOS = in.readuint8();
     _c = 16;
-    _s.rgbUid.resize(_c);    in.readBytes(_s.rgbUid);
+    _s.rgbUid.resize(_c);
+    in.readBytes(_s.rgbUid);
     _s.tag = in.readuint16();
     _s.size = in.readuint32();
     _s.cRef = in.readuint32();
@@ -51679,7 +51816,8 @@ void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s) {
     _s.unused2 = in.readuint8();
     _s.unused3 = in.readuint8();
     _c = _s.cbName;
-    _s.nameData.resize(_c);    in.readBytes(_s.nameData);
+    _s.nameData.resize(_c);
+    in.readBytes(_s.nameData);
     if (_s.rh.recLen > 36 + _s.cbName) {
         _s.embeddedBlip = QSharedPointer<OfficeArtBlip>(new OfficeArtBlip(&_s));
         parseOfficeArtBlip(in, *_s.embeddedBlip.data());
@@ -53382,7 +53520,8 @@ void parsePP9DocBinaryTagExtension(LEInputStream& in, PP9DocBinaryTagExtension& 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x0E");
     }
     _c = 14;
-    _s.tagName.resize(_c);    in.readBytes(_s.tagName);
+    _s.tagName.resize(_c);
+    in.readBytes(_s.tagName);
     parseRecordHeader(in, _s.rhData);
     if (!(_s.rhData.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rhData.recVer == 0x0");
