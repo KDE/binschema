@@ -3497,13 +3497,31 @@
 			<limitation name="recType" value="0xBC1" />
 			<limitation name="recLen" value="4" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<uint32 name="exObjIdRef" />
 	</struct>
 	<struct name="AnimationInfoContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x1014" />
+		</type>
+		<type name="animationAtom" type="AnimationInfoAtom" />
+		<type name="animationSound" type="SoundContainer" optional="true" />
+	</struct>
+	<struct name="AnimationInfoAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0x1" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFF1" />
+			<limitation name="recLen" value="0x1C" />
+		</type>
+		<uint8 name="todo" count="0x1C" />
+	</struct>
+	<struct name="SoundContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x7E6" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>

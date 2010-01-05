@@ -4709,7 +4709,6 @@ System.out.println(in.getPosition()+" "+_s);
     }
     ExObjRefAtom parseExObjRefAtom(LEInputStream in) throws IOException  {
         ExObjRefAtom _s = new ExObjRefAtom();
-        int _c;
         _s.rh = parseOfficeArtRecordHeader(in);
         if (!(_s.rh.recVer == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
@@ -4723,18 +4722,41 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recLen == 4)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 4 for value " + String.valueOf(_s.rh) );
         }
-        _c = _s.rh.recLen;
-        _s.todo = in.readBytes(_c);
+        _s.exObjIdRef = in.readuint32();
         return _s;
     }
     void write(ExObjRefAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.exObjIdRef);
+    }
+    AnimationInfoAtom parseAnimationInfoAtom(LEInputStream in) throws IOException  {
+        AnimationInfoAtom _s = new AnimationInfoAtom();
+        int _c;
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0x1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0x1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFF1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFF1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x1C)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x1C for value " + String.valueOf(_s.rh) );
+        }
+        _c = 0x1C;
+        _s.todo = in.readBytes(_c);
+        return _s;
+    }
+    void write(AnimationInfoAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         for (byte _i: _s.todo) {
             out.writeuint8(_i);
         }
     }
-    AnimationInfoContainer parseAnimationInfoContainer(LEInputStream in) throws IOException  {
-        AnimationInfoContainer _s = new AnimationInfoContainer();
+    SoundContainer parseSoundContainer(LEInputStream in) throws IOException  {
+        SoundContainer _s = new SoundContainer();
         int _c;
         _s.rh = parseOfficeArtRecordHeader(in);
         if (!(_s.rh.recVer == 0xF)) {
@@ -4743,14 +4765,14 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recInstance == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0x1014)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1014 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0x7E6)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x7E6 for value " + String.valueOf(_s.rh) );
         }
         _c = _s.rh.recLen;
         _s.todo = in.readBytes(_c);
         return _s;
     }
-    void write(AnimationInfoContainer _s, LEOutputStream out) throws IOException  {
+    void write(SoundContainer _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         for (byte _i: _s.todo) {
             out.writeuint8(_i);
@@ -9066,6 +9088,38 @@ System.out.println(in.getPosition()+" "+_s);
         if (_s.rh.recLen==0x10) {
             write(_s.rect2, out);
         }
+    }
+    AnimationInfoContainer parseAnimationInfoContainer(LEInputStream in) throws IOException  {
+        AnimationInfoContainer _s = new AnimationInfoContainer();
+        Object _m;
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x1014)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x1014 for value " + String.valueOf(_s.rh) );
+        }
+        _s.animationAtom = parseAnimationInfoAtom(in);
+        _m = in.setMark();
+        try {
+            _s.animationSound = parseSoundContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(AnimationInfoContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.animationAtom, out);
+        if (_s.animationSound != null) write(_s.animationSound, out);
     }
     MouseInteractiveInfoContainer parseMouseInteractiveInfoContainer(LEInputStream in) throws IOException  {
         MouseInteractiveInfoContainer _s = new MouseInteractiveInfoContainer();
@@ -14416,19 +14470,29 @@ class ShapeFlags10Atom {
 }
 class ExObjRefAtom {
     OfficeArtRecordHeader rh;
-    byte[] todo;
+    int exObjIdRef;
     public String toString() {
         String _s = "ExObjRefAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "exObjIdRef: " + String.valueOf(exObjIdRef) + "(" + Integer.toHexString(exObjIdRef).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class AnimationInfoAtom {
+    OfficeArtRecordHeader rh;
+    byte[] todo;
+    public String toString() {
+        String _s = "AnimationInfoAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "todo: " + String.valueOf(todo) + ", ";
         return _s;
     }
 }
-class AnimationInfoContainer {
+class SoundContainer {
     OfficeArtRecordHeader rh;
     byte[] todo;
     public String toString() {
-        String _s = "AnimationInfoContainer:";
+        String _s = "SoundContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "todo: " + String.valueOf(todo) + ", ";
         return _s;
@@ -16881,6 +16945,18 @@ class OfficeArtClientAnchor {
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "rect1: " + String.valueOf(rect1) + ", ";
         _s = _s + "rect2: " + String.valueOf(rect2) + ", ";
+        return _s;
+    }
+}
+class AnimationInfoContainer {
+    OfficeArtRecordHeader rh;
+    AnimationInfoAtom animationAtom;
+    SoundContainer animationSound;
+    public String toString() {
+        String _s = "AnimationInfoContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "animationAtom: " + String.valueOf(animationAtom) + ", ";
+        _s = _s + "animationSound: " + String.valueOf(animationSound) + ", ";
         return _s;
     }
 }

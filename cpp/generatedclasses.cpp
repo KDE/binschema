@@ -700,10 +700,14 @@ class ExObjRefAtom;
 void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s);
 void parseExObjRefAtom(QXmlStreamReader& in, ExObjRefAtom& _s);
 void write(const ExObjRefAtom& v, LEOutputStream& out);
-class AnimationInfoContainer;
-void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s);
-void parseAnimationInfoContainer(QXmlStreamReader& in, AnimationInfoContainer& _s);
-void write(const AnimationInfoContainer& v, LEOutputStream& out);
+class AnimationInfoAtom;
+void parseAnimationInfoAtom(LEInputStream& in, AnimationInfoAtom& _s);
+void parseAnimationInfoAtom(QXmlStreamReader& in, AnimationInfoAtom& _s);
+void write(const AnimationInfoAtom& v, LEOutputStream& out);
+class SoundContainer;
+void parseSoundContainer(LEInputStream& in, SoundContainer& _s);
+void parseSoundContainer(QXmlStreamReader& in, SoundContainer& _s);
+void write(const SoundContainer& v, LEOutputStream& out);
 class InteractiveInfoAtom;
 void parseInteractiveInfoAtom(LEInputStream& in, InteractiveInfoAtom& _s);
 void parseInteractiveInfoAtom(QXmlStreamReader& in, InteractiveInfoAtom& _s);
@@ -1176,6 +1180,10 @@ class OfficeArtClientAnchor;
 void parseOfficeArtClientAnchor(LEInputStream& in, OfficeArtClientAnchor& _s);
 void parseOfficeArtClientAnchor(QXmlStreamReader& in, OfficeArtClientAnchor& _s);
 void write(const OfficeArtClientAnchor& v, LEOutputStream& out);
+class AnimationInfoContainer;
+void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s);
+void parseAnimationInfoContainer(QXmlStreamReader& in, AnimationInfoContainer& _s);
+void write(const AnimationInfoContainer& v, LEOutputStream& out);
 class MouseInteractiveInfoContainer;
 void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s);
 void parseMouseInteractiveInfoContainer(QXmlStreamReader& in, MouseInteractiveInfoContainer& _s);
@@ -3696,20 +3704,32 @@ private:
 public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
-    QByteArray todo;
+    quint32 exObjIdRef;
     ExObjRefAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class AnimationInfoContainer : public Introspectable {
+class AnimationInfoAtom : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    AnimationInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    AnimationInfoAtom(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class SoundContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QByteArray todo;
+    SoundContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -5835,6 +5855,20 @@ public:
     QSharedPointer<RectStruct> rect2;
     OfficeArtClientAnchor(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class AnimationInfoContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    AnimationInfoAtom animationAtom;
+    QSharedPointer<SoundContainer> animationSound;
+    AnimationInfoContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        animationAtom(this) {
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
@@ -14743,15 +14777,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const ExObjRefAtom*>(i)->rh);
     }
-    static QVariant get_todo(const Introspectable* i, int j) {
-        return static_cast<const ExObjRefAtom*>(i)->todo;
+    static QVariant get_exObjIdRef(const Introspectable* i, int j) {
+        return static_cast<const ExObjRefAtom*>(i)->exObjIdRef;
     }
 };
 const QString ExObjRefAtom::_Introspection::name("ExObjRefAtom");
 const int ExObjRefAtom::_Introspection::numberOfMembers(2);
 const QString ExObjRefAtom::_Introspection::names[2] = {
     "rh",
-    "todo",
+    "exObjIdRef",
 };
 int (* const ExObjRefAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -14759,7 +14793,7 @@ int (* const ExObjRefAtom::_Introspection::numberOfInstances[2])(const Introspec
 };
 QVariant (* const ExObjRefAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_todo,
+    _Introspection::get_exObjIdRef,
 };
 const Introspectable* (* const ExObjRefAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -14767,7 +14801,7 @@ const Introspectable* (* const ExObjRefAtom::_Introspection::introspectable[2])(
 };
 const Introspection ExObjRefAtom::_introspection(
     "ExObjRefAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class AnimationInfoContainer::_Introspection {
+class AnimationInfoAtom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
@@ -14776,32 +14810,67 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const AnimationInfoContainer*>(i)->rh);
+        return &(static_cast<const AnimationInfoAtom*>(i)->rh);
     }
     static QVariant get_todo(const Introspectable* i, int j) {
-        return static_cast<const AnimationInfoContainer*>(i)->todo;
+        return static_cast<const AnimationInfoAtom*>(i)->todo;
     }
 };
-const QString AnimationInfoContainer::_Introspection::name("AnimationInfoContainer");
-const int AnimationInfoContainer::_Introspection::numberOfMembers(2);
-const QString AnimationInfoContainer::_Introspection::names[2] = {
+const QString AnimationInfoAtom::_Introspection::name("AnimationInfoAtom");
+const int AnimationInfoAtom::_Introspection::numberOfMembers(2);
+const QString AnimationInfoAtom::_Introspection::names[2] = {
     "rh",
     "todo",
 };
-int (* const AnimationInfoContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+int (* const AnimationInfoAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const AnimationInfoContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+QVariant (* const AnimationInfoAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
     _Introspection::get_todo,
 };
-const Introspectable* (* const AnimationInfoContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+const Introspectable* (* const AnimationInfoAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     Introspection::null,
 };
-const Introspection AnimationInfoContainer::_introspection(
-    "AnimationInfoContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+const Introspection AnimationInfoAtom::_introspection(
+    "AnimationInfoAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class SoundContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const SoundContainer*>(i)->rh);
+    }
+    static QVariant get_todo(const Introspectable* i, int j) {
+        return static_cast<const SoundContainer*>(i)->todo;
+    }
+};
+const QString SoundContainer::_Introspection::name("SoundContainer");
+const int SoundContainer::_Introspection::numberOfMembers(2);
+const QString SoundContainer::_Introspection::names[2] = {
+    "rh",
+    "todo",
+};
+int (* const SoundContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const SoundContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_todo,
+};
+const Introspectable* (* const SoundContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+};
+const Introspection SoundContainer::_introspection(
+    "SoundContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class InteractiveInfoAtom::_Introspection {
 public:
     static const QString name;
@@ -23721,6 +23790,51 @@ const Introspectable* (* const OfficeArtClientAnchor::_Introspection::introspect
 };
 const Introspection OfficeArtClientAnchor::_introspection(
     "OfficeArtClientAnchor", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class AnimationInfoContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[3];
+    static int (* const numberOfInstances[3])(const Introspectable*);
+    static QVariant (* const value[3])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const AnimationInfoContainer*>(i)->rh);
+    }
+    static const Introspectable* get_animationAtom(const Introspectable* i, int j) {
+        return &(static_cast<const AnimationInfoContainer*>(i)->animationAtom);
+    }
+    static int count_animationSound(const Introspectable* i) {
+        return get_animationSound(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_animationSound(const Introspectable* i, int j) {
+        return static_cast<const AnimationInfoContainer*>(i)->animationSound.data();
+    }
+};
+const QString AnimationInfoContainer::_Introspection::name("AnimationInfoContainer");
+const int AnimationInfoContainer::_Introspection::numberOfMembers(3);
+const QString AnimationInfoContainer::_Introspection::names[3] = {
+    "rh",
+    "animationAtom",
+    "animationSound",
+};
+int (* const AnimationInfoContainer::_Introspection::numberOfInstances[3])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    _Introspection::count_animationSound,
+};
+QVariant (* const AnimationInfoContainer::_Introspection::value[3])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const AnimationInfoContainer::_Introspection::introspectable[3])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    _Introspection::get_animationAtom,
+    _Introspection::get_animationSound,
+};
+const Introspection AnimationInfoContainer::_introspection(
+    "AnimationInfoContainer", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class MouseInteractiveInfoContainer::_Introspection {
 public:
     static const QString name;
@@ -37021,8 +37135,6 @@ void parseShapeFlags10Atom(QXmlStreamReader& in, ShapeFlags10Atom& _s) {
     in.readElementText();
 }
 void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s) {
-    int _c;
-    LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -37036,15 +37148,58 @@ void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s) {
     if (!(_s.rh.recLen == 4)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 4");
     }
-    _c = _s.rh.recLen;
-    _s.todo.resize(_c);
-    in.readBytes(_s.todo);
+    _s.exObjIdRef = in.readuint32();
 }
 void write(const ExObjRefAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    out.writeBytes(_s.todo);
+    out.writeuint32(_s.exObjIdRef);
 }
 void parseExObjRefAtom(QXmlStreamReader& in, ExObjRefAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "exObjIdRef") {
+        qDebug() << "not startelement in exObjIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
+void parseAnimationInfoAtom(LEInputStream& in, AnimationInfoAtom& _s) {
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0x1)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x1");
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    }
+    if (!(_s.rh.recType == 0xFF1)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFF1");
+    }
+    if (!(_s.rh.recLen == 0x1C)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x1C");
+    }
+    _c = 0x1C;
+    _s.todo.resize(_c);
+    in.readBytes(_s.todo);
+}
+void write(const AnimationInfoAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeBytes(_s.todo);
+}
+void parseAnimationInfoAtom(QXmlStreamReader& in, AnimationInfoAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
         qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
@@ -37061,7 +37216,7 @@ void parseExObjRefAtom(QXmlStreamReader& in, ExObjRefAtom& _s) {
     }
     in.readElementText();
 }
-void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) {
+void parseSoundContainer(LEInputStream& in, SoundContainer& _s) {
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -37071,18 +37226,18 @@ void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) 
     if (!(_s.rh.recInstance == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
     }
-    if (!(_s.rh.recType == 0x1014)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1014");
+    if (!(_s.rh.recType == 0x7E6)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x7E6");
     }
     _c = _s.rh.recLen;
     _s.todo.resize(_c);
     in.readBytes(_s.todo);
 }
-void write(const AnimationInfoContainer& _s, LEOutputStream& out) {
+void write(const SoundContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writeBytes(_s.todo);
 }
-void parseAnimationInfoContainer(QXmlStreamReader& in, AnimationInfoContainer& _s) {
+void parseSoundContainer(QXmlStreamReader& in, SoundContainer& _s) {
     in.readNext();
     if (!in.isStartElement()) {
         qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
@@ -49232,6 +49387,64 @@ void parseOfficeArtClientAnchor(QXmlStreamReader& in, OfficeArtClientAnchor& _s)
         return;
     }
     skipToStartElement(in);
+}
+void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) {
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    }
+    if (!(_s.rh.recType == 0x1014)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x1014");
+    }
+    parseAnimationInfoAtom(in, _s.animationAtom);
+    _m = in.setMark();
+    try {
+        _s.animationSound = QSharedPointer<SoundContainer>(new SoundContainer(&_s));
+        parseSoundContainer(in, *_s.animationSound.data());
+    } catch(IncorrectValueException _e) {
+        _s.animationSound.clear();
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        _s.animationSound.clear();
+        in.rewind(_m);
+    }
+}
+void write(const AnimationInfoContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.animationAtom, out);
+    if (_s.animationSound) write(*_s.animationSound, out);
+}
+void parseAnimationInfoContainer(QXmlStreamReader& in, AnimationInfoContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in AnimationInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "animationAtom") {
+        qDebug() << "not startelement in animationAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in SoundContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "animationSound") {
+        skipToStartElement(in);
+    }
 }
 void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s) {
     parseRecordHeader(in, _s.rh);
