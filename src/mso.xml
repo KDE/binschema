@@ -1325,7 +1325,36 @@
 			<limitation name="recInstance" value="2" />
 			<limitation name="recType" value="0x0FF0" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="rgNotesPersistAtom" type="NotesPersistAtom" array="true" />
+	</struct>
+	<struct name="NotesPersistAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0x0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x03F3" />
+			<limitation name="recLen" value="0x14" />
+		</type>
+		<uint32 name="persistIdRef" />
+		<uint2 name="reserved1">
+			<limitation value="0" />
+		</uint2>
+		<bit name="fNonOutlineData" />
+		<uint5 name="reserved2a">
+			<limitation value="0" />
+		</uint5>
+		<uint8 name="reserved2b">
+			<limitation value="0" />
+		</uint8>
+		<uint16 name="reserved2c">
+			<limitation value="0" />
+		</uint16>
+		<uint32 name="reserved3">
+			<limitation value="0" />
+		</uint32>
+		<uint32 name="notesId" />
+		<uint32 name="reserved4">
+			<limitation value="0" />
+		</uint32>
 	</struct>
 	<struct name="SlideListWithTextSubContainerOrAtom">
 		<type name="slidePersistAtom" type="SlidePersistAtom" />
@@ -2271,7 +2300,7 @@
 		<type name="drawing" type="DrawingContainer" />
 		<type name="slideSchemeColorSchemeAtom" type="SlideSchemeColorSchemeAtom" />
 		<type name="slideNameAtom" type="SlideNameAtom" optional="true" />
-		<type name="slideProgTagsContainer" type="SlideProgTagscontainer"
+		<type name="slideProgTagsContainer" type="SlideProgTagsContainer"
 			optional="true" />
 		<type name="rgRoundTripSlide" type="RoundTripSlideRecord" array="true" />
 		<!--
@@ -2293,6 +2322,44 @@
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x03F0" />
+		</type>
+		<type name="notesAtom" type="NotesAtom" />
+		<!--
+			perSlideHeadersFootersContainer is not in the documentation
+		-->
+		<type name="perSlideHeadersFootersContainer" type="PerSlideHeadersFootersContainer"
+			optional="true" />
+		<type name="drawing" type="DrawingContainer" />
+		<type name="slideSchemeColorSchemeAtom" type="SlideSchemeColorSchemeAtom" />
+		<type name="slideNameAtom" type="SlideNameAtom" optional="true" />
+		<type name="slideProgTagsContainer" type="SlideProgTagsContainer"
+			optional="true" />
+		<type name="rgNotesRoundTripAtom" type="NotesRoundTripAtom"
+			array="true" />
+	</struct>
+	<struct name="NotesAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="1" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x3F1" />
+			<limitation name="recLen" value="0x8" />
+		</type>
+		<uint32 name="slideIdRef" />
+		<type name="slideFlags" type="SlideFlags" />
+		<uint16 name="unused" />
+	</struct>
+	<struct name="SlideFlags">
+		<bit name="fMasterObjects" />
+		<bit name="fMasterScheme" />
+		<bit name="fMasterBackground" />
+		<uint5 name="unused1" />
+		<uint8 name="unused2" />
+	</struct>
+	<struct name="NotesRoundTripAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x40E|0x40F|0x427" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
@@ -2362,14 +2429,6 @@
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
-	<struct name="SlideProgTagscontainer">
-		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0xF" />
-			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0x1388" />
-		</type>
-		<uint8 name="todo" count="rh.recLen" />
-	</struct>
 	<struct name="SlideAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0x2" />
@@ -2381,7 +2440,7 @@
 		<uint8 name="rgPlaceholderTypes" count="8" />
 		<uint32 name="masterIdRef" />
 		<uint32 name="notesIdRef" />
-		<uint16 name="slideFlags" />
+		<type name="slideFlags" type="SlideFlags" />
 		<uint16 name="unused" />
 	</struct>
 	<struct name="SlideShowSlideInfoAtom">
@@ -2419,7 +2478,28 @@
 			<limitation name="recType" value="0x0401" />
 			<limitation name="recLen" value="0x50" />
 		</type>
-		<uint8 name="todo" count="0x50" />
+		<type name="penColor" type="ColorIndexStruct" />
+		<int32 name="restartTime" />
+		<int16 name="startSlide">
+			<limitation expression="&gt;=0" />
+		</int16>
+		<int16 name="endSlide">
+			<limitation expression="&gt;=0" />
+		</int16>
+		<uint8 name="namedShow" count="64" />
+		<bit name="fAutoAdvance" />
+		<bit name="fWillSkipBuilds" />
+		<bit name="fUseSlideRange" />
+		<bit name="fDocUseNamedShow" />
+		<bit name="fShowBrowseMode" />
+		<bit name="fKioskMode" />
+		<bit name="fWillSkipNarration" />
+		<bit name="fLoopContinuously" />
+		<bit name="fHideScrollBar" />
+		<uint7 name="reserved">
+			<limitation value="0" />
+		</uint7>
+		<uint16 name="unused" />
 	</struct>
 	<struct name="DrawingGroupContainer">
 		<type name="rh" type="RecordHeader">
@@ -3626,7 +3706,7 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFA6" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="textRuler" type="TextRuler" />
 	</struct>
 	<struct name="OfficeArtIDCL">
 		<uint32 name="dgid" />
