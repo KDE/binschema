@@ -1237,48 +1237,6 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
-    PP10DocBinaryTagExtension parsePP10DocBinaryTagExtension(LEInputStream in) throws IOException  {
-        PP10DocBinaryTagExtension _s = new PP10DocBinaryTagExtension();
-        int _c;
-        _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0x0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recType == 0x0FBA)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0FBA for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recLen == 0x10)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x10 for value " + String.valueOf(_s.rh) );
-        }
-        _c = 16;
-        _s.tagName = in.readBytes(_c);
-        _s.rhData = parseRecordHeader(in);
-        if (!(_s.rhData.recVer == 0x0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recVer == 0x0 for value " + String.valueOf(_s.rhData) );
-        }
-        if (!(_s.rhData.recInstance == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recInstance == 0 for value " + String.valueOf(_s.rhData) );
-        }
-        if (!(_s.rhData.recType == 0x138B)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recType == 0x138B for value " + String.valueOf(_s.rhData) );
-        }
-        _c = _s.rhData.recLen;
-        _s.todo = in.readBytes(_c);
-        return _s;
-    }
-    void write(PP10DocBinaryTagExtension _s, LEOutputStream out) throws IOException  {
-        write(_s.rh, out);
-        for (byte _i: _s.tagName) {
-            out.writeuint8(_i);
-        }
-        write(_s.rhData, out);
-        for (byte _i: _s.todo) {
-            out.writeuint8(_i);
-        }
-    }
     FontCollection10Container parseFontCollection10Container(LEInputStream in) throws IOException  {
         FontCollection10Container _s = new FontCollection10Container();
         Object _m;
@@ -2802,6 +2760,7 @@ System.out.println(in.getPosition()+" "+_s);
     }
     KinsokuLeadingAtom parseKinsokuLeadingAtom(LEInputStream in) throws IOException  {
         KinsokuLeadingAtom _s = new KinsokuLeadingAtom();
+        int _c;
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
@@ -2812,15 +2771,25 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recType == 0xFBA)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFBA for value " + String.valueOf(_s.rh) );
         }
-        _s.kinsokuLeading = in.readuint16();
+        if (!(_s.rh.recLen%2==0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2==0 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen/2;
+        _s.kinsokuLeading = new int[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.kinsokuLeading[_i] = in.readuint16();
+        }
         return _s;
     }
     void write(KinsokuLeadingAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        out.writeuint16(_s.kinsokuLeading);
+        for (int _i: _s.kinsokuLeading) {
+            out.writeuint16(_i);
+        }
     }
     KinsokuFollowingAtom parseKinsokuFollowingAtom(LEInputStream in) throws IOException  {
         KinsokuFollowingAtom _s = new KinsokuFollowingAtom();
+        int _c;
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
@@ -2831,12 +2800,21 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recType == 0xFBA)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFBA for value " + String.valueOf(_s.rh) );
         }
-        _s.kinsokuFollowing = in.readuint16();
+        if (!(_s.rh.recLen%2==0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2==0 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recLen/2;
+        _s.kinsokuFollowing = new int[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.kinsokuFollowing[_i] = in.readuint16();
+        }
         return _s;
     }
     void write(KinsokuFollowingAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        out.writeuint16(_s.kinsokuFollowing);
+        for (int _i: _s.kinsokuFollowing) {
+            out.writeuint16(_i);
+        }
     }
     TextSpecialInfoAtom parseTextSpecialInfoAtom(LEInputStream in) throws IOException  {
         TextSpecialInfoAtom _s = new TextSpecialInfoAtom();
@@ -3720,9 +3698,6 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fLoopContinuously = in.readbit();
         _s.fHideScrollBar = in.readbit();
         _s.reserved = in.readuint7();
-        if (!(_s.reserved == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reserved == 0 for value " + String.valueOf(_s.reserved) );
-        }
         _s.unused = in.readuint16();
         return _s;
     }
@@ -7814,7 +7789,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.kinsokuAtom = parseKinsokuAtom(in);
         if (_s.kinsokuAtom.level==2) {
-            _s.kinsokuLeadingAtom = parseKinsokuFollowingAtom(in);
+            _s.kinsokuLeadingAtom = parseKinsokuLeadingAtom(in);
         }
         if (_s.kinsokuAtom.level==2) {
             _s.kinsokuFollowingAtom = parseKinsokuFollowingAtom(in);
@@ -11731,6 +11706,124 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.rgBroadcastDocInfo9, out);
         write(_s.outlineTextPropsContainer, out);
     }
+    PP10DocBinaryTagExtension parsePP10DocBinaryTagExtension(LEInputStream in) throws IOException  {
+        PP10DocBinaryTagExtension _s = new PP10DocBinaryTagExtension();
+        int _c;
+        Object _m;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FBA)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0FBA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x10)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x10 for value " + String.valueOf(_s.rh) );
+        }
+        _c = 16;
+        _s.tagName = in.readBytes(_c);
+        _s.rhData = parseRecordHeader(in);
+        if (!(_s.rhData.recVer == 0x0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recVer == 0x0 for value " + String.valueOf(_s.rhData) );
+        }
+        if (!(_s.rhData.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recInstance == 0 for value " + String.valueOf(_s.rhData) );
+        }
+        if (!(_s.rhData.recType == 0x138B)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recType == 0x138B for value " + String.valueOf(_s.rhData) );
+        }
+        _s.fontCollectionContainer = parseFontCollection10Container(in);
+        _s.rgTextMasterStyle10 = parseTextMasterStyle10Atom(in);
+        _s.textDefaultsAtom = parseTextDefaults10Atom(in);
+        _m = in.setMark();
+        try {
+            _s.gridSpacingAtom = parseGridSpacing10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _s.rgCommentIndex10 = parseCommentIndex10Container(in);
+        _m = in.setMark();
+        try {
+            _s.fontEmbedFlagsAtom = parseFontEmbedFlags10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _s.copyrightAtom = parseCopyrightAtom(in);
+        _s.keywordsAtom = parseKeywordsAtom(in);
+        _m = in.setMark();
+        try {
+            _s.filterPrivacyFlagsAtom = parseFilterPrivacyFlags10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _s.outlineTextPropsContainer = parseOutlineTextProps10Container(in);
+        _m = in.setMark();
+        try {
+            _s.docToolbarStatesAtom = parseDocToolbarStates10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _s.slideListTableContainer = parseSlideListTable10Container(in);
+        _s.rgDiffTree10Container = parseDiffTree10Container(in);
+        _s.modifyPasswordAtom = parseModifyPasswordAtom(in);
+        _m = in.setMark();
+        try {
+            _s.photoAlbumInfoAtom = parsePhotoAlbumInfo10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(PP10DocBinaryTagExtension _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.tagName) {
+            out.writeuint8(_i);
+        }
+        write(_s.rhData, out);
+        write(_s.fontCollectionContainer, out);
+        write(_s.rgTextMasterStyle10, out);
+        write(_s.textDefaultsAtom, out);
+        if (_s.gridSpacingAtom != null) write(_s.gridSpacingAtom, out);
+        write(_s.rgCommentIndex10, out);
+        if (_s.fontEmbedFlagsAtom != null) write(_s.fontEmbedFlagsAtom, out);
+        write(_s.copyrightAtom, out);
+        write(_s.keywordsAtom, out);
+        if (_s.filterPrivacyFlagsAtom != null) write(_s.filterPrivacyFlagsAtom, out);
+        write(_s.outlineTextPropsContainer, out);
+        if (_s.docToolbarStatesAtom != null) write(_s.docToolbarStatesAtom, out);
+        write(_s.slideListTableContainer, out);
+        write(_s.rgDiffTree10Container, out);
+        write(_s.modifyPasswordAtom, out);
+        if (_s.photoAlbumInfoAtom != null) write(_s.photoAlbumInfoAtom, out);
+    }
     OfficeArtDgContainer parseOfficeArtDgContainer(LEInputStream in) throws IOException  {
         OfficeArtDgContainer _s = new OfficeArtDgContainer();
         Object _m;
@@ -12985,20 +13078,6 @@ class StyleTextProp9Atom {
         return _s;
     }
 }
-class PP10DocBinaryTagExtension {
-    RecordHeader rh;
-    byte[] tagName;
-    RecordHeader rhData;
-    byte[] todo;
-    public String toString() {
-        String _s = "PP10DocBinaryTagExtension:";
-        _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "tagName: " + String.valueOf(tagName) + ", ";
-        _s = _s + "rhData: " + String.valueOf(rhData) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
-        return _s;
-    }
-}
 class FontCollection10Container {
     RecordHeader rh;
     final java.util.List<FontCollectionEntry> rgFontCollectionEntry = new java.util.ArrayList<FontCollectionEntry>();
@@ -13715,21 +13794,21 @@ class KinsokuAtom {
 }
 class KinsokuLeadingAtom {
     RecordHeader rh;
-    int kinsokuLeading;
+    int[] kinsokuLeading;
     public String toString() {
         String _s = "KinsokuLeadingAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "kinsokuLeading: " + String.valueOf(kinsokuLeading) + "(" + Integer.toHexString(kinsokuLeading).toUpperCase() + "), ";
+        _s = _s + "kinsokuLeading: " + String.valueOf(kinsokuLeading) + ", ";
         return _s;
     }
 }
 class KinsokuFollowingAtom {
     RecordHeader rh;
-    int kinsokuFollowing;
+    int[] kinsokuFollowing;
     public String toString() {
         String _s = "KinsokuFollowingAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "kinsokuFollowing: " + String.valueOf(kinsokuFollowing) + "(" + Integer.toHexString(kinsokuFollowing).toUpperCase() + "), ";
+        _s = _s + "kinsokuFollowing: " + String.valueOf(kinsokuFollowing) + ", ";
         return _s;
     }
 }
@@ -16428,7 +16507,7 @@ class FontCollectionEntry {
 class KinsokuContainer {
     RecordHeader rh;
     KinsokuAtom kinsokuAtom;
-    KinsokuFollowingAtom kinsokuLeadingAtom;
+    KinsokuLeadingAtom kinsokuLeadingAtom;
     KinsokuFollowingAtom kinsokuFollowingAtom;
     public String toString() {
         String _s = "KinsokuContainer:";
@@ -18004,6 +18083,48 @@ class PP9DocBinaryTagExtension {
         _s = _s + "htmlPublishInfoAtom: " + String.valueOf(htmlPublishInfoAtom) + ", ";
         _s = _s + "rgBroadcastDocInfo9: " + String.valueOf(rgBroadcastDocInfo9) + ", ";
         _s = _s + "outlineTextPropsContainer: " + String.valueOf(outlineTextPropsContainer) + ", ";
+        return _s;
+    }
+}
+class PP10DocBinaryTagExtension {
+    RecordHeader rh;
+    byte[] tagName;
+    RecordHeader rhData;
+    FontCollection10Container fontCollectionContainer;
+    TextMasterStyle10Atom rgTextMasterStyle10;
+    TextDefaults10Atom textDefaultsAtom;
+    GridSpacing10Atom gridSpacingAtom;
+    CommentIndex10Container rgCommentIndex10;
+    FontEmbedFlags10Atom fontEmbedFlagsAtom;
+    CopyrightAtom copyrightAtom;
+    KeywordsAtom keywordsAtom;
+    FilterPrivacyFlags10Atom filterPrivacyFlagsAtom;
+    OutlineTextProps10Container outlineTextPropsContainer;
+    DocToolbarStates10Atom docToolbarStatesAtom;
+    SlideListTable10Container slideListTableContainer;
+    DiffTree10Container rgDiffTree10Container;
+    ModifyPasswordAtom modifyPasswordAtom;
+    PhotoAlbumInfo10Atom photoAlbumInfoAtom;
+    public String toString() {
+        String _s = "PP10DocBinaryTagExtension:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "tagName: " + String.valueOf(tagName) + ", ";
+        _s = _s + "rhData: " + String.valueOf(rhData) + ", ";
+        _s = _s + "fontCollectionContainer: " + String.valueOf(fontCollectionContainer) + ", ";
+        _s = _s + "rgTextMasterStyle10: " + String.valueOf(rgTextMasterStyle10) + ", ";
+        _s = _s + "textDefaultsAtom: " + String.valueOf(textDefaultsAtom) + ", ";
+        _s = _s + "gridSpacingAtom: " + String.valueOf(gridSpacingAtom) + ", ";
+        _s = _s + "rgCommentIndex10: " + String.valueOf(rgCommentIndex10) + ", ";
+        _s = _s + "fontEmbedFlagsAtom: " + String.valueOf(fontEmbedFlagsAtom) + ", ";
+        _s = _s + "copyrightAtom: " + String.valueOf(copyrightAtom) + ", ";
+        _s = _s + "keywordsAtom: " + String.valueOf(keywordsAtom) + ", ";
+        _s = _s + "filterPrivacyFlagsAtom: " + String.valueOf(filterPrivacyFlagsAtom) + ", ";
+        _s = _s + "outlineTextPropsContainer: " + String.valueOf(outlineTextPropsContainer) + ", ";
+        _s = _s + "docToolbarStatesAtom: " + String.valueOf(docToolbarStatesAtom) + ", ";
+        _s = _s + "slideListTableContainer: " + String.valueOf(slideListTableContainer) + ", ";
+        _s = _s + "rgDiffTree10Container: " + String.valueOf(rgDiffTree10Container) + ", ";
+        _s = _s + "modifyPasswordAtom: " + String.valueOf(modifyPasswordAtom) + ", ";
+        _s = _s + "photoAlbumInfoAtom: " + String.valueOf(photoAlbumInfoAtom) + ", ";
         return _s;
     }
 }

@@ -185,10 +185,10 @@ public class QtParserGenerator {
 		}
 		for (Member m : s.members) {
 			printStructureMemberParser(out, m);
-			// if (m.type.contains("RecordHeader")) {
-			// out.println("qDebug() << in.getPosition()<<\" \"<<\"" + s.name
-			// + "\"<<_s.rh.toString();");
-			// }
+			if (m.type.contains("RecordHeader")) {
+			//	out.println("qDebug() << in.getPosition()<<\" \"<<\"" + s.name
+			//			+ "\"<<_s.rh.toString();");
+			}
 		}
 		out.println("}");
 	}
@@ -491,14 +491,17 @@ public class QtParserGenerator {
 		out.println("    }");
 
 		// function toString
-		/*
-		 * out.println("    QString toString() {");
-		 * out.println("        QString _s = \"" + s.name + ":\";"); for (Member
-		 * m : s.members) { out.print("        _s = _s + \"" + m.name +
-		 * ": \" + "); out.print(memberToString(m, ""));
-		 * out.println(" + \", \";"); } out.println("        return _s;");
-		 * out.println("    }");
-		 */
+
+		out.println("    QString toString() {");
+		out.println("        QString _s = \"" + s.name + ":\";");
+		for (Member m : s.members) {
+			out.print("        _s = _s + \"" + m.name + ": \" + ");
+			out.print(memberToString(m, ""));
+			out.println(" + \", \";");
+		}
+		out.println("        return _s;");
+		out.println("    }");
+
 		out
 				.println("    const Introspection* getIntrospection() const { return &_introspection; }");
 

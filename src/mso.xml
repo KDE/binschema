@@ -835,27 +835,25 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x138B" />
 		</type>
-		<uint8 name="todo" count="rhData.recLen" />
-		<!--
-			<type name="fontCollectionContainer"
-			type="FontCollection10Container"/> <type name="rgTextMasterStyle10"
-			type="TextMasterStyle10Atom"/> <type name="textDefaultsAtom"
-			type="TextDefaults10Atom"/> <type name="gridSpacingAtom"
-			type="GridSpacing10Atom" optional="true"/> <type
-			name="rgCommentIndex10" type="CommentIndex10Container"/> <type
-			name="fontEmbedFlagsAtom" type="FontEmbedFlags10Atom"
-			optional="true"/> <type name="copyrightAtom" type="CopyrightAtom"/>
-			<type name="keywordsAtom" type="KeywordsAtom"/> <type
-			name="filterPrivacyFlagsAtom" type="FilterPrivacyFlags10Atom"
-			optional="true"/> <type name="outlineTextPropsContainer"
-			type="OutlineTextProps10Container"/> <type
-			name="docToolbarStatesAtom" type="DocToolbarStates10Atom"
-			optional="true"/> <type name="slideListTableContainer"
-			type="SlideListTable10Container"/> <type name="rgDiffTree10Container"
-			type="DiffTree10Container"/> <type name="modifyPasswordAtom"
-			type="ModifyPasswordAtom"/> <type name="photoAlbumInfoAtom"
-			type="PhotoAlbumInfo10Atom" optional="true"/>
-		-->
+		<type name="fontCollectionContainer" type="FontCollection10Container" />
+		<type name="rgTextMasterStyle10" type="TextMasterStyle10Atom" />
+		<type name="textDefaultsAtom" type="TextDefaults10Atom" />
+		<type name="gridSpacingAtom" type="GridSpacing10Atom" optional="true" />
+		<type name="rgCommentIndex10" type="CommentIndex10Container" />
+		<type name="fontEmbedFlagsAtom" type="FontEmbedFlags10Atom"
+			optional="true" />
+		<type name="copyrightAtom" type="CopyrightAtom" />
+		<type name="keywordsAtom" type="KeywordsAtom" />
+		<type name="filterPrivacyFlagsAtom" type="FilterPrivacyFlags10Atom"
+			optional="true" />
+		<type name="outlineTextPropsContainer" type="OutlineTextProps10Container" />
+		<type name="docToolbarStatesAtom" type="DocToolbarStates10Atom"
+			optional="true" />
+		<type name="slideListTableContainer" type="SlideListTable10Container" />
+		<type name="rgDiffTree10Container" type="DiffTree10Container" />
+		<type name="modifyPasswordAtom" type="ModifyPasswordAtom" />
+		<type name="photoAlbumInfoAtom" type="PhotoAlbumInfo10Atom"
+			optional="true" />
 	</struct>
 	<struct name="FontCollection10Container">
 		<type name="rh" type="RecordHeader">
@@ -1909,7 +1907,7 @@
 			<limitation name="recType" value="0x0FC8" />
 		</type>
 		<type name="kinsokuAtom" type="KinsokuAtom" />
-		<type name="kinsokuLeadingAtom" type="KinsokuFollowingAtom"
+		<type name="kinsokuLeadingAtom" type="KinsokuLeadingAtom"
 			condition="kinsokuAtom.level==2" />
 		<type name="kinsokuFollowingAtom" type="KinsokuFollowingAtom"
 			condition="kinsokuAtom.level==2" />
@@ -1931,16 +1929,18 @@
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFBA" />
+			<limitation expression="recLen%2==0" />
 		</type>
-		<uint16 name="kinsokuLeading" />
+		<uint16 name="kinsokuLeading" count="rh.recLen/2" />
 	</struct>
 	<struct name="KinsokuFollowingAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="1 " />
 			<limitation name="recType" value="0xFBA" />
+			<limitation expression="recLen%2==0" />
 		</type>
-		<uint16 name="kinsokuFollowing" />
+		<uint16 name="kinsokuFollowing" count="rh.recLen/2" />
 	</struct>
 	<struct name="TextSpecialInfoAtom">
 		<type name="rh" type="RecordHeader">
@@ -2497,7 +2497,9 @@
 		<bit name="fLoopContinuously" />
 		<bit name="fHideScrollBar" />
 		<uint7 name="reserved">
-			<limitation value="0" />
+			<!--
+				This value should be zero, but it is not always zero in practice.
+			-->
 		</uint7>
 		<uint16 name="unused" />
 	</struct>
