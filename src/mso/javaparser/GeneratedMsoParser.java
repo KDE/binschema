@@ -6136,9 +6136,6 @@ System.out.println(in.getPosition()+" "+_s);
         CodePageString _s = new CodePageString();
         int _c;
         _s.size = in.readuint32();
-        if (!(_s.size%2==0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.size%2==0 for value " + String.valueOf(_s.size) );
-        }
         _c = 4*(_s.size/4)+((_s.size%4!=0)?4:0);
         _s.characters = in.readBytes(_c);
         return _s;

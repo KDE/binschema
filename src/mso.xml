@@ -4202,8 +4202,9 @@
 		<uint8 name="Data" count="cchData" />
 	</struct>
 	<struct name="CodePageString">
+		<!--  limitation here is complicated: todo -->
 		<uint32 name="size">
-			<limitation expression="%2==0" />
+			<!--  <limitation expression="%2==0" /> -->
 		</uint32>
 		<!--  needs padding to a multiple of 4 -->
 		<uint8 name="characters" count="4*(size/4)+((size%4!=0)?4:0)" />

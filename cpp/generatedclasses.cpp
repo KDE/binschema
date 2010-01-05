@@ -42098,9 +42098,6 @@ void parseCodePageString(LEInputStream& in, CodePageString& _s) {
     int _c;
     LEInputStream::Mark _m;
     _s.size = in.readuint32();
-    if (!(((quint32)_s.size)%2==0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.size)%2==0");
-    }
     _c = 4*(_s.size/4)+((_s.size%4!=0)?4:0);
     _s.characters.resize(_c);    in.readBytes(_s.characters);
 }
