@@ -332,6 +332,10 @@ class TabStop;
 void parseTabStop(LEInputStream& in, TabStop& _s);
 void parseTabStop(QXmlStreamReader& in, TabStop& _s);
 void write(const TabStop& v, LEOutputStream& out);
+class PFWrapFlags;
+void parsePFWrapFlags(LEInputStream& in, PFWrapFlags& _s);
+void parsePFWrapFlags(QXmlStreamReader& in, PFWrapFlags& _s);
+void write(const PFWrapFlags& v, LEOutputStream& out);
 class ColorIndexStruct;
 void parseColorIndexStruct(LEInputStream& in, ColorIndexStruct& _s);
 void parseColorIndexStruct(QXmlStreamReader& in, ColorIndexStruct& _s);
@@ -3063,6 +3067,29 @@ public:
         QString _s = "TabStop:";
         _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
         _s = _s + "type: " + QString::number(type) + "(" + QString::number(type,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class PFWrapFlags : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    bool charWrap;
+    bool wordWrap;
+    bool overflow;
+    quint8 reserved1;
+    quint8 reserved2;
+    PFWrapFlags(const Introspectable* parent) :Introspectable(parent) {
+    }
+    QString toString() {
+        QString _s = "PFWrapFlags:";
+        _s = _s + "charWrap: " + QString::number(charWrap) + ", ";
+        _s = _s + "wordWrap: " + QString::number(wordWrap) + ", ";
+        _s = _s + "overflow: " + QString::number(overflow) + ", ";
+        _s = _s + "reserved1: " + QString::number(reserved1) + "(" + QString::number(reserved1,16).toUpper() + ")" + ", ";
+        _s = _s + "reserved2: " + QString::number(reserved2) + "(" + QString::number(reserved2,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -7249,7 +7276,6 @@ public:
     bool _has_indent;
     bool _has_defaultTabSize;
     bool _has_fontAlign;
-    bool _has_wrapFlags;
     bool _has_textDirection;
     PFMasks masks;
     QSharedPointer<BulletFlags> bulletFlags;
@@ -7266,7 +7292,7 @@ public:
     quint16 defaultTabSize;
     QSharedPointer<TabStops> tabStops;
     quint16 fontAlign;
-    quint16 wrapFlags;
+    QSharedPointer<PFWrapFlags> wrapFlags;
     quint16 textDirection;
     TextPFException(const Introspectable* parent) :Introspectable(parent),
         masks(this) {
@@ -7288,7 +7314,7 @@ public:
         _s = _s + "defaultTabSize: " + QString::number(defaultTabSize) + "(" + QString::number(defaultTabSize,16).toUpper() + ")" + ", ";
         _s = _s + "tabStops: " + ((tabStops)?tabStops->toString() :"null") + ", ";
         _s = _s + "fontAlign: " + QString::number(fontAlign) + "(" + QString::number(fontAlign,16).toUpper() + ")" + ", ";
-        _s = _s + "wrapFlags: " + QString::number(wrapFlags) + "(" + QString::number(wrapFlags,16).toUpper() + ")" + ", ";
+        _s = _s + "wrapFlags: " + ((wrapFlags)?wrapFlags->toString() :"null") + ", ";
         _s = _s + "textDirection: " + QString::number(textDirection) + "(" + QString::number(textDirection,16).toUpper() + ")" + ", ";
         return _s;
     }
@@ -13818,6 +13844,62 @@ const Introspectable* (* const TabStop::_Introspection::introspectable[2])(const
 };
 const Introspection TabStop::_introspection(
     "TabStop", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class PFWrapFlags::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[5];
+    static int (* const numberOfInstances[5])(const Introspectable*);
+    static QVariant (* const value[5])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[5])(const Introspectable*, int position);
+    static QVariant get_charWrap(const Introspectable* i, int j) {
+        return static_cast<const PFWrapFlags*>(i)->charWrap;
+    }
+    static QVariant get_wordWrap(const Introspectable* i, int j) {
+        return static_cast<const PFWrapFlags*>(i)->wordWrap;
+    }
+    static QVariant get_overflow(const Introspectable* i, int j) {
+        return static_cast<const PFWrapFlags*>(i)->overflow;
+    }
+    static QVariant get_reserved1(const Introspectable* i, int j) {
+        return static_cast<const PFWrapFlags*>(i)->reserved1;
+    }
+    static QVariant get_reserved2(const Introspectable* i, int j) {
+        return static_cast<const PFWrapFlags*>(i)->reserved2;
+    }
+};
+const QString PFWrapFlags::_Introspection::name("PFWrapFlags");
+const int PFWrapFlags::_Introspection::numberOfMembers(5);
+const QString PFWrapFlags::_Introspection::names[5] = {
+    "charWrap",
+    "wordWrap",
+    "overflow",
+    "reserved1",
+    "reserved2",
+};
+int (* const PFWrapFlags::_Introspection::numberOfInstances[5])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const PFWrapFlags::_Introspection::value[5])(const Introspectable*, int position) = {
+    _Introspection::get_charWrap,
+    _Introspection::get_wordWrap,
+    _Introspection::get_overflow,
+    _Introspection::get_reserved1,
+    _Introspection::get_reserved2,
+};
+const Introspectable* (* const PFWrapFlags::_Introspection::introspectable[5])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection PFWrapFlags::_introspection(
+    "PFWrapFlags", 5, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class ColorIndexStruct::_Introspection {
 public:
     static const QString name;
@@ -24161,10 +24243,10 @@ public:
         return static_cast<const TextPFException*>(i)->fontAlign;
     }
     static int count_wrapFlags(const Introspectable* i) {
-        return static_cast<const TextPFException*>(i)->_has_wrapFlags ?1 :0;
+        return get_wrapFlags(i, 0) ?1 :0;
     }
-    static QVariant get_wrapFlags(const Introspectable* i, int j) {
-        return static_cast<const TextPFException*>(i)->wrapFlags;
+    static const Introspectable* get_wrapFlags(const Introspectable* i, int j) {
+        return static_cast<const TextPFException*>(i)->wrapFlags.data();
     }
     static int count_textDirection(const Introspectable* i) {
         return static_cast<const TextPFException*>(i)->_has_textDirection ?1 :0;
@@ -24229,7 +24311,7 @@ QVariant (* const TextPFException::_Introspection::value[17])(const Introspectab
     _Introspection::get_defaultTabSize,
     Introspection::nullValue,
     _Introspection::get_fontAlign,
-    _Introspection::get_wrapFlags,
+    Introspection::nullValue,
     _Introspection::get_textDirection,
 };
 const Introspectable* (* const TextPFException::_Introspection::introspectable[17])(const Introspectable*, int position) = {
@@ -24248,7 +24330,7 @@ const Introspectable* (* const TextPFException::_Introspection::introspectable[1
     Introspection::null,
     _Introspection::get_tabStops,
     Introspection::null,
-    Introspection::null,
+    _Introspection::get_wrapFlags,
     Introspection::null,
 };
 const Introspection TextPFException::_introspection(
@@ -35831,6 +35913,68 @@ void parseTabStop(QXmlStreamReader& in, TabStop& _s) {
     }
     if (in.name() != "type") {
         qDebug() << "not startelement in type " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
+void parsePFWrapFlags(LEInputStream& in, PFWrapFlags& _s) {
+    _s.charWrap = in.readbit();
+    _s.wordWrap = in.readbit();
+    _s.overflow = in.readbit();
+    _s.reserved1 = in.readuint5();
+    _s.reserved2 = in.readuint8();
+}
+void write(const PFWrapFlags& _s, LEOutputStream& out) {
+    out.writebit(_s.charWrap);
+    out.writebit(_s.wordWrap);
+    out.writebit(_s.overflow);
+    out.writeuint5(_s.reserved1);
+    out.writeuint8(_s.reserved2);
+}
+void parsePFWrapFlags(QXmlStreamReader& in, PFWrapFlags& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "charWrap") {
+        qDebug() << "not startelement in charWrap " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "wordWrap") {
+        qDebug() << "not startelement in wordWrap " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "overflow") {
+        qDebug() << "not startelement in overflow " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint5 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -49264,9 +49408,9 @@ void parseTextPFException(LEInputStream& in, TextPFException& _s) {
     if (_s._has_fontAlign) {
         _s.fontAlign = in.readuint16();
     }
-    _s._has_wrapFlags = _s.masks.charWrap||_s.masks.wordWrap||_s.masks.overflow;
-    if (_s._has_wrapFlags) {
-        _s.wrapFlags = in.readuint16();
+    if (_s.masks.charWrap||_s.masks.wordWrap||_s.masks.overflow) {
+        _s.wrapFlags = QSharedPointer<PFWrapFlags>(new PFWrapFlags(&_s));
+        parsePFWrapFlags(in, *_s.wrapFlags.data());
     }
     _s._has_textDirection = _s.masks.textDirection;
     if (_s._has_textDirection) {
@@ -49318,7 +49462,7 @@ void write(const TextPFException& _s, LEOutputStream& out) {
         out.writeuint16(_s.fontAlign);
     }
     if (_s.masks.charWrap||_s.masks.wordWrap||_s.masks.overflow) {
-        out.writeuint16(_s.wrapFlags);
+        if (_s.wrapFlags) write(*_s.wrapFlags, out);
     }
     if (_s.masks.textDirection) {
         out.writeuint16(_s.textDirection);
@@ -49462,14 +49606,14 @@ void parseTextPFException(QXmlStreamReader& in, TextPFException& _s) {
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        qDebug() << "not startelement in PFWrapFlags " << in.lineNumber();
         return;
     }
     if (in.name() != "wrapFlags") {
         qDebug() << "not startelement in wrapFlags " << in.lineNumber();
         return;
     }
-    in.readElementText();
+    skipToStartElement(in);
     if (!in.isStartElement()) {
         qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;

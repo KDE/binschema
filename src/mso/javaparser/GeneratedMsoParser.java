@@ -2452,6 +2452,22 @@ System.out.println(in.getPosition()+" "+_s);
         out.writeint16(_s.position);
         out.writeuint16(_s.type);
     }
+    PFWrapFlags parsePFWrapFlags(LEInputStream in) throws IOException  {
+        PFWrapFlags _s = new PFWrapFlags();
+        _s.charWrap = in.readbit();
+        _s.wordWrap = in.readbit();
+        _s.overflow = in.readbit();
+        _s.reserved1 = in.readuint5();
+        _s.reserved2 = in.readuint8();
+        return _s;
+    }
+    void write(PFWrapFlags _s, LEOutputStream out) throws IOException  {
+        out.writebit(_s.charWrap);
+        out.writebit(_s.wordWrap);
+        out.writebit(_s.overflow);
+        out.writeuint5(_s.reserved1);
+        out.writeuint8(_s.reserved2);
+    }
     ColorIndexStruct parseColorIndexStruct(LEInputStream in) throws IOException  {
         ColorIndexStruct _s = new ColorIndexStruct();
         _s.red = in.readuint8();
@@ -7580,7 +7596,7 @@ System.out.println(in.getPosition()+" "+_s);
             _s.fontAlign = in.readuint16();
         }
         if (_s.masks.charWrap||_s.masks.wordWrap||_s.masks.overflow) {
-            _s.wrapFlags = in.readuint16();
+            _s.wrapFlags = parsePFWrapFlags(in);
         }
         if (_s.masks.textDirection) {
             _s.textDirection = in.readuint16();
@@ -7632,7 +7648,7 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint16(_s.fontAlign);
         }
         if (_s.masks.charWrap||_s.masks.wordWrap||_s.masks.overflow) {
-            out.writeuint16(_s.wrapFlags);
+            write(_s.wrapFlags, out);
         }
         if (_s.masks.textDirection) {
             out.writeuint16(_s.textDirection);
@@ -13560,6 +13576,22 @@ class TabStop {
         return _s;
     }
 }
+class PFWrapFlags {
+    boolean charWrap;
+    boolean wordWrap;
+    boolean overflow;
+    byte reserved1;
+    byte reserved2;
+    public String toString() {
+        String _s = "PFWrapFlags:";
+        _s = _s + "charWrap: " + String.valueOf(charWrap) + ", ";
+        _s = _s + "wordWrap: " + String.valueOf(wordWrap) + ", ";
+        _s = _s + "overflow: " + String.valueOf(overflow) + ", ";
+        _s = _s + "reserved1: " + String.valueOf(reserved1) + "(" + Integer.toHexString(reserved1).toUpperCase() + "), ";
+        _s = _s + "reserved2: " + String.valueOf(reserved2) + "(" + Integer.toHexString(reserved2).toUpperCase() + "), ";
+        return _s;
+    }
+}
 class ColorIndexStruct {
     byte red;
     byte green;
@@ -16440,7 +16472,7 @@ class TextPFException {
     int defaultTabSize;
     TabStops tabStops;
     int fontAlign;
-    int wrapFlags;
+    PFWrapFlags wrapFlags;
     int textDirection;
     public String toString() {
         String _s = "TextPFException:";
@@ -16459,7 +16491,7 @@ class TextPFException {
         _s = _s + "defaultTabSize: " + String.valueOf(defaultTabSize) + "(" + Integer.toHexString(defaultTabSize).toUpperCase() + "), ";
         _s = _s + "tabStops: " + String.valueOf(tabStops) + ", ";
         _s = _s + "fontAlign: " + String.valueOf(fontAlign) + "(" + Integer.toHexString(fontAlign).toUpperCase() + "), ";
-        _s = _s + "wrapFlags: " + String.valueOf(wrapFlags) + "(" + Integer.toHexString(wrapFlags).toUpperCase() + "), ";
+        _s = _s + "wrapFlags: " + String.valueOf(wrapFlags) + ", ";
         _s = _s + "textDirection: " + String.valueOf(textDirection) + "(" + Integer.toHexString(textDirection).toUpperCase() + "), ";
         return _s;
     }

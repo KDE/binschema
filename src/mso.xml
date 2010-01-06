@@ -1744,8 +1744,16 @@
 		<uint16 name="defaultTabSize" condition="masks.defaultTabSize" />
 		<type name="tabStops" type="TabStops" condition="masks.tabStops" />
 		<uint16 name="fontAlign" condition="masks.fontAlign" />
-		<uint16 name="wrapFlags" condition="masks.charWrap||masks.wordWrap||masks.overflow" />
+		<type name="wrapFlags" type="PFWrapFlags"
+			condition="masks.charWrap||masks.wordWrap||masks.overflow" />
 		<uint16 name="textDirection" condition="masks.textDirection" />
+	</struct>
+	<struct name="PFWrapFlags">
+		<bit name="charWrap" />
+		<bit name="wordWrap" />
+		<bit name="overflow" />
+		<uint5 name="reserved1" />
+		<uint8 name="reserved2" />
 	</struct>
 	<struct name="ColorIndexStruct">
 		<uint8 name="red" />
