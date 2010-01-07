@@ -1268,8 +1268,8 @@ System.out.println(in.getPosition()+" "+_s);
     GridSpacing10Atom parseGridSpacing10Atom(LEInputStream in) throws IOException  {
         GridSpacing10Atom _s = new GridSpacing10Atom();
         _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0xF)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recInstance == 0x0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0x0 for value " + String.valueOf(_s.rh) );
@@ -1287,23 +1287,19 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.x<=1179648)) {
             throw new IncorrectValueException(in.getPosition() + "_s.x<=1179648 for value " + String.valueOf(_s.x) );
         }
-        if (_s.x==_s.y) {
-            _s.y = in.readuint32();
+        _s.y = in.readuint32();
         if (!(_s.y>=23224)) {
             throw new IncorrectValueException(in.getPosition() + "_s.y>=23224 for value " + String.valueOf(_s.y) );
         }
         if (!(_s.y<=1179648)) {
             throw new IncorrectValueException(in.getPosition() + "_s.y<=1179648 for value " + String.valueOf(_s.y) );
         }
-        }
         return _s;
     }
     void write(GridSpacing10Atom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         out.writeuint32(_s.x);
-        if (_s.x==_s.y) {
-            out.writeuint32(_s.y);
-        }
+        out.writeuint32(_s.y);
     }
     AuthorNameAtom parseAuthorNameAtom(LEInputStream in) throws IOException  {
         AuthorNameAtom _s = new AuthorNameAtom();
@@ -4446,6 +4442,45 @@ System.out.println(in.getPosition()+" "+_s);
     void write(OfficeArtSpgrContainer _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         for (OfficeArtSpgrContainerFileBlock _i: _s.rgfb) {
+            write(_i, out);
+        }
+    }
+    OfficeArtSolverContainer parseOfficeArtSolverContainer(LEInputStream in) throws IOException  {
+        OfficeArtSolverContainer _s = new OfficeArtSolverContainer();
+        Object _m;
+        boolean _atend;
+        int _i;
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xF005)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF005 for value " + String.valueOf(_s.rh) );
+        }
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                OfficeArtSolverContainerFileBlock _t = parseOfficeArtSolverContainerFileBlock(in);
+                _s.rgfb.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
+        return _s;
+    }
+    void write(OfficeArtSolverContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (OfficeArtSolverContainerFileBlock _i: _s.rgfb) {
             write(_i, out);
         }
     }
@@ -9708,6 +9743,236 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.pf9, out);
         write(_s.cf9, out);
     }
+    PP10DocBinaryTagExtension parsePP10DocBinaryTagExtension(LEInputStream in) throws IOException  {
+        PP10DocBinaryTagExtension _s = new PP10DocBinaryTagExtension();
+        int _c;
+        Object _m;
+        boolean _atend;
+        int _i;
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0x0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x0FBA)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0FBA for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x10)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x10 for value " + String.valueOf(_s.rh) );
+        }
+        _c = 16;
+        _s.tagName = in.readBytes(_c);
+        _s.rhData = parseRecordHeader(in);
+        if (!(_s.rhData.recVer == 0x0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recVer == 0x0 for value " + String.valueOf(_s.rhData) );
+        }
+        if (!(_s.rhData.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recInstance == 0 for value " + String.valueOf(_s.rhData) );
+        }
+        if (!(_s.rhData.recType == 0x138B)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recType == 0x138B for value " + String.valueOf(_s.rhData) );
+        }
+        _m = in.setMark();
+        try {
+            _s.fontCollectionContainer = parseFontCollection10Container(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                TextMasterStyle10Atom _t = parseTextMasterStyle10Atom(in);
+                _s.rgTextMasterStyle10.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
+        _m = in.setMark();
+        try {
+            _s.textDefaultsAtom = parseTextDefaults10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _s.gridSpacingAtom = parseGridSpacing10Atom(in);
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                CommentIndex10Container _t = parseCommentIndex10Container(in);
+                _s.rgCommentIndex10.add(_t);
+            } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
+        _m = in.setMark();
+        try {
+            _s.fontEmbedFlagsAtom = parseFontEmbedFlags10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.copyrightAtom = parseCopyrightAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.keywordsAtom = parseKeywordsAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.filterPrivacyFlagsAtom = parseFilterPrivacyFlags10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.outlineTextPropsContainer = parseOutlineTextProps10Container(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.docToolbarStatesAtom = parseDocToolbarStates10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.slideListTableContainer = parseSlideListTable10Container(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.rgDiffTree10Container = parseDiffTree10Container(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.modifyPasswordAtom = parseModifyPasswordAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.photoAlbumInfoAtom = parsePhotoAlbumInfo10Atom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(PP10DocBinaryTagExtension _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (byte _i: _s.tagName) {
+            out.writeuint8(_i);
+        }
+        write(_s.rhData, out);
+        if (_s.fontCollectionContainer != null) write(_s.fontCollectionContainer, out);
+        for (TextMasterStyle10Atom _i: _s.rgTextMasterStyle10) {
+            write(_i, out);
+        }
+        if (_s.textDefaultsAtom != null) write(_s.textDefaultsAtom, out);
+        write(_s.gridSpacingAtom, out);
+        for (CommentIndex10Container _i: _s.rgCommentIndex10) {
+            write(_i, out);
+        }
+        if (_s.fontEmbedFlagsAtom != null) write(_s.fontEmbedFlagsAtom, out);
+        if (_s.copyrightAtom != null) write(_s.copyrightAtom, out);
+        if (_s.keywordsAtom != null) write(_s.keywordsAtom, out);
+        if (_s.filterPrivacyFlagsAtom != null) write(_s.filterPrivacyFlagsAtom, out);
+        if (_s.outlineTextPropsContainer != null) write(_s.outlineTextPropsContainer, out);
+        if (_s.docToolbarStatesAtom != null) write(_s.docToolbarStatesAtom, out);
+        if (_s.slideListTableContainer != null) write(_s.slideListTableContainer, out);
+        if (_s.rgDiffTree10Container != null) write(_s.rgDiffTree10Container, out);
+        if (_s.modifyPasswordAtom != null) write(_s.modifyPasswordAtom, out);
+        if (_s.photoAlbumInfoAtom != null) write(_s.photoAlbumInfoAtom, out);
+    }
     TextMasterStyle10Level parseTextMasterStyle10Level(LEInputStream in) throws IOException  {
         TextMasterStyle10Level _s = new TextMasterStyle10Level();
         _s.cf10 = parseTextCFException10(in);
@@ -10316,22 +10581,6 @@ System.out.println(in.getPosition()+" "+_s);
         if (_s.colorMRU != null) write(_s.colorMRU, out);
         write(_s.splitColors, out);
         if (_s.unknown != null) write(_s.unknown, out);
-    }
-    OfficeArtSolverContainer parseOfficeArtSolverContainer(LEInputStream in) throws IOException  {
-        OfficeArtSolverContainer _s = new OfficeArtSolverContainer();
-        _s.rh = parseOfficeArtRecordHeader(in);
-        if (!(_s.rh.recVer == 0xF)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recType == 0xF005)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF005 for value " + String.valueOf(_s.rh) );
-        }
-        _s.rgfb = parseOfficeArtSolverContainerFileBlock(in);
-        return _s;
-    }
-    void write(OfficeArtSolverContainer _s, LEOutputStream out) throws IOException  {
-        write(_s.rh, out);
-        write(_s.rgfb, out);
     }
     OfficeArtFOPTEChoice parseOfficeArtFOPTEChoice(LEInputStream in) throws IOException  {
         OfficeArtFOPTEChoice _s = new OfficeArtFOPTEChoice();
@@ -11832,124 +12081,6 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.htmlPublishInfoAtom, out);
         write(_s.rgBroadcastDocInfo9, out);
         write(_s.outlineTextPropsContainer, out);
-    }
-    PP10DocBinaryTagExtension parsePP10DocBinaryTagExtension(LEInputStream in) throws IOException  {
-        PP10DocBinaryTagExtension _s = new PP10DocBinaryTagExtension();
-        int _c;
-        Object _m;
-        _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0x0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recType == 0x0FBA)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x0FBA for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recLen == 0x10)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x10 for value " + String.valueOf(_s.rh) );
-        }
-        _c = 16;
-        _s.tagName = in.readBytes(_c);
-        _s.rhData = parseRecordHeader(in);
-        if (!(_s.rhData.recVer == 0x0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recVer == 0x0 for value " + String.valueOf(_s.rhData) );
-        }
-        if (!(_s.rhData.recInstance == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recInstance == 0 for value " + String.valueOf(_s.rhData) );
-        }
-        if (!(_s.rhData.recType == 0x138B)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rhData.recType == 0x138B for value " + String.valueOf(_s.rhData) );
-        }
-        _s.fontCollectionContainer = parseFontCollection10Container(in);
-        _s.rgTextMasterStyle10 = parseTextMasterStyle10Atom(in);
-        _s.textDefaultsAtom = parseTextDefaults10Atom(in);
-        _m = in.setMark();
-        try {
-            _s.gridSpacingAtom = parseGridSpacing10Atom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _s.rgCommentIndex10 = parseCommentIndex10Container(in);
-        _m = in.setMark();
-        try {
-            _s.fontEmbedFlagsAtom = parseFontEmbedFlags10Atom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _s.copyrightAtom = parseCopyrightAtom(in);
-        _s.keywordsAtom = parseKeywordsAtom(in);
-        _m = in.setMark();
-        try {
-            _s.filterPrivacyFlagsAtom = parseFilterPrivacyFlags10Atom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _s.outlineTextPropsContainer = parseOutlineTextProps10Container(in);
-        _m = in.setMark();
-        try {
-            _s.docToolbarStatesAtom = parseDocToolbarStates10Atom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        _s.slideListTableContainer = parseSlideListTable10Container(in);
-        _s.rgDiffTree10Container = parseDiffTree10Container(in);
-        _s.modifyPasswordAtom = parseModifyPasswordAtom(in);
-        _m = in.setMark();
-        try {
-            _s.photoAlbumInfoAtom = parsePhotoAlbumInfo10Atom(in);
-        } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-            in.rewind(_m);
-        } catch(java.io.EOFException _e) {
-            in.rewind(_m);
-        } finally {
-            in.releaseMark(_m);
-        }
-        return _s;
-    }
-    void write(PP10DocBinaryTagExtension _s, LEOutputStream out) throws IOException  {
-        write(_s.rh, out);
-        for (byte _i: _s.tagName) {
-            out.writeuint8(_i);
-        }
-        write(_s.rhData, out);
-        write(_s.fontCollectionContainer, out);
-        write(_s.rgTextMasterStyle10, out);
-        write(_s.textDefaultsAtom, out);
-        if (_s.gridSpacingAtom != null) write(_s.gridSpacingAtom, out);
-        write(_s.rgCommentIndex10, out);
-        if (_s.fontEmbedFlagsAtom != null) write(_s.fontEmbedFlagsAtom, out);
-        write(_s.copyrightAtom, out);
-        write(_s.keywordsAtom, out);
-        if (_s.filterPrivacyFlagsAtom != null) write(_s.filterPrivacyFlagsAtom, out);
-        write(_s.outlineTextPropsContainer, out);
-        if (_s.docToolbarStatesAtom != null) write(_s.docToolbarStatesAtom, out);
-        write(_s.slideListTableContainer, out);
-        write(_s.rgDiffTree10Container, out);
-        write(_s.modifyPasswordAtom, out);
-        if (_s.photoAlbumInfoAtom != null) write(_s.photoAlbumInfoAtom, out);
     }
     OfficeArtDgContainer parseOfficeArtDgContainer(LEInputStream in) throws IOException  {
         OfficeArtDgContainer _s = new OfficeArtDgContainer();
@@ -14740,6 +14871,16 @@ class OfficeArtSpgrContainer {
     final java.util.List<OfficeArtSpgrContainerFileBlock> rgfb = new java.util.ArrayList<OfficeArtSpgrContainerFileBlock>();
     public String toString() {
         String _s = "OfficeArtSpgrContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "rgfb: " + String.valueOf(rgfb) + ", ";
+        return _s;
+    }
+}
+class OfficeArtSolverContainer {
+    OfficeArtRecordHeader rh;
+    final java.util.List<OfficeArtSolverContainerFileBlock> rgfb = new java.util.ArrayList<OfficeArtSolverContainerFileBlock>();
+    public String toString() {
+        String _s = "OfficeArtSolverContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "rgfb: " + String.valueOf(rgfb) + ", ";
         return _s;
@@ -17681,6 +17822,48 @@ class TextMasterStyle9Level {
         return _s;
     }
 }
+class PP10DocBinaryTagExtension {
+    RecordHeader rh;
+    byte[] tagName;
+    RecordHeader rhData;
+    FontCollection10Container fontCollectionContainer;
+    final java.util.List<TextMasterStyle10Atom> rgTextMasterStyle10 = new java.util.ArrayList<TextMasterStyle10Atom>();
+    TextDefaults10Atom textDefaultsAtom;
+    GridSpacing10Atom gridSpacingAtom;
+    final java.util.List<CommentIndex10Container> rgCommentIndex10 = new java.util.ArrayList<CommentIndex10Container>();
+    FontEmbedFlags10Atom fontEmbedFlagsAtom;
+    CopyrightAtom copyrightAtom;
+    KeywordsAtom keywordsAtom;
+    FilterPrivacyFlags10Atom filterPrivacyFlagsAtom;
+    OutlineTextProps10Container outlineTextPropsContainer;
+    DocToolbarStates10Atom docToolbarStatesAtom;
+    SlideListTable10Container slideListTableContainer;
+    DiffTree10Container rgDiffTree10Container;
+    ModifyPasswordAtom modifyPasswordAtom;
+    PhotoAlbumInfo10Atom photoAlbumInfoAtom;
+    public String toString() {
+        String _s = "PP10DocBinaryTagExtension:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "tagName: " + String.valueOf(tagName) + ", ";
+        _s = _s + "rhData: " + String.valueOf(rhData) + ", ";
+        _s = _s + "fontCollectionContainer: " + String.valueOf(fontCollectionContainer) + ", ";
+        _s = _s + "rgTextMasterStyle10: " + String.valueOf(rgTextMasterStyle10) + ", ";
+        _s = _s + "textDefaultsAtom: " + String.valueOf(textDefaultsAtom) + ", ";
+        _s = _s + "gridSpacingAtom: " + String.valueOf(gridSpacingAtom) + ", ";
+        _s = _s + "rgCommentIndex10: " + String.valueOf(rgCommentIndex10) + ", ";
+        _s = _s + "fontEmbedFlagsAtom: " + String.valueOf(fontEmbedFlagsAtom) + ", ";
+        _s = _s + "copyrightAtom: " + String.valueOf(copyrightAtom) + ", ";
+        _s = _s + "keywordsAtom: " + String.valueOf(keywordsAtom) + ", ";
+        _s = _s + "filterPrivacyFlagsAtom: " + String.valueOf(filterPrivacyFlagsAtom) + ", ";
+        _s = _s + "outlineTextPropsContainer: " + String.valueOf(outlineTextPropsContainer) + ", ";
+        _s = _s + "docToolbarStatesAtom: " + String.valueOf(docToolbarStatesAtom) + ", ";
+        _s = _s + "slideListTableContainer: " + String.valueOf(slideListTableContainer) + ", ";
+        _s = _s + "rgDiffTree10Container: " + String.valueOf(rgDiffTree10Container) + ", ";
+        _s = _s + "modifyPasswordAtom: " + String.valueOf(modifyPasswordAtom) + ", ";
+        _s = _s + "photoAlbumInfoAtom: " + String.valueOf(photoAlbumInfoAtom) + ", ";
+        return _s;
+    }
+}
 class TextMasterStyle10Level {
     TextCFException10 cf10;
     public String toString() {
@@ -17884,16 +18067,6 @@ class OfficeArtDggContainer {
         _s = _s + "colorMRU: " + String.valueOf(colorMRU) + ", ";
         _s = _s + "splitColors: " + String.valueOf(splitColors) + ", ";
         _s = _s + "unknown: " + String.valueOf(unknown) + ", ";
-        return _s;
-    }
-}
-class OfficeArtSolverContainer {
-    OfficeArtRecordHeader rh;
-    OfficeArtSolverContainerFileBlock rgfb;
-    public String toString() {
-        String _s = "OfficeArtSolverContainer:";
-        _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "rgfb: " + String.valueOf(rgfb) + ", ";
         return _s;
     }
 }
@@ -18278,48 +18451,6 @@ class PP9DocBinaryTagExtension {
         _s = _s + "htmlPublishInfoAtom: " + String.valueOf(htmlPublishInfoAtom) + ", ";
         _s = _s + "rgBroadcastDocInfo9: " + String.valueOf(rgBroadcastDocInfo9) + ", ";
         _s = _s + "outlineTextPropsContainer: " + String.valueOf(outlineTextPropsContainer) + ", ";
-        return _s;
-    }
-}
-class PP10DocBinaryTagExtension {
-    RecordHeader rh;
-    byte[] tagName;
-    RecordHeader rhData;
-    FontCollection10Container fontCollectionContainer;
-    TextMasterStyle10Atom rgTextMasterStyle10;
-    TextDefaults10Atom textDefaultsAtom;
-    GridSpacing10Atom gridSpacingAtom;
-    CommentIndex10Container rgCommentIndex10;
-    FontEmbedFlags10Atom fontEmbedFlagsAtom;
-    CopyrightAtom copyrightAtom;
-    KeywordsAtom keywordsAtom;
-    FilterPrivacyFlags10Atom filterPrivacyFlagsAtom;
-    OutlineTextProps10Container outlineTextPropsContainer;
-    DocToolbarStates10Atom docToolbarStatesAtom;
-    SlideListTable10Container slideListTableContainer;
-    DiffTree10Container rgDiffTree10Container;
-    ModifyPasswordAtom modifyPasswordAtom;
-    PhotoAlbumInfo10Atom photoAlbumInfoAtom;
-    public String toString() {
-        String _s = "PP10DocBinaryTagExtension:";
-        _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "tagName: " + String.valueOf(tagName) + ", ";
-        _s = _s + "rhData: " + String.valueOf(rhData) + ", ";
-        _s = _s + "fontCollectionContainer: " + String.valueOf(fontCollectionContainer) + ", ";
-        _s = _s + "rgTextMasterStyle10: " + String.valueOf(rgTextMasterStyle10) + ", ";
-        _s = _s + "textDefaultsAtom: " + String.valueOf(textDefaultsAtom) + ", ";
-        _s = _s + "gridSpacingAtom: " + String.valueOf(gridSpacingAtom) + ", ";
-        _s = _s + "rgCommentIndex10: " + String.valueOf(rgCommentIndex10) + ", ";
-        _s = _s + "fontEmbedFlagsAtom: " + String.valueOf(fontEmbedFlagsAtom) + ", ";
-        _s = _s + "copyrightAtom: " + String.valueOf(copyrightAtom) + ", ";
-        _s = _s + "keywordsAtom: " + String.valueOf(keywordsAtom) + ", ";
-        _s = _s + "filterPrivacyFlagsAtom: " + String.valueOf(filterPrivacyFlagsAtom) + ", ";
-        _s = _s + "outlineTextPropsContainer: " + String.valueOf(outlineTextPropsContainer) + ", ";
-        _s = _s + "docToolbarStatesAtom: " + String.valueOf(docToolbarStatesAtom) + ", ";
-        _s = _s + "slideListTableContainer: " + String.valueOf(slideListTableContainer) + ", ";
-        _s = _s + "rgDiffTree10Container: " + String.valueOf(rgDiffTree10Container) + ", ";
-        _s = _s + "modifyPasswordAtom: " + String.valueOf(modifyPasswordAtom) + ", ";
-        _s = _s + "photoAlbumInfoAtom: " + String.valueOf(photoAlbumInfoAtom) + ", ";
         return _s;
     }
 }

@@ -640,6 +640,10 @@ class OfficeArtSpgrContainer;
 void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s);
 void parseOfficeArtSpgrContainer(QXmlStreamReader& in, OfficeArtSpgrContainer& _s);
 void write(const OfficeArtSpgrContainer& v, LEOutputStream& out);
+class OfficeArtSolverContainer;
+void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s);
+void parseOfficeArtSolverContainer(QXmlStreamReader& in, OfficeArtSolverContainer& _s);
+void write(const OfficeArtSolverContainer& v, LEOutputStream& out);
 class OfficeArtFConnectorRule;
 void parseOfficeArtFConnectorRule(LEInputStream& in, OfficeArtFConnectorRule& _s);
 void parseOfficeArtFConnectorRule(QXmlStreamReader& in, OfficeArtFConnectorRule& _s);
@@ -1328,10 +1332,6 @@ class OfficeArtDggContainer;
 void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s);
 void parseOfficeArtDggContainer(QXmlStreamReader& in, OfficeArtDggContainer& _s);
 void write(const OfficeArtDggContainer& v, LEOutputStream& out);
-class OfficeArtSolverContainer;
-void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s);
-void parseOfficeArtSolverContainer(QXmlStreamReader& in, OfficeArtSolverContainer& _s);
-void write(const OfficeArtSolverContainer& v, LEOutputStream& out);
 class OfficeArtFOPTEChoice;
 void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s);
 void parseOfficeArtFOPTEChoice(QXmlStreamReader& in, OfficeArtFOPTEChoice& _s);
@@ -4741,6 +4741,24 @@ public:
     }
     QString toString() {
         QString _s = "OfficeArtSpgrContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "rgfb: " + "[array of rgfb]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class OfficeArtSolverContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QList<OfficeArtSolverContainerFileBlock> rgfb;
+    OfficeArtSolverContainer(const Introspectable* parent) :Introspectable(parent),
+        rh(this) {
+    }
+    QString toString() {
+        QString _s = "OfficeArtSolverContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "rgfb: " + "[array of rgfb]" + ", ";
         return _s;
@@ -9424,25 +9442,6 @@ public:
         _s = _s + "colorMRU: " + ((colorMRU)?colorMRU->toString() :"null") + ", ";
         _s = _s + "splitColors: " + splitColors.toString() + ", ";
         _s = _s + "unknown: " + ((unknown)?unknown->toString() :"null") + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class OfficeArtSolverContainer : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    OfficeArtRecordHeader rh;
-    OfficeArtSolverContainerFileBlock rgfb;
-    OfficeArtSolverContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this),
-        rgfb(this) {
-    }
-    QString toString() {
-        QString _s = "OfficeArtSolverContainer:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgfb: " + rgfb.toString() + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -17671,6 +17670,44 @@ const Introspectable* (* const OfficeArtSpgrContainer::_Introspection::introspec
 };
 const Introspection OfficeArtSpgrContainer::_introspection(
     "OfficeArtSpgrContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class OfficeArtSolverContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtSolverContainer*>(i)->rh);
+    }
+    static int count_rgfb(const Introspectable* i) {
+        return static_cast<const OfficeArtSolverContainer*>(i)->rgfb.size();
+    }
+    static const Introspectable* get_rgfb(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtSolverContainer*>(i)->rgfb[j]);
+    }
+};
+const QString OfficeArtSolverContainer::_Introspection::name("OfficeArtSolverContainer");
+const int OfficeArtSolverContainer::_Introspection::numberOfMembers(2);
+const QString OfficeArtSolverContainer::_Introspection::names[2] = {
+    "rh",
+    "rgfb",
+};
+int (* const OfficeArtSolverContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    _Introspection::count_rgfb,
+};
+QVariant (* const OfficeArtSolverContainer::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const OfficeArtSolverContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    _Introspection::get_rgfb,
+};
+const Introspection OfficeArtSolverContainer::_introspection(
+    "OfficeArtSolverContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class OfficeArtFConnectorRule::_Introspection {
 public:
     static const QString name;
@@ -29312,41 +29349,6 @@ const Introspectable* (* const OfficeArtDggContainer::_Introspection::introspect
 };
 const Introspection OfficeArtDggContainer::_introspection(
     "OfficeArtDggContainer", 8, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class OfficeArtSolverContainer::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[2];
-    static int (* const numberOfInstances[2])(const Introspectable*);
-    static QVariant (* const value[2])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
-    static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtSolverContainer*>(i)->rh);
-    }
-    static const Introspectable* get_rgfb(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtSolverContainer*>(i)->rgfb);
-    }
-};
-const QString OfficeArtSolverContainer::_Introspection::name("OfficeArtSolverContainer");
-const int OfficeArtSolverContainer::_Introspection::numberOfMembers(2);
-const QString OfficeArtSolverContainer::_Introspection::names[2] = {
-    "rh",
-    "rgfb",
-};
-int (* const OfficeArtSolverContainer::_Introspection::numberOfInstances[2])(const Introspectable*) = {
-    Introspection::one,
-    Introspection::one,
-};
-QVariant (* const OfficeArtSolverContainer::_Introspection::value[2])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    Introspection::nullValue,
-};
-const Introspectable* (* const OfficeArtSolverContainer::_Introspection::introspectable[2])(const Introspectable*, int position) = {
-    _Introspection::get_rh,
-    _Introspection::get_rgfb,
-};
-const Introspection OfficeArtSolverContainer::_introspection(
-    "OfficeArtSolverContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class OfficeArtFOPTEChoice::_Introspection {
 public:
     static const QString name;
@@ -40893,6 +40895,57 @@ void parseOfficeArtSpgrContainer(QXmlStreamReader& in, OfficeArtSpgrContainer& _
     skipToStartElement(in);
     if (!in.isStartElement()) {
         qDebug() << "not startelement in OfficeArtSpgrContainerFileBlock " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+}
+void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s) {
+    LEInputStream::Mark _m;
+    bool _atend;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
+    }
+    if (!(_s.rh.recType == 0xF005)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF005");
+    }
+qDebug() << in.getPosition()<<" "<<"OfficeArtSolverContainer"<<_s.rh.toString();
+    _atend = false;
+    while (!_atend) {
+        _m = in.setMark();
+        try {
+            _s.rgfb.append(&_s);
+            parseOfficeArtSolverContainerFileBlock(in, _s.rgfb.last());
+        } catch(IncorrectValueException _e) {
+            _s.rgfb.removeLast();
+            _atend = true;
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.rgfb.removeLast();
+            _atend = true;
+            in.rewind(_m);
+        }
+    }
+}
+void write(const OfficeArtSolverContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (OfficeArtSolverContainerFileBlock _i, _s.rgfb) {
+        write(_i, out);
+    }
+}
+void parseOfficeArtSolverContainer(QXmlStreamReader& in, OfficeArtSolverContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtSolverContainerFileBlock " << in.lineNumber();
         return;
     }
     skipToStartElement(in);
@@ -56627,42 +56680,6 @@ void parseOfficeArtDggContainer(QXmlStreamReader& in, OfficeArtDggContainer& _s)
     if (in.name() == "unknown") {
         skipToStartElement(in);
     }
-}
-void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s) {
-    parseOfficeArtRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0xF)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
-    }
-    if (!(_s.rh.recType == 0xF005)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF005");
-    }
-qDebug() << in.getPosition()<<" "<<"OfficeArtSolverContainer"<<_s.rh.toString();
-    parseOfficeArtSolverContainerFileBlock(in, _s.rgfb);
-}
-void write(const OfficeArtSolverContainer& _s, LEOutputStream& out) {
-    write(_s.rh, out);
-    write(_s.rgfb, out);
-}
-void parseOfficeArtSolverContainer(QXmlStreamReader& in, OfficeArtSolverContainer& _s) {
-    in.readNext();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "rh") {
-        qDebug() << "not startelement in rh " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in OfficeArtSolverContainerFileBlock " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "rgfb") {
-        qDebug() << "not startelement in rgfb " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
 }
 void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s) {
     LEInputStream::Mark _m;

@@ -479,7 +479,7 @@
 			<type name="__PPT10" type="PP10DocBinaryTagExtension" />
 			<type name="__PPT11" type="PP11DocBinaryTagExtension" />
 			<type name="__PPT12" type="PP12DocBinaryTagExtension" />
-			<type name="__unkown" type="UnknownBinaryTag" />
+			<type name="__unknown" type="UnknownBinaryTag" />
 		</choice>
 	</struct>
 	<struct name="PP9DocBinaryTagExtension">
@@ -2964,7 +2964,7 @@
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recType" value="0xF005" />
 		</type>
-		<type name="rgfb" type="OfficeArtSolverContainerFileBlock" size="rh.recLen" />
+		<type name="rgfb" type="OfficeArtSolverContainerFileBlock" array="true" />
 	</struct>
 	<struct name="OfficeArtSolverContainerFileBlock">
 		<choice name="anon">
