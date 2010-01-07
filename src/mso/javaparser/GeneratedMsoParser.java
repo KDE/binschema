@@ -4449,25 +4449,85 @@ System.out.println(in.getPosition()+" "+_s);
             write(_i, out);
         }
     }
-    OfficeArtSolverContainer parseOfficeArtSolverContainer(LEInputStream in) throws IOException  {
-        OfficeArtSolverContainer _s = new OfficeArtSolverContainer();
-        int _c;
+    OfficeArtFConnectorRule parseOfficeArtFConnectorRule(LEInputStream in) throws IOException  {
+        OfficeArtFConnectorRule _s = new OfficeArtFConnectorRule();
         _s.rh = parseOfficeArtRecordHeader(in);
-        if (!(_s.rh.recVer == 0xF)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recVer == 1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 1 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0xF005)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF005 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
-        _c = _s.rh.recLen;
-        _s.todo = in.readBytes(_c);
+        if (!(_s.rh.recType == 0xF012)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF012 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x18)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x18 for value " + String.valueOf(_s.rh) );
+        }
+        _s.ruid = in.readuint32();
+        _s.spidA = in.readuint32();
+        _s.spidB = in.readuint32();
+        _s.spidC = in.readuint32();
+        _s.cptiA = in.readuint32();
+        _s.cptiB = in.readuint32();
         return _s;
     }
-    void write(OfficeArtSolverContainer _s, LEOutputStream out) throws IOException  {
+    void write(OfficeArtFConnectorRule _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        for (byte _i: _s.todo) {
-            out.writeuint8(_i);
+        out.writeuint32(_s.ruid);
+        out.writeuint32(_s.spidA);
+        out.writeuint32(_s.spidB);
+        out.writeuint32(_s.spidC);
+        out.writeuint32(_s.cptiA);
+        out.writeuint32(_s.cptiB);
+    }
+    OfficeArtFArcRule parseOfficeArtFArcRule(LEInputStream in) throws IOException  {
+        OfficeArtFArcRule _s = new OfficeArtFArcRule();
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
         }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xF014)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF014 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 8)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 8 for value " + String.valueOf(_s.rh) );
+        }
+        _s.ruid = in.readuint32();
+        _s.spid = in.readuint32();
+        return _s;
+    }
+    void write(OfficeArtFArcRule _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.ruid);
+        out.writeuint32(_s.spid);
+    }
+    OfficeArtFCalloutRule parseOfficeArtFCalloutRule(LEInputStream in) throws IOException  {
+        OfficeArtFCalloutRule _s = new OfficeArtFCalloutRule();
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xF017)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF017 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 8)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 8 for value " + String.valueOf(_s.rh) );
+        }
+        _s.ruid = in.readuint32();
+        _s.spid = in.readuint32();
+        return _s;
+    }
+    void write(OfficeArtFCalloutRule _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.ruid);
+        out.writeuint32(_s.spid);
     }
     OfficeArtFSPGR parseOfficeArtFSPGR(LEInputStream in) throws IOException  {
         OfficeArtFSPGR _s = new OfficeArtFSPGR();
@@ -8224,6 +8284,37 @@ System.out.println(in.getPosition()+" "+_s);
             write(_i, out);
         }
     }
+    OfficeArtSolverContainerFileBlock parseOfficeArtSolverContainerFileBlock(LEInputStream in) throws IOException  {
+        OfficeArtSolverContainerFileBlock _s = new OfficeArtSolverContainerFileBlock();
+        Object _m;
+        _m = in.setMark();
+        try {
+            _s.anon = parseOfficeArtFConnectorRule(in);
+        } catch (IOException _x) {
+            if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseOfficeArtFArcRule(in);
+        } catch (IOException _xx) {
+            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
+            in.rewind(_m);
+            _s.anon = parseOfficeArtFCalloutRule(in);
+        }} finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(OfficeArtSolverContainerFileBlock _s, LEOutputStream out) throws IOException  {
+        if (_s.anon instanceof OfficeArtFConnectorRule) {
+            write((OfficeArtFConnectorRule)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtFArcRule) {
+            write((OfficeArtFArcRule)_s.anon, out);
+        } else if (_s.anon instanceof OfficeArtFCalloutRule) {
+            write((OfficeArtFCalloutRule)_s.anon, out);
+        }
+    }
     ProtectionBooleanProperties parseProtectionBooleanProperties(LEInputStream in) throws IOException  {
         ProtectionBooleanProperties _s = new ProtectionBooleanProperties();
         _s.opid = parseOfficeArtFOPTEOPID(in);
@@ -10226,6 +10317,22 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.splitColors, out);
         if (_s.unknown != null) write(_s.unknown, out);
     }
+    OfficeArtSolverContainer parseOfficeArtSolverContainer(LEInputStream in) throws IOException  {
+        OfficeArtSolverContainer _s = new OfficeArtSolverContainer();
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xF005)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF005 for value " + String.valueOf(_s.rh) );
+        }
+        _s.rgfb = parseOfficeArtSolverContainerFileBlock(in);
+        return _s;
+    }
+    void write(OfficeArtSolverContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.rgfb, out);
+    }
     OfficeArtFOPTEChoice parseOfficeArtFOPTEChoice(LEInputStream in) throws IOException  {
         OfficeArtFOPTEChoice _s = new OfficeArtFOPTEChoice();
         Object _m;
@@ -10755,8 +10862,10 @@ System.out.println(in.getPosition()+" "+_s);
         _s.cbName = in.readuint8();
         _s.unused2 = in.readuint8();
         _s.unused3 = in.readuint8();
-        _c = _s.cbName;
-        _s.nameData = in.readBytes(_c);
+        if (_s.cbName>0) {
+            _c = _s.cbName;
+            _s.nameData = in.readBytes(_c);
+        }
         if (_s.rh.recLen > 36 + _s.cbName) {
             _s.embeddedBlip = parseOfficeArtBlip(in);
         }
@@ -10777,8 +10886,10 @@ System.out.println(in.getPosition()+" "+_s);
         out.writeuint8(_s.cbName);
         out.writeuint8(_s.unused2);
         out.writeuint8(_s.unused3);
-        for (byte _i: _s.nameData) {
-            out.writeuint8(_i);
+        if (_s.cbName>0) {
+            for (byte _i: _s.nameData) {
+                out.writeuint8(_i);
+            }
         }
         if (_s.rh.recLen > 36 + _s.cbName) {
             write(_s.embeddedBlip, out);
@@ -14634,13 +14745,47 @@ class OfficeArtSpgrContainer {
         return _s;
     }
 }
-class OfficeArtSolverContainer {
+class OfficeArtFConnectorRule {
     OfficeArtRecordHeader rh;
-    byte[] todo;
+    int ruid;
+    int spidA;
+    int spidB;
+    int spidC;
+    int cptiA;
+    int cptiB;
     public String toString() {
-        String _s = "OfficeArtSolverContainer:";
+        String _s = "OfficeArtFConnectorRule:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        _s = _s + "ruid: " + String.valueOf(ruid) + "(" + Integer.toHexString(ruid).toUpperCase() + "), ";
+        _s = _s + "spidA: " + String.valueOf(spidA) + "(" + Integer.toHexString(spidA).toUpperCase() + "), ";
+        _s = _s + "spidB: " + String.valueOf(spidB) + "(" + Integer.toHexString(spidB).toUpperCase() + "), ";
+        _s = _s + "spidC: " + String.valueOf(spidC) + "(" + Integer.toHexString(spidC).toUpperCase() + "), ";
+        _s = _s + "cptiA: " + String.valueOf(cptiA) + "(" + Integer.toHexString(cptiA).toUpperCase() + "), ";
+        _s = _s + "cptiB: " + String.valueOf(cptiB) + "(" + Integer.toHexString(cptiB).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class OfficeArtFArcRule {
+    OfficeArtRecordHeader rh;
+    int ruid;
+    int spid;
+    public String toString() {
+        String _s = "OfficeArtFArcRule:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "ruid: " + String.valueOf(ruid) + "(" + Integer.toHexString(ruid).toUpperCase() + "), ";
+        _s = _s + "spid: " + String.valueOf(spid) + "(" + Integer.toHexString(spid).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class OfficeArtFCalloutRule {
+    OfficeArtRecordHeader rh;
+    int ruid;
+    int spid;
+    public String toString() {
+        String _s = "OfficeArtFCalloutRule:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "ruid: " + String.valueOf(ruid) + "(" + Integer.toHexString(ruid).toUpperCase() + "), ";
+        _s = _s + "spid: " + String.valueOf(spid) + "(" + Integer.toHexString(spid).toUpperCase() + "), ";
         return _s;
     }
 }
@@ -16730,6 +16875,14 @@ class OfficeArtFDGGBlock {
         return _s;
     }
 }
+class OfficeArtSolverContainerFileBlock {
+    Object anon;
+    public String toString() {
+        String _s = "OfficeArtSolverContainerFileBlock:";
+        _s = _s + "anon: " + String.valueOf(anon) + ", ";
+        return _s;
+    }
+}
 class ProtectionBooleanProperties {
     OfficeArtFOPTEOPID opid;
     boolean fLockAgainstGrouping;
@@ -17731,6 +17884,16 @@ class OfficeArtDggContainer {
         _s = _s + "colorMRU: " + String.valueOf(colorMRU) + ", ";
         _s = _s + "splitColors: " + String.valueOf(splitColors) + ", ";
         _s = _s + "unknown: " + String.valueOf(unknown) + ", ";
+        return _s;
+    }
+}
+class OfficeArtSolverContainer {
+    OfficeArtRecordHeader rh;
+    OfficeArtSolverContainerFileBlock rgfb;
+    public String toString() {
+        String _s = "OfficeArtSolverContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "rgfb: " + String.valueOf(rgfb) + ", ";
         return _s;
     }
 }

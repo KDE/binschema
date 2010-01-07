@@ -88,7 +88,7 @@
 		<uint8 name="cbName" />
 		<uint8 name="unused2" />
 		<uint8 name="unused3" />
-		<uint8 name="nameData" count="cbName" />
+		<uint8 name="nameData" count="cbName" condition="cbName&gt;0" />
 		<type name="embeddedBlip" type="OfficeArtBlip" condition="rh.recLen &gt; 36 + cbName">
 			<!--
 				this limitation is currently not supported because it requires
@@ -2953,7 +2953,48 @@
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recType" value="0xF005" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="rgfb" type="OfficeArtSolverContainerFileBlock" size="rh.recLen" />
+	</struct>
+	<struct name="OfficeArtSolverContainerFileBlock">
+		<choice name="anon">
+			<type type="OfficeArtFConnectorRule" />
+			<type type="OfficeArtFArcRule" />
+			<type type="OfficeArtFCalloutRule" />
+		</choice>
+	</struct>
+	<struct name="OfficeArtFConnectorRule">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="1" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF012" />
+			<limitation name="recLen" value="0x18" />
+		</type>
+		<uint32 name="ruid" />
+		<uint32 name="spidA" />
+		<uint32 name="spidB" />
+		<uint32 name="spidC" />
+		<uint32 name="cptiA" />
+		<uint32 name="cptiB" />
+	</struct>
+	<struct name="OfficeArtFArcRule">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF014" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<uint32 name="ruid" />
+		<uint32 name="spid" />
+	</struct>
+	<struct name="OfficeArtFCalloutRule">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF017" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<uint32 name="ruid" />
+		<uint32 name="spid" />
 	</struct>
 	<struct name="OfficeArtFSPGR">
 		<type name="rh" type="OfficeArtRecordHeader">
