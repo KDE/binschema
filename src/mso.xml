@@ -835,23 +835,30 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x138B" />
 		</type>
-		<type name="fontCollectionContainer" type="FontCollection10Container" />
-		<type name="rgTextMasterStyle10" type="TextMasterStyle10Atom" />
-		<type name="textDefaultsAtom" type="TextDefaults10Atom" />
-		<type name="gridSpacingAtom" type="GridSpacing10Atom" optional="true" />
-		<type name="rgCommentIndex10" type="CommentIndex10Container" />
+		<type name="fontCollectionContainer" type="FontCollection10Container"
+			optional="true" />
+		<type name="rgTextMasterStyle10" type="TextMasterStyle10Atom"
+			array="true" />
+		<type name="textDefaultsAtom" type="TextDefaults10Atom" optional="true" />
+		<type name="gridSpacingAtom" type="GridSpacing10Atom" />
+		<type name="rgCommentIndex10" type="CommentIndex10Container"
+			array="true" />
 		<type name="fontEmbedFlagsAtom" type="FontEmbedFlags10Atom"
 			optional="true" />
-		<type name="copyrightAtom" type="CopyrightAtom" />
-		<type name="keywordsAtom" type="KeywordsAtom" />
+		<type name="copyrightAtom" type="CopyrightAtom" optional="true" />
+		<type name="keywordsAtom" type="KeywordsAtom" optional="true" />
 		<type name="filterPrivacyFlagsAtom" type="FilterPrivacyFlags10Atom"
 			optional="true" />
-		<type name="outlineTextPropsContainer" type="OutlineTextProps10Container" />
+		<type name="outlineTextPropsContainer" type="OutlineTextProps10Container"
+			optional="true" />
 		<type name="docToolbarStatesAtom" type="DocToolbarStates10Atom"
 			optional="true" />
-		<type name="slideListTableContainer" type="SlideListTable10Container" />
-		<type name="rgDiffTree10Container" type="DiffTree10Container" />
-		<type name="modifyPasswordAtom" type="ModifyPasswordAtom" />
+		<type name="slideListTableContainer" type="SlideListTable10Container"
+			optional="true" />
+		<type name="rgDiffTree10Container" type="DiffTree10Container"
+			optional="true" />
+		<type name="modifyPasswordAtom" type="ModifyPasswordAtom"
+			optional="true" />
 		<type name="photoAlbumInfoAtom" type="PhotoAlbumInfo10Atom"
 			optional="true" />
 	</struct>
@@ -927,7 +934,7 @@
 	</struct>
 	<struct name="GridSpacing10Atom">
 		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0xF" />
+			<limitation name="recVer" value="0x0" />
 			<limitation name="recInstance" value="0x0" />
 			<limitation name="recType" value="0x040D" />
 			<limitation name="recLen" value="0x08" />
@@ -936,7 +943,11 @@
 			<limitation expression="&gt;=23224" />
 			<limitation expression="&lt;=1179648" />
 		</uint32>
-		<uint32 name="y" condition="x==y">
+		<uint32 name="y">
+			<!--
+				TODO: fix generator to handle this expression <limitation
+				expression="x==y" />
+			-->
 			<limitation expression="&gt;=23224" />
 			<limitation expression="&lt;=1179648" />
 		</uint32>
