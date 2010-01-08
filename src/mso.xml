@@ -2673,7 +2673,21 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFEE" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="exControlAtom" type="ExControlAtom" />
+		<type name="exOleObjAtom" type="ExOleObjAtom" />
+		<type name="menuNameAtom" type="MenuNameAtom" optional="true" />
+		<type name="progIdAtom" type="ProgIDAtom" optional="true" />
+		<type name="clipboardNameAtom" type="ClipboardNameAtom" optional="true" />
+		<type name="metafile" type="MetafileBlob" optional="true" />
+	</struct>
+	<struct name="ExControlAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFFB" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint32 name="slideIdRef"/>
 	</struct>
 	<struct name="ExHyperlinkContainer">
 		<type name="rh" type="OfficeArtRecordHeader">

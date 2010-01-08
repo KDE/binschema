@@ -3983,28 +3983,27 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
-    ExControlContainer parseExControlContainer(LEInputStream in) throws IOException  {
-        ExControlContainer _s = new ExControlContainer();
-        int _c;
+    ExControlAtom parseExControlAtom(LEInputStream in) throws IOException  {
+        ExControlAtom _s = new ExControlAtom();
         _s.rh = parseOfficeArtRecordHeader(in);
-        if (!(_s.rh.recVer == 0xF)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recInstance == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recType == 0xFEE)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFEE for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recType == 0xFFB)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFFB for value " + String.valueOf(_s.rh) );
         }
-        _c = _s.rh.recLen;
-        _s.todo = in.readBytes(_c);
+        if (!(_s.rh.recLen == 4)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 4 for value " + String.valueOf(_s.rh) );
+        }
+        _s.slideIdRef = in.readuint32();
         return _s;
     }
-    void write(ExControlContainer _s, LEOutputStream out) throws IOException  {
+    void write(ExControlAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        for (byte _i: _s.todo) {
-            out.writeuint8(_i);
-        }
+        out.writeuint32(_s.slideIdRef);
     }
     ExHyperlinkContainer parseExHyperlinkContainer(LEInputStream in) throws IOException  {
         ExHyperlinkContainer _s = new ExHyperlinkContainer();
@@ -8150,6 +8149,76 @@ System.out.println(in.getPosition()+" "+_s);
         for (ExObjListSubContainer _i: _s.rgChildRec) {
             write(_i, out);
         }
+    }
+    ExControlContainer parseExControlContainer(LEInputStream in) throws IOException  {
+        ExControlContainer _s = new ExControlContainer();
+        Object _m;
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFEE)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFEE for value " + String.valueOf(_s.rh) );
+        }
+        _s.exControlAtom = parseExControlAtom(in);
+        _s.exOleObjAtom = parseExOleObjAtom(in);
+        _m = in.setMark();
+        try {
+            _s.menuNameAtom = parseMenuNameAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.progIdAtom = parseProgIDAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.clipboardNameAtom = parseClipboardNameAtom(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        _m = in.setMark();
+        try {
+            _s.metafile = parseMetafileBlob(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
+        return _s;
+    }
+    void write(ExControlContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.exControlAtom, out);
+        write(_s.exOleObjAtom, out);
+        if (_s.menuNameAtom != null) write(_s.menuNameAtom, out);
+        if (_s.progIdAtom != null) write(_s.progIdAtom, out);
+        if (_s.clipboardNameAtom != null) write(_s.clipboardNameAtom, out);
+        if (_s.metafile != null) write(_s.metafile, out);
     }
     ExOleLinkContainer parseExOleLinkContainer(LEInputStream in) throws IOException  {
         ExOleLinkContainer _s = new ExOleLinkContainer();
@@ -14660,13 +14729,13 @@ class ExCDAudioContainer {
         return _s;
     }
 }
-class ExControlContainer {
+class ExControlAtom {
     OfficeArtRecordHeader rh;
-    byte[] todo;
+    int slideIdRef;
     public String toString() {
-        String _s = "ExControlContainer:";
+        String _s = "ExControlAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        _s = _s + "slideIdRef: " + String.valueOf(slideIdRef) + "(" + Integer.toHexString(slideIdRef).toUpperCase() + "), ";
         return _s;
     }
 }
@@ -16961,6 +17030,26 @@ class ExObjListContainer {
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "exObjListAtom: " + String.valueOf(exObjListAtom) + ", ";
         _s = _s + "rgChildRec: " + String.valueOf(rgChildRec) + ", ";
+        return _s;
+    }
+}
+class ExControlContainer {
+    OfficeArtRecordHeader rh;
+    ExControlAtom exControlAtom;
+    ExOleObjAtom exOleObjAtom;
+    MenuNameAtom menuNameAtom;
+    ProgIDAtom progIdAtom;
+    ClipboardNameAtom clipboardNameAtom;
+    MetafileBlob metafile;
+    public String toString() {
+        String _s = "ExControlContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "exControlAtom: " + String.valueOf(exControlAtom) + ", ";
+        _s = _s + "exOleObjAtom: " + String.valueOf(exOleObjAtom) + ", ";
+        _s = _s + "menuNameAtom: " + String.valueOf(menuNameAtom) + ", ";
+        _s = _s + "progIdAtom: " + String.valueOf(progIdAtom) + ", ";
+        _s = _s + "clipboardNameAtom: " + String.valueOf(clipboardNameAtom) + ", ";
+        _s = _s + "metafile: " + String.valueOf(metafile) + ", ";
         return _s;
     }
 }
