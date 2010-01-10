@@ -26,7 +26,7 @@ public class PPTStructurePrinter {
 	 */
 	public static void main(String[] args) throws Exception {
 		final String xmlfilename = "src/mso.xml";
-		String testfile = "/tmp/ppt/www.farmbureauvc.com%2Fpdf_forms%2FCalleguas_TMDL_Pres.ppt";
+		String testfile = "/tmp/mp00_RomanBulletsnumber.ppt";
 		PPTStructurePrinter p = new PPTStructurePrinter();
 
 		final Document dom = DocumentBuilderFactory.newInstance()

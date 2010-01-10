@@ -185,10 +185,10 @@ public class QtParserGenerator {
 		}
 		for (Member m : s.members) {
 			printStructureMemberParser(out, m);
-			// if (m.type.contains("RecordHeader")) {
-			// out.println("qDebug() << in.getPosition()<<\" \"<<\"" + s.name
-			// + "\"<<_s.rh.toString();");
-			// }
+			if (m.type.contains("RecordHeader")) {
+			//	out.println("qDebug() << in.getPosition()<<\" \"<<\"" + s.name
+			//			+ "\"<<_s.rh.toString();");
+			}
 		}
 		out.println("}");
 	}
@@ -274,10 +274,9 @@ public class QtParserGenerator {
 			String count = prependStructureToExpression(m.count, "_s");
 			out.println(s + "_c = " + count + ";");
 		}
-		out.print(s);// + "_s." + name + " = ");
 		if (m.count != null) {
 			if (!m.isComplex) {
-				out.print("_s." + m.name + ".resize(_c);");
+				out.println(s + "_s." + m.name + ".resize(_c);");
 			}
 			if (m.type.equals("uint8")) { // special case for reading bytearrays
 				// quickly
@@ -294,7 +293,7 @@ public class QtParserGenerator {
 				out.println(s + "}");
 			}
 		} else {
-			out.println(parse);
+			out.println(s + parse);
 			printLimitationCheck(out, s, "_s." + m.name, m);
 		}
 		if (m.condition != null) {
@@ -492,14 +491,17 @@ public class QtParserGenerator {
 		out.println("    }");
 
 		// function toString
-		/*
-		 * out.println("    QString toString() {");
-		 * out.println("        QString _s = \"" + s.name + ":\";"); for (Member
-		 * m : s.members) { out.print("        _s = _s + \"" + m.name +
-		 * ": \" + "); out.print(memberToString(m, ""));
-		 * out.println(" + \", \";"); } out.println("        return _s;");
-		 * out.println("    }");
-		 */
+
+		out.println("    QString toString() {");
+		out.println("        QString _s = \"" + s.name + ":\";");
+		for (Member m : s.members) {
+			out.print("        _s = _s + \"" + m.name + ": \" + ");
+			out.print(memberToString(m, ""));
+			out.println(" + \", \";");
+		}
+		out.println("        return _s;");
+		out.println("    }");
+
 		out
 				.println("    const Introspection* getIntrospection() const { return &_introspection; }");
 
