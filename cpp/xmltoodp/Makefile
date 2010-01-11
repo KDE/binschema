@@ -6,9 +6,9 @@ clean:
 	rm -rf *.odp
 
 %.odp: %/content.xml %/styles.xml %/mimetype %/META-INF/manifest.xml
-	zip -0 -j $*.odp $*/mimetype
-	cd $* && zip -ru ../$*.odp .
-	unzip -lv $*.odp
+	cd $* && zip -0 -j ../$(@F) mimetype
+	cd $* && zip -ru ../$(@F) .
+	cd $* && unzip -lv ../$(@F)
 
 %/content.xml: %.xml
 	mkdir -p $*
