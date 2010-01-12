@@ -31769,6 +31769,7 @@ const Introspectable* (* const PowerPointStruct::_Introspection::introspectable[
 const Introspection PowerPointStruct::_introspection(
     "PowerPointStruct", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 void parseRecordHeader(LEInputStream& in, RecordHeader& _s) {
+    _s.streamOffset = in.getPosition();
     _s.recVer = in.readuint4();
     _s.recInstance = in.readuint12();
     _s.recType = in.readuint16();
@@ -31823,6 +31824,7 @@ void parseRecordHeader(QXmlStreamReader& in, RecordHeader& _s) {
     in.readElementText();
 }
 void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -31995,6 +31997,7 @@ void parseCurrentUserAtom(QXmlStreamReader& in, CurrentUserAtom& _s) {
     in.readElementText();
 }
 void parseTODOS(LEInputStream& in, TODOS& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     _atend = false;
@@ -32028,6 +32031,7 @@ void parseTODOS(QXmlStreamReader& in, TODOS& _s) {
     skipToStartElement(in);
 }
 void parseByte(LEInputStream& in, Byte& _s) {
+    _s.streamOffset = in.getPosition();
     _s.b = in.readuint8();
 }
 void write(const Byte& _s, LEOutputStream& out) {
@@ -32046,6 +32050,7 @@ void parseByte(QXmlStreamReader& in, Byte& _s) {
     in.readElementText();
 }
 void parseCurrentUserStream(LEInputStream& in, CurrentUserStream& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseCurrentUserAtom(in, _s.anon1);
@@ -32090,6 +32095,7 @@ void parseCurrentUserStream(QXmlStreamReader& in, CurrentUserStream& _s) {
     skipToStartElement(in);
 }
 void parseOfficeArtBStoreDelay(LEInputStream& in, OfficeArtBStoreDelay& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     _atend = false;
@@ -32123,6 +32129,7 @@ void parseOfficeArtBStoreDelay(QXmlStreamReader& in, OfficeArtBStoreDelay& _s) {
     skipToStartElement(in);
 }
 void parseOfficeArtRecordHeader(LEInputStream& in, OfficeArtRecordHeader& _s) {
+    _s.streamOffset = in.getPosition();
     _s.recVer = in.readuint4();
     _s.recInstance = in.readuint12();
     _s.recType = in.readuint16();
@@ -32174,6 +32181,7 @@ void parseOfficeArtRecordHeader(QXmlStreamReader& in, OfficeArtRecordHeader& _s)
     in.readElementText();
 }
 void parseOfficeArtBlipJPEG(LEInputStream& in, OfficeArtBlipJPEG& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -32246,6 +32254,7 @@ void parseOfficeArtBlipJPEG(QXmlStreamReader& in, OfficeArtBlipJPEG& _s) {
     in.readElementText();
 }
 void parseOfficeArtBlipPNG(LEInputStream& in, OfficeArtBlipPNG& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -32318,6 +32327,7 @@ void parseOfficeArtBlipPNG(QXmlStreamReader& in, OfficeArtBlipPNG& _s) {
     in.readElementText();
 }
 void parseOfficeArtBlipDIB(LEInputStream& in, OfficeArtBlipDIB& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -32390,6 +32400,7 @@ void parseOfficeArtBlipDIB(QXmlStreamReader& in, OfficeArtBlipDIB& _s) {
     in.readElementText();
 }
 void parseOfficeArtBlipTIFF(LEInputStream& in, OfficeArtBlipTIFF& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -32462,6 +32473,7 @@ void parseOfficeArtBlipTIFF(QXmlStreamReader& in, OfficeArtBlipTIFF& _s) {
     in.readElementText();
 }
 void parseRECT(LEInputStream& in, RECT& _s) {
+    _s.streamOffset = in.getPosition();
     _s.left = in.readint32();
     _s.top = in.readint32();
     _s.right = in.readint32();
@@ -32513,6 +32525,7 @@ void parseRECT(QXmlStreamReader& in, RECT& _s) {
     in.readElementText();
 }
 void parsePOINT(LEInputStream& in, POINT& _s) {
+    _s.streamOffset = in.getPosition();
     _s.x = in.readint32();
     _s.y = in.readint32();
 }
@@ -32542,6 +32555,7 @@ void parsePOINT(QXmlStreamReader& in, POINT& _s) {
     in.readElementText();
 }
 void parsePowerPointStructs(LEInputStream& in, PowerPointStructs& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     _atend = false;
@@ -32575,6 +32589,7 @@ void parsePowerPointStructs(QXmlStreamReader& in, PowerPointStructs& _s) {
     skipToStartElement(in);
 }
 void parseSoundCollectionContainer(LEInputStream& in, SoundCollectionContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -32613,6 +32628,7 @@ void parseSoundCollectionContainer(QXmlStreamReader& in, SoundCollectionContaine
     in.readElementText();
 }
 void parseHeadersFootersAtom(LEInputStream& in, HeadersFootersAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -32748,6 +32764,7 @@ void parseHeadersFootersAtom(QXmlStreamReader& in, HeadersFootersAtom& _s) {
     in.readElementText();
 }
 void parseUserDateAtom(LEInputStream& in, UserDateAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -32792,6 +32809,7 @@ void parseUserDateAtom(QXmlStreamReader& in, UserDateAtom& _s) {
     in.readElementText();
 }
 void parseHeaderAtom(LEInputStream& in, HeaderAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -32833,6 +32851,7 @@ void parseHeaderAtom(QXmlStreamReader& in, HeaderAtom& _s) {
     in.readElementText();
 }
 void parseFooterAtom(LEInputStream& in, FooterAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -32874,6 +32893,7 @@ void parseFooterAtom(QXmlStreamReader& in, FooterAtom& _s) {
     in.readElementText();
 }
 void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -32951,6 +32971,7 @@ void parsePerSlideHeadersFootersContainer(QXmlStreamReader& in, PerSlideHeadersF
     }
 }
 void parseEndDocumentAtom(LEInputStream& in, EndDocumentAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -32981,6 +33002,7 @@ void parseEndDocumentAtom(QXmlStreamReader& in, EndDocumentAtom& _s) {
     skipToStartElement(in);
 }
 void parseDocInfoListContainer(LEInputStream& in, DocInfoListContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -33034,6 +33056,7 @@ void parseDocInfoListContainer(QXmlStreamReader& in, DocInfoListContainer& _s) {
     skipToStartElement(in);
 }
 void parseSlideViewInfoAtom(LEInputStream& in, SlideViewInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -33097,6 +33120,7 @@ void parseSlideViewInfoAtom(QXmlStreamReader& in, SlideViewInfoAtom& _s) {
     in.readElementText();
 }
 void parseGuideAtom(LEInputStream& in, GuideAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -33158,6 +33182,7 @@ void parseGuideAtom(QXmlStreamReader& in, GuideAtom& _s) {
     in.readElementText();
 }
 void parseDocProgTagsContainer(LEInputStream& in, DocProgTagsContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -33202,6 +33227,7 @@ void parseDocProgTagsContainer(QXmlStreamReader& in, DocProgTagsContainer& _s) {
     skipToStartElement(in);
 }
 void parseTextAutoNumberScheme(LEInputStream& in, TextAutoNumberScheme& _s) {
+    _s.streamOffset = in.getPosition();
     _s.scheme = in.readuint16();
     if (!(((quint16)_s.scheme) == 0x0000 || ((quint16)_s.scheme) == 0x0001 || ((quint16)_s.scheme) == 0x0002 || ((quint16)_s.scheme) == 0x0003 || ((quint16)_s.scheme) == 0x0004 || ((quint16)_s.scheme) == 0x0005 || ((quint16)_s.scheme) == 0x0006 || ((quint16)_s.scheme) == 0x0007 || ((quint16)_s.scheme) == 0x0008)) {
         throw IncorrectValueException(in.getPosition(), "((quint16)_s.scheme) == 0x0000 || ((quint16)_s.scheme) == 0x0001 || ((quint16)_s.scheme) == 0x0002 || ((quint16)_s.scheme) == 0x0003 || ((quint16)_s.scheme) == 0x0004 || ((quint16)_s.scheme) == 0x0005 || ((quint16)_s.scheme) == 0x0006 || ((quint16)_s.scheme) == 0x0007 || ((quint16)_s.scheme) == 0x0008");
@@ -33237,6 +33263,7 @@ void parseTextAutoNumberScheme(QXmlStreamReader& in, TextAutoNumberScheme& _s) {
     in.readElementText();
 }
 void parseBlipCollection9Container(LEInputStream& in, BlipCollection9Container& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -33281,6 +33308,7 @@ void parseBlipCollection9Container(QXmlStreamReader& in, BlipCollection9Containe
     skipToStartElement(in);
 }
 void parseKinsoku9Atom(LEInputStream& in, Kinsoku9Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -33395,6 +33423,7 @@ void parseKinsoku9Atom(QXmlStreamReader& in, Kinsoku9Atom& _s) {
     in.readElementText();
 }
 void parseExHyperlink9Container(LEInputStream& in, ExHyperlink9Container& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -33433,6 +33462,7 @@ void parseExHyperlink9Container(QXmlStreamReader& in, ExHyperlink9Container& _s)
     in.readElementText();
 }
 void parsePresAdvisorFlags9Atom(LEInputStream& in, PresAdvisorFlags9Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -33626,6 +33656,7 @@ void parsePresAdvisorFlags9Atom(QXmlStreamReader& in, PresAdvisorFlags9Atom& _s)
     in.readElementText();
 }
 void parseEnvelopeData9Atom(LEInputStream& in, EnvelopeData9Atom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -33664,6 +33695,7 @@ void parseEnvelopeData9Atom(QXmlStreamReader& in, EnvelopeData9Atom& _s) {
     in.readElementText();
 }
 void parseEnvelopeFlags9Atom(LEInputStream& in, EnvelopeFlags9Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -33769,6 +33801,7 @@ void parseEnvelopeFlags9Atom(QXmlStreamReader& in, EnvelopeFlags9Atom& _s) {
     in.readElementText();
 }
 void parseHTMLDocInfo9Atom(LEInputStream& in, HTMLDocInfo9Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -33970,6 +34003,7 @@ void parseHTMLDocInfo9Atom(QXmlStreamReader& in, HTMLDocInfo9Atom& _s) {
     in.readElementText();
 }
 void parseHTMLPublishInfo9Container(LEInputStream& in, HTMLPublishInfo9Container& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -34008,6 +34042,7 @@ void parseHTMLPublishInfo9Container(QXmlStreamReader& in, HTMLPublishInfo9Contai
     in.readElementText();
 }
 void parseBroadcastDocInfo9Container(LEInputStream& in, BroadcastDocInfo9Container& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -34046,6 +34081,7 @@ void parseBroadcastDocInfo9Container(QXmlStreamReader& in, BroadcastDocInfo9Cont
     in.readElementText();
 }
 void parseOutlineTextProps9Container(LEInputStream& in, OutlineTextProps9Container& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -34099,6 +34135,7 @@ void parseOutlineTextProps9Container(QXmlStreamReader& in, OutlineTextProps9Cont
     skipToStartElement(in);
 }
 void parseOutlineTextPropsHeaderExAtom(LEInputStream& in, OutlineTextPropsHeaderExAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -34140,6 +34177,7 @@ void parseOutlineTextPropsHeaderExAtom(QXmlStreamReader& in, OutlineTextPropsHea
     in.readElementText();
 }
 void parseStyleTextProp9Atom(LEInputStream& in, StyleTextProp9Atom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -34178,6 +34216,7 @@ void parseStyleTextProp9Atom(QXmlStreamReader& in, StyleTextProp9Atom& _s) {
     in.readElementText();
 }
 void parseFontCollection10Container(LEInputStream& in, FontCollection10Container& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -34222,6 +34261,7 @@ void parseFontCollection10Container(QXmlStreamReader& in, FontCollection10Contai
     skipToStartElement(in);
 }
 void parseGridSpacing10Atom(LEInputStream& in, GridSpacing10Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -34286,6 +34326,7 @@ void parseGridSpacing10Atom(QXmlStreamReader& in, GridSpacing10Atom& _s) {
     in.readElementText();
 }
 void parseAuthorNameAtom(LEInputStream& in, AuthorNameAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -34330,6 +34371,7 @@ void parseAuthorNameAtom(QXmlStreamReader& in, AuthorNameAtom& _s) {
     in.readElementText();
 }
 void parseCommentIndex10Atom(LEInputStream& in, CommentIndex10Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -34388,6 +34430,7 @@ void parseCommentIndex10Atom(QXmlStreamReader& in, CommentIndex10Atom& _s) {
     in.readElementText();
 }
 void parseFontEmbedFlags10Atom(LEInputStream& in, FontEmbedFlags10Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -34451,6 +34494,7 @@ void parseFontEmbedFlags10Atom(QXmlStreamReader& in, FontEmbedFlags10Atom& _s) {
     in.readElementText();
 }
 void parseCopyrightAtom(LEInputStream& in, CopyrightAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -34495,6 +34539,7 @@ void parseCopyrightAtom(QXmlStreamReader& in, CopyrightAtom& _s) {
     in.readElementText();
 }
 void parseKeywordsAtom(LEInputStream& in, KeywordsAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -34539,6 +34584,7 @@ void parseKeywordsAtom(QXmlStreamReader& in, KeywordsAtom& _s) {
     in.readElementText();
 }
 void parseFilterPrivacyFlags10Atom(LEInputStream& in, FilterPrivacyFlags10Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -34622,6 +34668,7 @@ void parseFilterPrivacyFlags10Atom(QXmlStreamReader& in, FilterPrivacyFlags10Ato
     in.readElementText();
 }
 void parseOutlineTextProps10Container(LEInputStream& in, OutlineTextProps10Container& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -34675,6 +34722,7 @@ void parseOutlineTextProps10Container(QXmlStreamReader& in, OutlineTextProps10Co
     skipToStartElement(in);
 }
 void parseStyleTextProp10Atom(LEInputStream& in, StyleTextProp10Atom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     bool _atend;
@@ -34762,6 +34810,7 @@ void parseStyleTextProp10Atom(QXmlStreamReader& in, StyleTextProp10Atom& _s) {
     in.readElementText();
 }
 void parseDocToolbarStates10Atom(LEInputStream& in, DocToolbarStates10Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -34828,6 +34877,7 @@ void parseDocToolbarStates10Atom(QXmlStreamReader& in, DocToolbarStates10Atom& _
     in.readElementText();
 }
 void parseSlideListTable10Container(LEInputStream& in, SlideListTable10Container& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -34866,6 +34916,7 @@ void parseSlideListTable10Container(QXmlStreamReader& in, SlideListTable10Contai
     in.readElementText();
 }
 void parseDiffTree10Container(LEInputStream& in, DiffTree10Container& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -34904,6 +34955,7 @@ void parseDiffTree10Container(QXmlStreamReader& in, DiffTree10Container& _s) {
     in.readElementText();
 }
 void parseModifyPasswordAtom(LEInputStream& in, ModifyPasswordAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -34948,6 +35000,7 @@ void parseModifyPasswordAtom(QXmlStreamReader& in, ModifyPasswordAtom& _s) {
     in.readElementText();
 }
 void parsePhotoAlbumInfo10Atom(LEInputStream& in, PhotoAlbumInfo10Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -35039,6 +35092,7 @@ void parsePhotoAlbumInfo10Atom(QXmlStreamReader& in, PhotoAlbumInfo10Atom& _s) {
     in.readElementText();
 }
 void parseSmartTagStore11Container(LEInputStream& in, SmartTagStore11Container& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -35077,6 +35131,7 @@ void parseSmartTagStore11Container(QXmlStreamReader& in, SmartTagStore11Containe
     in.readElementText();
 }
 void parseOutlineTextProps11Container(LEInputStream& in, OutlineTextProps11Container& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -35115,6 +35170,7 @@ void parseOutlineTextProps11Container(QXmlStreamReader& in, OutlineTextProps11Co
     in.readElementText();
 }
 void parseBinaryTagDataBlob(LEInputStream& in, BinaryTagDataBlob& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -35153,6 +35209,7 @@ void parseBinaryTagDataBlob(QXmlStreamReader& in, BinaryTagDataBlob& _s) {
     in.readElementText();
 }
 void parsePP12DocBinaryTagExtension(LEInputStream& in, PP12DocBinaryTagExtension& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -35223,6 +35280,7 @@ void parsePP12DocBinaryTagExtension(QXmlStreamReader& in, PP12DocBinaryTagExtens
     in.readElementText();
 }
 void parseSorterViewInfoContainer(LEInputStream& in, SorterViewInfoContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -35261,6 +35319,7 @@ void parseSorterViewInfoContainer(QXmlStreamReader& in, SorterViewInfoContainer&
     in.readElementText();
 }
 void parseVBAInfoAtom(LEInputStream& in, VBAInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 2)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 2");
@@ -35330,6 +35389,7 @@ void parseVBAInfoAtom(QXmlStreamReader& in, VBAInfoAtom& _s) {
     in.readElementText();
 }
 void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -35375,6 +35435,7 @@ void parseMasterListWithTextContainer(QXmlStreamReader& in, MasterListWithTextCo
     skipToStartElement(in);
 }
 void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -35428,6 +35489,7 @@ void parseSlideListWithTextContainer(QXmlStreamReader& in, SlideListWithTextCont
     skipToStartElement(in);
 }
 void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -35481,6 +35543,7 @@ void parseNotesListWithTextContainer(QXmlStreamReader& in, NotesListWithTextCont
     skipToStartElement(in);
 }
 void parseNotesPersistAtom(LEInputStream& in, NotesPersistAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -35628,6 +35691,7 @@ void parseNotesPersistAtom(QXmlStreamReader& in, NotesPersistAtom& _s) {
     in.readElementText();
 }
 void parseTextHeaderAtom(LEInputStream& in, TextHeaderAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -35669,6 +35733,7 @@ void parseTextHeaderAtom(QXmlStreamReader& in, TextHeaderAtom& _s) {
     in.readElementText();
 }
 void parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -35717,6 +35782,7 @@ void parseTextCharsAtom(QXmlStreamReader& in, TextCharsAtom& _s) {
     in.readElementText();
 }
 void parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -35755,6 +35821,7 @@ void parseTextBytesAtom(QXmlStreamReader& in, TextBytesAtom& _s) {
     in.readElementText();
 }
 void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -35799,6 +35866,7 @@ void parseMasterTextPropAtom(QXmlStreamReader& in, MasterTextPropAtom& _s) {
     skipToStartElement(in);
 }
 void parseMasterTextPropRun(LEInputStream& in, MasterTextPropRun& _s) {
+    _s.streamOffset = in.getPosition();
     _s.count = in.readuint32();
     _s.indentLevel = in.readuint16();
     if (!(((quint16)_s.indentLevel)<=4)) {
@@ -35831,6 +35899,7 @@ void parseMasterTextPropRun(QXmlStreamReader& in, MasterTextPropRun& _s) {
     in.readElementText();
 }
 void parseStyleTextPropAtom(LEInputStream& in, StyleTextPropAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -35869,6 +35938,7 @@ void parseStyleTextPropAtom(QXmlStreamReader& in, StyleTextPropAtom& _s) {
     in.readElementText();
 }
 void parseSlideNumberMCAtom(LEInputStream& in, SlideNumberMCAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -35910,6 +35980,7 @@ void parseSlideNumberMCAtom(QXmlStreamReader& in, SlideNumberMCAtom& _s) {
     in.readElementText();
 }
 void parseDateTimeMCAtom(LEInputStream& in, DateTimeMCAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -35973,6 +36044,7 @@ void parseDateTimeMCAtom(QXmlStreamReader& in, DateTimeMCAtom& _s) {
     in.readElementText();
 }
 void parseGenericDateMCAtom(LEInputStream& in, GenericDateMCAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -36014,6 +36086,7 @@ void parseGenericDateMCAtom(QXmlStreamReader& in, GenericDateMCAtom& _s) {
     in.readElementText();
 }
 void parseHeaderMCAtom(LEInputStream& in, HeaderMCAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -36055,6 +36128,7 @@ void parseHeaderMCAtom(QXmlStreamReader& in, HeaderMCAtom& _s) {
     in.readElementText();
 }
 void parseFooterMCAtom(LEInputStream& in, FooterMCAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -36096,6 +36170,7 @@ void parseFooterMCAtom(QXmlStreamReader& in, FooterMCAtom& _s) {
     in.readElementText();
 }
 void parseRTFDateTimeMCAtom(LEInputStream& in, RTFDateTimeMCAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -36148,6 +36223,7 @@ void parseRTFDateTimeMCAtom(QXmlStreamReader& in, RTFDateTimeMCAtom& _s) {
     in.readElementText();
 }
 void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -36211,6 +36287,7 @@ void parseTextBookmarkAtom(QXmlStreamReader& in, TextBookmarkAtom& _s) {
     in.readElementText();
 }
 void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -36252,6 +36329,7 @@ void parseMouseTextInteractiveInfoAtom(QXmlStreamReader& in, MouseTextInteractiv
     in.readElementText();
 }
 void parseSlideId(LEInputStream& in, SlideId& _s) {
+    _s.streamOffset = in.getPosition();
     _s.slideId = in.readuint32();
     if (!(((quint32)_s.slideId)>=100)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.slideId)>=100");
@@ -36276,6 +36354,7 @@ void parseSlideId(QXmlStreamReader& in, SlideId& _s) {
     in.readElementText();
 }
 void parseTabStops(LEInputStream& in, TabStops& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.count = in.readuint16();
@@ -36309,6 +36388,7 @@ void parseTabStops(QXmlStreamReader& in, TabStops& _s) {
     skipToStartElement(in);
 }
 void parseTabStop(LEInputStream& in, TabStop& _s) {
+    _s.streamOffset = in.getPosition();
     _s.position = in.readint16();
     _s.type = in.readuint16();
 }
@@ -36338,6 +36418,7 @@ void parseTabStop(QXmlStreamReader& in, TabStop& _s) {
     in.readElementText();
 }
 void parsePFWrapFlags(LEInputStream& in, PFWrapFlags& _s) {
+    _s.streamOffset = in.getPosition();
     _s.charWrap = in.readbit();
     _s.wordWrap = in.readbit();
     _s.overflow = in.readbit();
@@ -36400,6 +36481,7 @@ void parsePFWrapFlags(QXmlStreamReader& in, PFWrapFlags& _s) {
     in.readElementText();
 }
 void parseColorIndexStruct(LEInputStream& in, ColorIndexStruct& _s) {
+    _s.streamOffset = in.getPosition();
     _s.red = in.readuint8();
     _s.green = in.readuint8();
     _s.blue = in.readuint8();
@@ -36451,6 +36533,7 @@ void parseColorIndexStruct(QXmlStreamReader& in, ColorIndexStruct& _s) {
     in.readElementText();
 }
 void parseBulletFlags(LEInputStream& in, BulletFlags& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fHasBullet = in.readbit();
     _s.fBulletHasFont = in.readbit();
     _s.fBulletHasColor = in.readbit();
@@ -36513,6 +36596,7 @@ void parseBulletFlags(QXmlStreamReader& in, BulletFlags& _s) {
     in.readElementText();
 }
 void parsePFMasks(LEInputStream& in, PFMasks& _s) {
+    _s.streamOffset = in.getPosition();
     _s.hasBullet = in.readbit();
     _s.bulletHasFont = in.readbit();
     _s.bulletHasColor = in.readbit();
@@ -36817,6 +36901,7 @@ void parsePFMasks(QXmlStreamReader& in, PFMasks& _s) {
     in.readElementText();
 }
 void parseCFMasks(LEInputStream& in, CFMasks& _s) {
+    _s.streamOffset = in.getPosition();
     _s.bold = in.readbit();
     _s.italic = in.readbit();
     _s.underline = in.readbit();
@@ -37088,6 +37173,7 @@ void parseCFMasks(QXmlStreamReader& in, CFMasks& _s) {
     in.readElementText();
 }
 void parseCFStyle(LEInputStream& in, CFStyle& _s) {
+    _s.streamOffset = in.getPosition();
     _s.bold = in.readbit();
     _s.italic = in.readbit();
     _s.underline = in.readbit();
@@ -37227,6 +37313,7 @@ void parseCFStyle(QXmlStreamReader& in, CFStyle& _s) {
     in.readElementText();
 }
 void parseFontCollectionContainer(LEInputStream& in, FontCollectionContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -37271,6 +37358,7 @@ void parseFontCollectionContainer(QXmlStreamReader& in, FontCollectionContainer&
     skipToStartElement(in);
 }
 void parseFontEntityAtom(LEInputStream& in, FontEntityAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -37421,6 +37509,7 @@ void parseFontEntityAtom(QXmlStreamReader& in, FontEntityAtom& _s) {
     in.readElementText();
 }
 void parseFontEmbedDataBlob(LEInputStream& in, FontEmbedDataBlob& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -37462,6 +37551,7 @@ void parseFontEmbedDataBlob(QXmlStreamReader& in, FontEmbedDataBlob& _s) {
     in.readElementText();
 }
 void parseKinsokuAtom(LEInputStream& in, KinsokuAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -37506,6 +37596,7 @@ void parseKinsokuAtom(QXmlStreamReader& in, KinsokuAtom& _s) {
     in.readElementText();
 }
 void parseKinsokuLeadingAtom(LEInputStream& in, KinsokuLeadingAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -37551,6 +37642,7 @@ void parseKinsokuLeadingAtom(QXmlStreamReader& in, KinsokuLeadingAtom& _s) {
     in.readElementText();
 }
 void parseKinsokuFollowingAtom(LEInputStream& in, KinsokuFollowingAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -37596,6 +37688,7 @@ void parseKinsokuFollowingAtom(QXmlStreamReader& in, KinsokuFollowingAtom& _s) {
     in.readElementText();
 }
 void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -37640,6 +37733,7 @@ void parseTextSpecialInfoAtom(QXmlStreamReader& in, TextSpecialInfoAtom& _s) {
     skipToStartElement(in);
 }
 void parseSmartTags(LEInputStream& in, SmartTags& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.count = in.readuint32();
@@ -37673,6 +37767,7 @@ void parseSmartTags(QXmlStreamReader& in, SmartTags& _s) {
     in.readElementText();
 }
 void parseExOleEmbedAtom(LEInputStream& in, ExOleEmbedAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -37761,6 +37856,7 @@ void parseExOleEmbedAtom(QXmlStreamReader& in, ExOleEmbedAtom& _s) {
     in.readElementText();
 }
 void parsePointStruct(LEInputStream& in, PointStruct& _s) {
+    _s.streamOffset = in.getPosition();
     _s.x = in.readint32();
     _s.y = in.readint32();
 }
@@ -37790,6 +37886,7 @@ void parsePointStruct(QXmlStreamReader& in, PointStruct& _s) {
     in.readElementText();
 }
 void parseRatioStruct(LEInputStream& in, RatioStruct& _s) {
+    _s.streamOffset = in.getPosition();
     _s.numer = in.readint32();
     _s.denom = in.readint32();
     if (!(((qint32)_s.denom)!= 0)) {
@@ -37822,6 +37919,7 @@ void parseRatioStruct(QXmlStreamReader& in, RatioStruct& _s) {
     in.readElementText();
 }
 void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -37866,6 +37964,7 @@ void parsePersistDirectoryAtom(QXmlStreamReader& in, PersistDirectoryAtom& _s) {
     skipToStartElement(in);
 }
 void parseUnknownDocumentContainerChild(LEInputStream& in, UnknownDocumentContainerChild& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -37904,6 +38003,7 @@ void parseUnknownDocumentContainerChild(QXmlStreamReader& in, UnknownDocumentCon
     in.readElementText();
 }
 void parseUnknownDocumentContainerChild2(LEInputStream& in, UnknownDocumentContainerChild2& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -37942,6 +38042,7 @@ void parseUnknownDocumentContainerChild2(QXmlStreamReader& in, UnknownDocumentCo
     in.readElementText();
 }
 void parseUnknownDocumentContainerChild3(LEInputStream& in, UnknownDocumentContainerChild3& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -37980,6 +38081,7 @@ void parseUnknownDocumentContainerChild3(QXmlStreamReader& in, UnknownDocumentCo
     in.readElementText();
 }
 void parseUnknownDocumentContainerChild4(LEInputStream& in, UnknownDocumentContainerChild4& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38018,6 +38120,7 @@ void parseUnknownDocumentContainerChild4(QXmlStreamReader& in, UnknownDocumentCo
     in.readElementText();
 }
 void parseUnknownOfficeArtClientDataChild(LEInputStream& in, UnknownOfficeArtClientDataChild& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38056,6 +38159,7 @@ void parseUnknownOfficeArtClientDataChild(QXmlStreamReader& in, UnknownOfficeArt
     in.readElementText();
 }
 void parseUnknownSlideContainerChild(LEInputStream& in, UnknownSlideContainerChild& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38094,6 +38198,7 @@ void parseUnknownSlideContainerChild(QXmlStreamReader& in, UnknownSlideContainer
     in.readElementText();
 }
 void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.persistId = in.readuint20();
@@ -38138,6 +38243,7 @@ void parsePersistDirectoryEntry(QXmlStreamReader& in, PersistDirectoryEntry& _s)
     skipToStartElement(in);
 }
 void parsePersistOffsetEntry(LEInputStream& in, PersistOffsetEntry& _s) {
+    _s.streamOffset = in.getPosition();
     _s.anon = in.readuint32();
 }
 void write(const PersistOffsetEntry& _s, LEOutputStream& out) {
@@ -38156,6 +38262,7 @@ void parsePersistOffsetEntry(QXmlStreamReader& in, PersistOffsetEntry& _s) {
     in.readElementText();
 }
 void parsePersistIdRef(LEInputStream& in, PersistIdRef& _s) {
+    _s.streamOffset = in.getPosition();
     _s.anon = in.readuint32();
 }
 void write(const PersistIdRef& _s, LEOutputStream& out) {
@@ -38174,6 +38281,7 @@ void parsePersistIdRef(QXmlStreamReader& in, PersistIdRef& _s) {
     in.readElementText();
 }
 void parseSchemeListElementColorSchemeAtom(LEInputStream& in, SchemeListElementColorSchemeAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38219,6 +38327,7 @@ void parseSchemeListElementColorSchemeAtom(QXmlStreamReader& in, SchemeListEleme
     skipToStartElement(in);
 }
 void parseRoundTripOArtTextStyles12Atom(LEInputStream& in, RoundTripOArtTextStyles12Atom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38257,6 +38366,7 @@ void parseRoundTripOArtTextStyles12Atom(QXmlStreamReader& in, RoundTripOArtTextS
     in.readElementText();
 }
 void parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38298,6 +38408,7 @@ void parseSlideNameAtom(QXmlStreamReader& in, SlideNameAtom& _s) {
     in.readElementText();
 }
 void parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -38342,6 +38453,7 @@ void parseSlideProgTagsContainer(QXmlStreamReader& in, SlideProgTagsContainer& _
     skipToStartElement(in);
 }
 void parseSlideProgBinaryTagContainer(LEInputStream& in, SlideProgBinaryTagContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38380,6 +38492,7 @@ void parseSlideProgBinaryTagContainer(QXmlStreamReader& in, SlideProgBinaryTagCo
     in.readElementText();
 }
 void parseTagNameAtom(LEInputStream& in, TagNameAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38425,6 +38538,7 @@ void parseTagNameAtom(QXmlStreamReader& in, TagNameAtom& _s) {
     in.readElementText();
 }
 void parseTagValueAtom(LEInputStream& in, TagValueAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38467,6 +38581,7 @@ void parseTagValueAtom(QXmlStreamReader& in, TagValueAtom& _s) {
     in.readElementText();
 }
 void parseRoundTripMainMasterRecord(LEInputStream& in, RoundTripMainMasterRecord& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38499,6 +38614,7 @@ void parseRoundTripMainMasterRecord(QXmlStreamReader& in, RoundTripMainMasterRec
     in.readElementText();
 }
 void parseTemplateNameAtom(LEInputStream& in, TemplateNameAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38544,6 +38660,7 @@ void parseTemplateNameAtom(QXmlStreamReader& in, TemplateNameAtom& _s) {
     in.readElementText();
 }
 void parseRoundTripSlideSyncInfo12Container(LEInputStream& in, RoundTripSlideSyncInfo12Container& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38582,6 +38699,7 @@ void parseRoundTripSlideSyncInfo12Container(QXmlStreamReader& in, RoundTripSlide
     in.readElementText();
 }
 void parseSlideFlags(LEInputStream& in, SlideFlags& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fMasterObjects = in.readbit();
     _s.fMasterScheme = in.readbit();
     _s.fMasterBackground = in.readbit();
@@ -38644,6 +38762,7 @@ void parseSlideFlags(QXmlStreamReader& in, SlideFlags& _s) {
     in.readElementText();
 }
 void parseNotesRoundTripAtom(LEInputStream& in, NotesRoundTripAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38682,6 +38801,7 @@ void parseNotesRoundTripAtom(QXmlStreamReader& in, NotesRoundTripAtom& _s) {
     in.readElementText();
 }
 void parseHandoutContainer(LEInputStream& in, HandoutContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38720,6 +38840,7 @@ void parseHandoutContainer(QXmlStreamReader& in, HandoutContainer& _s) {
     in.readElementText();
 }
 void parseExControlStg(LEInputStream& in, ExControlStg& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38758,6 +38879,7 @@ void parseExControlStg(QXmlStreamReader& in, ExControlStg& _s) {
     in.readElementText();
 }
 void parseExOleObjStg(LEInputStream& in, ExOleObjStg& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -38796,6 +38918,7 @@ void parseExOleObjStg(QXmlStreamReader& in, ExOleObjStg& _s) {
     in.readElementText();
 }
 void parseUserEditAtom(LEInputStream& in, UserEditAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -38964,6 +39087,7 @@ void parseUserEditAtom(QXmlStreamReader& in, UserEditAtom& _s) {
     in.readElementText();
 }
 void parseVbaProjectStg(LEInputStream& in, VbaProjectStg& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39002,6 +39126,7 @@ void parseVbaProjectStg(QXmlStreamReader& in, VbaProjectStg& _s) {
     in.readElementText();
 }
 void parseSlideAtom(LEInputStream& in, SlideAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39098,6 +39223,7 @@ void parseSlideAtom(QXmlStreamReader& in, SlideAtom& _s) {
     in.readElementText();
 }
 void parseSlideShowSlideInfoAtom(LEInputStream& in, SlideShowSlideInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39348,6 +39474,7 @@ void parseSlideShowSlideInfoAtom(QXmlStreamReader& in, SlideShowSlideInfoAtom& _
     in.readElementText();
 }
 void parseSlideShowDocInfoAtom(LEInputStream& in, SlideShowDocInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39560,6 +39687,7 @@ void parseSlideShowDocInfoAtom(QXmlStreamReader& in, SlideShowDocInfoAtom& _s) {
     in.readElementText();
 }
 void parseSlideSchemeColorSchemeAtom(LEInputStream& in, SlideSchemeColorSchemeAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39605,6 +39733,7 @@ void parseSlideSchemeColorSchemeAtom(QXmlStreamReader& in, SlideSchemeColorSchem
     skipToStartElement(in);
 }
 void parseRoundTripSlideRecord(LEInputStream& in, RoundTripSlideRecord& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39637,6 +39766,7 @@ void parseRoundTripSlideRecord(QXmlStreamReader& in, RoundTripSlideRecord& _s) {
     in.readElementText();
 }
 void parseNamedShowsContainer(LEInputStream& in, NamedShowsContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39675,6 +39805,7 @@ void parseNamedShowsContainer(QXmlStreamReader& in, NamedShowsContainer& _s) {
     in.readElementText();
 }
 void parseSummaryContainer(LEInputStream& in, SummaryContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39713,6 +39844,7 @@ void parseSummaryContainer(QXmlStreamReader& in, SummaryContainer& _s) {
     in.readElementText();
 }
 void parseDocRoutingSlipAtom(LEInputStream& in, DocRoutingSlipAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39751,6 +39883,7 @@ void parseDocRoutingSlipAtom(QXmlStreamReader& in, DocRoutingSlipAtom& _s) {
     in.readElementText();
 }
 void parsePrintOptionsAtom(LEInputStream& in, PrintOptionsAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39792,6 +39925,7 @@ void parsePrintOptionsAtom(QXmlStreamReader& in, PrintOptionsAtom& _s) {
     in.readElementText();
 }
 void parseRoundTripCustomTableStyles12Atom(LEInputStream& in, RoundTripCustomTableStyles12Atom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -39830,6 +39964,7 @@ void parseRoundTripCustomTableStyles12Atom(QXmlStreamReader& in, RoundTripCustom
     in.readElementText();
 }
 void parseColorStruct(LEInputStream& in, ColorStruct& _s) {
+    _s.streamOffset = in.getPosition();
     _s.red = in.readuint8();
     _s.green = in.readuint8();
     _s.blue = in.readuint8();
@@ -39881,6 +40016,7 @@ void parseColorStruct(QXmlStreamReader& in, ColorStruct& _s) {
     in.readElementText();
 }
 void parseExObjListAtom(LEInputStream& in, ExObjListAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -39925,6 +40061,7 @@ void parseExObjListAtom(QXmlStreamReader& in, ExObjListAtom& _s) {
     in.readElementText();
 }
 void parseExAviMovieContainer(LEInputStream& in, ExAviMovieContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -39963,6 +40100,7 @@ void parseExAviMovieContainer(QXmlStreamReader& in, ExAviMovieContainer& _s) {
     in.readElementText();
 }
 void parseExCDAudioContainer(LEInputStream& in, ExCDAudioContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40001,6 +40139,7 @@ void parseExCDAudioContainer(QXmlStreamReader& in, ExCDAudioContainer& _s) {
     in.readElementText();
 }
 void parseExControlAtom(LEInputStream& in, ExControlAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -40042,6 +40181,7 @@ void parseExControlAtom(QXmlStreamReader& in, ExControlAtom& _s) {
     in.readElementText();
 }
 void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40080,6 +40220,7 @@ void parseExHyperlinkContainer(QXmlStreamReader& in, ExHyperlinkContainer& _s) {
     in.readElementText();
 }
 void parseExMCIMovieContainer(LEInputStream& in, ExMCIMovieContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40118,6 +40259,7 @@ void parseExMCIMovieContainer(QXmlStreamReader& in, ExMCIMovieContainer& _s) {
     in.readElementText();
 }
 void parseExMIDIAudioContainer(LEInputStream& in, ExMIDIAudioContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40156,6 +40298,7 @@ void parseExMIDIAudioContainer(QXmlStreamReader& in, ExMIDIAudioContainer& _s) {
     in.readElementText();
 }
 void parseExWAVAudioEmbeddedContainer(LEInputStream& in, ExWAVAudioEmbeddedContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40194,6 +40337,7 @@ void parseExWAVAudioEmbeddedContainer(QXmlStreamReader& in, ExWAVAudioEmbeddedCo
     in.readElementText();
 }
 void parseExWAVAudioLinkContainer(LEInputStream& in, ExWAVAudioLinkContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40232,6 +40376,7 @@ void parseExWAVAudioLinkContainer(QXmlStreamReader& in, ExWAVAudioLinkContainer&
     in.readElementText();
 }
 void parseUnknownExObjListSubContainerChild(LEInputStream& in, UnknownExObjListSubContainerChild& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40270,6 +40415,7 @@ void parseUnknownExObjListSubContainerChild(QXmlStreamReader& in, UnknownExObjLi
     in.readElementText();
 }
 void parseExOleLinkAtom(LEInputStream& in, ExOleLinkAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -40333,6 +40479,7 @@ void parseExOleLinkAtom(QXmlStreamReader& in, ExOleLinkAtom& _s) {
     in.readElementText();
 }
 void parseExOleObjAtom(LEInputStream& in, ExOleObjAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x1)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x1");
@@ -40429,6 +40576,7 @@ void parseExOleObjAtom(QXmlStreamReader& in, ExOleObjAtom& _s) {
     in.readElementText();
 }
 void parseMenuNameAtom(LEInputStream& in, MenuNameAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -40470,6 +40618,7 @@ void parseMenuNameAtom(QXmlStreamReader& in, MenuNameAtom& _s) {
     in.readElementText();
 }
 void parseProgIDAtom(LEInputStream& in, ProgIDAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -40511,6 +40660,7 @@ void parseProgIDAtom(QXmlStreamReader& in, ProgIDAtom& _s) {
     in.readElementText();
 }
 void parseClipboardNameAtom(LEInputStream& in, ClipboardNameAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -40552,6 +40702,7 @@ void parseClipboardNameAtom(QXmlStreamReader& in, ClipboardNameAtom& _s) {
     in.readElementText();
 }
 void parseMetafileBlob(LEInputStream& in, MetafileBlob& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -40626,6 +40777,7 @@ void parseMetafileBlob(QXmlStreamReader& in, MetafileBlob& _s) {
     in.readElementText();
 }
 void parseOfficeArtFDGG(LEInputStream& in, OfficeArtFDGG& _s) {
+    _s.streamOffset = in.getPosition();
     _s.spidMax = in.readuint32();
     if (!(((quint32)_s.spidMax)<67098623)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.spidMax)<67098623");
@@ -40683,6 +40835,7 @@ void parseOfficeArtFDGG(QXmlStreamReader& in, OfficeArtFDGG& _s) {
     in.readElementText();
 }
 void parseOfficeArtFDG(LEInputStream& in, OfficeArtFDG& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -40735,6 +40888,7 @@ void parseOfficeArtFDG(QXmlStreamReader& in, OfficeArtFDG& _s) {
     in.readElementText();
 }
 void parseOfficeArtFRITContainer(LEInputStream& in, OfficeArtFRITContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40777,6 +40931,7 @@ void parseOfficeArtFRITContainer(QXmlStreamReader& in, OfficeArtFRITContainer& _
     skipToStartElement(in);
 }
 void parseOfficeArtFRIT(LEInputStream& in, OfficeArtFRIT& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fridNew = in.readuint16();
     _s.fridOld = in.readuint16();
 }
@@ -40806,6 +40961,7 @@ void parseOfficeArtFRIT(QXmlStreamReader& in, OfficeArtFRIT& _s) {
     in.readElementText();
 }
 void parseOfficeArtBStoreContainer(LEInputStream& in, OfficeArtBStoreContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40847,6 +41003,7 @@ void parseOfficeArtBStoreContainer(QXmlStreamReader& in, OfficeArtBStoreContaine
     skipToStartElement(in);
 }
 void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40891,6 +41048,7 @@ void parseOfficeArtSpgrContainer(QXmlStreamReader& in, OfficeArtSpgrContainer& _
     skipToStartElement(in);
 }
 void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -40941,6 +41099,7 @@ void parseOfficeArtSolverContainer(QXmlStreamReader& in, OfficeArtSolverContaine
     skipToStartElement(in);
 }
 void parseOfficeArtFConnectorRule(LEInputStream& in, OfficeArtFConnectorRule& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 1)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 1");
@@ -41037,6 +41196,7 @@ void parseOfficeArtFConnectorRule(QXmlStreamReader& in, OfficeArtFConnectorRule&
     in.readElementText();
 }
 void parseOfficeArtFArcRule(LEInputStream& in, OfficeArtFArcRule& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -41089,6 +41249,7 @@ void parseOfficeArtFArcRule(QXmlStreamReader& in, OfficeArtFArcRule& _s) {
     in.readElementText();
 }
 void parseOfficeArtFCalloutRule(LEInputStream& in, OfficeArtFCalloutRule& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -41141,6 +41302,7 @@ void parseOfficeArtFCalloutRule(QXmlStreamReader& in, OfficeArtFCalloutRule& _s)
     in.readElementText();
 }
 void parseOfficeArtFSPGR(LEInputStream& in, OfficeArtFSPGR& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x1)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x1");
@@ -41215,6 +41377,7 @@ void parseOfficeArtFSPGR(QXmlStreamReader& in, OfficeArtFSPGR& _s) {
     in.readElementText();
 }
 void parseOfficeArtFSP(LEInputStream& in, OfficeArtFSP& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x2)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x2");
@@ -41399,6 +41562,7 @@ void parseOfficeArtFSP(QXmlStreamReader& in, OfficeArtFSP& _s) {
     in.readElementText();
 }
 void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -41447,6 +41611,7 @@ void parseOfficeArtFOPT(QXmlStreamReader& in, OfficeArtFOPT& _s) {
     in.readElementText();
 }
 void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _c = 0;
@@ -41465,6 +41630,7 @@ void parseOfficeArtFOPTEComplexData(QXmlStreamReader& in, OfficeArtFOPTEComplexD
     in.readElementText();
 }
 void parseFixedPoint(LEInputStream& in, FixedPoint& _s) {
+    _s.streamOffset = in.getPosition();
     _s.integral = in.readint16();
     _s.fractional = in.readuint16();
 }
@@ -41494,6 +41660,7 @@ void parseFixedPoint(QXmlStreamReader& in, FixedPoint& _s) {
     in.readElementText();
 }
 void parseOfficeArtCOLORREF(LEInputStream& in, OfficeArtCOLORREF& _s) {
+    _s.streamOffset = in.getPosition();
     _s.red = in.readuint8();
     _s.green = in.readuint8();
     _s.blue = in.readuint8();
@@ -41622,6 +41789,7 @@ void parseOfficeArtCOLORREF(QXmlStreamReader& in, OfficeArtCOLORREF& _s) {
     in.readElementText();
 }
 void parseOfficeArtChildAnchor(LEInputStream& in, OfficeArtChildAnchor& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -41696,6 +41864,7 @@ void parseOfficeArtChildAnchor(QXmlStreamReader& in, OfficeArtChildAnchor& _s) {
     in.readElementText();
 }
 void parseOfficeArtFPSPL(LEInputStream& in, OfficeArtFPSPL& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -41759,6 +41928,7 @@ void parseOfficeArtFPSPL(QXmlStreamReader& in, OfficeArtFPSPL& _s) {
     in.readElementText();
 }
 void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -41794,6 +41964,7 @@ void parseOfficeArtSecondaryFOPT(QXmlStreamReader& in, OfficeArtSecondaryFOPT& _
     in.readElementText();
 }
 void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -41842,6 +42013,7 @@ void parseOfficeArtTertiaryFOPT(QXmlStreamReader& in, OfficeArtTertiaryFOPT& _s)
     in.readElementText();
 }
 void parseRectStruct(LEInputStream& in, RectStruct& _s) {
+    _s.streamOffset = in.getPosition();
     _s.top = in.readint32();
     _s.left = in.readint32();
     _s.right = in.readint32();
@@ -41893,6 +42065,7 @@ void parseRectStruct(QXmlStreamReader& in, RectStruct& _s) {
     in.readElementText();
 }
 void parseSmallRectStruct(LEInputStream& in, SmallRectStruct& _s) {
+    _s.streamOffset = in.getPosition();
     _s.top = in.readint16();
     _s.left = in.readint16();
     _s.right = in.readint16();
@@ -41944,6 +42117,7 @@ void parseSmallRectStruct(QXmlStreamReader& in, SmallRectStruct& _s) {
     in.readElementText();
 }
 void parseShapeFlagsAtom(LEInputStream& in, ShapeFlagsAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -41985,6 +42159,7 @@ void parseShapeFlagsAtom(QXmlStreamReader& in, ShapeFlagsAtom& _s) {
     in.readElementText();
 }
 void parseShapeFlags10Atom(LEInputStream& in, ShapeFlags10Atom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -42026,6 +42201,7 @@ void parseShapeFlags10Atom(QXmlStreamReader& in, ShapeFlags10Atom& _s) {
     in.readElementText();
 }
 void parseExObjRefAtom(LEInputStream& in, ExObjRefAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -42067,6 +42243,7 @@ void parseExObjRefAtom(QXmlStreamReader& in, ExObjRefAtom& _s) {
     in.readElementText();
 }
 void parseAnimationInfoAtom(LEInputStream& in, AnimationInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -42108,6 +42285,7 @@ void parseAnimationInfoAtom(QXmlStreamReader& in, AnimationInfoAtom& _s) {
     in.readElementText();
 }
 void parseSoundContainer(LEInputStream& in, SoundContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -42146,6 +42324,7 @@ void parseSoundContainer(QXmlStreamReader& in, SoundContainer& _s) {
     in.readElementText();
 }
 void parseInteractiveInfoAtom(LEInputStream& in, InteractiveInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -42317,6 +42496,7 @@ void parseInteractiveInfoAtom(QXmlStreamReader& in, InteractiveInfoAtom& _s) {
     in.readElementText();
 }
 void parseMacroNameAtom(LEInputStream& in, MacroNameAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -42358,6 +42538,7 @@ void parseMacroNameAtom(QXmlStreamReader& in, MacroNameAtom& _s) {
     in.readElementText();
 }
 void parsePlaceholderAtom(LEInputStream& in, PlaceholderAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -42432,6 +42613,7 @@ void parsePlaceholderAtom(QXmlStreamReader& in, PlaceholderAtom& _s) {
     in.readElementText();
 }
 void parseRecolorInfoAtom(LEInputStream& in, RecolorInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -42470,6 +42652,7 @@ void parseRecolorInfoAtom(QXmlStreamReader& in, RecolorInfoAtom& _s) {
     in.readElementText();
 }
 void parseOutlineTextRefAtom(LEInputStream& in, OutlineTextRefAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -42514,6 +42697,7 @@ void parseOutlineTextRefAtom(QXmlStreamReader& in, OutlineTextRefAtom& _s) {
     in.readElementText();
 }
 void parseShapeClientRoundtripDataSubcontainerOrAtom(LEInputStream& in, ShapeClientRoundtripDataSubcontainerOrAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -42546,6 +42730,7 @@ void parseShapeClientRoundtripDataSubcontainerOrAtom(QXmlStreamReader& in, Shape
     in.readElementText();
 }
 void parseOfficeArtClientTextBox(LEInputStream& in, OfficeArtClientTextBox& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -42590,6 +42775,7 @@ void parseOfficeArtClientTextBox(QXmlStreamReader& in, OfficeArtClientTextBox& _
     skipToStartElement(in);
 }
 void parseOfficeArtIDCL(LEInputStream& in, OfficeArtIDCL& _s) {
+    _s.streamOffset = in.getPosition();
     _s.dgid = in.readuint32();
     _s.cspidCur = in.readuint32();
 }
@@ -42619,6 +42805,7 @@ void parseOfficeArtIDCL(QXmlStreamReader& in, OfficeArtIDCL& _s) {
     in.readElementText();
 }
 void parseOfficeArtFOPTEOPID(LEInputStream& in, OfficeArtFOPTEOPID& _s) {
+    _s.streamOffset = in.getPosition();
     _s.opid = in.readuint14();
     _s.fBid = in.readbit();
     _s.fComplex = in.readbit();
@@ -42659,6 +42846,7 @@ void parseOfficeArtFOPTEOPID(QXmlStreamReader& in, OfficeArtFOPTEOPID& _s) {
     in.readElementText();
 }
 void parseOfficeArtColorMRUContainer(LEInputStream& in, OfficeArtColorMRUContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -42701,6 +42889,7 @@ void parseOfficeArtColorMRUContainer(QXmlStreamReader& in, OfficeArtColorMRUCont
     skipToStartElement(in);
 }
 void parseMSOCR(LEInputStream& in, MSOCR& _s) {
+    _s.streamOffset = in.getPosition();
     _s.red = in.readuint8();
     _s.green = in.readuint8();
     _s.blue = in.readuint8();
@@ -42774,6 +42963,7 @@ void parseMSOCR(QXmlStreamReader& in, MSOCR& _s) {
     in.readElementText();
 }
 void parseOfficeArtSplitMenuColorContainer(LEInputStream& in, OfficeArtSplitMenuColorContainer& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -42819,6 +43009,7 @@ void parseOfficeArtSplitMenuColorContainer(QXmlStreamReader& in, OfficeArtSplitM
     skipToStartElement(in);
 }
 void parsetodo(LEInputStream& in, todo& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -42848,6 +43039,7 @@ void parsetodo(QXmlStreamReader& in, todo& _s) {
     in.readElementText();
 }
 void parseFibBase(LEInputStream& in, FibBase& _s) {
+    _s.streamOffset = in.getPosition();
     _s.wIdent = in.readuint16();
     if (!(((quint16)_s.wIdent) == 0xA5EC)) {
         throw IncorrectValueException(in.getPosition(), "((quint16)_s.wIdent) == 0xA5EC");
@@ -43217,6 +43409,7 @@ void parseFibBase(QXmlStreamReader& in, FibBase& _s) {
     in.readElementText();
 }
 void parseFibRgW97(LEInputStream& in, FibRgW97& _s) {
+    _s.streamOffset = in.getPosition();
     _s.reserved1 = in.readuint16();
     _s.reserved2 = in.readuint16();
     _s.reserved3 = in.readuint16();
@@ -43378,6 +43571,7 @@ void parseFibRgW97(QXmlStreamReader& in, FibRgW97& _s) {
     in.readElementText();
 }
 void parseFibRgLw97(LEInputStream& in, FibRgLw97& _s) {
+    _s.streamOffset = in.getPosition();
     _s.cbMac = in.readuint32();
     _s.reserved1 = in.readuint32();
     _s.reserved2 = in.readuint32();
@@ -43657,6 +43851,7 @@ void parseFibRgLw97(QXmlStreamReader& in, FibRgLw97& _s) {
     in.readElementText();
 }
 void parseFibRgFcLcb97(LEInputStream& in, FibRgFcLcb97& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fcStshfOrig = in.readuint32();
     _s.lcbStshfOrig = in.readuint32();
     _s.fcStshf = in.readuint32();
@@ -45710,6 +45905,7 @@ void parseFibRgFcLcb97(QXmlStreamReader& in, FibRgFcLcb97& _s) {
     in.readElementText();
 }
 void parseFibRgFcLcb2000(LEInputStream& in, FibRgFcLcb2000& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fcPlcfTch = in.readuint32();
     _s.lcbPlcfTch = in.readuint32();
     _s.fcRmdThreading = in.readuint32();
@@ -46047,6 +46243,7 @@ void parseFibRgFcLcb2000(QXmlStreamReader& in, FibRgFcLcb2000& _s) {
     in.readElementText();
 }
 void parseFibRgFcLcb2002(LEInputStream& in, FibRgFcLcb2002& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fcUnused1 = in.readuint32();
     _s.lcbUnused1 = in.readuint32();
     _s.fcPlcfPgp = in.readuint32();
@@ -46604,6 +46801,7 @@ void parseFibRgFcLcb2002(QXmlStreamReader& in, FibRgFcLcb2002& _s) {
     in.readElementText();
 }
 void parseLPStshi(LEInputStream& in, LPStshi& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.cbSthi = in.readuint16();
@@ -46633,6 +46831,7 @@ void parseLPStshi(QXmlStreamReader& in, LPStshi& _s) {
     in.readElementText();
 }
 void parseLPStd(LEInputStream& in, LPStd& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.cbStd = in.readuint16();
@@ -46678,6 +46877,7 @@ void parseLPStd(QXmlStreamReader& in, LPStd& _s) {
     in.readElementText();
 }
 void parsePlcfSed(LEInputStream& in, PlcfSed& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _c = 2;
@@ -46713,6 +46913,7 @@ void parsePlcfSed(QXmlStreamReader& in, PlcfSed& _s) {
     skipToStartElement(in);
 }
 void parseSed(LEInputStream& in, Sed& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fn = in.readuint16();
     _s.fcSepx = in.readint32();
     _s.fnMpr = in.readuint16();
@@ -46764,6 +46965,7 @@ void parseSed(QXmlStreamReader& in, Sed& _s) {
     in.readElementText();
 }
 void parsePlcfhdd(LEInputStream& in, Plcfhdd& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _c = 13;
@@ -46786,6 +46988,7 @@ void parsePlcfhdd(QXmlStreamReader& in, Plcfhdd& _s) {
     in.readElementText();
 }
 void parsePlcBteChpx(LEInputStream& in, PlcBteChpx& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _c = 2;
@@ -46821,6 +47024,7 @@ void parsePlcBteChpx(QXmlStreamReader& in, PlcBteChpx& _s) {
     in.readElementText();
 }
 void parsePlcfBtePapx(LEInputStream& in, PlcfBtePapx& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _c = 2;
@@ -46856,6 +47060,7 @@ void parsePlcfBtePapx(QXmlStreamReader& in, PlcfBtePapx& _s) {
     in.readElementText();
 }
 void parseTcg(LEInputStream& in, Tcg& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.nTcgVer = in.readuint8();
@@ -46888,6 +47093,7 @@ void parseTcg(QXmlStreamReader& in, Tcg& _s) {
     in.readElementText();
 }
 void parsePrcData(LEInputStream& in, PrcData& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.cbGrpprl = in.readint16();
@@ -46930,6 +47136,7 @@ void parsePrcData(QXmlStreamReader& in, PrcData& _s) {
     skipToStartElement(in);
 }
 void parseSprm(LEInputStream& in, Sprm& _s) {
+    _s.streamOffset = in.getPosition();
     _s.ispmd = in.readuint9();
     _s.fSpec = in.readbit();
     _s.sgc = in.readuint3();
@@ -46981,6 +47188,7 @@ void parseSprm(QXmlStreamReader& in, Sprm& _s) {
     in.readElementText();
 }
 void parsePcdt(LEInputStream& in, Pcdt& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.clxt = in.readuint8();
@@ -47028,6 +47236,7 @@ void parsePcdt(QXmlStreamReader& in, Pcdt& _s) {
     skipToStartElement(in);
 }
 void parseFCompressed(LEInputStream& in, FCompressed& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fc = in.readuint30();
     _s.fCompressed = in.readbit();
     _s.r1 = in.readbit();
@@ -47068,6 +47277,7 @@ void parseFCompressed(QXmlStreamReader& in, FCompressed& _s) {
     in.readElementText();
 }
 void parsePrm0(LEInputStream& in, Prm0& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fComplex = in.readbit();
     if (!(((bool)_s.fComplex) == false)) {
         throw IncorrectValueException(in.getPosition(), "((bool)_s.fComplex) == false");
@@ -47111,6 +47321,7 @@ void parsePrm0(QXmlStreamReader& in, Prm0& _s) {
     in.readElementText();
 }
 void parsePrm1(LEInputStream& in, Prm1& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fComplex = in.readbit();
     if (!(((bool)_s.fComplex) == true)) {
         throw IncorrectValueException(in.getPosition(), "((bool)_s.fComplex) == true");
@@ -47143,6 +47354,7 @@ void parsePrm1(QXmlStreamReader& in, Prm1& _s) {
     in.readElementText();
 }
 void parseSttbfFfn(LEInputStream& in, SttbfFfn& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.cData = in.readuint16();
@@ -47190,6 +47402,7 @@ void parseSttbfFfn(QXmlStreamReader& in, SttbfFfn& _s) {
     skipToStartElement(in);
 }
 void parseSttbfFfnEntry(LEInputStream& in, SttbfFfnEntry& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.cchData = in.readuint8();
@@ -47219,6 +47432,7 @@ void parseSttbfFfnEntry(QXmlStreamReader& in, SttbfFfnEntry& _s) {
     in.readElementText();
 }
 void parseCodePageString(LEInputStream& in, CodePageString& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.size = in.readuint32();
@@ -47248,6 +47462,7 @@ void parseCodePageString(QXmlStreamReader& in, CodePageString& _s) {
     in.readElementText();
 }
 void parseFILETIME(LEInputStream& in, FILETIME& _s) {
+    _s.streamOffset = in.getPosition();
     _s.dwLowDateTime = in.readuint32();
     _s.dwHighDateTime = in.readuint32();
 }
@@ -47277,6 +47492,7 @@ void parseFILETIME(QXmlStreamReader& in, FILETIME& _s) {
     in.readElementText();
 }
 void parseClipboardData(LEInputStream& in, ClipboardData& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.size = in.readuint32();
@@ -47317,6 +47533,7 @@ void parseClipboardData(QXmlStreamReader& in, ClipboardData& _s) {
     in.readElementText();
 }
 void parsePropertyIdentifierAndOffset(LEInputStream& in, PropertyIdentifierAndOffset& _s) {
+    _s.streamOffset = in.getPosition();
     _s.propertyIdentifier = in.readuint32();
     _s.offset = in.readuint32();
 }
@@ -47346,6 +47563,7 @@ void parsePropertyIdentifierAndOffset(QXmlStreamReader& in, PropertyIdentifierAn
     in.readElementText();
 }
 void parseTypedPropertyValue(LEInputStream& in, TypedPropertyValue& _s) {
+    _s.streamOffset = in.getPosition();
     _s.type = in.readuint16();
     _s.padding = in.readuint16();
     _s._has_vt_I2 = _s.type==2;
@@ -47471,6 +47689,7 @@ void parseTypedPropertyValue(QXmlStreamReader& in, TypedPropertyValue& _s) {
     skipToStartElement(in);
 }
 void parsePropertySet(LEInputStream& in, PropertySet& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     _s.size = in.readuint32();
@@ -47528,6 +47747,7 @@ void parsePropertySet(QXmlStreamReader& in, PropertySet& _s) {
     skipToStartElement(in);
 }
 void parsePropertySetStream(LEInputStream& in, PropertySetStream& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     bool _atend;
@@ -47698,6 +47918,7 @@ void parsePropertySetStream(QXmlStreamReader& in, PropertySetStream& _s) {
     skipToStartElement(in);
 }
 void parseSummaryInformationPropertySetStream(LEInputStream& in, SummaryInformationPropertySetStream& _s) {
+    _s.streamOffset = in.getPosition();
     parsePropertySetStream(in, _s.propertySet);
     if (!(_s.propertySet.version == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.propertySet.version == 0");
@@ -47719,6 +47940,7 @@ void parseSummaryInformationPropertySetStream(QXmlStreamReader& in, SummaryInfor
     skipToStartElement(in);
 }
 void parseDocumentSummaryInformationPropertySetStream(LEInputStream& in, DocumentSummaryInformationPropertySetStream& _s) {
+    _s.streamOffset = in.getPosition();
     parsePropertySetStream(in, _s.propertySet);
     if (!(_s.propertySet.version == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.propertySet.version == 0");
@@ -47740,6 +47962,7 @@ void parseDocumentSummaryInformationPropertySetStream(QXmlStreamReader& in, Docu
     skipToStartElement(in);
 }
 void parsePicturesStream(LEInputStream& in, PicturesStream& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtBStoreDelay(in, _s.anon1);
 }
 void write(const PicturesStream& _s, LEOutputStream& out) {
@@ -47758,6 +47981,7 @@ void parsePicturesStream(QXmlStreamReader& in, PicturesStream& _s) {
     skipToStartElement(in);
 }
 void parseOfficeArtMetafileHeader(LEInputStream& in, OfficeArtMetafileHeader& _s) {
+    _s.streamOffset = in.getPosition();
     _s.cbSize = in.readuint32();
     parseRECT(in, _s.rcBounds);
     parsePOINT(in, _s.ptSize);
@@ -47831,6 +48055,7 @@ void parseOfficeArtMetafileHeader(QXmlStreamReader& in, OfficeArtMetafileHeader&
     in.readElementText();
 }
 void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -47908,6 +48133,7 @@ void parseSlideHeadersFootersContainer(QXmlStreamReader& in, SlideHeadersFooters
     }
 }
 void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -48004,6 +48230,7 @@ void parseNotesHeadersFootersContainer(QXmlStreamReader& in, NotesHeadersFooters
     }
 }
 void parseScalingStruct(LEInputStream& in, ScalingStruct& _s) {
+    _s.streamOffset = in.getPosition();
     parseRatioStruct(in, _s.x);
     parseRatioStruct(in, _s.y);
 }
@@ -48033,6 +48260,7 @@ void parseScalingStruct(QXmlStreamReader& in, ScalingStruct& _s) {
     skipToStartElement(in);
 }
 void parseTextPFException9(LEInputStream& in, TextPFException9& _s) {
+    _s.streamOffset = in.getPosition();
     parsePFMasks(in, _s.masks);
     if (!(_s.masks.hasBullet == false)) {
         throw IncorrectValueException(in.getPosition(), "_s.masks.hasBullet == false");
@@ -48165,6 +48393,7 @@ void parseTextPFException9(QXmlStreamReader& in, TextPFException9& _s) {
     skipToStartElement(in);
 }
 void parseTextCFException9(LEInputStream& in, TextCFException9& _s) {
+    _s.streamOffset = in.getPosition();
     parseCFMasks(in, _s.masks);
     if (!(_s.masks.bold == false)) {
         throw IncorrectValueException(in.getPosition(), "_s.masks.bold == false");
@@ -48285,6 +48514,7 @@ void parseTextCFException9(QXmlStreamReader& in, TextCFException9& _s) {
     in.readElementText();
 }
 void parseTextDefaults9Atom(LEInputStream& in, TextDefaults9Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -48334,6 +48564,7 @@ void parseTextDefaults9Atom(QXmlStreamReader& in, TextDefaults9Atom& _s) {
     skipToStartElement(in);
 }
 void parseKinsoku9Container(LEInputStream& in, Kinsoku9Container& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -48404,6 +48635,7 @@ void parseKinsoku9Container(QXmlStreamReader& in, Kinsoku9Container& _s) {
     skipToStartElement(in);
 }
 void parseOutlineTextProps9Entry(LEInputStream& in, OutlineTextProps9Entry& _s) {
+    _s.streamOffset = in.getPosition();
     parseOutlineTextPropsHeaderExAtom(in, _s.outlineTextHeaderAtom);
     parseStyleTextProp9Atom(in, _s.styleTextProp9Atom);
 }
@@ -48433,6 +48665,7 @@ void parseOutlineTextProps9Entry(QXmlStreamReader& in, OutlineTextProps9Entry& _
     skipToStartElement(in);
 }
 void parseTextCFException10(LEInputStream& in, TextCFException10& _s) {
+    _s.streamOffset = in.getPosition();
     parseCFMasks(in, _s.masks);
     if (!(_s.masks.bold == false)) {
         throw IncorrectValueException(in.getPosition(), "_s.masks.bold == false");
@@ -48547,6 +48780,7 @@ void parseTextCFException10(QXmlStreamReader& in, TextCFException10& _s) {
     in.readElementText();
 }
 void parseTextDefaults10Atom(LEInputStream& in, TextDefaults10Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -48585,6 +48819,7 @@ void parseTextDefaults10Atom(QXmlStreamReader& in, TextDefaults10Atom& _s) {
     skipToStartElement(in);
 }
 void parseCommentIndex10Container(LEInputStream& in, CommentIndex10Container& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -48651,6 +48886,7 @@ void parseCommentIndex10Container(QXmlStreamReader& in, CommentIndex10Container&
     }
 }
 void parseOutlineTextProps10Entry(LEInputStream& in, OutlineTextProps10Entry& _s) {
+    _s.streamOffset = in.getPosition();
     parseOutlineTextPropsHeaderExAtom(in, _s.outlineTextHeaderAtom);
     parseStyleTextProp10Atom(in, _s.styleTextProp10Atom);
 }
@@ -48680,6 +48916,7 @@ void parseOutlineTextProps10Entry(QXmlStreamReader& in, OutlineTextProps10Entry&
     skipToStartElement(in);
 }
 void parsePP11DocBinaryTagExtension(LEInputStream& in, PP11DocBinaryTagExtension& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -48763,6 +49000,7 @@ void parsePP11DocBinaryTagExtension(QXmlStreamReader& in, PP11DocBinaryTagExtens
     skipToStartElement(in);
 }
 void parseUnknownBinaryTag(LEInputStream& in, UnknownBinaryTag& _s) {
+    _s.streamOffset = in.getPosition();
     parseTagNameAtom(in, _s.tagNameAtom);
     parseBinaryTagDataBlob(in, _s.tagData);
 }
@@ -48792,6 +49030,7 @@ void parseUnknownBinaryTag(QXmlStreamReader& in, UnknownBinaryTag& _s) {
     skipToStartElement(in);
 }
 void parseNoZoomViewInfoAtom(LEInputStream& in, NoZoomViewInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -48888,6 +49127,7 @@ void parseNoZoomViewInfoAtom(QXmlStreamReader& in, NoZoomViewInfoAtom& _s) {
     in.readElementText();
 }
 void parseVBAInfoContainer(LEInputStream& in, VBAInfoContainer& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -48929,6 +49169,7 @@ void parseVBAInfoContainer(QXmlStreamReader& in, VBAInfoContainer& _s) {
     skipToStartElement(in);
 }
 void parseNormalViewSetInfoAtom(LEInputStream& in, NormalViewSetInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -49053,6 +49294,7 @@ void parseNormalViewSetInfoAtom(QXmlStreamReader& in, NormalViewSetInfoAtom& _s)
     in.readElementText();
 }
 void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -49200,6 +49442,7 @@ void parseMasterPersistAtom(QXmlStreamReader& in, MasterPersistAtom& _s) {
     in.readElementText();
 }
 void parseTextContainer(LEInputStream& in, TextContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseTextHeaderAtom(in, _s.textHeaderAtom);
@@ -49375,6 +49618,7 @@ void parseTextContainer(QXmlStreamReader& in, TextContainer& _s) {
     skipToStartElement(in);
 }
 void parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -49439,6 +49683,7 @@ void parseTextContainerMeta(QXmlStreamReader& in, TextContainerMeta& _s) {
     in.readElementText();
 }
 void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -49600,6 +49845,7 @@ void parseSlidePersistAtom(QXmlStreamReader& in, SlidePersistAtom& _s) {
     in.readElementText();
 }
 void parseTextRuler(LEInputStream& in, TextRuler& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fDefaultTabSize = in.readbit();
     _s.fCLevels = in.readbit();
     _s.fTabStops = in.readbit();
@@ -49980,6 +50226,7 @@ void parseTextRuler(QXmlStreamReader& in, TextRuler& _s) {
     in.readElementText();
 }
 void parseTextPFException(LEInputStream& in, TextPFException& _s) {
+    _s.streamOffset = in.getPosition();
     parsePFMasks(in, _s.masks);
     if (!(_s.masks.bulletBlip == false)) {
         throw IncorrectValueException(in.getPosition(), "_s.masks.bulletBlip == false");
@@ -50263,6 +50510,7 @@ void parseTextPFException(QXmlStreamReader& in, TextPFException& _s) {
     in.readElementText();
 }
 void parseTextCFException(LEInputStream& in, TextCFException& _s) {
+    _s.streamOffset = in.getPosition();
     parseCFMasks(in, _s.masks);
     if (!(_s.masks.pp10ext == false)) {
         throw IncorrectValueException(in.getPosition(), "_s.masks.pp10ext == false");
@@ -50433,6 +50681,7 @@ void parseTextCFException(QXmlStreamReader& in, TextCFException& _s) {
     in.readElementText();
 }
 void parseFontCollectionEntry(LEInputStream& in, FontCollectionEntry& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseFontEntityAtom(in, _s.fontEntityAtom);
     _m = in.setMark();
@@ -50528,6 +50777,7 @@ void parseFontCollectionEntry(QXmlStreamReader& in, FontCollectionEntry& _s) {
     }
 }
 void parseKinsokuContainer(LEInputStream& in, KinsokuContainer& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -50598,6 +50848,7 @@ void parseKinsokuContainer(QXmlStreamReader& in, KinsokuContainer& _s) {
     skipToStartElement(in);
 }
 void parseTextSIException(LEInputStream& in, TextSIException& _s) {
+    _s.streamOffset = in.getPosition();
     _s.spell = in.readbit();
     _s.lang = in.readbit();
     _s.altLang = in.readbit();
@@ -50900,6 +51151,7 @@ void parseTextSIException(QXmlStreamReader& in, TextSIException& _s) {
     skipToStartElement(in);
 }
 void parseTextMasterStyleLevel(LEInputStream& in, TextMasterStyleLevel& _s) {
+    _s.streamOffset = in.getPosition();
     parseTextPFException(in, _s.pf);
     parseTextCFException(in, _s.cf);
 }
@@ -50929,6 +51181,7 @@ void parseTextMasterStyleLevel(QXmlStreamReader& in, TextMasterStyleLevel& _s) {
     skipToStartElement(in);
 }
 void parseDocumentAtom(LEInputStream& in, DocumentAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 1)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 1");
@@ -51089,6 +51342,7 @@ void parseDocumentAtom(QXmlStreamReader& in, DocumentAtom& _s) {
     in.readElementText();
 }
 void parseProgStringTagContainer(LEInputStream& in, ProgStringTagContainer& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -51138,6 +51392,7 @@ void parseProgStringTagContainer(QXmlStreamReader& in, ProgStringTagContainer& _
     skipToStartElement(in);
 }
 void parseNotesAtom(LEInputStream& in, NotesAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 1)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 1");
@@ -51201,6 +51456,7 @@ void parseNotesAtom(QXmlStreamReader& in, NotesAtom& _s) {
     in.readElementText();
 }
 void parseExObjListContainer(LEInputStream& in, ExObjListContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -51259,6 +51515,7 @@ void parseExObjListContainer(QXmlStreamReader& in, ExObjListContainer& _s) {
     skipToStartElement(in);
 }
 void parseExControlContainer(LEInputStream& in, ExControlContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -51385,6 +51642,7 @@ void parseExControlContainer(QXmlStreamReader& in, ExControlContainer& _s) {
     }
 }
 void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -51511,6 +51769,7 @@ void parseExOleLinkContainer(QXmlStreamReader& in, ExOleLinkContainer& _s) {
     }
 }
 void parseExOleEmbedContainer(LEInputStream& in, ExOleEmbedContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -51637,6 +51896,7 @@ void parseExOleEmbedContainer(QXmlStreamReader& in, ExOleEmbedContainer& _s) {
     }
 }
 void parseOfficeArtFDGGBlock(LEInputStream& in, OfficeArtFDGGBlock& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -51690,6 +51950,7 @@ void parseOfficeArtFDGGBlock(QXmlStreamReader& in, OfficeArtFDGGBlock& _s) {
     skipToStartElement(in);
 }
 void parseOfficeArtSolverContainerFileBlock(LEInputStream& in, OfficeArtSolverContainerFileBlock& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -51730,6 +51991,7 @@ void parseOfficeArtSolverContainerFileBlock(QXmlStreamReader& in, OfficeArtSolve
     in.readElementText();
 }
 void parseProtectionBooleanProperties(LEInputStream& in, ProtectionBooleanProperties& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x007F)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x007F");
@@ -51999,6 +52261,7 @@ void parseProtectionBooleanProperties(QXmlStreamReader& in, ProtectionBooleanPro
     in.readElementText();
 }
 void parseRotation(LEInputStream& in, Rotation& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0004)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0004");
@@ -52037,6 +52300,7 @@ void parseRotation(QXmlStreamReader& in, Rotation& _s) {
     skipToStartElement(in);
 }
 void parseITxid(LEInputStream& in, ITxid& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0080)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0080");
@@ -52075,6 +52339,7 @@ void parseITxid(QXmlStreamReader& in, ITxid& _s) {
     in.readElementText();
 }
 void parseDxTextLeft(LEInputStream& in, DxTextLeft& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0081)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0081");
@@ -52113,6 +52378,7 @@ void parseDxTextLeft(QXmlStreamReader& in, DxTextLeft& _s) {
     in.readElementText();
 }
 void parseDyTextTop(LEInputStream& in, DyTextTop& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0082)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0082");
@@ -52151,6 +52417,7 @@ void parseDyTextTop(QXmlStreamReader& in, DyTextTop& _s) {
     in.readElementText();
 }
 void parseDxTextRight(LEInputStream& in, DxTextRight& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0083)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0083");
@@ -52189,6 +52456,7 @@ void parseDxTextRight(QXmlStreamReader& in, DxTextRight& _s) {
     in.readElementText();
 }
 void parseDyTextBottom(LEInputStream& in, DyTextBottom& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0084)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0084");
@@ -52227,6 +52495,7 @@ void parseDyTextBottom(QXmlStreamReader& in, DyTextBottom& _s) {
     in.readElementText();
 }
 void parseWrapText(LEInputStream& in, WrapText& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0085)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0085");
@@ -52268,6 +52537,7 @@ void parseWrapText(QXmlStreamReader& in, WrapText& _s) {
     in.readElementText();
 }
 void parseAnchorText(LEInputStream& in, AnchorText& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0087)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0087");
@@ -52309,6 +52579,7 @@ void parseAnchorText(QXmlStreamReader& in, AnchorText& _s) {
     in.readElementText();
 }
 void parseTextBooleanProperties(LEInputStream& in, TextBooleanProperties& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x00BF)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x00BF");
@@ -52490,6 +52761,7 @@ void parseTextBooleanProperties(QXmlStreamReader& in, TextBooleanProperties& _s)
     in.readElementText();
 }
 void parseHspNext(LEInputStream& in, HspNext& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x008A)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x008A");
@@ -52528,6 +52800,7 @@ void parseHspNext(QXmlStreamReader& in, HspNext& _s) {
     in.readElementText();
 }
 void parseShapePath(LEInputStream& in, ShapePath& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0144)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0144");
@@ -52569,6 +52842,7 @@ void parseShapePath(QXmlStreamReader& in, ShapePath& _s) {
     in.readElementText();
 }
 void parseGeometryBooleanProperties(LEInputStream& in, GeometryBooleanProperties& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x017F)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x017F");
@@ -52794,6 +53068,7 @@ void parseGeometryBooleanProperties(QXmlStreamReader& in, GeometryBooleanPropert
     in.readElementText();
 }
 void parseFillType(LEInputStream& in, FillType& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0180)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0180");
@@ -52835,6 +53110,7 @@ void parseFillType(QXmlStreamReader& in, FillType& _s) {
     in.readElementText();
 }
 void parseFillColor(LEInputStream& in, FillColor& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0181)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0181");
@@ -52873,6 +53149,7 @@ void parseFillColor(QXmlStreamReader& in, FillColor& _s) {
     skipToStartElement(in);
 }
 void parseFillBackColor(LEInputStream& in, FillBackColor& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0183)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0183");
@@ -52911,6 +53188,7 @@ void parseFillBackColor(QXmlStreamReader& in, FillBackColor& _s) {
     skipToStartElement(in);
 }
 void parseFillBlip(LEInputStream& in, FillBlip& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0186)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0186");
@@ -52943,6 +53221,7 @@ void parseFillBlip(QXmlStreamReader& in, FillBlip& _s) {
     in.readElementText();
 }
 void parseFillRectRight(LEInputStream& in, FillRectRight& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0193)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0193");
@@ -52981,6 +53260,7 @@ void parseFillRectRight(QXmlStreamReader& in, FillRectRight& _s) {
     in.readElementText();
 }
 void parseFillRectBottom(LEInputStream& in, FillRectBottom& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0194)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0194");
@@ -53019,6 +53299,7 @@ void parseFillRectBottom(QXmlStreamReader& in, FillRectBottom& _s) {
     in.readElementText();
 }
 void parseFillStyleBooleanProperties(LEInputStream& in, FillStyleBooleanProperties& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01BF)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01BF");
@@ -53244,6 +53525,7 @@ void parseFillStyleBooleanProperties(QXmlStreamReader& in, FillStyleBooleanPrope
     in.readElementText();
 }
 void parseLineColor(LEInputStream& in, LineColor& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01C0)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01C0");
@@ -53282,6 +53564,7 @@ void parseLineColor(QXmlStreamReader& in, LineColor& _s) {
     skipToStartElement(in);
 }
 void parseLineBackColor(LEInputStream& in, LineBackColor& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01C2)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01C2");
@@ -53314,6 +53597,7 @@ void parseLineBackColor(QXmlStreamReader& in, LineBackColor& _s) {
     skipToStartElement(in);
 }
 void parseLineFillBlip(LEInputStream& in, LineFillBlip& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01C5)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01C5");
@@ -53346,6 +53630,7 @@ void parseLineFillBlip(QXmlStreamReader& in, LineFillBlip& _s) {
     in.readElementText();
 }
 void parseLineWidth(LEInputStream& in, LineWidth& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01CB)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01CB");
@@ -53384,6 +53669,7 @@ void parseLineWidth(QXmlStreamReader& in, LineWidth& _s) {
     in.readElementText();
 }
 void parseLineStartArrowhead(LEInputStream& in, LineStartArrowhead& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01D0)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01D0");
@@ -53425,6 +53711,7 @@ void parseLineStartArrowhead(QXmlStreamReader& in, LineStartArrowhead& _s) {
     in.readElementText();
 }
 void parseLineEndArrowhead(LEInputStream& in, LineEndArrowhead& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01D1)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01D1");
@@ -53466,6 +53753,7 @@ void parseLineEndArrowhead(QXmlStreamReader& in, LineEndArrowhead& _s) {
     in.readElementText();
 }
 void parseLineJoinStyle(LEInputStream& in, LineJoinStyle& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01D6)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01D6");
@@ -53507,6 +53795,7 @@ void parseLineJoinStyle(QXmlStreamReader& in, LineJoinStyle& _s) {
     in.readElementText();
 }
 void parseLineStyleBooleanProperties(LEInputStream& in, LineStyleBooleanProperties& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x01FF)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01FF");
@@ -53776,6 +54065,7 @@ void parseLineStyleBooleanProperties(QXmlStreamReader& in, LineStyleBooleanPrope
     in.readElementText();
 }
 void parseShadowColor(LEInputStream& in, ShadowColor& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0201)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0201");
@@ -53814,6 +54104,7 @@ void parseShadowColor(QXmlStreamReader& in, ShadowColor& _s) {
     skipToStartElement(in);
 }
 void parseShadowStyleBooleanPropertiesr(LEInputStream& in, ShadowStyleBooleanPropertiesr& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x023F)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x023F");
@@ -53907,6 +54198,7 @@ void parseShadowStyleBooleanPropertiesr(QXmlStreamReader& in, ShadowStyleBoolean
     in.readElementText();
 }
 void parseHspMaster(LEInputStream& in, HspMaster& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0301)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0301");
@@ -53945,6 +54237,7 @@ void parseHspMaster(QXmlStreamReader& in, HspMaster& _s) {
     in.readElementText();
 }
 void parseBWMode(LEInputStream& in, BWMode& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0304)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0304");
@@ -53986,6 +54279,7 @@ void parseBWMode(QXmlStreamReader& in, BWMode& _s) {
     in.readElementText();
 }
 void parseShapeBooleanProperties(LEInputStream& in, ShapeBooleanProperties& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x033F)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x033F");
@@ -54299,6 +54593,7 @@ void parseShapeBooleanProperties(QXmlStreamReader& in, ShapeBooleanProperties& _
     in.readElementText();
 }
 void parseLidRegroup(LEInputStream& in, LidRegroup& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0388)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0388");
@@ -54337,6 +54632,7 @@ void parseLidRegroup(QXmlStreamReader& in, LidRegroup& _s) {
     in.readElementText();
 }
 void parseWzFillId(LEInputStream& in, WzFillId& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     if (!(_s.opid.opid == 0x0403)) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0403");
@@ -54369,6 +54665,7 @@ void parseWzFillId(QXmlStreamReader& in, WzFillId& _s) {
     in.readElementText();
 }
 void parseOfficeArtClientAnchor(LEInputStream& in, OfficeArtClientAnchor& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -54431,6 +54728,7 @@ void parseOfficeArtClientAnchor(QXmlStreamReader& in, OfficeArtClientAnchor& _s)
     skipToStartElement(in);
 }
 void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -54489,6 +54787,7 @@ void parseAnimationInfoContainer(QXmlStreamReader& in, AnimationInfoContainer& _
     }
 }
 void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -54543,6 +54842,7 @@ void parseMouseInteractiveInfoContainer(QXmlStreamReader& in, MouseInteractiveIn
     skipToStartElement(in);
 }
 void parseTextRulerAtom(LEInputStream& in, TextRulerAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -54581,6 +54881,7 @@ void parseTextRulerAtom(QXmlStreamReader& in, TextRulerAtom& _s) {
     skipToStartElement(in);
 }
 void parseOfficeArtFOPTE(LEInputStream& in, OfficeArtFOPTE& _s) {
+    _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
     _s.op = in.readint32();
 }
@@ -54610,6 +54911,7 @@ void parseOfficeArtFOPTE(QXmlStreamReader& in, OfficeArtFOPTE& _s) {
     in.readElementText();
 }
 void parseFib(LEInputStream& in, Fib& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseFibBase(in, _s.base);
@@ -54769,6 +55071,7 @@ void parseFib(QXmlStreamReader& in, Fib& _s) {
     in.readElementText();
 }
 void parseSTSH(LEInputStream& in, STSH& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseLPStshi(in, _s.lpstshi);
@@ -54802,6 +55105,7 @@ void parseSTSH(QXmlStreamReader& in, STSH& _s) {
     skipToStartElement(in);
 }
 void parseClx(LEInputStream& in, Clx& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     _atend = false;
@@ -54846,6 +55150,7 @@ void parseClx(QXmlStreamReader& in, Clx& _s) {
     skipToStartElement(in);
 }
 void parsePcr(LEInputStream& in, Pcr& _s) {
+    _s.streamOffset = in.getPosition();
     _s.clxt = in.readuint8();
     if (!(((quint8)_s.clxt) == 1)) {
         throw IncorrectValueException(in.getPosition(), "((quint8)_s.clxt) == 1");
@@ -54878,6 +55183,7 @@ void parsePcr(QXmlStreamReader& in, Pcr& _s) {
     skipToStartElement(in);
 }
 void parsePrm(LEInputStream& in, Prm& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -54910,6 +55216,7 @@ void parsePrm(QXmlStreamReader& in, Prm& _s) {
     in.readElementText();
 }
 void parseOfficeArtBlipEMF(LEInputStream& in, OfficeArtBlipEMF& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -54982,6 +55289,7 @@ void parseOfficeArtBlipEMF(QXmlStreamReader& in, OfficeArtBlipEMF& _s) {
     in.readElementText();
 }
 void parseOfficeArtBlipWMF(LEInputStream& in, OfficeArtBlipWMF& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -55054,6 +55362,7 @@ void parseOfficeArtBlipWMF(QXmlStreamReader& in, OfficeArtBlipWMF& _s) {
     in.readElementText();
 }
 void parseOfficeArtBlipPICT(LEInputStream& in, OfficeArtBlipPICT& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -55126,6 +55435,7 @@ void parseOfficeArtBlipPICT(QXmlStreamReader& in, OfficeArtBlipPICT& _s) {
     in.readElementText();
 }
 void parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -55198,6 +55508,7 @@ void parseOfficeArtBlip(QXmlStreamReader& in, OfficeArtBlip& _s) {
     in.readElementText();
 }
 void parseZoomViewInfoAtom(LEInputStream& in, ZoomViewInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -55297,6 +55608,7 @@ void parseZoomViewInfoAtom(QXmlStreamReader& in, ZoomViewInfoAtom& _s) {
     in.readElementText();
 }
 void parseTextMasterStyle9Level(LEInputStream& in, TextMasterStyle9Level& _s) {
+    _s.streamOffset = in.getPosition();
     parseTextPFException9(in, _s.pf9);
     parseTextCFException9(in, _s.cf9);
 }
@@ -55326,6 +55638,7 @@ void parseTextMasterStyle9Level(QXmlStreamReader& in, TextMasterStyle9Level& _s)
     skipToStartElement(in);
 }
 void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     bool _atend;
@@ -55675,6 +55988,7 @@ void parsePP10DocBinaryTagExtension(QXmlStreamReader& in, PP10DocBinaryTagExtens
     }
 }
 void parseTextMasterStyle10Level(LEInputStream& in, TextMasterStyle10Level& _s) {
+    _s.streamOffset = in.getPosition();
     parseTextCFException10(in, _s.cf10);
 }
 void write(const TextMasterStyle10Level& _s, LEOutputStream& out) {
@@ -55693,6 +56007,7 @@ void parseTextMasterStyle10Level(QXmlStreamReader& in, TextMasterStyle10Level& _
     skipToStartElement(in);
 }
 void parseNotesTextViewInfoContainer(LEInputStream& in, NotesTextViewInfoContainer& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -55731,6 +56046,7 @@ void parseNotesTextViewInfoContainer(QXmlStreamReader& in, NotesTextViewInfoCont
     skipToStartElement(in);
 }
 void parseOutlineViewInfoContainer(LEInputStream& in, OutlineViewInfoContainer& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -55769,6 +56085,7 @@ void parseOutlineViewInfoContainer(QXmlStreamReader& in, OutlineViewInfoContaine
     skipToStartElement(in);
 }
 void parseNormalViewSetInfoContainer(LEInputStream& in, NormalViewSetInfoContainer& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -55810,6 +56127,7 @@ void parseNormalViewSetInfoContainer(QXmlStreamReader& in, NormalViewSetInfoCont
     skipToStartElement(in);
 }
 void parseSlideListWithTextSubContainerOrAtom(LEInputStream& in, SlideListWithTextSubContainerOrAtom& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseSlidePersistAtom(in, _s.slidePersistAtom);
@@ -55854,6 +56172,7 @@ void parseSlideListWithTextSubContainerOrAtom(QXmlStreamReader& in, SlideListWit
     skipToStartElement(in);
 }
 void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteractiveInfo& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -55886,6 +56205,7 @@ void parseTextContainerInteractiveInfo(QXmlStreamReader& in, TextContainerIntera
     in.readElementText();
 }
 void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -55926,6 +56246,7 @@ void parseTextClientDataSubContainerOrAtom(QXmlStreamReader& in, TextClientDataS
     in.readElementText();
 }
 void parseTextPFRun(LEInputStream& in, TextPFRun& _s) {
+    _s.streamOffset = in.getPosition();
     _s.count = in.readuint32();
     if (!(((quint32)_s.count)>0)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.count)>0");
@@ -55984,6 +56305,7 @@ void parseTextPFRun(QXmlStreamReader& in, TextPFRun& _s) {
     skipToStartElement(in);
 }
 void parseTextCFRun(LEInputStream& in, TextCFRun& _s) {
+    _s.streamOffset = in.getPosition();
     _s.count = in.readuint32();
     if (!(((quint32)_s.count)>0)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.count)>0");
@@ -56019,6 +56341,7 @@ void parseTextCFRun(QXmlStreamReader& in, TextCFRun& _s) {
     skipToStartElement(in);
 }
 void parseTextCFExceptionAtom(LEInputStream& in, TextCFExceptionAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -56057,6 +56380,7 @@ void parseTextCFExceptionAtom(QXmlStreamReader& in, TextCFExceptionAtom& _s) {
     skipToStartElement(in);
 }
 void parseDefaultRulerAtom(LEInputStream& in, DefaultRulerAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -56131,6 +56455,7 @@ void parseDefaultRulerAtom(QXmlStreamReader& in, DefaultRulerAtom& _s) {
     skipToStartElement(in);
 }
 void parseTextPFExceptionAtom(LEInputStream& in, TextPFExceptionAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -56180,6 +56505,7 @@ void parseTextPFExceptionAtom(QXmlStreamReader& in, TextPFExceptionAtom& _s) {
     skipToStartElement(in);
 }
 void parseTextSIRun(LEInputStream& in, TextSIRun& _s) {
+    _s.streamOffset = in.getPosition();
     _s.count = in.readuint32();
     if (!(((quint32)_s.count)>=1)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.count)>=1");
@@ -56212,6 +56538,7 @@ void parseTextSIRun(QXmlStreamReader& in, TextSIRun& _s) {
     skipToStartElement(in);
 }
 void parseTextSIExceptionAtom(LEInputStream& in, TextSIExceptionAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -56259,6 +56586,7 @@ void parseTextSIExceptionAtom(QXmlStreamReader& in, TextSIExceptionAtom& _s) {
     skipToStartElement(in);
 }
 void parseTextMasterStyleAtom(LEInputStream& in, TextMasterStyleAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -56460,6 +56788,7 @@ void parseTextMasterStyleAtom(QXmlStreamReader& in, TextMasterStyleAtom& _s) {
     skipToStartElement(in);
 }
 void parseSlideProgTagsSubContainerOrAtom(LEInputStream& in, SlideProgTagsSubContainerOrAtom& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -56492,6 +56821,7 @@ void parseSlideProgTagsSubContainerOrAtom(QXmlStreamReader& in, SlideProgTagsSub
     in.readElementText();
 }
 void parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -56596,6 +56926,7 @@ void parseExObjListSubContainer(QXmlStreamReader& in, ExObjListSubContainer& _s)
     in.readElementText();
 }
 void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -56733,6 +57064,7 @@ void parseOfficeArtDggContainer(QXmlStreamReader& in, OfficeArtDggContainer& _s)
     }
 }
 void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -57037,6 +57369,7 @@ void parseOfficeArtFOPTEChoice(QXmlStreamReader& in, OfficeArtFOPTEChoice& _s) {
     in.readElementText();
 }
 void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -57261,6 +57594,7 @@ void parseOfficeArtClientData(QXmlStreamReader& in, OfficeArtClientData& _s) {
     }
 }
 void parseWordDocument(LEInputStream& in, WordDocument& _s) {
+    _s.streamOffset = in.getPosition();
     parseFib(in, _s.fib);
 }
 void write(const WordDocument& _s, LEOutputStream& out) {
@@ -57279,6 +57613,7 @@ void parseWordDocument(QXmlStreamReader& in, WordDocument& _s) {
     skipToStartElement(in);
 }
 void parseTable(LEInputStream& in, Table& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseSTSH(in, _s.stsh);
@@ -57385,6 +57720,7 @@ void parseTable(QXmlStreamReader& in, Table& _s) {
     in.readElementText();
 }
 void parsePcd(LEInputStream& in, Pcd& _s) {
+    _s.streamOffset = in.getPosition();
     _s.fNoParaLast = in.readbit();
     _s.fR1 = in.readbit();
     _s.fDirtly = in.readbit();
@@ -57472,6 +57808,7 @@ void parsePcd(QXmlStreamReader& in, Pcd& _s) {
     skipToStartElement(in);
 }
 void parseOfficeArtFBSE(LEInputStream& in, OfficeArtFBSE& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -57650,6 +57987,7 @@ void parseOfficeArtFBSE(QXmlStreamReader& in, OfficeArtFBSE& _s) {
     skipToStartElement(in);
 }
 void parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBStoreContainerFileBlock& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -57682,6 +58020,7 @@ void parseOfficeArtBStoreContainerFileBlock(QXmlStreamReader& in, OfficeArtBStor
     in.readElementText();
 }
 void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -57757,6 +58096,7 @@ void parseSlideViewInfoInstance(QXmlStreamReader& in, SlideViewInfoInstance& _s)
     skipToStartElement(in);
 }
 void parseTextMasterStyle9Atom(LEInputStream& in, TextMasterStyle9Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -57958,6 +58298,7 @@ void parseTextMasterStyle9Atom(QXmlStreamReader& in, TextMasterStyle9Atom& _s) {
     skipToStartElement(in);
 }
 void parseBlipEntityAtom(LEInputStream& in, BlipEntityAtom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -58024,6 +58365,7 @@ void parseBlipEntityAtom(QXmlStreamReader& in, BlipEntityAtom& _s) {
     skipToStartElement(in);
 }
 void parseTextMasterStyle10Atom(LEInputStream& in, TextMasterStyle10Atom& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -58225,6 +58567,7 @@ void parseTextMasterStyle10Atom(QXmlStreamReader& in, TextMasterStyle10Atom& _s)
     skipToStartElement(in);
 }
 void parseDocumentTextInfoContainer(LEInputStream& in, DocumentTextInfoContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -58370,6 +58713,7 @@ void parseDocumentTextInfoContainer(QXmlStreamReader& in, DocumentTextInfoContai
     skipToStartElement(in);
 }
 void parseDrawingGroupContainer(LEInputStream& in, DrawingGroupContainer& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -58408,6 +58752,7 @@ void parseDrawingGroupContainer(QXmlStreamReader& in, DrawingGroupContainer& _s)
     skipToStartElement(in);
 }
 void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -58656,6 +59001,7 @@ void parseOfficeArtSpContainer(QXmlStreamReader& in, OfficeArtSpContainer& _s) {
     }
 }
 void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -59119,6 +59465,7 @@ void parseDocumentContainer(QXmlStreamReader& in, DocumentContainer& _s) {
     }
 }
 void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContainerOrAtom& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -59191,6 +59538,7 @@ void parseDocInfoListSubContainerOrAtom(QXmlStreamReader& in, DocInfoListSubCont
     in.readElementText();
 }
 void parsePP9DocBinaryTagExtension(LEInputStream& in, PP9DocBinaryTagExtension& _s) {
+    _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
@@ -59408,6 +59756,7 @@ void parsePP9DocBinaryTagExtension(QXmlStreamReader& in, PP9DocBinaryTagExtensio
     skipToStartElement(in);
 }
 void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
@@ -59540,6 +59889,7 @@ void parseOfficeArtDgContainer(QXmlStreamReader& in, OfficeArtDgContainer& _s) {
     }
 }
 void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContainerFileBlock& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -59572,6 +59922,7 @@ void parseOfficeArtSpgrContainerFileBlock(QXmlStreamReader& in, OfficeArtSpgrCon
     in.readElementText();
 }
 void parseDocProgBinaryTagSubContainerOrAtom(LEInputStream& in, DocProgBinaryTagSubContainerOrAtom& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -59628,6 +59979,7 @@ void parseDocProgBinaryTagSubContainerOrAtom(QXmlStreamReader& in, DocProgBinary
     in.readElementText();
 }
 void parseDrawingContainer(LEInputStream& in, DrawingContainer& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -59666,6 +60018,7 @@ void parseDrawingContainer(QXmlStreamReader& in, DrawingContainer& _s) {
     skipToStartElement(in);
 }
 void parseDocProgBinaryTagContainer(LEInputStream& in, DocProgBinaryTagContainer& _s) {
+    _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -59704,6 +60057,7 @@ void parseDocProgBinaryTagContainer(QXmlStreamReader& in, DocProgBinaryTagContai
     skipToStartElement(in);
 }
 void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -60009,6 +60363,7 @@ void parseMainMasterContainer(QXmlStreamReader& in, MainMasterContainer& _s) {
     }
 }
 void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -60209,6 +60564,7 @@ void parseSlideContainer(QXmlStreamReader& in, SlideContainer& _s) {
     }
 }
 void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -60352,6 +60708,7 @@ void parseNotesContainer(QXmlStreamReader& in, NotesContainer& _s) {
     skipToStartElement(in);
 }
 void parseDocProgTagsSubContainerOrAtom(LEInputStream& in, DocProgTagsSubContainerOrAtom& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -60384,6 +60741,7 @@ void parseDocProgTagsSubContainerOrAtom(QXmlStreamReader& in, DocProgTagsSubCont
     in.readElementText();
 }
 void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
@@ -60416,6 +60774,7 @@ void parseMasterOrSlideContainer(QXmlStreamReader& in, MasterOrSlideContainer& _
     in.readElementText();
 }
 void parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
+    _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {

@@ -173,6 +173,7 @@ public class QtParserGenerator {
 	void printStructureParser(PrintWriter out, Struct s) {
 		out.println("void parse" + s.name + "(LEInputStream& in, " + s.name
 				+ "& _s) {");
+		out.println("    _s.streamOffset = in.getPosition();");
 		if (s.containsKnownLengthArrayMember) {
 			out.println("    int _c;");
 		}

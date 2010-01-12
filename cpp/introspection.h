@@ -39,12 +39,16 @@ public:
 
 class Introspectable {
 public:
+    uint32_t streamOffset;
 #ifdef TREEINTROSPECTION
     Introspectable const * parent; // one more 'const' would be nice ...
 
-    Introspectable(const Introspectable* p) :parent(p) {}
+    Introspectable(const Introspectable* p)
+            :streamOffset(999999), parent(p) {}
 #else
-    Introspectable(const Introspectable* = 0) {}
+    Introspectable(const Introspectable* = 0)
+            :streamOffset(999999) {
+    }
 #endif
 
     virtual ~Introspectable() {}

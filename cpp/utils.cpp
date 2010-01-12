@@ -70,6 +70,8 @@ print(QXmlStreamWriter& out, const Introspectable* i) {
             if (ci) {
                 QString type = ci->getIntrospection()->name;
                 out.writeAttribute("type", type);
+                uint32_t offset = ci->streamOffset;
+                out.writeAttribute("offset", QString::number(offset));
                 print(out, ci);
             } else {
                 QVariant v(is->value[j](i, k));
@@ -252,6 +254,8 @@ printWithExtendedParser(QXmlStreamWriter& out, const Introspectable* i) {
             if (ci) {
                 QString type = ci->getIntrospection()->name;
                 out.writeAttribute("type", type);
+                uint32_t offset = ci->streamOffset;
+                out.writeAttribute("offset", QString::number(offset));
                 if (type == "StyleTextPropAtom") {
                     // StyleTextPropAtom is currently too hard to parse by the generated code
                     printStyleTextPropAtom(out, ci, lastCharacterCount);
