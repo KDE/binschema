@@ -1192,6 +1192,14 @@ class LidRegroup;
 void parseLidRegroup(LEInputStream& in, LidRegroup& _s);
 void parseLidRegroup(QXmlStreamReader& in, LidRegroup& _s);
 void write(const LidRegroup& v, LEOutputStream& out);
+class adjust2Value;
+void parseadjust2Value(LEInputStream& in, adjust2Value& _s);
+void parseadjust2Value(QXmlStreamReader& in, adjust2Value& _s);
+void write(const adjust2Value& v, LEOutputStream& out);
+class adjust3Value;
+void parseadjust3Value(LEInputStream& in, adjust3Value& _s);
+void parseadjust3Value(QXmlStreamReader& in, adjust3Value& _s);
+void write(const adjust3Value& v, LEOutputStream& out);
 class WzFillId;
 void parseWzFillId(LEInputStream& in, WzFillId& _s);
 void parseWzFillId(QXmlStreamReader& in, WzFillId& _s);
@@ -8671,6 +8679,42 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class adjust2Value : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    qint32 adjust2value;
+    adjust2Value(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
+    }
+    QString toString() {
+        QString _s = "adjust2Value:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "adjust2value: " + QString::number(adjust2value) + "(" + QString::number(adjust2value,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class adjust3Value : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtFOPTEOPID opid;
+    qint32 adjust3value;
+    adjust3Value(const Introspectable* parent) :Introspectable(parent),
+        opid(this) {
+    }
+    QString toString() {
+        QString _s = "adjust3Value:";
+        _s = _s + "opid: " + opid.toString() + ", ";
+        _s = _s + "adjust3value: " + QString::number(adjust3value) + "(" + QString::number(adjust3value,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class WzFillId : public Introspectable {
 private:
     class _Introspection;
@@ -9486,6 +9530,8 @@ private:
 public:
     static const Introspection _introspection;
     class anonChoice {public:QSharedPointer<ProtectionBooleanProperties> protectionbooleanproperties;
+QSharedPointer<adjust2Value> adjust2value;
+QSharedPointer<adjust3Value> adjust3value;
 QSharedPointer<ITxid> itxid;
 QSharedPointer<DxTextLeft> dxtextleft;
 QSharedPointer<DyTextTop> dytexttop;
@@ -27674,6 +27720,76 @@ const Introspectable* (* const LidRegroup::_Introspection::introspectable[2])(co
 };
 const Introspection LidRegroup::_introspection(
     "LidRegroup", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class adjust2Value::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const adjust2Value*>(i)->opid);
+    }
+    static QVariant get_adjust2value(const Introspectable* i, int j) {
+        return static_cast<const adjust2Value*>(i)->adjust2value;
+    }
+};
+const QString adjust2Value::_Introspection::name("adjust2Value");
+const int adjust2Value::_Introspection::numberOfMembers(2);
+const QString adjust2Value::_Introspection::names[2] = {
+    "opid",
+    "adjust2value",
+};
+int (* const adjust2Value::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const adjust2Value::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_adjust2value,
+};
+const Introspectable* (* const adjust2Value::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+};
+const Introspection adjust2Value::_introspection(
+    "adjust2Value", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class adjust3Value::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_opid(const Introspectable* i, int j) {
+        return &(static_cast<const adjust3Value*>(i)->opid);
+    }
+    static QVariant get_adjust3value(const Introspectable* i, int j) {
+        return static_cast<const adjust3Value*>(i)->adjust3value;
+    }
+};
+const QString adjust3Value::_Introspection::name("adjust3Value");
+const int adjust3Value::_Introspection::numberOfMembers(2);
+const QString adjust3Value::_Introspection::names[2] = {
+    "opid",
+    "adjust3value",
+};
+int (* const adjust3Value::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const adjust3Value::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_adjust3value,
+};
+const Introspectable* (* const adjust3Value::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_opid,
+    Introspection::null,
+};
+const Introspection adjust3Value::_introspection(
+    "adjust3Value", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class WzFillId::_Introspection {
 public:
     static const QString name;
@@ -29476,6 +29592,8 @@ public:
     static const Introspectable* get_anon(const Introspectable* i, int j) {
         const Introspectable* k = 0;
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.protectionbooleanproperties.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.adjust2value.data();
+        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.adjust3value.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.itxid.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.dxtextleft.data();
         if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.dytexttop.data();
@@ -54631,6 +54749,84 @@ void parseLidRegroup(QXmlStreamReader& in, LidRegroup& _s) {
     }
     in.readElementText();
 }
+void parseadjust2Value(LEInputStream& in, adjust2Value& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0148)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0148");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.adjust2value = in.readint32();
+}
+void write(const adjust2Value& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeint32(_s.adjust2value);
+}
+void parseadjust2Value(QXmlStreamReader& in, adjust2Value& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "adjust2value") {
+        qDebug() << "not startelement in adjust2value " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
+void parseadjust3Value(LEInputStream& in, adjust3Value& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0149)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0149");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.adjust3value = in.readint32();
+}
+void write(const adjust3Value& _s, LEOutputStream& out) {
+    write(_s.opid, out);
+    out.writeint32(_s.adjust3value);
+}
+void parseadjust3Value(QXmlStreamReader& in, adjust3Value& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEOPID " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "opid") {
+        qDebug() << "not startelement in opid " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "adjust3value") {
+        qDebug() << "not startelement in adjust3value " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
 void parseWzFillId(LEInputStream& in, WzFillId& _s) {
     _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -57074,216 +57270,232 @@ void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s) {
         _s.anon.protectionbooleanproperties.clear();
         in.rewind(_m);
     try {
+        _s.anon.adjust2value = QSharedPointer<adjust2Value>(new adjust2Value(&_s));
+        parseadjust2Value(in, *_s.anon.adjust2value.data());
+    } catch (IncorrectValueException _xx) {
+        _s.anon.adjust2value.clear();
+        in.rewind(_m);
+    try {
+        _s.anon.adjust3value = QSharedPointer<adjust3Value>(new adjust3Value(&_s));
+        parseadjust3Value(in, *_s.anon.adjust3value.data());
+    } catch (IncorrectValueException _xxx) {
+        _s.anon.adjust3value.clear();
+        in.rewind(_m);
+    try {
         _s.anon.itxid = QSharedPointer<ITxid>(new ITxid(&_s));
         parseITxid(in, *_s.anon.itxid.data());
-    } catch (IncorrectValueException _xx) {
+    } catch (IncorrectValueException _xxxx) {
         _s.anon.itxid.clear();
         in.rewind(_m);
     try {
         _s.anon.dxtextleft = QSharedPointer<DxTextLeft>(new DxTextLeft(&_s));
         parseDxTextLeft(in, *_s.anon.dxtextleft.data());
-    } catch (IncorrectValueException _xxx) {
+    } catch (IncorrectValueException _xxxxx) {
         _s.anon.dxtextleft.clear();
         in.rewind(_m);
     try {
         _s.anon.dytexttop = QSharedPointer<DyTextTop>(new DyTextTop(&_s));
         parseDyTextTop(in, *_s.anon.dytexttop.data());
-    } catch (IncorrectValueException _xxxx) {
+    } catch (IncorrectValueException _xxxxxx) {
         _s.anon.dytexttop.clear();
         in.rewind(_m);
     try {
         _s.anon.dxtextright = QSharedPointer<DxTextRight>(new DxTextRight(&_s));
         parseDxTextRight(in, *_s.anon.dxtextright.data());
-    } catch (IncorrectValueException _xxxxx) {
+    } catch (IncorrectValueException _xxxxxxx) {
         _s.anon.dxtextright.clear();
         in.rewind(_m);
     try {
         _s.anon.dytextbottom = QSharedPointer<DyTextBottom>(new DyTextBottom(&_s));
         parseDyTextBottom(in, *_s.anon.dytextbottom.data());
-    } catch (IncorrectValueException _xxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxx) {
         _s.anon.dytextbottom.clear();
         in.rewind(_m);
     try {
         _s.anon.wraptext = QSharedPointer<WrapText>(new WrapText(&_s));
         parseWrapText(in, *_s.anon.wraptext.data());
-    } catch (IncorrectValueException _xxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxx) {
         _s.anon.wraptext.clear();
         in.rewind(_m);
     try {
         _s.anon.anchortext = QSharedPointer<AnchorText>(new AnchorText(&_s));
         parseAnchorText(in, *_s.anon.anchortext.data());
-    } catch (IncorrectValueException _xxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxx) {
         _s.anon.anchortext.clear();
         in.rewind(_m);
     try {
         _s.anon.textbooleanproperties = QSharedPointer<TextBooleanProperties>(new TextBooleanProperties(&_s));
         parseTextBooleanProperties(in, *_s.anon.textbooleanproperties.data());
-    } catch (IncorrectValueException _xxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxx) {
         _s.anon.textbooleanproperties.clear();
         in.rewind(_m);
     try {
         _s.anon.hspnext = QSharedPointer<HspNext>(new HspNext(&_s));
         parseHspNext(in, *_s.anon.hspnext.data());
-    } catch (IncorrectValueException _xxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxx) {
         _s.anon.hspnext.clear();
         in.rewind(_m);
     try {
         _s.anon.shapepath = QSharedPointer<ShapePath>(new ShapePath(&_s));
         parseShapePath(in, *_s.anon.shapepath.data());
-    } catch (IncorrectValueException _xxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxx) {
         _s.anon.shapepath.clear();
         in.rewind(_m);
     try {
         _s.anon.geometrybooleanproperties = QSharedPointer<GeometryBooleanProperties>(new GeometryBooleanProperties(&_s));
         parseGeometryBooleanProperties(in, *_s.anon.geometrybooleanproperties.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
         _s.anon.geometrybooleanproperties.clear();
         in.rewind(_m);
     try {
         _s.anon.filltype = QSharedPointer<FillType>(new FillType(&_s));
         parseFillType(in, *_s.anon.filltype.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxx) {
         _s.anon.filltype.clear();
         in.rewind(_m);
     try {
         _s.anon.fillcolor = QSharedPointer<FillColor>(new FillColor(&_s));
         parseFillColor(in, *_s.anon.fillcolor.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxx) {
         _s.anon.fillcolor.clear();
         in.rewind(_m);
     try {
         _s.anon.fillbackcolor = QSharedPointer<FillBackColor>(new FillBackColor(&_s));
         parseFillBackColor(in, *_s.anon.fillbackcolor.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxx) {
         _s.anon.fillbackcolor.clear();
         in.rewind(_m);
     try {
         _s.anon.fillblip = QSharedPointer<FillBlip>(new FillBlip(&_s));
         parseFillBlip(in, *_s.anon.fillblip.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxx) {
         _s.anon.fillblip.clear();
         in.rewind(_m);
     try {
         _s.anon.fillstylebooleanproperties = QSharedPointer<FillStyleBooleanProperties>(new FillStyleBooleanProperties(&_s));
         parseFillStyleBooleanProperties(in, *_s.anon.fillstylebooleanproperties.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxx) {
         _s.anon.fillstylebooleanproperties.clear();
         in.rewind(_m);
     try {
         _s.anon.linecolor = QSharedPointer<LineColor>(new LineColor(&_s));
         parseLineColor(in, *_s.anon.linecolor.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxx) {
         _s.anon.linecolor.clear();
         in.rewind(_m);
     try {
         _s.anon.linebackcolor = QSharedPointer<LineBackColor>(new LineBackColor(&_s));
         parseLineBackColor(in, *_s.anon.linebackcolor.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.linebackcolor.clear();
         in.rewind(_m);
     try {
         _s.anon.linefillblip = QSharedPointer<LineFillBlip>(new LineFillBlip(&_s));
         parseLineFillBlip(in, *_s.anon.linefillblip.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.linefillblip.clear();
         in.rewind(_m);
     try {
         _s.anon.linewidth = QSharedPointer<LineWidth>(new LineWidth(&_s));
         parseLineWidth(in, *_s.anon.linewidth.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.linewidth.clear();
         in.rewind(_m);
     try {
         _s.anon.fillrectright = QSharedPointer<FillRectRight>(new FillRectRight(&_s));
         parseFillRectRight(in, *_s.anon.fillrectright.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.fillrectright.clear();
         in.rewind(_m);
     try {
         _s.anon.fillrectbottom = QSharedPointer<FillRectBottom>(new FillRectBottom(&_s));
         parseFillRectBottom(in, *_s.anon.fillrectbottom.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.fillrectbottom.clear();
         in.rewind(_m);
     try {
         _s.anon.wzfillid = QSharedPointer<WzFillId>(new WzFillId(&_s));
         parseWzFillId(in, *_s.anon.wzfillid.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.wzfillid.clear();
         in.rewind(_m);
     try {
         _s.anon.linestylebooleanproperties = QSharedPointer<LineStyleBooleanProperties>(new LineStyleBooleanProperties(&_s));
         parseLineStyleBooleanProperties(in, *_s.anon.linestylebooleanproperties.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.linestylebooleanproperties.clear();
         in.rewind(_m);
     try {
         _s.anon.linestartarrowhead = QSharedPointer<LineStartArrowhead>(new LineStartArrowhead(&_s));
         parseLineStartArrowhead(in, *_s.anon.linestartarrowhead.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.linestartarrowhead.clear();
         in.rewind(_m);
     try {
         _s.anon.lineendarrowhead = QSharedPointer<LineEndArrowhead>(new LineEndArrowhead(&_s));
         parseLineEndArrowhead(in, *_s.anon.lineendarrowhead.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.lineendarrowhead.clear();
         in.rewind(_m);
     try {
         _s.anon.linejoinstyle = QSharedPointer<LineJoinStyle>(new LineJoinStyle(&_s));
         parseLineJoinStyle(in, *_s.anon.linejoinstyle.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.linejoinstyle.clear();
         in.rewind(_m);
     try {
         _s.anon.shadowcolor = QSharedPointer<ShadowColor>(new ShadowColor(&_s));
         parseShadowColor(in, *_s.anon.shadowcolor.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.shadowcolor.clear();
         in.rewind(_m);
     try {
         _s.anon.shadowstylebooleanpropertiesr = QSharedPointer<ShadowStyleBooleanPropertiesr>(new ShadowStyleBooleanPropertiesr(&_s));
         parseShadowStyleBooleanPropertiesr(in, *_s.anon.shadowstylebooleanpropertiesr.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.shadowstylebooleanpropertiesr.clear();
         in.rewind(_m);
     try {
         _s.anon.shapebooleanproperties = QSharedPointer<ShapeBooleanProperties>(new ShapeBooleanProperties(&_s));
         parseShapeBooleanProperties(in, *_s.anon.shapebooleanproperties.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.shapebooleanproperties.clear();
         in.rewind(_m);
     try {
         _s.anon.hspmaster = QSharedPointer<HspMaster>(new HspMaster(&_s));
         parseHspMaster(in, *_s.anon.hspmaster.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.hspmaster.clear();
         in.rewind(_m);
     try {
         _s.anon.rotation = QSharedPointer<Rotation>(new Rotation(&_s));
         parseRotation(in, *_s.anon.rotation.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.rotation.clear();
         in.rewind(_m);
     try {
         _s.anon.lidregroup = QSharedPointer<LidRegroup>(new LidRegroup(&_s));
         parseLidRegroup(in, *_s.anon.lidregroup.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.lidregroup.clear();
         in.rewind(_m);
     try {
         _s.anon.bwmode = QSharedPointer<BWMode>(new BWMode(&_s));
         parseBWMode(in, *_s.anon.bwmode.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.bwmode.clear();
         in.rewind(_m);
         _s.anon.officeartfopte = QSharedPointer<OfficeArtFOPTE>(new OfficeArtFOPTE(&_s));
         parseOfficeArtFOPTE(in, *_s.anon.officeartfopte);
-    }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+    }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 }
 void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
     if (_s.anon.protectionbooleanproperties) {
         write(*_s.anon.protectionbooleanproperties, out);
+    } else if (_s.anon.adjust2value) {
+        write(*_s.anon.adjust2value, out);
+    } else if (_s.anon.adjust3value) {
+        write(*_s.anon.adjust3value, out);
     } else if (_s.anon.itxid) {
         write(*_s.anon.itxid, out);
     } else if (_s.anon.dxtextleft) {

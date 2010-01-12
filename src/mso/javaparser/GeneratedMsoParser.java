@@ -9309,6 +9309,44 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.opid, out);
         out.writeuint32(_s.lidRegroup);
     }
+    adjust2Value parseadjust2Value(LEInputStream in) throws IOException  {
+        adjust2Value _s = new adjust2Value();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x0148)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0148 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.adjust2value = in.readint32();
+        return _s;
+    }
+    void write(adjust2Value _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeint32(_s.adjust2value);
+    }
+    adjust3Value parseadjust3Value(LEInputStream in) throws IOException  {
+        adjust3Value _s = new adjust3Value();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x0149)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0149 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.adjust3value = in.readint32();
+        return _s;
+    }
+    void write(adjust3Value _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeint32(_s.adjust3value);
+    }
     WzFillId parseWzFillId(LEInputStream in) throws IOException  {
         WzFillId _s = new WzFillId();
         _s.opid = parseOfficeArtFOPTEOPID(in);
@@ -10662,211 +10700,223 @@ System.out.println(in.getPosition()+" "+_s);
             if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseITxid(in);
+            _s.anon = parseadjust2Value(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseDxTextLeft(in);
+            _s.anon = parseadjust3Value(in);
         } catch (IOException _xxx) {
             if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseDyTextTop(in);
+            _s.anon = parseITxid(in);
         } catch (IOException _xxxx) {
             if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseDxTextRight(in);
+            _s.anon = parseDxTextLeft(in);
         } catch (IOException _xxxxx) {
             if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseDyTextBottom(in);
+            _s.anon = parseDyTextTop(in);
         } catch (IOException _xxxxxx) {
             if (!(_xxxxxx instanceof IncorrectValueException) && !(_xxxxxx instanceof java.io.EOFException)) throw _xxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseWrapText(in);
+            _s.anon = parseDxTextRight(in);
         } catch (IOException _xxxxxxx) {
             if (!(_xxxxxxx instanceof IncorrectValueException) && !(_xxxxxxx instanceof java.io.EOFException)) throw _xxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseAnchorText(in);
+            _s.anon = parseDyTextBottom(in);
         } catch (IOException _xxxxxxxx) {
             if (!(_xxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseTextBooleanProperties(in);
+            _s.anon = parseWrapText(in);
         } catch (IOException _xxxxxxxxx) {
             if (!(_xxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseHspNext(in);
+            _s.anon = parseAnchorText(in);
         } catch (IOException _xxxxxxxxxx) {
             if (!(_xxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseShapePath(in);
+            _s.anon = parseTextBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxx) {
             if (!(_xxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseGeometryBooleanProperties(in);
+            _s.anon = parseHspNext(in);
         } catch (IOException _xxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillType(in);
+            _s.anon = parseShapePath(in);
         } catch (IOException _xxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillColor(in);
+            _s.anon = parseGeometryBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillBackColor(in);
+            _s.anon = parseFillType(in);
         } catch (IOException _xxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillBlip(in);
+            _s.anon = parseFillColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillStyleBooleanProperties(in);
+            _s.anon = parseFillBackColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineColor(in);
+            _s.anon = parseFillBlip(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineBackColor(in);
+            _s.anon = parseFillStyleBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineFillBlip(in);
+            _s.anon = parseLineColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineWidth(in);
+            _s.anon = parseLineBackColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillRectRight(in);
+            _s.anon = parseLineFillBlip(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillRectBottom(in);
+            _s.anon = parseLineWidth(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseWzFillId(in);
+            _s.anon = parseFillRectRight(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineStyleBooleanProperties(in);
+            _s.anon = parseFillRectBottom(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineStartArrowhead(in);
+            _s.anon = parseWzFillId(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineEndArrowhead(in);
+            _s.anon = parseLineStyleBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineJoinStyle(in);
+            _s.anon = parseLineStartArrowhead(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseShadowColor(in);
+            _s.anon = parseLineEndArrowhead(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseShadowStyleBooleanPropertiesr(in);
+            _s.anon = parseLineJoinStyle(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseShapeBooleanProperties(in);
+            _s.anon = parseShadowColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseHspMaster(in);
+            _s.anon = parseShadowStyleBooleanPropertiesr(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseRotation(in);
+            _s.anon = parseShapeBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLidRegroup(in);
+            _s.anon = parseHspMaster(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseBWMode(in);
+            _s.anon = parseRotation(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
+        try {
+            _s.anon = parseLidRegroup(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseBWMode(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
             _s.anon = parseOfficeArtFOPTE(in);
-        }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}} finally {
+        }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}} finally {
             in.releaseMark(_m);
         }
         return _s;
@@ -10874,6 +10924,10 @@ System.out.println(in.getPosition()+" "+_s);
     void write(OfficeArtFOPTEChoice _s, LEOutputStream out) throws IOException  {
         if (_s.anon instanceof ProtectionBooleanProperties) {
             write((ProtectionBooleanProperties)_s.anon, out);
+        } else if (_s.anon instanceof adjust2Value) {
+            write((adjust2Value)_s.anon, out);
+        } else if (_s.anon instanceof adjust3Value) {
+            write((adjust3Value)_s.anon, out);
         } else if (_s.anon instanceof ITxid) {
             write((ITxid)_s.anon, out);
         } else if (_s.anon instanceof DxTextLeft) {
@@ -17688,6 +17742,26 @@ class LidRegroup {
         String _s = "LidRegroup:";
         _s = _s + "opid: " + String.valueOf(opid) + ", ";
         _s = _s + "lidRegroup: " + String.valueOf(lidRegroup) + "(" + Integer.toHexString(lidRegroup).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class adjust2Value {
+    OfficeArtFOPTEOPID opid;
+    int adjust2value;
+    public String toString() {
+        String _s = "adjust2Value:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "adjust2value: " + String.valueOf(adjust2value) + "(" + Integer.toHexString(adjust2value).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class adjust3Value {
+    OfficeArtFOPTEOPID opid;
+    int adjust3value;
+    public String toString() {
+        String _s = "adjust3Value:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "adjust3value: " + String.valueOf(adjust3value) + "(" + Integer.toHexString(adjust3value).toUpperCase() + "), ";
         return _s;
     }
 }

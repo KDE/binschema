@@ -3072,6 +3072,8 @@
 	<struct name="OfficeArtFOPTEChoice">
 		<choice name="anon">
 			<type type="ProtectionBooleanProperties" />
+			<type type="adjust2Value" />
+			<type type="adjust3Value" />
 			<type type="ITxid" />
 			<type type="DxTextLeft" />
 			<type type="DyTextTop" />
@@ -3522,6 +3524,22 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<uint32 name="lidRegroup" />
+	</struct>
+	<struct name="adjust2Value">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0148" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="adjust2value" />
+	</struct>
+	<struct name="adjust3Value">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0149" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="adjust3value" />
 	</struct>
 	<struct name="WzFillId">
 		<type name="opid" type="OfficeArtFOPTEOPID">
