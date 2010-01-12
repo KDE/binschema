@@ -10,21 +10,21 @@ clean:
 	cd $* && zip -ru ../$(@F) .
 	cd $* && unzip -lv ../$(@F)
 
-%/content.xml: %.xml
+%/content.xml: %.xml xmltocontent.xsl
 	mkdir -p $*
 	xsltproc -o $*/c xmltocontent.xsl $<
 	xmlstarlet val -e -r $(SCHEMA) $*/c
 	xmlstarlet val -e -r $(STRICTSCHEMA) $*/c
 	mv $*/c $*/content.xml
 
-%/styles.xml: %.xml
+%/styles.xml: %.xml xmltostyles.xsl
 	mkdir -p $*
 	xsltproc -o $*/s xmltostyles.xsl $<
 	xmlstarlet val -e -r $(SCHEMA) $*/s
 	xmlstarlet val -e -r $(STRICTSCHEMA) $*/s
 	mv $*/s $*/styles.xml
 
-%/META-INF/manifest.xml: %.xml
+%/META-INF/manifest.xml: %.xml xmltomanifest.xsl
 	mkdir -p $*/META-INF
 	xsltproc -o $*/META-INF/m xmltomanifest.xsl $<
 	xmlstarlet val -e -r $(MANIFESTSCHEMA) $*/META-INF/m
