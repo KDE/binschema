@@ -6,6 +6,7 @@
 
 #include <QtCore/QVariant>
 #include <QtCore/QVector>
+#include <stdint.h>
 
 class Introspectable;
 
