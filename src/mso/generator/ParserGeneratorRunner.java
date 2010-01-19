@@ -45,6 +45,7 @@ public class ParserGeneratorRunner {
 		g.config.enableXml = true;
 		g.config.enableWriting = true;
 		g.config.enableToString = true;
+		g.config.enableStyleTextPropAtomFix = false;
 		g.generate(new MSO(dom));
 	}
 
@@ -58,6 +59,7 @@ public class ParserGeneratorRunner {
 		g.config.enableXml = false;
 		g.config.enableWriting = false;
 		g.config.enableToString = false;
+		g.config.enableStyleTextPropAtomFix = true;
 		g.generate(new MSO(dom));
 	}
 

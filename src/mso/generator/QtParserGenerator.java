@@ -17,6 +17,7 @@ public class QtParserGenerator {
 		public boolean enableXml;
 		public boolean enableWriting;
 		public boolean enableToString;
+		public boolean enableStyleTextPropAtomFix;
 	}
 
 	final public QtParserConfiguration config = new QtParserConfiguration();
@@ -242,11 +243,20 @@ public class QtParserGenerator {
 			out.println("    bool _atend;");
 		}
 		for (Member m : s.members) {
+			if (config.enableStyleTextPropAtomFix
+					&& s.name.equals("StyleTextPropAtom")
+					&& m.name.equals("todo")) {
+				break;
+			}
 			printStructureMemberParser(out, m);
 			if (m.type.contains("RecordHeader")) {
 				// out.println("qDebug() << in.getPosition()<<\" \"<<\"" +
 				// s.name
 				// + "\"<<_s.rh.toString();");
+			}
+			if (config.enableStyleTextPropAtomFix
+					&& s.name.equals("TextContainer") && m.name.equals("style")) {
+				styleTextPropAtomFix2(out);
 			}
 		}
 		out.println("}");
@@ -522,6 +532,32 @@ public class QtParserGenerator {
 		return s;
 	}
 
+	void styleTextPropAtomFix(PrintWriter out) {
+		out.println("    RecordHeader rh;");
+		out.println("    QList<TextPFRun> rgTextPFRun;");
+		out.println("    QList<TextCFRun> rgTextCFRun;");
+	}
+
+	void styleTextPropAtomFix2(PrintWriter out) {
+		out.println("    if ((_s.text.textcharsatom || _s.text.textbytesatom) && _s.style) {");
+		out.println("        quint32 count = (_s.text.textcharsatom)");
+		out.println("                ?_s.text.textcharsatom->textChars.size()");
+		out.println("                :_s.text.textbytesatom->textChars.size();");
+		out.println("        quint32 sum = 0;");
+		out.println("        do {");
+		out.println("            _s.style->rgTextPFRun.append(TextPFRun(_s.style.data()));");
+		out.println("            parseTextPFRun(in, _s.style->rgTextPFRun.last());");
+		out.println("            sum += _s.style->rgTextPFRun.last().count;");		
+		out.println("        } while (sum <= count);");
+		out.println("        sum = 0;");
+		out.println("        do {");
+		out.println("            _s.style->rgTextCFRun.append(TextCFRun(_s.style.data()));");
+		out.println("            parseTextCFRun(in, _s.style->rgTextCFRun.last());");
+		out.println("            sum += _s.style->rgTextCFRun.last().count;");		
+		out.println("        } while (sum < count);");
+		out.println("    }");
+	}
+
 	void printStructureClassDeclaration(PrintWriter out, Struct s) {
 		out.print("class " + s.name);
 		out.println(" : public Introspectable {");
@@ -534,9 +570,14 @@ public class QtParserGenerator {
 				out.println("    bool _has_" + m.name + ";");
 			}
 		}
-		for (Member m : s.members) {
-			String d = getMemberDeclaration(m);
-			out.println("    " + d + ";");
+		if (config.enableStyleTextPropAtomFix
+				&& s.name.equals("StyleTextPropAtom")) {
+			styleTextPropAtomFix(out);
+		} else {
+			for (Member m : s.members) {
+				String d = getMemberDeclaration(m);
+				out.println("    " + d + ";");
+			}
 		}
 		out.print("    " + s.name
 				+ "(const Introspectable* parent) :Introspectable(parent)");
@@ -577,8 +618,6 @@ public class QtParserGenerator {
 		out.println("    static const QString name;");
 		out.println("    static const int numberOfMembers;");
 		out.println("    static const QString names[" + nm + "];");
-		// out.println("    static const Introspection* const introspections["
-		// + nm + "];");
 		out.println("    static int (* const numberOfInstances[" + nm
 				+ "])(const Introspectable*);");
 		out.println("    static QVariant (* const value[" + nm
@@ -586,6 +625,11 @@ public class QtParserGenerator {
 		out.println("    static const Introspectable* (* const introspectable["
 				+ nm + "])(const Introspectable*, int position);");
 		for (Member m : s.members) {
+			if (s.name.equals("StyleTextPropAtom")
+					&& config.enableStyleTextPropAtomFix
+					&& m.name.equals("todo")) {
+				break;
+			}
 			if (!m.isComplex && m.choices == null) {
 				if (m.condition != null) {
 					out.println("    static int count_" + m.name
@@ -663,7 +707,11 @@ public class QtParserGenerator {
 		out.println("QVariant (* const " + ns + "::value[" + nm
 				+ "])(const Introspectable*, int position) = {");
 		for (Member m : s.members) {
-			if (m.isComplex || m.choices != null) {
+			if (s.name.equals("StyleTextPropAtom")
+					&& config.enableStyleTextPropAtomFix
+					&& m.name.equals("todo")) {
+				break;
+			} else if (m.isComplex || m.choices != null) {
 				out.println("    Introspection::nullValue,");
 			} else {
 				out.println("    _Introspection::get_" + m.name + ",");
