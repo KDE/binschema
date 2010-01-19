@@ -539,21 +539,27 @@ public class QtParserGenerator {
 	}
 
 	void styleTextPropAtomFix2(PrintWriter out) {
-		out.println("    if ((_s.text.textcharsatom || _s.text.textbytesatom) && _s.style) {");
+		out
+				.println("    if ((_s.text.textcharsatom || _s.text.textbytesatom) && _s.style) {");
 		out.println("        quint32 count = (_s.text.textcharsatom)");
 		out.println("                ?_s.text.textcharsatom->textChars.size()");
-		out.println("                :_s.text.textbytesatom->textChars.size();");
+		out
+				.println("                :_s.text.textbytesatom->textChars.size();");
 		out.println("        quint32 sum = 0;");
 		out.println("        do {");
-		out.println("            _s.style->rgTextPFRun.append(TextPFRun(_s.style.data()));");
-		out.println("            parseTextPFRun(in, _s.style->rgTextPFRun.last());");
-		out.println("            sum += _s.style->rgTextPFRun.last().count;");		
+		out
+				.println("            _s.style->rgTextPFRun.append(TextPFRun(_s.style.data()));");
+		out
+				.println("            parseTextPFRun(in, _s.style->rgTextPFRun.last());");
+		out.println("            sum += _s.style->rgTextPFRun.last().count;");
 		out.println("        } while (sum <= count);");
 		out.println("        sum = 0;");
 		out.println("        do {");
-		out.println("            _s.style->rgTextCFRun.append(TextCFRun(_s.style.data()));");
-		out.println("            parseTextCFRun(in, _s.style->rgTextCFRun.last());");
-		out.println("            sum += _s.style->rgTextCFRun.last().count;");		
+		out
+				.println("            _s.style->rgTextCFRun.append(TextCFRun(_s.style.data()));");
+		out
+				.println("            parseTextCFRun(in, _s.style->rgTextCFRun.last());");
+		out.println("            sum += _s.style->rgTextCFRun.last().count;");
 		out.println("        } while (sum < count);");
 		out.println("    }");
 	}
@@ -579,7 +585,7 @@ public class QtParserGenerator {
 				out.println("    " + d + ";");
 			}
 		}
-		out.print("    " + s.name
+		out.print("    explicit " + s.name
 				+ "(const Introspectable* parent) :Introspectable(parent)");
 		for (Member m : s.members) {
 			if (m.isComplex && !m.isArray && !m.isOptional && m.choices == null
@@ -777,7 +783,7 @@ public class QtParserGenerator {
 		out.println(s + "_atend = in.getPosition() - _startPos >= "
 				+ getExpression("_s", m.size) + ";");
 		out.println(s + "while (!_atend) {");
-		out.println(s + "    _s." + m.name + ".append(&_s);");
+		out.println(s + "    _s." + m.name + ".append(" + m.type + "(&_s));");
 		out.println(s + "    parse" + m.type + "(in, _s." + m.name
 				+ ".last());");
 		out.println(s + "    _atend = in.getPosition() - _startPos >= "
@@ -790,7 +796,7 @@ public class QtParserGenerator {
 		out.println(s + "while (!_atend) {");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
-		out.println(s + "        _s." + m.name + ".append(&_s);");
+		out.println(s + "        _s." + m.name + ".append(" + m.type + "(&_s));");
 		out.println(s + "        parse" + m.type + "(in, _s." + m.name
 				+ ".last());");
 		out.println(s + "    } catch(IncorrectValueException _e) {");

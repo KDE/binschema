@@ -1469,7 +1469,7 @@ public:
     quint16 recInstance;
     quint16 recType;
     quint32 recLen;
-    RecordHeader(const Introspectable* parent) :Introspectable(parent) {
+    explicit RecordHeader(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "RecordHeader:";
@@ -1499,7 +1499,7 @@ public:
     QByteArray ansiUserName;
     quint32 relVersion;
     QByteArray unicodeUserName;
-    CurrentUserAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit CurrentUserAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1526,7 +1526,7 @@ private:
 public:
     static const Introspection _introspection;
     QList<Byte> anon;
-    TODOS(const Introspectable* parent) :Introspectable(parent) {
+    explicit TODOS(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "TODOS:";
@@ -1541,7 +1541,7 @@ private:
 public:
     static const Introspection _introspection;
     quint8 b;
-    Byte(const Introspectable* parent) :Introspectable(parent) {
+    explicit Byte(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "Byte:";
@@ -1557,7 +1557,7 @@ public:
     static const Introspection _introspection;
     CurrentUserAtom anon1;
     QList<Byte> trailing;
-    CurrentUserStream(const Introspectable* parent) :Introspectable(parent),
+    explicit CurrentUserStream(const Introspectable* parent) :Introspectable(parent),
         anon1(this) {
     }
     QString toString() {
@@ -1574,7 +1574,7 @@ private:
 public:
     static const Introspection _introspection;
     QList<OfficeArtBStoreContainerFileBlock> anon1;
-    OfficeArtBStoreDelay(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtBStoreDelay(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtBStoreDelay:";
@@ -1592,7 +1592,7 @@ public:
     quint16 recInstance;
     quint16 recType;
     quint32 recLen;
-    OfficeArtRecordHeader(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtRecordHeader(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtRecordHeader:";
@@ -1615,7 +1615,7 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipJPEG(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBlipJPEG(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1640,7 +1640,7 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipPNG(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBlipPNG(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1665,7 +1665,7 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipDIB(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBlipDIB(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1690,7 +1690,7 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    OfficeArtBlipTIFF(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBlipTIFF(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1713,7 +1713,7 @@ public:
     qint32 top;
     qint32 right;
     qint32 bottom;
-    RECT(const Introspectable* parent) :Introspectable(parent) {
+    explicit RECT(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "RECT:";
@@ -1732,7 +1732,7 @@ public:
     static const Introspection _introspection;
     qint32 x;
     qint32 y;
-    POINT(const Introspectable* parent) :Introspectable(parent) {
+    explicit POINT(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "POINT:";
@@ -1748,7 +1748,7 @@ private:
 public:
     static const Introspection _introspection;
     QList<PowerPointStruct> anon;
-    PowerPointStructs(const Introspectable* parent) :Introspectable(parent) {
+    explicit PowerPointStructs(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PowerPointStructs:";
@@ -1764,7 +1764,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SoundCollectionContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SoundCollectionContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1790,7 +1790,7 @@ public:
     bool fHasFooter;
     quint8 reserved1;
     quint8 reserved2;
-    HeadersFootersAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit HeadersFootersAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1816,7 +1816,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray userDate;
-    UserDateAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit UserDateAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1834,7 +1834,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray footer;
-    HeaderAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit HeaderAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1852,7 +1852,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray footer;
-    FooterAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit FooterAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1872,7 +1872,7 @@ public:
     HeadersFootersAtom hfAtom;
     QSharedPointer<UserDateAtom> userDateAtom;
     QSharedPointer<FooterAtom> footerAtom;
-    PerSlideHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit PerSlideHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         hfAtom(this) {
     }
@@ -1892,7 +1892,7 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    EndDocumentAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit EndDocumentAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1909,7 +1909,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<DocInfoListSubContainerOrAtom> rgChildRec;
-    DocInfoListContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DocInfoListContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1929,7 +1929,7 @@ public:
     quint8 unused1;
     quint8 fSnapToGrid;
     quint8 fSnapToShape;
-    SlideViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1950,7 +1950,7 @@ public:
     RecordHeader rh;
     quint32 type;
     qint32 pos;
-    GuideAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit GuideAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1969,7 +1969,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<DocProgTagsSubContainerOrAtom> rgChildRec;
-    DocProgTagsContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DocProgTagsContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -1987,7 +1987,7 @@ public:
     static const Introspection _introspection;
     quint16 scheme;
     quint16 startNum;
-    TextAutoNumberScheme(const Introspectable* parent) :Introspectable(parent) {
+    explicit TextAutoNumberScheme(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "TextAutoNumberScheme:";
@@ -2004,7 +2004,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<BlipEntityAtom> rgBlipEntityAtom;
-    BlipCollection9Container(const Introspectable* parent) :Introspectable(parent),
+    explicit BlipCollection9Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2027,7 +2027,7 @@ public:
     quint8 jpnLevel;
     quint8 reserveda;
     quint32 reservedb;
-    Kinsoku9Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit Kinsoku9Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2050,7 +2050,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    ExHyperlink9Container(const Introspectable* parent) :Introspectable(parent),
+    explicit ExHyperlink9Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2081,7 +2081,7 @@ public:
     quint8 reserveda;
     quint8 reservedb;
     quint8 reservedc;
-    PresAdvisorFlags9Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit PresAdvisorFlags9Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2112,7 +2112,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    EnvelopeData9Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit EnvelopeData9Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2135,7 +2135,7 @@ public:
     bool fEnvelopeDirty;
     quint8 reserved2a;
     quint32 reserved2b;
-    EnvelopeFlags9Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit EnvelopeFlags9Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2172,7 +2172,7 @@ public:
     bool fShowSlideAnimation;
     bool reserved1;
     quint16 unused3;
-    HTMLDocInfo9Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit HTMLDocInfo9Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2204,7 +2204,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    HTMLPublishInfo9Container(const Introspectable* parent) :Introspectable(parent),
+    explicit HTMLPublishInfo9Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2222,7 +2222,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    BroadcastDocInfo9Container(const Introspectable* parent) :Introspectable(parent),
+    explicit BroadcastDocInfo9Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2240,7 +2240,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<OutlineTextProps9Entry> rgOutlineTextProps9Entry;
-    OutlineTextProps9Container(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineTextProps9Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2258,7 +2258,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    OutlineTextPropsHeaderExAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineTextPropsHeaderExAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2276,7 +2276,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<FontCollectionEntry> rgFontCollectionEntry;
-    FontCollection10Container(const Introspectable* parent) :Introspectable(parent),
+    explicit FontCollection10Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2295,7 +2295,7 @@ public:
     RecordHeader rh;
     quint32 x;
     quint32 y;
-    GridSpacing10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit GridSpacing10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2314,7 +2314,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray authorName;
-    AuthorNameAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit AuthorNameAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2333,7 +2333,7 @@ public:
     RecordHeader rh;
     qint32 colorIndex;
     qint32 commentIndexSeed;
-    CommentIndex10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit CommentIndex10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2354,7 +2354,7 @@ public:
     bool fSubset;
     bool fSubsetOptionConfirmed;
     quint32 unused;
-    FontEmbedFlags10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit FontEmbedFlags10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2374,7 +2374,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray copyright;
-    CopyrightAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit CopyrightAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2392,7 +2392,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray keywords;
-    KeywordsAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit KeywordsAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2413,7 +2413,7 @@ public:
     quint32 reserved2a;
     quint8 reserved2b;
     quint8 reserved2c;
-    FilterPrivacyFlags10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit FilterPrivacyFlags10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2434,7 +2434,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<OutlineTextProps10Entry> rgOutlineTextProps10Entry;
-    OutlineTextProps10Container(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineTextProps10Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2454,7 +2454,7 @@ public:
     QList<TextPFRun> rgTextPFRun;
     QList<TextCFRun> rgTextCFRun;
     QByteArray todo;
-    StyleTextProp10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit StyleTextProp10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2476,7 +2476,7 @@ public:
     bool fShowReviewingToolbar;
     bool fShowReviewingGallery;
     quint8 reserved;
-    DocToolbarStates10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit DocToolbarStates10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2496,7 +2496,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SlideListTable10Container(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideListTable10Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2514,7 +2514,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    DiffTree10Container(const Introspectable* parent) :Introspectable(parent),
+    explicit DiffTree10Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2532,7 +2532,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray modifyPassword;
-    ModifyPasswordAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ModifyPasswordAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2554,7 +2554,7 @@ public:
     quint8 layout;
     quint8 unused;
     quint16 frameShape;
-    PhotoAlbumInfo10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit PhotoAlbumInfo10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2576,7 +2576,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SmartTagStore11Container(const Introspectable* parent) :Introspectable(parent),
+    explicit SmartTagStore11Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2594,7 +2594,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    OutlineTextProps11Container(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineTextProps11Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2612,7 +2612,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray data;
-    BinaryTagDataBlob(const Introspectable* parent) :Introspectable(parent),
+    explicit BinaryTagDataBlob(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2632,7 +2632,7 @@ public:
     QByteArray tagName;
     RecordHeader rhData;
     QByteArray todo;
-    PP12DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
+    explicit PP12DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         rhData(this) {
     }
@@ -2653,7 +2653,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SorterViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SorterViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2673,7 +2673,7 @@ public:
     quint32 persistIdRef;
     quint32 fHasMacros;
     quint32 version;
-    VBAInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit VBAInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2693,7 +2693,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<MasterPersistAtom> rgMasterPersistAtom;
-    MasterListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit MasterListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2711,7 +2711,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<SlideListWithTextSubContainerOrAtom> rgChildRec;
-    SlideListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2729,7 +2729,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<NotesPersistAtom> rgNotesPersistAtom;
-    NotesListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2755,7 +2755,7 @@ public:
     quint32 reserved3;
     quint32 notesId;
     quint32 reserved4;
-    NotesPersistAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesPersistAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2781,7 +2781,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint32 textType;
-    TextHeaderAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextHeaderAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2799,7 +2799,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> textChars;
-    TextCharsAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextCharsAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2817,7 +2817,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray textChars;
-    TextBytesAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextBytesAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2835,7 +2835,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<MasterTextPropRun> rgMasterTextPropRun;
-    MasterTextPropAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit MasterTextPropAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2853,7 +2853,7 @@ public:
     static const Introspection _introspection;
     quint32 count;
     quint16 indentLevel;
-    MasterTextPropRun(const Introspectable* parent) :Introspectable(parent) {
+    explicit MasterTextPropRun(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "MasterTextPropRun:";
@@ -2870,7 +2870,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    StyleTextPropAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit StyleTextPropAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2888,7 +2888,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    SlideNumberMCAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideNumberMCAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2908,7 +2908,7 @@ public:
     qint32 position;
     quint8 index;
     QByteArray unused;
-    DateTimeMCAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit DateTimeMCAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2928,7 +2928,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    GenericDateMCAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit GenericDateMCAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2946,7 +2946,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    HeaderMCAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit HeaderMCAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2964,7 +2964,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    FooterMCAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit FooterMCAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -2983,7 +2983,7 @@ public:
     RecordHeader rh;
     qint32 position;
     QByteArray format;
-    RTFDateTimeMCAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit RTFDateTimeMCAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3004,7 +3004,7 @@ public:
     qint32 begin;
     qint32 end;
     qint32 bookmarkID;
-    TextBookmarkAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextBookmarkAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3024,7 +3024,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray range;
-    MouseTextInteractiveInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit MouseTextInteractiveInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3041,7 +3041,7 @@ private:
 public:
     static const Introspection _introspection;
     quint32 slideId;
-    SlideId(const Introspectable* parent) :Introspectable(parent) {
+    explicit SlideId(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "SlideId:";
@@ -3057,7 +3057,7 @@ public:
     static const Introspection _introspection;
     quint16 count;
     QList<TabStop> rgTabStop;
-    TabStops(const Introspectable* parent) :Introspectable(parent) {
+    explicit TabStops(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "TabStops:";
@@ -3074,7 +3074,7 @@ public:
     static const Introspection _introspection;
     qint16 position;
     quint16 type;
-    TabStop(const Introspectable* parent) :Introspectable(parent) {
+    explicit TabStop(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "TabStop:";
@@ -3094,7 +3094,7 @@ public:
     bool overflow;
     quint8 reserved1;
     quint8 reserved2;
-    PFWrapFlags(const Introspectable* parent) :Introspectable(parent) {
+    explicit PFWrapFlags(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PFWrapFlags:";
@@ -3116,7 +3116,7 @@ public:
     quint8 green;
     quint8 blue;
     quint8 index;
-    ColorIndexStruct(const Introspectable* parent) :Introspectable(parent) {
+    explicit ColorIndexStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "ColorIndexStruct:";
@@ -3138,7 +3138,7 @@ public:
     bool fBulletHasColor;
     bool fBulletHasSize;
     quint16 reserved;
-    BulletFlags(const Introspectable* parent) :Introspectable(parent) {
+    explicit BulletFlags(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "BulletFlags:";
@@ -3183,7 +3183,7 @@ public:
     bool bulletScheme;
     bool bulletHasScheme;
     quint8 reserved2;
-    PFMasks(const Introspectable* parent) :Introspectable(parent) {
+    explicit PFMasks(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PFMasks:";
@@ -3247,7 +3247,7 @@ public:
     bool csTypeface;
     bool pp11ext;
     quint8 reserved;
-    CFMasks(const Introspectable* parent) :Introspectable(parent) {
+    explicit CFMasks(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "CFMasks:";
@@ -3296,7 +3296,7 @@ public:
     bool emboss;
     quint8 pp9rt;
     quint8 unused4;
-    CFStyle(const Introspectable* parent) :Introspectable(parent) {
+    explicit CFStyle(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "CFStyle:";
@@ -3323,7 +3323,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<FontCollectionEntry> rgFontCollectionEntry;
-    FontCollectionContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit FontCollectionContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3350,7 +3350,7 @@ public:
     bool fNoFontSubstitution;
     quint8 reserved;
     quint8 lfPitchAndFamily;
-    FontEntityAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit FontEntityAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3377,7 +3377,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray data;
-    FontEmbedDataBlob(const Introspectable* parent) :Introspectable(parent),
+    explicit FontEmbedDataBlob(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3395,7 +3395,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint32 level;
-    KinsokuAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit KinsokuAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3413,7 +3413,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> kinsokuLeading;
-    KinsokuLeadingAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit KinsokuLeadingAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3431,7 +3431,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> kinsokuFollowing;
-    KinsokuFollowingAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit KinsokuFollowingAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3449,7 +3449,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<TextSIRun> rgSIRun;
-    TextSpecialInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextSpecialInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3467,7 +3467,7 @@ public:
     static const Introspection _introspection;
     quint32 count;
     QVector<quint32> rgSmartTagIndex;
-    SmartTags(const Introspectable* parent) :Introspectable(parent) {
+    explicit SmartTags(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "SmartTags:";
@@ -3488,7 +3488,7 @@ public:
     quint8 fNoSizeToServer;
     quint8 fIsTable;
     quint8 unused;
-    ExOleEmbedAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ExOleEmbedAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3510,7 +3510,7 @@ public:
     static const Introspection _introspection;
     qint32 x;
     qint32 y;
-    PointStruct(const Introspectable* parent) :Introspectable(parent) {
+    explicit PointStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PointStruct:";
@@ -3527,7 +3527,7 @@ public:
     static const Introspection _introspection;
     qint32 numer;
     qint32 denom;
-    RatioStruct(const Introspectable* parent) :Introspectable(parent) {
+    explicit RatioStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "RatioStruct:";
@@ -3544,7 +3544,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<PersistDirectoryEntry> rgPersistDirEntry;
-    PersistDirectoryAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit PersistDirectoryAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3562,7 +3562,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownDocumentContainerChild(const Introspectable* parent) :Introspectable(parent),
+    explicit UnknownDocumentContainerChild(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3580,7 +3580,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownDocumentContainerChild2(const Introspectable* parent) :Introspectable(parent),
+    explicit UnknownDocumentContainerChild2(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3598,7 +3598,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownDocumentContainerChild3(const Introspectable* parent) :Introspectable(parent),
+    explicit UnknownDocumentContainerChild3(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3616,7 +3616,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownDocumentContainerChild4(const Introspectable* parent) :Introspectable(parent),
+    explicit UnknownDocumentContainerChild4(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3634,7 +3634,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownOfficeArtClientDataChild(const Introspectable* parent) :Introspectable(parent),
+    explicit UnknownOfficeArtClientDataChild(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3652,7 +3652,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    UnknownSlideContainerChild(const Introspectable* parent) :Introspectable(parent),
+    explicit UnknownSlideContainerChild(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3671,7 +3671,7 @@ public:
     quint32 persistId;
     quint16 cPersist;
     QList<PersistOffsetEntry> rgPersistOffset;
-    PersistDirectoryEntry(const Introspectable* parent) :Introspectable(parent) {
+    explicit PersistDirectoryEntry(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PersistDirectoryEntry:";
@@ -3688,7 +3688,7 @@ private:
 public:
     static const Introspection _introspection;
     quint32 anon;
-    PersistOffsetEntry(const Introspectable* parent) :Introspectable(parent) {
+    explicit PersistOffsetEntry(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PersistOffsetEntry:";
@@ -3703,7 +3703,7 @@ private:
 public:
     static const Introspection _introspection;
     quint32 anon;
-    PersistIdRef(const Introspectable* parent) :Introspectable(parent) {
+    explicit PersistIdRef(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PersistIdRef:";
@@ -3719,7 +3719,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<ColorStruct> rgSchemeColor;
-    SchemeListElementColorSchemeAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SchemeListElementColorSchemeAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3737,7 +3737,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    RoundTripOArtTextStyles12Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit RoundTripOArtTextStyles12Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3755,7 +3755,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SlideNameAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideNameAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3773,7 +3773,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<SlideProgTagsSubContainerOrAtom> rgTypeRec;
-    SlideProgTagsContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideProgTagsContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3791,7 +3791,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SlideProgBinaryTagContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideProgBinaryTagContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3809,7 +3809,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> tagName;
-    TagNameAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TagNameAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3827,7 +3827,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> tagValue;
-    TagValueAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TagValueAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3845,7 +3845,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    RoundTripMainMasterRecord(const Introspectable* parent) :Introspectable(parent),
+    explicit RoundTripMainMasterRecord(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3863,7 +3863,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> templateName;
-    TemplateNameAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TemplateNameAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3881,7 +3881,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    RoundTripSlideSyncInfo12Container(const Introspectable* parent) :Introspectable(parent),
+    explicit RoundTripSlideSyncInfo12Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3902,7 +3902,7 @@ public:
     bool fMasterBackground;
     quint8 unused1;
     quint8 unused2;
-    SlideFlags(const Introspectable* parent) :Introspectable(parent) {
+    explicit SlideFlags(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "SlideFlags:";
@@ -3922,7 +3922,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    NotesRoundTripAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesRoundTripAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3940,7 +3940,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    HandoutContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit HandoutContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3958,7 +3958,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    ExControlStg(const Introspectable* parent) :Introspectable(parent),
+    explicit ExControlStg(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -3976,7 +3976,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    ExOleObjStg(const Introspectable* parent) :Introspectable(parent),
+    explicit ExOleObjStg(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4005,7 +4005,7 @@ public:
     quint16 lastView;
     quint16 unused;
     quint32 encryptSessionPersistIdRef;
-    UserEditAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit UserEditAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4033,7 +4033,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    VbaProjectStg(const Introspectable* parent) :Introspectable(parent),
+    explicit VbaProjectStg(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4056,7 +4056,7 @@ public:
     quint32 notesIdRef;
     SlideFlags slideFlags;
     quint16 unused;
-    SlideAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         slideFlags(this) {
     }
@@ -4099,7 +4099,7 @@ public:
     quint8 reserved7;
     quint8 speed;
     QByteArray unused;
-    SlideShowSlideInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideShowSlideInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4151,7 +4151,7 @@ public:
     bool fHideScrollBar;
     quint8 reserved;
     quint16 unused;
-    SlideShowDocInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideShowDocInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         penColor(this) {
     }
@@ -4185,7 +4185,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<ColorStruct> rgSchemeColor;
-    SlideSchemeColorSchemeAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideSchemeColorSchemeAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4203,7 +4203,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    RoundTripSlideRecord(const Introspectable* parent) :Introspectable(parent),
+    explicit RoundTripSlideRecord(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4221,7 +4221,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    NamedShowsContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit NamedShowsContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4239,7 +4239,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    SummaryContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SummaryContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4257,7 +4257,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    DocRoutingSlipAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit DocRoutingSlipAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4275,7 +4275,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    PrintOptionsAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit PrintOptionsAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4293,7 +4293,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    RoundTripCustomTableStyles12Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit RoundTripCustomTableStyles12Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4313,7 +4313,7 @@ public:
     quint8 green;
     quint8 blue;
     quint8 unused;
-    ColorStruct(const Introspectable* parent) :Introspectable(parent) {
+    explicit ColorStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "ColorStruct:";
@@ -4332,7 +4332,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 exObjIdSeed;
-    ExObjListAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ExObjListAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4350,7 +4350,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExAviMovieContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExAviMovieContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4368,7 +4368,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExCDAudioContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExCDAudioContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4386,7 +4386,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     quint32 slideIdRef;
-    ExControlAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ExControlAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4404,7 +4404,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExHyperlinkContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExHyperlinkContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4422,7 +4422,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExMCIMovieContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExMCIMovieContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4440,7 +4440,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExMIDIAudioContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExMIDIAudioContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4458,7 +4458,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExWAVAudioEmbeddedContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExWAVAudioEmbeddedContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4476,7 +4476,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ExWAVAudioLinkContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExWAVAudioLinkContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4494,7 +4494,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    UnknownExObjListSubContainerChild(const Introspectable* parent) :Introspectable(parent),
+    explicit UnknownExObjListSubContainerChild(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4514,7 +4514,7 @@ public:
     quint32 slideIdRef;
     quint32 oleUpdateMode;
     quint32 unused;
-    ExOleLinkAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ExOleLinkAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4539,7 +4539,7 @@ public:
     quint32 subType;
     quint32 persistIdRef;
     quint32 unused;
-    ExOleObjAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ExOleObjAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4562,7 +4562,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray menuName;
-    MenuNameAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit MenuNameAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4580,7 +4580,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray progId;
-    ProgIDAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ProgIDAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4598,7 +4598,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray clipboardName;
-    ClipboardNameAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ClipboardNameAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4619,7 +4619,7 @@ public:
     qint16 xExt;
     qint16 yExt;
     QByteArray data;
-    MetafileBlob(const Introspectable* parent) :Introspectable(parent),
+    explicit MetafileBlob(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4642,7 +4642,7 @@ public:
     quint32 cidcl;
     quint32 cspSaved;
     quint32 cdgSaved;
-    OfficeArtFDGG(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtFDGG(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtFDGG:";
@@ -4662,7 +4662,7 @@ public:
     OfficeArtRecordHeader rh;
     quint32 csp;
     quint32 spidCur;
-    OfficeArtFDG(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFDG(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4681,7 +4681,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtFRIT> rgfrit;
-    OfficeArtFRITContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFRITContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4699,7 +4699,7 @@ public:
     static const Introspection _introspection;
     quint16 fridNew;
     quint16 fridOld;
-    OfficeArtFRIT(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtFRIT(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtFRIT:";
@@ -4716,7 +4716,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtBStoreContainerFileBlock> rgfb;
-    OfficeArtBStoreContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBStoreContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4734,7 +4734,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtSpgrContainerFileBlock> rgfb;
-    OfficeArtSpgrContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtSpgrContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4752,7 +4752,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtSolverContainerFileBlock> rgfb;
-    OfficeArtSolverContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtSolverContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4775,7 +4775,7 @@ public:
     quint32 spidC;
     quint32 cptiA;
     quint32 cptiB;
-    OfficeArtFConnectorRule(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFConnectorRule(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4799,7 +4799,7 @@ public:
     OfficeArtRecordHeader rh;
     quint32 ruid;
     quint32 spid;
-    OfficeArtFArcRule(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFArcRule(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4819,7 +4819,7 @@ public:
     OfficeArtRecordHeader rh;
     quint32 ruid;
     quint32 spid;
-    OfficeArtFCalloutRule(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFCalloutRule(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4841,7 +4841,7 @@ public:
     qint32 yTop;
     qint32 xRight;
     qint32 yBottom;
-    OfficeArtFSPGR(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFSPGR(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4875,7 +4875,7 @@ public:
     bool fBackground;
     bool fHaveSpt;
     quint32 unused1;
-    OfficeArtFSP(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFSP(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4907,7 +4907,7 @@ public:
     OfficeArtRecordHeader rh;
     QList<OfficeArtFOPTEChoice> fopt;
     QByteArray complexData;
-    OfficeArtFOPT(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFOPT(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -4925,7 +4925,7 @@ private:
 public:
     static const Introspection _introspection;
     QByteArray data;
-    OfficeArtFOPTEComplexData(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtFOPTEComplexData(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtFOPTEComplexData:";
@@ -4941,7 +4941,7 @@ public:
     static const Introspection _introspection;
     qint16 integral;
     quint16 fractional;
-    FixedPoint(const Introspectable* parent) :Introspectable(parent) {
+    explicit FixedPoint(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "FixedPoint:";
@@ -4967,7 +4967,7 @@ public:
     bool unused1;
     bool unused2;
     bool unused3;
-    OfficeArtCOLORREF(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtCOLORREF(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtCOLORREF:";
@@ -4996,7 +4996,7 @@ public:
     qint32 yTop;
     qint32 xRight;
     qint32 yBottom;
-    OfficeArtChildAnchor(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtChildAnchor(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5019,7 +5019,7 @@ public:
     quint32 spid;
     bool reserved1;
     bool fLast;
-    OfficeArtFPSPL(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFPSPL(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5039,7 +5039,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    OfficeArtSecondaryFOPT(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtSecondaryFOPT(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5058,7 +5058,7 @@ public:
     OfficeArtRecordHeader rh;
     QList<OfficeArtFOPTE> fopt;
     QByteArray complexData;
-    OfficeArtTertiaryFOPT(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtTertiaryFOPT(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5079,7 +5079,7 @@ public:
     qint32 left;
     qint32 right;
     qint32 bottom;
-    RectStruct(const Introspectable* parent) :Introspectable(parent) {
+    explicit RectStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "RectStruct:";
@@ -5100,7 +5100,7 @@ public:
     qint16 left;
     qint16 right;
     qint16 bottom;
-    SmallRectStruct(const Introspectable* parent) :Introspectable(parent) {
+    explicit SmallRectStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "SmallRectStruct:";
@@ -5119,7 +5119,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ShapeFlagsAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ShapeFlagsAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5137,7 +5137,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ShapeFlags10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit ShapeFlags10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5155,7 +5155,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     quint32 exObjIdRef;
-    ExObjRefAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ExObjRefAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5173,7 +5173,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    AnimationInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit AnimationInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5191,7 +5191,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    SoundContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SoundContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5220,7 +5220,7 @@ public:
     quint8 reserved;
     quint8 hyperlinkType;
     QByteArray unused;
-    InteractiveInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit InteractiveInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5249,7 +5249,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray macroName;
-    MacroNameAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit MacroNameAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5270,7 +5270,7 @@ public:
     quint8 placementId;
     quint8 size;
     quint16 unused;
-    PlaceholderAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit PlaceholderAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5291,7 +5291,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    RecolorInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit RecolorInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5309,7 +5309,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     qint32 index;
-    OutlineTextRefAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineTextRefAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5327,7 +5327,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    ShapeClientRoundtripDataSubcontainerOrAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ShapeClientRoundtripDataSubcontainerOrAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5345,7 +5345,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<TextClientDataSubContainerOrAtom> rgChildRec;
-    OfficeArtClientTextBox(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtClientTextBox(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5363,7 +5363,7 @@ public:
     static const Introspection _introspection;
     quint32 dgid;
     quint32 cspidCur;
-    OfficeArtIDCL(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtIDCL(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtIDCL:";
@@ -5381,7 +5381,7 @@ public:
     quint16 opid;
     bool fBid;
     bool fComplex;
-    OfficeArtFOPTEOPID(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtFOPTEOPID(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtFOPTEOPID:";
@@ -5399,7 +5399,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<MSOCR> rgmsocr;
-    OfficeArtColorMRUContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtColorMRUContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5421,7 +5421,7 @@ public:
     quint8 unused1;
     bool fSchemeIndex;
     quint8 unused2;
-    MSOCR(const Introspectable* parent) :Introspectable(parent) {
+    explicit MSOCR(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "MSOCR:";
@@ -5442,7 +5442,7 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<MSOCR> smca;
-    OfficeArtSplitMenuColorContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtSplitMenuColorContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5460,7 +5460,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray anon;
-    todo(const Introspectable* parent) :Introspectable(parent),
+    explicit todo(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -5507,7 +5507,7 @@ public:
     quint16 reserved4;
     quint32 reserved5;
     quint32 reserved6;
-    FibBase(const Introspectable* parent) :Introspectable(parent) {
+    explicit FibBase(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "FibBase:";
@@ -5565,7 +5565,7 @@ public:
     quint16 reserved12;
     quint16 reserved13;
     quint16 lidFE;
-    FibRgW97(const Introspectable* parent) :Introspectable(parent) {
+    explicit FibRgW97(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "FibRgW97:";
@@ -5614,7 +5614,7 @@ public:
     quint32 reserved12;
     quint32 reserved13;
     quint32 reserved14;
-    FibRgLw97(const Introspectable* parent) :Introspectable(parent) {
+    explicit FibRgLw97(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "FibRgLw97:";
@@ -5835,7 +5835,7 @@ public:
     quint32 lcbSttbListNames;
     quint32 fcSttbfUssr;
     quint32 lcbSttbfUssr;
-    FibRgFcLcb97(const Introspectable* parent) :Introspectable(parent) {
+    explicit FibRgFcLcb97(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "FibRgFcLcb97:";
@@ -6064,7 +6064,7 @@ public:
     quint32 lcbPgdEdnOld;
     quint32 fcBkdEdnOld;
     quint32 lcbBkdEdnOld;
-    FibRgFcLcb2000(const Introspectable* parent) :Introspectable(parent) {
+    explicit FibRgFcLcb2000(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "FibRgFcLcb2000:";
@@ -6157,7 +6157,7 @@ public:
     quint32 lcbUnused2;
     quint32 fcPlcffactoid;
     quint32 lcbPlcffactoid;
-    FibRgFcLcb2002(const Introspectable* parent) :Introspectable(parent) {
+    explicit FibRgFcLcb2002(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "FibRgFcLcb2002:";
@@ -6222,7 +6222,7 @@ public:
     static const Introspection _introspection;
     quint16 cbSthi;
     QByteArray stshi;
-    LPStshi(const Introspectable* parent) :Introspectable(parent) {
+    explicit LPStshi(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "LPStshi:";
@@ -6241,7 +6241,7 @@ public:
     quint16 cbStd;
     QByteArray std;
     quint8 padding;
-    LPStd(const Introspectable* parent) :Introspectable(parent) {
+    explicit LPStd(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "LPStd:";
@@ -6259,7 +6259,7 @@ public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
     QList<Sed> aSed;
-    PlcfSed(const Introspectable* parent) :Introspectable(parent) {
+    explicit PlcfSed(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PlcfSed:";
@@ -6278,7 +6278,7 @@ public:
     qint32 fcSepx;
     quint16 fnMpr;
     quint32 fcMpr;
-    Sed(const Introspectable* parent) :Introspectable(parent) {
+    explicit Sed(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "Sed:";
@@ -6296,7 +6296,7 @@ private:
 public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
-    Plcfhdd(const Introspectable* parent) :Introspectable(parent) {
+    explicit Plcfhdd(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "Plcfhdd:";
@@ -6312,7 +6312,7 @@ public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
     QVector<quint32> aPnBteChpx;
-    PlcBteChpx(const Introspectable* parent) :Introspectable(parent) {
+    explicit PlcBteChpx(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PlcBteChpx:";
@@ -6329,7 +6329,7 @@ public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
     QVector<quint32> aPnBteChpx;
-    PlcfBtePapx(const Introspectable* parent) :Introspectable(parent) {
+    explicit PlcfBtePapx(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PlcfBtePapx:";
@@ -6346,7 +6346,7 @@ public:
     static const Introspection _introspection;
     quint8 nTcgVer;
     QByteArray todo;
-    Tcg(const Introspectable* parent) :Introspectable(parent) {
+    explicit Tcg(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "Tcg:";
@@ -6363,7 +6363,7 @@ public:
     static const Introspection _introspection;
     qint16 cbGrpprl;
     QList<Sprm> GrpPrl;
-    PrcData(const Introspectable* parent) :Introspectable(parent) {
+    explicit PrcData(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PrcData:";
@@ -6382,7 +6382,7 @@ public:
     bool fSpec;
     quint8 sgc;
     quint8 spra;
-    Sprm(const Introspectable* parent) :Introspectable(parent) {
+    explicit Sprm(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "Sprm:";
@@ -6402,7 +6402,7 @@ public:
     quint8 clxt;
     quint32 lcb;
     QList<Pcd> PlcPcd;
-    Pcdt(const Introspectable* parent) :Introspectable(parent) {
+    explicit Pcdt(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "Pcdt:";
@@ -6421,7 +6421,7 @@ public:
     quint32 fc;
     bool fCompressed;
     bool r1;
-    FCompressed(const Introspectable* parent) :Introspectable(parent) {
+    explicit FCompressed(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "FCompressed:";
@@ -6440,7 +6440,7 @@ public:
     bool fComplex;
     quint8 isprm;
     quint8 val;
-    Prm0(const Introspectable* parent) :Introspectable(parent) {
+    explicit Prm0(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "Prm0:";
@@ -6458,7 +6458,7 @@ public:
     static const Introspection _introspection;
     bool fComplex;
     quint16 igrpprl;
-    Prm1(const Introspectable* parent) :Introspectable(parent) {
+    explicit Prm1(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "Prm1:";
@@ -6476,7 +6476,7 @@ public:
     quint16 cData;
     quint16 cbExtra;
     QList<SttbfFfnEntry> data;
-    SttbfFfn(const Introspectable* parent) :Introspectable(parent) {
+    explicit SttbfFfn(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "SttbfFfn:";
@@ -6494,7 +6494,7 @@ public:
     static const Introspection _introspection;
     quint8 cchData;
     QByteArray Data;
-    SttbfFfnEntry(const Introspectable* parent) :Introspectable(parent) {
+    explicit SttbfFfnEntry(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "SttbfFfnEntry:";
@@ -6511,7 +6511,7 @@ public:
     static const Introspection _introspection;
     quint32 size;
     QByteArray characters;
-    CodePageString(const Introspectable* parent) :Introspectable(parent) {
+    explicit CodePageString(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "CodePageString:";
@@ -6528,7 +6528,7 @@ public:
     static const Introspection _introspection;
     quint32 dwLowDateTime;
     quint32 dwHighDateTime;
-    FILETIME(const Introspectable* parent) :Introspectable(parent) {
+    explicit FILETIME(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "FILETIME:";
@@ -6546,7 +6546,7 @@ public:
     quint32 size;
     quint32 format;
     QByteArray data;
-    ClipboardData(const Introspectable* parent) :Introspectable(parent) {
+    explicit ClipboardData(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "ClipboardData:";
@@ -6564,7 +6564,7 @@ public:
     static const Introspection _introspection;
     quint32 propertyIdentifier;
     quint32 offset;
-    PropertyIdentifierAndOffset(const Introspectable* parent) :Introspectable(parent) {
+    explicit PropertyIdentifierAndOffset(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PropertyIdentifierAndOffset:";
@@ -6590,7 +6590,7 @@ public:
     QSharedPointer<CodePageString> vt_lpstr;
     QSharedPointer<FILETIME> vg_FILETIME;
     QSharedPointer<ClipboardData> vg_CF;
-    TypedPropertyValue(const Introspectable* parent) :Introspectable(parent) {
+    explicit TypedPropertyValue(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "TypedPropertyValue:";
@@ -6615,7 +6615,7 @@ public:
     quint32 numProperties;
     QList<PropertyIdentifierAndOffset> propertyIdentifierAndOffset;
     QList<TypedPropertyValue> property;
-    PropertySet(const Introspectable* parent) :Introspectable(parent) {
+    explicit PropertySet(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PropertySet:";
@@ -6646,7 +6646,7 @@ public:
     PropertySet propertySet1;
     QSharedPointer<PropertySet> propertySet2;
     QList<Byte> padding;
-    PropertySetStream(const Introspectable* parent) :Introspectable(parent),
+    explicit PropertySetStream(const Introspectable* parent) :Introspectable(parent),
         propertySet1(this) {
     }
     QString toString() {
@@ -6673,7 +6673,7 @@ private:
 public:
     static const Introspection _introspection;
     PropertySetStream propertySet;
-    SummaryInformationPropertySetStream(const Introspectable* parent) :Introspectable(parent),
+    explicit SummaryInformationPropertySetStream(const Introspectable* parent) :Introspectable(parent),
         propertySet(this) {
     }
     QString toString() {
@@ -6689,7 +6689,7 @@ private:
 public:
     static const Introspection _introspection;
     PropertySetStream propertySet;
-    DocumentSummaryInformationPropertySetStream(const Introspectable* parent) :Introspectable(parent),
+    explicit DocumentSummaryInformationPropertySetStream(const Introspectable* parent) :Introspectable(parent),
         propertySet(this) {
     }
     QString toString() {
@@ -6705,7 +6705,7 @@ private:
 public:
     static const Introspection _introspection;
     OfficeArtBStoreDelay anon1;
-    PicturesStream(const Introspectable* parent) :Introspectable(parent),
+    explicit PicturesStream(const Introspectable* parent) :Introspectable(parent),
         anon1(this) {
     }
     QString toString() {
@@ -6726,7 +6726,7 @@ public:
     quint32 cbsave;
     quint8 compression;
     quint8 filter;
-    OfficeArtMetafileHeader(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtMetafileHeader(const Introspectable* parent) :Introspectable(parent),
         rcBounds(this),
         ptSize(this) {
     }
@@ -6751,7 +6751,7 @@ public:
     HeadersFootersAtom hfAtom;
     QSharedPointer<UserDateAtom> userDateAtom;
     QSharedPointer<FooterAtom> footerAtom;
-    SlideHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         hfAtom(this) {
     }
@@ -6775,7 +6775,7 @@ public:
     QSharedPointer<UserDateAtom> userDateAtom;
     QSharedPointer<HeaderAtom> headerAtom;
     QSharedPointer<FooterAtom> footerAtom;
-    NotesHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         hfAtom(this) {
     }
@@ -6797,7 +6797,7 @@ public:
     static const Introspection _introspection;
     RatioStruct x;
     RatioStruct y;
-    ScalingStruct(const Introspectable* parent) :Introspectable(parent),
+    explicit ScalingStruct(const Introspectable* parent) :Introspectable(parent),
         x(this),
         y(this) {
     }
@@ -6820,7 +6820,7 @@ public:
     quint16 bulletBlipRef;
     quint16 fBulletHasAutoNumber;
     QSharedPointer<TextAutoNumberScheme> bulletAutoNumberScheme;
-    TextPFException9(const Introspectable* parent) :Introspectable(parent),
+    explicit TextPFException9(const Introspectable* parent) :Introspectable(parent),
         masks(this) {
     }
     QString toString() {
@@ -6845,7 +6845,7 @@ public:
     quint8 pp10runid;
     quint32 unuseda;
     quint8 unusedb;
-    TextCFException9(const Introspectable* parent) :Introspectable(parent),
+    explicit TextCFException9(const Introspectable* parent) :Introspectable(parent),
         masks(this) {
     }
     QString toString() {
@@ -6866,7 +6866,7 @@ public:
     RecordHeader rh;
     TextCFException9 cf9;
     TextPFException9 pf9;
-    TextDefaults9Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextDefaults9Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         cf9(this),
         pf9(this) {
@@ -6889,7 +6889,7 @@ public:
     Kinsoku9Atom kinsoku9Atom;
     QSharedPointer<KinsokuLeadingAtom> kinsokuLeadingAtom;
     QSharedPointer<KinsokuFollowingAtom> kinsokuFollowingAtom;
-    Kinsoku9Container(const Introspectable* parent) :Introspectable(parent),
+    explicit Kinsoku9Container(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         kinsoku9Atom(this) {
     }
@@ -6915,7 +6915,7 @@ public:
     quint16 newEAFontRef;
     quint16 csFontRef;
     quint32 pp11ext;
-    TextCFException10(const Introspectable* parent) :Introspectable(parent),
+    explicit TextCFException10(const Introspectable* parent) :Introspectable(parent),
         masks(this) {
     }
     QString toString() {
@@ -6935,7 +6935,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextCFException10 cf10;
-    TextDefaults10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextDefaults10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         cf10(this) {
     }
@@ -6955,7 +6955,7 @@ public:
     RecordHeader rh;
     QSharedPointer<AuthorNameAtom> authorNameAtom;
     QSharedPointer<CommentIndex10Atom> authorIndexAtom;
-    CommentIndex10Container(const Introspectable* parent) :Introspectable(parent),
+    explicit CommentIndex10Container(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -6974,7 +6974,7 @@ public:
     static const Introspection _introspection;
     OutlineTextPropsHeaderExAtom outlineTextHeaderAtom;
     StyleTextProp10Atom styleTextProp10Atom;
-    OutlineTextProps10Entry(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineTextProps10Entry(const Introspectable* parent) :Introspectable(parent),
         outlineTextHeaderAtom(this),
         styleTextProp10Atom(this) {
     }
@@ -6996,7 +6996,7 @@ public:
     RecordHeader rhData;
     SmartTagStore11Container smartTagStore11;
     OutlineTextProps11Container outlineTextProps;
-    PP11DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
+    explicit PP11DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         rhData(this),
         smartTagStore11(this),
@@ -7020,7 +7020,7 @@ public:
     static const Introspection _introspection;
     TagNameAtom tagNameAtom;
     BinaryTagDataBlob tagData;
-    UnknownBinaryTag(const Introspectable* parent) :Introspectable(parent),
+    explicit UnknownBinaryTag(const Introspectable* parent) :Introspectable(parent),
         tagNameAtom(this),
         tagData(this) {
     }
@@ -7044,7 +7044,7 @@ public:
     quint8 unused2;
     quint8 fDraftMode;
     quint16 unused3;
-    NoZoomViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit NoZoomViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         curScale(this),
         origin(this) {
@@ -7069,7 +7069,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     VBAInfoAtom vbaInfoAtom;
-    VBAInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit VBAInfoContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         vbaInfoAtom(this) {
     }
@@ -7095,7 +7095,7 @@ public:
     bool fHideThumbnails;
     bool fBarSnapped;
     quint8 reserved;
-    NormalViewSetInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit NormalViewSetInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         leftPortion(this),
         topPortion(this) {
@@ -7130,7 +7130,7 @@ public:
     quint32 reserved5;
     quint32 masterId;
     quint32 reserved6;
-    MasterPersistAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit MasterPersistAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         persistIdRef(this) {
     }
@@ -7165,7 +7165,7 @@ QSharedPointer<TextBytesAtom> textbytesatom;
     QList<TextBookmarkAtom> bookmark;
     QSharedPointer<TextSpecialInfoAtom> specialinfo;
     QList<TextContainerInteractiveInfo> interactive;
-    TextContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit TextContainer(const Introspectable* parent) :Introspectable(parent),
         textHeaderAtom(this) {
     }
     QString toString() {
@@ -7194,7 +7194,7 @@ QSharedPointer<HeaderMCAtom> headermcatom;
 QSharedPointer<FooterMCAtom> footermcatom;
 QSharedPointer<RTFDateTimeMCAtom> rtfdatetimemcatom;
 }; metaChoice meta;
-    TextContainerMeta(const Introspectable* parent) :Introspectable(parent) {
+    explicit TextContainerMeta(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "TextContainerMeta:";
@@ -7219,7 +7219,7 @@ public:
     qint32 cTexts;
     SlideId slideId;
     quint32 reserved5;
-    SlidePersistAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlidePersistAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         persistIdRef(this),
         slideId(this) {
@@ -7286,7 +7286,7 @@ public:
     quint16 indent4;
     quint16 leftMargin5;
     quint16 indent5;
-    TextRuler(const Introspectable* parent) :Introspectable(parent) {
+    explicit TextRuler(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "TextRuler:";
@@ -7356,7 +7356,7 @@ public:
     quint16 fontAlign;
     QSharedPointer<PFWrapFlags> wrapFlags;
     quint16 textDirection;
-    TextPFException(const Introspectable* parent) :Introspectable(parent),
+    explicit TextPFException(const Introspectable* parent) :Introspectable(parent),
         masks(this) {
     }
     QString toString() {
@@ -7402,7 +7402,7 @@ public:
     quint16 fontSize;
     QSharedPointer<ColorIndexStruct> color;
     qint16 position;
-    TextCFException(const Introspectable* parent) :Introspectable(parent),
+    explicit TextCFException(const Introspectable* parent) :Introspectable(parent),
         masks(this) {
     }
     QString toString() {
@@ -7430,7 +7430,7 @@ public:
     QSharedPointer<FontEmbedDataBlob> fontEmbedData2;
     QSharedPointer<FontEmbedDataBlob> fontEmbedData3;
     QSharedPointer<FontEmbedDataBlob> fontEmbedData4;
-    FontCollectionEntry(const Introspectable* parent) :Introspectable(parent),
+    explicit FontCollectionEntry(const Introspectable* parent) :Introspectable(parent),
         fontEntityAtom(this) {
     }
     QString toString() {
@@ -7453,7 +7453,7 @@ public:
     KinsokuAtom kinsokuAtom;
     QSharedPointer<KinsokuLeadingAtom> kinsokuLeadingAtom;
     QSharedPointer<KinsokuFollowingAtom> kinsokuFollowingAtom;
-    KinsokuContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit KinsokuContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         kinsokuAtom(this) {
     }
@@ -7503,7 +7503,7 @@ public:
     quint8 reserved3bc;
     bool grammarError;
     QSharedPointer<SmartTags> smartTags;
-    TextSIException(const Introspectable* parent) :Introspectable(parent) {
+    explicit TextSIException(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "TextSIException:";
@@ -7540,7 +7540,7 @@ public:
     static const Introspection _introspection;
     TextPFException pf;
     TextCFException cf;
-    TextMasterStyleLevel(const Introspectable* parent) :Introspectable(parent),
+    explicit TextMasterStyleLevel(const Introspectable* parent) :Introspectable(parent),
         pf(this),
         cf(this) {
     }
@@ -7569,7 +7569,7 @@ public:
     quint8 fOmitTitlePlace;
     quint8 fRightToLeft;
     quint8 fShowComments;
-    DocumentAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit DocumentAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         slideSize(this),
         notesSize(this),
@@ -7603,7 +7603,7 @@ public:
     RecordHeader rh;
     TagNameAtom tagNameAtom;
     TagValueAtom tagValueAtom;
-    ProgStringTagContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ProgStringTagContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         tagNameAtom(this),
         tagValueAtom(this) {
@@ -7626,7 +7626,7 @@ public:
     quint32 slideIdRef;
     SlideFlags slideFlags;
     quint16 unused;
-    NotesAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         slideFlags(this) {
     }
@@ -7648,7 +7648,7 @@ public:
     RecordHeader rh;
     ExObjListAtom exObjListAtom;
     QList<ExObjListSubContainer> rgChildRec;
-    ExObjListContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExObjListContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         exObjListAtom(this) {
     }
@@ -7673,7 +7673,7 @@ public:
     QSharedPointer<ProgIDAtom> progIdAtom;
     QSharedPointer<ClipboardNameAtom> clipboardNameAtom;
     QSharedPointer<MetafileBlob> metafile;
-    ExControlContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExControlContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         exControlAtom(this),
         exOleObjAtom(this) {
@@ -7703,7 +7703,7 @@ public:
     QSharedPointer<ProgIDAtom> progIdAtom;
     QSharedPointer<ClipboardNameAtom> clipboardNameAtom;
     QSharedPointer<MetafileBlob> metafile;
-    ExOleLinkContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExOleLinkContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         exOleLinkAtom(this),
         exOleObjAtom(this) {
@@ -7733,7 +7733,7 @@ public:
     QSharedPointer<ProgIDAtom> progIdAtom;
     QSharedPointer<ClipboardNameAtom> clipboardNameAtom;
     QSharedPointer<MetafileBlob> metafile;
-    ExOleEmbedContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExOleEmbedContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         exOleEmbedAtom(this),
         exOleObjAtom(this) {
@@ -7759,7 +7759,7 @@ public:
     OfficeArtRecordHeader rh;
     OfficeArtFDGG head;
     QList<OfficeArtIDCL> Rgidcl;
-    OfficeArtFDGGBlock(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFDGGBlock(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         head(this) {
     }
@@ -7781,7 +7781,7 @@ public:
 QSharedPointer<OfficeArtFArcRule> officeartfarcrule;
 QSharedPointer<OfficeArtFCalloutRule> officeartfcalloutrule;
 }; anonChoice anon;
-    OfficeArtSolverContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtSolverContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtSolverContainerFileBlock:";
@@ -7818,7 +7818,7 @@ public:
     bool fUsefLockRotation;
     bool fUsefLockAgainstUngrouping;
     quint8 unused2;
-    ProtectionBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+    explicit ProtectionBooleanProperties(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -7857,7 +7857,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     FixedPoint rotation;
-    Rotation(const Introspectable* parent) :Introspectable(parent),
+    explicit Rotation(const Introspectable* parent) :Introspectable(parent),
         opid(this),
         rotation(this) {
     }
@@ -7876,7 +7876,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 iTxid;
-    ITxid(const Introspectable* parent) :Introspectable(parent),
+    explicit ITxid(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -7894,7 +7894,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dxTextLeft;
-    DxTextLeft(const Introspectable* parent) :Introspectable(parent),
+    explicit DxTextLeft(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -7912,7 +7912,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dyTextTop;
-    DyTextTop(const Introspectable* parent) :Introspectable(parent),
+    explicit DyTextTop(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -7930,7 +7930,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dxTextRight;
-    DxTextRight(const Introspectable* parent) :Introspectable(parent),
+    explicit DxTextRight(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -7948,7 +7948,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dyTextBottom;
-    DyTextBottom(const Introspectable* parent) :Introspectable(parent),
+    explicit DyTextBottom(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -7966,7 +7966,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 wrapText;
-    WrapText(const Introspectable* parent) :Introspectable(parent),
+    explicit WrapText(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -7984,7 +7984,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 anchorText;
-    AnchorText(const Introspectable* parent) :Introspectable(parent),
+    explicit AnchorText(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8015,7 +8015,7 @@ public:
     bool fUsefSelectText;
     quint8 unused6a;
     quint8 unused6b;
-    TextBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+    explicit TextBooleanProperties(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8046,7 +8046,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 hspNext;
-    HspNext(const Introspectable* parent) :Introspectable(parent),
+    explicit HspNext(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8064,7 +8064,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 shapePath;
-    ShapePath(const Introspectable* parent) :Introspectable(parent),
+    explicit ShapePath(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8099,7 +8099,7 @@ public:
     bool unused3a;
     bool unused3b;
     quint8 unused4;
-    GeometryBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+    explicit GeometryBooleanProperties(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8134,7 +8134,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 fillType;
-    FillType(const Introspectable* parent) :Introspectable(parent),
+    explicit FillType(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8152,7 +8152,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF fillColor;
-    FillColor(const Introspectable* parent) :Introspectable(parent),
+    explicit FillColor(const Introspectable* parent) :Introspectable(parent),
         opid(this),
         fillColor(this) {
     }
@@ -8171,7 +8171,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF fillBackColor;
-    FillBackColor(const Introspectable* parent) :Introspectable(parent),
+    explicit FillBackColor(const Introspectable* parent) :Introspectable(parent),
         opid(this),
         fillBackColor(this) {
     }
@@ -8190,7 +8190,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 fillBlip;
-    FillBlip(const Introspectable* parent) :Introspectable(parent),
+    explicit FillBlip(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8208,7 +8208,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 fillRectRight;
-    FillRectRight(const Introspectable* parent) :Introspectable(parent),
+    explicit FillRectRight(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8226,7 +8226,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 fillRectBottom;
-    FillRectBottom(const Introspectable* parent) :Introspectable(parent),
+    explicit FillRectBottom(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8261,7 +8261,7 @@ public:
     bool fUsefRecolorFillAsPicture;
     bool unused2a;
     quint8 unused2b;
-    FillStyleBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+    explicit FillStyleBooleanProperties(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8296,7 +8296,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF lineColor;
-    LineColor(const Introspectable* parent) :Introspectable(parent),
+    explicit LineColor(const Introspectable* parent) :Introspectable(parent),
         opid(this),
         lineColor(this) {
     }
@@ -8315,7 +8315,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF lineBackColor;
-    LineBackColor(const Introspectable* parent) :Introspectable(parent),
+    explicit LineBackColor(const Introspectable* parent) :Introspectable(parent),
         opid(this),
         lineBackColor(this) {
     }
@@ -8334,7 +8334,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineFillBlip;
-    LineFillBlip(const Introspectable* parent) :Introspectable(parent),
+    explicit LineFillBlip(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8352,7 +8352,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineWidth;
-    LineWidth(const Introspectable* parent) :Introspectable(parent),
+    explicit LineWidth(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8370,7 +8370,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineStartArrowhead;
-    LineStartArrowhead(const Introspectable* parent) :Introspectable(parent),
+    explicit LineStartArrowhead(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8388,7 +8388,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineEndArrowhead;
-    LineEndArrowhead(const Introspectable* parent) :Introspectable(parent),
+    explicit LineEndArrowhead(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8406,7 +8406,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineJoinStyle;
-    LineJoinStyle(const Introspectable* parent) :Introspectable(parent),
+    explicit LineJoinStyle(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8445,7 +8445,7 @@ public:
     bool unused3;
     bool fUsefLineOpaqueBackColor;
     quint8 unused4;
-    LineStyleBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+    explicit LineStyleBooleanProperties(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8484,7 +8484,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF shadowColor;
-    ShadowColor(const Introspectable* parent) :Introspectable(parent),
+    explicit ShadowColor(const Introspectable* parent) :Introspectable(parent),
         opid(this),
         shadowColor(this) {
     }
@@ -8508,7 +8508,7 @@ public:
     bool fUsefshadowObscured;
     bool fUsefShadow;
     quint16 unused2;
-    ShadowStyleBooleanPropertiesr(const Introspectable* parent) :Introspectable(parent),
+    explicit ShadowStyleBooleanPropertiesr(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8531,7 +8531,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 hspMaster;
-    HspMaster(const Introspectable* parent) :Introspectable(parent),
+    explicit HspMaster(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8549,7 +8549,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 bWMode;
-    BWMode(const Introspectable* parent) :Introspectable(parent),
+    explicit BWMode(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8592,7 +8592,7 @@ public:
     bool unused5;
     bool unused6;
     quint8 unused7;
-    ShapeBooleanProperties(const Introspectable* parent) :Introspectable(parent),
+    explicit ShapeBooleanProperties(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8635,7 +8635,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lidRegroup;
-    LidRegroup(const Introspectable* parent) :Introspectable(parent),
+    explicit LidRegroup(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8653,7 +8653,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 adjust2value;
-    adjust2Value(const Introspectable* parent) :Introspectable(parent),
+    explicit adjust2Value(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8671,7 +8671,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 adjust3value;
-    adjust3Value(const Introspectable* parent) :Introspectable(parent),
+    explicit adjust3Value(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8689,7 +8689,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 wzFillId;
-    WzFillId(const Introspectable* parent) :Introspectable(parent),
+    explicit WzFillId(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8708,7 +8708,7 @@ public:
     OfficeArtRecordHeader rh;
     QSharedPointer<SmallRectStruct> rect1;
     QSharedPointer<RectStruct> rect2;
-    OfficeArtClientAnchor(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtClientAnchor(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -8728,7 +8728,7 @@ public:
     OfficeArtRecordHeader rh;
     AnimationInfoAtom animationAtom;
     QSharedPointer<SoundContainer> animationSound;
-    AnimationInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit AnimationInfoContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         animationAtom(this) {
     }
@@ -8749,7 +8749,7 @@ public:
     RecordHeader rh;
     InteractiveInfoAtom interactiveInfoAtom;
     QSharedPointer<MacroNameAtom> macroNameAtom;
-    MouseInteractiveInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit MouseInteractiveInfoContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         interactiveInfoAtom(this) {
     }
@@ -8769,7 +8769,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextRuler textRuler;
-    TextRulerAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextRulerAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         textRuler(this) {
     }
@@ -8788,7 +8788,7 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 op;
-    OfficeArtFOPTE(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFOPTE(const Introspectable* parent) :Introspectable(parent),
         opid(this) {
     }
     QString toString() {
@@ -8816,7 +8816,7 @@ public:
     quint16 cswNew;
     QByteArray fibRgCswNew;
     QByteArray trail;
-    Fib(const Introspectable* parent) :Introspectable(parent),
+    explicit Fib(const Introspectable* parent) :Introspectable(parent),
         base(this),
         fibRgW(this),
         fibRgLw(this),
@@ -8847,7 +8847,7 @@ public:
     static const Introspection _introspection;
     LPStshi lpstshi;
     QList<LPStd> rglpstd;
-    STSH(const Introspectable* parent) :Introspectable(parent),
+    explicit STSH(const Introspectable* parent) :Introspectable(parent),
         lpstshi(this) {
     }
     QString toString() {
@@ -8865,7 +8865,7 @@ public:
     static const Introspection _introspection;
     QList<Pcr> RgPrc;
     Pcdt pcdt;
-    Clx(const Introspectable* parent) :Introspectable(parent),
+    explicit Clx(const Introspectable* parent) :Introspectable(parent),
         pcdt(this) {
     }
     QString toString() {
@@ -8883,7 +8883,7 @@ public:
     static const Introspection _introspection;
     quint8 clxt;
     PrcData prcData;
-    Pcr(const Introspectable* parent) :Introspectable(parent),
+    explicit Pcr(const Introspectable* parent) :Introspectable(parent),
         prcData(this) {
     }
     QString toString() {
@@ -8902,7 +8902,7 @@ public:
     class prmChoice {public:QSharedPointer<Prm0> prm0;
 QSharedPointer<Prm1> prm1;
 }; prmChoice prm;
-    Prm(const Introspectable* parent) :Introspectable(parent) {
+    explicit Prm(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "Prm:";
@@ -8922,7 +8922,7 @@ public:
     QByteArray rgbUid2;
     OfficeArtMetafileHeader metafileHeader;
     QByteArray BLIPFileData;
-    OfficeArtBlipEMF(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBlipEMF(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         metafileHeader(this) {
     }
@@ -8948,7 +8948,7 @@ public:
     QByteArray rgbUid2;
     OfficeArtMetafileHeader metafileHeader;
     QByteArray BLIPFileData;
-    OfficeArtBlipWMF(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBlipWMF(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         metafileHeader(this) {
     }
@@ -8974,7 +8974,7 @@ public:
     QByteArray rgbUid2;
     OfficeArtMetafileHeader metafileHeader;
     QByteArray BLIPFileData;
-    OfficeArtBlipPICT(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBlipPICT(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         metafileHeader(this) {
     }
@@ -9002,7 +9002,7 @@ QSharedPointer<OfficeArtBlipPNG> officeartblippng;
 QSharedPointer<OfficeArtBlipDIB> officeartblipdib;
 QSharedPointer<OfficeArtBlipTIFF> officeartbliptiff;
 }; anonChoice anon;
-    OfficeArtBlip(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtBlip(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtBlip:";
@@ -9023,7 +9023,7 @@ public:
     quint8 fUseVarScale;
     quint8 fDraftMode;
     quint16 unused2;
-    ZoomViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ZoomViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         curScale(this),
         origin(this) {
@@ -9048,7 +9048,7 @@ public:
     static const Introspection _introspection;
     TextPFException9 pf9;
     TextCFException9 cf9;
-    TextMasterStyle9Level(const Introspectable* parent) :Introspectable(parent),
+    explicit TextMasterStyle9Level(const Introspectable* parent) :Introspectable(parent),
         pf9(this),
         cf9(this) {
     }
@@ -9068,7 +9068,7 @@ public:
     TextPFException9 pf9;
     TextCFException9 cf9;
     TextSIException si;
-    StyleTextProp9(const Introspectable* parent) :Introspectable(parent),
+    explicit StyleTextProp9(const Introspectable* parent) :Introspectable(parent),
         pf9(this),
         cf9(this),
         si(this) {
@@ -9105,7 +9105,7 @@ public:
     QSharedPointer<DiffTree10Container> rgDiffTree10Container;
     QSharedPointer<ModifyPasswordAtom> modifyPasswordAtom;
     QSharedPointer<PhotoAlbumInfo10Atom> photoAlbumInfoAtom;
-    PP10DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
+    explicit PP10DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         rhData(this),
         gridSpacingAtom(this) {
@@ -9140,7 +9140,7 @@ private:
 public:
     static const Introspection _introspection;
     TextCFException10 cf10;
-    TextMasterStyle10Level(const Introspectable* parent) :Introspectable(parent),
+    explicit TextMasterStyle10Level(const Introspectable* parent) :Introspectable(parent),
         cf10(this) {
     }
     QString toString() {
@@ -9157,7 +9157,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     ZoomViewInfoAtom zoomViewInfo;
-    NotesTextViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesTextViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         zoomViewInfo(this) {
     }
@@ -9176,7 +9176,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     NoZoomViewInfoAtom noZoomViewInfo;
-    OutlineViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         noZoomViewInfo(this) {
     }
@@ -9195,7 +9195,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     NormalViewSetInfoAtom normalViewSetInfoAtom;
-    NormalViewSetInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit NormalViewSetInfoContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         normalViewSetInfoAtom(this) {
     }
@@ -9214,7 +9214,7 @@ public:
     static const Introspection _introspection;
     SlidePersistAtom slidePersistAtom;
     QList<TextContainer> atoms;
-    SlideListWithTextSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideListWithTextSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent),
         slidePersistAtom(this) {
     }
     QString toString() {
@@ -9233,7 +9233,7 @@ public:
     class interactiveChoice {public:QSharedPointer<MouseInteractiveInfoContainer> mouseinteractiveinfocontainer;
 QSharedPointer<MouseTextInteractiveInfoAtom> mousetextinteractiveinfoatom;
 }; interactiveChoice interactive;
-    TextContainerInteractiveInfo(const Introspectable* parent) :Introspectable(parent) {
+    explicit TextContainerInteractiveInfo(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "TextContainerInteractiveInfo:";
@@ -9251,7 +9251,7 @@ public:
 QSharedPointer<TextContainer> textcontainer;
 QSharedPointer<TextRulerAtom> textruleratom;
 }; anonChoice anon;
-    TextClientDataSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
+    explicit TextClientDataSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "TextClientDataSubContainerOrAtom:";
@@ -9268,7 +9268,7 @@ public:
     quint32 count;
     quint16 indentLevel;
     TextPFException pf;
-    TextPFRun(const Introspectable* parent) :Introspectable(parent),
+    explicit TextPFRun(const Introspectable* parent) :Introspectable(parent),
         pf(this) {
     }
     QString toString() {
@@ -9287,7 +9287,7 @@ public:
     static const Introspection _introspection;
     quint32 count;
     TextCFException cf;
-    TextCFRun(const Introspectable* parent) :Introspectable(parent),
+    explicit TextCFRun(const Introspectable* parent) :Introspectable(parent),
         cf(this) {
     }
     QString toString() {
@@ -9305,7 +9305,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextCFException cf;
-    TextCFExceptionAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextCFExceptionAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         cf(this) {
     }
@@ -9324,7 +9324,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextRuler defaultTextRuler;
-    DefaultRulerAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit DefaultRulerAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         defaultTextRuler(this) {
     }
@@ -9344,7 +9344,7 @@ public:
     RecordHeader rh;
     quint16 reserved;
     TextPFException pf;
-    TextPFExceptionAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextPFExceptionAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         pf(this) {
     }
@@ -9364,7 +9364,7 @@ public:
     static const Introspection _introspection;
     quint32 count;
     TextSIException si;
-    TextSIRun(const Introspectable* parent) :Introspectable(parent),
+    explicit TextSIRun(const Introspectable* parent) :Introspectable(parent),
         si(this) {
     }
     QString toString() {
@@ -9382,7 +9382,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextSIException textSIException;
-    TextSIExceptionAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextSIExceptionAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         textSIException(this) {
     }
@@ -9416,7 +9416,7 @@ public:
     QSharedPointer<TextMasterStyleLevel> lstLvl4;
     quint16 lstLvl5level;
     QSharedPointer<TextMasterStyleLevel> lstLvl5;
-    TextMasterStyleAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextMasterStyleAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -9445,7 +9445,7 @@ public:
     class anonChoice {public:QSharedPointer<ProgStringTagContainer> progstringtagcontainer;
 QSharedPointer<SlideProgBinaryTagContainer> slideprogbinarytagcontainer;
 }; anonChoice anon;
-    SlideProgTagsSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
+    explicit SlideProgTagsSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "SlideProgTagsSubContainerOrAtom:";
@@ -9471,7 +9471,7 @@ QSharedPointer<ExWAVAudioEmbeddedContainer> exwavaudioembeddedcontainer;
 QSharedPointer<ExWAVAudioLinkContainer> exwavaudiolinkcontainer;
 QSharedPointer<UnknownExObjListSubContainerChild> unknownexobjlistsubcontainerchild;
 }; anonChoice anon;
-    ExObjListSubContainer(const Introspectable* parent) :Introspectable(parent) {
+    explicit ExObjListSubContainer(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "ExObjListSubContainer:";
@@ -9493,7 +9493,7 @@ public:
     QSharedPointer<OfficeArtColorMRUContainer> colorMRU;
     OfficeArtSplitMenuColorContainer splitColors;
     QSharedPointer<OfficeArtTertiaryFOPT> unknown;
-    OfficeArtDggContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtDggContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         drawingGroup(this),
         drawingPrimaryOptions(this),
@@ -9557,7 +9557,7 @@ QSharedPointer<LidRegroup> lidregroup;
 QSharedPointer<BWMode> bwmode;
 QSharedPointer<OfficeArtFOPTE> officeartfopte;
 }; anonChoice anon;
-    OfficeArtFOPTEChoice(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtFOPTEChoice(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtFOPTEChoice:";
@@ -9582,7 +9582,7 @@ public:
     QSharedPointer<RecolorInfoAtom> recolorInfoAtom;
     QList<ShapeClientRoundtripDataSubcontainerOrAtom> rgShapeClientRoundtripData;
     QSharedPointer<UnknownOfficeArtClientDataChild> unknown;
-    OfficeArtClientData(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtClientData(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -9608,7 +9608,7 @@ private:
 public:
     static const Introspection _introspection;
     Fib fib;
-    WordDocument(const Introspectable* parent) :Introspectable(parent),
+    explicit WordDocument(const Introspectable* parent) :Introspectable(parent),
         fib(this) {
     }
     QString toString() {
@@ -9632,7 +9632,7 @@ public:
     Clx clx;
     SttbfFfn sttbfFfn;
     QByteArray dop;
-    Table(const Introspectable* parent) :Introspectable(parent),
+    explicit Table(const Introspectable* parent) :Introspectable(parent),
         stsh(this),
         plcfSed(this),
         plcfHdd(this),
@@ -9669,7 +9669,7 @@ public:
     quint16 fR3;
     FCompressed fc;
     Prm prm;
-    Pcd(const Introspectable* parent) :Introspectable(parent),
+    explicit Pcd(const Introspectable* parent) :Introspectable(parent),
         fc(this),
         prm(this) {
     }
@@ -9706,7 +9706,7 @@ public:
     quint8 unused3;
     QByteArray nameData;
     QSharedPointer<OfficeArtBlip> embeddedBlip;
-    OfficeArtFBSE(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFBSE(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -9737,7 +9737,7 @@ public:
     class anonChoice {public:QSharedPointer<OfficeArtFBSE> officeartfbse;
 QSharedPointer<OfficeArtBlip> officeartblip;
 }; anonChoice anon;
-    OfficeArtBStoreContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtBStoreContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtBStoreContainerFileBlock:";
@@ -9755,7 +9755,7 @@ public:
     SlideViewInfoAtom slideViewInfoAtom;
     ZoomViewInfoAtom zoomViewInfoAtom;
     QList<GuideAtom> rgGuideAtom;
-    SlideViewInfoInstance(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideViewInfoInstance(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         slideViewInfoAtom(this),
         zoomViewInfoAtom(this) {
@@ -9792,7 +9792,7 @@ public:
     QSharedPointer<TextMasterStyle9Level> lstLvl4;
     quint16 lstLvl5level;
     QSharedPointer<TextMasterStyle9Level> lstLvl5;
-    TextMasterStyle9Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextMasterStyle9Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -9822,7 +9822,7 @@ public:
     quint8 winBlipType;
     bool unused;
     OfficeArtBStoreContainerFileBlock blip;
-    BlipEntityAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit BlipEntityAtom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         blip(this) {
     }
@@ -9843,7 +9843,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     StyleTextProp9 rgStyleTextProp9;
-    StyleTextProp9Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit StyleTextProp9Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         rgStyleTextProp9(this) {
     }
@@ -9877,7 +9877,7 @@ public:
     QSharedPointer<TextMasterStyle10Level> lstLvl4;
     quint16 lstLvl5level;
     QSharedPointer<TextMasterStyle10Level> lstLvl5;
-    TextMasterStyle10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextMasterStyle10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
@@ -9911,7 +9911,7 @@ public:
     QSharedPointer<DefaultRulerAtom> defaultRulerAtom;
     TextSIExceptionAtom textSIDefaultsAtom;
     TextMasterStyleAtom textMasterStyleAtom;
-    DocumentTextInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DocumentTextInfoContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         textSIDefaultsAtom(this),
         textMasterStyleAtom(this) {
@@ -9937,7 +9937,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     OfficeArtDggContainer OfficeArtDgg;
-    DrawingGroupContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DrawingGroupContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         OfficeArtDgg(this) {
     }
@@ -9967,7 +9967,7 @@ public:
     QSharedPointer<OfficeArtClientTextBox> clientTextbox;
     QSharedPointer<OfficeArtSecondaryFOPT> shapeSecondaryOptions2;
     QSharedPointer<OfficeArtTertiaryFOPT> shapeTertiaryOptions2;
-    OfficeArtSpContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtSpContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         shapeProp(this) {
     }
@@ -10021,7 +10021,7 @@ public:
     QSharedPointer<UnknownDocumentContainerChild3> unknown4;
     QSharedPointer<UnknownDocumentContainerChild4> unknown5;
     QSharedPointer<RoundTripCustomTableStyles12Atom> rtCustomTableStylesAtom2;
-    DocumentContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DocumentContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         documentAtom(this),
         documentTextInfo(this),
@@ -10074,7 +10074,7 @@ QSharedPointer<SlideViewInfoInstance> slideviewinfoinstance;
 QSharedPointer<SorterViewInfoContainer> sorterviewinfocontainer;
 QSharedPointer<VBAInfoContainer> vbainfocontainer;
 }; anonChoice anon;
-    DocInfoListSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
+    explicit DocInfoListSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "DocInfoListSubContainerOrAtom:";
@@ -10103,7 +10103,7 @@ public:
     HTMLPublishInfo9Container htmlPublishInfoAtom;
     BroadcastDocInfo9Container rgBroadcastDocInfo9;
     OutlineTextProps9Container outlineTextPropsContainer;
-    PP9DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
+    explicit PP9DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         rhData(this),
         rgTextMasterStyle9(this),
@@ -10144,7 +10144,7 @@ public:
     static const Introspection _introspection;
     OutlineTextPropsHeaderExAtom outlineTextHeaderAtom;
     StyleTextProp9Atom styleTextProp9Atom;
-    OutlineTextProps9Entry(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineTextProps9Entry(const Introspectable* parent) :Introspectable(parent),
         outlineTextHeaderAtom(this),
         styleTextProp9Atom(this) {
     }
@@ -10168,7 +10168,7 @@ public:
     QSharedPointer<OfficeArtSpContainer> shape;
     QList<OfficeArtSpgrContainerFileBlock> deletedShapes;
     QSharedPointer<OfficeArtSolverContainer> solvers;
-    OfficeArtDgContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtDgContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         drawingData(this),
         groupShape(this) {
@@ -10194,7 +10194,7 @@ public:
     class anonChoice {public:QSharedPointer<OfficeArtSpContainer> officeartspcontainer;
 QSharedPointer<OfficeArtSpgrContainer> officeartspgrcontainer;
 }; anonChoice anon;
-    OfficeArtSpgrContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
+    explicit OfficeArtSpgrContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "OfficeArtSpgrContainerFileBlock:";
@@ -10214,7 +10214,7 @@ QSharedPointer<PP11DocBinaryTagExtension> pp11docbinarytagextension;
 QSharedPointer<PP12DocBinaryTagExtension> pp12docbinarytagextension;
 QSharedPointer<UnknownBinaryTag> unknownbinarytag;
 }; anonChoice anon;
-    DocProgBinaryTagSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
+    explicit DocProgBinaryTagSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "DocProgBinaryTagSubContainerOrAtom:";
@@ -10230,7 +10230,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     OfficeArtDgContainer OfficeArtDg;
-    DrawingContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DrawingContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         OfficeArtDg(this) {
     }
@@ -10249,7 +10249,7 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     DocProgBinaryTagSubContainerOrAtom rec;
-    DocProgBinaryTagContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DocProgBinaryTagContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         rec(this) {
     }
@@ -10282,7 +10282,7 @@ public:
     QSharedPointer<UnknownSlideContainerChild> unknown2;
     QSharedPointer<TemplateNameAtom> templateNameAtom;
     QSharedPointer<SlideProgTagsContainer> unknown3;
-    MainMasterContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit MainMasterContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         slideAtom(this),
         drawing(this),
@@ -10326,7 +10326,7 @@ public:
     QSharedPointer<SlideProgTagsContainer> slideProgTagsContainer;
     QList<RoundTripSlideRecord> rgRoundTripSlide;
     QSharedPointer<UnknownSlideContainerChild> unknown;
-    SlideContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         slideAtom(this),
         drawing(this),
@@ -10362,7 +10362,7 @@ public:
     QSharedPointer<SlideNameAtom> slideNameAtom;
     QSharedPointer<SlideProgTagsContainer> slideProgTagsContainer;
     QList<NotesRoundTripAtom> rgNotesRoundTripAtom;
-    NotesContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesContainer(const Introspectable* parent) :Introspectable(parent),
         rh(this),
         notesAtom(this),
         drawing(this),
@@ -10390,7 +10390,7 @@ public:
     class anonChoice {public:QSharedPointer<ProgStringTagContainer> progstringtagcontainer;
 QSharedPointer<DocProgBinaryTagContainer> docprogbinarytagcontainer;
 }; anonChoice anon;
-    DocProgTagsSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
+    explicit DocProgTagsSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "DocProgTagsSubContainerOrAtom:";
@@ -10407,7 +10407,7 @@ public:
     class anonChoice {public:QSharedPointer<MainMasterContainer> mainmastercontainer;
 QSharedPointer<SlideContainer> slidecontainer;
 }; anonChoice anon;
-    MasterOrSlideContainer(const Introspectable* parent) :Introspectable(parent) {
+    explicit MasterOrSlideContainer(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "MasterOrSlideContainer:";
@@ -10432,7 +10432,7 @@ QSharedPointer<ExControlStg> excontrolstg;
 QSharedPointer<VbaProjectStg> vbaprojectstg;
 QSharedPointer<UserEditAtom> usereditatom;
 }; anonChoice anon;
-    PowerPointStruct(const Introspectable* parent) :Introspectable(parent) {
+    explicit PowerPointStruct(const Introspectable* parent) :Introspectable(parent) {
     }
     QString toString() {
         QString _s = "PowerPointStruct:";
@@ -32191,7 +32191,7 @@ void parseTODOS(LEInputStream& in, TODOS& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.anon.append(&_s);
+            _s.anon.append(Byte(&_s));
             parseByte(in, _s.anon.last());
         } catch(IncorrectValueException _e) {
             _s.anon.removeLast();
@@ -32245,7 +32245,7 @@ void parseCurrentUserStream(LEInputStream& in, CurrentUserStream& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.trailing.append(&_s);
+            _s.trailing.append(Byte(&_s));
             parseByte(in, _s.trailing.last());
         } catch(IncorrectValueException _e) {
             _s.trailing.removeLast();
@@ -32289,7 +32289,7 @@ void parseOfficeArtBStoreDelay(LEInputStream& in, OfficeArtBStoreDelay& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.anon1.append(&_s);
+            _s.anon1.append(OfficeArtBStoreContainerFileBlock(&_s));
             parseOfficeArtBStoreContainerFileBlock(in, _s.anon1.last());
         } catch(IncorrectValueException _e) {
             _s.anon1.removeLast();
@@ -32749,7 +32749,7 @@ void parsePowerPointStructs(LEInputStream& in, PowerPointStructs& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.anon.append(&_s);
+            _s.anon.append(PowerPointStruct(&_s));
             parsePowerPointStruct(in, _s.anon.last());
         } catch(IncorrectValueException _e) {
             _s.anon.removeLast();
@@ -33206,7 +33206,7 @@ void parseDocInfoListContainer(LEInputStream& in, DocInfoListContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgChildRec.append(&_s);
+            _s.rgChildRec.append(DocInfoListSubContainerOrAtom(&_s));
             parseDocInfoListSubContainerOrAtom(in, _s.rgChildRec.last());
         } catch(IncorrectValueException _e) {
             _s.rgChildRec.removeLast();
@@ -33385,7 +33385,7 @@ void parseDocProgTagsContainer(LEInputStream& in, DocProgTagsContainer& _s) {
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgChildRec.append(&_s);
+        _s.rgChildRec.append(DocProgTagsSubContainerOrAtom(&_s));
         parseDocProgTagsSubContainerOrAtom(in, _s.rgChildRec.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -33466,7 +33466,7 @@ void parseBlipCollection9Container(LEInputStream& in, BlipCollection9Container& 
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgBlipEntityAtom.append(&_s);
+        _s.rgBlipEntityAtom.append(BlipEntityAtom(&_s));
         parseBlipEntityAtom(in, _s.rgBlipEntityAtom.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -34285,7 +34285,7 @@ void parseOutlineTextProps9Container(LEInputStream& in, OutlineTextProps9Contain
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgOutlineTextProps9Entry.append(&_s);
+            _s.rgOutlineTextProps9Entry.append(OutlineTextProps9Entry(&_s));
             parseOutlineTextProps9Entry(in, _s.rgOutlineTextProps9Entry.last());
         } catch(IncorrectValueException _e) {
             _s.rgOutlineTextProps9Entry.removeLast();
@@ -34380,7 +34380,7 @@ void parseFontCollection10Container(LEInputStream& in, FontCollection10Container
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgFontCollectionEntry.append(&_s);
+        _s.rgFontCollectionEntry.append(FontCollectionEntry(&_s));
         parseFontCollectionEntry(in, _s.rgFontCollectionEntry.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -34833,7 +34833,7 @@ void parseOutlineTextProps10Container(LEInputStream& in, OutlineTextProps10Conta
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgOutlineTextProps10Entry.append(&_s);
+            _s.rgOutlineTextProps10Entry.append(OutlineTextProps10Entry(&_s));
             parseOutlineTextProps10Entry(in, _s.rgOutlineTextProps10Entry.last());
         } catch(IncorrectValueException _e) {
             _s.rgOutlineTextProps10Entry.removeLast();
@@ -34888,7 +34888,7 @@ void parseStyleTextProp10Atom(LEInputStream& in, StyleTextProp10Atom& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgTextPFRun.append(&_s);
+            _s.rgTextPFRun.append(TextPFRun(&_s));
             parseTextPFRun(in, _s.rgTextPFRun.last());
         } catch(IncorrectValueException _e) {
             _s.rgTextPFRun.removeLast();
@@ -34904,7 +34904,7 @@ void parseStyleTextProp10Atom(LEInputStream& in, StyleTextProp10Atom& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgTextCFRun.append(&_s);
+            _s.rgTextCFRun.append(TextCFRun(&_s));
             parseTextCFRun(in, _s.rgTextCFRun.last());
         } catch(IncorrectValueException _e) {
             _s.rgTextCFRun.removeLast();
@@ -35600,7 +35600,7 @@ void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContain
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgChildRec.append(&_s);
+            _s.rgChildRec.append(SlideListWithTextSubContainerOrAtom(&_s));
             parseSlideListWithTextSubContainerOrAtom(in, _s.rgChildRec.last());
         } catch(IncorrectValueException _e) {
             _s.rgChildRec.removeLast();
@@ -35654,7 +35654,7 @@ void parseNotesListWithTextContainer(LEInputStream& in, NotesListWithTextContain
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgNotesPersistAtom.append(&_s);
+            _s.rgNotesPersistAtom.append(NotesPersistAtom(&_s));
             parseNotesPersistAtom(in, _s.rgNotesPersistAtom.last());
         } catch(IncorrectValueException _e) {
             _s.rgNotesPersistAtom.removeLast();
@@ -35985,7 +35985,7 @@ void parseMasterTextPropAtom(LEInputStream& in, MasterTextPropAtom& _s) {
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgMasterTextPropRun.append(&_s);
+        _s.rgMasterTextPropRun.append(MasterTextPropRun(&_s));
         parseMasterTextPropRun(in, _s.rgMasterTextPropRun.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -37477,7 +37477,7 @@ void parseFontCollectionContainer(LEInputStream& in, FontCollectionContainer& _s
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgFontCollectionEntry.append(&_s);
+        _s.rgFontCollectionEntry.append(FontCollectionEntry(&_s));
         parseFontCollectionEntry(in, _s.rgFontCollectionEntry.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -37852,7 +37852,7 @@ void parseTextSpecialInfoAtom(LEInputStream& in, TextSpecialInfoAtom& _s) {
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgSIRun.append(&_s);
+        _s.rgSIRun.append(TextSIRun(&_s));
         parseTextSIRun(in, _s.rgSIRun.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -38083,7 +38083,7 @@ void parsePersistDirectoryAtom(LEInputStream& in, PersistDirectoryAtom& _s) {
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgPersistDirEntry.append(&_s);
+        _s.rgPersistDirEntry.append(PersistDirectoryEntry(&_s));
         parsePersistDirectoryEntry(in, _s.rgPersistDirEntry.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -38572,7 +38572,7 @@ void parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s) 
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgTypeRec.append(&_s);
+        _s.rgTypeRec.append(SlideProgTagsSubContainerOrAtom(&_s));
         parseSlideProgTagsSubContainerOrAtom(in, _s.rgTypeRec.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -41122,7 +41122,7 @@ void parseOfficeArtBStoreContainer(LEInputStream& in, OfficeArtBStoreContainer& 
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgfb.append(&_s);
+        _s.rgfb.append(OfficeArtBStoreContainerFileBlock(&_s));
         parseOfficeArtBStoreContainerFileBlock(in, _s.rgfb.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -41167,7 +41167,7 @@ void parseOfficeArtSpgrContainer(LEInputStream& in, OfficeArtSpgrContainer& _s) 
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgfb.append(&_s);
+        _s.rgfb.append(OfficeArtSpgrContainerFileBlock(&_s));
         parseOfficeArtSpgrContainerFileBlock(in, _s.rgfb.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -41210,7 +41210,7 @@ void parseOfficeArtSolverContainer(LEInputStream& in, OfficeArtSolverContainer& 
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgfb.append(&_s);
+            _s.rgfb.append(OfficeArtSolverContainerFileBlock(&_s));
             parseOfficeArtSolverContainerFileBlock(in, _s.rgfb.last());
         } catch(IncorrectValueException _e) {
             _s.rgfb.removeLast();
@@ -42894,7 +42894,7 @@ void parseOfficeArtClientTextBox(LEInputStream& in, OfficeArtClientTextBox& _s) 
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     while (!_atend) {
-        _s.rgChildRec.append(&_s);
+        _s.rgChildRec.append(TextClientDataSubContainerOrAtom(&_s));
         parseTextClientDataSubContainerOrAtom(in, _s.rgChildRec.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen;
     }
@@ -47935,7 +47935,7 @@ void parsePropertySetStream(LEInputStream& in, PropertySetStream& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.padding.append(&_s);
+            _s.padding.append(Byte(&_s));
             parseByte(in, _s.padding.last());
         } catch(IncorrectValueException _e) {
             _s.padding.removeLast();
@@ -49593,7 +49593,7 @@ void parseTextContainer(LEInputStream& in, TextContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.meta.append(&_s);
+            _s.meta.append(TextContainerMeta(&_s));
             parseTextContainerMeta(in, _s.meta.last());
         } catch(IncorrectValueException _e) {
             _s.meta.removeLast();
@@ -49620,7 +49620,7 @@ void parseTextContainer(LEInputStream& in, TextContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.bookmark.append(&_s);
+            _s.bookmark.append(TextBookmarkAtom(&_s));
             parseTextBookmarkAtom(in, _s.bookmark.last());
         } catch(IncorrectValueException _e) {
             _s.bookmark.removeLast();
@@ -49647,7 +49647,7 @@ void parseTextContainer(LEInputStream& in, TextContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.interactive.append(&_s);
+            _s.interactive.append(TextContainerInteractiveInfo(&_s));
             parseTextContainerInteractiveInfo(in, _s.interactive.last());
         } catch(IncorrectValueException _e) {
             _s.interactive.removeLast();
@@ -51594,7 +51594,7 @@ void parseExObjListContainer(LEInputStream& in, ExObjListContainer& _s) {
     int _startPos = in.getPosition();
     _atend = in.getPosition() - _startPos >= _s.rh.recLen-12;
     while (!_atend) {
-        _s.rgChildRec.append(&_s);
+        _s.rgChildRec.append(ExObjListSubContainer(&_s));
         parseExObjListSubContainer(in, _s.rgChildRec.last());
         _atend = in.getPosition() - _startPos >= _s.rh.recLen-12;
     }
@@ -55308,7 +55308,7 @@ void parseClx(LEInputStream& in, Clx& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.RgPrc.append(&_s);
+            _s.RgPrc.append(Pcr(&_s));
             parsePcr(in, _s.RgPrc.last());
         } catch(IncorrectValueException _e) {
             _s.RgPrc.removeLast();
@@ -55932,7 +55932,7 @@ void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgTextMasterStyle10.append(&_s);
+            _s.rgTextMasterStyle10.append(TextMasterStyle10Atom(&_s));
             parseTextMasterStyle10Atom(in, _s.rgTextMasterStyle10.last());
         } catch(IncorrectValueException _e) {
             _s.rgTextMasterStyle10.removeLast();
@@ -55960,7 +55960,7 @@ void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgCommentIndex10.append(&_s);
+            _s.rgCommentIndex10.append(CommentIndex10Container(&_s));
             parseCommentIndex10Container(in, _s.rgCommentIndex10.last());
         } catch(IncorrectValueException _e) {
             _s.rgCommentIndex10.removeLast();
@@ -56384,7 +56384,7 @@ void parseSlideListWithTextSubContainerOrAtom(LEInputStream& in, SlideListWithTe
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.atoms.append(&_s);
+            _s.atoms.append(TextContainer(&_s));
             parseTextContainer(in, _s.atoms.last());
         } catch(IncorrectValueException _e) {
             _s.atoms.removeLast();
@@ -57739,7 +57739,7 @@ void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgShapeClientRoundtripData.append(&_s);
+            _s.rgShapeClientRoundtripData.append(ShapeClientRoundtripDataSubcontainerOrAtom(&_s));
             parseShapeClientRoundtripDataSubcontainerOrAtom(in, _s.rgShapeClientRoundtripData.last());
         } catch(IncorrectValueException _e) {
             _s.rgShapeClientRoundtripData.removeLast();
@@ -58304,7 +58304,7 @@ void parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgGuideAtom.append(&_s);
+            _s.rgGuideAtom.append(GuideAtom(&_s));
             parseGuideAtom(in, _s.rgGuideAtom.last());
         } catch(IncorrectValueException _e) {
             _s.rgGuideAtom.removeLast();
@@ -60131,7 +60131,7 @@ void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.deletedShapes.append(&_s);
+            _s.deletedShapes.append(OfficeArtSpgrContainerFileBlock(&_s));
             parseOfficeArtSpgrContainerFileBlock(in, _s.deletedShapes.last());
         } catch(IncorrectValueException _e) {
             _s.deletedShapes.removeLast();
@@ -60420,7 +60420,7 @@ void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgSchemeListElementColorScheme.append(&_s);
+            _s.rgSchemeListElementColorScheme.append(SchemeListElementColorSchemeAtom(&_s));
             parseSchemeListElementColorSchemeAtom(in, _s.rgSchemeListElementColorScheme.last());
         } catch(IncorrectValueException _e) {
             _s.rgSchemeListElementColorScheme.removeLast();
@@ -60436,7 +60436,7 @@ void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgTextMasterStyle.append(&_s);
+            _s.rgTextMasterStyle.append(TextMasterStyleAtom(&_s));
             parseTextMasterStyleAtom(in, _s.rgTextMasterStyle.last());
         } catch(IncorrectValueException _e) {
             _s.rgTextMasterStyle.removeLast();
@@ -60509,7 +60509,7 @@ void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgRoundTripMainMaster.append(&_s);
+            _s.rgRoundTripMainMaster.append(RoundTripMainMasterRecord(&_s));
             parseRoundTripMainMasterRecord(in, _s.rgRoundTripMainMaster.last());
         } catch(IncorrectValueException _e) {
             _s.rgRoundTripMainMaster.removeLast();
@@ -60772,7 +60772,7 @@ void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgRoundTripSlide.append(&_s);
+            _s.rgRoundTripSlide.append(RoundTripSlideRecord(&_s));
             parseRoundTripSlideRecord(in, _s.rgRoundTripSlide.last());
         } catch(IncorrectValueException _e) {
             _s.rgRoundTripSlide.removeLast();
@@ -60951,7 +60951,7 @@ void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgNotesRoundTripAtom.append(&_s);
+            _s.rgNotesRoundTripAtom.append(NotesRoundTripAtom(&_s));
             parseNotesRoundTripAtom(in, _s.rgNotesRoundTripAtom.last());
         } catch(IncorrectValueException _e) {
             _s.rgNotesRoundTripAtom.removeLast();
