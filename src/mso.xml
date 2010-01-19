@@ -1057,12 +1057,7 @@
 			<limitation name="recInstance" value="0x0" />
 			<limitation name="recType" value="0xFB1" />
 		</type>
-		<type name="rgTextPFRun" type="TextPFRun" array="true" />
-		<type name="rgTextCFRun" type="TextCFRun" array="true" />
-		<!-- this one seems very hard to do -->
-		<uint8 name="todo" count="rh.recLen" />
-		<limitation expression="sum(rgTextPFRun/count)=count(../text/textChars)+1" />
-		<limitation expression="sum(rgTextCFRun/count)=count(../text/textChars)" />
+		<type name="rgStyleTextProp10" type="TextCFException10" array="true" />
 	</struct>
 	<struct name="DocToolbarStates10Atom">
 		<type name="rh" type="RecordHeader">

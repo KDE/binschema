@@ -1502,7 +1502,6 @@ System.out.println(in.getPosition()+" "+_s);
     }
     StyleTextProp10Atom parseStyleTextProp10Atom(LEInputStream in) throws IOException  {
         StyleTextProp10Atom _s = new StyleTextProp10Atom();
-        int _c;
         Object _m;
         boolean _atend;
         int _i;
@@ -1522,8 +1521,8 @@ System.out.println(in.getPosition()+" "+_s);
             System.out.println("round "+(_i++) + " " + in.getPosition());
             _m = in.setMark();
             try {
-                TextPFRun _t = parseTextPFRun(in);
-                _s.rgTextPFRun.add(_t);
+                TextCFException10 _t = parseTextCFException10(in);
+                _s.rgStyleTextProp10.add(_t);
             } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
@@ -1535,39 +1534,12 @@ System.out.println(in.getPosition()+" "+_s);
                 in.releaseMark(_m);
            }
         }
-        _atend = false;
-        _i=0;
-        while (!_atend) {
-            System.out.println("round "+(_i++) + " " + in.getPosition());
-            _m = in.setMark();
-            try {
-                TextCFRun _t = parseTextCFRun(in);
-                _s.rgTextCFRun.add(_t);
-            } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
-                _atend = true;
-                in.rewind(_m);
-            } catch(java.io.EOFException _e) {
-                _atend = true;
-                in.rewind(_m);
-            } finally {
-                in.releaseMark(_m);
-           }
-        }
-        _c = _s.rh.recLen;
-        _s.todo = in.readBytes(_c);
         return _s;
     }
     void write(StyleTextProp10Atom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        for (TextPFRun _i: _s.rgTextPFRun) {
+        for (TextCFException10 _i: _s.rgStyleTextProp10) {
             write(_i, out);
-        }
-        for (TextCFRun _i: _s.rgTextCFRun) {
-            write(_i, out);
-        }
-        for (byte _i: _s.todo) {
-            out.writeuint8(_i);
         }
     }
     DocToolbarStates10Atom parseDocToolbarStates10Atom(LEInputStream in) throws IOException  {
@@ -13575,15 +13547,11 @@ class OutlineTextProps10Container {
 }
 class StyleTextProp10Atom {
     RecordHeader rh;
-    final java.util.List<TextPFRun> rgTextPFRun = new java.util.ArrayList<TextPFRun>();
-    final java.util.List<TextCFRun> rgTextCFRun = new java.util.ArrayList<TextCFRun>();
-    byte[] todo;
+    final java.util.List<TextCFException10> rgStyleTextProp10 = new java.util.ArrayList<TextCFException10>();
     public String toString() {
         String _s = "StyleTextProp10Atom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "rgTextPFRun: " + String.valueOf(rgTextPFRun) + ", ";
-        _s = _s + "rgTextCFRun: " + String.valueOf(rgTextCFRun) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        _s = _s + "rgStyleTextProp10: " + String.valueOf(rgStyleTextProp10) + ", ";
         return _s;
     }
 }

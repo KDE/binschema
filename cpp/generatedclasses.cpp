@@ -2451,18 +2451,14 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QList<TextPFRun> rgTextPFRun;
-    QList<TextCFRun> rgTextCFRun;
-    QByteArray todo;
+    QList<TextCFException10> rgStyleTextProp10;
     explicit StyleTextProp10Atom(const Introspectable* parent) :Introspectable(parent),
         rh(this) {
     }
     QString toString() {
         QString _s = "StyleTextProp10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "rgTextPFRun: " + "[array of rgTextPFRun]" + ", ";
-        _s = _s + "rgTextCFRun: " + "[array of rgTextCFRun]" + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
+        _s = _s + "rgStyleTextProp10: " + "[array of rgStyleTextProp10]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -12666,57 +12662,40 @@ class StyleTextProp10Atom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[4];
-    static int (* const numberOfInstances[4])(const Introspectable*);
-    static QVariant (* const value[4])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const StyleTextProp10Atom*>(i)->rh);
     }
-    static int count_rgTextPFRun(const Introspectable* i) {
-        return static_cast<const StyleTextProp10Atom*>(i)->rgTextPFRun.size();
+    static int count_rgStyleTextProp10(const Introspectable* i) {
+        return static_cast<const StyleTextProp10Atom*>(i)->rgStyleTextProp10.size();
     }
-    static const Introspectable* get_rgTextPFRun(const Introspectable* i, int j) {
-        return &(static_cast<const StyleTextProp10Atom*>(i)->rgTextPFRun[j]);
-    }
-    static int count_rgTextCFRun(const Introspectable* i) {
-        return static_cast<const StyleTextProp10Atom*>(i)->rgTextCFRun.size();
-    }
-    static const Introspectable* get_rgTextCFRun(const Introspectable* i, int j) {
-        return &(static_cast<const StyleTextProp10Atom*>(i)->rgTextCFRun[j]);
-    }
-    static QVariant get_todo(const Introspectable* i, int j) {
-        return static_cast<const StyleTextProp10Atom*>(i)->todo;
+    static const Introspectable* get_rgStyleTextProp10(const Introspectable* i, int j) {
+        return &(static_cast<const StyleTextProp10Atom*>(i)->rgStyleTextProp10[j]);
     }
 };
 const QString StyleTextProp10Atom::_Introspection::name("StyleTextProp10Atom");
-const int StyleTextProp10Atom::_Introspection::numberOfMembers(4);
-const QString StyleTextProp10Atom::_Introspection::names[4] = {
+const int StyleTextProp10Atom::_Introspection::numberOfMembers(2);
+const QString StyleTextProp10Atom::_Introspection::names[2] = {
     "rh",
-    "rgTextPFRun",
-    "rgTextCFRun",
-    "todo",
+    "rgStyleTextProp10",
 };
-int (* const StyleTextProp10Atom::_Introspection::numberOfInstances[4])(const Introspectable*) = {
+int (* const StyleTextProp10Atom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
-    _Introspection::count_rgTextPFRun,
-    _Introspection::count_rgTextCFRun,
-    Introspection::one,
+    _Introspection::count_rgStyleTextProp10,
 };
-QVariant (* const StyleTextProp10Atom::_Introspection::value[4])(const Introspectable*, int position) = {
+QVariant (* const StyleTextProp10Atom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
     Introspection::nullValue,
-    Introspection::nullValue,
-    _Introspection::get_todo,
 };
-const Introspectable* (* const StyleTextProp10Atom::_Introspection::introspectable[4])(const Introspectable*, int position) = {
+const Introspectable* (* const StyleTextProp10Atom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
-    _Introspection::get_rgTextPFRun,
-    _Introspection::get_rgTextCFRun,
-    Introspection::null,
+    _Introspection::get_rgStyleTextProp10,
 };
 const Introspection StyleTextProp10Atom::_introspection(
-    "StyleTextProp10Atom", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "StyleTextProp10Atom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class DocToolbarStates10Atom::_Introspection {
 public:
     static const QString name;
@@ -34871,7 +34850,6 @@ void parseOutlineTextProps10Container(QXmlStreamReader& in, OutlineTextProps10Co
 }
 void parseStyleTextProp10Atom(LEInputStream& in, StyleTextProp10Atom& _s) {
     _s.streamOffset = in.getPosition();
-    int _c;
     LEInputStream::Mark _m;
     bool _atend;
     parseRecordHeader(in, _s.rh);
@@ -34888,47 +34866,24 @@ void parseStyleTextProp10Atom(LEInputStream& in, StyleTextProp10Atom& _s) {
     while (!_atend) {
         _m = in.setMark();
         try {
-            _s.rgTextPFRun.append(TextPFRun(&_s));
-            parseTextPFRun(in, _s.rgTextPFRun.last());
+            _s.rgStyleTextProp10.append(TextCFException10(&_s));
+            parseTextCFException10(in, _s.rgStyleTextProp10.last());
         } catch(IncorrectValueException _e) {
-            _s.rgTextPFRun.removeLast();
+            _s.rgStyleTextProp10.removeLast();
             _atend = true;
             in.rewind(_m);
         } catch(EOFException _e) {
-            _s.rgTextPFRun.removeLast();
+            _s.rgStyleTextProp10.removeLast();
             _atend = true;
             in.rewind(_m);
         }
     }
-    _atend = false;
-    while (!_atend) {
-        _m = in.setMark();
-        try {
-            _s.rgTextCFRun.append(TextCFRun(&_s));
-            parseTextCFRun(in, _s.rgTextCFRun.last());
-        } catch(IncorrectValueException _e) {
-            _s.rgTextCFRun.removeLast();
-            _atend = true;
-            in.rewind(_m);
-        } catch(EOFException _e) {
-            _s.rgTextCFRun.removeLast();
-            _atend = true;
-            in.rewind(_m);
-        }
-    }
-    _c = _s.rh.recLen;
-    _s.todo.resize(_c);
-    in.readBytes(_s.todo);
 }
 void write(const StyleTextProp10Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    foreach (TextPFRun _i, _s.rgTextPFRun) {
+    foreach (TextCFException10 _i, _s.rgStyleTextProp10) {
         write(_i, out);
     }
-    foreach (TextCFRun _i, _s.rgTextCFRun) {
-        write(_i, out);
-    }
-    out.writeBytes(_s.todo);
 }
 void parseStyleTextProp10Atom(QXmlStreamReader& in, StyleTextProp10Atom& _s) {
     in.readNext();
@@ -34942,20 +34897,10 @@ void parseStyleTextProp10Atom(QXmlStreamReader& in, StyleTextProp10Atom& _s) {
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in TextPFRun " << in.lineNumber();
+        qDebug() << "not startelement in TextCFException10 " << in.lineNumber();
         return;
     }
     skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in TextCFRun " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint8 " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
 }
 void parseDocToolbarStates10Atom(LEInputStream& in, DocToolbarStates10Atom& _s) {
     _s.streamOffset = in.getPosition();
