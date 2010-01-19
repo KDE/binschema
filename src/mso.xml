@@ -813,14 +813,17 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFAC" />
 		</type>
-		<!--
-			<type name="rgTextPFRun" type="TextPFRun" array="true" /> <type
-			name="rgTextCFRun" type="TextCFRun" array="true" />
-		-->
-		<!-- this one seems very hard to do -->
-		<uint8 name="todo" count="rh.recLen" />
-		<limitation expression="sum(rgTextPFRun/count)=count(../text/textChars)+1" />
-		<limitation expression="sum(rgTextCFRun/count)=count(../text/textChars)" />
+		<type name="rgStyleTextProp9" type="StyleTextProp9" size="rh.recLen" />
+	</struct>
+	<struct name="StyleTextProp9">
+		<type name="pf9" type="TextPFException9" />
+		<type name="cf9" type="TextCFException9" />
+		<type name="si" type="TextSIException">
+			<limitation name="spell" value="false" />
+			<limitation name="lang" value="false" />
+			<limitation name="altLang" value="false" />
+			<limitation name="smartTag" value="false" />
+		</type>
 	</struct>
 	<struct name="PP10DocBinaryTagExtension">
 		<type name="rh" type="RecordHeader">
@@ -2687,7 +2690,7 @@
 			<limitation name="recType" value="0xFFB" />
 			<limitation name="recLen" value="4" />
 		</type>
-		<uint32 name="slideIdRef"/>
+		<uint32 name="slideIdRef" />
 	</struct>
 	<struct name="ExHyperlinkContainer">
 		<type name="rh" type="OfficeArtRecordHeader">

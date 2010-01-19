@@ -160,10 +160,6 @@ class OutlineTextPropsHeaderExAtom;
 void parseOutlineTextPropsHeaderExAtom(LEInputStream& in, OutlineTextPropsHeaderExAtom& _s);
 void parseOutlineTextPropsHeaderExAtom(QXmlStreamReader& in, OutlineTextPropsHeaderExAtom& _s);
 void write(const OutlineTextPropsHeaderExAtom& v, LEOutputStream& out);
-class StyleTextProp9Atom;
-void parseStyleTextProp9Atom(LEInputStream& in, StyleTextProp9Atom& _s);
-void parseStyleTextProp9Atom(QXmlStreamReader& in, StyleTextProp9Atom& _s);
-void write(const StyleTextProp9Atom& v, LEOutputStream& out);
 class FontCollection10Container;
 void parseFontCollection10Container(LEInputStream& in, FontCollection10Container& _s);
 void parseFontCollection10Container(QXmlStreamReader& in, FontCollection10Container& _s);
@@ -936,10 +932,6 @@ class Kinsoku9Container;
 void parseKinsoku9Container(LEInputStream& in, Kinsoku9Container& _s);
 void parseKinsoku9Container(QXmlStreamReader& in, Kinsoku9Container& _s);
 void write(const Kinsoku9Container& v, LEOutputStream& out);
-class OutlineTextProps9Entry;
-void parseOutlineTextProps9Entry(LEInputStream& in, OutlineTextProps9Entry& _s);
-void parseOutlineTextProps9Entry(QXmlStreamReader& in, OutlineTextProps9Entry& _s);
-void write(const OutlineTextProps9Entry& v, LEOutputStream& out);
 class TextCFException10;
 void parseTextCFException10(LEInputStream& in, TextCFException10& _s);
 void parseTextCFException10(QXmlStreamReader& in, TextCFException10& _s);
@@ -1268,6 +1260,10 @@ class TextMasterStyle9Level;
 void parseTextMasterStyle9Level(LEInputStream& in, TextMasterStyle9Level& _s);
 void parseTextMasterStyle9Level(QXmlStreamReader& in, TextMasterStyle9Level& _s);
 void write(const TextMasterStyle9Level& v, LEOutputStream& out);
+class StyleTextProp9;
+void parseStyleTextProp9(LEInputStream& in, StyleTextProp9& _s);
+void parseStyleTextProp9(QXmlStreamReader& in, StyleTextProp9& _s);
+void write(const StyleTextProp9& v, LEOutputStream& out);
 class PP10DocBinaryTagExtension;
 void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension& _s);
 void parsePP10DocBinaryTagExtension(QXmlStreamReader& in, PP10DocBinaryTagExtension& _s);
@@ -1384,6 +1380,10 @@ class BlipEntityAtom;
 void parseBlipEntityAtom(LEInputStream& in, BlipEntityAtom& _s);
 void parseBlipEntityAtom(QXmlStreamReader& in, BlipEntityAtom& _s);
 void write(const BlipEntityAtom& v, LEOutputStream& out);
+class StyleTextProp9Atom;
+void parseStyleTextProp9Atom(LEInputStream& in, StyleTextProp9Atom& _s);
+void parseStyleTextProp9Atom(QXmlStreamReader& in, StyleTextProp9Atom& _s);
+void write(const StyleTextProp9Atom& v, LEOutputStream& out);
 class TextMasterStyle10Atom;
 void parseTextMasterStyle10Atom(LEInputStream& in, TextMasterStyle10Atom& _s);
 void parseTextMasterStyle10Atom(QXmlStreamReader& in, TextMasterStyle10Atom& _s);
@@ -1412,6 +1412,10 @@ class PP9DocBinaryTagExtension;
 void parsePP9DocBinaryTagExtension(LEInputStream& in, PP9DocBinaryTagExtension& _s);
 void parsePP9DocBinaryTagExtension(QXmlStreamReader& in, PP9DocBinaryTagExtension& _s);
 void write(const PP9DocBinaryTagExtension& v, LEOutputStream& out);
+class OutlineTextProps9Entry;
+void parseOutlineTextProps9Entry(LEInputStream& in, OutlineTextProps9Entry& _s);
+void parseOutlineTextProps9Entry(QXmlStreamReader& in, OutlineTextProps9Entry& _s);
+void write(const OutlineTextProps9Entry& v, LEOutputStream& out);
 class OfficeArtDgContainer;
 void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s);
 void parseOfficeArtDgContainer(QXmlStreamReader& in, OfficeArtDgContainer& _s);
@@ -2259,24 +2263,6 @@ public:
     }
     QString toString() {
         QString _s = "OutlineTextPropsHeaderExAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class StyleTextProp9Atom : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    RecordHeader rh;
-    QByteArray todo;
-    StyleTextProp9Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
-    QString toString() {
-        QString _s = "StyleTextProp9Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "todo: " + "[array of todo]" + ", ";
         return _s;
@@ -6917,25 +6903,6 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class OutlineTextProps9Entry : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    OutlineTextPropsHeaderExAtom outlineTextHeaderAtom;
-    StyleTextProp9Atom styleTextProp9Atom;
-    OutlineTextProps9Entry(const Introspectable* parent) :Introspectable(parent),
-        outlineTextHeaderAtom(this),
-        styleTextProp9Atom(this) {
-    }
-    QString toString() {
-        QString _s = "OutlineTextProps9Entry:";
-        _s = _s + "outlineTextHeaderAtom: " + outlineTextHeaderAtom.toString() + ", ";
-        _s = _s + "styleTextProp9Atom: " + styleTextProp9Atom.toString() + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
 class TextCFException10 : public Introspectable {
 private:
     class _Introspection;
@@ -9093,6 +9060,28 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class StyleTextProp9 : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    TextPFException9 pf9;
+    TextCFException9 cf9;
+    TextSIException si;
+    StyleTextProp9(const Introspectable* parent) :Introspectable(parent),
+        pf9(this),
+        cf9(this),
+        si(this) {
+    }
+    QString toString() {
+        QString _s = "StyleTextProp9:";
+        _s = _s + "pf9: " + pf9.toString() + ", ";
+        _s = _s + "cf9: " + cf9.toString() + ", ";
+        _s = _s + "si: " + si.toString() + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class PP10DocBinaryTagExtension : public Introspectable {
 private:
     class _Introspection;
@@ -9847,6 +9836,25 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class StyleTextProp9Atom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    StyleTextProp9 rgStyleTextProp9;
+    StyleTextProp9Atom(const Introspectable* parent) :Introspectable(parent),
+        rh(this),
+        rgStyleTextProp9(this) {
+    }
+    QString toString() {
+        QString _s = "StyleTextProp9Atom:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "rgStyleTextProp9: " + rgStyleTextProp9.toString() + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class TextMasterStyle10Atom : public Introspectable {
 private:
     class _Introspection;
@@ -10125,6 +10133,25 @@ public:
         _s = _s + "htmlPublishInfoAtom: " + htmlPublishInfoAtom.toString() + ", ";
         _s = _s + "rgBroadcastDocInfo9: " + rgBroadcastDocInfo9.toString() + ", ";
         _s = _s + "outlineTextPropsContainer: " + outlineTextPropsContainer.toString() + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class OutlineTextProps9Entry : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OutlineTextPropsHeaderExAtom outlineTextHeaderAtom;
+    StyleTextProp9Atom styleTextProp9Atom;
+    OutlineTextProps9Entry(const Introspectable* parent) :Introspectable(parent),
+        outlineTextHeaderAtom(this),
+        styleTextProp9Atom(this) {
+    }
+    QString toString() {
+        QString _s = "OutlineTextProps9Entry:";
+        _s = _s + "outlineTextHeaderAtom: " + outlineTextHeaderAtom.toString() + ", ";
+        _s = _s + "styleTextProp9Atom: " + styleTextProp9Atom.toString() + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -12265,41 +12292,6 @@ const Introspectable* (* const OutlineTextPropsHeaderExAtom::_Introspection::int
 };
 const Introspection OutlineTextPropsHeaderExAtom::_introspection(
     "OutlineTextPropsHeaderExAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class StyleTextProp9Atom::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[2];
-    static int (* const numberOfInstances[2])(const Introspectable*);
-    static QVariant (* const value[2])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
-    static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const StyleTextProp9Atom*>(i)->rh);
-    }
-    static QVariant get_todo(const Introspectable* i, int j) {
-        return static_cast<const StyleTextProp9Atom*>(i)->todo;
-    }
-};
-const QString StyleTextProp9Atom::_Introspection::name("StyleTextProp9Atom");
-const int StyleTextProp9Atom::_Introspection::numberOfMembers(2);
-const QString StyleTextProp9Atom::_Introspection::names[2] = {
-    "rh",
-    "todo",
-};
-int (* const StyleTextProp9Atom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
-    Introspection::one,
-    Introspection::one,
-};
-QVariant (* const StyleTextProp9Atom::_Introspection::value[2])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    _Introspection::get_todo,
-};
-const Introspectable* (* const StyleTextProp9Atom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
-    _Introspection::get_rh,
-    Introspection::null,
-};
-const Introspection StyleTextProp9Atom::_introspection(
-    "StyleTextProp9Atom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class FontCollection10Container::_Introspection {
 public:
     static const QString name;
@@ -23402,41 +23394,6 @@ const Introspectable* (* const Kinsoku9Container::_Introspection::introspectable
 };
 const Introspection Kinsoku9Container::_introspection(
     "Kinsoku9Container", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class OutlineTextProps9Entry::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[2];
-    static int (* const numberOfInstances[2])(const Introspectable*);
-    static QVariant (* const value[2])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
-    static const Introspectable* get_outlineTextHeaderAtom(const Introspectable* i, int j) {
-        return &(static_cast<const OutlineTextProps9Entry*>(i)->outlineTextHeaderAtom);
-    }
-    static const Introspectable* get_styleTextProp9Atom(const Introspectable* i, int j) {
-        return &(static_cast<const OutlineTextProps9Entry*>(i)->styleTextProp9Atom);
-    }
-};
-const QString OutlineTextProps9Entry::_Introspection::name("OutlineTextProps9Entry");
-const int OutlineTextProps9Entry::_Introspection::numberOfMembers(2);
-const QString OutlineTextProps9Entry::_Introspection::names[2] = {
-    "outlineTextHeaderAtom",
-    "styleTextProp9Atom",
-};
-int (* const OutlineTextProps9Entry::_Introspection::numberOfInstances[2])(const Introspectable*) = {
-    Introspection::one,
-    Introspection::one,
-};
-QVariant (* const OutlineTextProps9Entry::_Introspection::value[2])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    Introspection::nullValue,
-};
-const Introspectable* (* const OutlineTextProps9Entry::_Introspection::introspectable[2])(const Introspectable*, int position) = {
-    _Introspection::get_outlineTextHeaderAtom,
-    _Introspection::get_styleTextProp9Atom,
-};
-const Introspection OutlineTextProps9Entry::_introspection(
-    "OutlineTextProps9Entry", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class TextCFException10::_Introspection {
 public:
     static const QString name;
@@ -28604,6 +28561,48 @@ const Introspectable* (* const TextMasterStyle9Level::_Introspection::introspect
 };
 const Introspection TextMasterStyle9Level::_introspection(
     "TextMasterStyle9Level", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class StyleTextProp9::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[3];
+    static int (* const numberOfInstances[3])(const Introspectable*);
+    static QVariant (* const value[3])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
+    static const Introspectable* get_pf9(const Introspectable* i, int j) {
+        return &(static_cast<const StyleTextProp9*>(i)->pf9);
+    }
+    static const Introspectable* get_cf9(const Introspectable* i, int j) {
+        return &(static_cast<const StyleTextProp9*>(i)->cf9);
+    }
+    static const Introspectable* get_si(const Introspectable* i, int j) {
+        return &(static_cast<const StyleTextProp9*>(i)->si);
+    }
+};
+const QString StyleTextProp9::_Introspection::name("StyleTextProp9");
+const int StyleTextProp9::_Introspection::numberOfMembers(3);
+const QString StyleTextProp9::_Introspection::names[3] = {
+    "pf9",
+    "cf9",
+    "si",
+};
+int (* const StyleTextProp9::_Introspection::numberOfInstances[3])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const StyleTextProp9::_Introspection::value[3])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const StyleTextProp9::_Introspection::introspectable[3])(const Introspectable*, int position) = {
+    _Introspection::get_pf9,
+    _Introspection::get_cf9,
+    _Introspection::get_si,
+};
+const Introspection StyleTextProp9::_introspection(
+    "StyleTextProp9", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class PP10DocBinaryTagExtension::_Introspection {
 public:
     static const QString name;
@@ -30350,6 +30349,41 @@ const Introspectable* (* const BlipEntityAtom::_Introspection::introspectable[4]
 };
 const Introspection BlipEntityAtom::_introspection(
     "BlipEntityAtom", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class StyleTextProp9Atom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const StyleTextProp9Atom*>(i)->rh);
+    }
+    static const Introspectable* get_rgStyleTextProp9(const Introspectable* i, int j) {
+        return &(static_cast<const StyleTextProp9Atom*>(i)->rgStyleTextProp9);
+    }
+};
+const QString StyleTextProp9Atom::_Introspection::name("StyleTextProp9Atom");
+const int StyleTextProp9Atom::_Introspection::numberOfMembers(2);
+const QString StyleTextProp9Atom::_Introspection::names[2] = {
+    "rh",
+    "rgStyleTextProp9",
+};
+int (* const StyleTextProp9Atom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const StyleTextProp9Atom::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const StyleTextProp9Atom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    _Introspection::get_rgStyleTextProp9,
+};
+const Introspection StyleTextProp9Atom::_introspection(
+    "StyleTextProp9Atom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class TextMasterStyle10Atom::_Introspection {
 public:
     static const QString name;
@@ -31191,6 +31225,41 @@ const Introspectable* (* const PP9DocBinaryTagExtension::_Introspection::introsp
 };
 const Introspection PP9DocBinaryTagExtension::_introspection(
     "PP9DocBinaryTagExtension", 15, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class OutlineTextProps9Entry::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_outlineTextHeaderAtom(const Introspectable* i, int j) {
+        return &(static_cast<const OutlineTextProps9Entry*>(i)->outlineTextHeaderAtom);
+    }
+    static const Introspectable* get_styleTextProp9Atom(const Introspectable* i, int j) {
+        return &(static_cast<const OutlineTextProps9Entry*>(i)->styleTextProp9Atom);
+    }
+};
+const QString OutlineTextProps9Entry::_Introspection::name("OutlineTextProps9Entry");
+const int OutlineTextProps9Entry::_Introspection::numberOfMembers(2);
+const QString OutlineTextProps9Entry::_Introspection::names[2] = {
+    "outlineTextHeaderAtom",
+    "styleTextProp9Atom",
+};
+int (* const OutlineTextProps9Entry::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const OutlineTextProps9Entry::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const OutlineTextProps9Entry::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_outlineTextHeaderAtom,
+    _Introspection::get_styleTextProp9Atom,
+};
+const Introspection OutlineTextProps9Entry::_introspection(
+    "OutlineTextProps9Entry", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class OfficeArtDgContainer::_Introspection {
 public:
     static const QString name;
@@ -34278,45 +34347,6 @@ void write(const OutlineTextPropsHeaderExAtom& _s, LEOutputStream& out) {
     out.writeBytes(_s.todo);
 }
 void parseOutlineTextPropsHeaderExAtom(QXmlStreamReader& in, OutlineTextPropsHeaderExAtom& _s) {
-    in.readNext();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "rh") {
-        qDebug() << "not startelement in rh " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint8 " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-}
-void parseStyleTextProp9Atom(LEInputStream& in, StyleTextProp9Atom& _s) {
-    _s.streamOffset = in.getPosition();
-    int _c;
-    LEInputStream::Mark _m;
-    parseRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
-    }
-    if (!(_s.rh.recInstance == 0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
-    }
-    if (!(_s.rh.recType == 0xFAC)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFAC");
-    }
-    _c = _s.rh.recLen;
-    _s.todo.resize(_c);
-    in.readBytes(_s.todo);
-}
-void write(const StyleTextProp9Atom& _s, LEOutputStream& out) {
-    write(_s.rh, out);
-    out.writeBytes(_s.todo);
-}
-void parseStyleTextProp9Atom(QXmlStreamReader& in, StyleTextProp9Atom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
         qDebug() << "not startelement in RecordHeader " << in.lineNumber();
@@ -48752,36 +48782,6 @@ void parseKinsoku9Container(QXmlStreamReader& in, Kinsoku9Container& _s) {
     }
     skipToStartElement(in);
 }
-void parseOutlineTextProps9Entry(LEInputStream& in, OutlineTextProps9Entry& _s) {
-    _s.streamOffset = in.getPosition();
-    parseOutlineTextPropsHeaderExAtom(in, _s.outlineTextHeaderAtom);
-    parseStyleTextProp9Atom(in, _s.styleTextProp9Atom);
-}
-void write(const OutlineTextProps9Entry& _s, LEOutputStream& out) {
-    write(_s.outlineTextHeaderAtom, out);
-    write(_s.styleTextProp9Atom, out);
-}
-void parseOutlineTextProps9Entry(QXmlStreamReader& in, OutlineTextProps9Entry& _s) {
-    in.readNext();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in OutlineTextPropsHeaderExAtom " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "outlineTextHeaderAtom") {
-        qDebug() << "not startelement in outlineTextHeaderAtom " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in StyleTextProp9Atom " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "styleTextProp9Atom") {
-        qDebug() << "not startelement in styleTextProp9Atom " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-}
 void parseTextCFException10(LEInputStream& in, TextCFException10& _s) {
     _s.streamOffset = in.getPosition();
     parseCFMasks(in, _s.masks);
@@ -55833,6 +55833,59 @@ void parseTextMasterStyle9Level(QXmlStreamReader& in, TextMasterStyle9Level& _s)
     }
     skipToStartElement(in);
 }
+void parseStyleTextProp9(LEInputStream& in, StyleTextProp9& _s) {
+    _s.streamOffset = in.getPosition();
+    parseTextPFException9(in, _s.pf9);
+    parseTextCFException9(in, _s.cf9);
+    parseTextSIException(in, _s.si);
+    if (!(_s.si.spell == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.si.spell == false");
+    }
+    if (!(_s.si.lang == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.si.lang == false");
+    }
+    if (!(_s.si.altLang == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.si.altLang == false");
+    }
+    if (!(_s.si.smartTag == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.si.smartTag == false");
+    }
+}
+void write(const StyleTextProp9& _s, LEOutputStream& out) {
+    write(_s.pf9, out);
+    write(_s.cf9, out);
+    write(_s.si, out);
+}
+void parseStyleTextProp9(QXmlStreamReader& in, StyleTextProp9& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextPFException9 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "pf9") {
+        qDebug() << "not startelement in pf9 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextCFException9 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "cf9") {
+        qDebug() << "not startelement in cf9 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextSIException " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "si") {
+        qDebug() << "not startelement in si " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+}
 void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension& _s) {
     _s.streamOffset = in.getPosition();
     int _c;
@@ -58576,6 +58629,45 @@ void parseBlipEntityAtom(QXmlStreamReader& in, BlipEntityAtom& _s) {
     }
     skipToStartElement(in);
 }
+void parseStyleTextProp9Atom(LEInputStream& in, StyleTextProp9Atom& _s) {
+    _s.streamOffset = in.getPosition();
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    }
+    if (!(_s.rh.recType == 0xFAC)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFAC");
+    }
+    parseStyleTextProp9(in, _s.rgStyleTextProp9);
+}
+void write(const StyleTextProp9Atom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.rgStyleTextProp9, out);
+}
+void parseStyleTextProp9Atom(QXmlStreamReader& in, StyleTextProp9Atom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in StyleTextProp9 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rgStyleTextProp9") {
+        qDebug() << "not startelement in rgStyleTextProp9 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+}
 void parseTextMasterStyle10Atom(LEInputStream& in, TextMasterStyle10Atom& _s) {
     _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
@@ -59963,6 +60055,36 @@ void parsePP9DocBinaryTagExtension(QXmlStreamReader& in, PP9DocBinaryTagExtensio
     }
     if (in.name() != "outlineTextPropsContainer") {
         qDebug() << "not startelement in outlineTextPropsContainer " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+}
+void parseOutlineTextProps9Entry(LEInputStream& in, OutlineTextProps9Entry& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOutlineTextPropsHeaderExAtom(in, _s.outlineTextHeaderAtom);
+    parseStyleTextProp9Atom(in, _s.styleTextProp9Atom);
+}
+void write(const OutlineTextProps9Entry& _s, LEOutputStream& out) {
+    write(_s.outlineTextHeaderAtom, out);
+    write(_s.styleTextProp9Atom, out);
+}
+void parseOutlineTextProps9Entry(QXmlStreamReader& in, OutlineTextProps9Entry& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OutlineTextPropsHeaderExAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "outlineTextHeaderAtom") {
+        qDebug() << "not startelement in outlineTextHeaderAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in StyleTextProp9Atom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "styleTextProp9Atom") {
+        qDebug() << "not startelement in styleTextProp9Atom " << in.lineNumber();
         return;
     }
     skipToStartElement(in);

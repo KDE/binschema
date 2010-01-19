@@ -1214,29 +1214,6 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
-    StyleTextProp9Atom parseStyleTextProp9Atom(LEInputStream in) throws IOException  {
-        StyleTextProp9Atom _s = new StyleTextProp9Atom();
-        int _c;
-        _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recType == 0xFAC)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFAC for value " + String.valueOf(_s.rh) );
-        }
-        _c = _s.rh.recLen;
-        _s.todo = in.readBytes(_c);
-        return _s;
-    }
-    void write(StyleTextProp9Atom _s, LEOutputStream out) throws IOException  {
-        write(_s.rh, out);
-        for (byte _i: _s.todo) {
-            out.writeuint8(_i);
-        }
-    }
     FontCollection10Container parseFontCollection10Container(LEInputStream in) throws IOException  {
         FontCollection10Container _s = new FontCollection10Container();
         Object _m;
@@ -6909,16 +6886,6 @@ System.out.println(in.getPosition()+" "+_s);
             write(_s.kinsokuFollowingAtom, out);
         }
     }
-    OutlineTextProps9Entry parseOutlineTextProps9Entry(LEInputStream in) throws IOException  {
-        OutlineTextProps9Entry _s = new OutlineTextProps9Entry();
-        _s.outlineTextHeaderAtom = parseOutlineTextPropsHeaderExAtom(in);
-        _s.styleTextProp9Atom = parseStyleTextProp9Atom(in);
-        return _s;
-    }
-    void write(OutlineTextProps9Entry _s, LEOutputStream out) throws IOException  {
-        write(_s.outlineTextHeaderAtom, out);
-        write(_s.styleTextProp9Atom, out);
-    }
     TextCFException10 parseTextCFException10(LEInputStream in) throws IOException  {
         TextCFException10 _s = new TextCFException10();
         _s.masks = parseCFMasks(in);
@@ -9850,6 +9817,30 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.pf9, out);
         write(_s.cf9, out);
     }
+    StyleTextProp9 parseStyleTextProp9(LEInputStream in) throws IOException  {
+        StyleTextProp9 _s = new StyleTextProp9();
+        _s.pf9 = parseTextPFException9(in);
+        _s.cf9 = parseTextCFException9(in);
+        _s.si = parseTextSIException(in);
+        if (!(_s.si.spell == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.si.spell == false for value " + String.valueOf(_s.si) );
+        }
+        if (!(_s.si.lang == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.si.lang == false for value " + String.valueOf(_s.si) );
+        }
+        if (!(_s.si.altLang == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.si.altLang == false for value " + String.valueOf(_s.si) );
+        }
+        if (!(_s.si.smartTag == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.si.smartTag == false for value " + String.valueOf(_s.si) );
+        }
+        return _s;
+    }
+    void write(StyleTextProp9 _s, LEOutputStream out) throws IOException  {
+        write(_s.pf9, out);
+        write(_s.cf9, out);
+        write(_s.si, out);
+    }
     PP10DocBinaryTagExtension parsePP10DocBinaryTagExtension(LEInputStream in) throws IOException  {
         PP10DocBinaryTagExtension _s = new PP10DocBinaryTagExtension();
         int _c;
@@ -11447,6 +11438,25 @@ System.out.println(in.getPosition()+" "+_s);
         out.writebit(_s.unused);
         write(_s.blip, out);
     }
+    StyleTextProp9Atom parseStyleTextProp9Atom(LEInputStream in) throws IOException  {
+        StyleTextProp9Atom _s = new StyleTextProp9Atom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFAC)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFAC for value " + String.valueOf(_s.rh) );
+        }
+        _s.rgStyleTextProp9 = parseStyleTextProp9(in);
+        return _s;
+    }
+    void write(StyleTextProp9Atom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.rgStyleTextProp9, out);
+    }
     TextMasterStyle10Atom parseTextMasterStyle10Atom(LEInputStream in) throws IOException  {
         TextMasterStyle10Atom _s = new TextMasterStyle10Atom();
         _s.rh = parseRecordHeader(in);
@@ -12204,6 +12214,16 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.htmlPublishInfoAtom, out);
         write(_s.rgBroadcastDocInfo9, out);
         write(_s.outlineTextPropsContainer, out);
+    }
+    OutlineTextProps9Entry parseOutlineTextProps9Entry(LEInputStream in) throws IOException  {
+        OutlineTextProps9Entry _s = new OutlineTextProps9Entry();
+        _s.outlineTextHeaderAtom = parseOutlineTextPropsHeaderExAtom(in);
+        _s.styleTextProp9Atom = parseStyleTextProp9Atom(in);
+        return _s;
+    }
+    void write(OutlineTextProps9Entry _s, LEOutputStream out) throws IOException  {
+        write(_s.outlineTextHeaderAtom, out);
+        write(_s.styleTextProp9Atom, out);
     }
     OfficeArtDgContainer parseOfficeArtDgContainer(LEInputStream in) throws IOException  {
         OfficeArtDgContainer _s = new OfficeArtDgContainer();
@@ -13444,16 +13464,6 @@ class OutlineTextPropsHeaderExAtom {
     byte[] todo;
     public String toString() {
         String _s = "OutlineTextPropsHeaderExAtom:";
-        _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
-        return _s;
-    }
-}
-class StyleTextProp9Atom {
-    RecordHeader rh;
-    byte[] todo;
-    public String toString() {
-        String _s = "StyleTextProp9Atom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "todo: " + String.valueOf(todo) + ", ";
         return _s;
@@ -16583,16 +16593,6 @@ class Kinsoku9Container {
         return _s;
     }
 }
-class OutlineTextProps9Entry {
-    OutlineTextPropsHeaderExAtom outlineTextHeaderAtom;
-    StyleTextProp9Atom styleTextProp9Atom;
-    public String toString() {
-        String _s = "OutlineTextProps9Entry:";
-        _s = _s + "outlineTextHeaderAtom: " + String.valueOf(outlineTextHeaderAtom) + ", ";
-        _s = _s + "styleTextProp9Atom: " + String.valueOf(styleTextProp9Atom) + ", ";
-        return _s;
-    }
-}
 class TextCFException10 {
     CFMasks masks;
     int newEAFontRef;
@@ -17985,6 +17985,18 @@ class TextMasterStyle9Level {
         return _s;
     }
 }
+class StyleTextProp9 {
+    TextPFException9 pf9;
+    TextCFException9 cf9;
+    TextSIException si;
+    public String toString() {
+        String _s = "StyleTextProp9:";
+        _s = _s + "pf9: " + String.valueOf(pf9) + ", ";
+        _s = _s + "cf9: " + String.valueOf(cf9) + ", ";
+        _s = _s + "si: " + String.valueOf(si) + ", ";
+        return _s;
+    }
+}
 class PP10DocBinaryTagExtension {
     RecordHeader rh;
     byte[] tagName;
@@ -18421,6 +18433,16 @@ class BlipEntityAtom {
         return _s;
     }
 }
+class StyleTextProp9Atom {
+    RecordHeader rh;
+    StyleTextProp9 rgStyleTextProp9;
+    public String toString() {
+        String _s = "StyleTextProp9Atom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "rgStyleTextProp9: " + String.valueOf(rgStyleTextProp9) + ", ";
+        return _s;
+    }
+}
 class TextMasterStyle10Atom {
     RecordHeader rh;
     int cLevels;
@@ -18614,6 +18636,16 @@ class PP9DocBinaryTagExtension {
         _s = _s + "htmlPublishInfoAtom: " + String.valueOf(htmlPublishInfoAtom) + ", ";
         _s = _s + "rgBroadcastDocInfo9: " + String.valueOf(rgBroadcastDocInfo9) + ", ";
         _s = _s + "outlineTextPropsContainer: " + String.valueOf(outlineTextPropsContainer) + ", ";
+        return _s;
+    }
+}
+class OutlineTextProps9Entry {
+    OutlineTextPropsHeaderExAtom outlineTextHeaderAtom;
+    StyleTextProp9Atom styleTextProp9Atom;
+    public String toString() {
+        String _s = "OutlineTextProps9Entry:";
+        _s = _s + "outlineTextHeaderAtom: " + String.valueOf(outlineTextHeaderAtom) + ", ";
+        _s = _s + "styleTextProp9Atom: " + String.valueOf(styleTextProp9Atom) + ", ";
         return _s;
     }
 }
