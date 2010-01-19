@@ -10,6 +10,8 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import mso.generator.QtParserGenerator.QtParserConfiguration;
+
 import org.w3c.dom.Document;
 
 public class ParserGeneratorRunner {
@@ -25,6 +27,7 @@ public class ParserGeneratorRunner {
 				.newDocumentBuilder().parse(xmlfilename);
 		generateJavaParser(dom);
 		generateQtParser(dom);
+		generateSimpleQtParser(dom);
 	}
 
 	static void generateJavaParser(Document dom) throws IOException {
@@ -33,8 +36,29 @@ public class ParserGeneratorRunner {
 	}
 
 	static void generateQtParser(Document dom) throws IOException {
+		// generate a parser with introspection
 		final QtParserGenerator g = new QtParserGenerator();
-		g.generate(new MSO(dom), "cpp");
+		g.config.namespace = "";
+		g.config.basename = "generatedclasses";
+		g.config.outputdir = "cpp";
+		g.config.createHeader = false;
+		g.config.enableXml = true;
+		g.config.enableWriting = true;
+		g.config.enableToString = true;
+		g.generate(new MSO(dom));
+	}
+
+	static void generateSimpleQtParser(Document dom) throws IOException {
+		// generate a minimal parser but with a public header
+		final QtParserGenerator g = new QtParserGenerator();
+		g.config.namespace = "PPT";
+		g.config.basename = "simpleParser";
+		g.config.outputdir = "cpp";
+		g.config.createHeader = true;
+		g.config.enableXml = false;
+		g.config.enableWriting = false;
+		g.config.enableToString = false;
+		g.generate(new MSO(dom));
 	}
 
 	static private Validator createValidator(String xsdfilename)

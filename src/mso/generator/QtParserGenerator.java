@@ -1,5 +1,6 @@
 package mso.generator;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,37 +9,81 @@ import java.util.regex.Pattern;
 
 public class QtParserGenerator {
 
-	void generate(MSO mso, String dir) throws IOException {
-		FileWriter fout = new FileWriter(dir + "/generatedclasses.cpp");
+	public class QtParserConfiguration {
+		public String namespace;
+		public String outputdir;
+		public String basename;
+		public boolean createHeader;
+		public boolean enableXml;
+		public boolean enableWriting;
+		public boolean enableToString;
+	}
+
+	final public QtParserConfiguration config = new QtParserConfiguration();
+
+	void generate(MSO mso) throws IOException {
+		FileWriter fout;
+		if (config.createHeader) {
+			fout = new FileWriter(config.outputdir + File.separator
+					+ config.basename + ".h");
+		} else {
+			fout = new FileWriter(config.outputdir + File.separator
+					+ config.basename + ".cpp");
+		}
 		PrintWriter out = new PrintWriter(fout);
+		if (config.createHeader) {
+			out.println("#ifndef " + config.basename.toUpperCase() + "_H");
+			out.println("#define " + config.basename.toUpperCase() + "_H");
+		}
 		out.println("#include <QString>");
 		out.println("#include <QByteArray>");
 		out.println("#include <QVector>");
 		out.println("#include <QSharedPointer>");
-		out.println("#include <QXmlStreamReader>");
+		if (config.enableXml) {
+			out.println("#include <QXmlStreamReader>");
+		}
 		out.println("#include \"leinputstream.h\"");
-		out.println("#include \"leoutputstream.h\"");
+		if (config.enableWriting) {
+			out.println("#include \"leoutputstream.h\"");
+		}
 		out.println("#include \"introspection.h\"");
-		out.println("namespace {");
+		out.println("namespace " + config.namespace + "{");
 
-		out.println("void skipToStartElement(QXmlStreamReader& in) {");
-		out.println("    do {");
-		out.println("        in.readNext();");
-		out.println("    } while (!in.atEnd() && !in.isStartElement());");
-		out.println("}");
+		if (config.enableXml) {
+			out.println("void skipToStartElement(QXmlStreamReader& in) {");
+			out.println("    do {");
+			out.println("        in.readNext();");
+			out.println("    } while (!in.atEnd() && !in.isStartElement());");
+			out.println("}");
+		}
 
 		for (Struct s : mso.structs) {
 			out.println("class " + s.name + ";");
 			out.println("void parse" + s.name + "(LEInputStream& in, " + s.name
 					+ "& _s);");
-			out.println("void parse" + s.name + "(QXmlStreamReader& in, "
-					+ s.name + "& _s);");
-			out.println("void write(const " + s.name
-					+ "& v, LEOutputStream& out);");
+			if (config.enableXml) {
+				out.println("void parse" + s.name + "(QXmlStreamReader& in, "
+						+ s.name + "& _s);");
+			}
+			if (config.enableWriting) {
+				out.println("void write(const " + s.name
+						+ "& v, LEOutputStream& out);");
+			}
 		}
 
 		for (Struct s : mso.structs) {
 			printStructureClassDeclaration(out, s);
+		}
+
+		if (config.createHeader) {
+			out.println("} // close namespace");
+			out.println("#endif");
+			out.close();
+			fout = new FileWriter(config.outputdir + File.separator
+					+ config.basename + ".cpp");
+			out = new PrintWriter(fout);
+			out.println("#include \"" + config.basename + ".h\"");
+			out.println("using namespace " + config.namespace + ";");
 		}
 
 		for (Struct s : mso.structs) {
@@ -47,11 +92,17 @@ public class QtParserGenerator {
 
 		for (Struct s : mso.structs) {
 			printStructureParser(out, s);
-			printStructureWriter(out, s);
-			printStructureXmlParser(out, s);
+			if (config.enableWriting) {
+				printStructureWriter(out, s);
+			}
+			if (config.enableXml) {
+				printStructureXmlParser(out, s);
+			}
 		}
 
-		out.println("}");
+		if (!config.createHeader) {
+			out.println("}");// close namespace
+		}
 
 		out
 				.println("const Introspectable* parse(const QString& key, LEInputStream& in) {");
@@ -79,99 +130,105 @@ public class QtParserGenerator {
 		out.println("    return i;");
 		out.println("}");
 
-		out
-				.println("const QMap<QString,QSharedPointer<const Introspectable> > parse(QXmlStreamReader& in) {");
-		out
-				.println("    QMap<QString,QSharedPointer<const Introspectable> > streams;");
-		out.println("    // skip until first element");
-		out.println("    while (!in.atEnd() && !in.isStartElement()) {");
-		out.println("        in.readNext();");
-		out.println("    }");
-		out.println("    if (!in.isStartElement()) {");
-		out.println("        return streams;");
-		out.println("    }");
-		out.println("    do {");
-		out.println("        in.readNext();");
-		out.println("    } while (!in.atEnd() && !in.isStartElement());");
-		out.println("    if (!in.isStartElement()) {");
-		out.println("        return streams;");
-		out.println("    }");
-		out.println("    do {");
-		out.println("        QString name = in.name().toString();");
-		out.println("        if (streams.contains(name)) {");
-		out.println("            streams.clear();");
-		out.println("            return streams;");
-		out.println("        }");
-		first = true;
-		for (Stream s : mso.streams) {
-			out.print("        ");
-			if (first) {
-				first = false;
-			} else {
-				out.print("} else ");
+		if (config.enableXml) {
+			out
+					.println("const QMap<QString,QSharedPointer<const Introspectable> > parse(QXmlStreamReader& in) {");
+			out
+					.println("    QMap<QString,QSharedPointer<const Introspectable> > streams;");
+			out.println("    // skip until first element");
+			out.println("    while (!in.atEnd() && !in.isStartElement()) {");
+			out.println("        in.readNext();");
+			out.println("    }");
+			out.println("    if (!in.isStartElement()) {");
+			out.println("        return streams;");
+			out.println("    }");
+			out.println("    do {");
+			out.println("        in.readNext();");
+			out.println("    } while (!in.atEnd() && !in.isStartElement());");
+			out.println("    if (!in.isStartElement()) {");
+			out.println("        return streams;");
+			out.println("    }");
+			out.println("    do {");
+			out.println("        QString name = in.name().toString();");
+			out.println("        if (streams.contains(name)) {");
+			out.println("            streams.clear();");
+			out.println("            return streams;");
+			out.println("        }");
+			first = true;
+			for (Stream s : mso.streams) {
+				out.print("        ");
+				if (first) {
+					first = false;
+				} else {
+					out.print("} else ");
+				}
+				out.println("if (\"" + s.key + "\" == name) {");
+				out
+						.println("            QSharedPointer<Introspectable> _t(new "
+								+ s.type + "(0));");
+				out.println("            parse" + s.type + "(in, *static_cast<"
+						+ s.type + "*>(_t.data()));");
+				// out.println("            QSharedPointer<Introspectable> _t(new PowerPointStructs());");
+				// out.println("            parsePowerPointStructs(in, *static_cast<PowerPointStructs*>(_t.data()));");
+				out.println("            streams[name] = _t;");
 			}
-			out.println("if (\"" + s.key + "\" == name) {");
-			out.println("            QSharedPointer<Introspectable> _t(new "
-					+ s.type + "(0));");
-			out.println("            parse" + s.type + "(in, *static_cast<"
-					+ s.type + "*>(_t.data()));");
-			// out.println("            QSharedPointer<Introspectable> _t(new PowerPointStructs());");
-			// out.println("            parsePowerPointStructs(in, *static_cast<PowerPointStructs*>(_t.data()));");
+			out.println("        } else { // unknown stream should be binary");
+			out
+					.println("            QSharedPointer<Introspectable> _t(new TODOS(0));");
+			out
+					.println("            parseTODOS(in, *static_cast<TODOS*>(_t.data()));");
 			out.println("            streams[name] = _t;");
-		}
-		out.println("        } else { // unknown stream should be binary");
-		out
-				.println("            QSharedPointer<Introspectable> _t(new TODOS(0));");
-		out
-				.println("            parseTODOS(in, *static_cast<TODOS*>(_t.data()));");
-		out.println("            streams[name] = _t;");
-		out.println("        }");
-		out.println("        do {");
-		out.println("            in.readNext();");
-		out.println("        } while (in.isWhitespace());");
-		out.println("    } while (in.isStartElement());");
-		out.println("    qDebug() << in.tokenType();");
-		out.println("    if (!in.isEndElement()) {");
-		out
-				.println("        qDebug() << \"parsing error: not at end of an element\";");
-		out.println("        streams.clear();");
-		out.println("    }");
-		out.println("    in.readNext();");
-		out.println("    if (!in.isEndDocument()) {");
-		out
-				.println("        qDebug() << \"parsing error: not at end of xml\";");
-		out.println("        streams.clear();");
-		out.println("    }");
-		out.println("    return streams;");
-		out.println("}");
+			out.println("        }");
+			out.println("        do {");
+			out.println("            in.readNext();");
+			out.println("        } while (in.isWhitespace());");
+			out.println("    } while (in.isStartElement());");
+			out.println("    qDebug() << in.tokenType();");
+			out.println("    if (!in.isEndElement()) {");
+			out
+					.println("        qDebug() << \"parsing error: not at end of an element\";");
+			out.println("        streams.clear();");
+			out.println("    }");
+			out.println("    in.readNext();");
+			out.println("    if (!in.isEndDocument()) {");
+			out
+					.println("        qDebug() << \"parsing error: not at end of xml\";");
+			out.println("        streams.clear();");
+			out.println("    }");
+			out.println("    return streams;");
+			out.println("}");
 
-		out
-				.println("void serialize(const Introspectable* i, const QString& key, LEOutputStream& out)  {");
-		first = true;
-		for (Stream s : mso.streams) {
-			out.print("    ");
-			if (first) {
-				first = false;
-			} else {
-				out.print("} else ");
+			out
+					.println("void serialize(const Introspectable* i, const QString& key, LEOutputStream& out)  {");
+			first = true;
+			for (Stream s : mso.streams) {
+				out.print("    ");
+				if (first) {
+					first = false;
+				} else {
+					out.print("} else ");
+				}
+				out.println("if (\"" + s.key + "\" == key) {"); // TODO: fix for
+				// \001 and \005
+				// prefix
+				out.println("        write(*static_cast<const " + s.type
+						+ "*>(i), out);");
 			}
-			out.println("if (\"" + s.key + "\" == key) {"); // TODO: fix for
-			// \001 and \005
-			// prefix
-			out.println("        write(*static_cast<const " + s.type
-					+ "*>(i), out);");
+			out.println("    } else {");
+			out.println("        write(*static_cast<const TODOS*>(i), out);");
+			out.println("    }");
+			out.println("}");
 		}
-		out.println("    } else {");
-		out.println("        write(*static_cast<const TODOS*>(i), out);");
-		out.println("    }");
-		out.println("}");
-
 		out.close();
 		fout.close();
 	}
 
 	void printStructureParser(PrintWriter out, Struct s) {
-		out.println("void parse" + s.name + "(LEInputStream& in, " + s.name
+		out.print("void ");
+		if (config.namespace != null && config.namespace.length() > 0) {
+			out.print(config.namespace + "::");
+		}
+		out.println("parse" + s.name + "(LEInputStream& in, " + s.name
 				+ "& _s) {");
 		out.println("    _s.streamOffset = in.getPosition();");
 		if (s.containsKnownLengthArrayMember) {
@@ -187,8 +244,9 @@ public class QtParserGenerator {
 		for (Member m : s.members) {
 			printStructureMemberParser(out, m);
 			if (m.type.contains("RecordHeader")) {
-			//	out.println("qDebug() << in.getPosition()<<\" \"<<\"" + s.name
-			//			+ "\"<<_s.rh.toString();");
+				// out.println("qDebug() << in.getPosition()<<\" \"<<\"" +
+				// s.name
+				// + "\"<<_s.rh.toString();");
 			}
 		}
 		out.println("}");
@@ -465,7 +523,8 @@ public class QtParserGenerator {
 	}
 
 	void printStructureClassDeclaration(PrintWriter out, Struct s) {
-		out.println("class " + s.name + " : public Introspectable {");
+		out.print("class " + s.name);
+		out.println(" : public Introspectable {");
 		out.println("private:");
 		out.println("    class _Introspection;");
 		out.println("public:");
@@ -492,17 +551,17 @@ public class QtParserGenerator {
 		out.println("    }");
 
 		// function toString
-
-		out.println("    QString toString() {");
-		out.println("        QString _s = \"" + s.name + ":\";");
-		for (Member m : s.members) {
-			out.print("        _s = _s + \"" + m.name + ": \" + ");
-			out.print(memberToString(m, ""));
-			out.println(" + \", \";");
+		if (config.enableToString) {
+			out.println("    QString toString() {");
+			out.println("        QString _s = \"" + s.name + ":\";");
+			for (Member m : s.members) {
+				out.print("        _s = _s + \"" + m.name + ": \" + ");
+				out.print(memberToString(m, ""));
+				out.println(" + \", \";");
+			}
+			out.println("        return _s;");
+			out.println("    }");
 		}
-		out.println("        return _s;");
-		out.println("    }");
-
 		out
 				.println("    const Introspection* getIntrospection() const { return &_introspection; }");
 
