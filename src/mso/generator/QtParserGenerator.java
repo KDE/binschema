@@ -16,6 +16,7 @@ public class QtParserGenerator {
 		public boolean createHeader;
 		public boolean enableXml;
 		public boolean enableWriting;
+		public boolean enableIntrospection;
 		public boolean enableToString;
 		public boolean enableStyleTextPropAtomFix;
 	}
@@ -39,7 +40,8 @@ public class QtParserGenerator {
 		out.println("#include <QString>");
 		out.println("#include <QByteArray>");
 		out.println("#include <QVector>");
-		out.println("#include <QSharedPointer>");
+		out
+				.println("#include <QSharedPointer> // replace with QScopedPointer when switching to Qt 4.6");
 		if (config.enableXml) {
 			out.println("#include <QXmlStreamReader>");
 		}
@@ -47,7 +49,9 @@ public class QtParserGenerator {
 		if (config.enableWriting) {
 			out.println("#include \"leoutputstream.h\"");
 		}
-		out.println("#include \"introspection.h\"");
+		if (config.enableIntrospection) {
+			out.println("#include \"introspection.h\"");
+		}
 		out.println("namespace " + config.namespace + "{");
 
 		if (config.enableXml) {
@@ -56,6 +60,13 @@ public class QtParserGenerator {
 			out.println("        in.readNext();");
 			out.println("    } while (!in.atEnd() && !in.isStartElement());");
 			out.println("}");
+		}
+
+		if (!config.enableIntrospection) {
+			out.println("class StreamOffset {");
+			out.println("public:");
+			out.println("    quint32 streamOffset;");
+			out.println("};");
 		}
 
 		for (Struct s : mso.structs) {
@@ -87,8 +98,10 @@ public class QtParserGenerator {
 			out.println("using namespace " + config.namespace + ";");
 		}
 
-		for (Struct s : mso.structs) {
-			printStructureClassImplementation(out, s);
+		if (config.enableIntrospection) {
+			for (Struct s : mso.structs) {
+				printStructureClassImplementation(out, s);
+			}
 		}
 
 		for (Struct s : mso.structs) {
@@ -105,31 +118,34 @@ public class QtParserGenerator {
 			out.println("}");// close namespace
 		}
 
-		out
-				.println("const Introspectable* parse(const QString& key, LEInputStream& in) {");
-		out.println("    const Introspectable* i = 0;");
-		boolean first = true;
-		for (Stream s : mso.streams) {
-			out.print("    ");
-			if (first) {
-				first = false;
-			} else {
-				out.print("} else ");
+		if (config.enableIntrospection) {
+			out
+					.println("const Introspectable* parse(const QString& key, LEInputStream& in) {");
+			out.println("    const Introspectable* i = 0;");
+			boolean first = true;
+			for (Stream s : mso.streams) {
+				out.print("    ");
+				if (first) {
+					first = false;
+				} else {
+					out.print("} else ");
+				}
+				out.println("if (\"" + s.key + "\" == key) {"); // TODO: fix for
+				// \001 and \005
+				// prefix
+				out.println("        " + s.type + " *_t = new " + s.type
+						+ "(0);");
+				out.println("        parse" + s.type + "(in, *_t);");
+				out.println("        i = _t;");
 			}
-			out.println("if (\"" + s.key + "\" == key) {"); // TODO: fix for
-			// \001 and \005
-			// prefix
-			out.println("        " + s.type + " *_t = new " + s.type + "(0);");
-			out.println("        parse" + s.type + "(in, *_t);");
+			out.println("    } else {");
+			out.println("        TODOS* _t = new TODOS(0);");
+			out.println("        parseTODOS(in, *_t);");
 			out.println("        i = _t;");
+			out.println("    }");
+			out.println("    return i;");
+			out.println("}");
 		}
-		out.println("    } else {");
-		out.println("        TODOS* _t = new TODOS(0);");
-		out.println("        parseTODOS(in, *_t);");
-		out.println("        i = _t;");
-		out.println("    }");
-		out.println("    return i;");
-		out.println("}");
 
 		if (config.enableXml) {
 			out
@@ -155,7 +171,7 @@ public class QtParserGenerator {
 			out.println("            streams.clear();");
 			out.println("            return streams;");
 			out.println("        }");
-			first = true;
+			boolean first = true;
 			for (Stream s : mso.streams) {
 				out.print("        ");
 				if (first) {
@@ -303,7 +319,6 @@ public class QtParserGenerator {
 			if (!m.isComplex) {
 				out.println(s + "_s._has_" + m.name + " = " + condition + ";");
 				out.println(s + "if (_s._has_" + m.name + ") {");
-
 			} else {
 				out.println(s + "if (" + condition + ") {");
 			}
@@ -566,11 +581,18 @@ public class QtParserGenerator {
 
 	void printStructureClassDeclaration(PrintWriter out, Struct s) {
 		out.print("class " + s.name);
-		out.println(" : public Introspectable {");
-		out.println("private:");
-		out.println("    class _Introspection;");
+		if (config.enableIntrospection) {
+			out.println(" : public Introspectable {");
+			out.println("private:");
+			out.println("    class _Introspection;");
+		} else {
+			out.println(" : public StreamOffset {");
+
+		}
 		out.println("public:");
-		out.println("    static const Introspection _introspection;");
+		if (config.enableIntrospection) {
+			out.println("    static const Introspection _introspection;");
+		}
 		for (Member m : s.members) {
 			if (!m.isComplex && m.condition != null) {
 				out.println("    bool _has_" + m.name + ";");
@@ -585,16 +607,28 @@ public class QtParserGenerator {
 				out.println("    " + d + ";");
 			}
 		}
-		out.print("    explicit " + s.name
-				+ "(const Introspectable* parent)\n       :Introspectable(parent)");
-		for (Member m : s.members) {
-			if (m.isComplex && !m.isArray && !m.isOptional && m.choices == null
-					&& m.condition == null) {
-				out.println(",");
-				out.print("        " + m.name + "(this)");
+		boolean first = true;
+		if (config.enableIntrospection) {
+			out.print("    explicit " + s.name
+					+ "(const Introspectable* parent)");
+			out.print("\n       :Introspectable(parent)");
+			first = false;
+			for (Member m : s.members) {
+				if (m.isComplex && !m.isArray && !m.isOptional
+						&& m.choices == null && m.condition == null) {
+					if (first) {
+						out.print("\n       :");
+						first = false;
+					} else {
+						out.print(",\n        ");
+					}
+					out.print(m.name + "(this)");
+				}
 			}
+			out.println(" {}");
+		} else {
+			out.println("    " + s.name + "(void* dummy = 0) {}");
 		}
-		out.println(" {}");
 
 		// function toString
 		if (config.enableToString) {
@@ -608,9 +642,10 @@ public class QtParserGenerator {
 			out.println("        return _s;");
 			out.println("    }");
 		}
-		out
-				.println("    const Introspection* getIntrospection() const { return &_introspection; }");
-
+		if (config.enableIntrospection) {
+			out
+					.println("    const Introspection* getIntrospection() const { return &_introspection; }");
+		}
 		out.println("};");
 
 	}
@@ -795,7 +830,8 @@ public class QtParserGenerator {
 		out.println(s + "while (!_atend) {");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
-		out.println(s + "        _s." + m.name + ".append(" + m.type + "(&_s));");
+		out.println(s + "        _s." + m.name + ".append(" + m.type
+				+ "(&_s));");
 		out.println(s + "        parse" + m.type + "(in, _s." + m.name
 				+ ".last());");
 		out.println(s + "    } catch(IncorrectValueException _e) {");

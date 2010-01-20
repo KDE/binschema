@@ -37,4 +37,4 @@ ADD_EXECUTABLE(ppttosvg ppttosvg.cpp ${MSO_RCC_SRCS})
 TARGET_LINK_LIBRARIES(ppttosvg qtppt ${QT_LIBRARIES} ${LIBXML2_LIBRARIES}
   ${LIBXSLT_LIBRARIES})
 
-ADD_LIBRARY(simpleparser simpleParser.cpp)
+ADD_LIBRARY(simpleparser SHARED simpleParser.cpp)

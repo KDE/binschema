@@ -1,7 +1,7 @@
 #include <QString>
 #include <QByteArray>
 #include <QVector>
-#include <QSharedPointer>
+#include <QSharedPointer> // replace with QScopedPointer when switching to Qt 4.6
 #include <QXmlStreamReader>
 #include "leinputstream.h"
 #include "leoutputstream.h"

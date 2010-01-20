@@ -42,6 +42,7 @@ public class ParserGeneratorRunner {
 		g.config.basename = "generatedclasses";
 		g.config.outputdir = "cpp";
 		g.config.createHeader = false;
+		g.config.enableIntrospection = true;
 		g.config.enableXml = true;
 		g.config.enableWriting = true;
 		g.config.enableToString = true;
@@ -56,6 +57,7 @@ public class ParserGeneratorRunner {
 		g.config.basename = "simpleParser";
 		g.config.outputdir = "cpp";
 		g.config.createHeader = true;
+		g.config.enableIntrospection = false;
 		g.config.enableXml = false;
 		g.config.enableWriting = false;
 		g.config.enableToString = false;
