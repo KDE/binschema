@@ -480,12 +480,12 @@ public class QtParserGenerator {
 		} else if ("int32".equals(t)) {
 			return "qint32";
 		} else if ("choice".equals(t)) {
-			String choice = "class " + m.name + "Choice {public:";
+			String choice = "class " + m.name + "Choice {\n    public:\n";
 			for (String c : m.choices.getChoiceNames()) {
-				choice = choice + "QSharedPointer<" + c + "> "
+				choice = choice + "        QSharedPointer<" + c + "> "
 						+ c.toLowerCase() + ";\n";
 			}
-			choice = choice + "}; " + m.name + "Choice";
+			choice = choice + "    };\n    " + m.name + "Choice";
 			return choice;
 		} else {
 			return t;
@@ -586,7 +586,7 @@ public class QtParserGenerator {
 			}
 		}
 		out.print("    explicit " + s.name
-				+ "(const Introspectable* parent) :Introspectable(parent)");
+				+ "(const Introspectable* parent)\n       :Introspectable(parent)");
 		for (Member m : s.members) {
 			if (m.isComplex && !m.isArray && !m.isOptional && m.choices == null
 					&& m.condition == null) {
@@ -594,8 +594,7 @@ public class QtParserGenerator {
 				out.print("        " + m.name + "(this)");
 			}
 		}
-		out.println(" {");
-		out.println("    }");
+		out.println(" {}");
 
 		// function toString
 		if (config.enableToString) {

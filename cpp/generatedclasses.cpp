@@ -1469,8 +1469,8 @@ public:
     quint16 recInstance;
     quint16 recType;
     quint32 recLen;
-    explicit RecordHeader(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit RecordHeader(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "RecordHeader:";
         _s = _s + "recVer: " + QString::number(recVer) + "(" + QString::number(recVer,16).toUpper() + ")" + ", ";
@@ -1499,9 +1499,9 @@ public:
     QByteArray ansiUserName;
     quint32 relVersion;
     QByteArray unicodeUserName;
-    explicit CurrentUserAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit CurrentUserAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "CurrentUserAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1526,8 +1526,8 @@ private:
 public:
     static const Introspection _introspection;
     QList<Byte> anon;
-    explicit TODOS(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit TODOS(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "TODOS:";
         _s = _s + "anon: " + "[array of anon]" + ", ";
@@ -1541,8 +1541,8 @@ private:
 public:
     static const Introspection _introspection;
     quint8 b;
-    explicit Byte(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit Byte(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "Byte:";
         _s = _s + "b: " + QString::number(b) + "(" + QString::number(b,16).toUpper() + ")" + ", ";
@@ -1557,9 +1557,9 @@ public:
     static const Introspection _introspection;
     CurrentUserAtom anon1;
     QList<Byte> trailing;
-    explicit CurrentUserStream(const Introspectable* parent) :Introspectable(parent),
-        anon1(this) {
-    }
+    explicit CurrentUserStream(const Introspectable* parent)
+       :Introspectable(parent),
+        anon1(this) {}
     QString toString() {
         QString _s = "CurrentUserStream:";
         _s = _s + "anon1: " + anon1.toString() + ", ";
@@ -1574,8 +1574,8 @@ private:
 public:
     static const Introspection _introspection;
     QList<OfficeArtBStoreContainerFileBlock> anon1;
-    explicit OfficeArtBStoreDelay(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit OfficeArtBStoreDelay(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtBStoreDelay:";
         _s = _s + "anon1: " + "[array of anon1]" + ", ";
@@ -1592,8 +1592,8 @@ public:
     quint16 recInstance;
     quint16 recType;
     quint32 recLen;
-    explicit OfficeArtRecordHeader(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit OfficeArtRecordHeader(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtRecordHeader:";
         _s = _s + "recVer: " + QString::number(recVer) + "(" + QString::number(recVer,16).toUpper() + ")" + ", ";
@@ -1615,9 +1615,9 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    explicit OfficeArtBlipJPEG(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtBlipJPEG(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtBlipJPEG:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1640,9 +1640,9 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    explicit OfficeArtBlipPNG(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtBlipPNG(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtBlipPNG:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1665,9 +1665,9 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    explicit OfficeArtBlipDIB(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtBlipDIB(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtBlipDIB:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1690,9 +1690,9 @@ public:
     QByteArray rgbUid2;
     quint8 tag;
     QByteArray BLIPFileData;
-    explicit OfficeArtBlipTIFF(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtBlipTIFF(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtBlipTIFF:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1713,8 +1713,8 @@ public:
     qint32 top;
     qint32 right;
     qint32 bottom;
-    explicit RECT(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit RECT(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "RECT:";
         _s = _s + "left: " + QString::number(left) + "(" + QString::number(left,16).toUpper() + ")" + ", ";
@@ -1732,8 +1732,8 @@ public:
     static const Introspection _introspection;
     qint32 x;
     qint32 y;
-    explicit POINT(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit POINT(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "POINT:";
         _s = _s + "x: " + QString::number(x) + "(" + QString::number(x,16).toUpper() + ")" + ", ";
@@ -1748,8 +1748,8 @@ private:
 public:
     static const Introspection _introspection;
     QList<PowerPointStruct> anon;
-    explicit PowerPointStructs(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PowerPointStructs(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PowerPointStructs:";
         _s = _s + "anon: " + "[array of anon]" + ", ";
@@ -1764,9 +1764,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit SoundCollectionContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SoundCollectionContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SoundCollectionContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1790,9 +1790,9 @@ public:
     bool fHasFooter;
     quint8 reserved1;
     quint8 reserved2;
-    explicit HeadersFootersAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit HeadersFootersAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "HeadersFootersAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1816,9 +1816,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray userDate;
-    explicit UserDateAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit UserDateAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "UserDateAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1834,9 +1834,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray footer;
-    explicit HeaderAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit HeaderAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "HeaderAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1852,9 +1852,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray footer;
-    explicit FooterAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit FooterAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "FooterAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1872,10 +1872,10 @@ public:
     HeadersFootersAtom hfAtom;
     QSharedPointer<UserDateAtom> userDateAtom;
     QSharedPointer<FooterAtom> footerAtom;
-    explicit PerSlideHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit PerSlideHeadersFootersContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        hfAtom(this) {
-    }
+        hfAtom(this) {}
     QString toString() {
         QString _s = "PerSlideHeadersFootersContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1892,9 +1892,9 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    explicit EndDocumentAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit EndDocumentAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "EndDocumentAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1909,9 +1909,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<DocInfoListSubContainerOrAtom> rgChildRec;
-    explicit DocInfoListContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit DocInfoListContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "DocInfoListContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1929,9 +1929,9 @@ public:
     quint8 unused1;
     quint8 fSnapToGrid;
     quint8 fSnapToShape;
-    explicit SlideViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SlideViewInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SlideViewInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1950,9 +1950,9 @@ public:
     RecordHeader rh;
     quint32 type;
     qint32 pos;
-    explicit GuideAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit GuideAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "GuideAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1969,9 +1969,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<DocProgTagsSubContainerOrAtom> rgChildRec;
-    explicit DocProgTagsContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit DocProgTagsContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "DocProgTagsContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -1987,8 +1987,8 @@ public:
     static const Introspection _introspection;
     quint16 scheme;
     quint16 startNum;
-    explicit TextAutoNumberScheme(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit TextAutoNumberScheme(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "TextAutoNumberScheme:";
         _s = _s + "scheme: " + QString::number(scheme) + "(" + QString::number(scheme,16).toUpper() + ")" + ", ";
@@ -2004,9 +2004,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<BlipEntityAtom> rgBlipEntityAtom;
-    explicit BlipCollection9Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit BlipCollection9Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "BlipCollection9Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2027,9 +2027,9 @@ public:
     quint8 jpnLevel;
     quint8 reserveda;
     quint32 reservedb;
-    explicit Kinsoku9Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit Kinsoku9Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "Kinsoku9Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2050,9 +2050,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit ExHyperlink9Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExHyperlink9Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExHyperlink9Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2081,9 +2081,9 @@ public:
     quint8 reserveda;
     quint8 reservedb;
     quint8 reservedc;
-    explicit PresAdvisorFlags9Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit PresAdvisorFlags9Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "PresAdvisorFlags9Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2112,9 +2112,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit EnvelopeData9Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit EnvelopeData9Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "EnvelopeData9Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2135,9 +2135,9 @@ public:
     bool fEnvelopeDirty;
     quint8 reserved2a;
     quint32 reserved2b;
-    explicit EnvelopeFlags9Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit EnvelopeFlags9Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "EnvelopeFlags9Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2172,9 +2172,9 @@ public:
     bool fShowSlideAnimation;
     bool reserved1;
     quint16 unused3;
-    explicit HTMLDocInfo9Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit HTMLDocInfo9Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "HTMLDocInfo9Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2204,9 +2204,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit HTMLPublishInfo9Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit HTMLPublishInfo9Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "HTMLPublishInfo9Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2222,9 +2222,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit BroadcastDocInfo9Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit BroadcastDocInfo9Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "BroadcastDocInfo9Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2240,9 +2240,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<OutlineTextProps9Entry> rgOutlineTextProps9Entry;
-    explicit OutlineTextProps9Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OutlineTextProps9Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OutlineTextProps9Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2258,9 +2258,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit OutlineTextPropsHeaderExAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OutlineTextPropsHeaderExAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OutlineTextPropsHeaderExAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2276,9 +2276,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<FontCollectionEntry> rgFontCollectionEntry;
-    explicit FontCollection10Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit FontCollection10Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "FontCollection10Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2295,9 +2295,9 @@ public:
     RecordHeader rh;
     quint32 x;
     quint32 y;
-    explicit GridSpacing10Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit GridSpacing10Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "GridSpacing10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2314,9 +2314,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray authorName;
-    explicit AuthorNameAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit AuthorNameAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "AuthorNameAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2333,9 +2333,9 @@ public:
     RecordHeader rh;
     qint32 colorIndex;
     qint32 commentIndexSeed;
-    explicit CommentIndex10Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit CommentIndex10Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "CommentIndex10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2354,9 +2354,9 @@ public:
     bool fSubset;
     bool fSubsetOptionConfirmed;
     quint32 unused;
-    explicit FontEmbedFlags10Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit FontEmbedFlags10Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "FontEmbedFlags10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2374,9 +2374,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray copyright;
-    explicit CopyrightAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit CopyrightAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "CopyrightAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2392,9 +2392,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray keywords;
-    explicit KeywordsAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit KeywordsAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "KeywordsAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2413,9 +2413,9 @@ public:
     quint32 reserved2a;
     quint8 reserved2b;
     quint8 reserved2c;
-    explicit FilterPrivacyFlags10Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit FilterPrivacyFlags10Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "FilterPrivacyFlags10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2434,9 +2434,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<OutlineTextProps10Entry> rgOutlineTextProps10Entry;
-    explicit OutlineTextProps10Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OutlineTextProps10Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OutlineTextProps10Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2452,9 +2452,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<TextCFException10> rgStyleTextProp10;
-    explicit StyleTextProp10Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit StyleTextProp10Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "StyleTextProp10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2472,9 +2472,9 @@ public:
     bool fShowReviewingToolbar;
     bool fShowReviewingGallery;
     quint8 reserved;
-    explicit DocToolbarStates10Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit DocToolbarStates10Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "DocToolbarStates10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2492,9 +2492,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit SlideListTable10Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SlideListTable10Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SlideListTable10Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2510,9 +2510,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit DiffTree10Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit DiffTree10Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "DiffTree10Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2528,9 +2528,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray modifyPassword;
-    explicit ModifyPasswordAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ModifyPasswordAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ModifyPasswordAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2550,9 +2550,9 @@ public:
     quint8 layout;
     quint8 unused;
     quint16 frameShape;
-    explicit PhotoAlbumInfo10Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit PhotoAlbumInfo10Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "PhotoAlbumInfo10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2572,9 +2572,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit SmartTagStore11Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SmartTagStore11Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SmartTagStore11Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2590,9 +2590,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit OutlineTextProps11Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OutlineTextProps11Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OutlineTextProps11Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2608,9 +2608,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray data;
-    explicit BinaryTagDataBlob(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit BinaryTagDataBlob(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "BinaryTagDataBlob:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2628,10 +2628,10 @@ public:
     QByteArray tagName;
     RecordHeader rhData;
     QByteArray todo;
-    explicit PP12DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
+    explicit PP12DocBinaryTagExtension(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        rhData(this) {
-    }
+        rhData(this) {}
     QString toString() {
         QString _s = "PP12DocBinaryTagExtension:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2649,9 +2649,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit SorterViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SorterViewInfoContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SorterViewInfoContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2669,9 +2669,9 @@ public:
     quint32 persistIdRef;
     quint32 fHasMacros;
     quint32 version;
-    explicit VBAInfoAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit VBAInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "VBAInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2689,9 +2689,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<MasterPersistAtom> rgMasterPersistAtom;
-    explicit MasterListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit MasterListWithTextContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "MasterListWithTextContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2707,9 +2707,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<SlideListWithTextSubContainerOrAtom> rgChildRec;
-    explicit SlideListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SlideListWithTextContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SlideListWithTextContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2725,9 +2725,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<NotesPersistAtom> rgNotesPersistAtom;
-    explicit NotesListWithTextContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit NotesListWithTextContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "NotesListWithTextContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2751,9 +2751,9 @@ public:
     quint32 reserved3;
     quint32 notesId;
     quint32 reserved4;
-    explicit NotesPersistAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit NotesPersistAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "NotesPersistAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2777,9 +2777,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint32 textType;
-    explicit TextHeaderAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TextHeaderAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TextHeaderAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2795,9 +2795,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> textChars;
-    explicit TextCharsAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TextCharsAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TextCharsAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2813,9 +2813,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray textChars;
-    explicit TextBytesAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TextBytesAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TextBytesAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2831,9 +2831,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<MasterTextPropRun> rgMasterTextPropRun;
-    explicit MasterTextPropAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit MasterTextPropAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "MasterTextPropAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2849,8 +2849,8 @@ public:
     static const Introspection _introspection;
     quint32 count;
     quint16 indentLevel;
-    explicit MasterTextPropRun(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit MasterTextPropRun(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "MasterTextPropRun:";
         _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
@@ -2866,9 +2866,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit StyleTextPropAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit StyleTextPropAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "StyleTextPropAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2884,9 +2884,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    explicit SlideNumberMCAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SlideNumberMCAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SlideNumberMCAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2904,9 +2904,9 @@ public:
     qint32 position;
     quint8 index;
     QByteArray unused;
-    explicit DateTimeMCAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit DateTimeMCAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "DateTimeMCAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2924,9 +2924,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    explicit GenericDateMCAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit GenericDateMCAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "GenericDateMCAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2942,9 +2942,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    explicit HeaderMCAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit HeaderMCAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "HeaderMCAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2960,9 +2960,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 position;
-    explicit FooterMCAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit FooterMCAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "FooterMCAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -2979,9 +2979,9 @@ public:
     RecordHeader rh;
     qint32 position;
     QByteArray format;
-    explicit RTFDateTimeMCAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit RTFDateTimeMCAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "RTFDateTimeMCAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3000,9 +3000,9 @@ public:
     qint32 begin;
     qint32 end;
     qint32 bookmarkID;
-    explicit TextBookmarkAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TextBookmarkAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TextBookmarkAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3020,9 +3020,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray range;
-    explicit MouseTextInteractiveInfoAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit MouseTextInteractiveInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "MouseTextInteractiveInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3037,8 +3037,8 @@ private:
 public:
     static const Introspection _introspection;
     quint32 slideId;
-    explicit SlideId(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit SlideId(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "SlideId:";
         _s = _s + "slideId: " + QString::number(slideId) + "(" + QString::number(slideId,16).toUpper() + ")" + ", ";
@@ -3053,8 +3053,8 @@ public:
     static const Introspection _introspection;
     quint16 count;
     QList<TabStop> rgTabStop;
-    explicit TabStops(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit TabStops(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "TabStops:";
         _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
@@ -3070,8 +3070,8 @@ public:
     static const Introspection _introspection;
     qint16 position;
     quint16 type;
-    explicit TabStop(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit TabStop(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "TabStop:";
         _s = _s + "position: " + QString::number(position) + "(" + QString::number(position,16).toUpper() + ")" + ", ";
@@ -3090,8 +3090,8 @@ public:
     bool overflow;
     quint8 reserved1;
     quint8 reserved2;
-    explicit PFWrapFlags(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PFWrapFlags(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PFWrapFlags:";
         _s = _s + "charWrap: " + QString::number(charWrap) + ", ";
@@ -3112,8 +3112,8 @@ public:
     quint8 green;
     quint8 blue;
     quint8 index;
-    explicit ColorIndexStruct(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit ColorIndexStruct(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "ColorIndexStruct:";
         _s = _s + "red: " + QString::number(red) + "(" + QString::number(red,16).toUpper() + ")" + ", ";
@@ -3134,8 +3134,8 @@ public:
     bool fBulletHasColor;
     bool fBulletHasSize;
     quint16 reserved;
-    explicit BulletFlags(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit BulletFlags(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "BulletFlags:";
         _s = _s + "fHasBullet: " + QString::number(fHasBullet) + ", ";
@@ -3179,8 +3179,8 @@ public:
     bool bulletScheme;
     bool bulletHasScheme;
     quint8 reserved2;
-    explicit PFMasks(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PFMasks(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PFMasks:";
         _s = _s + "hasBullet: " + QString::number(hasBullet) + ", ";
@@ -3243,8 +3243,8 @@ public:
     bool csTypeface;
     bool pp11ext;
     quint8 reserved;
-    explicit CFMasks(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit CFMasks(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "CFMasks:";
         _s = _s + "bold: " + QString::number(bold) + ", ";
@@ -3292,8 +3292,8 @@ public:
     bool emboss;
     quint8 pp9rt;
     quint8 unused4;
-    explicit CFStyle(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit CFStyle(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "CFStyle:";
         _s = _s + "bold: " + QString::number(bold) + ", ";
@@ -3319,9 +3319,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<FontCollectionEntry> rgFontCollectionEntry;
-    explicit FontCollectionContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit FontCollectionContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "FontCollectionContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3346,9 +3346,9 @@ public:
     bool fNoFontSubstitution;
     quint8 reserved;
     quint8 lfPitchAndFamily;
-    explicit FontEntityAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit FontEntityAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "FontEntityAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3373,9 +3373,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray data;
-    explicit FontEmbedDataBlob(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit FontEmbedDataBlob(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "FontEmbedDataBlob:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3391,9 +3391,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     quint32 level;
-    explicit KinsokuAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit KinsokuAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "KinsokuAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3409,9 +3409,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> kinsokuLeading;
-    explicit KinsokuLeadingAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit KinsokuLeadingAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "KinsokuLeadingAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3427,9 +3427,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> kinsokuFollowing;
-    explicit KinsokuFollowingAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit KinsokuFollowingAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "KinsokuFollowingAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3445,9 +3445,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<TextSIRun> rgSIRun;
-    explicit TextSpecialInfoAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TextSpecialInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TextSpecialInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3463,8 +3463,8 @@ public:
     static const Introspection _introspection;
     quint32 count;
     QVector<quint32> rgSmartTagIndex;
-    explicit SmartTags(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit SmartTags(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "SmartTags:";
         _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
@@ -3484,9 +3484,9 @@ public:
     quint8 fNoSizeToServer;
     quint8 fIsTable;
     quint8 unused;
-    explicit ExOleEmbedAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExOleEmbedAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExOleEmbedAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3506,8 +3506,8 @@ public:
     static const Introspection _introspection;
     qint32 x;
     qint32 y;
-    explicit PointStruct(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PointStruct(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PointStruct:";
         _s = _s + "x: " + QString::number(x) + "(" + QString::number(x,16).toUpper() + ")" + ", ";
@@ -3523,8 +3523,8 @@ public:
     static const Introspection _introspection;
     qint32 numer;
     qint32 denom;
-    explicit RatioStruct(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit RatioStruct(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "RatioStruct:";
         _s = _s + "numer: " + QString::number(numer) + "(" + QString::number(numer,16).toUpper() + ")" + ", ";
@@ -3540,9 +3540,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<PersistDirectoryEntry> rgPersistDirEntry;
-    explicit PersistDirectoryAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit PersistDirectoryAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "PersistDirectoryAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3558,9 +3558,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit UnknownDocumentContainerChild(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit UnknownDocumentContainerChild(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "UnknownDocumentContainerChild:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3576,9 +3576,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit UnknownDocumentContainerChild2(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit UnknownDocumentContainerChild2(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "UnknownDocumentContainerChild2:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3594,9 +3594,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit UnknownDocumentContainerChild3(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit UnknownDocumentContainerChild3(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "UnknownDocumentContainerChild3:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3612,9 +3612,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit UnknownDocumentContainerChild4(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit UnknownDocumentContainerChild4(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "UnknownDocumentContainerChild4:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3630,9 +3630,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit UnknownOfficeArtClientDataChild(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit UnknownOfficeArtClientDataChild(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "UnknownOfficeArtClientDataChild:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3648,9 +3648,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit UnknownSlideContainerChild(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit UnknownSlideContainerChild(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "UnknownSlideContainerChild:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3667,8 +3667,8 @@ public:
     quint32 persistId;
     quint16 cPersist;
     QList<PersistOffsetEntry> rgPersistOffset;
-    explicit PersistDirectoryEntry(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PersistDirectoryEntry(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PersistDirectoryEntry:";
         _s = _s + "persistId: " + QString::number(persistId) + "(" + QString::number(persistId,16).toUpper() + ")" + ", ";
@@ -3684,8 +3684,8 @@ private:
 public:
     static const Introspection _introspection;
     quint32 anon;
-    explicit PersistOffsetEntry(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PersistOffsetEntry(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PersistOffsetEntry:";
         _s = _s + "anon: " + QString::number(anon) + "(" + QString::number(anon,16).toUpper() + ")" + ", ";
@@ -3699,8 +3699,8 @@ private:
 public:
     static const Introspection _introspection;
     quint32 anon;
-    explicit PersistIdRef(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PersistIdRef(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PersistIdRef:";
         _s = _s + "anon: " + QString::number(anon) + "(" + QString::number(anon,16).toUpper() + ")" + ", ";
@@ -3715,9 +3715,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<ColorStruct> rgSchemeColor;
-    explicit SchemeListElementColorSchemeAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SchemeListElementColorSchemeAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SchemeListElementColorSchemeAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3733,9 +3733,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit RoundTripOArtTextStyles12Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit RoundTripOArtTextStyles12Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "RoundTripOArtTextStyles12Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3751,9 +3751,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit SlideNameAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SlideNameAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SlideNameAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3769,9 +3769,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<SlideProgTagsSubContainerOrAtom> rgTypeRec;
-    explicit SlideProgTagsContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SlideProgTagsContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SlideProgTagsContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3787,9 +3787,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit SlideProgBinaryTagContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SlideProgBinaryTagContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SlideProgBinaryTagContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3805,9 +3805,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> tagName;
-    explicit TagNameAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TagNameAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TagNameAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3823,9 +3823,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> tagValue;
-    explicit TagValueAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TagValueAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TagValueAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3841,9 +3841,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit RoundTripMainMasterRecord(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit RoundTripMainMasterRecord(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "RoundTripMainMasterRecord:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3859,9 +3859,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QVector<quint16> templateName;
-    explicit TemplateNameAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TemplateNameAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TemplateNameAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3877,9 +3877,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit RoundTripSlideSyncInfo12Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit RoundTripSlideSyncInfo12Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "RoundTripSlideSyncInfo12Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3898,8 +3898,8 @@ public:
     bool fMasterBackground;
     quint8 unused1;
     quint8 unused2;
-    explicit SlideFlags(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit SlideFlags(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "SlideFlags:";
         _s = _s + "fMasterObjects: " + QString::number(fMasterObjects) + ", ";
@@ -3918,9 +3918,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit NotesRoundTripAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit NotesRoundTripAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "NotesRoundTripAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3936,9 +3936,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit HandoutContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit HandoutContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "HandoutContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3954,9 +3954,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit ExControlStg(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExControlStg(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExControlStg:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -3972,9 +3972,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit ExOleObjStg(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExOleObjStg(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExOleObjStg:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4001,9 +4001,9 @@ public:
     quint16 lastView;
     quint16 unused;
     quint32 encryptSessionPersistIdRef;
-    explicit UserEditAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit UserEditAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "UserEditAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4029,9 +4029,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit VbaProjectStg(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit VbaProjectStg(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "VbaProjectStg:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4052,10 +4052,10 @@ public:
     quint32 notesIdRef;
     SlideFlags slideFlags;
     quint16 unused;
-    explicit SlideAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        slideFlags(this) {
-    }
+        slideFlags(this) {}
     QString toString() {
         QString _s = "SlideAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4095,9 +4095,9 @@ public:
     quint8 reserved7;
     quint8 speed;
     QByteArray unused;
-    explicit SlideShowSlideInfoAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SlideShowSlideInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SlideShowSlideInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4147,10 +4147,10 @@ public:
     bool fHideScrollBar;
     quint8 reserved;
     quint16 unused;
-    explicit SlideShowDocInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideShowDocInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        penColor(this) {
-    }
+        penColor(this) {}
     QString toString() {
         QString _s = "SlideShowDocInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4181,9 +4181,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QList<ColorStruct> rgSchemeColor;
-    explicit SlideSchemeColorSchemeAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SlideSchemeColorSchemeAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SlideSchemeColorSchemeAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4199,9 +4199,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit RoundTripSlideRecord(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit RoundTripSlideRecord(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "RoundTripSlideRecord:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4217,9 +4217,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit NamedShowsContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit NamedShowsContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "NamedShowsContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4235,9 +4235,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit SummaryContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SummaryContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SummaryContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4253,9 +4253,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit DocRoutingSlipAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit DocRoutingSlipAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "DocRoutingSlipAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4271,9 +4271,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit PrintOptionsAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit PrintOptionsAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "PrintOptionsAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4289,9 +4289,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray todo;
-    explicit RoundTripCustomTableStyles12Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit RoundTripCustomTableStyles12Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "RoundTripCustomTableStyles12Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4309,8 +4309,8 @@ public:
     quint8 green;
     quint8 blue;
     quint8 unused;
-    explicit ColorStruct(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit ColorStruct(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "ColorStruct:";
         _s = _s + "red: " + QString::number(red) + "(" + QString::number(red,16).toUpper() + ")" + ", ";
@@ -4328,9 +4328,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     qint32 exObjIdSeed;
-    explicit ExObjListAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExObjListAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExObjListAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4346,9 +4346,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit ExAviMovieContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExAviMovieContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExAviMovieContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4364,9 +4364,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit ExCDAudioContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExCDAudioContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExCDAudioContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4382,9 +4382,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     quint32 slideIdRef;
-    explicit ExControlAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExControlAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExControlAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4400,9 +4400,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit ExHyperlinkContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExHyperlinkContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExHyperlinkContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4418,9 +4418,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit ExMCIMovieContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExMCIMovieContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExMCIMovieContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4436,9 +4436,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit ExMIDIAudioContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExMIDIAudioContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExMIDIAudioContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4454,9 +4454,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit ExWAVAudioEmbeddedContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExWAVAudioEmbeddedContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExWAVAudioEmbeddedContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4472,9 +4472,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit ExWAVAudioLinkContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExWAVAudioLinkContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExWAVAudioLinkContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4490,9 +4490,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit UnknownExObjListSubContainerChild(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit UnknownExObjListSubContainerChild(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "UnknownExObjListSubContainerChild:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4510,9 +4510,9 @@ public:
     quint32 slideIdRef;
     quint32 oleUpdateMode;
     quint32 unused;
-    explicit ExOleLinkAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExOleLinkAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExOleLinkAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4535,9 +4535,9 @@ public:
     quint32 subType;
     quint32 persistIdRef;
     quint32 unused;
-    explicit ExOleObjAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExOleObjAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExOleObjAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4558,9 +4558,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray menuName;
-    explicit MenuNameAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit MenuNameAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "MenuNameAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4576,9 +4576,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray progId;
-    explicit ProgIDAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ProgIDAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ProgIDAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4594,9 +4594,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray clipboardName;
-    explicit ClipboardNameAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ClipboardNameAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ClipboardNameAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4615,9 +4615,9 @@ public:
     qint16 xExt;
     qint16 yExt;
     QByteArray data;
-    explicit MetafileBlob(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit MetafileBlob(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "MetafileBlob:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4638,8 +4638,8 @@ public:
     quint32 cidcl;
     quint32 cspSaved;
     quint32 cdgSaved;
-    explicit OfficeArtFDGG(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit OfficeArtFDGG(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtFDGG:";
         _s = _s + "spidMax: " + QString::number(spidMax) + "(" + QString::number(spidMax,16).toUpper() + ")" + ", ";
@@ -4658,9 +4658,9 @@ public:
     OfficeArtRecordHeader rh;
     quint32 csp;
     quint32 spidCur;
-    explicit OfficeArtFDG(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtFDG(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtFDG:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4677,9 +4677,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtFRIT> rgfrit;
-    explicit OfficeArtFRITContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtFRITContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtFRITContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4695,8 +4695,8 @@ public:
     static const Introspection _introspection;
     quint16 fridNew;
     quint16 fridOld;
-    explicit OfficeArtFRIT(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit OfficeArtFRIT(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtFRIT:";
         _s = _s + "fridNew: " + QString::number(fridNew) + "(" + QString::number(fridNew,16).toUpper() + ")" + ", ";
@@ -4712,9 +4712,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtBStoreContainerFileBlock> rgfb;
-    explicit OfficeArtBStoreContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtBStoreContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtBStoreContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4730,9 +4730,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtSpgrContainerFileBlock> rgfb;
-    explicit OfficeArtSpgrContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtSpgrContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtSpgrContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4748,9 +4748,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<OfficeArtSolverContainerFileBlock> rgfb;
-    explicit OfficeArtSolverContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtSolverContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtSolverContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4771,9 +4771,9 @@ public:
     quint32 spidC;
     quint32 cptiA;
     quint32 cptiB;
-    explicit OfficeArtFConnectorRule(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtFConnectorRule(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtFConnectorRule:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4795,9 +4795,9 @@ public:
     OfficeArtRecordHeader rh;
     quint32 ruid;
     quint32 spid;
-    explicit OfficeArtFArcRule(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtFArcRule(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtFArcRule:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4815,9 +4815,9 @@ public:
     OfficeArtRecordHeader rh;
     quint32 ruid;
     quint32 spid;
-    explicit OfficeArtFCalloutRule(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtFCalloutRule(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtFCalloutRule:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4837,9 +4837,9 @@ public:
     qint32 yTop;
     qint32 xRight;
     qint32 yBottom;
-    explicit OfficeArtFSPGR(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtFSPGR(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtFSPGR:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4871,9 +4871,9 @@ public:
     bool fBackground;
     bool fHaveSpt;
     quint32 unused1;
-    explicit OfficeArtFSP(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtFSP(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtFSP:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4903,9 +4903,9 @@ public:
     OfficeArtRecordHeader rh;
     QList<OfficeArtFOPTEChoice> fopt;
     QByteArray complexData;
-    explicit OfficeArtFOPT(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtFOPT(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtFOPT:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -4921,8 +4921,8 @@ private:
 public:
     static const Introspection _introspection;
     QByteArray data;
-    explicit OfficeArtFOPTEComplexData(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit OfficeArtFOPTEComplexData(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtFOPTEComplexData:";
         _s = _s + "data: " + "[array of data]" + ", ";
@@ -4937,8 +4937,8 @@ public:
     static const Introspection _introspection;
     qint16 integral;
     quint16 fractional;
-    explicit FixedPoint(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit FixedPoint(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "FixedPoint:";
         _s = _s + "integral: " + QString::number(integral) + "(" + QString::number(integral,16).toUpper() + ")" + ", ";
@@ -4963,8 +4963,8 @@ public:
     bool unused1;
     bool unused2;
     bool unused3;
-    explicit OfficeArtCOLORREF(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit OfficeArtCOLORREF(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtCOLORREF:";
         _s = _s + "red: " + QString::number(red) + "(" + QString::number(red,16).toUpper() + ")" + ", ";
@@ -4992,9 +4992,9 @@ public:
     qint32 yTop;
     qint32 xRight;
     qint32 yBottom;
-    explicit OfficeArtChildAnchor(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtChildAnchor(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtChildAnchor:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5015,9 +5015,9 @@ public:
     quint32 spid;
     bool reserved1;
     bool fLast;
-    explicit OfficeArtFPSPL(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtFPSPL(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtFPSPL:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5035,9 +5035,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit OfficeArtSecondaryFOPT(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtSecondaryFOPT(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtSecondaryFOPT:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5054,9 +5054,9 @@ public:
     OfficeArtRecordHeader rh;
     QList<OfficeArtFOPTE> fopt;
     QByteArray complexData;
-    explicit OfficeArtTertiaryFOPT(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtTertiaryFOPT(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtTertiaryFOPT:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5075,8 +5075,8 @@ public:
     qint32 left;
     qint32 right;
     qint32 bottom;
-    explicit RectStruct(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit RectStruct(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "RectStruct:";
         _s = _s + "top: " + QString::number(top) + "(" + QString::number(top,16).toUpper() + ")" + ", ";
@@ -5096,8 +5096,8 @@ public:
     qint16 left;
     qint16 right;
     qint16 bottom;
-    explicit SmallRectStruct(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit SmallRectStruct(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "SmallRectStruct:";
         _s = _s + "top: " + QString::number(top) + "(" + QString::number(top,16).toUpper() + ")" + ", ";
@@ -5115,9 +5115,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit ShapeFlagsAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ShapeFlagsAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ShapeFlagsAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5133,9 +5133,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit ShapeFlags10Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ShapeFlags10Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ShapeFlags10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5151,9 +5151,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     quint32 exObjIdRef;
-    explicit ExObjRefAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ExObjRefAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ExObjRefAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5169,9 +5169,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit AnimationInfoAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit AnimationInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "AnimationInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5187,9 +5187,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit SoundContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit SoundContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "SoundContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5216,9 +5216,9 @@ public:
     quint8 reserved;
     quint8 hyperlinkType;
     QByteArray unused;
-    explicit InteractiveInfoAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit InteractiveInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "InteractiveInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5245,9 +5245,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray macroName;
-    explicit MacroNameAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit MacroNameAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "MacroNameAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5266,9 +5266,9 @@ public:
     quint8 placementId;
     quint8 size;
     quint16 unused;
-    explicit PlaceholderAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit PlaceholderAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "PlaceholderAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5287,9 +5287,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit RecolorInfoAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit RecolorInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "RecolorInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5305,9 +5305,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     qint32 index;
-    explicit OutlineTextRefAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OutlineTextRefAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OutlineTextRefAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5323,9 +5323,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QByteArray todo;
-    explicit ShapeClientRoundtripDataSubcontainerOrAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit ShapeClientRoundtripDataSubcontainerOrAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "ShapeClientRoundtripDataSubcontainerOrAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5341,9 +5341,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<TextClientDataSubContainerOrAtom> rgChildRec;
-    explicit OfficeArtClientTextBox(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtClientTextBox(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtClientTextBox:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5359,8 +5359,8 @@ public:
     static const Introspection _introspection;
     quint32 dgid;
     quint32 cspidCur;
-    explicit OfficeArtIDCL(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit OfficeArtIDCL(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtIDCL:";
         _s = _s + "dgid: " + QString::number(dgid) + "(" + QString::number(dgid,16).toUpper() + ")" + ", ";
@@ -5377,8 +5377,8 @@ public:
     quint16 opid;
     bool fBid;
     bool fComplex;
-    explicit OfficeArtFOPTEOPID(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit OfficeArtFOPTEOPID(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtFOPTEOPID:";
         _s = _s + "opid: " + QString::number(opid) + "(" + QString::number(opid,16).toUpper() + ")" + ", ";
@@ -5395,9 +5395,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<MSOCR> rgmsocr;
-    explicit OfficeArtColorMRUContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtColorMRUContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtColorMRUContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5417,8 +5417,8 @@ public:
     quint8 unused1;
     bool fSchemeIndex;
     quint8 unused2;
-    explicit MSOCR(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit MSOCR(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "MSOCR:";
         _s = _s + "red: " + QString::number(red) + "(" + QString::number(red,16).toUpper() + ")" + ", ";
@@ -5438,9 +5438,9 @@ public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
     QList<MSOCR> smca;
-    explicit OfficeArtSplitMenuColorContainer(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtSplitMenuColorContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtSplitMenuColorContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5456,9 +5456,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     QByteArray anon;
-    explicit todo(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit todo(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "todo:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -5503,8 +5503,8 @@ public:
     quint16 reserved4;
     quint32 reserved5;
     quint32 reserved6;
-    explicit FibBase(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit FibBase(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "FibBase:";
         _s = _s + "wIdent: " + QString::number(wIdent) + "(" + QString::number(wIdent,16).toUpper() + ")" + ", ";
@@ -5561,8 +5561,8 @@ public:
     quint16 reserved12;
     quint16 reserved13;
     quint16 lidFE;
-    explicit FibRgW97(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit FibRgW97(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "FibRgW97:";
         _s = _s + "reserved1: " + QString::number(reserved1) + "(" + QString::number(reserved1,16).toUpper() + ")" + ", ";
@@ -5610,8 +5610,8 @@ public:
     quint32 reserved12;
     quint32 reserved13;
     quint32 reserved14;
-    explicit FibRgLw97(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit FibRgLw97(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "FibRgLw97:";
         _s = _s + "cbMac: " + QString::number(cbMac) + "(" + QString::number(cbMac,16).toUpper() + ")" + ", ";
@@ -5831,8 +5831,8 @@ public:
     quint32 lcbSttbListNames;
     quint32 fcSttbfUssr;
     quint32 lcbSttbfUssr;
-    explicit FibRgFcLcb97(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit FibRgFcLcb97(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "FibRgFcLcb97:";
         _s = _s + "fcStshfOrig: " + QString::number(fcStshfOrig) + "(" + QString::number(fcStshfOrig,16).toUpper() + ")" + ", ";
@@ -6060,8 +6060,8 @@ public:
     quint32 lcbPgdEdnOld;
     quint32 fcBkdEdnOld;
     quint32 lcbBkdEdnOld;
-    explicit FibRgFcLcb2000(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit FibRgFcLcb2000(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "FibRgFcLcb2000:";
         _s = _s + "fcPlcfTch: " + QString::number(fcPlcfTch) + "(" + QString::number(fcPlcfTch,16).toUpper() + ")" + ", ";
@@ -6153,8 +6153,8 @@ public:
     quint32 lcbUnused2;
     quint32 fcPlcffactoid;
     quint32 lcbPlcffactoid;
-    explicit FibRgFcLcb2002(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit FibRgFcLcb2002(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "FibRgFcLcb2002:";
         _s = _s + "fcUnused1: " + QString::number(fcUnused1) + "(" + QString::number(fcUnused1,16).toUpper() + ")" + ", ";
@@ -6218,8 +6218,8 @@ public:
     static const Introspection _introspection;
     quint16 cbSthi;
     QByteArray stshi;
-    explicit LPStshi(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit LPStshi(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "LPStshi:";
         _s = _s + "cbSthi: " + QString::number(cbSthi) + "(" + QString::number(cbSthi,16).toUpper() + ")" + ", ";
@@ -6237,8 +6237,8 @@ public:
     quint16 cbStd;
     QByteArray std;
     quint8 padding;
-    explicit LPStd(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit LPStd(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "LPStd:";
         _s = _s + "cbStd: " + QString::number(cbStd) + "(" + QString::number(cbStd,16).toUpper() + ")" + ", ";
@@ -6255,8 +6255,8 @@ public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
     QList<Sed> aSed;
-    explicit PlcfSed(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PlcfSed(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PlcfSed:";
         _s = _s + "aCP: " + "[array of aCP]" + ", ";
@@ -6274,8 +6274,8 @@ public:
     qint32 fcSepx;
     quint16 fnMpr;
     quint32 fcMpr;
-    explicit Sed(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit Sed(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "Sed:";
         _s = _s + "fn: " + QString::number(fn) + "(" + QString::number(fn,16).toUpper() + ")" + ", ";
@@ -6292,8 +6292,8 @@ private:
 public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
-    explicit Plcfhdd(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit Plcfhdd(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "Plcfhdd:";
         _s = _s + "aCP: " + "[array of aCP]" + ", ";
@@ -6308,8 +6308,8 @@ public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
     QVector<quint32> aPnBteChpx;
-    explicit PlcBteChpx(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PlcBteChpx(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PlcBteChpx:";
         _s = _s + "aCP: " + "[array of aCP]" + ", ";
@@ -6325,8 +6325,8 @@ public:
     static const Introspection _introspection;
     QVector<quint32> aCP;
     QVector<quint32> aPnBteChpx;
-    explicit PlcfBtePapx(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PlcfBtePapx(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PlcfBtePapx:";
         _s = _s + "aCP: " + "[array of aCP]" + ", ";
@@ -6342,8 +6342,8 @@ public:
     static const Introspection _introspection;
     quint8 nTcgVer;
     QByteArray todo;
-    explicit Tcg(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit Tcg(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "Tcg:";
         _s = _s + "nTcgVer: " + QString::number(nTcgVer) + "(" + QString::number(nTcgVer,16).toUpper() + ")" + ", ";
@@ -6359,8 +6359,8 @@ public:
     static const Introspection _introspection;
     qint16 cbGrpprl;
     QList<Sprm> GrpPrl;
-    explicit PrcData(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PrcData(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PrcData:";
         _s = _s + "cbGrpprl: " + QString::number(cbGrpprl) + "(" + QString::number(cbGrpprl,16).toUpper() + ")" + ", ";
@@ -6378,8 +6378,8 @@ public:
     bool fSpec;
     quint8 sgc;
     quint8 spra;
-    explicit Sprm(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit Sprm(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "Sprm:";
         _s = _s + "ispmd: " + QString::number(ispmd) + "(" + QString::number(ispmd,16).toUpper() + ")" + ", ";
@@ -6398,8 +6398,8 @@ public:
     quint8 clxt;
     quint32 lcb;
     QList<Pcd> PlcPcd;
-    explicit Pcdt(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit Pcdt(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "Pcdt:";
         _s = _s + "clxt: " + QString::number(clxt) + "(" + QString::number(clxt,16).toUpper() + ")" + ", ";
@@ -6417,8 +6417,8 @@ public:
     quint32 fc;
     bool fCompressed;
     bool r1;
-    explicit FCompressed(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit FCompressed(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "FCompressed:";
         _s = _s + "fc: " + QString::number(fc) + "(" + QString::number(fc,16).toUpper() + ")" + ", ";
@@ -6436,8 +6436,8 @@ public:
     bool fComplex;
     quint8 isprm;
     quint8 val;
-    explicit Prm0(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit Prm0(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "Prm0:";
         _s = _s + "fComplex: " + QString::number(fComplex) + ", ";
@@ -6454,8 +6454,8 @@ public:
     static const Introspection _introspection;
     bool fComplex;
     quint16 igrpprl;
-    explicit Prm1(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit Prm1(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "Prm1:";
         _s = _s + "fComplex: " + QString::number(fComplex) + ", ";
@@ -6472,8 +6472,8 @@ public:
     quint16 cData;
     quint16 cbExtra;
     QList<SttbfFfnEntry> data;
-    explicit SttbfFfn(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit SttbfFfn(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "SttbfFfn:";
         _s = _s + "cData: " + QString::number(cData) + "(" + QString::number(cData,16).toUpper() + ")" + ", ";
@@ -6490,8 +6490,8 @@ public:
     static const Introspection _introspection;
     quint8 cchData;
     QByteArray Data;
-    explicit SttbfFfnEntry(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit SttbfFfnEntry(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "SttbfFfnEntry:";
         _s = _s + "cchData: " + QString::number(cchData) + "(" + QString::number(cchData,16).toUpper() + ")" + ", ";
@@ -6507,8 +6507,8 @@ public:
     static const Introspection _introspection;
     quint32 size;
     QByteArray characters;
-    explicit CodePageString(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit CodePageString(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "CodePageString:";
         _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
@@ -6524,8 +6524,8 @@ public:
     static const Introspection _introspection;
     quint32 dwLowDateTime;
     quint32 dwHighDateTime;
-    explicit FILETIME(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit FILETIME(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "FILETIME:";
         _s = _s + "dwLowDateTime: " + QString::number(dwLowDateTime) + "(" + QString::number(dwLowDateTime,16).toUpper() + ")" + ", ";
@@ -6542,8 +6542,8 @@ public:
     quint32 size;
     quint32 format;
     QByteArray data;
-    explicit ClipboardData(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit ClipboardData(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "ClipboardData:";
         _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
@@ -6560,8 +6560,8 @@ public:
     static const Introspection _introspection;
     quint32 propertyIdentifier;
     quint32 offset;
-    explicit PropertyIdentifierAndOffset(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PropertyIdentifierAndOffset(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PropertyIdentifierAndOffset:";
         _s = _s + "propertyIdentifier: " + QString::number(propertyIdentifier) + "(" + QString::number(propertyIdentifier,16).toUpper() + ")" + ", ";
@@ -6586,8 +6586,8 @@ public:
     QSharedPointer<CodePageString> vt_lpstr;
     QSharedPointer<FILETIME> vg_FILETIME;
     QSharedPointer<ClipboardData> vg_CF;
-    explicit TypedPropertyValue(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit TypedPropertyValue(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "TypedPropertyValue:";
         _s = _s + "type: " + QString::number(type) + "(" + QString::number(type,16).toUpper() + ")" + ", ";
@@ -6611,8 +6611,8 @@ public:
     quint32 numProperties;
     QList<PropertyIdentifierAndOffset> propertyIdentifierAndOffset;
     QList<TypedPropertyValue> property;
-    explicit PropertySet(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit PropertySet(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PropertySet:";
         _s = _s + "size: " + QString::number(size) + "(" + QString::number(size,16).toUpper() + ")" + ", ";
@@ -6642,9 +6642,9 @@ public:
     PropertySet propertySet1;
     QSharedPointer<PropertySet> propertySet2;
     QList<Byte> padding;
-    explicit PropertySetStream(const Introspectable* parent) :Introspectable(parent),
-        propertySet1(this) {
-    }
+    explicit PropertySetStream(const Introspectable* parent)
+       :Introspectable(parent),
+        propertySet1(this) {}
     QString toString() {
         QString _s = "PropertySetStream:";
         _s = _s + "byteOrder: " + QString::number(byteOrder) + "(" + QString::number(byteOrder,16).toUpper() + ")" + ", ";
@@ -6669,9 +6669,9 @@ private:
 public:
     static const Introspection _introspection;
     PropertySetStream propertySet;
-    explicit SummaryInformationPropertySetStream(const Introspectable* parent) :Introspectable(parent),
-        propertySet(this) {
-    }
+    explicit SummaryInformationPropertySetStream(const Introspectable* parent)
+       :Introspectable(parent),
+        propertySet(this) {}
     QString toString() {
         QString _s = "SummaryInformationPropertySetStream:";
         _s = _s + "propertySet: " + propertySet.toString() + ", ";
@@ -6685,9 +6685,9 @@ private:
 public:
     static const Introspection _introspection;
     PropertySetStream propertySet;
-    explicit DocumentSummaryInformationPropertySetStream(const Introspectable* parent) :Introspectable(parent),
-        propertySet(this) {
-    }
+    explicit DocumentSummaryInformationPropertySetStream(const Introspectable* parent)
+       :Introspectable(parent),
+        propertySet(this) {}
     QString toString() {
         QString _s = "DocumentSummaryInformationPropertySetStream:";
         _s = _s + "propertySet: " + propertySet.toString() + ", ";
@@ -6701,9 +6701,9 @@ private:
 public:
     static const Introspection _introspection;
     OfficeArtBStoreDelay anon1;
-    explicit PicturesStream(const Introspectable* parent) :Introspectable(parent),
-        anon1(this) {
-    }
+    explicit PicturesStream(const Introspectable* parent)
+       :Introspectable(parent),
+        anon1(this) {}
     QString toString() {
         QString _s = "PicturesStream:";
         _s = _s + "anon1: " + anon1.toString() + ", ";
@@ -6722,10 +6722,10 @@ public:
     quint32 cbsave;
     quint8 compression;
     quint8 filter;
-    explicit OfficeArtMetafileHeader(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtMetafileHeader(const Introspectable* parent)
+       :Introspectable(parent),
         rcBounds(this),
-        ptSize(this) {
-    }
+        ptSize(this) {}
     QString toString() {
         QString _s = "OfficeArtMetafileHeader:";
         _s = _s + "cbSize: " + QString::number(cbSize) + "(" + QString::number(cbSize,16).toUpper() + ")" + ", ";
@@ -6747,10 +6747,10 @@ public:
     HeadersFootersAtom hfAtom;
     QSharedPointer<UserDateAtom> userDateAtom;
     QSharedPointer<FooterAtom> footerAtom;
-    explicit SlideHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideHeadersFootersContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        hfAtom(this) {
-    }
+        hfAtom(this) {}
     QString toString() {
         QString _s = "SlideHeadersFootersContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -6771,10 +6771,10 @@ public:
     QSharedPointer<UserDateAtom> userDateAtom;
     QSharedPointer<HeaderAtom> headerAtom;
     QSharedPointer<FooterAtom> footerAtom;
-    explicit NotesHeadersFootersContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesHeadersFootersContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        hfAtom(this) {
-    }
+        hfAtom(this) {}
     QString toString() {
         QString _s = "NotesHeadersFootersContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -6793,10 +6793,10 @@ public:
     static const Introspection _introspection;
     RatioStruct x;
     RatioStruct y;
-    explicit ScalingStruct(const Introspectable* parent) :Introspectable(parent),
+    explicit ScalingStruct(const Introspectable* parent)
+       :Introspectable(parent),
         x(this),
-        y(this) {
-    }
+        y(this) {}
     QString toString() {
         QString _s = "ScalingStruct:";
         _s = _s + "x: " + x.toString() + ", ";
@@ -6816,9 +6816,9 @@ public:
     quint16 bulletBlipRef;
     quint16 fBulletHasAutoNumber;
     QSharedPointer<TextAutoNumberScheme> bulletAutoNumberScheme;
-    explicit TextPFException9(const Introspectable* parent) :Introspectable(parent),
-        masks(this) {
-    }
+    explicit TextPFException9(const Introspectable* parent)
+       :Introspectable(parent),
+        masks(this) {}
     QString toString() {
         QString _s = "TextPFException9:";
         _s = _s + "masks: " + masks.toString() + ", ";
@@ -6841,9 +6841,9 @@ public:
     quint8 pp10runid;
     quint32 unuseda;
     quint8 unusedb;
-    explicit TextCFException9(const Introspectable* parent) :Introspectable(parent),
-        masks(this) {
-    }
+    explicit TextCFException9(const Introspectable* parent)
+       :Introspectable(parent),
+        masks(this) {}
     QString toString() {
         QString _s = "TextCFException9:";
         _s = _s + "masks: " + masks.toString() + ", ";
@@ -6862,11 +6862,11 @@ public:
     RecordHeader rh;
     TextCFException9 cf9;
     TextPFException9 pf9;
-    explicit TextDefaults9Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextDefaults9Atom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         cf9(this),
-        pf9(this) {
-    }
+        pf9(this) {}
     QString toString() {
         QString _s = "TextDefaults9Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -6885,10 +6885,10 @@ public:
     Kinsoku9Atom kinsoku9Atom;
     QSharedPointer<KinsokuLeadingAtom> kinsokuLeadingAtom;
     QSharedPointer<KinsokuFollowingAtom> kinsokuFollowingAtom;
-    explicit Kinsoku9Container(const Introspectable* parent) :Introspectable(parent),
+    explicit Kinsoku9Container(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        kinsoku9Atom(this) {
-    }
+        kinsoku9Atom(this) {}
     QString toString() {
         QString _s = "Kinsoku9Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -6911,9 +6911,9 @@ public:
     quint16 newEAFontRef;
     quint16 csFontRef;
     quint32 pp11ext;
-    explicit TextCFException10(const Introspectable* parent) :Introspectable(parent),
-        masks(this) {
-    }
+    explicit TextCFException10(const Introspectable* parent)
+       :Introspectable(parent),
+        masks(this) {}
     QString toString() {
         QString _s = "TextCFException10:";
         _s = _s + "masks: " + masks.toString() + ", ";
@@ -6931,10 +6931,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextCFException10 cf10;
-    explicit TextDefaults10Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextDefaults10Atom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        cf10(this) {
-    }
+        cf10(this) {}
     QString toString() {
         QString _s = "TextDefaults10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -6951,9 +6951,9 @@ public:
     RecordHeader rh;
     QSharedPointer<AuthorNameAtom> authorNameAtom;
     QSharedPointer<CommentIndex10Atom> authorIndexAtom;
-    explicit CommentIndex10Container(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit CommentIndex10Container(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "CommentIndex10Container:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -6970,10 +6970,10 @@ public:
     static const Introspection _introspection;
     OutlineTextPropsHeaderExAtom outlineTextHeaderAtom;
     StyleTextProp10Atom styleTextProp10Atom;
-    explicit OutlineTextProps10Entry(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineTextProps10Entry(const Introspectable* parent)
+       :Introspectable(parent),
         outlineTextHeaderAtom(this),
-        styleTextProp10Atom(this) {
-    }
+        styleTextProp10Atom(this) {}
     QString toString() {
         QString _s = "OutlineTextProps10Entry:";
         _s = _s + "outlineTextHeaderAtom: " + outlineTextHeaderAtom.toString() + ", ";
@@ -6992,12 +6992,12 @@ public:
     RecordHeader rhData;
     SmartTagStore11Container smartTagStore11;
     OutlineTextProps11Container outlineTextProps;
-    explicit PP11DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
+    explicit PP11DocBinaryTagExtension(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         rhData(this),
         smartTagStore11(this),
-        outlineTextProps(this) {
-    }
+        outlineTextProps(this) {}
     QString toString() {
         QString _s = "PP11DocBinaryTagExtension:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7016,10 +7016,10 @@ public:
     static const Introspection _introspection;
     TagNameAtom tagNameAtom;
     BinaryTagDataBlob tagData;
-    explicit UnknownBinaryTag(const Introspectable* parent) :Introspectable(parent),
+    explicit UnknownBinaryTag(const Introspectable* parent)
+       :Introspectable(parent),
         tagNameAtom(this),
-        tagData(this) {
-    }
+        tagData(this) {}
     QString toString() {
         QString _s = "UnknownBinaryTag:";
         _s = _s + "tagNameAtom: " + tagNameAtom.toString() + ", ";
@@ -7040,11 +7040,11 @@ public:
     quint8 unused2;
     quint8 fDraftMode;
     quint16 unused3;
-    explicit NoZoomViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit NoZoomViewInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         curScale(this),
-        origin(this) {
-    }
+        origin(this) {}
     QString toString() {
         QString _s = "NoZoomViewInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7065,10 +7065,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     VBAInfoAtom vbaInfoAtom;
-    explicit VBAInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit VBAInfoContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        vbaInfoAtom(this) {
-    }
+        vbaInfoAtom(this) {}
     QString toString() {
         QString _s = "VBAInfoContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7091,11 +7091,11 @@ public:
     bool fHideThumbnails;
     bool fBarSnapped;
     quint8 reserved;
-    explicit NormalViewSetInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit NormalViewSetInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         leftPortion(this),
-        topPortion(this) {
-    }
+        topPortion(this) {}
     QString toString() {
         QString _s = "NormalViewSetInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7126,10 +7126,10 @@ public:
     quint32 reserved5;
     quint32 masterId;
     quint32 reserved6;
-    explicit MasterPersistAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit MasterPersistAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        persistIdRef(this) {
-    }
+        persistIdRef(this) {}
     QString toString() {
         QString _s = "MasterPersistAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7152,18 +7152,21 @@ private:
 public:
     static const Introspection _introspection;
     TextHeaderAtom textHeaderAtom;
-    class textChoice {public:QSharedPointer<TextCharsAtom> textcharsatom;
-QSharedPointer<TextBytesAtom> textbytesatom;
-}; textChoice text;
+    class textChoice {
+    public:
+        QSharedPointer<TextCharsAtom> textcharsatom;
+        QSharedPointer<TextBytesAtom> textbytesatom;
+    };
+    textChoice text;
     QSharedPointer<StyleTextPropAtom> style;
     QList<TextContainerMeta> meta;
     QSharedPointer<MasterTextPropAtom> master;
     QList<TextBookmarkAtom> bookmark;
     QSharedPointer<TextSpecialInfoAtom> specialinfo;
     QList<TextContainerInteractiveInfo> interactive;
-    explicit TextContainer(const Introspectable* parent) :Introspectable(parent),
-        textHeaderAtom(this) {
-    }
+    explicit TextContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        textHeaderAtom(this) {}
     QString toString() {
         QString _s = "TextContainer:";
         _s = _s + "textHeaderAtom: " + textHeaderAtom.toString() + ", ";
@@ -7183,15 +7186,18 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class metaChoice {public:QSharedPointer<SlideNumberMCAtom> slidenumbermcatom;
-QSharedPointer<DateTimeMCAtom> datetimemcatom;
-QSharedPointer<GenericDateMCAtom> genericdatemcatom;
-QSharedPointer<HeaderMCAtom> headermcatom;
-QSharedPointer<FooterMCAtom> footermcatom;
-QSharedPointer<RTFDateTimeMCAtom> rtfdatetimemcatom;
-}; metaChoice meta;
-    explicit TextContainerMeta(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class metaChoice {
+    public:
+        QSharedPointer<SlideNumberMCAtom> slidenumbermcatom;
+        QSharedPointer<DateTimeMCAtom> datetimemcatom;
+        QSharedPointer<GenericDateMCAtom> genericdatemcatom;
+        QSharedPointer<HeaderMCAtom> headermcatom;
+        QSharedPointer<FooterMCAtom> footermcatom;
+        QSharedPointer<RTFDateTimeMCAtom> rtfdatetimemcatom;
+    };
+    metaChoice meta;
+    explicit TextContainerMeta(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "TextContainerMeta:";
         _s = _s + "meta: " + "<choice>" + ", ";
@@ -7215,11 +7221,11 @@ public:
     qint32 cTexts;
     SlideId slideId;
     quint32 reserved5;
-    explicit SlidePersistAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit SlidePersistAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         persistIdRef(this),
-        slideId(this) {
-    }
+        slideId(this) {}
     QString toString() {
         QString _s = "SlidePersistAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7282,8 +7288,8 @@ public:
     quint16 indent4;
     quint16 leftMargin5;
     quint16 indent5;
-    explicit TextRuler(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit TextRuler(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "TextRuler:";
         _s = _s + "fDefaultTabSize: " + QString::number(fDefaultTabSize) + ", ";
@@ -7352,9 +7358,9 @@ public:
     quint16 fontAlign;
     QSharedPointer<PFWrapFlags> wrapFlags;
     quint16 textDirection;
-    explicit TextPFException(const Introspectable* parent) :Introspectable(parent),
-        masks(this) {
-    }
+    explicit TextPFException(const Introspectable* parent)
+       :Introspectable(parent),
+        masks(this) {}
     QString toString() {
         QString _s = "TextPFException:";
         _s = _s + "masks: " + masks.toString() + ", ";
@@ -7398,9 +7404,9 @@ public:
     quint16 fontSize;
     QSharedPointer<ColorIndexStruct> color;
     qint16 position;
-    explicit TextCFException(const Introspectable* parent) :Introspectable(parent),
-        masks(this) {
-    }
+    explicit TextCFException(const Introspectable* parent)
+       :Introspectable(parent),
+        masks(this) {}
     QString toString() {
         QString _s = "TextCFException:";
         _s = _s + "masks: " + masks.toString() + ", ";
@@ -7426,9 +7432,9 @@ public:
     QSharedPointer<FontEmbedDataBlob> fontEmbedData2;
     QSharedPointer<FontEmbedDataBlob> fontEmbedData3;
     QSharedPointer<FontEmbedDataBlob> fontEmbedData4;
-    explicit FontCollectionEntry(const Introspectable* parent) :Introspectable(parent),
-        fontEntityAtom(this) {
-    }
+    explicit FontCollectionEntry(const Introspectable* parent)
+       :Introspectable(parent),
+        fontEntityAtom(this) {}
     QString toString() {
         QString _s = "FontCollectionEntry:";
         _s = _s + "fontEntityAtom: " + fontEntityAtom.toString() + ", ";
@@ -7449,10 +7455,10 @@ public:
     KinsokuAtom kinsokuAtom;
     QSharedPointer<KinsokuLeadingAtom> kinsokuLeadingAtom;
     QSharedPointer<KinsokuFollowingAtom> kinsokuFollowingAtom;
-    explicit KinsokuContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit KinsokuContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        kinsokuAtom(this) {
-    }
+        kinsokuAtom(this) {}
     QString toString() {
         QString _s = "KinsokuContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7499,8 +7505,8 @@ public:
     quint8 reserved3bc;
     bool grammarError;
     QSharedPointer<SmartTags> smartTags;
-    explicit TextSIException(const Introspectable* parent) :Introspectable(parent) {
-    }
+    explicit TextSIException(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "TextSIException:";
         _s = _s + "spell: " + QString::number(spell) + ", ";
@@ -7536,10 +7542,10 @@ public:
     static const Introspection _introspection;
     TextPFException pf;
     TextCFException cf;
-    explicit TextMasterStyleLevel(const Introspectable* parent) :Introspectable(parent),
+    explicit TextMasterStyleLevel(const Introspectable* parent)
+       :Introspectable(parent),
         pf(this),
-        cf(this) {
-    }
+        cf(this) {}
     QString toString() {
         QString _s = "TextMasterStyleLevel:";
         _s = _s + "pf: " + pf.toString() + ", ";
@@ -7565,14 +7571,14 @@ public:
     quint8 fOmitTitlePlace;
     quint8 fRightToLeft;
     quint8 fShowComments;
-    explicit DocumentAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit DocumentAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         slideSize(this),
         notesSize(this),
         serverZoom(this),
         notesMasterPersistIdRef(this),
-        handoutMasterPersistIdRef(this) {
-    }
+        handoutMasterPersistIdRef(this) {}
     QString toString() {
         QString _s = "DocumentAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7599,11 +7605,11 @@ public:
     RecordHeader rh;
     TagNameAtom tagNameAtom;
     TagValueAtom tagValueAtom;
-    explicit ProgStringTagContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ProgStringTagContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         tagNameAtom(this),
-        tagValueAtom(this) {
-    }
+        tagValueAtom(this) {}
     QString toString() {
         QString _s = "ProgStringTagContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7622,10 +7628,10 @@ public:
     quint32 slideIdRef;
     SlideFlags slideFlags;
     quint16 unused;
-    explicit NotesAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        slideFlags(this) {
-    }
+        slideFlags(this) {}
     QString toString() {
         QString _s = "NotesAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7644,10 +7650,10 @@ public:
     RecordHeader rh;
     ExObjListAtom exObjListAtom;
     QList<ExObjListSubContainer> rgChildRec;
-    explicit ExObjListContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExObjListContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        exObjListAtom(this) {
-    }
+        exObjListAtom(this) {}
     QString toString() {
         QString _s = "ExObjListContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7669,11 +7675,11 @@ public:
     QSharedPointer<ProgIDAtom> progIdAtom;
     QSharedPointer<ClipboardNameAtom> clipboardNameAtom;
     QSharedPointer<MetafileBlob> metafile;
-    explicit ExControlContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExControlContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         exControlAtom(this),
-        exOleObjAtom(this) {
-    }
+        exOleObjAtom(this) {}
     QString toString() {
         QString _s = "ExControlContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7699,11 +7705,11 @@ public:
     QSharedPointer<ProgIDAtom> progIdAtom;
     QSharedPointer<ClipboardNameAtom> clipboardNameAtom;
     QSharedPointer<MetafileBlob> metafile;
-    explicit ExOleLinkContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExOleLinkContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         exOleLinkAtom(this),
-        exOleObjAtom(this) {
-    }
+        exOleObjAtom(this) {}
     QString toString() {
         QString _s = "ExOleLinkContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7729,11 +7735,11 @@ public:
     QSharedPointer<ProgIDAtom> progIdAtom;
     QSharedPointer<ClipboardNameAtom> clipboardNameAtom;
     QSharedPointer<MetafileBlob> metafile;
-    explicit ExOleEmbedContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit ExOleEmbedContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         exOleEmbedAtom(this),
-        exOleObjAtom(this) {
-    }
+        exOleObjAtom(this) {}
     QString toString() {
         QString _s = "ExOleEmbedContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7755,10 +7761,10 @@ public:
     OfficeArtRecordHeader rh;
     OfficeArtFDGG head;
     QList<OfficeArtIDCL> Rgidcl;
-    explicit OfficeArtFDGGBlock(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtFDGGBlock(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        head(this) {
-    }
+        head(this) {}
     QString toString() {
         QString _s = "OfficeArtFDGGBlock:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -7773,12 +7779,15 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<OfficeArtFConnectorRule> officeartfconnectorrule;
-QSharedPointer<OfficeArtFArcRule> officeartfarcrule;
-QSharedPointer<OfficeArtFCalloutRule> officeartfcalloutrule;
-}; anonChoice anon;
-    explicit OfficeArtSolverContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<OfficeArtFConnectorRule> officeartfconnectorrule;
+        QSharedPointer<OfficeArtFArcRule> officeartfarcrule;
+        QSharedPointer<OfficeArtFCalloutRule> officeartfcalloutrule;
+    };
+    anonChoice anon;
+    explicit OfficeArtSolverContainerFileBlock(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtSolverContainerFileBlock:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -7814,9 +7823,9 @@ public:
     bool fUsefLockRotation;
     bool fUsefLockAgainstUngrouping;
     quint8 unused2;
-    explicit ProtectionBooleanProperties(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit ProtectionBooleanProperties(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "ProtectionBooleanProperties:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -7853,10 +7862,10 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     FixedPoint rotation;
-    explicit Rotation(const Introspectable* parent) :Introspectable(parent),
+    explicit Rotation(const Introspectable* parent)
+       :Introspectable(parent),
         opid(this),
-        rotation(this) {
-    }
+        rotation(this) {}
     QString toString() {
         QString _s = "Rotation:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -7872,9 +7881,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 iTxid;
-    explicit ITxid(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit ITxid(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "ITxid:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -7890,9 +7899,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dxTextLeft;
-    explicit DxTextLeft(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit DxTextLeft(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "DxTextLeft:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -7908,9 +7917,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dyTextTop;
-    explicit DyTextTop(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit DyTextTop(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "DyTextTop:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -7926,9 +7935,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dxTextRight;
-    explicit DxTextRight(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit DxTextRight(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "DxTextRight:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -7944,9 +7953,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 dyTextBottom;
-    explicit DyTextBottom(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit DyTextBottom(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "DyTextBottom:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -7962,9 +7971,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 wrapText;
-    explicit WrapText(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit WrapText(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "WrapText:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -7980,9 +7989,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 anchorText;
-    explicit AnchorText(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit AnchorText(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "AnchorText:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8011,9 +8020,9 @@ public:
     bool fUsefSelectText;
     quint8 unused6a;
     quint8 unused6b;
-    explicit TextBooleanProperties(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit TextBooleanProperties(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "TextBooleanProperties:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8042,9 +8051,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 hspNext;
-    explicit HspNext(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit HspNext(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "HspNext:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8060,9 +8069,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 shapePath;
-    explicit ShapePath(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit ShapePath(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "ShapePath:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8095,9 +8104,9 @@ public:
     bool unused3a;
     bool unused3b;
     quint8 unused4;
-    explicit GeometryBooleanProperties(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit GeometryBooleanProperties(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "GeometryBooleanProperties:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8130,9 +8139,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 fillType;
-    explicit FillType(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit FillType(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "FillType:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8148,10 +8157,10 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF fillColor;
-    explicit FillColor(const Introspectable* parent) :Introspectable(parent),
+    explicit FillColor(const Introspectable* parent)
+       :Introspectable(parent),
         opid(this),
-        fillColor(this) {
-    }
+        fillColor(this) {}
     QString toString() {
         QString _s = "FillColor:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8167,10 +8176,10 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF fillBackColor;
-    explicit FillBackColor(const Introspectable* parent) :Introspectable(parent),
+    explicit FillBackColor(const Introspectable* parent)
+       :Introspectable(parent),
         opid(this),
-        fillBackColor(this) {
-    }
+        fillBackColor(this) {}
     QString toString() {
         QString _s = "FillBackColor:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8186,9 +8195,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 fillBlip;
-    explicit FillBlip(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit FillBlip(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "FillBlip:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8204,9 +8213,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 fillRectRight;
-    explicit FillRectRight(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit FillRectRight(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "FillRectRight:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8222,9 +8231,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 fillRectBottom;
-    explicit FillRectBottom(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit FillRectBottom(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "FillRectBottom:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8257,9 +8266,9 @@ public:
     bool fUsefRecolorFillAsPicture;
     bool unused2a;
     quint8 unused2b;
-    explicit FillStyleBooleanProperties(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit FillStyleBooleanProperties(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "FillStyleBooleanProperties:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8292,10 +8301,10 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF lineColor;
-    explicit LineColor(const Introspectable* parent) :Introspectable(parent),
+    explicit LineColor(const Introspectable* parent)
+       :Introspectable(parent),
         opid(this),
-        lineColor(this) {
-    }
+        lineColor(this) {}
     QString toString() {
         QString _s = "LineColor:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8311,10 +8320,10 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF lineBackColor;
-    explicit LineBackColor(const Introspectable* parent) :Introspectable(parent),
+    explicit LineBackColor(const Introspectable* parent)
+       :Introspectable(parent),
         opid(this),
-        lineBackColor(this) {
-    }
+        lineBackColor(this) {}
     QString toString() {
         QString _s = "LineBackColor:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8330,9 +8339,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineFillBlip;
-    explicit LineFillBlip(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit LineFillBlip(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "LineFillBlip:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8348,9 +8357,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineWidth;
-    explicit LineWidth(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit LineWidth(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "LineWidth:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8366,9 +8375,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineStartArrowhead;
-    explicit LineStartArrowhead(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit LineStartArrowhead(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "LineStartArrowhead:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8384,9 +8393,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineEndArrowhead;
-    explicit LineEndArrowhead(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit LineEndArrowhead(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "LineEndArrowhead:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8402,9 +8411,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lineJoinStyle;
-    explicit LineJoinStyle(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit LineJoinStyle(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "LineJoinStyle:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8441,9 +8450,9 @@ public:
     bool unused3;
     bool fUsefLineOpaqueBackColor;
     quint8 unused4;
-    explicit LineStyleBooleanProperties(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit LineStyleBooleanProperties(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "LineStyleBooleanProperties:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8480,10 +8489,10 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF shadowColor;
-    explicit ShadowColor(const Introspectable* parent) :Introspectable(parent),
+    explicit ShadowColor(const Introspectable* parent)
+       :Introspectable(parent),
         opid(this),
-        shadowColor(this) {
-    }
+        shadowColor(this) {}
     QString toString() {
         QString _s = "ShadowColor:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8504,9 +8513,9 @@ public:
     bool fUsefshadowObscured;
     bool fUsefShadow;
     quint16 unused2;
-    explicit ShadowStyleBooleanPropertiesr(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit ShadowStyleBooleanPropertiesr(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "ShadowStyleBooleanPropertiesr:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8527,9 +8536,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 hspMaster;
-    explicit HspMaster(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit HspMaster(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "HspMaster:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8545,9 +8554,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 bWMode;
-    explicit BWMode(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit BWMode(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "BWMode:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8588,9 +8597,9 @@ public:
     bool unused5;
     bool unused6;
     quint8 unused7;
-    explicit ShapeBooleanProperties(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit ShapeBooleanProperties(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "ShapeBooleanProperties:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8631,9 +8640,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     quint32 lidRegroup;
-    explicit LidRegroup(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit LidRegroup(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "LidRegroup:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8649,9 +8658,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 adjust2value;
-    explicit adjust2Value(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit adjust2Value(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "adjust2Value:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8667,9 +8676,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 adjust3value;
-    explicit adjust3Value(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit adjust3Value(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "adjust3Value:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8685,9 +8694,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 wzFillId;
-    explicit WzFillId(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit WzFillId(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "WzFillId:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8704,9 +8713,9 @@ public:
     OfficeArtRecordHeader rh;
     QSharedPointer<SmallRectStruct> rect1;
     QSharedPointer<RectStruct> rect2;
-    explicit OfficeArtClientAnchor(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtClientAnchor(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtClientAnchor:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -8724,10 +8733,10 @@ public:
     OfficeArtRecordHeader rh;
     AnimationInfoAtom animationAtom;
     QSharedPointer<SoundContainer> animationSound;
-    explicit AnimationInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit AnimationInfoContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        animationAtom(this) {
-    }
+        animationAtom(this) {}
     QString toString() {
         QString _s = "AnimationInfoContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -8745,10 +8754,10 @@ public:
     RecordHeader rh;
     InteractiveInfoAtom interactiveInfoAtom;
     QSharedPointer<MacroNameAtom> macroNameAtom;
-    explicit MouseInteractiveInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit MouseInteractiveInfoContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        interactiveInfoAtom(this) {
-    }
+        interactiveInfoAtom(this) {}
     QString toString() {
         QString _s = "MouseInteractiveInfoContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -8765,10 +8774,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextRuler textRuler;
-    explicit TextRulerAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextRulerAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        textRuler(this) {
-    }
+        textRuler(this) {}
     QString toString() {
         QString _s = "TextRulerAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -8784,9 +8793,9 @@ public:
     static const Introspection _introspection;
     OfficeArtFOPTEOPID opid;
     qint32 op;
-    explicit OfficeArtFOPTE(const Introspectable* parent) :Introspectable(parent),
-        opid(this) {
-    }
+    explicit OfficeArtFOPTE(const Introspectable* parent)
+       :Introspectable(parent),
+        opid(this) {}
     QString toString() {
         QString _s = "OfficeArtFOPTE:";
         _s = _s + "opid: " + opid.toString() + ", ";
@@ -8812,12 +8821,12 @@ public:
     quint16 cswNew;
     QByteArray fibRgCswNew;
     QByteArray trail;
-    explicit Fib(const Introspectable* parent) :Introspectable(parent),
+    explicit Fib(const Introspectable* parent)
+       :Introspectable(parent),
         base(this),
         fibRgW(this),
         fibRgLw(this),
-        fibRgFcLcbBlob(this) {
-    }
+        fibRgFcLcbBlob(this) {}
     QString toString() {
         QString _s = "Fib:";
         _s = _s + "base: " + base.toString() + ", ";
@@ -8843,9 +8852,9 @@ public:
     static const Introspection _introspection;
     LPStshi lpstshi;
     QList<LPStd> rglpstd;
-    explicit STSH(const Introspectable* parent) :Introspectable(parent),
-        lpstshi(this) {
-    }
+    explicit STSH(const Introspectable* parent)
+       :Introspectable(parent),
+        lpstshi(this) {}
     QString toString() {
         QString _s = "STSH:";
         _s = _s + "lpstshi: " + lpstshi.toString() + ", ";
@@ -8861,9 +8870,9 @@ public:
     static const Introspection _introspection;
     QList<Pcr> RgPrc;
     Pcdt pcdt;
-    explicit Clx(const Introspectable* parent) :Introspectable(parent),
-        pcdt(this) {
-    }
+    explicit Clx(const Introspectable* parent)
+       :Introspectable(parent),
+        pcdt(this) {}
     QString toString() {
         QString _s = "Clx:";
         _s = _s + "RgPrc: " + "[array of RgPrc]" + ", ";
@@ -8879,9 +8888,9 @@ public:
     static const Introspection _introspection;
     quint8 clxt;
     PrcData prcData;
-    explicit Pcr(const Introspectable* parent) :Introspectable(parent),
-        prcData(this) {
-    }
+    explicit Pcr(const Introspectable* parent)
+       :Introspectable(parent),
+        prcData(this) {}
     QString toString() {
         QString _s = "Pcr:";
         _s = _s + "clxt: " + QString::number(clxt) + "(" + QString::number(clxt,16).toUpper() + ")" + ", ";
@@ -8895,11 +8904,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class prmChoice {public:QSharedPointer<Prm0> prm0;
-QSharedPointer<Prm1> prm1;
-}; prmChoice prm;
-    explicit Prm(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class prmChoice {
+    public:
+        QSharedPointer<Prm0> prm0;
+        QSharedPointer<Prm1> prm1;
+    };
+    prmChoice prm;
+    explicit Prm(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "Prm:";
         _s = _s + "prm: " + "<choice>" + ", ";
@@ -8918,10 +8930,10 @@ public:
     QByteArray rgbUid2;
     OfficeArtMetafileHeader metafileHeader;
     QByteArray BLIPFileData;
-    explicit OfficeArtBlipEMF(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBlipEMF(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        metafileHeader(this) {
-    }
+        metafileHeader(this) {}
     QString toString() {
         QString _s = "OfficeArtBlipEMF:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -8944,10 +8956,10 @@ public:
     QByteArray rgbUid2;
     OfficeArtMetafileHeader metafileHeader;
     QByteArray BLIPFileData;
-    explicit OfficeArtBlipWMF(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBlipWMF(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        metafileHeader(this) {
-    }
+        metafileHeader(this) {}
     QString toString() {
         QString _s = "OfficeArtBlipWMF:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -8970,10 +8982,10 @@ public:
     QByteArray rgbUid2;
     OfficeArtMetafileHeader metafileHeader;
     QByteArray BLIPFileData;
-    explicit OfficeArtBlipPICT(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtBlipPICT(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        metafileHeader(this) {
-    }
+        metafileHeader(this) {}
     QString toString() {
         QString _s = "OfficeArtBlipPICT:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -8990,16 +9002,19 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<OfficeArtBlipEMF> officeartblipemf;
-QSharedPointer<OfficeArtBlipWMF> officeartblipwmf;
-QSharedPointer<OfficeArtBlipPICT> officeartblippict;
-QSharedPointer<OfficeArtBlipJPEG> officeartblipjpeg;
-QSharedPointer<OfficeArtBlipPNG> officeartblippng;
-QSharedPointer<OfficeArtBlipDIB> officeartblipdib;
-QSharedPointer<OfficeArtBlipTIFF> officeartbliptiff;
-}; anonChoice anon;
-    explicit OfficeArtBlip(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<OfficeArtBlipEMF> officeartblipemf;
+        QSharedPointer<OfficeArtBlipWMF> officeartblipwmf;
+        QSharedPointer<OfficeArtBlipPICT> officeartblippict;
+        QSharedPointer<OfficeArtBlipJPEG> officeartblipjpeg;
+        QSharedPointer<OfficeArtBlipPNG> officeartblippng;
+        QSharedPointer<OfficeArtBlipDIB> officeartblipdib;
+        QSharedPointer<OfficeArtBlipTIFF> officeartbliptiff;
+    };
+    anonChoice anon;
+    explicit OfficeArtBlip(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtBlip:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -9019,11 +9034,11 @@ public:
     quint8 fUseVarScale;
     quint8 fDraftMode;
     quint16 unused2;
-    explicit ZoomViewInfoAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit ZoomViewInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         curScale(this),
-        origin(this) {
-    }
+        origin(this) {}
     QString toString() {
         QString _s = "ZoomViewInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9044,10 +9059,10 @@ public:
     static const Introspection _introspection;
     TextPFException9 pf9;
     TextCFException9 cf9;
-    explicit TextMasterStyle9Level(const Introspectable* parent) :Introspectable(parent),
+    explicit TextMasterStyle9Level(const Introspectable* parent)
+       :Introspectable(parent),
         pf9(this),
-        cf9(this) {
-    }
+        cf9(this) {}
     QString toString() {
         QString _s = "TextMasterStyle9Level:";
         _s = _s + "pf9: " + pf9.toString() + ", ";
@@ -9064,11 +9079,11 @@ public:
     TextPFException9 pf9;
     TextCFException9 cf9;
     TextSIException si;
-    explicit StyleTextProp9(const Introspectable* parent) :Introspectable(parent),
+    explicit StyleTextProp9(const Introspectable* parent)
+       :Introspectable(parent),
         pf9(this),
         cf9(this),
-        si(this) {
-    }
+        si(this) {}
     QString toString() {
         QString _s = "StyleTextProp9:";
         _s = _s + "pf9: " + pf9.toString() + ", ";
@@ -9101,11 +9116,11 @@ public:
     QSharedPointer<DiffTree10Container> rgDiffTree10Container;
     QSharedPointer<ModifyPasswordAtom> modifyPasswordAtom;
     QSharedPointer<PhotoAlbumInfo10Atom> photoAlbumInfoAtom;
-    explicit PP10DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
+    explicit PP10DocBinaryTagExtension(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         rhData(this),
-        gridSpacingAtom(this) {
-    }
+        gridSpacingAtom(this) {}
     QString toString() {
         QString _s = "PP10DocBinaryTagExtension:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9136,9 +9151,9 @@ private:
 public:
     static const Introspection _introspection;
     TextCFException10 cf10;
-    explicit TextMasterStyle10Level(const Introspectable* parent) :Introspectable(parent),
-        cf10(this) {
-    }
+    explicit TextMasterStyle10Level(const Introspectable* parent)
+       :Introspectable(parent),
+        cf10(this) {}
     QString toString() {
         QString _s = "TextMasterStyle10Level:";
         _s = _s + "cf10: " + cf10.toString() + ", ";
@@ -9153,10 +9168,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     ZoomViewInfoAtom zoomViewInfo;
-    explicit NotesTextViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesTextViewInfoContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        zoomViewInfo(this) {
-    }
+        zoomViewInfo(this) {}
     QString toString() {
         QString _s = "NotesTextViewInfoContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9172,10 +9187,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     NoZoomViewInfoAtom noZoomViewInfo;
-    explicit OutlineViewInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineViewInfoContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        noZoomViewInfo(this) {
-    }
+        noZoomViewInfo(this) {}
     QString toString() {
         QString _s = "OutlineViewInfoContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9191,10 +9206,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     NormalViewSetInfoAtom normalViewSetInfoAtom;
-    explicit NormalViewSetInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit NormalViewSetInfoContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        normalViewSetInfoAtom(this) {
-    }
+        normalViewSetInfoAtom(this) {}
     QString toString() {
         QString _s = "NormalViewSetInfoContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9210,9 +9225,9 @@ public:
     static const Introspection _introspection;
     SlidePersistAtom slidePersistAtom;
     QList<TextContainer> atoms;
-    explicit SlideListWithTextSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent),
-        slidePersistAtom(this) {
-    }
+    explicit SlideListWithTextSubContainerOrAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        slidePersistAtom(this) {}
     QString toString() {
         QString _s = "SlideListWithTextSubContainerOrAtom:";
         _s = _s + "slidePersistAtom: " + slidePersistAtom.toString() + ", ";
@@ -9226,11 +9241,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class interactiveChoice {public:QSharedPointer<MouseInteractiveInfoContainer> mouseinteractiveinfocontainer;
-QSharedPointer<MouseTextInteractiveInfoAtom> mousetextinteractiveinfoatom;
-}; interactiveChoice interactive;
-    explicit TextContainerInteractiveInfo(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class interactiveChoice {
+    public:
+        QSharedPointer<MouseInteractiveInfoContainer> mouseinteractiveinfocontainer;
+        QSharedPointer<MouseTextInteractiveInfoAtom> mousetextinteractiveinfoatom;
+    };
+    interactiveChoice interactive;
+    explicit TextContainerInteractiveInfo(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "TextContainerInteractiveInfo:";
         _s = _s + "interactive: " + "<choice>" + ", ";
@@ -9243,12 +9261,15 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<OutlineTextRefAtom> outlinetextrefatom;
-QSharedPointer<TextContainer> textcontainer;
-QSharedPointer<TextRulerAtom> textruleratom;
-}; anonChoice anon;
-    explicit TextClientDataSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<OutlineTextRefAtom> outlinetextrefatom;
+        QSharedPointer<TextContainer> textcontainer;
+        QSharedPointer<TextRulerAtom> textruleratom;
+    };
+    anonChoice anon;
+    explicit TextClientDataSubContainerOrAtom(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "TextClientDataSubContainerOrAtom:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -9264,9 +9285,9 @@ public:
     quint32 count;
     quint16 indentLevel;
     TextPFException pf;
-    explicit TextPFRun(const Introspectable* parent) :Introspectable(parent),
-        pf(this) {
-    }
+    explicit TextPFRun(const Introspectable* parent)
+       :Introspectable(parent),
+        pf(this) {}
     QString toString() {
         QString _s = "TextPFRun:";
         _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
@@ -9283,9 +9304,9 @@ public:
     static const Introspection _introspection;
     quint32 count;
     TextCFException cf;
-    explicit TextCFRun(const Introspectable* parent) :Introspectable(parent),
-        cf(this) {
-    }
+    explicit TextCFRun(const Introspectable* parent)
+       :Introspectable(parent),
+        cf(this) {}
     QString toString() {
         QString _s = "TextCFRun:";
         _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
@@ -9301,10 +9322,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextCFException cf;
-    explicit TextCFExceptionAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextCFExceptionAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        cf(this) {
-    }
+        cf(this) {}
     QString toString() {
         QString _s = "TextCFExceptionAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9320,10 +9341,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextRuler defaultTextRuler;
-    explicit DefaultRulerAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit DefaultRulerAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        defaultTextRuler(this) {
-    }
+        defaultTextRuler(this) {}
     QString toString() {
         QString _s = "DefaultRulerAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9340,10 +9361,10 @@ public:
     RecordHeader rh;
     quint16 reserved;
     TextPFException pf;
-    explicit TextPFExceptionAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextPFExceptionAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        pf(this) {
-    }
+        pf(this) {}
     QString toString() {
         QString _s = "TextPFExceptionAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9360,9 +9381,9 @@ public:
     static const Introspection _introspection;
     quint32 count;
     TextSIException si;
-    explicit TextSIRun(const Introspectable* parent) :Introspectable(parent),
-        si(this) {
-    }
+    explicit TextSIRun(const Introspectable* parent)
+       :Introspectable(parent),
+        si(this) {}
     QString toString() {
         QString _s = "TextSIRun:";
         _s = _s + "count: " + QString::number(count) + "(" + QString::number(count,16).toUpper() + ")" + ", ";
@@ -9378,10 +9399,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextSIException textSIException;
-    explicit TextSIExceptionAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit TextSIExceptionAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        textSIException(this) {
-    }
+        textSIException(this) {}
     QString toString() {
         QString _s = "TextSIExceptionAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9412,9 +9433,9 @@ public:
     QSharedPointer<TextMasterStyleLevel> lstLvl4;
     quint16 lstLvl5level;
     QSharedPointer<TextMasterStyleLevel> lstLvl5;
-    explicit TextMasterStyleAtom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TextMasterStyleAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TextMasterStyleAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9438,11 +9459,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<ProgStringTagContainer> progstringtagcontainer;
-QSharedPointer<SlideProgBinaryTagContainer> slideprogbinarytagcontainer;
-}; anonChoice anon;
-    explicit SlideProgTagsSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<ProgStringTagContainer> progstringtagcontainer;
+        QSharedPointer<SlideProgBinaryTagContainer> slideprogbinarytagcontainer;
+    };
+    anonChoice anon;
+    explicit SlideProgTagsSubContainerOrAtom(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "SlideProgTagsSubContainerOrAtom:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -9455,20 +9479,23 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<ExAviMovieContainer> exavimoviecontainer;
-QSharedPointer<ExCDAudioContainer> excdaudiocontainer;
-QSharedPointer<ExControlContainer> excontrolcontainer;
-QSharedPointer<ExHyperlinkContainer> exhyperlinkcontainer;
-QSharedPointer<ExMCIMovieContainer> exmcimoviecontainer;
-QSharedPointer<ExMIDIAudioContainer> exmidiaudiocontainer;
-QSharedPointer<ExOleEmbedContainer> exoleembedcontainer;
-QSharedPointer<ExOleLinkContainer> exolelinkcontainer;
-QSharedPointer<ExWAVAudioEmbeddedContainer> exwavaudioembeddedcontainer;
-QSharedPointer<ExWAVAudioLinkContainer> exwavaudiolinkcontainer;
-QSharedPointer<UnknownExObjListSubContainerChild> unknownexobjlistsubcontainerchild;
-}; anonChoice anon;
-    explicit ExObjListSubContainer(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<ExAviMovieContainer> exavimoviecontainer;
+        QSharedPointer<ExCDAudioContainer> excdaudiocontainer;
+        QSharedPointer<ExControlContainer> excontrolcontainer;
+        QSharedPointer<ExHyperlinkContainer> exhyperlinkcontainer;
+        QSharedPointer<ExMCIMovieContainer> exmcimoviecontainer;
+        QSharedPointer<ExMIDIAudioContainer> exmidiaudiocontainer;
+        QSharedPointer<ExOleEmbedContainer> exoleembedcontainer;
+        QSharedPointer<ExOleLinkContainer> exolelinkcontainer;
+        QSharedPointer<ExWAVAudioEmbeddedContainer> exwavaudioembeddedcontainer;
+        QSharedPointer<ExWAVAudioLinkContainer> exwavaudiolinkcontainer;
+        QSharedPointer<UnknownExObjListSubContainerChild> unknownexobjlistsubcontainerchild;
+    };
+    anonChoice anon;
+    explicit ExObjListSubContainer(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "ExObjListSubContainer:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -9489,12 +9516,12 @@ public:
     QSharedPointer<OfficeArtColorMRUContainer> colorMRU;
     OfficeArtSplitMenuColorContainer splitColors;
     QSharedPointer<OfficeArtTertiaryFOPT> unknown;
-    explicit OfficeArtDggContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtDggContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         drawingGroup(this),
         drawingPrimaryOptions(this),
-        splitColors(this) {
-    }
+        splitColors(this) {}
     QString toString() {
         QString _s = "OfficeArtDggContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9514,47 +9541,50 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<ProtectionBooleanProperties> protectionbooleanproperties;
-QSharedPointer<adjust2Value> adjust2value;
-QSharedPointer<adjust3Value> adjust3value;
-QSharedPointer<ITxid> itxid;
-QSharedPointer<DxTextLeft> dxtextleft;
-QSharedPointer<DyTextTop> dytexttop;
-QSharedPointer<DxTextRight> dxtextright;
-QSharedPointer<DyTextBottom> dytextbottom;
-QSharedPointer<WrapText> wraptext;
-QSharedPointer<AnchorText> anchortext;
-QSharedPointer<TextBooleanProperties> textbooleanproperties;
-QSharedPointer<HspNext> hspnext;
-QSharedPointer<ShapePath> shapepath;
-QSharedPointer<GeometryBooleanProperties> geometrybooleanproperties;
-QSharedPointer<FillType> filltype;
-QSharedPointer<FillColor> fillcolor;
-QSharedPointer<FillBackColor> fillbackcolor;
-QSharedPointer<FillBlip> fillblip;
-QSharedPointer<FillStyleBooleanProperties> fillstylebooleanproperties;
-QSharedPointer<LineColor> linecolor;
-QSharedPointer<LineBackColor> linebackcolor;
-QSharedPointer<LineFillBlip> linefillblip;
-QSharedPointer<LineWidth> linewidth;
-QSharedPointer<FillRectRight> fillrectright;
-QSharedPointer<FillRectBottom> fillrectbottom;
-QSharedPointer<WzFillId> wzfillid;
-QSharedPointer<LineStyleBooleanProperties> linestylebooleanproperties;
-QSharedPointer<LineStartArrowhead> linestartarrowhead;
-QSharedPointer<LineEndArrowhead> lineendarrowhead;
-QSharedPointer<LineJoinStyle> linejoinstyle;
-QSharedPointer<ShadowColor> shadowcolor;
-QSharedPointer<ShadowStyleBooleanPropertiesr> shadowstylebooleanpropertiesr;
-QSharedPointer<ShapeBooleanProperties> shapebooleanproperties;
-QSharedPointer<HspMaster> hspmaster;
-QSharedPointer<Rotation> rotation;
-QSharedPointer<LidRegroup> lidregroup;
-QSharedPointer<BWMode> bwmode;
-QSharedPointer<OfficeArtFOPTE> officeartfopte;
-}; anonChoice anon;
-    explicit OfficeArtFOPTEChoice(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<ProtectionBooleanProperties> protectionbooleanproperties;
+        QSharedPointer<adjust2Value> adjust2value;
+        QSharedPointer<adjust3Value> adjust3value;
+        QSharedPointer<ITxid> itxid;
+        QSharedPointer<DxTextLeft> dxtextleft;
+        QSharedPointer<DyTextTop> dytexttop;
+        QSharedPointer<DxTextRight> dxtextright;
+        QSharedPointer<DyTextBottom> dytextbottom;
+        QSharedPointer<WrapText> wraptext;
+        QSharedPointer<AnchorText> anchortext;
+        QSharedPointer<TextBooleanProperties> textbooleanproperties;
+        QSharedPointer<HspNext> hspnext;
+        QSharedPointer<ShapePath> shapepath;
+        QSharedPointer<GeometryBooleanProperties> geometrybooleanproperties;
+        QSharedPointer<FillType> filltype;
+        QSharedPointer<FillColor> fillcolor;
+        QSharedPointer<FillBackColor> fillbackcolor;
+        QSharedPointer<FillBlip> fillblip;
+        QSharedPointer<FillStyleBooleanProperties> fillstylebooleanproperties;
+        QSharedPointer<LineColor> linecolor;
+        QSharedPointer<LineBackColor> linebackcolor;
+        QSharedPointer<LineFillBlip> linefillblip;
+        QSharedPointer<LineWidth> linewidth;
+        QSharedPointer<FillRectRight> fillrectright;
+        QSharedPointer<FillRectBottom> fillrectbottom;
+        QSharedPointer<WzFillId> wzfillid;
+        QSharedPointer<LineStyleBooleanProperties> linestylebooleanproperties;
+        QSharedPointer<LineStartArrowhead> linestartarrowhead;
+        QSharedPointer<LineEndArrowhead> lineendarrowhead;
+        QSharedPointer<LineJoinStyle> linejoinstyle;
+        QSharedPointer<ShadowColor> shadowcolor;
+        QSharedPointer<ShadowStyleBooleanPropertiesr> shadowstylebooleanpropertiesr;
+        QSharedPointer<ShapeBooleanProperties> shapebooleanproperties;
+        QSharedPointer<HspMaster> hspmaster;
+        QSharedPointer<Rotation> rotation;
+        QSharedPointer<LidRegroup> lidregroup;
+        QSharedPointer<BWMode> bwmode;
+        QSharedPointer<OfficeArtFOPTE> officeartfopte;
+    };
+    anonChoice anon;
+    explicit OfficeArtFOPTEChoice(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtFOPTEChoice:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -9578,9 +9608,9 @@ public:
     QSharedPointer<RecolorInfoAtom> recolorInfoAtom;
     QList<ShapeClientRoundtripDataSubcontainerOrAtom> rgShapeClientRoundtripData;
     QSharedPointer<UnknownOfficeArtClientDataChild> unknown;
-    explicit OfficeArtClientData(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtClientData(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtClientData:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9604,9 +9634,9 @@ private:
 public:
     static const Introspection _introspection;
     Fib fib;
-    explicit WordDocument(const Introspectable* parent) :Introspectable(parent),
-        fib(this) {
-    }
+    explicit WordDocument(const Introspectable* parent)
+       :Introspectable(parent),
+        fib(this) {}
     QString toString() {
         QString _s = "WordDocument:";
         _s = _s + "fib: " + fib.toString() + ", ";
@@ -9628,7 +9658,8 @@ public:
     Clx clx;
     SttbfFfn sttbfFfn;
     QByteArray dop;
-    explicit Table(const Introspectable* parent) :Introspectable(parent),
+    explicit Table(const Introspectable* parent)
+       :Introspectable(parent),
         stsh(this),
         plcfSed(this),
         plcfHdd(this),
@@ -9636,8 +9667,7 @@ public:
         plcfBtePapx(this),
         cmds(this),
         clx(this),
-        sttbfFfn(this) {
-    }
+        sttbfFfn(this) {}
     QString toString() {
         QString _s = "Table:";
         _s = _s + "stsh: " + stsh.toString() + ", ";
@@ -9665,10 +9695,10 @@ public:
     quint16 fR3;
     FCompressed fc;
     Prm prm;
-    explicit Pcd(const Introspectable* parent) :Introspectable(parent),
+    explicit Pcd(const Introspectable* parent)
+       :Introspectable(parent),
         fc(this),
-        prm(this) {
-    }
+        prm(this) {}
     QString toString() {
         QString _s = "Pcd:";
         _s = _s + "fNoParaLast: " + QString::number(fNoParaLast) + ", ";
@@ -9702,9 +9732,9 @@ public:
     quint8 unused3;
     QByteArray nameData;
     QSharedPointer<OfficeArtBlip> embeddedBlip;
-    explicit OfficeArtFBSE(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit OfficeArtFBSE(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "OfficeArtFBSE:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9730,11 +9760,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<OfficeArtFBSE> officeartfbse;
-QSharedPointer<OfficeArtBlip> officeartblip;
-}; anonChoice anon;
-    explicit OfficeArtBStoreContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<OfficeArtFBSE> officeartfbse;
+        QSharedPointer<OfficeArtBlip> officeartblip;
+    };
+    anonChoice anon;
+    explicit OfficeArtBStoreContainerFileBlock(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtBStoreContainerFileBlock:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -9751,11 +9784,11 @@ public:
     SlideViewInfoAtom slideViewInfoAtom;
     ZoomViewInfoAtom zoomViewInfoAtom;
     QList<GuideAtom> rgGuideAtom;
-    explicit SlideViewInfoInstance(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideViewInfoInstance(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         slideViewInfoAtom(this),
-        zoomViewInfoAtom(this) {
-    }
+        zoomViewInfoAtom(this) {}
     QString toString() {
         QString _s = "SlideViewInfoInstance:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9788,9 +9821,9 @@ public:
     QSharedPointer<TextMasterStyle9Level> lstLvl4;
     quint16 lstLvl5level;
     QSharedPointer<TextMasterStyle9Level> lstLvl5;
-    explicit TextMasterStyle9Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TextMasterStyle9Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TextMasterStyle9Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9818,10 +9851,10 @@ public:
     quint8 winBlipType;
     bool unused;
     OfficeArtBStoreContainerFileBlock blip;
-    explicit BlipEntityAtom(const Introspectable* parent) :Introspectable(parent),
+    explicit BlipEntityAtom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        blip(this) {
-    }
+        blip(this) {}
     QString toString() {
         QString _s = "BlipEntityAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9839,10 +9872,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     StyleTextProp9 rgStyleTextProp9;
-    explicit StyleTextProp9Atom(const Introspectable* parent) :Introspectable(parent),
+    explicit StyleTextProp9Atom(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        rgStyleTextProp9(this) {
-    }
+        rgStyleTextProp9(this) {}
     QString toString() {
         QString _s = "StyleTextProp9Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9873,9 +9906,9 @@ public:
     QSharedPointer<TextMasterStyle10Level> lstLvl4;
     quint16 lstLvl5level;
     QSharedPointer<TextMasterStyle10Level> lstLvl5;
-    explicit TextMasterStyle10Atom(const Introspectable* parent) :Introspectable(parent),
-        rh(this) {
-    }
+    explicit TextMasterStyle10Atom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
     QString toString() {
         QString _s = "TextMasterStyle10Atom:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9907,11 +9940,11 @@ public:
     QSharedPointer<DefaultRulerAtom> defaultRulerAtom;
     TextSIExceptionAtom textSIDefaultsAtom;
     TextMasterStyleAtom textMasterStyleAtom;
-    explicit DocumentTextInfoContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DocumentTextInfoContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         textSIDefaultsAtom(this),
-        textMasterStyleAtom(this) {
-    }
+        textMasterStyleAtom(this) {}
     QString toString() {
         QString _s = "DocumentTextInfoContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9933,10 +9966,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     OfficeArtDggContainer OfficeArtDgg;
-    explicit DrawingGroupContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DrawingGroupContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        OfficeArtDgg(this) {
-    }
+        OfficeArtDgg(this) {}
     QString toString() {
         QString _s = "DrawingGroupContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -9963,10 +9996,10 @@ public:
     QSharedPointer<OfficeArtClientTextBox> clientTextbox;
     QSharedPointer<OfficeArtSecondaryFOPT> shapeSecondaryOptions2;
     QSharedPointer<OfficeArtTertiaryFOPT> shapeTertiaryOptions2;
-    explicit OfficeArtSpContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtSpContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        shapeProp(this) {
-    }
+        shapeProp(this) {}
     QString toString() {
         QString _s = "OfficeArtSpContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -10017,14 +10050,14 @@ public:
     QSharedPointer<UnknownDocumentContainerChild3> unknown4;
     QSharedPointer<UnknownDocumentContainerChild4> unknown5;
     QSharedPointer<RoundTripCustomTableStyles12Atom> rtCustomTableStylesAtom2;
-    explicit DocumentContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DocumentContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         documentAtom(this),
         documentTextInfo(this),
         drawingGroup(this),
         masterList(this),
-        endDocumentAtom(this) {
-    }
+        endDocumentAtom(this) {}
     QString toString() {
         QString _s = "DocumentContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -10062,16 +10095,19 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<DocProgTagsContainer> docprogtagscontainer;
-QSharedPointer<NormalViewSetInfoContainer> normalviewsetinfocontainer;
-QSharedPointer<NotesTextViewInfoContainer> notestextviewinfocontainer;
-QSharedPointer<OutlineViewInfoContainer> outlineviewinfocontainer;
-QSharedPointer<SlideViewInfoInstance> slideviewinfoinstance;
-QSharedPointer<SorterViewInfoContainer> sorterviewinfocontainer;
-QSharedPointer<VBAInfoContainer> vbainfocontainer;
-}; anonChoice anon;
-    explicit DocInfoListSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<DocProgTagsContainer> docprogtagscontainer;
+        QSharedPointer<NormalViewSetInfoContainer> normalviewsetinfocontainer;
+        QSharedPointer<NotesTextViewInfoContainer> notestextviewinfocontainer;
+        QSharedPointer<OutlineViewInfoContainer> outlineviewinfocontainer;
+        QSharedPointer<SlideViewInfoInstance> slideviewinfoinstance;
+        QSharedPointer<SorterViewInfoContainer> sorterviewinfocontainer;
+        QSharedPointer<VBAInfoContainer> vbainfocontainer;
+    };
+    anonChoice anon;
+    explicit DocInfoListSubContainerOrAtom(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "DocInfoListSubContainerOrAtom:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -10099,7 +10135,8 @@ public:
     HTMLPublishInfo9Container htmlPublishInfoAtom;
     BroadcastDocInfo9Container rgBroadcastDocInfo9;
     OutlineTextProps9Container outlineTextPropsContainer;
-    explicit PP9DocBinaryTagExtension(const Introspectable* parent) :Introspectable(parent),
+    explicit PP9DocBinaryTagExtension(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         rhData(this),
         rgTextMasterStyle9(this),
@@ -10110,8 +10147,7 @@ public:
         envelopeFlagsAtom(this),
         htmlPublishInfoAtom(this),
         rgBroadcastDocInfo9(this),
-        outlineTextPropsContainer(this) {
-    }
+        outlineTextPropsContainer(this) {}
     QString toString() {
         QString _s = "PP9DocBinaryTagExtension:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -10140,10 +10176,10 @@ public:
     static const Introspection _introspection;
     OutlineTextPropsHeaderExAtom outlineTextHeaderAtom;
     StyleTextProp9Atom styleTextProp9Atom;
-    explicit OutlineTextProps9Entry(const Introspectable* parent) :Introspectable(parent),
+    explicit OutlineTextProps9Entry(const Introspectable* parent)
+       :Introspectable(parent),
         outlineTextHeaderAtom(this),
-        styleTextProp9Atom(this) {
-    }
+        styleTextProp9Atom(this) {}
     QString toString() {
         QString _s = "OutlineTextProps9Entry:";
         _s = _s + "outlineTextHeaderAtom: " + outlineTextHeaderAtom.toString() + ", ";
@@ -10164,11 +10200,11 @@ public:
     QSharedPointer<OfficeArtSpContainer> shape;
     QList<OfficeArtSpgrContainerFileBlock> deletedShapes;
     QSharedPointer<OfficeArtSolverContainer> solvers;
-    explicit OfficeArtDgContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit OfficeArtDgContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         drawingData(this),
-        groupShape(this) {
-    }
+        groupShape(this) {}
     QString toString() {
         QString _s = "OfficeArtDgContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -10187,11 +10223,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<OfficeArtSpContainer> officeartspcontainer;
-QSharedPointer<OfficeArtSpgrContainer> officeartspgrcontainer;
-}; anonChoice anon;
-    explicit OfficeArtSpgrContainerFileBlock(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<OfficeArtSpContainer> officeartspcontainer;
+        QSharedPointer<OfficeArtSpgrContainer> officeartspgrcontainer;
+    };
+    anonChoice anon;
+    explicit OfficeArtSpgrContainerFileBlock(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "OfficeArtSpgrContainerFileBlock:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -10204,14 +10243,17 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<PP9DocBinaryTagExtension> pp9docbinarytagextension;
-QSharedPointer<PP10DocBinaryTagExtension> pp10docbinarytagextension;
-QSharedPointer<PP11DocBinaryTagExtension> pp11docbinarytagextension;
-QSharedPointer<PP12DocBinaryTagExtension> pp12docbinarytagextension;
-QSharedPointer<UnknownBinaryTag> unknownbinarytag;
-}; anonChoice anon;
-    explicit DocProgBinaryTagSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<PP9DocBinaryTagExtension> pp9docbinarytagextension;
+        QSharedPointer<PP10DocBinaryTagExtension> pp10docbinarytagextension;
+        QSharedPointer<PP11DocBinaryTagExtension> pp11docbinarytagextension;
+        QSharedPointer<PP12DocBinaryTagExtension> pp12docbinarytagextension;
+        QSharedPointer<UnknownBinaryTag> unknownbinarytag;
+    };
+    anonChoice anon;
+    explicit DocProgBinaryTagSubContainerOrAtom(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "DocProgBinaryTagSubContainerOrAtom:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -10226,10 +10268,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     OfficeArtDgContainer OfficeArtDg;
-    explicit DrawingContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DrawingContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        OfficeArtDg(this) {
-    }
+        OfficeArtDg(this) {}
     QString toString() {
         QString _s = "DrawingContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -10245,10 +10287,10 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     DocProgBinaryTagSubContainerOrAtom rec;
-    explicit DocProgBinaryTagContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit DocProgBinaryTagContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
-        rec(this) {
-    }
+        rec(this) {}
     QString toString() {
         QString _s = "DocProgBinaryTagContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -10278,12 +10320,12 @@ public:
     QSharedPointer<UnknownSlideContainerChild> unknown2;
     QSharedPointer<TemplateNameAtom> templateNameAtom;
     QSharedPointer<SlideProgTagsContainer> unknown3;
-    explicit MainMasterContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit MainMasterContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         slideAtom(this),
         drawing(this),
-        slideSchemeColorSchemeAtom(this) {
-    }
+        slideSchemeColorSchemeAtom(this) {}
     QString toString() {
         QString _s = "MainMasterContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -10322,12 +10364,12 @@ public:
     QSharedPointer<SlideProgTagsContainer> slideProgTagsContainer;
     QList<RoundTripSlideRecord> rgRoundTripSlide;
     QSharedPointer<UnknownSlideContainerChild> unknown;
-    explicit SlideContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit SlideContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         slideAtom(this),
         drawing(this),
-        slideSchemeColorSchemeAtom(this) {
-    }
+        slideSchemeColorSchemeAtom(this) {}
     QString toString() {
         QString _s = "SlideContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -10358,12 +10400,12 @@ public:
     QSharedPointer<SlideNameAtom> slideNameAtom;
     QSharedPointer<SlideProgTagsContainer> slideProgTagsContainer;
     QList<NotesRoundTripAtom> rgNotesRoundTripAtom;
-    explicit NotesContainer(const Introspectable* parent) :Introspectable(parent),
+    explicit NotesContainer(const Introspectable* parent)
+       :Introspectable(parent),
         rh(this),
         notesAtom(this),
         drawing(this),
-        slideSchemeColorSchemeAtom(this) {
-    }
+        slideSchemeColorSchemeAtom(this) {}
     QString toString() {
         QString _s = "NotesContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
@@ -10383,11 +10425,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<ProgStringTagContainer> progstringtagcontainer;
-QSharedPointer<DocProgBinaryTagContainer> docprogbinarytagcontainer;
-}; anonChoice anon;
-    explicit DocProgTagsSubContainerOrAtom(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<ProgStringTagContainer> progstringtagcontainer;
+        QSharedPointer<DocProgBinaryTagContainer> docprogbinarytagcontainer;
+    };
+    anonChoice anon;
+    explicit DocProgTagsSubContainerOrAtom(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "DocProgTagsSubContainerOrAtom:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -10400,11 +10445,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<MainMasterContainer> mainmastercontainer;
-QSharedPointer<SlideContainer> slidecontainer;
-}; anonChoice anon;
-    explicit MasterOrSlideContainer(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<MainMasterContainer> mainmastercontainer;
+        QSharedPointer<SlideContainer> slidecontainer;
+    };
+    anonChoice anon;
+    explicit MasterOrSlideContainer(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "MasterOrSlideContainer:";
         _s = _s + "anon: " + "<choice>" + ", ";
@@ -10417,19 +10465,22 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {public:QSharedPointer<DocumentContainer> documentcontainer;
-QSharedPointer<MasterOrSlideContainer> masterorslidecontainer;
-QSharedPointer<PersistDirectoryAtom> persistdirectoryatom;
-QSharedPointer<NotesContainer> notescontainer;
-QSharedPointer<HandoutContainer> handoutcontainer;
-QSharedPointer<SlideContainer> slidecontainer;
-QSharedPointer<ExOleObjStg> exoleobjstg;
-QSharedPointer<ExControlStg> excontrolstg;
-QSharedPointer<VbaProjectStg> vbaprojectstg;
-QSharedPointer<UserEditAtom> usereditatom;
-}; anonChoice anon;
-    explicit PowerPointStruct(const Introspectable* parent) :Introspectable(parent) {
-    }
+    class anonChoice {
+    public:
+        QSharedPointer<DocumentContainer> documentcontainer;
+        QSharedPointer<MasterOrSlideContainer> masterorslidecontainer;
+        QSharedPointer<PersistDirectoryAtom> persistdirectoryatom;
+        QSharedPointer<NotesContainer> notescontainer;
+        QSharedPointer<HandoutContainer> handoutcontainer;
+        QSharedPointer<SlideContainer> slidecontainer;
+        QSharedPointer<ExOleObjStg> exoleobjstg;
+        QSharedPointer<ExControlStg> excontrolstg;
+        QSharedPointer<VbaProjectStg> vbaprojectstg;
+        QSharedPointer<UserEditAtom> usereditatom;
+    };
+    anonChoice anon;
+    explicit PowerPointStruct(const Introspectable* parent)
+       :Introspectable(parent) {}
     QString toString() {
         QString _s = "PowerPointStruct:";
         _s = _s + "anon: " + "<choice>" + ", ";
