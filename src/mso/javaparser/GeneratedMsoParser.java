@@ -1877,6 +1877,62 @@ System.out.println(in.getPosition()+" "+_s);
             write(_i, out);
         }
     }
+    MasterPersistAtom parseMasterPersistAtom(LEInputStream in) throws IOException  {
+        MasterPersistAtom _s = new MasterPersistAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0x3F3)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x3F3 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 0x14)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x14 for value " + String.valueOf(_s.rh) );
+        }
+        _s.persistIdRef = in.readuint32();
+        _s.reserved1 = in.readuint2();
+        if (!(_s.reserved1 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved1 == 0 for value " + String.valueOf(_s.reserved1) );
+        }
+        _s.fNonOutLineData = in.readbit();
+        _s.reserved2 = in.readuint5();
+        if (!(_s.reserved2 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved2 == 0 for value " + String.valueOf(_s.reserved2) );
+        }
+        _s.reserved3 = in.readuint8();
+        if (!(_s.reserved3 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved3 == 0 for value " + String.valueOf(_s.reserved3) );
+        }
+        _s.reserved4 = in.readuint16();
+        if (!(_s.reserved4 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved4 == 0 for value " + String.valueOf(_s.reserved4) );
+        }
+        _s.reserved5 = in.readuint32();
+        if (!(_s.reserved5 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved5 == 0 for value " + String.valueOf(_s.reserved5) );
+        }
+        _s.masterId = in.readuint32();
+        _s.reserved6 = in.readuint32();
+        if (!(_s.reserved6 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved6 == 0 for value " + String.valueOf(_s.reserved6) );
+        }
+        return _s;
+    }
+    void write(MasterPersistAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        out.writeuint32(_s.persistIdRef);
+        out.writeuint2(_s.reserved1);
+        out.writebit(_s.fNonOutLineData);
+        out.writeuint5(_s.reserved2);
+        out.writeuint8(_s.reserved3);
+        out.writeuint16(_s.reserved4);
+        out.writeuint32(_s.reserved5);
+        out.writeuint32(_s.masterId);
+        out.writeuint32(_s.reserved6);
+    }
     SlideListWithTextContainer parseSlideListWithTextContainer(LEInputStream in) throws IOException  {
         SlideListWithTextContainer _s = new SlideListWithTextContainer();
         Object _m;
@@ -3050,26 +3106,18 @@ System.out.println(in.getPosition()+" "+_s);
         _s.persistId = in.readuint20();
         _s.cPersist = in.readuint12();
         _c = _s.cPersist;
-        _s.rgPersistOffset = new PersistOffsetEntry[_c];
+        _s.rgPersistOffset = new int[_c];
         for (int _i=0; _i<_c; ++_i) {
-            _s.rgPersistOffset[_i] = parsePersistOffsetEntry(in);
+            _s.rgPersistOffset[_i] = in.readuint32();
         }
         return _s;
     }
     void write(PersistDirectoryEntry _s, LEOutputStream out) throws IOException  {
         out.writeuint20(_s.persistId);
         out.writeuint12(_s.cPersist);
-        for (PersistOffsetEntry _i: _s.rgPersistOffset) {
-            write(_i, out);
+        for (int _i: _s.rgPersistOffset) {
+            out.writeuint32(_i);
         }
-    }
-    PersistOffsetEntry parsePersistOffsetEntry(LEInputStream in) throws IOException  {
-        PersistOffsetEntry _s = new PersistOffsetEntry();
-        _s.anon = in.readuint32();
-        return _s;
-    }
-    void write(PersistOffsetEntry _s, LEOutputStream out) throws IOException  {
-        out.writeuint32(_s.anon);
     }
     PersistIdRef parsePersistIdRef(LEInputStream in) throws IOException  {
         PersistIdRef _s = new PersistIdRef();
@@ -4616,6 +4664,62 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
     }
+    OfficeArtSecondaryFOPT parseOfficeArtSecondaryFOPT(LEInputStream in) throws IOException  {
+        OfficeArtSecondaryFOPT _s = new OfficeArtSecondaryFOPT();
+        int _c;
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 3)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 3 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xF121)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF121 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recInstance;
+        _s.fopt = new OfficeArtFOPTEChoice[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.fopt[_i] = parseOfficeArtFOPTEChoice(in);
+        }
+        _c = _s.rh.recLen-6*_s.rh.recInstance;
+        _s.complexData = in.readBytes(_c);
+        return _s;
+    }
+    void write(OfficeArtSecondaryFOPT _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (OfficeArtFOPTEChoice _i: _s.fopt) {
+            write(_i, out);
+        }
+        for (byte _i: _s.complexData) {
+            out.writeuint8(_i);
+        }
+    }
+    OfficeArtTertiaryFOPT parseOfficeArtTertiaryFOPT(LEInputStream in) throws IOException  {
+        OfficeArtTertiaryFOPT _s = new OfficeArtTertiaryFOPT();
+        int _c;
+        _s.rh = parseOfficeArtRecordHeader(in);
+        if (!(_s.rh.recVer == 3)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 3 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xF122)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF122 for value " + String.valueOf(_s.rh) );
+        }
+        _c = _s.rh.recInstance;
+        _s.fopt = new OfficeArtFOPTEChoice[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.fopt[_i] = parseOfficeArtFOPTEChoice(in);
+        }
+        _c = _s.rh.recLen-6*_s.rh.recInstance;
+        _s.complexData = in.readBytes(_c);
+        return _s;
+    }
+    void write(OfficeArtTertiaryFOPT _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        for (OfficeArtFOPTEChoice _i: _s.fopt) {
+            write(_i, out);
+        }
+        for (byte _i: _s.complexData) {
+            out.writeuint8(_i);
+        }
+    }
     OfficeArtFOPTEComplexData parseOfficeArtFOPTEComplexData(LEInputStream in) throws IOException  {
         OfficeArtFOPTEComplexData _s = new OfficeArtFOPTEComplexData();
         int _c;
@@ -4719,54 +4823,6 @@ System.out.println(in.getPosition()+" "+_s);
         out.writeuint30(_s.spid);
         out.writebit(_s.reserved1);
         out.writebit(_s.fLast);
-    }
-    OfficeArtSecondaryFOPT parseOfficeArtSecondaryFOPT(LEInputStream in) throws IOException  {
-        OfficeArtSecondaryFOPT _s = new OfficeArtSecondaryFOPT();
-        int _c;
-        _s.rh = parseOfficeArtRecordHeader(in);
-        if (!(_s.rh.recVer == 3)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 3 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recType == 0xF121)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF121 for value " + String.valueOf(_s.rh) );
-        }
-        _c = _s.rh.recLen;
-        _s.todo = in.readBytes(_c);
-        return _s;
-    }
-    void write(OfficeArtSecondaryFOPT _s, LEOutputStream out) throws IOException  {
-        write(_s.rh, out);
-        for (byte _i: _s.todo) {
-            out.writeuint8(_i);
-        }
-    }
-    OfficeArtTertiaryFOPT parseOfficeArtTertiaryFOPT(LEInputStream in) throws IOException  {
-        OfficeArtTertiaryFOPT _s = new OfficeArtTertiaryFOPT();
-        int _c;
-        _s.rh = parseOfficeArtRecordHeader(in);
-        if (!(_s.rh.recVer == 3)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 3 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recType == 0xF122)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xF122 for value " + String.valueOf(_s.rh) );
-        }
-        _c = _s.rh.recInstance;
-        _s.fopt = new OfficeArtFOPTE[_c];
-        for (int _i=0; _i<_c; ++_i) {
-            _s.fopt[_i] = parseOfficeArtFOPTE(in);
-        }
-        _c = _s.rh.recLen-6*_s.rh.recInstance;
-        _s.complexData = in.readBytes(_c);
-        return _s;
-    }
-    void write(OfficeArtTertiaryFOPT _s, LEOutputStream out) throws IOException  {
-        write(_s.rh, out);
-        for (OfficeArtFOPTE _i: _s.fopt) {
-            write(_i, out);
-        }
-        for (byte _i: _s.complexData) {
-            out.writeuint8(_i);
-        }
     }
     RectStruct parseRectStruct(LEInputStream in) throws IOException  {
         RectStruct _s = new RectStruct();
@@ -7154,62 +7210,6 @@ System.out.println(in.getPosition()+" "+_s);
         out.writebit(_s.fBarSnapped);
         out.writeuint6(_s.reserved);
     }
-    MasterPersistAtom parseMasterPersistAtom(LEInputStream in) throws IOException  {
-        MasterPersistAtom _s = new MasterPersistAtom();
-        _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recType == 0x3F3)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0x3F3 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recLen == 0x14)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x14 for value " + String.valueOf(_s.rh) );
-        }
-        _s.persistIdRef = parsePersistIdRef(in);
-        _s.reserved1 = in.readuint2();
-        if (!(_s.reserved1 == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reserved1 == 0 for value " + String.valueOf(_s.reserved1) );
-        }
-        _s.fNonOutLineData = in.readbit();
-        _s.reserved2 = in.readuint5();
-        if (!(_s.reserved2 == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reserved2 == 0 for value " + String.valueOf(_s.reserved2) );
-        }
-        _s.reserved3 = in.readuint8();
-        if (!(_s.reserved3 == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reserved3 == 0 for value " + String.valueOf(_s.reserved3) );
-        }
-        _s.reserved4 = in.readuint16();
-        if (!(_s.reserved4 == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reserved4 == 0 for value " + String.valueOf(_s.reserved4) );
-        }
-        _s.reserved5 = in.readuint32();
-        if (!(_s.reserved5 == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reserved5 == 0 for value " + String.valueOf(_s.reserved5) );
-        }
-        _s.masterId = in.readuint32();
-        _s.reserved6 = in.readuint32();
-        if (!(_s.reserved6 == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reserved6 == 0 for value " + String.valueOf(_s.reserved6) );
-        }
-        return _s;
-    }
-    void write(MasterPersistAtom _s, LEOutputStream out) throws IOException  {
-        write(_s.rh, out);
-        write(_s.persistIdRef, out);
-        out.writeuint2(_s.reserved1);
-        out.writebit(_s.fNonOutLineData);
-        out.writeuint5(_s.reserved2);
-        out.writeuint8(_s.reserved3);
-        out.writeuint16(_s.reserved4);
-        out.writeuint32(_s.reserved5);
-        out.writeuint32(_s.masterId);
-        out.writeuint32(_s.reserved6);
-    }
     TextContainer parseTextContainer(LEInputStream in) throws IOException  {
         TextContainer _s = new TextContainer();
         Object _m;
@@ -7414,7 +7414,7 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recLen == 0x14)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x14 for value " + String.valueOf(_s.rh) );
         }
-        _s.persistIdRef = parsePersistIdRef(in);
+        _s.persistIdRef = in.readuint32();
         _s.reserved1 = in.readbit();
         if (!(_s.reserved1 == false)) {
             throw new IncorrectValueException(in.getPosition() + "_s.reserved1 == false for value " + String.valueOf(_s.reserved1) );
@@ -7449,7 +7449,7 @@ System.out.println(in.getPosition()+" "+_s);
     }
     void write(SlidePersistAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        write(_s.persistIdRef, out);
+        out.writeuint32(_s.persistIdRef);
         out.writebit(_s.reserved1);
         out.writebit(_s.fShouldCollapse);
         out.writebit(_s.fNonOutlineData);
@@ -7979,8 +7979,8 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.serverZoom.numer*_s.serverZoom.denom > 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.serverZoom.numer*_s.serverZoom.denom > 0 for value " + String.valueOf(_s.serverZoom) );
         }
-        _s.notesMasterPersistIdRef = parsePersistIdRef(in);
-        _s.handoutMasterPersistIdRef = parsePersistIdRef(in);
+        _s.notesMasterPersistIdRef = in.readuint32();
+        _s.handoutMasterPersistIdRef = in.readuint32();
         _s.firstSlideNumber = in.readuint16();
         if (!(_s.firstSlideNumber<10000)) {
             throw new IncorrectValueException(in.getPosition() + "_s.firstSlideNumber<10000 for value " + String.valueOf(_s.firstSlideNumber) );
@@ -8000,8 +8000,8 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.slideSize, out);
         write(_s.notesSize, out);
         write(_s.serverZoom, out);
-        write(_s.notesMasterPersistIdRef, out);
-        write(_s.handoutMasterPersistIdRef, out);
+        out.writeuint32(_s.notesMasterPersistIdRef);
+        out.writeuint32(_s.handoutMasterPersistIdRef);
         out.writeuint16(_s.firstSlideNumber);
         out.writeuint16(_s.slideSizeType);
         out.writeuint8(_s.fSaveWithFonts);
@@ -13695,6 +13695,32 @@ class MasterListWithTextContainer {
         return _s;
     }
 }
+class MasterPersistAtom {
+    RecordHeader rh;
+    int persistIdRef;
+    byte reserved1;
+    boolean fNonOutLineData;
+    byte reserved2;
+    byte reserved3;
+    int reserved4;
+    int reserved5;
+    int masterId;
+    int reserved6;
+    public String toString() {
+        String _s = "MasterPersistAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "persistIdRef: " + String.valueOf(persistIdRef) + "(" + Integer.toHexString(persistIdRef).toUpperCase() + "), ";
+        _s = _s + "reserved1: " + String.valueOf(reserved1) + "(" + Integer.toHexString(reserved1).toUpperCase() + "), ";
+        _s = _s + "fNonOutLineData: " + String.valueOf(fNonOutLineData) + ", ";
+        _s = _s + "reserved2: " + String.valueOf(reserved2) + "(" + Integer.toHexString(reserved2).toUpperCase() + "), ";
+        _s = _s + "reserved3: " + String.valueOf(reserved3) + "(" + Integer.toHexString(reserved3).toUpperCase() + "), ";
+        _s = _s + "reserved4: " + String.valueOf(reserved4) + "(" + Integer.toHexString(reserved4).toUpperCase() + "), ";
+        _s = _s + "reserved5: " + String.valueOf(reserved5) + "(" + Integer.toHexString(reserved5).toUpperCase() + "), ";
+        _s = _s + "masterId: " + String.valueOf(masterId) + "(" + Integer.toHexString(masterId).toUpperCase() + "), ";
+        _s = _s + "reserved6: " + String.valueOf(reserved6) + "(" + Integer.toHexString(reserved6).toUpperCase() + "), ";
+        return _s;
+    }
+}
 class SlideListWithTextContainer {
     RecordHeader rh;
     final java.util.List<SlideListWithTextSubContainerOrAtom> rgChildRec = new java.util.ArrayList<SlideListWithTextSubContainerOrAtom>();
@@ -14318,20 +14344,12 @@ class UnknownSlideContainerChild {
 class PersistDirectoryEntry {
     int persistId;
     short cPersist;
-    PersistOffsetEntry[] rgPersistOffset;
+    int[] rgPersistOffset;
     public String toString() {
         String _s = "PersistDirectoryEntry:";
         _s = _s + "persistId: " + String.valueOf(persistId) + "(" + Integer.toHexString(persistId).toUpperCase() + "), ";
         _s = _s + "cPersist: " + String.valueOf(cPersist) + "(" + Integer.toHexString(cPersist).toUpperCase() + "), ";
         _s = _s + "rgPersistOffset: " + String.valueOf(rgPersistOffset) + ", ";
-        return _s;
-    }
-}
-class PersistOffsetEntry {
-    int anon;
-    public String toString() {
-        String _s = "PersistOffsetEntry:";
-        _s = _s + "anon: " + String.valueOf(anon) + "(" + Integer.toHexString(anon).toUpperCase() + "), ";
         return _s;
     }
 }
@@ -15095,6 +15113,30 @@ class OfficeArtFOPT {
         return _s;
     }
 }
+class OfficeArtSecondaryFOPT {
+    OfficeArtRecordHeader rh;
+    OfficeArtFOPTEChoice[] fopt;
+    byte[] complexData;
+    public String toString() {
+        String _s = "OfficeArtSecondaryFOPT:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "fopt: " + String.valueOf(fopt) + ", ";
+        _s = _s + "complexData: " + String.valueOf(complexData) + ", ";
+        return _s;
+    }
+}
+class OfficeArtTertiaryFOPT {
+    OfficeArtRecordHeader rh;
+    OfficeArtFOPTEChoice[] fopt;
+    byte[] complexData;
+    public String toString() {
+        String _s = "OfficeArtTertiaryFOPT:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "fopt: " + String.valueOf(fopt) + ", ";
+        _s = _s + "complexData: " + String.valueOf(complexData) + ", ";
+        return _s;
+    }
+}
 class OfficeArtFOPTEComplexData {
     byte[] data;
     public String toString() {
@@ -15168,28 +15210,6 @@ class OfficeArtFPSPL {
         _s = _s + "spid: " + String.valueOf(spid) + "(" + Integer.toHexString(spid).toUpperCase() + "), ";
         _s = _s + "reserved1: " + String.valueOf(reserved1) + ", ";
         _s = _s + "fLast: " + String.valueOf(fLast) + ", ";
-        return _s;
-    }
-}
-class OfficeArtSecondaryFOPT {
-    OfficeArtRecordHeader rh;
-    byte[] todo;
-    public String toString() {
-        String _s = "OfficeArtSecondaryFOPT:";
-        _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
-        return _s;
-    }
-}
-class OfficeArtTertiaryFOPT {
-    OfficeArtRecordHeader rh;
-    OfficeArtFOPTE[] fopt;
-    byte[] complexData;
-    public String toString() {
-        String _s = "OfficeArtTertiaryFOPT:";
-        _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "fopt: " + String.valueOf(fopt) + ", ";
-        _s = _s + "complexData: " + String.valueOf(complexData) + ", ";
         return _s;
     }
 }
@@ -16687,32 +16707,6 @@ class NormalViewSetInfoAtom {
         return _s;
     }
 }
-class MasterPersistAtom {
-    RecordHeader rh;
-    PersistIdRef persistIdRef;
-    byte reserved1;
-    boolean fNonOutLineData;
-    byte reserved2;
-    byte reserved3;
-    int reserved4;
-    int reserved5;
-    int masterId;
-    int reserved6;
-    public String toString() {
-        String _s = "MasterPersistAtom:";
-        _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "persistIdRef: " + String.valueOf(persistIdRef) + ", ";
-        _s = _s + "reserved1: " + String.valueOf(reserved1) + "(" + Integer.toHexString(reserved1).toUpperCase() + "), ";
-        _s = _s + "fNonOutLineData: " + String.valueOf(fNonOutLineData) + ", ";
-        _s = _s + "reserved2: " + String.valueOf(reserved2) + "(" + Integer.toHexString(reserved2).toUpperCase() + "), ";
-        _s = _s + "reserved3: " + String.valueOf(reserved3) + "(" + Integer.toHexString(reserved3).toUpperCase() + "), ";
-        _s = _s + "reserved4: " + String.valueOf(reserved4) + "(" + Integer.toHexString(reserved4).toUpperCase() + "), ";
-        _s = _s + "reserved5: " + String.valueOf(reserved5) + "(" + Integer.toHexString(reserved5).toUpperCase() + "), ";
-        _s = _s + "masterId: " + String.valueOf(masterId) + "(" + Integer.toHexString(masterId).toUpperCase() + "), ";
-        _s = _s + "reserved6: " + String.valueOf(reserved6) + "(" + Integer.toHexString(reserved6).toUpperCase() + "), ";
-        return _s;
-    }
-}
 class TextContainer {
     TextHeaderAtom textHeaderAtom;
     Object text;
@@ -16745,7 +16739,7 @@ class TextContainerMeta {
 }
 class SlidePersistAtom {
     RecordHeader rh;
-    PersistIdRef persistIdRef;
+    int persistIdRef;
     boolean reserved1;
     boolean fShouldCollapse;
     boolean fNonOutlineData;
@@ -16758,7 +16752,7 @@ class SlidePersistAtom {
     public String toString() {
         String _s = "SlidePersistAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "persistIdRef: " + String.valueOf(persistIdRef) + ", ";
+        _s = _s + "persistIdRef: " + String.valueOf(persistIdRef) + "(" + Integer.toHexString(persistIdRef).toUpperCase() + "), ";
         _s = _s + "reserved1: " + String.valueOf(reserved1) + ", ";
         _s = _s + "fShouldCollapse: " + String.valueOf(fShouldCollapse) + ", ";
         _s = _s + "fNonOutlineData: " + String.valueOf(fNonOutlineData) + ", ";
@@ -16992,8 +16986,8 @@ class DocumentAtom {
     PointStruct slideSize;
     PointStruct notesSize;
     RatioStruct serverZoom;
-    PersistIdRef notesMasterPersistIdRef;
-    PersistIdRef handoutMasterPersistIdRef;
+    int notesMasterPersistIdRef;
+    int handoutMasterPersistIdRef;
     int firstSlideNumber;
     int slideSizeType;
     byte fSaveWithFonts;
@@ -17006,8 +17000,8 @@ class DocumentAtom {
         _s = _s + "slideSize: " + String.valueOf(slideSize) + ", ";
         _s = _s + "notesSize: " + String.valueOf(notesSize) + ", ";
         _s = _s + "serverZoom: " + String.valueOf(serverZoom) + ", ";
-        _s = _s + "notesMasterPersistIdRef: " + String.valueOf(notesMasterPersistIdRef) + ", ";
-        _s = _s + "handoutMasterPersistIdRef: " + String.valueOf(handoutMasterPersistIdRef) + ", ";
+        _s = _s + "notesMasterPersistIdRef: " + String.valueOf(notesMasterPersistIdRef) + "(" + Integer.toHexString(notesMasterPersistIdRef).toUpperCase() + "), ";
+        _s = _s + "handoutMasterPersistIdRef: " + String.valueOf(handoutMasterPersistIdRef) + "(" + Integer.toHexString(handoutMasterPersistIdRef).toUpperCase() + "), ";
         _s = _s + "firstSlideNumber: " + String.valueOf(firstSlideNumber) + "(" + Integer.toHexString(firstSlideNumber).toUpperCase() + "), ";
         _s = _s + "slideSizeType: " + String.valueOf(slideSizeType) + "(" + Integer.toHexString(slideSizeType).toUpperCase() + "), ";
         _s = _s + "fSaveWithFonts: " + String.valueOf(fSaveWithFonts) + "(" + Integer.toHexString(fSaveWithFonts).toUpperCase() + "), ";

@@ -1295,7 +1295,7 @@
 			<limitation name="recType" value="0x3F3" />
 			<limitation name="recLen" value="0x14" />
 		</type>
-		<type name="persistIdRef" type="PersistIdRef" />
+		<uint32 name="persistIdRef" />
 		<uint2 name="reserved1">
 			<limitation value="0" />
 		</uint2>
@@ -1422,7 +1422,7 @@
 			<limitation name="recType" value="0x3F3" />
 			<limitation name="recLen" value="0x14" />
 		</type>
-		<type name="persistIdRef" type="PersistIdRef" />
+		<uint32 name="persistIdRef" />
 		<bit name="reserved1">
 			<limitation value="false" />
 		</bit>
@@ -2071,8 +2071,8 @@
 		<type name="serverZoom" type="RatioStruct">
 			<limitation expression="numer*denom &gt; 0" />
 		</type>
-		<type name="notesMasterPersistIdRef" type="PersistIdRef" />
-		<type name="handoutMasterPersistIdRef" type="PersistIdRef" />
+		<uint32 name="notesMasterPersistIdRef" />
+		<uint32 name="handoutMasterPersistIdRef" />
 		<uint16 name="firstSlideNumber">
 			<limitation expression="&lt;10000" />
 		</uint16>
@@ -2154,10 +2154,7 @@
 	<struct name="PersistDirectoryEntry">
 		<uint20 name="persistId" />
 		<uint12 name="cPersist" />
-		<type name="rgPersistOffset" type="PersistOffsetEntry" count="cPersist" />
-	</struct>
-	<struct name="PersistOffsetEntry">
-		<uint32 name="anon" />
+		<uint32 name="rgPersistOffset" count="cPersist" />
 	</struct>
 	<struct name="PersistIdRef">
 		<uint32 name="anon">
@@ -3058,12 +3055,23 @@
 			<limitation name="recVer" value="0x3" />
 			<limitation name="recType" value="0x0F00B" />
 		</type>
-		<!-- TODO: Add OfficeArtRGFOPTE somehow -->
 		<type name="fopt" type="OfficeArtFOPTEChoice" count="rh.recInstance" />
-		<!--
-			<type name="complexData" type="OfficeArtFOPTEComplexData"
-			count="rh.recInstance" />
-		-->
+		<uint8 name="complexData" count="rh.recLen-6*rh.recInstance" />
+	</struct>
+	<struct name="OfficeArtSecondaryFOPT">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="3" />
+			<limitation name="recType" value="0xF121" />
+		</type>
+		<type name="fopt" type="OfficeArtFOPTEChoice" count="rh.recInstance" />
+		<uint8 name="complexData" count="rh.recLen-6*rh.recInstance" />
+	</struct>
+	<struct name="OfficeArtTertiaryFOPT">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="3" />
+			<limitation name="recType" value="0xF122" />
+		</type>
+		<type name="fopt" type="OfficeArtFOPTEChoice" count="rh.recInstance" />
 		<uint8 name="complexData" count="rh.recLen-6*rh.recInstance" />
 	</struct>
 	<!-- This type is invented to make OPTE specific parsing possible -->
@@ -3590,21 +3598,6 @@
 		<uint30 name="spid" />
 		<bit name="reserved1" />
 		<bit name="fLast" />
-	</struct>
-	<struct name="OfficeArtSecondaryFOPT">
-		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="3" />
-			<limitation name="recType" value="0xF121" />
-		</type>
-		<uint8 name="todo" count="rh.recLen" />
-	</struct>
-	<struct name="OfficeArtTertiaryFOPT">
-		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="3" />
-			<limitation name="recType" value="0xF122" />
-		</type>
-		<type name="fopt" type="OfficeArtFOPTE" count="rh.recInstance" />
-		<uint8 name="complexData" count="rh.recLen-6*rh.recInstance" />
 	</struct>
 	<struct name="RectStruct">
 		<int32 name="top" />
