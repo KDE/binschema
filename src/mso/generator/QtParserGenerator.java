@@ -68,6 +68,7 @@ public class QtParserGenerator {
 		if (!config.enableIntrospection) {
 			out.println("class StreamOffset {");
 			out.println("public:");
+			out.println("    virtual ~StreamOffset() {}");
 			out.println("    quint32 streamOffset;");
 			out.println("};");
 		}
@@ -268,7 +269,7 @@ public class QtParserGenerator {
 					&& m.name.equals("todo")) {
 				break;
 			}
-			printStructureMemberParser(out, m);
+			printStructureMemberParser(out, s.name, m);
 			if (m.type.contains("RecordHeader")) {
 				// out.println("qDebug() << in.getPosition()<<\" \"<<\"" +
 				// s.name
@@ -316,7 +317,8 @@ public class QtParserGenerator {
 		return expression;
 	}
 
-	private void printStructureMemberParser(PrintWriter out, Member m) {
+	private void printStructureMemberParser(PrintWriter out, String structure,
+			Member m) {
 		String s = "    ";
 		String index = (m.count == null) ? "" : "[_i]";
 		if (m.condition != null) {
@@ -343,7 +345,7 @@ public class QtParserGenerator {
 			parse = "_s." + m.name + index + " = in.read" + m.type + "();";
 		}
 		if (m.choices != null) {
-			printChoiceParser(out, s, m);
+			printChoiceParser(out, s, structure, m);
 			return;
 		}
 		if (m.isArray && m.count == null) {
@@ -444,9 +446,9 @@ public class QtParserGenerator {
 					out.print("} else ");
 				}
 				first = false;
-				out.println("if (_s." + m.name + "." + t.toLowerCase() + ") {");
-				out.println(s + "    write(*_s." + m.name + "."
-						+ t.toLowerCase() + ", out);");
+				out.println("if (_s." + m.name + ".is<" + t + ">()) {");
+				out.println(s + "    write(*_s." + m.name + ".get<" + t
+						+ ">(), out);");
 			}
 			out.println(s + "}");
 		} else if (m.isArray) {
@@ -507,12 +509,21 @@ public class QtParserGenerator {
 	}
 
 	private String createChoiceClass(Member m) {
-		String choice = "class " + m.name + "Choice {\n";
-		choice += "    public:\n";
-		for (String c : m.choices.getChoiceNames()) {
-			choice += "        QSharedPointer<" + c + "> " + c.toLowerCase()
-					+ ";\n";
+		String base = "StreamOffset";
+		if (config.enableIntrospection) {
+			base = "Introspectable";
 		}
+		String choice = "class " + m.name + "Choice : public QSharedPointer<"
+				+ base + "> {\n";
+		choice += "    public:\n";
+		choice += "        " + m.name + "Choice() {}\n";
+		for (String c : m.choices.getChoiceNames()) {
+			choice += "        explicit " + m.name + "Choice(" + c
+					+ "* a) :QSharedPointer<" + base + ">(a) {}\n";
+		}
+		choice += "        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }\n";
+		choice += "        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }\n";
+		choice += "        template <typename T> bool is() const { return get<T>(); }\n";
 		choice += "    };\n";
 		choice += "    " + m.name + "Choice";
 		return choice;
@@ -566,11 +577,12 @@ public class QtParserGenerator {
 
 	private void styleTextPropAtomFix2(PrintWriter out) {
 		out
-				.println("    if ((_s.text.textcharsatom || _s.text.textbytesatom) && _s.style) {");
-		out.println("        quint32 count = (_s.text.textcharsatom)");
-		out.println("                ?_s.text.textcharsatom->textChars.size()");
+				.println("    if ((_s.text.is<TextCharsAtom>() || _s.text.is<TextBytesAtom>()) && _s.style) {");
+		out.println("        quint32 count = (_s.text.is<TextCharsAtom>())");
 		out
-				.println("                :_s.text.textbytesatom->textChars.size();");
+				.println("                ?_s.text.get<TextCharsAtom>()->textChars.size()");
+		out
+				.println("                :_s.text.get<TextBytesAtom>()->textChars.size();");
 		out.println("        quint32 sum = 0;");
 		out.println("        do {");
 		out
@@ -638,7 +650,7 @@ public class QtParserGenerator {
 			}
 			out.println(" {}");
 		} else {
-			out.println("    " + s.name + "(void* dummy = 0) {}");
+			out.println("    " + s.name + "(void* /*dummy*/ = 0) {}");
 		}
 
 		// function toString
@@ -725,13 +737,8 @@ public class QtParserGenerator {
 					out.println("return &(" + dm + ");");
 				}
 			} else {
-				out.println("        const Introspectable* k = 0;");
-				for (String c : m.choices.getChoiceNames()) {
-					out.println("        if (k == 0) k = static_cast<const "
-							+ s.name + "*>(i)->" + m.name + "."
-							+ c.toLowerCase() + ".data();");
-				}
-				out.println("        return k;");
+				out.println("        return static_cast<const " + s.name
+						+ "*>(i)->" + m.name + ".data();");
 			}
 			out.println("    }");
 		}
@@ -789,7 +796,8 @@ public class QtParserGenerator {
 						+ ", _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);");
 	}
 
-	private void printChoiceParser(PrintWriter out, String s, Member m) {
+	private void printChoiceParser(PrintWriter out, String s, String structure,
+			Member m) {
 		String closing = "";
 		String exception = "_x";
 		String choice;
@@ -799,26 +807,23 @@ public class QtParserGenerator {
 		for (int i = 0; i < length; ++i) {
 			choice = choices[i];
 			out.println(s + "try {");
-			out.println(s + "    _s." + m.name + "." + choice.toLowerCase()
-					+ " = QSharedPointer<" + choice + ">(" + "new " + choice
-					+ "(&_s));");
-			out.println(s + "    parse" + choice + "(in, *_s." + m.name + "."
-					+ choice.toLowerCase() + ".data());");
+			out.println(s + "    _s." + m.name + " = " + structure + "::"
+					+ m.name + "Choice(new " + choice + "(&_s));");
+			out.println(s + "    parse" + choice + "(in, *(" + choice + "*)_s."
+					+ m.name + ".data());");
 			out.println(s + "} catch (IncorrectValueException " + exception
 					+ ") {");
-			out.println(s + "    _s." + m.name + "." + choice.toLowerCase()
-					+ ".clear();");
+			out.println(s + "    _s." + m.name + ".clear();");
 			out.println(s + "    in.rewind(_m);");
 			exception = exception + "x";
 			closing = closing + "}";
 		}
 		if (!m.isOptional) {
 			choice = choices[choices.length - 1];
-			out.println(s + "    _s." + m.name + "." + choice.toLowerCase()
-					+ " = QSharedPointer<" + choice + ">(" + "new " + choice
-					+ "(&_s));");
-			out.println(s + "    parse" + choice + "(in, *_s." + m.name + "."
-					+ choice.toLowerCase() + ");");
+			out.println(s + "    _s." + m.name + " = " + structure + "::"
+					+ m.name + "Choice(new " + choice + "(&_s));");
+			out.println(s + "    parse" + choice + "(in, *(" + choice + "*)_s."
+					+ m.name + ".data());");
 		}
 		out.println(s + closing);
 	}

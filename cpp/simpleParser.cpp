@@ -1377,6 +1377,49 @@ void PPT::parseMasterListWithTextContainer(LEInputStream& in, MasterListWithText
         parseMasterPersistAtom(in, _s.rgMasterPersistAtom[_i]);
     }
 }
+void PPT::parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s) {
+    _s.streamOffset = in.getPosition();
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    }
+    if (!(_s.rh.recType == 0x3F3)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x3F3");
+    }
+    if (!(_s.rh.recLen == 0x14)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x14");
+    }
+    _s.persistIdRef = in.readuint32();
+    _s.reserved1 = in.readuint2();
+    if (!(((quint8)_s.reserved1) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved1) == 0");
+    }
+    _s.fNonOutLineData = in.readbit();
+    _s.reserved2 = in.readuint5();
+    if (!(((quint8)_s.reserved2) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2) == 0");
+    }
+    _s.reserved3 = in.readuint8();
+    if (!(((quint8)_s.reserved3) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved3) == 0");
+    }
+    _s.reserved4 = in.readuint16();
+    if (!(((quint16)_s.reserved4) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint16)_s.reserved4) == 0");
+    }
+    _s.reserved5 = in.readuint32();
+    if (!(((quint32)_s.reserved5) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved5) == 0");
+    }
+    _s.masterId = in.readuint32();
+    _s.reserved6 = in.readuint32();
+    if (!(((quint32)_s.reserved6) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved6) == 0");
+    }
+}
 void PPT::parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
@@ -2216,14 +2259,10 @@ void PPT::parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _
     _s.persistId = in.readuint20();
     _s.cPersist = in.readuint12();
     _c = _s.cPersist;
+    _s.rgPersistOffset.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.rgPersistOffset.append(PersistOffsetEntry(&_s));
-        parsePersistOffsetEntry(in, _s.rgPersistOffset[_i]);
+        _s.rgPersistOffset[_i] = in.readuint32();
     }
-}
-void PPT::parsePersistOffsetEntry(LEInputStream& in, PersistOffsetEntry& _s) {
-    _s.streamOffset = in.getPosition();
-    _s.anon = in.readuint32();
 }
 void PPT::parsePersistIdRef(LEInputStream& in, PersistIdRef& _s) {
     _s.streamOffset = in.getPosition();
@@ -3372,6 +3411,46 @@ void PPT::parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s) {
     _s.complexData.resize(_c);
     in.readBytes(_s.complexData);
 }
+void PPT::parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) {
+    _s.streamOffset = in.getPosition();
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 3)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 3");
+    }
+    if (!(_s.rh.recType == 0xF121)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF121");
+    }
+    _c = _s.rh.recInstance;
+    for (int _i=0; _i<_c; ++_i) {
+        _s.fopt.append(OfficeArtFOPTEChoice(&_s));
+        parseOfficeArtFOPTEChoice(in, _s.fopt[_i]);
+    }
+    _c = _s.rh.recLen-6*_s.rh.recInstance;
+    _s.complexData.resize(_c);
+    in.readBytes(_s.complexData);
+}
+void PPT::parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
+    _s.streamOffset = in.getPosition();
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 3)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 3");
+    }
+    if (!(_s.rh.recType == 0xF122)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF122");
+    }
+    _c = _s.rh.recInstance;
+    for (int _i=0; _i<_c; ++_i) {
+        _s.fopt.append(OfficeArtFOPTEChoice(&_s));
+        parseOfficeArtFOPTEChoice(in, _s.fopt[_i]);
+    }
+    _c = _s.rh.recLen-6*_s.rh.recInstance;
+    _s.complexData.resize(_c);
+    in.readBytes(_s.complexData);
+}
 void PPT::parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s) {
     _s.streamOffset = in.getPosition();
     int _c;
@@ -3437,41 +3516,6 @@ void PPT::parseOfficeArtFPSPL(LEInputStream& in, OfficeArtFPSPL& _s) {
     _s.spid = in.readuint30();
     _s.reserved1 = in.readbit();
     _s.fLast = in.readbit();
-}
-void PPT::parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) {
-    _s.streamOffset = in.getPosition();
-    int _c;
-    LEInputStream::Mark _m;
-    parseOfficeArtRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 3)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 3");
-    }
-    if (!(_s.rh.recType == 0xF121)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF121");
-    }
-    _c = _s.rh.recLen;
-    _s.todo.resize(_c);
-    in.readBytes(_s.todo);
-}
-void PPT::parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
-    _s.streamOffset = in.getPosition();
-    int _c;
-    LEInputStream::Mark _m;
-    parseOfficeArtRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 3)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 3");
-    }
-    if (!(_s.rh.recType == 0xF122)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF122");
-    }
-    _c = _s.rh.recInstance;
-    for (int _i=0; _i<_c; ++_i) {
-        _s.fopt.append(OfficeArtFOPTE(&_s));
-        parseOfficeArtFOPTE(in, _s.fopt[_i]);
-    }
-    _c = _s.rh.recLen-6*_s.rh.recInstance;
-    _s.complexData.resize(_c);
-    in.readBytes(_s.complexData);
 }
 void PPT::parseRectStruct(LEInputStream& in, RectStruct& _s) {
     _s.streamOffset = in.getPosition();
@@ -5063,49 +5107,6 @@ void PPT::parseNormalViewSetInfoAtom(LEInputStream& in, NormalViewSetInfoAtom& _
         throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved) == 0");
     }
 }
-void PPT::parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s) {
-    _s.streamOffset = in.getPosition();
-    parseRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
-    }
-    if (!(_s.rh.recInstance == 0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
-    }
-    if (!(_s.rh.recType == 0x3F3)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x3F3");
-    }
-    if (!(_s.rh.recLen == 0x14)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x14");
-    }
-    parsePersistIdRef(in, _s.persistIdRef);
-    _s.reserved1 = in.readuint2();
-    if (!(((quint8)_s.reserved1) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved1) == 0");
-    }
-    _s.fNonOutLineData = in.readbit();
-    _s.reserved2 = in.readuint5();
-    if (!(((quint8)_s.reserved2) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2) == 0");
-    }
-    _s.reserved3 = in.readuint8();
-    if (!(((quint8)_s.reserved3) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved3) == 0");
-    }
-    _s.reserved4 = in.readuint16();
-    if (!(((quint16)_s.reserved4) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint16)_s.reserved4) == 0");
-    }
-    _s.reserved5 = in.readuint32();
-    if (!(((quint32)_s.reserved5) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved5) == 0");
-    }
-    _s.masterId = in.readuint32();
-    _s.reserved6 = in.readuint32();
-    if (!(((quint32)_s.reserved6) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved6) == 0");
-    }
-}
 void PPT::parseTextContainer(LEInputStream& in, TextContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
@@ -5113,16 +5114,16 @@ void PPT::parseTextContainer(LEInputStream& in, TextContainer& _s) {
     parseTextHeaderAtom(in, _s.textHeaderAtom);
     _m = in.setMark();
     try {
-        _s.text.textcharsatom = QSharedPointer<TextCharsAtom>(new TextCharsAtom(&_s));
-        parseTextCharsAtom(in, *_s.text.textcharsatom.data());
+        _s.text = TextContainer::textChoice(new TextCharsAtom(&_s));
+        parseTextCharsAtom(in, *(TextCharsAtom*)_s.text.data());
     } catch (IncorrectValueException _x) {
-        _s.text.textcharsatom.clear();
+        _s.text.clear();
         in.rewind(_m);
     try {
-        _s.text.textbytesatom = QSharedPointer<TextBytesAtom>(new TextBytesAtom(&_s));
-        parseTextBytesAtom(in, *_s.text.textbytesatom.data());
+        _s.text = TextContainer::textChoice(new TextBytesAtom(&_s));
+        parseTextBytesAtom(in, *(TextBytesAtom*)_s.text.data());
     } catch (IncorrectValueException _xx) {
-        _s.text.textbytesatom.clear();
+        _s.text.clear();
         in.rewind(_m);
     }}
     _m = in.setMark();
@@ -5136,10 +5137,10 @@ void PPT::parseTextContainer(LEInputStream& in, TextContainer& _s) {
         _s.style.clear();
         in.rewind(_m);
     }
-    if ((_s.text.textcharsatom || _s.text.textbytesatom) && _s.style) {
-        quint32 count = (_s.text.textcharsatom)
-                ?_s.text.textcharsatom->textChars.size()
-                :_s.text.textbytesatom->textChars.size();
+    if ((_s.text.is<TextCharsAtom>() || _s.text.is<TextBytesAtom>()) && _s.style) {
+        quint32 count = (_s.text.is<TextCharsAtom>())
+                ?_s.text.get<TextCharsAtom>()->textChars.size()
+                :_s.text.get<TextBytesAtom>()->textChars.size();
         quint32 sum = 0;
         do {
             _s.style->rgTextPFRun.append(TextPFRun(_s.style.data()));
@@ -5229,37 +5230,37 @@ void PPT::parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.meta.slidenumbermcatom = QSharedPointer<SlideNumberMCAtom>(new SlideNumberMCAtom(&_s));
-        parseSlideNumberMCAtom(in, *_s.meta.slidenumbermcatom.data());
+        _s.meta = TextContainerMeta::metaChoice(new SlideNumberMCAtom(&_s));
+        parseSlideNumberMCAtom(in, *(SlideNumberMCAtom*)_s.meta.data());
     } catch (IncorrectValueException _x) {
-        _s.meta.slidenumbermcatom.clear();
+        _s.meta.clear();
         in.rewind(_m);
     try {
-        _s.meta.datetimemcatom = QSharedPointer<DateTimeMCAtom>(new DateTimeMCAtom(&_s));
-        parseDateTimeMCAtom(in, *_s.meta.datetimemcatom.data());
+        _s.meta = TextContainerMeta::metaChoice(new DateTimeMCAtom(&_s));
+        parseDateTimeMCAtom(in, *(DateTimeMCAtom*)_s.meta.data());
     } catch (IncorrectValueException _xx) {
-        _s.meta.datetimemcatom.clear();
+        _s.meta.clear();
         in.rewind(_m);
     try {
-        _s.meta.genericdatemcatom = QSharedPointer<GenericDateMCAtom>(new GenericDateMCAtom(&_s));
-        parseGenericDateMCAtom(in, *_s.meta.genericdatemcatom.data());
+        _s.meta = TextContainerMeta::metaChoice(new GenericDateMCAtom(&_s));
+        parseGenericDateMCAtom(in, *(GenericDateMCAtom*)_s.meta.data());
     } catch (IncorrectValueException _xxx) {
-        _s.meta.genericdatemcatom.clear();
+        _s.meta.clear();
         in.rewind(_m);
     try {
-        _s.meta.headermcatom = QSharedPointer<HeaderMCAtom>(new HeaderMCAtom(&_s));
-        parseHeaderMCAtom(in, *_s.meta.headermcatom.data());
+        _s.meta = TextContainerMeta::metaChoice(new HeaderMCAtom(&_s));
+        parseHeaderMCAtom(in, *(HeaderMCAtom*)_s.meta.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.meta.headermcatom.clear();
+        _s.meta.clear();
         in.rewind(_m);
     try {
-        _s.meta.footermcatom = QSharedPointer<FooterMCAtom>(new FooterMCAtom(&_s));
-        parseFooterMCAtom(in, *_s.meta.footermcatom.data());
+        _s.meta = TextContainerMeta::metaChoice(new FooterMCAtom(&_s));
+        parseFooterMCAtom(in, *(FooterMCAtom*)_s.meta.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.meta.footermcatom.clear();
+        _s.meta.clear();
         in.rewind(_m);
-        _s.meta.rtfdatetimemcatom = QSharedPointer<RTFDateTimeMCAtom>(new RTFDateTimeMCAtom(&_s));
-        parseRTFDateTimeMCAtom(in, *_s.meta.rtfdatetimemcatom);
+        _s.meta = TextContainerMeta::metaChoice(new RTFDateTimeMCAtom(&_s));
+        parseRTFDateTimeMCAtom(in, *(RTFDateTimeMCAtom*)_s.meta.data());
     }}}}}
 }
 void PPT::parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s) {
@@ -5277,7 +5278,7 @@ void PPT::parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s) {
     if (!(_s.rh.recLen == 0x14)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x14");
     }
-    parsePersistIdRef(in, _s.persistIdRef);
+    _s.persistIdRef = in.readuint32();
     _s.reserved1 = in.readbit();
     if (!(((bool)_s.reserved1) == false)) {
         throw IncorrectValueException(in.getPosition(), "((bool)_s.reserved1) == false");
@@ -5671,8 +5672,8 @@ void PPT::parseDocumentAtom(LEInputStream& in, DocumentAtom& _s) {
     if (!(_s.serverZoom.numer*_s.serverZoom.denom > 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.serverZoom.numer*_s.serverZoom.denom > 0");
     }
-    parsePersistIdRef(in, _s.notesMasterPersistIdRef);
-    parsePersistIdRef(in, _s.handoutMasterPersistIdRef);
+    _s.notesMasterPersistIdRef = in.readuint32();
+    _s.handoutMasterPersistIdRef = in.readuint32();
     _s.firstSlideNumber = in.readuint16();
     if (!(((quint16)_s.firstSlideNumber)<10000)) {
         throw IncorrectValueException(in.getPosition(), "((quint16)_s.firstSlideNumber)<10000");
@@ -5952,19 +5953,19 @@ void PPT::parseOfficeArtSolverContainerFileBlock(LEInputStream& in, OfficeArtSol
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.officeartfconnectorrule = QSharedPointer<OfficeArtFConnectorRule>(new OfficeArtFConnectorRule(&_s));
-        parseOfficeArtFConnectorRule(in, *_s.anon.officeartfconnectorrule.data());
+        _s.anon = OfficeArtSolverContainerFileBlock::anonChoice(new OfficeArtFConnectorRule(&_s));
+        parseOfficeArtFConnectorRule(in, *(OfficeArtFConnectorRule*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.officeartfconnectorrule.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartfarcrule = QSharedPointer<OfficeArtFArcRule>(new OfficeArtFArcRule(&_s));
-        parseOfficeArtFArcRule(in, *_s.anon.officeartfarcrule.data());
+        _s.anon = OfficeArtSolverContainerFileBlock::anonChoice(new OfficeArtFArcRule(&_s));
+        parseOfficeArtFArcRule(in, *(OfficeArtFArcRule*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.officeartfarcrule.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.officeartfcalloutrule = QSharedPointer<OfficeArtFCalloutRule>(new OfficeArtFCalloutRule(&_s));
-        parseOfficeArtFCalloutRule(in, *_s.anon.officeartfcalloutrule);
+        _s.anon = OfficeArtSolverContainerFileBlock::anonChoice(new OfficeArtFCalloutRule(&_s));
+        parseOfficeArtFCalloutRule(in, *(OfficeArtFCalloutRule*)_s.anon.data());
     }}
 }
 void PPT::parseProtectionBooleanProperties(LEInputStream& in, ProtectionBooleanProperties& _s) {
@@ -6776,13 +6777,13 @@ void PPT::parsePrm(LEInputStream& in, Prm& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.prm.prm0 = QSharedPointer<Prm0>(new Prm0(&_s));
-        parsePrm0(in, *_s.prm.prm0.data());
+        _s.prm = Prm::prmChoice(new Prm0(&_s));
+        parsePrm0(in, *(Prm0*)_s.prm.data());
     } catch (IncorrectValueException _x) {
-        _s.prm.prm0.clear();
+        _s.prm.clear();
         in.rewind(_m);
-        _s.prm.prm1 = QSharedPointer<Prm1>(new Prm1(&_s));
-        parsePrm1(in, *_s.prm.prm1);
+        _s.prm = Prm::prmChoice(new Prm1(&_s));
+        parsePrm1(in, *(Prm1*)_s.prm.data());
     }
 }
 void PPT::parseOfficeArtBlipEMF(LEInputStream& in, OfficeArtBlipEMF& _s) {
@@ -6874,43 +6875,43 @@ void PPT::parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.officeartblipemf = QSharedPointer<OfficeArtBlipEMF>(new OfficeArtBlipEMF(&_s));
-        parseOfficeArtBlipEMF(in, *_s.anon.officeartblipemf.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipEMF(&_s));
+        parseOfficeArtBlipEMF(in, *(OfficeArtBlipEMF*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.officeartblipemf.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartblipwmf = QSharedPointer<OfficeArtBlipWMF>(new OfficeArtBlipWMF(&_s));
-        parseOfficeArtBlipWMF(in, *_s.anon.officeartblipwmf.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipWMF(&_s));
+        parseOfficeArtBlipWMF(in, *(OfficeArtBlipWMF*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.officeartblipwmf.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartblippict = QSharedPointer<OfficeArtBlipPICT>(new OfficeArtBlipPICT(&_s));
-        parseOfficeArtBlipPICT(in, *_s.anon.officeartblippict.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipPICT(&_s));
+        parseOfficeArtBlipPICT(in, *(OfficeArtBlipPICT*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.officeartblippict.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartblipjpeg = QSharedPointer<OfficeArtBlipJPEG>(new OfficeArtBlipJPEG(&_s));
-        parseOfficeArtBlipJPEG(in, *_s.anon.officeartblipjpeg.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipJPEG(&_s));
+        parseOfficeArtBlipJPEG(in, *(OfficeArtBlipJPEG*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.officeartblipjpeg.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartblippng = QSharedPointer<OfficeArtBlipPNG>(new OfficeArtBlipPNG(&_s));
-        parseOfficeArtBlipPNG(in, *_s.anon.officeartblippng.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipPNG(&_s));
+        parseOfficeArtBlipPNG(in, *(OfficeArtBlipPNG*)_s.anon.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.anon.officeartblippng.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartblipdib = QSharedPointer<OfficeArtBlipDIB>(new OfficeArtBlipDIB(&_s));
-        parseOfficeArtBlipDIB(in, *_s.anon.officeartblipdib.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipDIB(&_s));
+        parseOfficeArtBlipDIB(in, *(OfficeArtBlipDIB*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxx) {
-        _s.anon.officeartblipdib.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.officeartbliptiff = QSharedPointer<OfficeArtBlipTIFF>(new OfficeArtBlipTIFF(&_s));
-        parseOfficeArtBlipTIFF(in, *_s.anon.officeartbliptiff);
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipTIFF(&_s));
+        parseOfficeArtBlipTIFF(in, *(OfficeArtBlipTIFF*)_s.anon.data());
     }}}}}}
 }
 void PPT::parseZoomViewInfoAtom(LEInputStream& in, ZoomViewInfoAtom& _s) {
@@ -7238,13 +7239,13 @@ void PPT::parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInte
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.interactive.mouseinteractiveinfocontainer = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
-        parseMouseInteractiveInfoContainer(in, *_s.interactive.mouseinteractiveinfocontainer.data());
+        _s.interactive = TextContainerInteractiveInfo::interactiveChoice(new MouseInteractiveInfoContainer(&_s));
+        parseMouseInteractiveInfoContainer(in, *(MouseInteractiveInfoContainer*)_s.interactive.data());
     } catch (IncorrectValueException _x) {
-        _s.interactive.mouseinteractiveinfocontainer.clear();
+        _s.interactive.clear();
         in.rewind(_m);
-        _s.interactive.mousetextinteractiveinfoatom = QSharedPointer<MouseTextInteractiveInfoAtom>(new MouseTextInteractiveInfoAtom(&_s));
-        parseMouseTextInteractiveInfoAtom(in, *_s.interactive.mousetextinteractiveinfoatom);
+        _s.interactive = TextContainerInteractiveInfo::interactiveChoice(new MouseTextInteractiveInfoAtom(&_s));
+        parseMouseTextInteractiveInfoAtom(in, *(MouseTextInteractiveInfoAtom*)_s.interactive.data());
     }
 }
 void PPT::parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s) {
@@ -7252,19 +7253,19 @@ void PPT::parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDat
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.outlinetextrefatom = QSharedPointer<OutlineTextRefAtom>(new OutlineTextRefAtom(&_s));
-        parseOutlineTextRefAtom(in, *_s.anon.outlinetextrefatom.data());
+        _s.anon = TextClientDataSubContainerOrAtom::anonChoice(new OutlineTextRefAtom(&_s));
+        parseOutlineTextRefAtom(in, *(OutlineTextRefAtom*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.outlinetextrefatom.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.textcontainer = QSharedPointer<TextContainer>(new TextContainer(&_s));
-        parseTextContainer(in, *_s.anon.textcontainer.data());
+        _s.anon = TextClientDataSubContainerOrAtom::anonChoice(new TextContainer(&_s));
+        parseTextContainer(in, *(TextContainer*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.textcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.textruleratom = QSharedPointer<TextRulerAtom>(new TextRulerAtom(&_s));
-        parseTextRulerAtom(in, *_s.anon.textruleratom);
+        _s.anon = TextClientDataSubContainerOrAtom::anonChoice(new TextRulerAtom(&_s));
+        parseTextRulerAtom(in, *(TextRulerAtom*)_s.anon.data());
     }}
 }
 void PPT::parseTextPFRun(LEInputStream& in, TextPFRun& _s) {
@@ -7474,13 +7475,13 @@ void PPT::parseSlideProgTagsSubContainerOrAtom(LEInputStream& in, SlideProgTagsS
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.progstringtagcontainer = QSharedPointer<ProgStringTagContainer>(new ProgStringTagContainer(&_s));
-        parseProgStringTagContainer(in, *_s.anon.progstringtagcontainer.data());
+        _s.anon = SlideProgTagsSubContainerOrAtom::anonChoice(new ProgStringTagContainer(&_s));
+        parseProgStringTagContainer(in, *(ProgStringTagContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.progstringtagcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.slideprogbinarytagcontainer = QSharedPointer<SlideProgBinaryTagContainer>(new SlideProgBinaryTagContainer(&_s));
-        parseSlideProgBinaryTagContainer(in, *_s.anon.slideprogbinarytagcontainer);
+        _s.anon = SlideProgTagsSubContainerOrAtom::anonChoice(new SlideProgBinaryTagContainer(&_s));
+        parseSlideProgBinaryTagContainer(in, *(SlideProgBinaryTagContainer*)_s.anon.data());
     }
 }
 void PPT::parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _s) {
@@ -7488,67 +7489,67 @@ void PPT::parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.exavimoviecontainer = QSharedPointer<ExAviMovieContainer>(new ExAviMovieContainer(&_s));
-        parseExAviMovieContainer(in, *_s.anon.exavimoviecontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExAviMovieContainer(&_s));
+        parseExAviMovieContainer(in, *(ExAviMovieContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.exavimoviecontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.excdaudiocontainer = QSharedPointer<ExCDAudioContainer>(new ExCDAudioContainer(&_s));
-        parseExCDAudioContainer(in, *_s.anon.excdaudiocontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExCDAudioContainer(&_s));
+        parseExCDAudioContainer(in, *(ExCDAudioContainer*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.excdaudiocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.excontrolcontainer = QSharedPointer<ExControlContainer>(new ExControlContainer(&_s));
-        parseExControlContainer(in, *_s.anon.excontrolcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExControlContainer(&_s));
+        parseExControlContainer(in, *(ExControlContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.excontrolcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exhyperlinkcontainer = QSharedPointer<ExHyperlinkContainer>(new ExHyperlinkContainer(&_s));
-        parseExHyperlinkContainer(in, *_s.anon.exhyperlinkcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExHyperlinkContainer(&_s));
+        parseExHyperlinkContainer(in, *(ExHyperlinkContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.exhyperlinkcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exmcimoviecontainer = QSharedPointer<ExMCIMovieContainer>(new ExMCIMovieContainer(&_s));
-        parseExMCIMovieContainer(in, *_s.anon.exmcimoviecontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExMCIMovieContainer(&_s));
+        parseExMCIMovieContainer(in, *(ExMCIMovieContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.anon.exmcimoviecontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exmidiaudiocontainer = QSharedPointer<ExMIDIAudioContainer>(new ExMIDIAudioContainer(&_s));
-        parseExMIDIAudioContainer(in, *_s.anon.exmidiaudiocontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExMIDIAudioContainer(&_s));
+        parseExMIDIAudioContainer(in, *(ExMIDIAudioContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxx) {
-        _s.anon.exmidiaudiocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exoleembedcontainer = QSharedPointer<ExOleEmbedContainer>(new ExOleEmbedContainer(&_s));
-        parseExOleEmbedContainer(in, *_s.anon.exoleembedcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExOleEmbedContainer(&_s));
+        parseExOleEmbedContainer(in, *(ExOleEmbedContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxx) {
-        _s.anon.exoleembedcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exolelinkcontainer = QSharedPointer<ExOleLinkContainer>(new ExOleLinkContainer(&_s));
-        parseExOleLinkContainer(in, *_s.anon.exolelinkcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExOleLinkContainer(&_s));
+        parseExOleLinkContainer(in, *(ExOleLinkContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxx) {
-        _s.anon.exolelinkcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exwavaudioembeddedcontainer = QSharedPointer<ExWAVAudioEmbeddedContainer>(new ExWAVAudioEmbeddedContainer(&_s));
-        parseExWAVAudioEmbeddedContainer(in, *_s.anon.exwavaudioembeddedcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExWAVAudioEmbeddedContainer(&_s));
+        parseExWAVAudioEmbeddedContainer(in, *(ExWAVAudioEmbeddedContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxx) {
-        _s.anon.exwavaudioembeddedcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exwavaudiolinkcontainer = QSharedPointer<ExWAVAudioLinkContainer>(new ExWAVAudioLinkContainer(&_s));
-        parseExWAVAudioLinkContainer(in, *_s.anon.exwavaudiolinkcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExWAVAudioLinkContainer(&_s));
+        parseExWAVAudioLinkContainer(in, *(ExWAVAudioLinkContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxx) {
-        _s.anon.exwavaudiolinkcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.unknownexobjlistsubcontainerchild = QSharedPointer<UnknownExObjListSubContainerChild>(new UnknownExObjListSubContainerChild(&_s));
-        parseUnknownExObjListSubContainerChild(in, *_s.anon.unknownexobjlistsubcontainerchild);
+        _s.anon = ExObjListSubContainer::anonChoice(new UnknownExObjListSubContainerChild(&_s));
+        parseUnknownExObjListSubContainerChild(in, *(UnknownExObjListSubContainerChild*)_s.anon.data());
     }}}}}}}}}}
 }
 void PPT::parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s) {
@@ -7617,229 +7618,229 @@ void PPT::parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s)
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.protectionbooleanproperties = QSharedPointer<ProtectionBooleanProperties>(new ProtectionBooleanProperties(&_s));
-        parseProtectionBooleanProperties(in, *_s.anon.protectionbooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ProtectionBooleanProperties(&_s));
+        parseProtectionBooleanProperties(in, *(ProtectionBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.protectionbooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.adjust2value = QSharedPointer<adjust2Value>(new adjust2Value(&_s));
-        parseadjust2Value(in, *_s.anon.adjust2value.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new adjust2Value(&_s));
+        parseadjust2Value(in, *(adjust2Value*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.adjust2value.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.adjust3value = QSharedPointer<adjust3Value>(new adjust3Value(&_s));
-        parseadjust3Value(in, *_s.anon.adjust3value.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new adjust3Value(&_s));
+        parseadjust3Value(in, *(adjust3Value*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.adjust3value.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.itxid = QSharedPointer<ITxid>(new ITxid(&_s));
-        parseITxid(in, *_s.anon.itxid.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ITxid(&_s));
+        parseITxid(in, *(ITxid*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.itxid.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.dxtextleft = QSharedPointer<DxTextLeft>(new DxTextLeft(&_s));
-        parseDxTextLeft(in, *_s.anon.dxtextleft.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new DxTextLeft(&_s));
+        parseDxTextLeft(in, *(DxTextLeft*)_s.anon.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.anon.dxtextleft.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.dytexttop = QSharedPointer<DyTextTop>(new DyTextTop(&_s));
-        parseDyTextTop(in, *_s.anon.dytexttop.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new DyTextTop(&_s));
+        parseDyTextTop(in, *(DyTextTop*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxx) {
-        _s.anon.dytexttop.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.dxtextright = QSharedPointer<DxTextRight>(new DxTextRight(&_s));
-        parseDxTextRight(in, *_s.anon.dxtextright.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new DxTextRight(&_s));
+        parseDxTextRight(in, *(DxTextRight*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxx) {
-        _s.anon.dxtextright.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.dytextbottom = QSharedPointer<DyTextBottom>(new DyTextBottom(&_s));
-        parseDyTextBottom(in, *_s.anon.dytextbottom.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new DyTextBottom(&_s));
+        parseDyTextBottom(in, *(DyTextBottom*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxx) {
-        _s.anon.dytextbottom.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.wraptext = QSharedPointer<WrapText>(new WrapText(&_s));
-        parseWrapText(in, *_s.anon.wraptext.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new WrapText(&_s));
+        parseWrapText(in, *(WrapText*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxx) {
-        _s.anon.wraptext.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.anchortext = QSharedPointer<AnchorText>(new AnchorText(&_s));
-        parseAnchorText(in, *_s.anon.anchortext.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new AnchorText(&_s));
+        parseAnchorText(in, *(AnchorText*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxx) {
-        _s.anon.anchortext.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.textbooleanproperties = QSharedPointer<TextBooleanProperties>(new TextBooleanProperties(&_s));
-        parseTextBooleanProperties(in, *_s.anon.textbooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new TextBooleanProperties(&_s));
+        parseTextBooleanProperties(in, *(TextBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxx) {
-        _s.anon.textbooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.hspnext = QSharedPointer<HspNext>(new HspNext(&_s));
-        parseHspNext(in, *_s.anon.hspnext.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new HspNext(&_s));
+        parseHspNext(in, *(HspNext*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxx) {
-        _s.anon.hspnext.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.shapepath = QSharedPointer<ShapePath>(new ShapePath(&_s));
-        parseShapePath(in, *_s.anon.shapepath.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShapePath(&_s));
+        parseShapePath(in, *(ShapePath*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxx) {
-        _s.anon.shapepath.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.geometrybooleanproperties = QSharedPointer<GeometryBooleanProperties>(new GeometryBooleanProperties(&_s));
-        parseGeometryBooleanProperties(in, *_s.anon.geometrybooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new GeometryBooleanProperties(&_s));
+        parseGeometryBooleanProperties(in, *(GeometryBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
-        _s.anon.geometrybooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.filltype = QSharedPointer<FillType>(new FillType(&_s));
-        parseFillType(in, *_s.anon.filltype.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillType(&_s));
+        parseFillType(in, *(FillType*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxx) {
-        _s.anon.filltype.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillcolor = QSharedPointer<FillColor>(new FillColor(&_s));
-        parseFillColor(in, *_s.anon.fillcolor.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillColor(&_s));
+        parseFillColor(in, *(FillColor*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxx) {
-        _s.anon.fillcolor.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillbackcolor = QSharedPointer<FillBackColor>(new FillBackColor(&_s));
-        parseFillBackColor(in, *_s.anon.fillbackcolor.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillBackColor(&_s));
+        parseFillBackColor(in, *(FillBackColor*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxx) {
-        _s.anon.fillbackcolor.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillblip = QSharedPointer<FillBlip>(new FillBlip(&_s));
-        parseFillBlip(in, *_s.anon.fillblip.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillBlip(&_s));
+        parseFillBlip(in, *(FillBlip*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxx) {
-        _s.anon.fillblip.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillstylebooleanproperties = QSharedPointer<FillStyleBooleanProperties>(new FillStyleBooleanProperties(&_s));
-        parseFillStyleBooleanProperties(in, *_s.anon.fillstylebooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillStyleBooleanProperties(&_s));
+        parseFillStyleBooleanProperties(in, *(FillStyleBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxx) {
-        _s.anon.fillstylebooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linecolor = QSharedPointer<LineColor>(new LineColor(&_s));
-        parseLineColor(in, *_s.anon.linecolor.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineColor(&_s));
+        parseLineColor(in, *(LineColor*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linecolor.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linebackcolor = QSharedPointer<LineBackColor>(new LineBackColor(&_s));
-        parseLineBackColor(in, *_s.anon.linebackcolor.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineBackColor(&_s));
+        parseLineBackColor(in, *(LineBackColor*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linebackcolor.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linefillblip = QSharedPointer<LineFillBlip>(new LineFillBlip(&_s));
-        parseLineFillBlip(in, *_s.anon.linefillblip.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineFillBlip(&_s));
+        parseLineFillBlip(in, *(LineFillBlip*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linefillblip.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linewidth = QSharedPointer<LineWidth>(new LineWidth(&_s));
-        parseLineWidth(in, *_s.anon.linewidth.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineWidth(&_s));
+        parseLineWidth(in, *(LineWidth*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linewidth.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillrectright = QSharedPointer<FillRectRight>(new FillRectRight(&_s));
-        parseFillRectRight(in, *_s.anon.fillrectright.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillRectRight(&_s));
+        parseFillRectRight(in, *(FillRectRight*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.fillrectright.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillrectbottom = QSharedPointer<FillRectBottom>(new FillRectBottom(&_s));
-        parseFillRectBottom(in, *_s.anon.fillrectbottom.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillRectBottom(&_s));
+        parseFillRectBottom(in, *(FillRectBottom*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.fillrectbottom.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.wzfillid = QSharedPointer<WzFillId>(new WzFillId(&_s));
-        parseWzFillId(in, *_s.anon.wzfillid.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new WzFillId(&_s));
+        parseWzFillId(in, *(WzFillId*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.wzfillid.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linestylebooleanproperties = QSharedPointer<LineStyleBooleanProperties>(new LineStyleBooleanProperties(&_s));
-        parseLineStyleBooleanProperties(in, *_s.anon.linestylebooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineStyleBooleanProperties(&_s));
+        parseLineStyleBooleanProperties(in, *(LineStyleBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linestylebooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linestartarrowhead = QSharedPointer<LineStartArrowhead>(new LineStartArrowhead(&_s));
-        parseLineStartArrowhead(in, *_s.anon.linestartarrowhead.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineStartArrowhead(&_s));
+        parseLineStartArrowhead(in, *(LineStartArrowhead*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linestartarrowhead.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.lineendarrowhead = QSharedPointer<LineEndArrowhead>(new LineEndArrowhead(&_s));
-        parseLineEndArrowhead(in, *_s.anon.lineendarrowhead.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineEndArrowhead(&_s));
+        parseLineEndArrowhead(in, *(LineEndArrowhead*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.lineendarrowhead.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linejoinstyle = QSharedPointer<LineJoinStyle>(new LineJoinStyle(&_s));
-        parseLineJoinStyle(in, *_s.anon.linejoinstyle.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineJoinStyle(&_s));
+        parseLineJoinStyle(in, *(LineJoinStyle*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linejoinstyle.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.shadowcolor = QSharedPointer<ShadowColor>(new ShadowColor(&_s));
-        parseShadowColor(in, *_s.anon.shadowcolor.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShadowColor(&_s));
+        parseShadowColor(in, *(ShadowColor*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.shadowcolor.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.shadowstylebooleanpropertiesr = QSharedPointer<ShadowStyleBooleanPropertiesr>(new ShadowStyleBooleanPropertiesr(&_s));
-        parseShadowStyleBooleanPropertiesr(in, *_s.anon.shadowstylebooleanpropertiesr.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShadowStyleBooleanPropertiesr(&_s));
+        parseShadowStyleBooleanPropertiesr(in, *(ShadowStyleBooleanPropertiesr*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.shadowstylebooleanpropertiesr.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.shapebooleanproperties = QSharedPointer<ShapeBooleanProperties>(new ShapeBooleanProperties(&_s));
-        parseShapeBooleanProperties(in, *_s.anon.shapebooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShapeBooleanProperties(&_s));
+        parseShapeBooleanProperties(in, *(ShapeBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.shapebooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.hspmaster = QSharedPointer<HspMaster>(new HspMaster(&_s));
-        parseHspMaster(in, *_s.anon.hspmaster.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new HspMaster(&_s));
+        parseHspMaster(in, *(HspMaster*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.hspmaster.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.rotation = QSharedPointer<Rotation>(new Rotation(&_s));
-        parseRotation(in, *_s.anon.rotation.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new Rotation(&_s));
+        parseRotation(in, *(Rotation*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.rotation.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.lidregroup = QSharedPointer<LidRegroup>(new LidRegroup(&_s));
-        parseLidRegroup(in, *_s.anon.lidregroup.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LidRegroup(&_s));
+        parseLidRegroup(in, *(LidRegroup*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.lidregroup.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.bwmode = QSharedPointer<BWMode>(new BWMode(&_s));
-        parseBWMode(in, *_s.anon.bwmode.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new BWMode(&_s));
+        parseBWMode(in, *(BWMode*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.bwmode.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.officeartfopte = QSharedPointer<OfficeArtFOPTE>(new OfficeArtFOPTE(&_s));
-        parseOfficeArtFOPTE(in, *_s.anon.officeartfopte);
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new OfficeArtFOPTE(&_s));
+        parseOfficeArtFOPTE(in, *(OfficeArtFOPTE*)_s.anon.data());
     }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 }
 void PPT::parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
@@ -8048,13 +8049,13 @@ void PPT::parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBSt
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.officeartfbse = QSharedPointer<OfficeArtFBSE>(new OfficeArtFBSE(&_s));
-        parseOfficeArtFBSE(in, *_s.anon.officeartfbse.data());
+        _s.anon = OfficeArtBStoreContainerFileBlock::anonChoice(new OfficeArtFBSE(&_s));
+        parseOfficeArtFBSE(in, *(OfficeArtFBSE*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.officeartfbse.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.officeartblip = QSharedPointer<OfficeArtBlip>(new OfficeArtBlip(&_s));
-        parseOfficeArtBlip(in, *_s.anon.officeartblip);
+        _s.anon = OfficeArtBStoreContainerFileBlock::anonChoice(new OfficeArtBlip(&_s));
+        parseOfficeArtBlip(in, *(OfficeArtBlip*)_s.anon.data());
     }
 }
 void PPT::parseSlideViewInfoInstance(LEInputStream& in, SlideViewInfoInstance& _s) {
@@ -8705,43 +8706,43 @@ void PPT::parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubCo
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.docprogtagscontainer = QSharedPointer<DocProgTagsContainer>(new DocProgTagsContainer(&_s));
-        parseDocProgTagsContainer(in, *_s.anon.docprogtagscontainer.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new DocProgTagsContainer(&_s));
+        parseDocProgTagsContainer(in, *(DocProgTagsContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.docprogtagscontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.normalviewsetinfocontainer = QSharedPointer<NormalViewSetInfoContainer>(new NormalViewSetInfoContainer(&_s));
-        parseNormalViewSetInfoContainer(in, *_s.anon.normalviewsetinfocontainer.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new NormalViewSetInfoContainer(&_s));
+        parseNormalViewSetInfoContainer(in, *(NormalViewSetInfoContainer*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.normalviewsetinfocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.notestextviewinfocontainer = QSharedPointer<NotesTextViewInfoContainer>(new NotesTextViewInfoContainer(&_s));
-        parseNotesTextViewInfoContainer(in, *_s.anon.notestextviewinfocontainer.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new NotesTextViewInfoContainer(&_s));
+        parseNotesTextViewInfoContainer(in, *(NotesTextViewInfoContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.notestextviewinfocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.outlineviewinfocontainer = QSharedPointer<OutlineViewInfoContainer>(new OutlineViewInfoContainer(&_s));
-        parseOutlineViewInfoContainer(in, *_s.anon.outlineviewinfocontainer.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new OutlineViewInfoContainer(&_s));
+        parseOutlineViewInfoContainer(in, *(OutlineViewInfoContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.outlineviewinfocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.slideviewinfoinstance = QSharedPointer<SlideViewInfoInstance>(new SlideViewInfoInstance(&_s));
-        parseSlideViewInfoInstance(in, *_s.anon.slideviewinfoinstance.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new SlideViewInfoInstance(&_s));
+        parseSlideViewInfoInstance(in, *(SlideViewInfoInstance*)_s.anon.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.anon.slideviewinfoinstance.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.sorterviewinfocontainer = QSharedPointer<SorterViewInfoContainer>(new SorterViewInfoContainer(&_s));
-        parseSorterViewInfoContainer(in, *_s.anon.sorterviewinfocontainer.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new SorterViewInfoContainer(&_s));
+        parseSorterViewInfoContainer(in, *(SorterViewInfoContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxx) {
-        _s.anon.sorterviewinfocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.vbainfocontainer = QSharedPointer<VBAInfoContainer>(new VBAInfoContainer(&_s));
-        parseVBAInfoContainer(in, *_s.anon.vbainfocontainer);
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new VBAInfoContainer(&_s));
+        parseVBAInfoContainer(in, *(VBAInfoContainer*)_s.anon.data());
     }}}}}}
 }
 void PPT::parsePP9DocBinaryTagExtension(LEInputStream& in, PP9DocBinaryTagExtension& _s) {
@@ -8893,13 +8894,13 @@ void PPT::parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrC
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.officeartspcontainer = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(&_s));
-        parseOfficeArtSpContainer(in, *_s.anon.officeartspcontainer.data());
+        _s.anon = OfficeArtSpgrContainerFileBlock::anonChoice(new OfficeArtSpContainer(&_s));
+        parseOfficeArtSpContainer(in, *(OfficeArtSpContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.officeartspcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.officeartspgrcontainer = QSharedPointer<OfficeArtSpgrContainer>(new OfficeArtSpgrContainer(&_s));
-        parseOfficeArtSpgrContainer(in, *_s.anon.officeartspgrcontainer);
+        _s.anon = OfficeArtSpgrContainerFileBlock::anonChoice(new OfficeArtSpgrContainer(&_s));
+        parseOfficeArtSpgrContainer(in, *(OfficeArtSpgrContainer*)_s.anon.data());
     }
 }
 void PPT::parseDocProgBinaryTagSubContainerOrAtom(LEInputStream& in, DocProgBinaryTagSubContainerOrAtom& _s) {
@@ -8907,31 +8908,31 @@ void PPT::parseDocProgBinaryTagSubContainerOrAtom(LEInputStream& in, DocProgBina
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.pp9docbinarytagextension = QSharedPointer<PP9DocBinaryTagExtension>(new PP9DocBinaryTagExtension(&_s));
-        parsePP9DocBinaryTagExtension(in, *_s.anon.pp9docbinarytagextension.data());
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::anonChoice(new PP9DocBinaryTagExtension(&_s));
+        parsePP9DocBinaryTagExtension(in, *(PP9DocBinaryTagExtension*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.pp9docbinarytagextension.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.pp10docbinarytagextension = QSharedPointer<PP10DocBinaryTagExtension>(new PP10DocBinaryTagExtension(&_s));
-        parsePP10DocBinaryTagExtension(in, *_s.anon.pp10docbinarytagextension.data());
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::anonChoice(new PP10DocBinaryTagExtension(&_s));
+        parsePP10DocBinaryTagExtension(in, *(PP10DocBinaryTagExtension*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.pp10docbinarytagextension.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.pp11docbinarytagextension = QSharedPointer<PP11DocBinaryTagExtension>(new PP11DocBinaryTagExtension(&_s));
-        parsePP11DocBinaryTagExtension(in, *_s.anon.pp11docbinarytagextension.data());
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::anonChoice(new PP11DocBinaryTagExtension(&_s));
+        parsePP11DocBinaryTagExtension(in, *(PP11DocBinaryTagExtension*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.pp11docbinarytagextension.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.pp12docbinarytagextension = QSharedPointer<PP12DocBinaryTagExtension>(new PP12DocBinaryTagExtension(&_s));
-        parsePP12DocBinaryTagExtension(in, *_s.anon.pp12docbinarytagextension.data());
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::anonChoice(new PP12DocBinaryTagExtension(&_s));
+        parsePP12DocBinaryTagExtension(in, *(PP12DocBinaryTagExtension*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.pp12docbinarytagextension.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.unknownbinarytag = QSharedPointer<UnknownBinaryTag>(new UnknownBinaryTag(&_s));
-        parseUnknownBinaryTag(in, *_s.anon.unknownbinarytag);
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::anonChoice(new UnknownBinaryTag(&_s));
+        parseUnknownBinaryTag(in, *(UnknownBinaryTag*)_s.anon.data());
     }}}}
 }
 void PPT::parseDrawingContainer(LEInputStream& in, DrawingContainer& _s) {
@@ -9299,13 +9300,13 @@ void PPT::parseDocProgTagsSubContainerOrAtom(LEInputStream& in, DocProgTagsSubCo
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.progstringtagcontainer = QSharedPointer<ProgStringTagContainer>(new ProgStringTagContainer(&_s));
-        parseProgStringTagContainer(in, *_s.anon.progstringtagcontainer.data());
+        _s.anon = DocProgTagsSubContainerOrAtom::anonChoice(new ProgStringTagContainer(&_s));
+        parseProgStringTagContainer(in, *(ProgStringTagContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.progstringtagcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.docprogbinarytagcontainer = QSharedPointer<DocProgBinaryTagContainer>(new DocProgBinaryTagContainer(&_s));
-        parseDocProgBinaryTagContainer(in, *_s.anon.docprogbinarytagcontainer);
+        _s.anon = DocProgTagsSubContainerOrAtom::anonChoice(new DocProgBinaryTagContainer(&_s));
+        parseDocProgBinaryTagContainer(in, *(DocProgBinaryTagContainer*)_s.anon.data());
     }
 }
 void PPT::parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s) {
@@ -9313,13 +9314,13 @@ void PPT::parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer&
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.mainmastercontainer = QSharedPointer<MainMasterContainer>(new MainMasterContainer(&_s));
-        parseMainMasterContainer(in, *_s.anon.mainmastercontainer.data());
+        _s.anon = MasterOrSlideContainer::anonChoice(new MainMasterContainer(&_s));
+        parseMainMasterContainer(in, *(MainMasterContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.mainmastercontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.slidecontainer = QSharedPointer<SlideContainer>(new SlideContainer(&_s));
-        parseSlideContainer(in, *_s.anon.slidecontainer);
+        _s.anon = MasterOrSlideContainer::anonChoice(new SlideContainer(&_s));
+        parseSlideContainer(in, *(SlideContainer*)_s.anon.data());
     }
 }
 void PPT::parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
@@ -9327,60 +9328,60 @@ void PPT::parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.documentcontainer = QSharedPointer<DocumentContainer>(new DocumentContainer(&_s));
-        parseDocumentContainer(in, *_s.anon.documentcontainer.data());
+        _s.anon = PowerPointStruct::anonChoice(new DocumentContainer(&_s));
+        parseDocumentContainer(in, *(DocumentContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.documentcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.masterorslidecontainer = QSharedPointer<MasterOrSlideContainer>(new MasterOrSlideContainer(&_s));
-        parseMasterOrSlideContainer(in, *_s.anon.masterorslidecontainer.data());
+        _s.anon = PowerPointStruct::anonChoice(new MasterOrSlideContainer(&_s));
+        parseMasterOrSlideContainer(in, *(MasterOrSlideContainer*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.masterorslidecontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.persistdirectoryatom = QSharedPointer<PersistDirectoryAtom>(new PersistDirectoryAtom(&_s));
-        parsePersistDirectoryAtom(in, *_s.anon.persistdirectoryatom.data());
+        _s.anon = PowerPointStruct::anonChoice(new PersistDirectoryAtom(&_s));
+        parsePersistDirectoryAtom(in, *(PersistDirectoryAtom*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.persistdirectoryatom.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.notescontainer = QSharedPointer<NotesContainer>(new NotesContainer(&_s));
-        parseNotesContainer(in, *_s.anon.notescontainer.data());
+        _s.anon = PowerPointStruct::anonChoice(new NotesContainer(&_s));
+        parseNotesContainer(in, *(NotesContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.notescontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.handoutcontainer = QSharedPointer<HandoutContainer>(new HandoutContainer(&_s));
-        parseHandoutContainer(in, *_s.anon.handoutcontainer.data());
+        _s.anon = PowerPointStruct::anonChoice(new HandoutContainer(&_s));
+        parseHandoutContainer(in, *(HandoutContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.anon.handoutcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.slidecontainer = QSharedPointer<SlideContainer>(new SlideContainer(&_s));
-        parseSlideContainer(in, *_s.anon.slidecontainer.data());
+        _s.anon = PowerPointStruct::anonChoice(new SlideContainer(&_s));
+        parseSlideContainer(in, *(SlideContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxx) {
-        _s.anon.slidecontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exoleobjstg = QSharedPointer<ExOleObjStg>(new ExOleObjStg(&_s));
-        parseExOleObjStg(in, *_s.anon.exoleobjstg.data());
+        _s.anon = PowerPointStruct::anonChoice(new ExOleObjStg(&_s));
+        parseExOleObjStg(in, *(ExOleObjStg*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxx) {
-        _s.anon.exoleobjstg.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.excontrolstg = QSharedPointer<ExControlStg>(new ExControlStg(&_s));
-        parseExControlStg(in, *_s.anon.excontrolstg.data());
+        _s.anon = PowerPointStruct::anonChoice(new ExControlStg(&_s));
+        parseExControlStg(in, *(ExControlStg*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxx) {
-        _s.anon.excontrolstg.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.vbaprojectstg = QSharedPointer<VbaProjectStg>(new VbaProjectStg(&_s));
-        parseVbaProjectStg(in, *_s.anon.vbaprojectstg.data());
+        _s.anon = PowerPointStruct::anonChoice(new VbaProjectStg(&_s));
+        parseVbaProjectStg(in, *(VbaProjectStg*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxx) {
-        _s.anon.vbaprojectstg.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.usereditatom = QSharedPointer<UserEditAtom>(new UserEditAtom(&_s));
-        parseUserEditAtom(in, *_s.anon.usereditatom);
+        _s.anon = PowerPointStruct::anonChoice(new UserEditAtom(&_s));
+        parseUserEditAtom(in, *(UserEditAtom*)_s.anon.data());
     }}}}}}}}}
 }

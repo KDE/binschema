@@ -249,6 +249,10 @@ class MasterListWithTextContainer;
 void parseMasterListWithTextContainer(LEInputStream& in, MasterListWithTextContainer& _s);
 void parseMasterListWithTextContainer(QXmlStreamReader& in, MasterListWithTextContainer& _s);
 void write(const MasterListWithTextContainer& v, LEOutputStream& out);
+class MasterPersistAtom;
+void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s);
+void parseMasterPersistAtom(QXmlStreamReader& in, MasterPersistAtom& _s);
+void write(const MasterPersistAtom& v, LEOutputStream& out);
 class SlideListWithTextContainer;
 void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContainer& _s);
 void parseSlideListWithTextContainer(QXmlStreamReader& in, SlideListWithTextContainer& _s);
@@ -429,10 +433,6 @@ class PersistDirectoryEntry;
 void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s);
 void parsePersistDirectoryEntry(QXmlStreamReader& in, PersistDirectoryEntry& _s);
 void write(const PersistDirectoryEntry& v, LEOutputStream& out);
-class PersistOffsetEntry;
-void parsePersistOffsetEntry(LEInputStream& in, PersistOffsetEntry& _s);
-void parsePersistOffsetEntry(QXmlStreamReader& in, PersistOffsetEntry& _s);
-void write(const PersistOffsetEntry& v, LEOutputStream& out);
 class PersistIdRef;
 void parsePersistIdRef(LEInputStream& in, PersistIdRef& _s);
 void parsePersistIdRef(QXmlStreamReader& in, PersistIdRef& _s);
@@ -665,6 +665,14 @@ class OfficeArtFOPT;
 void parseOfficeArtFOPT(LEInputStream& in, OfficeArtFOPT& _s);
 void parseOfficeArtFOPT(QXmlStreamReader& in, OfficeArtFOPT& _s);
 void write(const OfficeArtFOPT& v, LEOutputStream& out);
+class OfficeArtSecondaryFOPT;
+void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s);
+void parseOfficeArtSecondaryFOPT(QXmlStreamReader& in, OfficeArtSecondaryFOPT& _s);
+void write(const OfficeArtSecondaryFOPT& v, LEOutputStream& out);
+class OfficeArtTertiaryFOPT;
+void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s);
+void parseOfficeArtTertiaryFOPT(QXmlStreamReader& in, OfficeArtTertiaryFOPT& _s);
+void write(const OfficeArtTertiaryFOPT& v, LEOutputStream& out);
 class OfficeArtFOPTEComplexData;
 void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s);
 void parseOfficeArtFOPTEComplexData(QXmlStreamReader& in, OfficeArtFOPTEComplexData& _s);
@@ -685,14 +693,6 @@ class OfficeArtFPSPL;
 void parseOfficeArtFPSPL(LEInputStream& in, OfficeArtFPSPL& _s);
 void parseOfficeArtFPSPL(QXmlStreamReader& in, OfficeArtFPSPL& _s);
 void write(const OfficeArtFPSPL& v, LEOutputStream& out);
-class OfficeArtSecondaryFOPT;
-void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s);
-void parseOfficeArtSecondaryFOPT(QXmlStreamReader& in, OfficeArtSecondaryFOPT& _s);
-void write(const OfficeArtSecondaryFOPT& v, LEOutputStream& out);
-class OfficeArtTertiaryFOPT;
-void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s);
-void parseOfficeArtTertiaryFOPT(QXmlStreamReader& in, OfficeArtTertiaryFOPT& _s);
-void write(const OfficeArtTertiaryFOPT& v, LEOutputStream& out);
 class RectStruct;
 void parseRectStruct(LEInputStream& in, RectStruct& _s);
 void parseRectStruct(QXmlStreamReader& in, RectStruct& _s);
@@ -969,10 +969,6 @@ class NormalViewSetInfoAtom;
 void parseNormalViewSetInfoAtom(LEInputStream& in, NormalViewSetInfoAtom& _s);
 void parseNormalViewSetInfoAtom(QXmlStreamReader& in, NormalViewSetInfoAtom& _s);
 void write(const NormalViewSetInfoAtom& v, LEOutputStream& out);
-class MasterPersistAtom;
-void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s);
-void parseMasterPersistAtom(QXmlStreamReader& in, MasterPersistAtom& _s);
-void write(const MasterPersistAtom& v, LEOutputStream& out);
 class TextContainer;
 void parseTextContainer(LEInputStream& in, TextContainer& _s);
 void parseTextContainer(QXmlStreamReader& in, TextContainer& _s);
@@ -2701,6 +2697,40 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class MasterPersistAtom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    quint32 persistIdRef;
+    quint8 reserved1;
+    bool fNonOutLineData;
+    quint8 reserved2;
+    quint8 reserved3;
+    quint16 reserved4;
+    quint32 reserved5;
+    quint32 masterId;
+    quint32 reserved6;
+    explicit MasterPersistAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
+    QString toString() {
+        QString _s = "MasterPersistAtom:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "persistIdRef: " + QString::number(persistIdRef) + "(" + QString::number(persistIdRef,16).toUpper() + ")" + ", ";
+        _s = _s + "reserved1: " + QString::number(reserved1) + "(" + QString::number(reserved1,16).toUpper() + ")" + ", ";
+        _s = _s + "fNonOutLineData: " + QString::number(fNonOutLineData) + ", ";
+        _s = _s + "reserved2: " + QString::number(reserved2) + "(" + QString::number(reserved2,16).toUpper() + ")" + ", ";
+        _s = _s + "reserved3: " + QString::number(reserved3) + "(" + QString::number(reserved3,16).toUpper() + ")" + ", ";
+        _s = _s + "reserved4: " + QString::number(reserved4) + "(" + QString::number(reserved4,16).toUpper() + ")" + ", ";
+        _s = _s + "reserved5: " + QString::number(reserved5) + "(" + QString::number(reserved5,16).toUpper() + ")" + ", ";
+        _s = _s + "masterId: " + QString::number(masterId) + "(" + QString::number(masterId,16).toUpper() + ")" + ", ";
+        _s = _s + "reserved6: " + QString::number(reserved6) + "(" + QString::number(reserved6,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class SlideListWithTextContainer : public Introspectable {
 private:
     class _Introspection;
@@ -3667,7 +3697,7 @@ public:
     static const Introspection _introspection;
     quint32 persistId;
     quint16 cPersist;
-    QList<PersistOffsetEntry> rgPersistOffset;
+    QVector<quint32> rgPersistOffset;
     explicit PersistDirectoryEntry(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -3675,21 +3705,6 @@ public:
         _s = _s + "persistId: " + QString::number(persistId) + "(" + QString::number(persistId,16).toUpper() + ")" + ", ";
         _s = _s + "cPersist: " + QString::number(cPersist) + "(" + QString::number(cPersist,16).toUpper() + ")" + ", ";
         _s = _s + "rgPersistOffset: " + "[array of rgPersistOffset]" + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class PersistOffsetEntry : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    quint32 anon;
-    explicit PersistOffsetEntry(const Introspectable* parent)
-       :Introspectable(parent) {}
-    QString toString() {
-        QString _s = "PersistOffsetEntry:";
-        _s = _s + "anon: " + QString::number(anon) + "(" + QString::number(anon,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -4916,6 +4931,46 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class OfficeArtSecondaryFOPT : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QList<OfficeArtFOPTEChoice> fopt;
+    QByteArray complexData;
+    explicit OfficeArtSecondaryFOPT(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
+    QString toString() {
+        QString _s = "OfficeArtSecondaryFOPT:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "fopt: " + "[array of fopt]" + ", ";
+        _s = _s + "complexData: " + "[array of complexData]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class OfficeArtTertiaryFOPT : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    OfficeArtRecordHeader rh;
+    QList<OfficeArtFOPTEChoice> fopt;
+    QByteArray complexData;
+    explicit OfficeArtTertiaryFOPT(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this) {}
+    QString toString() {
+        QString _s = "OfficeArtTertiaryFOPT:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "fopt: " + "[array of fopt]" + ", ";
+        _s = _s + "complexData: " + "[array of complexData]" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class OfficeArtFOPTEComplexData : public Introspectable {
 private:
     class _Introspection;
@@ -5025,44 +5080,6 @@ public:
         _s = _s + "spid: " + QString::number(spid) + "(" + QString::number(spid,16).toUpper() + ")" + ", ";
         _s = _s + "reserved1: " + QString::number(reserved1) + ", ";
         _s = _s + "fLast: " + QString::number(fLast) + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class OfficeArtSecondaryFOPT : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    OfficeArtRecordHeader rh;
-    QByteArray todo;
-    explicit OfficeArtSecondaryFOPT(const Introspectable* parent)
-       :Introspectable(parent),
-        rh(this) {}
-    QString toString() {
-        QString _s = "OfficeArtSecondaryFOPT:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "todo: " + "[array of todo]" + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class OfficeArtTertiaryFOPT : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    OfficeArtRecordHeader rh;
-    QList<OfficeArtFOPTE> fopt;
-    QByteArray complexData;
-    explicit OfficeArtTertiaryFOPT(const Introspectable* parent)
-       :Introspectable(parent),
-        rh(this) {}
-    QString toString() {
-        QString _s = "OfficeArtTertiaryFOPT:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "fopt: " + "[array of fopt]" + ", ";
-        _s = _s + "complexData: " + "[array of complexData]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -7112,51 +7129,20 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class MasterPersistAtom : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    RecordHeader rh;
-    PersistIdRef persistIdRef;
-    quint8 reserved1;
-    bool fNonOutLineData;
-    quint8 reserved2;
-    quint8 reserved3;
-    quint16 reserved4;
-    quint32 reserved5;
-    quint32 masterId;
-    quint32 reserved6;
-    explicit MasterPersistAtom(const Introspectable* parent)
-       :Introspectable(parent),
-        rh(this),
-        persistIdRef(this) {}
-    QString toString() {
-        QString _s = "MasterPersistAtom:";
-        _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "persistIdRef: " + persistIdRef.toString() + ", ";
-        _s = _s + "reserved1: " + QString::number(reserved1) + "(" + QString::number(reserved1,16).toUpper() + ")" + ", ";
-        _s = _s + "fNonOutLineData: " + QString::number(fNonOutLineData) + ", ";
-        _s = _s + "reserved2: " + QString::number(reserved2) + "(" + QString::number(reserved2,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved3: " + QString::number(reserved3) + "(" + QString::number(reserved3,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved4: " + QString::number(reserved4) + "(" + QString::number(reserved4,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved5: " + QString::number(reserved5) + "(" + QString::number(reserved5,16).toUpper() + ")" + ", ";
-        _s = _s + "masterId: " + QString::number(masterId) + "(" + QString::number(masterId,16).toUpper() + ")" + ", ";
-        _s = _s + "reserved6: " + QString::number(reserved6) + "(" + QString::number(reserved6,16).toUpper() + ")" + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
 class TextContainer : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
     TextHeaderAtom textHeaderAtom;
-    class textChoice {
+    class textChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<TextCharsAtom> textcharsatom;
-        QSharedPointer<TextBytesAtom> textbytesatom;
+        textChoice() {}
+        explicit textChoice(TextCharsAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit textChoice(TextBytesAtom* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     textChoice text;
     QSharedPointer<StyleTextPropAtom> style;
@@ -7187,14 +7173,18 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class metaChoice {
+    class metaChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<SlideNumberMCAtom> slidenumbermcatom;
-        QSharedPointer<DateTimeMCAtom> datetimemcatom;
-        QSharedPointer<GenericDateMCAtom> genericdatemcatom;
-        QSharedPointer<HeaderMCAtom> headermcatom;
-        QSharedPointer<FooterMCAtom> footermcatom;
-        QSharedPointer<RTFDateTimeMCAtom> rtfdatetimemcatom;
+        metaChoice() {}
+        explicit metaChoice(SlideNumberMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit metaChoice(DateTimeMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit metaChoice(GenericDateMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit metaChoice(HeaderMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit metaChoice(FooterMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit metaChoice(RTFDateTimeMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     metaChoice meta;
     explicit TextContainerMeta(const Introspectable* parent)
@@ -7212,7 +7202,7 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    PersistIdRef persistIdRef;
+    quint32 persistIdRef;
     bool reserved1;
     bool fShouldCollapse;
     bool fNonOutlineData;
@@ -7225,12 +7215,11 @@ public:
     explicit SlidePersistAtom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this),
-        persistIdRef(this),
         slideId(this) {}
     QString toString() {
         QString _s = "SlidePersistAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "persistIdRef: " + persistIdRef.toString() + ", ";
+        _s = _s + "persistIdRef: " + QString::number(persistIdRef) + "(" + QString::number(persistIdRef,16).toUpper() + ")" + ", ";
         _s = _s + "reserved1: " + QString::number(reserved1) + ", ";
         _s = _s + "fShouldCollapse: " + QString::number(fShouldCollapse) + ", ";
         _s = _s + "fNonOutlineData: " + QString::number(fNonOutlineData) + ", ";
@@ -7564,8 +7553,8 @@ public:
     PointStruct slideSize;
     PointStruct notesSize;
     RatioStruct serverZoom;
-    PersistIdRef notesMasterPersistIdRef;
-    PersistIdRef handoutMasterPersistIdRef;
+    quint32 notesMasterPersistIdRef;
+    quint32 handoutMasterPersistIdRef;
     quint16 firstSlideNumber;
     quint16 slideSizeType;
     quint8 fSaveWithFonts;
@@ -7577,17 +7566,15 @@ public:
         rh(this),
         slideSize(this),
         notesSize(this),
-        serverZoom(this),
-        notesMasterPersistIdRef(this),
-        handoutMasterPersistIdRef(this) {}
+        serverZoom(this) {}
     QString toString() {
         QString _s = "DocumentAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "slideSize: " + slideSize.toString() + ", ";
         _s = _s + "notesSize: " + notesSize.toString() + ", ";
         _s = _s + "serverZoom: " + serverZoom.toString() + ", ";
-        _s = _s + "notesMasterPersistIdRef: " + notesMasterPersistIdRef.toString() + ", ";
-        _s = _s + "handoutMasterPersistIdRef: " + handoutMasterPersistIdRef.toString() + ", ";
+        _s = _s + "notesMasterPersistIdRef: " + QString::number(notesMasterPersistIdRef) + "(" + QString::number(notesMasterPersistIdRef,16).toUpper() + ")" + ", ";
+        _s = _s + "handoutMasterPersistIdRef: " + QString::number(handoutMasterPersistIdRef) + "(" + QString::number(handoutMasterPersistIdRef,16).toUpper() + ")" + ", ";
         _s = _s + "firstSlideNumber: " + QString::number(firstSlideNumber) + "(" + QString::number(firstSlideNumber,16).toUpper() + ")" + ", ";
         _s = _s + "slideSizeType: " + QString::number(slideSizeType) + "(" + QString::number(slideSizeType,16).toUpper() + ")" + ", ";
         _s = _s + "fSaveWithFonts: " + QString::number(fSaveWithFonts) + "(" + QString::number(fSaveWithFonts,16).toUpper() + ")" + ", ";
@@ -7780,11 +7767,15 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<OfficeArtFConnectorRule> officeartfconnectorrule;
-        QSharedPointer<OfficeArtFArcRule> officeartfarcrule;
-        QSharedPointer<OfficeArtFCalloutRule> officeartfcalloutrule;
+        anonChoice() {}
+        explicit anonChoice(OfficeArtFConnectorRule* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtFArcRule* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtFCalloutRule* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit OfficeArtSolverContainerFileBlock(const Introspectable* parent)
@@ -8905,10 +8896,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class prmChoice {
+    class prmChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<Prm0> prm0;
-        QSharedPointer<Prm1> prm1;
+        prmChoice() {}
+        explicit prmChoice(Prm0* a) :QSharedPointer<Introspectable>(a) {}
+        explicit prmChoice(Prm1* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     prmChoice prm;
     explicit Prm(const Introspectable* parent)
@@ -9003,15 +8998,19 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<OfficeArtBlipEMF> officeartblipemf;
-        QSharedPointer<OfficeArtBlipWMF> officeartblipwmf;
-        QSharedPointer<OfficeArtBlipPICT> officeartblippict;
-        QSharedPointer<OfficeArtBlipJPEG> officeartblipjpeg;
-        QSharedPointer<OfficeArtBlipPNG> officeartblippng;
-        QSharedPointer<OfficeArtBlipDIB> officeartblipdib;
-        QSharedPointer<OfficeArtBlipTIFF> officeartbliptiff;
+        anonChoice() {}
+        explicit anonChoice(OfficeArtBlipEMF* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtBlipWMF* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtBlipPICT* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtBlipJPEG* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtBlipPNG* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtBlipDIB* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtBlipTIFF* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit OfficeArtBlip(const Introspectable* parent)
@@ -9242,10 +9241,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class interactiveChoice {
+    class interactiveChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<MouseInteractiveInfoContainer> mouseinteractiveinfocontainer;
-        QSharedPointer<MouseTextInteractiveInfoAtom> mousetextinteractiveinfoatom;
+        interactiveChoice() {}
+        explicit interactiveChoice(MouseInteractiveInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit interactiveChoice(MouseTextInteractiveInfoAtom* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     interactiveChoice interactive;
     explicit TextContainerInteractiveInfo(const Introspectable* parent)
@@ -9262,11 +9265,15 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<OutlineTextRefAtom> outlinetextrefatom;
-        QSharedPointer<TextContainer> textcontainer;
-        QSharedPointer<TextRulerAtom> textruleratom;
+        anonChoice() {}
+        explicit anonChoice(OutlineTextRefAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(TextContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(TextRulerAtom* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit TextClientDataSubContainerOrAtom(const Introspectable* parent)
@@ -9460,10 +9467,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<ProgStringTagContainer> progstringtagcontainer;
-        QSharedPointer<SlideProgBinaryTagContainer> slideprogbinarytagcontainer;
+        anonChoice() {}
+        explicit anonChoice(ProgStringTagContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(SlideProgBinaryTagContainer* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit SlideProgTagsSubContainerOrAtom(const Introspectable* parent)
@@ -9480,19 +9491,23 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<ExAviMovieContainer> exavimoviecontainer;
-        QSharedPointer<ExCDAudioContainer> excdaudiocontainer;
-        QSharedPointer<ExControlContainer> excontrolcontainer;
-        QSharedPointer<ExHyperlinkContainer> exhyperlinkcontainer;
-        QSharedPointer<ExMCIMovieContainer> exmcimoviecontainer;
-        QSharedPointer<ExMIDIAudioContainer> exmidiaudiocontainer;
-        QSharedPointer<ExOleEmbedContainer> exoleembedcontainer;
-        QSharedPointer<ExOleLinkContainer> exolelinkcontainer;
-        QSharedPointer<ExWAVAudioEmbeddedContainer> exwavaudioembeddedcontainer;
-        QSharedPointer<ExWAVAudioLinkContainer> exwavaudiolinkcontainer;
-        QSharedPointer<UnknownExObjListSubContainerChild> unknownexobjlistsubcontainerchild;
+        anonChoice() {}
+        explicit anonChoice(ExAviMovieContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExCDAudioContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExControlContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExHyperlinkContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExMCIMovieContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExMIDIAudioContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExOleEmbedContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExOleLinkContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExWAVAudioEmbeddedContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExWAVAudioLinkContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(UnknownExObjListSubContainerChild* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit ExObjListSubContainer(const Introspectable* parent)
@@ -9542,46 +9557,50 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<ProtectionBooleanProperties> protectionbooleanproperties;
-        QSharedPointer<adjust2Value> adjust2value;
-        QSharedPointer<adjust3Value> adjust3value;
-        QSharedPointer<ITxid> itxid;
-        QSharedPointer<DxTextLeft> dxtextleft;
-        QSharedPointer<DyTextTop> dytexttop;
-        QSharedPointer<DxTextRight> dxtextright;
-        QSharedPointer<DyTextBottom> dytextbottom;
-        QSharedPointer<WrapText> wraptext;
-        QSharedPointer<AnchorText> anchortext;
-        QSharedPointer<TextBooleanProperties> textbooleanproperties;
-        QSharedPointer<HspNext> hspnext;
-        QSharedPointer<ShapePath> shapepath;
-        QSharedPointer<GeometryBooleanProperties> geometrybooleanproperties;
-        QSharedPointer<FillType> filltype;
-        QSharedPointer<FillColor> fillcolor;
-        QSharedPointer<FillBackColor> fillbackcolor;
-        QSharedPointer<FillBlip> fillblip;
-        QSharedPointer<FillStyleBooleanProperties> fillstylebooleanproperties;
-        QSharedPointer<LineColor> linecolor;
-        QSharedPointer<LineBackColor> linebackcolor;
-        QSharedPointer<LineFillBlip> linefillblip;
-        QSharedPointer<LineWidth> linewidth;
-        QSharedPointer<FillRectRight> fillrectright;
-        QSharedPointer<FillRectBottom> fillrectbottom;
-        QSharedPointer<WzFillId> wzfillid;
-        QSharedPointer<LineStyleBooleanProperties> linestylebooleanproperties;
-        QSharedPointer<LineStartArrowhead> linestartarrowhead;
-        QSharedPointer<LineEndArrowhead> lineendarrowhead;
-        QSharedPointer<LineJoinStyle> linejoinstyle;
-        QSharedPointer<ShadowColor> shadowcolor;
-        QSharedPointer<ShadowStyleBooleanPropertiesr> shadowstylebooleanpropertiesr;
-        QSharedPointer<ShapeBooleanProperties> shapebooleanproperties;
-        QSharedPointer<HspMaster> hspmaster;
-        QSharedPointer<Rotation> rotation;
-        QSharedPointer<LidRegroup> lidregroup;
-        QSharedPointer<BWMode> bwmode;
-        QSharedPointer<OfficeArtFOPTE> officeartfopte;
+        anonChoice() {}
+        explicit anonChoice(ProtectionBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(adjust2Value* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(adjust3Value* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ITxid* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(DxTextLeft* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(DyTextTop* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(DxTextRight* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(DyTextBottom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(WrapText* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(AnchorText* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(TextBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(HspNext* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ShapePath* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(GeometryBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(FillType* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(FillColor* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(FillBackColor* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(FillBlip* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(FillStyleBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(LineColor* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(LineBackColor* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(LineFillBlip* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(LineWidth* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(FillRectRight* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(FillRectBottom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(WzFillId* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(LineStyleBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(LineStartArrowhead* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(LineEndArrowhead* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(LineJoinStyle* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ShadowColor* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ShadowStyleBooleanPropertiesr* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ShapeBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(HspMaster* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(Rotation* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(LidRegroup* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(BWMode* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtFOPTE* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit OfficeArtFOPTEChoice(const Introspectable* parent)
@@ -9761,10 +9780,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<OfficeArtFBSE> officeartfbse;
-        QSharedPointer<OfficeArtBlip> officeartblip;
+        anonChoice() {}
+        explicit anonChoice(OfficeArtFBSE* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtBlip* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit OfficeArtBStoreContainerFileBlock(const Introspectable* parent)
@@ -10096,15 +10119,19 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<DocProgTagsContainer> docprogtagscontainer;
-        QSharedPointer<NormalViewSetInfoContainer> normalviewsetinfocontainer;
-        QSharedPointer<NotesTextViewInfoContainer> notestextviewinfocontainer;
-        QSharedPointer<OutlineViewInfoContainer> outlineviewinfocontainer;
-        QSharedPointer<SlideViewInfoInstance> slideviewinfoinstance;
-        QSharedPointer<SorterViewInfoContainer> sorterviewinfocontainer;
-        QSharedPointer<VBAInfoContainer> vbainfocontainer;
+        anonChoice() {}
+        explicit anonChoice(DocProgTagsContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(NormalViewSetInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(NotesTextViewInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OutlineViewInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(SlideViewInfoInstance* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(SorterViewInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(VBAInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit DocInfoListSubContainerOrAtom(const Introspectable* parent)
@@ -10224,10 +10251,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<OfficeArtSpContainer> officeartspcontainer;
-        QSharedPointer<OfficeArtSpgrContainer> officeartspgrcontainer;
+        anonChoice() {}
+        explicit anonChoice(OfficeArtSpContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(OfficeArtSpgrContainer* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit OfficeArtSpgrContainerFileBlock(const Introspectable* parent)
@@ -10244,13 +10275,17 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<PP9DocBinaryTagExtension> pp9docbinarytagextension;
-        QSharedPointer<PP10DocBinaryTagExtension> pp10docbinarytagextension;
-        QSharedPointer<PP11DocBinaryTagExtension> pp11docbinarytagextension;
-        QSharedPointer<PP12DocBinaryTagExtension> pp12docbinarytagextension;
-        QSharedPointer<UnknownBinaryTag> unknownbinarytag;
+        anonChoice() {}
+        explicit anonChoice(PP9DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(PP10DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(PP11DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(PP12DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(UnknownBinaryTag* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit DocProgBinaryTagSubContainerOrAtom(const Introspectable* parent)
@@ -10426,10 +10461,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<ProgStringTagContainer> progstringtagcontainer;
-        QSharedPointer<DocProgBinaryTagContainer> docprogbinarytagcontainer;
+        anonChoice() {}
+        explicit anonChoice(ProgStringTagContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(DocProgBinaryTagContainer* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit DocProgTagsSubContainerOrAtom(const Introspectable* parent)
@@ -10446,10 +10485,14 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<MainMasterContainer> mainmastercontainer;
-        QSharedPointer<SlideContainer> slidecontainer;
+        anonChoice() {}
+        explicit anonChoice(MainMasterContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(SlideContainer* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit MasterOrSlideContainer(const Introspectable* parent)
@@ -10466,18 +10509,22 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class anonChoice {
+    class anonChoice : public QSharedPointer<Introspectable> {
     public:
-        QSharedPointer<DocumentContainer> documentcontainer;
-        QSharedPointer<MasterOrSlideContainer> masterorslidecontainer;
-        QSharedPointer<PersistDirectoryAtom> persistdirectoryatom;
-        QSharedPointer<NotesContainer> notescontainer;
-        QSharedPointer<HandoutContainer> handoutcontainer;
-        QSharedPointer<SlideContainer> slidecontainer;
-        QSharedPointer<ExOleObjStg> exoleobjstg;
-        QSharedPointer<ExControlStg> excontrolstg;
-        QSharedPointer<VbaProjectStg> vbaprojectstg;
-        QSharedPointer<UserEditAtom> usereditatom;
+        anonChoice() {}
+        explicit anonChoice(DocumentContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(MasterOrSlideContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(PersistDirectoryAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(NotesContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(HandoutContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(SlideContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExOleObjStg* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(ExControlStg* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(VbaProjectStg* a) :QSharedPointer<Introspectable>(a) {}
+        explicit anonChoice(UserEditAtom* a) :QSharedPointer<Introspectable>(a) {}
+        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
+        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
+        template <typename T> bool is() const { return get<T>(); }
     };
     anonChoice anon;
     explicit PowerPointStruct(const Introspectable* parent)
@@ -13241,6 +13288,97 @@ const Introspectable* (* const MasterListWithTextContainer::_Introspection::intr
 };
 const Introspection MasterListWithTextContainer::_introspection(
     "MasterListWithTextContainer", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class MasterPersistAtom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[10];
+    static int (* const numberOfInstances[10])(const Introspectable*);
+    static QVariant (* const value[10])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[10])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const MasterPersistAtom*>(i)->rh);
+    }
+    static QVariant get_persistIdRef(const Introspectable* i, int j) {
+        return static_cast<const MasterPersistAtom*>(i)->persistIdRef;
+    }
+    static QVariant get_reserved1(const Introspectable* i, int j) {
+        return static_cast<const MasterPersistAtom*>(i)->reserved1;
+    }
+    static QVariant get_fNonOutLineData(const Introspectable* i, int j) {
+        return static_cast<const MasterPersistAtom*>(i)->fNonOutLineData;
+    }
+    static QVariant get_reserved2(const Introspectable* i, int j) {
+        return static_cast<const MasterPersistAtom*>(i)->reserved2;
+    }
+    static QVariant get_reserved3(const Introspectable* i, int j) {
+        return static_cast<const MasterPersistAtom*>(i)->reserved3;
+    }
+    static QVariant get_reserved4(const Introspectable* i, int j) {
+        return static_cast<const MasterPersistAtom*>(i)->reserved4;
+    }
+    static QVariant get_reserved5(const Introspectable* i, int j) {
+        return static_cast<const MasterPersistAtom*>(i)->reserved5;
+    }
+    static QVariant get_masterId(const Introspectable* i, int j) {
+        return static_cast<const MasterPersistAtom*>(i)->masterId;
+    }
+    static QVariant get_reserved6(const Introspectable* i, int j) {
+        return static_cast<const MasterPersistAtom*>(i)->reserved6;
+    }
+};
+const QString MasterPersistAtom::_Introspection::name("MasterPersistAtom");
+const int MasterPersistAtom::_Introspection::numberOfMembers(10);
+const QString MasterPersistAtom::_Introspection::names[10] = {
+    "rh",
+    "persistIdRef",
+    "reserved1",
+    "fNonOutLineData",
+    "reserved2",
+    "reserved3",
+    "reserved4",
+    "reserved5",
+    "masterId",
+    "reserved6",
+};
+int (* const MasterPersistAtom::_Introspection::numberOfInstances[10])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const MasterPersistAtom::_Introspection::value[10])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    _Introspection::get_persistIdRef,
+    _Introspection::get_reserved1,
+    _Introspection::get_fNonOutLineData,
+    _Introspection::get_reserved2,
+    _Introspection::get_reserved3,
+    _Introspection::get_reserved4,
+    _Introspection::get_reserved5,
+    _Introspection::get_masterId,
+    _Introspection::get_reserved6,
+};
+const Introspectable* (* const MasterPersistAtom::_Introspection::introspectable[10])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection MasterPersistAtom::_introspection(
+    "MasterPersistAtom", 10, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class SlideListWithTextContainer::_Introspection {
 public:
     static const QString name;
@@ -15446,11 +15584,8 @@ public:
     static QVariant get_cPersist(const Introspectable* i, int j) {
         return static_cast<const PersistDirectoryEntry*>(i)->cPersist;
     }
-    static int count_rgPersistOffset(const Introspectable* i) {
-        return static_cast<const PersistDirectoryEntry*>(i)->rgPersistOffset.size();
-    }
-    static const Introspectable* get_rgPersistOffset(const Introspectable* i, int j) {
-        return &(static_cast<const PersistDirectoryEntry*>(i)->rgPersistOffset[j]);
+    static QVariant get_rgPersistOffset(const Introspectable* i, int j) {
+        return qVariantFromValue(static_cast<const PersistDirectoryEntry*>(i)->rgPersistOffset);
     }
 };
 const QString PersistDirectoryEntry::_Introspection::name("PersistDirectoryEntry");
@@ -15463,48 +15598,20 @@ const QString PersistDirectoryEntry::_Introspection::names[3] = {
 int (* const PersistDirectoryEntry::_Introspection::numberOfInstances[3])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    _Introspection::count_rgPersistOffset,
+    Introspection::one,
 };
 QVariant (* const PersistDirectoryEntry::_Introspection::value[3])(const Introspectable*, int position) = {
     _Introspection::get_persistId,
     _Introspection::get_cPersist,
-    Introspection::nullValue,
+    _Introspection::get_rgPersistOffset,
 };
 const Introspectable* (* const PersistDirectoryEntry::_Introspection::introspectable[3])(const Introspectable*, int position) = {
     Introspection::null,
     Introspection::null,
-    _Introspection::get_rgPersistOffset,
+    Introspection::null,
 };
 const Introspection PersistDirectoryEntry::_introspection(
     "PersistDirectoryEntry", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class PersistOffsetEntry::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[1];
-    static int (* const numberOfInstances[1])(const Introspectable*);
-    static QVariant (* const value[1])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
-    static QVariant get_anon(const Introspectable* i, int j) {
-        return static_cast<const PersistOffsetEntry*>(i)->anon;
-    }
-};
-const QString PersistOffsetEntry::_Introspection::name("PersistOffsetEntry");
-const int PersistOffsetEntry::_Introspection::numberOfMembers(1);
-const QString PersistOffsetEntry::_Introspection::names[1] = {
-    "anon",
-};
-int (* const PersistOffsetEntry::_Introspection::numberOfInstances[1])(const Introspectable*) = {
-    Introspection::one,
-};
-QVariant (* const PersistOffsetEntry::_Introspection::value[1])(const Introspectable*, int position) = {
-    _Introspection::get_anon,
-};
-const Introspectable* (* const PersistOffsetEntry::_Introspection::introspectable[1])(const Introspectable*, int position) = {
-    Introspection::null,
-};
-const Introspection PersistOffsetEntry::_introspection(
-    "PersistOffsetEntry", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class PersistIdRef::_Introspection {
 public:
     static const QString name;
@@ -18192,6 +18299,96 @@ const Introspectable* (* const OfficeArtFOPT::_Introspection::introspectable[3])
 };
 const Introspection OfficeArtFOPT::_introspection(
     "OfficeArtFOPT", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class OfficeArtSecondaryFOPT::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[3];
+    static int (* const numberOfInstances[3])(const Introspectable*);
+    static QVariant (* const value[3])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtSecondaryFOPT*>(i)->rh);
+    }
+    static int count_fopt(const Introspectable* i) {
+        return static_cast<const OfficeArtSecondaryFOPT*>(i)->fopt.size();
+    }
+    static const Introspectable* get_fopt(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtSecondaryFOPT*>(i)->fopt[j]);
+    }
+    static QVariant get_complexData(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtSecondaryFOPT*>(i)->complexData;
+    }
+};
+const QString OfficeArtSecondaryFOPT::_Introspection::name("OfficeArtSecondaryFOPT");
+const int OfficeArtSecondaryFOPT::_Introspection::numberOfMembers(3);
+const QString OfficeArtSecondaryFOPT::_Introspection::names[3] = {
+    "rh",
+    "fopt",
+    "complexData",
+};
+int (* const OfficeArtSecondaryFOPT::_Introspection::numberOfInstances[3])(const Introspectable*) = {
+    Introspection::one,
+    _Introspection::count_fopt,
+    Introspection::one,
+};
+QVariant (* const OfficeArtSecondaryFOPT::_Introspection::value[3])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+    _Introspection::get_complexData,
+};
+const Introspectable* (* const OfficeArtSecondaryFOPT::_Introspection::introspectable[3])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    _Introspection::get_fopt,
+    Introspection::null,
+};
+const Introspection OfficeArtSecondaryFOPT::_introspection(
+    "OfficeArtSecondaryFOPT", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class OfficeArtTertiaryFOPT::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[3];
+    static int (* const numberOfInstances[3])(const Introspectable*);
+    static QVariant (* const value[3])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtTertiaryFOPT*>(i)->rh);
+    }
+    static int count_fopt(const Introspectable* i) {
+        return static_cast<const OfficeArtTertiaryFOPT*>(i)->fopt.size();
+    }
+    static const Introspectable* get_fopt(const Introspectable* i, int j) {
+        return &(static_cast<const OfficeArtTertiaryFOPT*>(i)->fopt[j]);
+    }
+    static QVariant get_complexData(const Introspectable* i, int j) {
+        return static_cast<const OfficeArtTertiaryFOPT*>(i)->complexData;
+    }
+};
+const QString OfficeArtTertiaryFOPT::_Introspection::name("OfficeArtTertiaryFOPT");
+const int OfficeArtTertiaryFOPT::_Introspection::numberOfMembers(3);
+const QString OfficeArtTertiaryFOPT::_Introspection::names[3] = {
+    "rh",
+    "fopt",
+    "complexData",
+};
+int (* const OfficeArtTertiaryFOPT::_Introspection::numberOfInstances[3])(const Introspectable*) = {
+    Introspection::one,
+    _Introspection::count_fopt,
+    Introspection::one,
+};
+QVariant (* const OfficeArtTertiaryFOPT::_Introspection::value[3])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+    _Introspection::get_complexData,
+};
+const Introspectable* (* const OfficeArtTertiaryFOPT::_Introspection::introspectable[3])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    _Introspection::get_fopt,
+    Introspection::null,
+};
+const Introspection OfficeArtTertiaryFOPT::_introspection(
+    "OfficeArtTertiaryFOPT", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class OfficeArtFOPTEComplexData::_Introspection {
 public:
     static const QString name;
@@ -18458,86 +18655,6 @@ const Introspectable* (* const OfficeArtFPSPL::_Introspection::introspectable[4]
 };
 const Introspection OfficeArtFPSPL::_introspection(
     "OfficeArtFPSPL", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class OfficeArtSecondaryFOPT::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[2];
-    static int (* const numberOfInstances[2])(const Introspectable*);
-    static QVariant (* const value[2])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
-    static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtSecondaryFOPT*>(i)->rh);
-    }
-    static QVariant get_todo(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtSecondaryFOPT*>(i)->todo;
-    }
-};
-const QString OfficeArtSecondaryFOPT::_Introspection::name("OfficeArtSecondaryFOPT");
-const int OfficeArtSecondaryFOPT::_Introspection::numberOfMembers(2);
-const QString OfficeArtSecondaryFOPT::_Introspection::names[2] = {
-    "rh",
-    "todo",
-};
-int (* const OfficeArtSecondaryFOPT::_Introspection::numberOfInstances[2])(const Introspectable*) = {
-    Introspection::one,
-    Introspection::one,
-};
-QVariant (* const OfficeArtSecondaryFOPT::_Introspection::value[2])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    _Introspection::get_todo,
-};
-const Introspectable* (* const OfficeArtSecondaryFOPT::_Introspection::introspectable[2])(const Introspectable*, int position) = {
-    _Introspection::get_rh,
-    Introspection::null,
-};
-const Introspection OfficeArtSecondaryFOPT::_introspection(
-    "OfficeArtSecondaryFOPT", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class OfficeArtTertiaryFOPT::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[3];
-    static int (* const numberOfInstances[3])(const Introspectable*);
-    static QVariant (* const value[3])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
-    static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtTertiaryFOPT*>(i)->rh);
-    }
-    static int count_fopt(const Introspectable* i) {
-        return static_cast<const OfficeArtTertiaryFOPT*>(i)->fopt.size();
-    }
-    static const Introspectable* get_fopt(const Introspectable* i, int j) {
-        return &(static_cast<const OfficeArtTertiaryFOPT*>(i)->fopt[j]);
-    }
-    static QVariant get_complexData(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtTertiaryFOPT*>(i)->complexData;
-    }
-};
-const QString OfficeArtTertiaryFOPT::_Introspection::name("OfficeArtTertiaryFOPT");
-const int OfficeArtTertiaryFOPT::_Introspection::numberOfMembers(3);
-const QString OfficeArtTertiaryFOPT::_Introspection::names[3] = {
-    "rh",
-    "fopt",
-    "complexData",
-};
-int (* const OfficeArtTertiaryFOPT::_Introspection::numberOfInstances[3])(const Introspectable*) = {
-    Introspection::one,
-    _Introspection::count_fopt,
-    Introspection::one,
-};
-QVariant (* const OfficeArtTertiaryFOPT::_Introspection::value[3])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    Introspection::nullValue,
-    _Introspection::get_complexData,
-};
-const Introspectable* (* const OfficeArtTertiaryFOPT::_Introspection::introspectable[3])(const Introspectable*, int position) = {
-    _Introspection::get_rh,
-    _Introspection::get_fopt,
-    Introspection::null,
-};
-const Introspection OfficeArtTertiaryFOPT::_introspection(
-    "OfficeArtTertiaryFOPT", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class RectStruct::_Introspection {
 public:
     static const QString name;
@@ -23881,97 +23998,6 @@ const Introspectable* (* const NormalViewSetInfoAtom::_Introspection::introspect
 };
 const Introspection NormalViewSetInfoAtom::_introspection(
     "NormalViewSetInfoAtom", 9, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class MasterPersistAtom::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[10];
-    static int (* const numberOfInstances[10])(const Introspectable*);
-    static QVariant (* const value[10])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[10])(const Introspectable*, int position);
-    static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const MasterPersistAtom*>(i)->rh);
-    }
-    static const Introspectable* get_persistIdRef(const Introspectable* i, int j) {
-        return &(static_cast<const MasterPersistAtom*>(i)->persistIdRef);
-    }
-    static QVariant get_reserved1(const Introspectable* i, int j) {
-        return static_cast<const MasterPersistAtom*>(i)->reserved1;
-    }
-    static QVariant get_fNonOutLineData(const Introspectable* i, int j) {
-        return static_cast<const MasterPersistAtom*>(i)->fNonOutLineData;
-    }
-    static QVariant get_reserved2(const Introspectable* i, int j) {
-        return static_cast<const MasterPersistAtom*>(i)->reserved2;
-    }
-    static QVariant get_reserved3(const Introspectable* i, int j) {
-        return static_cast<const MasterPersistAtom*>(i)->reserved3;
-    }
-    static QVariant get_reserved4(const Introspectable* i, int j) {
-        return static_cast<const MasterPersistAtom*>(i)->reserved4;
-    }
-    static QVariant get_reserved5(const Introspectable* i, int j) {
-        return static_cast<const MasterPersistAtom*>(i)->reserved5;
-    }
-    static QVariant get_masterId(const Introspectable* i, int j) {
-        return static_cast<const MasterPersistAtom*>(i)->masterId;
-    }
-    static QVariant get_reserved6(const Introspectable* i, int j) {
-        return static_cast<const MasterPersistAtom*>(i)->reserved6;
-    }
-};
-const QString MasterPersistAtom::_Introspection::name("MasterPersistAtom");
-const int MasterPersistAtom::_Introspection::numberOfMembers(10);
-const QString MasterPersistAtom::_Introspection::names[10] = {
-    "rh",
-    "persistIdRef",
-    "reserved1",
-    "fNonOutLineData",
-    "reserved2",
-    "reserved3",
-    "reserved4",
-    "reserved5",
-    "masterId",
-    "reserved6",
-};
-int (* const MasterPersistAtom::_Introspection::numberOfInstances[10])(const Introspectable*) = {
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-    Introspection::one,
-};
-QVariant (* const MasterPersistAtom::_Introspection::value[10])(const Introspectable*, int position) = {
-    Introspection::nullValue,
-    Introspection::nullValue,
-    _Introspection::get_reserved1,
-    _Introspection::get_fNonOutLineData,
-    _Introspection::get_reserved2,
-    _Introspection::get_reserved3,
-    _Introspection::get_reserved4,
-    _Introspection::get_reserved5,
-    _Introspection::get_masterId,
-    _Introspection::get_reserved6,
-};
-const Introspectable* (* const MasterPersistAtom::_Introspection::introspectable[10])(const Introspectable*, int position) = {
-    _Introspection::get_rh,
-    _Introspection::get_persistIdRef,
-    Introspection::null,
-    Introspection::null,
-    Introspection::null,
-    Introspection::null,
-    Introspection::null,
-    Introspection::null,
-    Introspection::null,
-    Introspection::null,
-};
-const Introspection MasterPersistAtom::_introspection(
-    "MasterPersistAtom", 10, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class TextContainer::_Introspection {
 public:
     static const QString name;
@@ -23987,10 +24013,7 @@ public:
         return get_text(i, 0) ?1 :0;
     }
     static const Introspectable* get_text(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const TextContainer*>(i)->text.textcharsatom.data();
-        if (k == 0) k = static_cast<const TextContainer*>(i)->text.textbytesatom.data();
-        return k;
+        return static_cast<const TextContainer*>(i)->text.data();
     }
     static int count_style(const Introspectable* i) {
         return get_style(i, 0) ?1 :0;
@@ -24082,14 +24105,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_meta(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.slidenumbermcatom.data();
-        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.datetimemcatom.data();
-        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.genericdatemcatom.data();
-        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.headermcatom.data();
-        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.footermcatom.data();
-        if (k == 0) k = static_cast<const TextContainerMeta*>(i)->meta.rtfdatetimemcatom.data();
-        return k;
+        return static_cast<const TextContainerMeta*>(i)->meta.data();
     }
 };
 const QString TextContainerMeta::_Introspection::name("TextContainerMeta");
@@ -24119,8 +24135,8 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const SlidePersistAtom*>(i)->rh);
     }
-    static const Introspectable* get_persistIdRef(const Introspectable* i, int j) {
-        return &(static_cast<const SlidePersistAtom*>(i)->persistIdRef);
+    static QVariant get_persistIdRef(const Introspectable* i, int j) {
+        return static_cast<const SlidePersistAtom*>(i)->persistIdRef;
     }
     static QVariant get_reserved1(const Introspectable* i, int j) {
         return static_cast<const SlidePersistAtom*>(i)->reserved1;
@@ -24180,7 +24196,7 @@ int (* const SlidePersistAtom::_Introspection::numberOfInstances[11])(const Intr
 };
 QVariant (* const SlidePersistAtom::_Introspection::value[11])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    Introspection::nullValue,
+    _Introspection::get_persistIdRef,
     _Introspection::get_reserved1,
     _Introspection::get_fShouldCollapse,
     _Introspection::get_fNonOutlineData,
@@ -24193,7 +24209,7 @@ QVariant (* const SlidePersistAtom::_Introspection::value[11])(const Introspecta
 };
 const Introspectable* (* const SlidePersistAtom::_Introspection::introspectable[11])(const Introspectable*, int position) = {
     _Introspection::get_rh,
-    _Introspection::get_persistIdRef,
+    Introspection::null,
     Introspection::null,
     Introspection::null,
     Introspection::null,
@@ -25141,11 +25157,11 @@ public:
     static const Introspectable* get_serverZoom(const Introspectable* i, int j) {
         return &(static_cast<const DocumentAtom*>(i)->serverZoom);
     }
-    static const Introspectable* get_notesMasterPersistIdRef(const Introspectable* i, int j) {
-        return &(static_cast<const DocumentAtom*>(i)->notesMasterPersistIdRef);
+    static QVariant get_notesMasterPersistIdRef(const Introspectable* i, int j) {
+        return static_cast<const DocumentAtom*>(i)->notesMasterPersistIdRef;
     }
-    static const Introspectable* get_handoutMasterPersistIdRef(const Introspectable* i, int j) {
-        return &(static_cast<const DocumentAtom*>(i)->handoutMasterPersistIdRef);
+    static QVariant get_handoutMasterPersistIdRef(const Introspectable* i, int j) {
+        return static_cast<const DocumentAtom*>(i)->handoutMasterPersistIdRef;
     }
     static QVariant get_firstSlideNumber(const Introspectable* i, int j) {
         return static_cast<const DocumentAtom*>(i)->firstSlideNumber;
@@ -25201,8 +25217,8 @@ QVariant (* const DocumentAtom::_Introspection::value[12])(const Introspectable*
     Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
-    Introspection::nullValue,
-    Introspection::nullValue,
+    _Introspection::get_notesMasterPersistIdRef,
+    _Introspection::get_handoutMasterPersistIdRef,
     _Introspection::get_firstSlideNumber,
     _Introspection::get_slideSizeType,
     _Introspection::get_fSaveWithFonts,
@@ -25215,8 +25231,8 @@ const Introspectable* (* const DocumentAtom::_Introspection::introspectable[12])
     _Introspection::get_slideSize,
     _Introspection::get_notesSize,
     _Introspection::get_serverZoom,
-    _Introspection::get_notesMasterPersistIdRef,
-    _Introspection::get_handoutMasterPersistIdRef,
+    Introspection::null,
+    Introspection::null,
     Introspection::null,
     Introspection::null,
     Introspection::null,
@@ -25662,11 +25678,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const OfficeArtSolverContainerFileBlock*>(i)->anon.officeartfconnectorrule.data();
-        if (k == 0) k = static_cast<const OfficeArtSolverContainerFileBlock*>(i)->anon.officeartfarcrule.data();
-        if (k == 0) k = static_cast<const OfficeArtSolverContainerFileBlock*>(i)->anon.officeartfcalloutrule.data();
-        return k;
+        return static_cast<const OfficeArtSolverContainerFileBlock*>(i)->anon.data();
     }
 };
 const QString OfficeArtSolverContainerFileBlock::_Introspection::name("OfficeArtSolverContainerFileBlock");
@@ -28252,10 +28264,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_prm(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const Prm*>(i)->prm.prm0.data();
-        if (k == 0) k = static_cast<const Prm*>(i)->prm.prm1.data();
-        return k;
+        return static_cast<const Prm*>(i)->prm.data();
     }
 };
 const QString Prm::_Introspection::name("Prm");
@@ -28460,15 +28469,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const OfficeArtBlip*>(i)->anon.officeartblipemf.data();
-        if (k == 0) k = static_cast<const OfficeArtBlip*>(i)->anon.officeartblipwmf.data();
-        if (k == 0) k = static_cast<const OfficeArtBlip*>(i)->anon.officeartblippict.data();
-        if (k == 0) k = static_cast<const OfficeArtBlip*>(i)->anon.officeartblipjpeg.data();
-        if (k == 0) k = static_cast<const OfficeArtBlip*>(i)->anon.officeartblippng.data();
-        if (k == 0) k = static_cast<const OfficeArtBlip*>(i)->anon.officeartblipdib.data();
-        if (k == 0) k = static_cast<const OfficeArtBlip*>(i)->anon.officeartbliptiff.data();
-        return k;
+        return static_cast<const OfficeArtBlip*>(i)->anon.data();
     }
 };
 const QString OfficeArtBlip::_Introspection::name("OfficeArtBlip");
@@ -29003,10 +29004,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_interactive(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const TextContainerInteractiveInfo*>(i)->interactive.mouseinteractiveinfocontainer.data();
-        if (k == 0) k = static_cast<const TextContainerInteractiveInfo*>(i)->interactive.mousetextinteractiveinfoatom.data();
-        return k;
+        return static_cast<const TextContainerInteractiveInfo*>(i)->interactive.data();
     }
 };
 const QString TextContainerInteractiveInfo::_Introspection::name("TextContainerInteractiveInfo");
@@ -29034,11 +29032,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.outlinetextrefatom.data();
-        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textcontainer.data();
-        if (k == 0) k = static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.textruleratom.data();
-        return k;
+        return static_cast<const TextClientDataSubContainerOrAtom*>(i)->anon.data();
     }
 };
 const QString TextClientDataSubContainerOrAtom::_Introspection::name("TextClientDataSubContainerOrAtom");
@@ -29460,10 +29454,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const SlideProgTagsSubContainerOrAtom*>(i)->anon.progstringtagcontainer.data();
-        if (k == 0) k = static_cast<const SlideProgTagsSubContainerOrAtom*>(i)->anon.slideprogbinarytagcontainer.data();
-        return k;
+        return static_cast<const SlideProgTagsSubContainerOrAtom*>(i)->anon.data();
     }
 };
 const QString SlideProgTagsSubContainerOrAtom::_Introspection::name("SlideProgTagsSubContainerOrAtom");
@@ -29491,19 +29482,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exavimoviecontainer.data();
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.excdaudiocontainer.data();
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.excontrolcontainer.data();
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exhyperlinkcontainer.data();
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exmcimoviecontainer.data();
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exmidiaudiocontainer.data();
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exoleembedcontainer.data();
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exolelinkcontainer.data();
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exwavaudioembeddedcontainer.data();
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.exwavaudiolinkcontainer.data();
-        if (k == 0) k = static_cast<const ExObjListSubContainer*>(i)->anon.unknownexobjlistsubcontainerchild.data();
-        return k;
+        return static_cast<const ExObjListSubContainer*>(i)->anon.data();
     }
 };
 const QString ExObjListSubContainer::_Introspection::name("ExObjListSubContainer");
@@ -29620,46 +29599,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.protectionbooleanproperties.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.adjust2value.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.adjust3value.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.itxid.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.dxtextleft.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.dytexttop.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.dxtextright.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.dytextbottom.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.wraptext.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.anchortext.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.textbooleanproperties.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.hspnext.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.shapepath.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.geometrybooleanproperties.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.filltype.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillcolor.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillbackcolor.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillblip.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillstylebooleanproperties.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linecolor.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linebackcolor.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linefillblip.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linewidth.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillrectright.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.fillrectbottom.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.wzfillid.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linestylebooleanproperties.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linestartarrowhead.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.lineendarrowhead.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.linejoinstyle.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.shadowcolor.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.shadowstylebooleanpropertiesr.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.shapebooleanproperties.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.hspmaster.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.rotation.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.lidregroup.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.bwmode.data();
-        if (k == 0) k = static_cast<const OfficeArtFOPTEChoice*>(i)->anon.officeartfopte.data();
-        return k;
+        return static_cast<const OfficeArtFOPTEChoice*>(i)->anon.data();
     }
 };
 const QString OfficeArtFOPTEChoice::_Introspection::name("OfficeArtFOPTEChoice");
@@ -30122,10 +30062,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const OfficeArtBStoreContainerFileBlock*>(i)->anon.officeartfbse.data();
-        if (k == 0) k = static_cast<const OfficeArtBStoreContainerFileBlock*>(i)->anon.officeartblip.data();
-        return k;
+        return static_cast<const OfficeArtBStoreContainerFileBlock*>(i)->anon.data();
     }
 };
 const QString OfficeArtBStoreContainerFileBlock::_Introspection::name("OfficeArtBStoreContainerFileBlock");
@@ -31094,15 +31031,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const DocInfoListSubContainerOrAtom*>(i)->anon.docprogtagscontainer.data();
-        if (k == 0) k = static_cast<const DocInfoListSubContainerOrAtom*>(i)->anon.normalviewsetinfocontainer.data();
-        if (k == 0) k = static_cast<const DocInfoListSubContainerOrAtom*>(i)->anon.notestextviewinfocontainer.data();
-        if (k == 0) k = static_cast<const DocInfoListSubContainerOrAtom*>(i)->anon.outlineviewinfocontainer.data();
-        if (k == 0) k = static_cast<const DocInfoListSubContainerOrAtom*>(i)->anon.slideviewinfoinstance.data();
-        if (k == 0) k = static_cast<const DocInfoListSubContainerOrAtom*>(i)->anon.sorterviewinfocontainer.data();
-        if (k == 0) k = static_cast<const DocInfoListSubContainerOrAtom*>(i)->anon.vbainfocontainer.data();
-        return k;
+        return static_cast<const DocInfoListSubContainerOrAtom*>(i)->anon.data();
     }
 };
 const QString DocInfoListSubContainerOrAtom::_Introspection::name("DocInfoListSubContainerOrAtom");
@@ -31382,10 +31311,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const OfficeArtSpgrContainerFileBlock*>(i)->anon.officeartspcontainer.data();
-        if (k == 0) k = static_cast<const OfficeArtSpgrContainerFileBlock*>(i)->anon.officeartspgrcontainer.data();
-        return k;
+        return static_cast<const OfficeArtSpgrContainerFileBlock*>(i)->anon.data();
     }
 };
 const QString OfficeArtSpgrContainerFileBlock::_Introspection::name("OfficeArtSpgrContainerFileBlock");
@@ -31413,13 +31339,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const DocProgBinaryTagSubContainerOrAtom*>(i)->anon.pp9docbinarytagextension.data();
-        if (k == 0) k = static_cast<const DocProgBinaryTagSubContainerOrAtom*>(i)->anon.pp10docbinarytagextension.data();
-        if (k == 0) k = static_cast<const DocProgBinaryTagSubContainerOrAtom*>(i)->anon.pp11docbinarytagextension.data();
-        if (k == 0) k = static_cast<const DocProgBinaryTagSubContainerOrAtom*>(i)->anon.pp12docbinarytagextension.data();
-        if (k == 0) k = static_cast<const DocProgBinaryTagSubContainerOrAtom*>(i)->anon.unknownbinarytag.data();
-        return k;
+        return static_cast<const DocProgBinaryTagSubContainerOrAtom*>(i)->anon.data();
     }
 };
 const QString DocProgBinaryTagSubContainerOrAtom::_Introspection::name("DocProgBinaryTagSubContainerOrAtom");
@@ -31894,10 +31814,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const DocProgTagsSubContainerOrAtom*>(i)->anon.progstringtagcontainer.data();
-        if (k == 0) k = static_cast<const DocProgTagsSubContainerOrAtom*>(i)->anon.docprogbinarytagcontainer.data();
-        return k;
+        return static_cast<const DocProgTagsSubContainerOrAtom*>(i)->anon.data();
     }
 };
 const QString DocProgTagsSubContainerOrAtom::_Introspection::name("DocProgTagsSubContainerOrAtom");
@@ -31925,10 +31842,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const MasterOrSlideContainer*>(i)->anon.mainmastercontainer.data();
-        if (k == 0) k = static_cast<const MasterOrSlideContainer*>(i)->anon.slidecontainer.data();
-        return k;
+        return static_cast<const MasterOrSlideContainer*>(i)->anon.data();
     }
 };
 const QString MasterOrSlideContainer::_Introspection::name("MasterOrSlideContainer");
@@ -31956,18 +31870,7 @@ public:
     static QVariant (* const value[1])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
     static const Introspectable* get_anon(const Introspectable* i, int j) {
-        const Introspectable* k = 0;
-        if (k == 0) k = static_cast<const PowerPointStruct*>(i)->anon.documentcontainer.data();
-        if (k == 0) k = static_cast<const PowerPointStruct*>(i)->anon.masterorslidecontainer.data();
-        if (k == 0) k = static_cast<const PowerPointStruct*>(i)->anon.persistdirectoryatom.data();
-        if (k == 0) k = static_cast<const PowerPointStruct*>(i)->anon.notescontainer.data();
-        if (k == 0) k = static_cast<const PowerPointStruct*>(i)->anon.handoutcontainer.data();
-        if (k == 0) k = static_cast<const PowerPointStruct*>(i)->anon.slidecontainer.data();
-        if (k == 0) k = static_cast<const PowerPointStruct*>(i)->anon.exoleobjstg.data();
-        if (k == 0) k = static_cast<const PowerPointStruct*>(i)->anon.excontrolstg.data();
-        if (k == 0) k = static_cast<const PowerPointStruct*>(i)->anon.vbaprojectstg.data();
-        if (k == 0) k = static_cast<const PowerPointStruct*>(i)->anon.usereditatom.data();
-        return k;
+        return static_cast<const PowerPointStruct*>(i)->anon.data();
     }
 };
 const QString PowerPointStruct::_Introspection::name("PowerPointStruct");
@@ -35579,6 +35482,154 @@ void parseMasterListWithTextContainer(QXmlStreamReader& in, MasterListWithTextCo
     }
     skipToStartElement(in);
 }
+void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s) {
+    _s.streamOffset = in.getPosition();
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
+    }
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    }
+    if (!(_s.rh.recType == 0x3F3)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x3F3");
+    }
+    if (!(_s.rh.recLen == 0x14)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x14");
+    }
+    _s.persistIdRef = in.readuint32();
+    _s.reserved1 = in.readuint2();
+    if (!(((quint8)_s.reserved1) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved1) == 0");
+    }
+    _s.fNonOutLineData = in.readbit();
+    _s.reserved2 = in.readuint5();
+    if (!(((quint8)_s.reserved2) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2) == 0");
+    }
+    _s.reserved3 = in.readuint8();
+    if (!(((quint8)_s.reserved3) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved3) == 0");
+    }
+    _s.reserved4 = in.readuint16();
+    if (!(((quint16)_s.reserved4) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint16)_s.reserved4) == 0");
+    }
+    _s.reserved5 = in.readuint32();
+    if (!(((quint32)_s.reserved5) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved5) == 0");
+    }
+    _s.masterId = in.readuint32();
+    _s.reserved6 = in.readuint32();
+    if (!(((quint32)_s.reserved6) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved6) == 0");
+    }
+}
+void write(const MasterPersistAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    out.writeuint32(_s.persistIdRef);
+    out.writeuint2(_s.reserved1);
+    out.writebit(_s.fNonOutLineData);
+    out.writeuint5(_s.reserved2);
+    out.writeuint8(_s.reserved3);
+    out.writeuint16(_s.reserved4);
+    out.writeuint32(_s.reserved5);
+    out.writeuint32(_s.masterId);
+    out.writeuint32(_s.reserved6);
+}
+void parseMasterPersistAtom(QXmlStreamReader& in, MasterPersistAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "persistIdRef") {
+        qDebug() << "not startelement in persistIdRef " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint2 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved1") {
+        qDebug() << "not startelement in reserved1 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in bit " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "fNonOutLineData") {
+        qDebug() << "not startelement in fNonOutLineData " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint5 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2") {
+        qDebug() << "not startelement in reserved2 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved3") {
+        qDebug() << "not startelement in reserved3 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved4") {
+        qDebug() << "not startelement in reserved4 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved5") {
+        qDebug() << "not startelement in reserved5 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "masterId") {
+        qDebug() << "not startelement in masterId " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved6") {
+        qDebug() << "not startelement in reserved6 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
 void parseSlideListWithTextContainer(LEInputStream& in, SlideListWithTextContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
@@ -38349,16 +38400,16 @@ void parsePersistDirectoryEntry(LEInputStream& in, PersistDirectoryEntry& _s) {
     _s.persistId = in.readuint20();
     _s.cPersist = in.readuint12();
     _c = _s.cPersist;
+    _s.rgPersistOffset.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.rgPersistOffset.append(PersistOffsetEntry(&_s));
-        parsePersistOffsetEntry(in, _s.rgPersistOffset[_i]);
+        _s.rgPersistOffset[_i] = in.readuint32();
     }
 }
 void write(const PersistDirectoryEntry& _s, LEOutputStream& out) {
     out.writeuint20(_s.persistId);
     out.writeuint12(_s.cPersist);
-    foreach (PersistOffsetEntry _i, _s.rgPersistOffset) {
-        write(_i, out);
+    foreach (quint32 _i, _s.rgPersistOffset) {
+        out.writeuint32(_i);
     }
 }
 void parsePersistDirectoryEntry(QXmlStreamReader& in, PersistDirectoryEntry& _s) {
@@ -38382,26 +38433,7 @@ void parsePersistDirectoryEntry(QXmlStreamReader& in, PersistDirectoryEntry& _s)
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in PersistOffsetEntry " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-}
-void parsePersistOffsetEntry(LEInputStream& in, PersistOffsetEntry& _s) {
-    _s.streamOffset = in.getPosition();
-    _s.anon = in.readuint32();
-}
-void write(const PersistOffsetEntry& _s, LEOutputStream& out) {
-    out.writeuint32(_s.anon);
-}
-void parsePersistOffsetEntry(QXmlStreamReader& in, PersistOffsetEntry& _s) {
-    in.readNext();
-    if (!in.isStartElement()) {
         qDebug() << "not startelement in uint32 " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "anon") {
-        qDebug() << "not startelement in anon " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -41755,6 +41787,104 @@ void parseOfficeArtFOPT(QXmlStreamReader& in, OfficeArtFOPT& _s) {
     }
     in.readElementText();
 }
+void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) {
+    _s.streamOffset = in.getPosition();
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 3)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 3");
+    }
+    if (!(_s.rh.recType == 0xF121)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF121");
+    }
+    _c = _s.rh.recInstance;
+    for (int _i=0; _i<_c; ++_i) {
+        _s.fopt.append(OfficeArtFOPTEChoice(&_s));
+        parseOfficeArtFOPTEChoice(in, _s.fopt[_i]);
+    }
+    _c = _s.rh.recLen-6*_s.rh.recInstance;
+    _s.complexData.resize(_c);
+    in.readBytes(_s.complexData);
+}
+void write(const OfficeArtSecondaryFOPT& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (OfficeArtFOPTEChoice _i, _s.fopt) {
+        write(_i, out);
+    }
+    out.writeBytes(_s.complexData);
+}
+void parseOfficeArtSecondaryFOPT(QXmlStreamReader& in, OfficeArtSecondaryFOPT& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEChoice " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
+void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
+    _s.streamOffset = in.getPosition();
+    int _c;
+    LEInputStream::Mark _m;
+    parseOfficeArtRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 3)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 3");
+    }
+    if (!(_s.rh.recType == 0xF122)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF122");
+    }
+    _c = _s.rh.recInstance;
+    for (int _i=0; _i<_c; ++_i) {
+        _s.fopt.append(OfficeArtFOPTEChoice(&_s));
+        parseOfficeArtFOPTEChoice(in, _s.fopt[_i]);
+    }
+    _c = _s.rh.recLen-6*_s.rh.recInstance;
+    _s.complexData.resize(_c);
+    in.readBytes(_s.complexData);
+}
+void write(const OfficeArtTertiaryFOPT& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    foreach (OfficeArtFOPTEChoice _i, _s.fopt) {
+        write(_i, out);
+    }
+    out.writeBytes(_s.complexData);
+}
+void parseOfficeArtTertiaryFOPT(QXmlStreamReader& in, OfficeArtTertiaryFOPT& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in OfficeArtFOPTEChoice " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
 void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s) {
     _s.streamOffset = in.getPosition();
     int _c;
@@ -42068,91 +42198,6 @@ void parseOfficeArtFPSPL(QXmlStreamReader& in, OfficeArtFPSPL& _s) {
     }
     if (in.name() != "fLast") {
         qDebug() << "not startelement in fLast " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-}
-void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s) {
-    _s.streamOffset = in.getPosition();
-    int _c;
-    LEInputStream::Mark _m;
-    parseOfficeArtRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 3)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 3");
-    }
-    if (!(_s.rh.recType == 0xF121)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF121");
-    }
-    _c = _s.rh.recLen;
-    _s.todo.resize(_c);
-    in.readBytes(_s.todo);
-}
-void write(const OfficeArtSecondaryFOPT& _s, LEOutputStream& out) {
-    write(_s.rh, out);
-    out.writeBytes(_s.todo);
-}
-void parseOfficeArtSecondaryFOPT(QXmlStreamReader& in, OfficeArtSecondaryFOPT& _s) {
-    in.readNext();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "rh") {
-        qDebug() << "not startelement in rh " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint8 " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-}
-void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s) {
-    _s.streamOffset = in.getPosition();
-    int _c;
-    LEInputStream::Mark _m;
-    parseOfficeArtRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 3)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 3");
-    }
-    if (!(_s.rh.recType == 0xF122)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF122");
-    }
-    _c = _s.rh.recInstance;
-    for (int _i=0; _i<_c; ++_i) {
-        _s.fopt.append(OfficeArtFOPTE(&_s));
-        parseOfficeArtFOPTE(in, _s.fopt[_i]);
-    }
-    _c = _s.rh.recLen-6*_s.rh.recInstance;
-    _s.complexData.resize(_c);
-    in.readBytes(_s.complexData);
-}
-void write(const OfficeArtTertiaryFOPT& _s, LEOutputStream& out) {
-    write(_s.rh, out);
-    foreach (OfficeArtFOPTE _i, _s.fopt) {
-        write(_i, out);
-    }
-    out.writeBytes(_s.complexData);
-}
-void parseOfficeArtTertiaryFOPT(QXmlStreamReader& in, OfficeArtTertiaryFOPT& _s) {
-    in.readNext();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in OfficeArtRecordHeader " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "rh") {
-        qDebug() << "not startelement in rh " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in OfficeArtFOPTE " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint8 " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -49408,154 +49453,6 @@ void parseNormalViewSetInfoAtom(QXmlStreamReader& in, NormalViewSetInfoAtom& _s)
     }
     in.readElementText();
 }
-void parseMasterPersistAtom(LEInputStream& in, MasterPersistAtom& _s) {
-    _s.streamOffset = in.getPosition();
-    parseRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
-    }
-    if (!(_s.rh.recInstance == 0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
-    }
-    if (!(_s.rh.recType == 0x3F3)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x3F3");
-    }
-    if (!(_s.rh.recLen == 0x14)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x14");
-    }
-    parsePersistIdRef(in, _s.persistIdRef);
-    _s.reserved1 = in.readuint2();
-    if (!(((quint8)_s.reserved1) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved1) == 0");
-    }
-    _s.fNonOutLineData = in.readbit();
-    _s.reserved2 = in.readuint5();
-    if (!(((quint8)_s.reserved2) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2) == 0");
-    }
-    _s.reserved3 = in.readuint8();
-    if (!(((quint8)_s.reserved3) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved3) == 0");
-    }
-    _s.reserved4 = in.readuint16();
-    if (!(((quint16)_s.reserved4) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint16)_s.reserved4) == 0");
-    }
-    _s.reserved5 = in.readuint32();
-    if (!(((quint32)_s.reserved5) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved5) == 0");
-    }
-    _s.masterId = in.readuint32();
-    _s.reserved6 = in.readuint32();
-    if (!(((quint32)_s.reserved6) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved6) == 0");
-    }
-}
-void write(const MasterPersistAtom& _s, LEOutputStream& out) {
-    write(_s.rh, out);
-    write(_s.persistIdRef, out);
-    out.writeuint2(_s.reserved1);
-    out.writebit(_s.fNonOutLineData);
-    out.writeuint5(_s.reserved2);
-    out.writeuint8(_s.reserved3);
-    out.writeuint16(_s.reserved4);
-    out.writeuint32(_s.reserved5);
-    out.writeuint32(_s.masterId);
-    out.writeuint32(_s.reserved6);
-}
-void parseMasterPersistAtom(QXmlStreamReader& in, MasterPersistAtom& _s) {
-    in.readNext();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "rh") {
-        qDebug() << "not startelement in rh " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in PersistIdRef " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "persistIdRef") {
-        qDebug() << "not startelement in persistIdRef " << in.lineNumber();
-        return;
-    }
-    skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint2 " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "reserved1") {
-        qDebug() << "not startelement in reserved1 " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in bit " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "fNonOutLineData") {
-        qDebug() << "not startelement in fNonOutLineData " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint5 " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "reserved2") {
-        qDebug() << "not startelement in reserved2 " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint8 " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "reserved3") {
-        qDebug() << "not startelement in reserved3 " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint16 " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "reserved4") {
-        qDebug() << "not startelement in reserved4 " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint32 " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "reserved5") {
-        qDebug() << "not startelement in reserved5 " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint32 " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "masterId") {
-        qDebug() << "not startelement in masterId " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint32 " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "reserved6") {
-        qDebug() << "not startelement in reserved6 " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-}
 void parseTextContainer(LEInputStream& in, TextContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
@@ -49563,16 +49460,16 @@ void parseTextContainer(LEInputStream& in, TextContainer& _s) {
     parseTextHeaderAtom(in, _s.textHeaderAtom);
     _m = in.setMark();
     try {
-        _s.text.textcharsatom = QSharedPointer<TextCharsAtom>(new TextCharsAtom(&_s));
-        parseTextCharsAtom(in, *_s.text.textcharsatom.data());
+        _s.text = TextContainer::textChoice(new TextCharsAtom(&_s));
+        parseTextCharsAtom(in, *(TextCharsAtom*)_s.text.data());
     } catch (IncorrectValueException _x) {
-        _s.text.textcharsatom.clear();
+        _s.text.clear();
         in.rewind(_m);
     try {
-        _s.text.textbytesatom = QSharedPointer<TextBytesAtom>(new TextBytesAtom(&_s));
-        parseTextBytesAtom(in, *_s.text.textbytesatom.data());
+        _s.text = TextContainer::textChoice(new TextBytesAtom(&_s));
+        parseTextBytesAtom(in, *(TextBytesAtom*)_s.text.data());
     } catch (IncorrectValueException _xx) {
-        _s.text.textbytesatom.clear();
+        _s.text.clear();
         in.rewind(_m);
     }}
     _m = in.setMark();
@@ -49659,10 +49556,10 @@ void parseTextContainer(LEInputStream& in, TextContainer& _s) {
 }
 void write(const TextContainer& _s, LEOutputStream& out) {
     write(_s.textHeaderAtom, out);
-    if (_s.text.textcharsatom) {
-        write(*_s.text.textcharsatom, out);
-    } else if (_s.text.textbytesatom) {
-        write(*_s.text.textbytesatom, out);
+    if (_s.text.is<TextCharsAtom>()) {
+        write(*_s.text.get<TextCharsAtom>(), out);
+    } else if (_s.text.is<TextBytesAtom>()) {
+        write(*_s.text.get<TextBytesAtom>(), out);
     }
     if (_s.style) write(*_s.style, out);
     foreach (TextContainerMeta _i, _s.meta) {
@@ -49737,52 +49634,52 @@ void parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.meta.slidenumbermcatom = QSharedPointer<SlideNumberMCAtom>(new SlideNumberMCAtom(&_s));
-        parseSlideNumberMCAtom(in, *_s.meta.slidenumbermcatom.data());
+        _s.meta = TextContainerMeta::metaChoice(new SlideNumberMCAtom(&_s));
+        parseSlideNumberMCAtom(in, *(SlideNumberMCAtom*)_s.meta.data());
     } catch (IncorrectValueException _x) {
-        _s.meta.slidenumbermcatom.clear();
+        _s.meta.clear();
         in.rewind(_m);
     try {
-        _s.meta.datetimemcatom = QSharedPointer<DateTimeMCAtom>(new DateTimeMCAtom(&_s));
-        parseDateTimeMCAtom(in, *_s.meta.datetimemcatom.data());
+        _s.meta = TextContainerMeta::metaChoice(new DateTimeMCAtom(&_s));
+        parseDateTimeMCAtom(in, *(DateTimeMCAtom*)_s.meta.data());
     } catch (IncorrectValueException _xx) {
-        _s.meta.datetimemcatom.clear();
+        _s.meta.clear();
         in.rewind(_m);
     try {
-        _s.meta.genericdatemcatom = QSharedPointer<GenericDateMCAtom>(new GenericDateMCAtom(&_s));
-        parseGenericDateMCAtom(in, *_s.meta.genericdatemcatom.data());
+        _s.meta = TextContainerMeta::metaChoice(new GenericDateMCAtom(&_s));
+        parseGenericDateMCAtom(in, *(GenericDateMCAtom*)_s.meta.data());
     } catch (IncorrectValueException _xxx) {
-        _s.meta.genericdatemcatom.clear();
+        _s.meta.clear();
         in.rewind(_m);
     try {
-        _s.meta.headermcatom = QSharedPointer<HeaderMCAtom>(new HeaderMCAtom(&_s));
-        parseHeaderMCAtom(in, *_s.meta.headermcatom.data());
+        _s.meta = TextContainerMeta::metaChoice(new HeaderMCAtom(&_s));
+        parseHeaderMCAtom(in, *(HeaderMCAtom*)_s.meta.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.meta.headermcatom.clear();
+        _s.meta.clear();
         in.rewind(_m);
     try {
-        _s.meta.footermcatom = QSharedPointer<FooterMCAtom>(new FooterMCAtom(&_s));
-        parseFooterMCAtom(in, *_s.meta.footermcatom.data());
+        _s.meta = TextContainerMeta::metaChoice(new FooterMCAtom(&_s));
+        parseFooterMCAtom(in, *(FooterMCAtom*)_s.meta.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.meta.footermcatom.clear();
+        _s.meta.clear();
         in.rewind(_m);
-        _s.meta.rtfdatetimemcatom = QSharedPointer<RTFDateTimeMCAtom>(new RTFDateTimeMCAtom(&_s));
-        parseRTFDateTimeMCAtom(in, *_s.meta.rtfdatetimemcatom);
+        _s.meta = TextContainerMeta::metaChoice(new RTFDateTimeMCAtom(&_s));
+        parseRTFDateTimeMCAtom(in, *(RTFDateTimeMCAtom*)_s.meta.data());
     }}}}}
 }
 void write(const TextContainerMeta& _s, LEOutputStream& out) {
-    if (_s.meta.slidenumbermcatom) {
-        write(*_s.meta.slidenumbermcatom, out);
-    } else if (_s.meta.datetimemcatom) {
-        write(*_s.meta.datetimemcatom, out);
-    } else if (_s.meta.genericdatemcatom) {
-        write(*_s.meta.genericdatemcatom, out);
-    } else if (_s.meta.headermcatom) {
-        write(*_s.meta.headermcatom, out);
-    } else if (_s.meta.footermcatom) {
-        write(*_s.meta.footermcatom, out);
-    } else if (_s.meta.rtfdatetimemcatom) {
-        write(*_s.meta.rtfdatetimemcatom, out);
+    if (_s.meta.is<SlideNumberMCAtom>()) {
+        write(*_s.meta.get<SlideNumberMCAtom>(), out);
+    } else if (_s.meta.is<DateTimeMCAtom>()) {
+        write(*_s.meta.get<DateTimeMCAtom>(), out);
+    } else if (_s.meta.is<GenericDateMCAtom>()) {
+        write(*_s.meta.get<GenericDateMCAtom>(), out);
+    } else if (_s.meta.is<HeaderMCAtom>()) {
+        write(*_s.meta.get<HeaderMCAtom>(), out);
+    } else if (_s.meta.is<FooterMCAtom>()) {
+        write(*_s.meta.get<FooterMCAtom>(), out);
+    } else if (_s.meta.is<RTFDateTimeMCAtom>()) {
+        write(*_s.meta.get<RTFDateTimeMCAtom>(), out);
     }
 }
 void parseTextContainerMeta(QXmlStreamReader& in, TextContainerMeta& _s) {
@@ -49812,7 +49709,7 @@ void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s) {
     if (!(_s.rh.recLen == 0x14)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x14");
     }
-    parsePersistIdRef(in, _s.persistIdRef);
+    _s.persistIdRef = in.readuint32();
     _s.reserved1 = in.readbit();
     if (!(((bool)_s.reserved1) == false)) {
         throw IncorrectValueException(in.getPosition(), "((bool)_s.reserved1) == false");
@@ -49846,7 +49743,7 @@ void parseSlidePersistAtom(LEInputStream& in, SlidePersistAtom& _s) {
 }
 void write(const SlidePersistAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    write(_s.persistIdRef, out);
+    out.writeuint32(_s.persistIdRef);
     out.writebit(_s.reserved1);
     out.writebit(_s.fShouldCollapse);
     out.writebit(_s.fNonOutlineData);
@@ -49869,14 +49766,14 @@ void parseSlidePersistAtom(QXmlStreamReader& in, SlidePersistAtom& _s) {
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in PersistIdRef " << in.lineNumber();
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
         return;
     }
     if (in.name() != "persistIdRef") {
         qDebug() << "not startelement in persistIdRef " << in.lineNumber();
         return;
     }
-    skipToStartElement(in);
+    in.readElementText();
     if (!in.isStartElement()) {
         qDebug() << "not startelement in bit " << in.lineNumber();
         return;
@@ -51316,8 +51213,8 @@ void parseDocumentAtom(LEInputStream& in, DocumentAtom& _s) {
     if (!(_s.serverZoom.numer*_s.serverZoom.denom > 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.serverZoom.numer*_s.serverZoom.denom > 0");
     }
-    parsePersistIdRef(in, _s.notesMasterPersistIdRef);
-    parsePersistIdRef(in, _s.handoutMasterPersistIdRef);
+    _s.notesMasterPersistIdRef = in.readuint32();
+    _s.handoutMasterPersistIdRef = in.readuint32();
     _s.firstSlideNumber = in.readuint16();
     if (!(((quint16)_s.firstSlideNumber)<10000)) {
         throw IncorrectValueException(in.getPosition(), "((quint16)_s.firstSlideNumber)<10000");
@@ -51336,8 +51233,8 @@ void write(const DocumentAtom& _s, LEOutputStream& out) {
     write(_s.slideSize, out);
     write(_s.notesSize, out);
     write(_s.serverZoom, out);
-    write(_s.notesMasterPersistIdRef, out);
-    write(_s.handoutMasterPersistIdRef, out);
+    out.writeuint32(_s.notesMasterPersistIdRef);
+    out.writeuint32(_s.handoutMasterPersistIdRef);
     out.writeuint16(_s.firstSlideNumber);
     out.writeuint16(_s.slideSizeType);
     out.writeuint8(_s.fSaveWithFonts);
@@ -51384,23 +51281,23 @@ void parseDocumentAtom(QXmlStreamReader& in, DocumentAtom& _s) {
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in PersistIdRef " << in.lineNumber();
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
         return;
     }
     if (in.name() != "notesMasterPersistIdRef") {
         qDebug() << "not startelement in notesMasterPersistIdRef " << in.lineNumber();
         return;
     }
-    skipToStartElement(in);
+    in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in PersistIdRef " << in.lineNumber();
+        qDebug() << "not startelement in uint32 " << in.lineNumber();
         return;
     }
     if (in.name() != "handoutMasterPersistIdRef") {
         qDebug() << "not startelement in handoutMasterPersistIdRef " << in.lineNumber();
         return;
     }
-    skipToStartElement(in);
+    in.readElementText();
     if (!in.isStartElement()) {
         qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;
@@ -52069,28 +51966,28 @@ void parseOfficeArtSolverContainerFileBlock(LEInputStream& in, OfficeArtSolverCo
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.officeartfconnectorrule = QSharedPointer<OfficeArtFConnectorRule>(new OfficeArtFConnectorRule(&_s));
-        parseOfficeArtFConnectorRule(in, *_s.anon.officeartfconnectorrule.data());
+        _s.anon = OfficeArtSolverContainerFileBlock::anonChoice(new OfficeArtFConnectorRule(&_s));
+        parseOfficeArtFConnectorRule(in, *(OfficeArtFConnectorRule*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.officeartfconnectorrule.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartfarcrule = QSharedPointer<OfficeArtFArcRule>(new OfficeArtFArcRule(&_s));
-        parseOfficeArtFArcRule(in, *_s.anon.officeartfarcrule.data());
+        _s.anon = OfficeArtSolverContainerFileBlock::anonChoice(new OfficeArtFArcRule(&_s));
+        parseOfficeArtFArcRule(in, *(OfficeArtFArcRule*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.officeartfarcrule.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.officeartfcalloutrule = QSharedPointer<OfficeArtFCalloutRule>(new OfficeArtFCalloutRule(&_s));
-        parseOfficeArtFCalloutRule(in, *_s.anon.officeartfcalloutrule);
+        _s.anon = OfficeArtSolverContainerFileBlock::anonChoice(new OfficeArtFCalloutRule(&_s));
+        parseOfficeArtFCalloutRule(in, *(OfficeArtFCalloutRule*)_s.anon.data());
     }}
 }
 void write(const OfficeArtSolverContainerFileBlock& _s, LEOutputStream& out) {
-    if (_s.anon.officeartfconnectorrule) {
-        write(*_s.anon.officeartfconnectorrule, out);
-    } else if (_s.anon.officeartfarcrule) {
-        write(*_s.anon.officeartfarcrule, out);
-    } else if (_s.anon.officeartfcalloutrule) {
-        write(*_s.anon.officeartfcalloutrule, out);
+    if (_s.anon.is<OfficeArtFConnectorRule>()) {
+        write(*_s.anon.get<OfficeArtFConnectorRule>(), out);
+    } else if (_s.anon.is<OfficeArtFArcRule>()) {
+        write(*_s.anon.get<OfficeArtFArcRule>(), out);
+    } else if (_s.anon.is<OfficeArtFCalloutRule>()) {
+        write(*_s.anon.get<OfficeArtFCalloutRule>(), out);
     }
 }
 void parseOfficeArtSolverContainerFileBlock(QXmlStreamReader& in, OfficeArtSolverContainerFileBlock& _s) {
@@ -55380,20 +55277,20 @@ void parsePrm(LEInputStream& in, Prm& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.prm.prm0 = QSharedPointer<Prm0>(new Prm0(&_s));
-        parsePrm0(in, *_s.prm.prm0.data());
+        _s.prm = Prm::prmChoice(new Prm0(&_s));
+        parsePrm0(in, *(Prm0*)_s.prm.data());
     } catch (IncorrectValueException _x) {
-        _s.prm.prm0.clear();
+        _s.prm.clear();
         in.rewind(_m);
-        _s.prm.prm1 = QSharedPointer<Prm1>(new Prm1(&_s));
-        parsePrm1(in, *_s.prm.prm1);
+        _s.prm = Prm::prmChoice(new Prm1(&_s));
+        parsePrm1(in, *(Prm1*)_s.prm.data());
     }
 }
 void write(const Prm& _s, LEOutputStream& out) {
-    if (_s.prm.prm0) {
-        write(*_s.prm.prm0, out);
-    } else if (_s.prm.prm1) {
-        write(*_s.prm.prm1, out);
+    if (_s.prm.is<Prm0>()) {
+        write(*_s.prm.get<Prm0>(), out);
+    } else if (_s.prm.is<Prm1>()) {
+        write(*_s.prm.get<Prm1>(), out);
     }
 }
 void parsePrm(QXmlStreamReader& in, Prm& _s) {
@@ -55632,60 +55529,60 @@ void parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.officeartblipemf = QSharedPointer<OfficeArtBlipEMF>(new OfficeArtBlipEMF(&_s));
-        parseOfficeArtBlipEMF(in, *_s.anon.officeartblipemf.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipEMF(&_s));
+        parseOfficeArtBlipEMF(in, *(OfficeArtBlipEMF*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.officeartblipemf.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartblipwmf = QSharedPointer<OfficeArtBlipWMF>(new OfficeArtBlipWMF(&_s));
-        parseOfficeArtBlipWMF(in, *_s.anon.officeartblipwmf.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipWMF(&_s));
+        parseOfficeArtBlipWMF(in, *(OfficeArtBlipWMF*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.officeartblipwmf.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartblippict = QSharedPointer<OfficeArtBlipPICT>(new OfficeArtBlipPICT(&_s));
-        parseOfficeArtBlipPICT(in, *_s.anon.officeartblippict.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipPICT(&_s));
+        parseOfficeArtBlipPICT(in, *(OfficeArtBlipPICT*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.officeartblippict.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartblipjpeg = QSharedPointer<OfficeArtBlipJPEG>(new OfficeArtBlipJPEG(&_s));
-        parseOfficeArtBlipJPEG(in, *_s.anon.officeartblipjpeg.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipJPEG(&_s));
+        parseOfficeArtBlipJPEG(in, *(OfficeArtBlipJPEG*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.officeartblipjpeg.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartblippng = QSharedPointer<OfficeArtBlipPNG>(new OfficeArtBlipPNG(&_s));
-        parseOfficeArtBlipPNG(in, *_s.anon.officeartblippng.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipPNG(&_s));
+        parseOfficeArtBlipPNG(in, *(OfficeArtBlipPNG*)_s.anon.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.anon.officeartblippng.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.officeartblipdib = QSharedPointer<OfficeArtBlipDIB>(new OfficeArtBlipDIB(&_s));
-        parseOfficeArtBlipDIB(in, *_s.anon.officeartblipdib.data());
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipDIB(&_s));
+        parseOfficeArtBlipDIB(in, *(OfficeArtBlipDIB*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxx) {
-        _s.anon.officeartblipdib.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.officeartbliptiff = QSharedPointer<OfficeArtBlipTIFF>(new OfficeArtBlipTIFF(&_s));
-        parseOfficeArtBlipTIFF(in, *_s.anon.officeartbliptiff);
+        _s.anon = OfficeArtBlip::anonChoice(new OfficeArtBlipTIFF(&_s));
+        parseOfficeArtBlipTIFF(in, *(OfficeArtBlipTIFF*)_s.anon.data());
     }}}}}}
 }
 void write(const OfficeArtBlip& _s, LEOutputStream& out) {
-    if (_s.anon.officeartblipemf) {
-        write(*_s.anon.officeartblipemf, out);
-    } else if (_s.anon.officeartblipwmf) {
-        write(*_s.anon.officeartblipwmf, out);
-    } else if (_s.anon.officeartblippict) {
-        write(*_s.anon.officeartblippict, out);
-    } else if (_s.anon.officeartblipjpeg) {
-        write(*_s.anon.officeartblipjpeg, out);
-    } else if (_s.anon.officeartblippng) {
-        write(*_s.anon.officeartblippng, out);
-    } else if (_s.anon.officeartblipdib) {
-        write(*_s.anon.officeartblipdib, out);
-    } else if (_s.anon.officeartbliptiff) {
-        write(*_s.anon.officeartbliptiff, out);
+    if (_s.anon.is<OfficeArtBlipEMF>()) {
+        write(*_s.anon.get<OfficeArtBlipEMF>(), out);
+    } else if (_s.anon.is<OfficeArtBlipWMF>()) {
+        write(*_s.anon.get<OfficeArtBlipWMF>(), out);
+    } else if (_s.anon.is<OfficeArtBlipPICT>()) {
+        write(*_s.anon.get<OfficeArtBlipPICT>(), out);
+    } else if (_s.anon.is<OfficeArtBlipJPEG>()) {
+        write(*_s.anon.get<OfficeArtBlipJPEG>(), out);
+    } else if (_s.anon.is<OfficeArtBlipPNG>()) {
+        write(*_s.anon.get<OfficeArtBlipPNG>(), out);
+    } else if (_s.anon.is<OfficeArtBlipDIB>()) {
+        write(*_s.anon.get<OfficeArtBlipDIB>(), out);
+    } else if (_s.anon.is<OfficeArtBlipTIFF>()) {
+        write(*_s.anon.get<OfficeArtBlipTIFF>(), out);
     }
 }
 void parseOfficeArtBlip(QXmlStreamReader& in, OfficeArtBlip& _s) {
@@ -56422,20 +56319,20 @@ void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteracti
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.interactive.mouseinteractiveinfocontainer = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
-        parseMouseInteractiveInfoContainer(in, *_s.interactive.mouseinteractiveinfocontainer.data());
+        _s.interactive = TextContainerInteractiveInfo::interactiveChoice(new MouseInteractiveInfoContainer(&_s));
+        parseMouseInteractiveInfoContainer(in, *(MouseInteractiveInfoContainer*)_s.interactive.data());
     } catch (IncorrectValueException _x) {
-        _s.interactive.mouseinteractiveinfocontainer.clear();
+        _s.interactive.clear();
         in.rewind(_m);
-        _s.interactive.mousetextinteractiveinfoatom = QSharedPointer<MouseTextInteractiveInfoAtom>(new MouseTextInteractiveInfoAtom(&_s));
-        parseMouseTextInteractiveInfoAtom(in, *_s.interactive.mousetextinteractiveinfoatom);
+        _s.interactive = TextContainerInteractiveInfo::interactiveChoice(new MouseTextInteractiveInfoAtom(&_s));
+        parseMouseTextInteractiveInfoAtom(in, *(MouseTextInteractiveInfoAtom*)_s.interactive.data());
     }
 }
 void write(const TextContainerInteractiveInfo& _s, LEOutputStream& out) {
-    if (_s.interactive.mouseinteractiveinfocontainer) {
-        write(*_s.interactive.mouseinteractiveinfocontainer, out);
-    } else if (_s.interactive.mousetextinteractiveinfoatom) {
-        write(*_s.interactive.mousetextinteractiveinfoatom, out);
+    if (_s.interactive.is<MouseInteractiveInfoContainer>()) {
+        write(*_s.interactive.get<MouseInteractiveInfoContainer>(), out);
+    } else if (_s.interactive.is<MouseTextInteractiveInfoAtom>()) {
+        write(*_s.interactive.get<MouseTextInteractiveInfoAtom>(), out);
     }
 }
 void parseTextContainerInteractiveInfo(QXmlStreamReader& in, TextContainerInteractiveInfo& _s) {
@@ -56455,28 +56352,28 @@ void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubC
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.outlinetextrefatom = QSharedPointer<OutlineTextRefAtom>(new OutlineTextRefAtom(&_s));
-        parseOutlineTextRefAtom(in, *_s.anon.outlinetextrefatom.data());
+        _s.anon = TextClientDataSubContainerOrAtom::anonChoice(new OutlineTextRefAtom(&_s));
+        parseOutlineTextRefAtom(in, *(OutlineTextRefAtom*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.outlinetextrefatom.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.textcontainer = QSharedPointer<TextContainer>(new TextContainer(&_s));
-        parseTextContainer(in, *_s.anon.textcontainer.data());
+        _s.anon = TextClientDataSubContainerOrAtom::anonChoice(new TextContainer(&_s));
+        parseTextContainer(in, *(TextContainer*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.textcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.textruleratom = QSharedPointer<TextRulerAtom>(new TextRulerAtom(&_s));
-        parseTextRulerAtom(in, *_s.anon.textruleratom);
+        _s.anon = TextClientDataSubContainerOrAtom::anonChoice(new TextRulerAtom(&_s));
+        parseTextRulerAtom(in, *(TextRulerAtom*)_s.anon.data());
     }}
 }
 void write(const TextClientDataSubContainerOrAtom& _s, LEOutputStream& out) {
-    if (_s.anon.outlinetextrefatom) {
-        write(*_s.anon.outlinetextrefatom, out);
-    } else if (_s.anon.textcontainer) {
-        write(*_s.anon.textcontainer, out);
-    } else if (_s.anon.textruleratom) {
-        write(*_s.anon.textruleratom, out);
+    if (_s.anon.is<OutlineTextRefAtom>()) {
+        write(*_s.anon.get<OutlineTextRefAtom>(), out);
+    } else if (_s.anon.is<TextContainer>()) {
+        write(*_s.anon.get<TextContainer>(), out);
+    } else if (_s.anon.is<TextRulerAtom>()) {
+        write(*_s.anon.get<TextRulerAtom>(), out);
     }
 }
 void parseTextClientDataSubContainerOrAtom(QXmlStreamReader& in, TextClientDataSubContainerOrAtom& _s) {
@@ -57038,20 +56935,20 @@ void parseSlideProgTagsSubContainerOrAtom(LEInputStream& in, SlideProgTagsSubCon
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.progstringtagcontainer = QSharedPointer<ProgStringTagContainer>(new ProgStringTagContainer(&_s));
-        parseProgStringTagContainer(in, *_s.anon.progstringtagcontainer.data());
+        _s.anon = SlideProgTagsSubContainerOrAtom::anonChoice(new ProgStringTagContainer(&_s));
+        parseProgStringTagContainer(in, *(ProgStringTagContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.progstringtagcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.slideprogbinarytagcontainer = QSharedPointer<SlideProgBinaryTagContainer>(new SlideProgBinaryTagContainer(&_s));
-        parseSlideProgBinaryTagContainer(in, *_s.anon.slideprogbinarytagcontainer);
+        _s.anon = SlideProgTagsSubContainerOrAtom::anonChoice(new SlideProgBinaryTagContainer(&_s));
+        parseSlideProgBinaryTagContainer(in, *(SlideProgBinaryTagContainer*)_s.anon.data());
     }
 }
 void write(const SlideProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
-    if (_s.anon.progstringtagcontainer) {
-        write(*_s.anon.progstringtagcontainer, out);
-    } else if (_s.anon.slideprogbinarytagcontainer) {
-        write(*_s.anon.slideprogbinarytagcontainer, out);
+    if (_s.anon.is<ProgStringTagContainer>()) {
+        write(*_s.anon.get<ProgStringTagContainer>(), out);
+    } else if (_s.anon.is<SlideProgBinaryTagContainer>()) {
+        write(*_s.anon.get<SlideProgBinaryTagContainer>(), out);
     }
 }
 void parseSlideProgTagsSubContainerOrAtom(QXmlStreamReader& in, SlideProgTagsSubContainerOrAtom& _s) {
@@ -57071,92 +56968,92 @@ void parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.exavimoviecontainer = QSharedPointer<ExAviMovieContainer>(new ExAviMovieContainer(&_s));
-        parseExAviMovieContainer(in, *_s.anon.exavimoviecontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExAviMovieContainer(&_s));
+        parseExAviMovieContainer(in, *(ExAviMovieContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.exavimoviecontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.excdaudiocontainer = QSharedPointer<ExCDAudioContainer>(new ExCDAudioContainer(&_s));
-        parseExCDAudioContainer(in, *_s.anon.excdaudiocontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExCDAudioContainer(&_s));
+        parseExCDAudioContainer(in, *(ExCDAudioContainer*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.excdaudiocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.excontrolcontainer = QSharedPointer<ExControlContainer>(new ExControlContainer(&_s));
-        parseExControlContainer(in, *_s.anon.excontrolcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExControlContainer(&_s));
+        parseExControlContainer(in, *(ExControlContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.excontrolcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exhyperlinkcontainer = QSharedPointer<ExHyperlinkContainer>(new ExHyperlinkContainer(&_s));
-        parseExHyperlinkContainer(in, *_s.anon.exhyperlinkcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExHyperlinkContainer(&_s));
+        parseExHyperlinkContainer(in, *(ExHyperlinkContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.exhyperlinkcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exmcimoviecontainer = QSharedPointer<ExMCIMovieContainer>(new ExMCIMovieContainer(&_s));
-        parseExMCIMovieContainer(in, *_s.anon.exmcimoviecontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExMCIMovieContainer(&_s));
+        parseExMCIMovieContainer(in, *(ExMCIMovieContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.anon.exmcimoviecontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exmidiaudiocontainer = QSharedPointer<ExMIDIAudioContainer>(new ExMIDIAudioContainer(&_s));
-        parseExMIDIAudioContainer(in, *_s.anon.exmidiaudiocontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExMIDIAudioContainer(&_s));
+        parseExMIDIAudioContainer(in, *(ExMIDIAudioContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxx) {
-        _s.anon.exmidiaudiocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exoleembedcontainer = QSharedPointer<ExOleEmbedContainer>(new ExOleEmbedContainer(&_s));
-        parseExOleEmbedContainer(in, *_s.anon.exoleembedcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExOleEmbedContainer(&_s));
+        parseExOleEmbedContainer(in, *(ExOleEmbedContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxx) {
-        _s.anon.exoleembedcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exolelinkcontainer = QSharedPointer<ExOleLinkContainer>(new ExOleLinkContainer(&_s));
-        parseExOleLinkContainer(in, *_s.anon.exolelinkcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExOleLinkContainer(&_s));
+        parseExOleLinkContainer(in, *(ExOleLinkContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxx) {
-        _s.anon.exolelinkcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exwavaudioembeddedcontainer = QSharedPointer<ExWAVAudioEmbeddedContainer>(new ExWAVAudioEmbeddedContainer(&_s));
-        parseExWAVAudioEmbeddedContainer(in, *_s.anon.exwavaudioembeddedcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExWAVAudioEmbeddedContainer(&_s));
+        parseExWAVAudioEmbeddedContainer(in, *(ExWAVAudioEmbeddedContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxx) {
-        _s.anon.exwavaudioembeddedcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exwavaudiolinkcontainer = QSharedPointer<ExWAVAudioLinkContainer>(new ExWAVAudioLinkContainer(&_s));
-        parseExWAVAudioLinkContainer(in, *_s.anon.exwavaudiolinkcontainer.data());
+        _s.anon = ExObjListSubContainer::anonChoice(new ExWAVAudioLinkContainer(&_s));
+        parseExWAVAudioLinkContainer(in, *(ExWAVAudioLinkContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxx) {
-        _s.anon.exwavaudiolinkcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.unknownexobjlistsubcontainerchild = QSharedPointer<UnknownExObjListSubContainerChild>(new UnknownExObjListSubContainerChild(&_s));
-        parseUnknownExObjListSubContainerChild(in, *_s.anon.unknownexobjlistsubcontainerchild);
+        _s.anon = ExObjListSubContainer::anonChoice(new UnknownExObjListSubContainerChild(&_s));
+        parseUnknownExObjListSubContainerChild(in, *(UnknownExObjListSubContainerChild*)_s.anon.data());
     }}}}}}}}}}
 }
 void write(const ExObjListSubContainer& _s, LEOutputStream& out) {
-    if (_s.anon.exavimoviecontainer) {
-        write(*_s.anon.exavimoviecontainer, out);
-    } else if (_s.anon.excdaudiocontainer) {
-        write(*_s.anon.excdaudiocontainer, out);
-    } else if (_s.anon.excontrolcontainer) {
-        write(*_s.anon.excontrolcontainer, out);
-    } else if (_s.anon.exhyperlinkcontainer) {
-        write(*_s.anon.exhyperlinkcontainer, out);
-    } else if (_s.anon.exmcimoviecontainer) {
-        write(*_s.anon.exmcimoviecontainer, out);
-    } else if (_s.anon.exmidiaudiocontainer) {
-        write(*_s.anon.exmidiaudiocontainer, out);
-    } else if (_s.anon.exoleembedcontainer) {
-        write(*_s.anon.exoleembedcontainer, out);
-    } else if (_s.anon.exolelinkcontainer) {
-        write(*_s.anon.exolelinkcontainer, out);
-    } else if (_s.anon.exwavaudioembeddedcontainer) {
-        write(*_s.anon.exwavaudioembeddedcontainer, out);
-    } else if (_s.anon.exwavaudiolinkcontainer) {
-        write(*_s.anon.exwavaudiolinkcontainer, out);
-    } else if (_s.anon.unknownexobjlistsubcontainerchild) {
-        write(*_s.anon.unknownexobjlistsubcontainerchild, out);
+    if (_s.anon.is<ExAviMovieContainer>()) {
+        write(*_s.anon.get<ExAviMovieContainer>(), out);
+    } else if (_s.anon.is<ExCDAudioContainer>()) {
+        write(*_s.anon.get<ExCDAudioContainer>(), out);
+    } else if (_s.anon.is<ExControlContainer>()) {
+        write(*_s.anon.get<ExControlContainer>(), out);
+    } else if (_s.anon.is<ExHyperlinkContainer>()) {
+        write(*_s.anon.get<ExHyperlinkContainer>(), out);
+    } else if (_s.anon.is<ExMCIMovieContainer>()) {
+        write(*_s.anon.get<ExMCIMovieContainer>(), out);
+    } else if (_s.anon.is<ExMIDIAudioContainer>()) {
+        write(*_s.anon.get<ExMIDIAudioContainer>(), out);
+    } else if (_s.anon.is<ExOleEmbedContainer>()) {
+        write(*_s.anon.get<ExOleEmbedContainer>(), out);
+    } else if (_s.anon.is<ExOleLinkContainer>()) {
+        write(*_s.anon.get<ExOleLinkContainer>(), out);
+    } else if (_s.anon.is<ExWAVAudioEmbeddedContainer>()) {
+        write(*_s.anon.get<ExWAVAudioEmbeddedContainer>(), out);
+    } else if (_s.anon.is<ExWAVAudioLinkContainer>()) {
+        write(*_s.anon.get<ExWAVAudioLinkContainer>(), out);
+    } else if (_s.anon.is<UnknownExObjListSubContainerChild>()) {
+        write(*_s.anon.get<UnknownExObjListSubContainerChild>(), out);
     }
 }
 void parseExObjListSubContainer(QXmlStreamReader& in, ExObjListSubContainer& _s) {
@@ -57314,308 +57211,308 @@ void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.protectionbooleanproperties = QSharedPointer<ProtectionBooleanProperties>(new ProtectionBooleanProperties(&_s));
-        parseProtectionBooleanProperties(in, *_s.anon.protectionbooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ProtectionBooleanProperties(&_s));
+        parseProtectionBooleanProperties(in, *(ProtectionBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.protectionbooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.adjust2value = QSharedPointer<adjust2Value>(new adjust2Value(&_s));
-        parseadjust2Value(in, *_s.anon.adjust2value.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new adjust2Value(&_s));
+        parseadjust2Value(in, *(adjust2Value*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.adjust2value.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.adjust3value = QSharedPointer<adjust3Value>(new adjust3Value(&_s));
-        parseadjust3Value(in, *_s.anon.adjust3value.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new adjust3Value(&_s));
+        parseadjust3Value(in, *(adjust3Value*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.adjust3value.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.itxid = QSharedPointer<ITxid>(new ITxid(&_s));
-        parseITxid(in, *_s.anon.itxid.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ITxid(&_s));
+        parseITxid(in, *(ITxid*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.itxid.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.dxtextleft = QSharedPointer<DxTextLeft>(new DxTextLeft(&_s));
-        parseDxTextLeft(in, *_s.anon.dxtextleft.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new DxTextLeft(&_s));
+        parseDxTextLeft(in, *(DxTextLeft*)_s.anon.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.anon.dxtextleft.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.dytexttop = QSharedPointer<DyTextTop>(new DyTextTop(&_s));
-        parseDyTextTop(in, *_s.anon.dytexttop.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new DyTextTop(&_s));
+        parseDyTextTop(in, *(DyTextTop*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxx) {
-        _s.anon.dytexttop.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.dxtextright = QSharedPointer<DxTextRight>(new DxTextRight(&_s));
-        parseDxTextRight(in, *_s.anon.dxtextright.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new DxTextRight(&_s));
+        parseDxTextRight(in, *(DxTextRight*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxx) {
-        _s.anon.dxtextright.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.dytextbottom = QSharedPointer<DyTextBottom>(new DyTextBottom(&_s));
-        parseDyTextBottom(in, *_s.anon.dytextbottom.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new DyTextBottom(&_s));
+        parseDyTextBottom(in, *(DyTextBottom*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxx) {
-        _s.anon.dytextbottom.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.wraptext = QSharedPointer<WrapText>(new WrapText(&_s));
-        parseWrapText(in, *_s.anon.wraptext.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new WrapText(&_s));
+        parseWrapText(in, *(WrapText*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxx) {
-        _s.anon.wraptext.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.anchortext = QSharedPointer<AnchorText>(new AnchorText(&_s));
-        parseAnchorText(in, *_s.anon.anchortext.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new AnchorText(&_s));
+        parseAnchorText(in, *(AnchorText*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxx) {
-        _s.anon.anchortext.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.textbooleanproperties = QSharedPointer<TextBooleanProperties>(new TextBooleanProperties(&_s));
-        parseTextBooleanProperties(in, *_s.anon.textbooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new TextBooleanProperties(&_s));
+        parseTextBooleanProperties(in, *(TextBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxx) {
-        _s.anon.textbooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.hspnext = QSharedPointer<HspNext>(new HspNext(&_s));
-        parseHspNext(in, *_s.anon.hspnext.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new HspNext(&_s));
+        parseHspNext(in, *(HspNext*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxx) {
-        _s.anon.hspnext.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.shapepath = QSharedPointer<ShapePath>(new ShapePath(&_s));
-        parseShapePath(in, *_s.anon.shapepath.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShapePath(&_s));
+        parseShapePath(in, *(ShapePath*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxx) {
-        _s.anon.shapepath.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.geometrybooleanproperties = QSharedPointer<GeometryBooleanProperties>(new GeometryBooleanProperties(&_s));
-        parseGeometryBooleanProperties(in, *_s.anon.geometrybooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new GeometryBooleanProperties(&_s));
+        parseGeometryBooleanProperties(in, *(GeometryBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
-        _s.anon.geometrybooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.filltype = QSharedPointer<FillType>(new FillType(&_s));
-        parseFillType(in, *_s.anon.filltype.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillType(&_s));
+        parseFillType(in, *(FillType*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxx) {
-        _s.anon.filltype.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillcolor = QSharedPointer<FillColor>(new FillColor(&_s));
-        parseFillColor(in, *_s.anon.fillcolor.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillColor(&_s));
+        parseFillColor(in, *(FillColor*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxx) {
-        _s.anon.fillcolor.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillbackcolor = QSharedPointer<FillBackColor>(new FillBackColor(&_s));
-        parseFillBackColor(in, *_s.anon.fillbackcolor.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillBackColor(&_s));
+        parseFillBackColor(in, *(FillBackColor*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxx) {
-        _s.anon.fillbackcolor.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillblip = QSharedPointer<FillBlip>(new FillBlip(&_s));
-        parseFillBlip(in, *_s.anon.fillblip.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillBlip(&_s));
+        parseFillBlip(in, *(FillBlip*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxx) {
-        _s.anon.fillblip.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillstylebooleanproperties = QSharedPointer<FillStyleBooleanProperties>(new FillStyleBooleanProperties(&_s));
-        parseFillStyleBooleanProperties(in, *_s.anon.fillstylebooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillStyleBooleanProperties(&_s));
+        parseFillStyleBooleanProperties(in, *(FillStyleBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxx) {
-        _s.anon.fillstylebooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linecolor = QSharedPointer<LineColor>(new LineColor(&_s));
-        parseLineColor(in, *_s.anon.linecolor.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineColor(&_s));
+        parseLineColor(in, *(LineColor*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linecolor.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linebackcolor = QSharedPointer<LineBackColor>(new LineBackColor(&_s));
-        parseLineBackColor(in, *_s.anon.linebackcolor.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineBackColor(&_s));
+        parseLineBackColor(in, *(LineBackColor*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linebackcolor.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linefillblip = QSharedPointer<LineFillBlip>(new LineFillBlip(&_s));
-        parseLineFillBlip(in, *_s.anon.linefillblip.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineFillBlip(&_s));
+        parseLineFillBlip(in, *(LineFillBlip*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linefillblip.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linewidth = QSharedPointer<LineWidth>(new LineWidth(&_s));
-        parseLineWidth(in, *_s.anon.linewidth.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineWidth(&_s));
+        parseLineWidth(in, *(LineWidth*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linewidth.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillrectright = QSharedPointer<FillRectRight>(new FillRectRight(&_s));
-        parseFillRectRight(in, *_s.anon.fillrectright.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillRectRight(&_s));
+        parseFillRectRight(in, *(FillRectRight*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.fillrectright.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.fillrectbottom = QSharedPointer<FillRectBottom>(new FillRectBottom(&_s));
-        parseFillRectBottom(in, *_s.anon.fillrectbottom.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillRectBottom(&_s));
+        parseFillRectBottom(in, *(FillRectBottom*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.fillrectbottom.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.wzfillid = QSharedPointer<WzFillId>(new WzFillId(&_s));
-        parseWzFillId(in, *_s.anon.wzfillid.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new WzFillId(&_s));
+        parseWzFillId(in, *(WzFillId*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.wzfillid.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linestylebooleanproperties = QSharedPointer<LineStyleBooleanProperties>(new LineStyleBooleanProperties(&_s));
-        parseLineStyleBooleanProperties(in, *_s.anon.linestylebooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineStyleBooleanProperties(&_s));
+        parseLineStyleBooleanProperties(in, *(LineStyleBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linestylebooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linestartarrowhead = QSharedPointer<LineStartArrowhead>(new LineStartArrowhead(&_s));
-        parseLineStartArrowhead(in, *_s.anon.linestartarrowhead.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineStartArrowhead(&_s));
+        parseLineStartArrowhead(in, *(LineStartArrowhead*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linestartarrowhead.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.lineendarrowhead = QSharedPointer<LineEndArrowhead>(new LineEndArrowhead(&_s));
-        parseLineEndArrowhead(in, *_s.anon.lineendarrowhead.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineEndArrowhead(&_s));
+        parseLineEndArrowhead(in, *(LineEndArrowhead*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.lineendarrowhead.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.linejoinstyle = QSharedPointer<LineJoinStyle>(new LineJoinStyle(&_s));
-        parseLineJoinStyle(in, *_s.anon.linejoinstyle.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineJoinStyle(&_s));
+        parseLineJoinStyle(in, *(LineJoinStyle*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.linejoinstyle.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.shadowcolor = QSharedPointer<ShadowColor>(new ShadowColor(&_s));
-        parseShadowColor(in, *_s.anon.shadowcolor.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShadowColor(&_s));
+        parseShadowColor(in, *(ShadowColor*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.shadowcolor.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.shadowstylebooleanpropertiesr = QSharedPointer<ShadowStyleBooleanPropertiesr>(new ShadowStyleBooleanPropertiesr(&_s));
-        parseShadowStyleBooleanPropertiesr(in, *_s.anon.shadowstylebooleanpropertiesr.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShadowStyleBooleanPropertiesr(&_s));
+        parseShadowStyleBooleanPropertiesr(in, *(ShadowStyleBooleanPropertiesr*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.shadowstylebooleanpropertiesr.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.shapebooleanproperties = QSharedPointer<ShapeBooleanProperties>(new ShapeBooleanProperties(&_s));
-        parseShapeBooleanProperties(in, *_s.anon.shapebooleanproperties.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShapeBooleanProperties(&_s));
+        parseShapeBooleanProperties(in, *(ShapeBooleanProperties*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.shapebooleanproperties.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.hspmaster = QSharedPointer<HspMaster>(new HspMaster(&_s));
-        parseHspMaster(in, *_s.anon.hspmaster.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new HspMaster(&_s));
+        parseHspMaster(in, *(HspMaster*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.hspmaster.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.rotation = QSharedPointer<Rotation>(new Rotation(&_s));
-        parseRotation(in, *_s.anon.rotation.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new Rotation(&_s));
+        parseRotation(in, *(Rotation*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.rotation.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.lidregroup = QSharedPointer<LidRegroup>(new LidRegroup(&_s));
-        parseLidRegroup(in, *_s.anon.lidregroup.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LidRegroup(&_s));
+        parseLidRegroup(in, *(LidRegroup*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.lidregroup.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.bwmode = QSharedPointer<BWMode>(new BWMode(&_s));
-        parseBWMode(in, *_s.anon.bwmode.data());
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new BWMode(&_s));
+        parseBWMode(in, *(BWMode*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
-        _s.anon.bwmode.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.officeartfopte = QSharedPointer<OfficeArtFOPTE>(new OfficeArtFOPTE(&_s));
-        parseOfficeArtFOPTE(in, *_s.anon.officeartfopte);
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new OfficeArtFOPTE(&_s));
+        parseOfficeArtFOPTE(in, *(OfficeArtFOPTE*)_s.anon.data());
     }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 }
 void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
-    if (_s.anon.protectionbooleanproperties) {
-        write(*_s.anon.protectionbooleanproperties, out);
-    } else if (_s.anon.adjust2value) {
-        write(*_s.anon.adjust2value, out);
-    } else if (_s.anon.adjust3value) {
-        write(*_s.anon.adjust3value, out);
-    } else if (_s.anon.itxid) {
-        write(*_s.anon.itxid, out);
-    } else if (_s.anon.dxtextleft) {
-        write(*_s.anon.dxtextleft, out);
-    } else if (_s.anon.dytexttop) {
-        write(*_s.anon.dytexttop, out);
-    } else if (_s.anon.dxtextright) {
-        write(*_s.anon.dxtextright, out);
-    } else if (_s.anon.dytextbottom) {
-        write(*_s.anon.dytextbottom, out);
-    } else if (_s.anon.wraptext) {
-        write(*_s.anon.wraptext, out);
-    } else if (_s.anon.anchortext) {
-        write(*_s.anon.anchortext, out);
-    } else if (_s.anon.textbooleanproperties) {
-        write(*_s.anon.textbooleanproperties, out);
-    } else if (_s.anon.hspnext) {
-        write(*_s.anon.hspnext, out);
-    } else if (_s.anon.shapepath) {
-        write(*_s.anon.shapepath, out);
-    } else if (_s.anon.geometrybooleanproperties) {
-        write(*_s.anon.geometrybooleanproperties, out);
-    } else if (_s.anon.filltype) {
-        write(*_s.anon.filltype, out);
-    } else if (_s.anon.fillcolor) {
-        write(*_s.anon.fillcolor, out);
-    } else if (_s.anon.fillbackcolor) {
-        write(*_s.anon.fillbackcolor, out);
-    } else if (_s.anon.fillblip) {
-        write(*_s.anon.fillblip, out);
-    } else if (_s.anon.fillstylebooleanproperties) {
-        write(*_s.anon.fillstylebooleanproperties, out);
-    } else if (_s.anon.linecolor) {
-        write(*_s.anon.linecolor, out);
-    } else if (_s.anon.linebackcolor) {
-        write(*_s.anon.linebackcolor, out);
-    } else if (_s.anon.linefillblip) {
-        write(*_s.anon.linefillblip, out);
-    } else if (_s.anon.linewidth) {
-        write(*_s.anon.linewidth, out);
-    } else if (_s.anon.fillrectright) {
-        write(*_s.anon.fillrectright, out);
-    } else if (_s.anon.fillrectbottom) {
-        write(*_s.anon.fillrectbottom, out);
-    } else if (_s.anon.wzfillid) {
-        write(*_s.anon.wzfillid, out);
-    } else if (_s.anon.linestylebooleanproperties) {
-        write(*_s.anon.linestylebooleanproperties, out);
-    } else if (_s.anon.linestartarrowhead) {
-        write(*_s.anon.linestartarrowhead, out);
-    } else if (_s.anon.lineendarrowhead) {
-        write(*_s.anon.lineendarrowhead, out);
-    } else if (_s.anon.linejoinstyle) {
-        write(*_s.anon.linejoinstyle, out);
-    } else if (_s.anon.shadowcolor) {
-        write(*_s.anon.shadowcolor, out);
-    } else if (_s.anon.shadowstylebooleanpropertiesr) {
-        write(*_s.anon.shadowstylebooleanpropertiesr, out);
-    } else if (_s.anon.shapebooleanproperties) {
-        write(*_s.anon.shapebooleanproperties, out);
-    } else if (_s.anon.hspmaster) {
-        write(*_s.anon.hspmaster, out);
-    } else if (_s.anon.rotation) {
-        write(*_s.anon.rotation, out);
-    } else if (_s.anon.lidregroup) {
-        write(*_s.anon.lidregroup, out);
-    } else if (_s.anon.bwmode) {
-        write(*_s.anon.bwmode, out);
-    } else if (_s.anon.officeartfopte) {
-        write(*_s.anon.officeartfopte, out);
+    if (_s.anon.is<ProtectionBooleanProperties>()) {
+        write(*_s.anon.get<ProtectionBooleanProperties>(), out);
+    } else if (_s.anon.is<adjust2Value>()) {
+        write(*_s.anon.get<adjust2Value>(), out);
+    } else if (_s.anon.is<adjust3Value>()) {
+        write(*_s.anon.get<adjust3Value>(), out);
+    } else if (_s.anon.is<ITxid>()) {
+        write(*_s.anon.get<ITxid>(), out);
+    } else if (_s.anon.is<DxTextLeft>()) {
+        write(*_s.anon.get<DxTextLeft>(), out);
+    } else if (_s.anon.is<DyTextTop>()) {
+        write(*_s.anon.get<DyTextTop>(), out);
+    } else if (_s.anon.is<DxTextRight>()) {
+        write(*_s.anon.get<DxTextRight>(), out);
+    } else if (_s.anon.is<DyTextBottom>()) {
+        write(*_s.anon.get<DyTextBottom>(), out);
+    } else if (_s.anon.is<WrapText>()) {
+        write(*_s.anon.get<WrapText>(), out);
+    } else if (_s.anon.is<AnchorText>()) {
+        write(*_s.anon.get<AnchorText>(), out);
+    } else if (_s.anon.is<TextBooleanProperties>()) {
+        write(*_s.anon.get<TextBooleanProperties>(), out);
+    } else if (_s.anon.is<HspNext>()) {
+        write(*_s.anon.get<HspNext>(), out);
+    } else if (_s.anon.is<ShapePath>()) {
+        write(*_s.anon.get<ShapePath>(), out);
+    } else if (_s.anon.is<GeometryBooleanProperties>()) {
+        write(*_s.anon.get<GeometryBooleanProperties>(), out);
+    } else if (_s.anon.is<FillType>()) {
+        write(*_s.anon.get<FillType>(), out);
+    } else if (_s.anon.is<FillColor>()) {
+        write(*_s.anon.get<FillColor>(), out);
+    } else if (_s.anon.is<FillBackColor>()) {
+        write(*_s.anon.get<FillBackColor>(), out);
+    } else if (_s.anon.is<FillBlip>()) {
+        write(*_s.anon.get<FillBlip>(), out);
+    } else if (_s.anon.is<FillStyleBooleanProperties>()) {
+        write(*_s.anon.get<FillStyleBooleanProperties>(), out);
+    } else if (_s.anon.is<LineColor>()) {
+        write(*_s.anon.get<LineColor>(), out);
+    } else if (_s.anon.is<LineBackColor>()) {
+        write(*_s.anon.get<LineBackColor>(), out);
+    } else if (_s.anon.is<LineFillBlip>()) {
+        write(*_s.anon.get<LineFillBlip>(), out);
+    } else if (_s.anon.is<LineWidth>()) {
+        write(*_s.anon.get<LineWidth>(), out);
+    } else if (_s.anon.is<FillRectRight>()) {
+        write(*_s.anon.get<FillRectRight>(), out);
+    } else if (_s.anon.is<FillRectBottom>()) {
+        write(*_s.anon.get<FillRectBottom>(), out);
+    } else if (_s.anon.is<WzFillId>()) {
+        write(*_s.anon.get<WzFillId>(), out);
+    } else if (_s.anon.is<LineStyleBooleanProperties>()) {
+        write(*_s.anon.get<LineStyleBooleanProperties>(), out);
+    } else if (_s.anon.is<LineStartArrowhead>()) {
+        write(*_s.anon.get<LineStartArrowhead>(), out);
+    } else if (_s.anon.is<LineEndArrowhead>()) {
+        write(*_s.anon.get<LineEndArrowhead>(), out);
+    } else if (_s.anon.is<LineJoinStyle>()) {
+        write(*_s.anon.get<LineJoinStyle>(), out);
+    } else if (_s.anon.is<ShadowColor>()) {
+        write(*_s.anon.get<ShadowColor>(), out);
+    } else if (_s.anon.is<ShadowStyleBooleanPropertiesr>()) {
+        write(*_s.anon.get<ShadowStyleBooleanPropertiesr>(), out);
+    } else if (_s.anon.is<ShapeBooleanProperties>()) {
+        write(*_s.anon.get<ShapeBooleanProperties>(), out);
+    } else if (_s.anon.is<HspMaster>()) {
+        write(*_s.anon.get<HspMaster>(), out);
+    } else if (_s.anon.is<Rotation>()) {
+        write(*_s.anon.get<Rotation>(), out);
+    } else if (_s.anon.is<LidRegroup>()) {
+        write(*_s.anon.get<LidRegroup>(), out);
+    } else if (_s.anon.is<BWMode>()) {
+        write(*_s.anon.get<BWMode>(), out);
+    } else if (_s.anon.is<OfficeArtFOPTE>()) {
+        write(*_s.anon.get<OfficeArtFOPTE>(), out);
     }
 }
 void parseOfficeArtFOPTEChoice(QXmlStreamReader& in, OfficeArtFOPTEChoice& _s) {
@@ -58253,20 +58150,20 @@ void parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBStoreCo
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.officeartfbse = QSharedPointer<OfficeArtFBSE>(new OfficeArtFBSE(&_s));
-        parseOfficeArtFBSE(in, *_s.anon.officeartfbse.data());
+        _s.anon = OfficeArtBStoreContainerFileBlock::anonChoice(new OfficeArtFBSE(&_s));
+        parseOfficeArtFBSE(in, *(OfficeArtFBSE*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.officeartfbse.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.officeartblip = QSharedPointer<OfficeArtBlip>(new OfficeArtBlip(&_s));
-        parseOfficeArtBlip(in, *_s.anon.officeartblip);
+        _s.anon = OfficeArtBStoreContainerFileBlock::anonChoice(new OfficeArtBlip(&_s));
+        parseOfficeArtBlip(in, *(OfficeArtBlip*)_s.anon.data());
     }
 }
 void write(const OfficeArtBStoreContainerFileBlock& _s, LEOutputStream& out) {
-    if (_s.anon.officeartfbse) {
-        write(*_s.anon.officeartfbse, out);
-    } else if (_s.anon.officeartblip) {
-        write(*_s.anon.officeartblip, out);
+    if (_s.anon.is<OfficeArtFBSE>()) {
+        write(*_s.anon.get<OfficeArtFBSE>(), out);
+    } else if (_s.anon.is<OfficeArtBlip>()) {
+        write(*_s.anon.get<OfficeArtBlip>(), out);
     }
 }
 void parseOfficeArtBStoreContainerFileBlock(QXmlStreamReader& in, OfficeArtBStoreContainerFileBlock& _s) {
@@ -59770,60 +59667,60 @@ void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContain
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.docprogtagscontainer = QSharedPointer<DocProgTagsContainer>(new DocProgTagsContainer(&_s));
-        parseDocProgTagsContainer(in, *_s.anon.docprogtagscontainer.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new DocProgTagsContainer(&_s));
+        parseDocProgTagsContainer(in, *(DocProgTagsContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.docprogtagscontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.normalviewsetinfocontainer = QSharedPointer<NormalViewSetInfoContainer>(new NormalViewSetInfoContainer(&_s));
-        parseNormalViewSetInfoContainer(in, *_s.anon.normalviewsetinfocontainer.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new NormalViewSetInfoContainer(&_s));
+        parseNormalViewSetInfoContainer(in, *(NormalViewSetInfoContainer*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.normalviewsetinfocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.notestextviewinfocontainer = QSharedPointer<NotesTextViewInfoContainer>(new NotesTextViewInfoContainer(&_s));
-        parseNotesTextViewInfoContainer(in, *_s.anon.notestextviewinfocontainer.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new NotesTextViewInfoContainer(&_s));
+        parseNotesTextViewInfoContainer(in, *(NotesTextViewInfoContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.notestextviewinfocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.outlineviewinfocontainer = QSharedPointer<OutlineViewInfoContainer>(new OutlineViewInfoContainer(&_s));
-        parseOutlineViewInfoContainer(in, *_s.anon.outlineviewinfocontainer.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new OutlineViewInfoContainer(&_s));
+        parseOutlineViewInfoContainer(in, *(OutlineViewInfoContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.outlineviewinfocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.slideviewinfoinstance = QSharedPointer<SlideViewInfoInstance>(new SlideViewInfoInstance(&_s));
-        parseSlideViewInfoInstance(in, *_s.anon.slideviewinfoinstance.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new SlideViewInfoInstance(&_s));
+        parseSlideViewInfoInstance(in, *(SlideViewInfoInstance*)_s.anon.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.anon.slideviewinfoinstance.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.sorterviewinfocontainer = QSharedPointer<SorterViewInfoContainer>(new SorterViewInfoContainer(&_s));
-        parseSorterViewInfoContainer(in, *_s.anon.sorterviewinfocontainer.data());
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new SorterViewInfoContainer(&_s));
+        parseSorterViewInfoContainer(in, *(SorterViewInfoContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxx) {
-        _s.anon.sorterviewinfocontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.vbainfocontainer = QSharedPointer<VBAInfoContainer>(new VBAInfoContainer(&_s));
-        parseVBAInfoContainer(in, *_s.anon.vbainfocontainer);
+        _s.anon = DocInfoListSubContainerOrAtom::anonChoice(new VBAInfoContainer(&_s));
+        parseVBAInfoContainer(in, *(VBAInfoContainer*)_s.anon.data());
     }}}}}}
 }
 void write(const DocInfoListSubContainerOrAtom& _s, LEOutputStream& out) {
-    if (_s.anon.docprogtagscontainer) {
-        write(*_s.anon.docprogtagscontainer, out);
-    } else if (_s.anon.normalviewsetinfocontainer) {
-        write(*_s.anon.normalviewsetinfocontainer, out);
-    } else if (_s.anon.notestextviewinfocontainer) {
-        write(*_s.anon.notestextviewinfocontainer, out);
-    } else if (_s.anon.outlineviewinfocontainer) {
-        write(*_s.anon.outlineviewinfocontainer, out);
-    } else if (_s.anon.slideviewinfoinstance) {
-        write(*_s.anon.slideviewinfoinstance, out);
-    } else if (_s.anon.sorterviewinfocontainer) {
-        write(*_s.anon.sorterviewinfocontainer, out);
-    } else if (_s.anon.vbainfocontainer) {
-        write(*_s.anon.vbainfocontainer, out);
+    if (_s.anon.is<DocProgTagsContainer>()) {
+        write(*_s.anon.get<DocProgTagsContainer>(), out);
+    } else if (_s.anon.is<NormalViewSetInfoContainer>()) {
+        write(*_s.anon.get<NormalViewSetInfoContainer>(), out);
+    } else if (_s.anon.is<NotesTextViewInfoContainer>()) {
+        write(*_s.anon.get<NotesTextViewInfoContainer>(), out);
+    } else if (_s.anon.is<OutlineViewInfoContainer>()) {
+        write(*_s.anon.get<OutlineViewInfoContainer>(), out);
+    } else if (_s.anon.is<SlideViewInfoInstance>()) {
+        write(*_s.anon.get<SlideViewInfoInstance>(), out);
+    } else if (_s.anon.is<SorterViewInfoContainer>()) {
+        write(*_s.anon.get<SorterViewInfoContainer>(), out);
+    } else if (_s.anon.is<VBAInfoContainer>()) {
+        write(*_s.anon.get<VBAInfoContainer>(), out);
     }
 }
 void parseDocInfoListSubContainerOrAtom(QXmlStreamReader& in, DocInfoListSubContainerOrAtom& _s) {
@@ -60224,20 +60121,20 @@ void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContai
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.officeartspcontainer = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(&_s));
-        parseOfficeArtSpContainer(in, *_s.anon.officeartspcontainer.data());
+        _s.anon = OfficeArtSpgrContainerFileBlock::anonChoice(new OfficeArtSpContainer(&_s));
+        parseOfficeArtSpContainer(in, *(OfficeArtSpContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.officeartspcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.officeartspgrcontainer = QSharedPointer<OfficeArtSpgrContainer>(new OfficeArtSpgrContainer(&_s));
-        parseOfficeArtSpgrContainer(in, *_s.anon.officeartspgrcontainer);
+        _s.anon = OfficeArtSpgrContainerFileBlock::anonChoice(new OfficeArtSpgrContainer(&_s));
+        parseOfficeArtSpgrContainer(in, *(OfficeArtSpgrContainer*)_s.anon.data());
     }
 }
 void write(const OfficeArtSpgrContainerFileBlock& _s, LEOutputStream& out) {
-    if (_s.anon.officeartspcontainer) {
-        write(*_s.anon.officeartspcontainer, out);
-    } else if (_s.anon.officeartspgrcontainer) {
-        write(*_s.anon.officeartspgrcontainer, out);
+    if (_s.anon.is<OfficeArtSpContainer>()) {
+        write(*_s.anon.get<OfficeArtSpContainer>(), out);
+    } else if (_s.anon.is<OfficeArtSpgrContainer>()) {
+        write(*_s.anon.get<OfficeArtSpgrContainer>(), out);
     }
 }
 void parseOfficeArtSpgrContainerFileBlock(QXmlStreamReader& in, OfficeArtSpgrContainerFileBlock& _s) {
@@ -60257,44 +60154,44 @@ void parseDocProgBinaryTagSubContainerOrAtom(LEInputStream& in, DocProgBinaryTag
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.pp9docbinarytagextension = QSharedPointer<PP9DocBinaryTagExtension>(new PP9DocBinaryTagExtension(&_s));
-        parsePP9DocBinaryTagExtension(in, *_s.anon.pp9docbinarytagextension.data());
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::anonChoice(new PP9DocBinaryTagExtension(&_s));
+        parsePP9DocBinaryTagExtension(in, *(PP9DocBinaryTagExtension*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.pp9docbinarytagextension.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.pp10docbinarytagextension = QSharedPointer<PP10DocBinaryTagExtension>(new PP10DocBinaryTagExtension(&_s));
-        parsePP10DocBinaryTagExtension(in, *_s.anon.pp10docbinarytagextension.data());
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::anonChoice(new PP10DocBinaryTagExtension(&_s));
+        parsePP10DocBinaryTagExtension(in, *(PP10DocBinaryTagExtension*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.pp10docbinarytagextension.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.pp11docbinarytagextension = QSharedPointer<PP11DocBinaryTagExtension>(new PP11DocBinaryTagExtension(&_s));
-        parsePP11DocBinaryTagExtension(in, *_s.anon.pp11docbinarytagextension.data());
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::anonChoice(new PP11DocBinaryTagExtension(&_s));
+        parsePP11DocBinaryTagExtension(in, *(PP11DocBinaryTagExtension*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.pp11docbinarytagextension.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.pp12docbinarytagextension = QSharedPointer<PP12DocBinaryTagExtension>(new PP12DocBinaryTagExtension(&_s));
-        parsePP12DocBinaryTagExtension(in, *_s.anon.pp12docbinarytagextension.data());
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::anonChoice(new PP12DocBinaryTagExtension(&_s));
+        parsePP12DocBinaryTagExtension(in, *(PP12DocBinaryTagExtension*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.pp12docbinarytagextension.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.unknownbinarytag = QSharedPointer<UnknownBinaryTag>(new UnknownBinaryTag(&_s));
-        parseUnknownBinaryTag(in, *_s.anon.unknownbinarytag);
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::anonChoice(new UnknownBinaryTag(&_s));
+        parseUnknownBinaryTag(in, *(UnknownBinaryTag*)_s.anon.data());
     }}}}
 }
 void write(const DocProgBinaryTagSubContainerOrAtom& _s, LEOutputStream& out) {
-    if (_s.anon.pp9docbinarytagextension) {
-        write(*_s.anon.pp9docbinarytagextension, out);
-    } else if (_s.anon.pp10docbinarytagextension) {
-        write(*_s.anon.pp10docbinarytagextension, out);
-    } else if (_s.anon.pp11docbinarytagextension) {
-        write(*_s.anon.pp11docbinarytagextension, out);
-    } else if (_s.anon.pp12docbinarytagextension) {
-        write(*_s.anon.pp12docbinarytagextension, out);
-    } else if (_s.anon.unknownbinarytag) {
-        write(*_s.anon.unknownbinarytag, out);
+    if (_s.anon.is<PP9DocBinaryTagExtension>()) {
+        write(*_s.anon.get<PP9DocBinaryTagExtension>(), out);
+    } else if (_s.anon.is<PP10DocBinaryTagExtension>()) {
+        write(*_s.anon.get<PP10DocBinaryTagExtension>(), out);
+    } else if (_s.anon.is<PP11DocBinaryTagExtension>()) {
+        write(*_s.anon.get<PP11DocBinaryTagExtension>(), out);
+    } else if (_s.anon.is<PP12DocBinaryTagExtension>()) {
+        write(*_s.anon.get<PP12DocBinaryTagExtension>(), out);
+    } else if (_s.anon.is<UnknownBinaryTag>()) {
+        write(*_s.anon.get<UnknownBinaryTag>(), out);
     }
 }
 void parseDocProgBinaryTagSubContainerOrAtom(QXmlStreamReader& in, DocProgBinaryTagSubContainerOrAtom& _s) {
@@ -61043,20 +60940,20 @@ void parseDocProgTagsSubContainerOrAtom(LEInputStream& in, DocProgTagsSubContain
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.progstringtagcontainer = QSharedPointer<ProgStringTagContainer>(new ProgStringTagContainer(&_s));
-        parseProgStringTagContainer(in, *_s.anon.progstringtagcontainer.data());
+        _s.anon = DocProgTagsSubContainerOrAtom::anonChoice(new ProgStringTagContainer(&_s));
+        parseProgStringTagContainer(in, *(ProgStringTagContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.progstringtagcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.docprogbinarytagcontainer = QSharedPointer<DocProgBinaryTagContainer>(new DocProgBinaryTagContainer(&_s));
-        parseDocProgBinaryTagContainer(in, *_s.anon.docprogbinarytagcontainer);
+        _s.anon = DocProgTagsSubContainerOrAtom::anonChoice(new DocProgBinaryTagContainer(&_s));
+        parseDocProgBinaryTagContainer(in, *(DocProgBinaryTagContainer*)_s.anon.data());
     }
 }
 void write(const DocProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
-    if (_s.anon.progstringtagcontainer) {
-        write(*_s.anon.progstringtagcontainer, out);
-    } else if (_s.anon.docprogbinarytagcontainer) {
-        write(*_s.anon.docprogbinarytagcontainer, out);
+    if (_s.anon.is<ProgStringTagContainer>()) {
+        write(*_s.anon.get<ProgStringTagContainer>(), out);
+    } else if (_s.anon.is<DocProgBinaryTagContainer>()) {
+        write(*_s.anon.get<DocProgBinaryTagContainer>(), out);
     }
 }
 void parseDocProgTagsSubContainerOrAtom(QXmlStreamReader& in, DocProgTagsSubContainerOrAtom& _s) {
@@ -61076,20 +60973,20 @@ void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s) 
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.mainmastercontainer = QSharedPointer<MainMasterContainer>(new MainMasterContainer(&_s));
-        parseMainMasterContainer(in, *_s.anon.mainmastercontainer.data());
+        _s.anon = MasterOrSlideContainer::anonChoice(new MainMasterContainer(&_s));
+        parseMainMasterContainer(in, *(MainMasterContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.mainmastercontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.slidecontainer = QSharedPointer<SlideContainer>(new SlideContainer(&_s));
-        parseSlideContainer(in, *_s.anon.slidecontainer);
+        _s.anon = MasterOrSlideContainer::anonChoice(new SlideContainer(&_s));
+        parseSlideContainer(in, *(SlideContainer*)_s.anon.data());
     }
 }
 void write(const MasterOrSlideContainer& _s, LEOutputStream& out) {
-    if (_s.anon.mainmastercontainer) {
-        write(*_s.anon.mainmastercontainer, out);
-    } else if (_s.anon.slidecontainer) {
-        write(*_s.anon.slidecontainer, out);
+    if (_s.anon.is<MainMasterContainer>()) {
+        write(*_s.anon.get<MainMasterContainer>(), out);
+    } else if (_s.anon.is<SlideContainer>()) {
+        write(*_s.anon.get<SlideContainer>(), out);
     }
 }
 void parseMasterOrSlideContainer(QXmlStreamReader& in, MasterOrSlideContainer& _s) {
@@ -61109,84 +61006,84 @@ void parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
     LEInputStream::Mark _m;
     _m = in.setMark();
     try {
-        _s.anon.documentcontainer = QSharedPointer<DocumentContainer>(new DocumentContainer(&_s));
-        parseDocumentContainer(in, *_s.anon.documentcontainer.data());
+        _s.anon = PowerPointStruct::anonChoice(new DocumentContainer(&_s));
+        parseDocumentContainer(in, *(DocumentContainer*)_s.anon.data());
     } catch (IncorrectValueException _x) {
-        _s.anon.documentcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.masterorslidecontainer = QSharedPointer<MasterOrSlideContainer>(new MasterOrSlideContainer(&_s));
-        parseMasterOrSlideContainer(in, *_s.anon.masterorslidecontainer.data());
+        _s.anon = PowerPointStruct::anonChoice(new MasterOrSlideContainer(&_s));
+        parseMasterOrSlideContainer(in, *(MasterOrSlideContainer*)_s.anon.data());
     } catch (IncorrectValueException _xx) {
-        _s.anon.masterorslidecontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.persistdirectoryatom = QSharedPointer<PersistDirectoryAtom>(new PersistDirectoryAtom(&_s));
-        parsePersistDirectoryAtom(in, *_s.anon.persistdirectoryatom.data());
+        _s.anon = PowerPointStruct::anonChoice(new PersistDirectoryAtom(&_s));
+        parsePersistDirectoryAtom(in, *(PersistDirectoryAtom*)_s.anon.data());
     } catch (IncorrectValueException _xxx) {
-        _s.anon.persistdirectoryatom.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.notescontainer = QSharedPointer<NotesContainer>(new NotesContainer(&_s));
-        parseNotesContainer(in, *_s.anon.notescontainer.data());
+        _s.anon = PowerPointStruct::anonChoice(new NotesContainer(&_s));
+        parseNotesContainer(in, *(NotesContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxx) {
-        _s.anon.notescontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.handoutcontainer = QSharedPointer<HandoutContainer>(new HandoutContainer(&_s));
-        parseHandoutContainer(in, *_s.anon.handoutcontainer.data());
+        _s.anon = PowerPointStruct::anonChoice(new HandoutContainer(&_s));
+        parseHandoutContainer(in, *(HandoutContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxx) {
-        _s.anon.handoutcontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.slidecontainer = QSharedPointer<SlideContainer>(new SlideContainer(&_s));
-        parseSlideContainer(in, *_s.anon.slidecontainer.data());
+        _s.anon = PowerPointStruct::anonChoice(new SlideContainer(&_s));
+        parseSlideContainer(in, *(SlideContainer*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxx) {
-        _s.anon.slidecontainer.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.exoleobjstg = QSharedPointer<ExOleObjStg>(new ExOleObjStg(&_s));
-        parseExOleObjStg(in, *_s.anon.exoleobjstg.data());
+        _s.anon = PowerPointStruct::anonChoice(new ExOleObjStg(&_s));
+        parseExOleObjStg(in, *(ExOleObjStg*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxx) {
-        _s.anon.exoleobjstg.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.excontrolstg = QSharedPointer<ExControlStg>(new ExControlStg(&_s));
-        parseExControlStg(in, *_s.anon.excontrolstg.data());
+        _s.anon = PowerPointStruct::anonChoice(new ExControlStg(&_s));
+        parseExControlStg(in, *(ExControlStg*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxx) {
-        _s.anon.excontrolstg.clear();
+        _s.anon.clear();
         in.rewind(_m);
     try {
-        _s.anon.vbaprojectstg = QSharedPointer<VbaProjectStg>(new VbaProjectStg(&_s));
-        parseVbaProjectStg(in, *_s.anon.vbaprojectstg.data());
+        _s.anon = PowerPointStruct::anonChoice(new VbaProjectStg(&_s));
+        parseVbaProjectStg(in, *(VbaProjectStg*)_s.anon.data());
     } catch (IncorrectValueException _xxxxxxxxx) {
-        _s.anon.vbaprojectstg.clear();
+        _s.anon.clear();
         in.rewind(_m);
-        _s.anon.usereditatom = QSharedPointer<UserEditAtom>(new UserEditAtom(&_s));
-        parseUserEditAtom(in, *_s.anon.usereditatom);
+        _s.anon = PowerPointStruct::anonChoice(new UserEditAtom(&_s));
+        parseUserEditAtom(in, *(UserEditAtom*)_s.anon.data());
     }}}}}}}}}
 }
 void write(const PowerPointStruct& _s, LEOutputStream& out) {
-    if (_s.anon.documentcontainer) {
-        write(*_s.anon.documentcontainer, out);
-    } else if (_s.anon.masterorslidecontainer) {
-        write(*_s.anon.masterorslidecontainer, out);
-    } else if (_s.anon.persistdirectoryatom) {
-        write(*_s.anon.persistdirectoryatom, out);
-    } else if (_s.anon.notescontainer) {
-        write(*_s.anon.notescontainer, out);
-    } else if (_s.anon.handoutcontainer) {
-        write(*_s.anon.handoutcontainer, out);
-    } else if (_s.anon.slidecontainer) {
-        write(*_s.anon.slidecontainer, out);
-    } else if (_s.anon.exoleobjstg) {
-        write(*_s.anon.exoleobjstg, out);
-    } else if (_s.anon.excontrolstg) {
-        write(*_s.anon.excontrolstg, out);
-    } else if (_s.anon.vbaprojectstg) {
-        write(*_s.anon.vbaprojectstg, out);
-    } else if (_s.anon.usereditatom) {
-        write(*_s.anon.usereditatom, out);
+    if (_s.anon.is<DocumentContainer>()) {
+        write(*_s.anon.get<DocumentContainer>(), out);
+    } else if (_s.anon.is<MasterOrSlideContainer>()) {
+        write(*_s.anon.get<MasterOrSlideContainer>(), out);
+    } else if (_s.anon.is<PersistDirectoryAtom>()) {
+        write(*_s.anon.get<PersistDirectoryAtom>(), out);
+    } else if (_s.anon.is<NotesContainer>()) {
+        write(*_s.anon.get<NotesContainer>(), out);
+    } else if (_s.anon.is<HandoutContainer>()) {
+        write(*_s.anon.get<HandoutContainer>(), out);
+    } else if (_s.anon.is<SlideContainer>()) {
+        write(*_s.anon.get<SlideContainer>(), out);
+    } else if (_s.anon.is<ExOleObjStg>()) {
+        write(*_s.anon.get<ExOleObjStg>(), out);
+    } else if (_s.anon.is<ExControlStg>()) {
+        write(*_s.anon.get<ExControlStg>(), out);
+    } else if (_s.anon.is<VbaProjectStg>()) {
+        write(*_s.anon.get<VbaProjectStg>(), out);
+    } else if (_s.anon.is<UserEditAtom>()) {
+        write(*_s.anon.get<UserEditAtom>(), out);
     }
 }
 void parsePowerPointStruct(QXmlStreamReader& in, PowerPointStruct& _s) {
