@@ -3195,14 +3195,17 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recLen%2==0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen%2==0 for value " + String.valueOf(_s.rh) );
         }
-        _c = _s.rh.recLen;
-        _s.todo = in.readBytes(_c);
+        _c = _s.rh.recLen/2;
+        _s.slideName = new int[_c];
+        for (int _i=0; _i<_c; ++_i) {
+            _s.slideName[_i] = in.readuint16();
+        }
         return _s;
     }
     void write(SlideNameAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        for (byte _i: _s.todo) {
-            out.writeuint8(_i);
+        for (int _i: _s.slideName) {
+            out.writeuint16(_i);
         }
     }
     SlideProgTagsContainer parseSlideProgTagsContainer(LEInputStream in) throws IOException  {
@@ -8641,6 +8644,25 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.opid, out);
         out.writeint32(_s.hspNext);
     }
+    Pib parsePib(LEInputStream in) throws IOException  {
+        Pib _s = new Pib();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x0140)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0140 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.pib = in.readuint32();
+        return _s;
+    }
+    void write(Pib _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeuint32(_s.pib);
+    }
     ShapePath parseShapePath(LEInputStream in) throws IOException  {
         ShapePath _s = new ShapePath();
         _s.opid = parseOfficeArtFOPTEOPID(in);
@@ -8662,6 +8684,44 @@ System.out.println(in.getPosition()+" "+_s);
     void write(ShapePath _s, LEOutputStream out) throws IOException  {
         write(_s.opid, out);
         out.writeuint32(_s.shapePath);
+    }
+    adjust2Value parseadjust2Value(LEInputStream in) throws IOException  {
+        adjust2Value _s = new adjust2Value();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x0148)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0148 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.adjust2value = in.readint32();
+        return _s;
+    }
+    void write(adjust2Value _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeint32(_s.adjust2value);
+    }
+    adjust3Value parseadjust3Value(LEInputStream in) throws IOException  {
+        adjust3Value _s = new adjust3Value();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x0149)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0149 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.adjust3value = in.readint32();
+        return _s;
+    }
+    void write(adjust3Value _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeint32(_s.adjust3value);
     }
     GeometryBooleanProperties parseGeometryBooleanProperties(LEInputStream in) throws IOException  {
         GeometryBooleanProperties _s = new GeometryBooleanProperties();
@@ -8944,6 +9004,25 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.opid, out);
         out.writeuint32(_s.lineWidth);
     }
+    LineDashing parseLineDashing(LEInputStream in) throws IOException  {
+        LineDashing _s = new LineDashing();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x01CE)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x01CE for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.lineDashing = in.readuint32();
+        return _s;
+    }
+    void write(LineDashing _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeuint32(_s.lineDashing);
+    }
     LineStartArrowhead parseLineStartArrowhead(LEInputStream in) throws IOException  {
         LineStartArrowhead _s = new LineStartArrowhead();
         _s.opid = parseOfficeArtFOPTEOPID(in);
@@ -8987,6 +9066,82 @@ System.out.println(in.getPosition()+" "+_s);
     void write(LineEndArrowhead _s, LEOutputStream out) throws IOException  {
         write(_s.opid, out);
         out.writeuint32(_s.lineEndArrowhead);
+    }
+    LineStartArrowWidth parseLineStartArrowWidth(LEInputStream in) throws IOException  {
+        LineStartArrowWidth _s = new LineStartArrowWidth();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x01D2)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x01D2 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.lineStartArrowWidth = in.readuint32();
+        return _s;
+    }
+    void write(LineStartArrowWidth _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeuint32(_s.lineStartArrowWidth);
+    }
+    LineStartArrowLength parseLineStartArrowLength(LEInputStream in) throws IOException  {
+        LineStartArrowLength _s = new LineStartArrowLength();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x01D3)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x01D3 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.lineStartArrowLength = in.readuint32();
+        return _s;
+    }
+    void write(LineStartArrowLength _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeuint32(_s.lineStartArrowLength);
+    }
+    LineEndArrowWidth parseLineEndArrowWidth(LEInputStream in) throws IOException  {
+        LineEndArrowWidth _s = new LineEndArrowWidth();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x01D4)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x01D4 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.lineEndArrowWidth = in.readuint32();
+        return _s;
+    }
+    void write(LineEndArrowWidth _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeuint32(_s.lineEndArrowWidth);
+    }
+    LineEndArrowLength parseLineEndArrowLength(LEInputStream in) throws IOException  {
+        LineEndArrowLength _s = new LineEndArrowLength();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x01D5)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x01D5 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.lineEndArrowLength = in.readuint32();
+        return _s;
+    }
+    void write(LineEndArrowLength _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeuint32(_s.lineEndArrowLength);
     }
     LineJoinStyle parseLineJoinStyle(LEInputStream in) throws IOException  {
         LineJoinStyle _s = new LineJoinStyle();
@@ -9089,6 +9244,63 @@ System.out.println(in.getPosition()+" "+_s);
     void write(ShadowColor _s, LEOutputStream out) throws IOException  {
         write(_s.opid, out);
         write(_s.shadowColor, out);
+    }
+    ShadowOpacity parseShadowOpacity(LEInputStream in) throws IOException  {
+        ShadowOpacity _s = new ShadowOpacity();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x0204)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0204 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.shadowOpacity = parseFixedPoint(in);
+        return _s;
+    }
+    void write(ShadowOpacity _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        write(_s.shadowOpacity, out);
+    }
+    ShadowOffsetX parseShadowOffsetX(LEInputStream in) throws IOException  {
+        ShadowOffsetX _s = new ShadowOffsetX();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x0205)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0205 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.shadowOffsetX = in.readint32();
+        return _s;
+    }
+    void write(ShadowOffsetX _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeint32(_s.shadowOffsetX);
+    }
+    ShadowOffsetY parseShadowOffsetY(LEInputStream in) throws IOException  {
+        ShadowOffsetY _s = new ShadowOffsetY();
+        _s.opid = parseOfficeArtFOPTEOPID(in);
+        if (!(_s.opid.opid == 0x0206)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0206 for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fBid == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
+        }
+        if (!(_s.opid.fComplex == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        }
+        _s.shadowOffsetY = in.readint32();
+        return _s;
+    }
+    void write(ShadowOffsetY _s, LEOutputStream out) throws IOException  {
+        write(_s.opid, out);
+        out.writeint32(_s.shadowOffsetY);
     }
     ShadowStyleBooleanPropertiesr parseShadowStyleBooleanPropertiesr(LEInputStream in) throws IOException  {
         ShadowStyleBooleanPropertiesr _s = new ShadowStyleBooleanPropertiesr();
@@ -9247,44 +9459,6 @@ System.out.println(in.getPosition()+" "+_s);
     void write(LidRegroup _s, LEOutputStream out) throws IOException  {
         write(_s.opid, out);
         out.writeuint32(_s.lidRegroup);
-    }
-    adjust2Value parseadjust2Value(LEInputStream in) throws IOException  {
-        adjust2Value _s = new adjust2Value();
-        _s.opid = parseOfficeArtFOPTEOPID(in);
-        if (!(_s.opid.opid == 0x0148)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0148 for value " + String.valueOf(_s.opid) );
-        }
-        if (!(_s.opid.fBid == false)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
-        }
-        if (!(_s.opid.fComplex == false)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
-        }
-        _s.adjust2value = in.readint32();
-        return _s;
-    }
-    void write(adjust2Value _s, LEOutputStream out) throws IOException  {
-        write(_s.opid, out);
-        out.writeint32(_s.adjust2value);
-    }
-    adjust3Value parseadjust3Value(LEInputStream in) throws IOException  {
-        adjust3Value _s = new adjust3Value();
-        _s.opid = parseOfficeArtFOPTEOPID(in);
-        if (!(_s.opid.opid == 0x0149)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0149 for value " + String.valueOf(_s.opid) );
-        }
-        if (!(_s.opid.fBid == false)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
-        }
-        if (!(_s.opid.fComplex == false)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
-        }
-        _s.adjust3value = in.readint32();
-        return _s;
-    }
-    void write(adjust3Value _s, LEOutputStream out) throws IOException  {
-        write(_s.opid, out);
-        out.writeint32(_s.adjust3value);
     }
     WzFillId parseWzFillId(LEInputStream in) throws IOException  {
         WzFillId _s = new WzFillId();
@@ -10729,157 +10903,211 @@ System.out.println(in.getPosition()+" "+_s);
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseShapePath(in);
+            _s.anon = parsePib(in);
         } catch (IOException _xxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseGeometryBooleanProperties(in);
+            _s.anon = parseShapePath(in);
         } catch (IOException _xxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillType(in);
+            _s.anon = parseGeometryBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillColor(in);
+            _s.anon = parseFillType(in);
         } catch (IOException _xxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillBackColor(in);
+            _s.anon = parseFillColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillBlip(in);
+            _s.anon = parseFillBackColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillStyleBooleanProperties(in);
+            _s.anon = parseFillBlip(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineColor(in);
+            _s.anon = parseFillStyleBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineBackColor(in);
+            _s.anon = parseLineColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineFillBlip(in);
+            _s.anon = parseLineBackColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineWidth(in);
+            _s.anon = parseLineFillBlip(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillRectRight(in);
+            _s.anon = parseLineWidth(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseFillRectBottom(in);
+            _s.anon = parseLineDashing(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseWzFillId(in);
+            _s.anon = parseFillRectRight(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineStyleBooleanProperties(in);
+            _s.anon = parseFillRectBottom(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineStartArrowhead(in);
+            _s.anon = parseWzFillId(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineEndArrowhead(in);
+            _s.anon = parseLineStyleBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLineJoinStyle(in);
+            _s.anon = parseLineStartArrowhead(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseShadowColor(in);
+            _s.anon = parseLineEndArrowhead(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseShadowStyleBooleanPropertiesr(in);
+            _s.anon = parseLineStartArrowWidth(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseShapeBooleanProperties(in);
+            _s.anon = parseLineStartArrowLength(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseHspMaster(in);
+            _s.anon = parseLineEndArrowWidth(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseRotation(in);
+            _s.anon = parseLineEndArrowLength(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseLidRegroup(in);
+            _s.anon = parseLineJoinStyle(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
-            _s.anon = parseBWMode(in);
+            _s.anon = parseShadowColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
             if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
+        try {
+            _s.anon = parseShadowOpacity(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseShadowOffsetX(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseShadowOffsetY(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseShadowStyleBooleanPropertiesr(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseShapeBooleanProperties(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseHspMaster(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseRotation(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseLidRegroup(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
+        try {
+            _s.anon = parseBWMode(in);
+        } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+            if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
+            in.rewind(_m);
             _s.anon = parseOfficeArtFOPTE(in);
-        }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}} finally {
+        }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}} finally {
             in.releaseMark(_m);
         }
         return _s;
@@ -10909,6 +11137,8 @@ System.out.println(in.getPosition()+" "+_s);
             write((TextBooleanProperties)_s.anon, out);
         } else if (_s.anon instanceof HspNext) {
             write((HspNext)_s.anon, out);
+        } else if (_s.anon instanceof Pib) {
+            write((Pib)_s.anon, out);
         } else if (_s.anon instanceof ShapePath) {
             write((ShapePath)_s.anon, out);
         } else if (_s.anon instanceof GeometryBooleanProperties) {
@@ -10931,6 +11161,8 @@ System.out.println(in.getPosition()+" "+_s);
             write((LineFillBlip)_s.anon, out);
         } else if (_s.anon instanceof LineWidth) {
             write((LineWidth)_s.anon, out);
+        } else if (_s.anon instanceof LineDashing) {
+            write((LineDashing)_s.anon, out);
         } else if (_s.anon instanceof FillRectRight) {
             write((FillRectRight)_s.anon, out);
         } else if (_s.anon instanceof FillRectBottom) {
@@ -10943,10 +11175,24 @@ System.out.println(in.getPosition()+" "+_s);
             write((LineStartArrowhead)_s.anon, out);
         } else if (_s.anon instanceof LineEndArrowhead) {
             write((LineEndArrowhead)_s.anon, out);
+        } else if (_s.anon instanceof LineStartArrowWidth) {
+            write((LineStartArrowWidth)_s.anon, out);
+        } else if (_s.anon instanceof LineStartArrowLength) {
+            write((LineStartArrowLength)_s.anon, out);
+        } else if (_s.anon instanceof LineEndArrowWidth) {
+            write((LineEndArrowWidth)_s.anon, out);
+        } else if (_s.anon instanceof LineEndArrowLength) {
+            write((LineEndArrowLength)_s.anon, out);
         } else if (_s.anon instanceof LineJoinStyle) {
             write((LineJoinStyle)_s.anon, out);
         } else if (_s.anon instanceof ShadowColor) {
             write((ShadowColor)_s.anon, out);
+        } else if (_s.anon instanceof ShadowOpacity) {
+            write((ShadowOpacity)_s.anon, out);
+        } else if (_s.anon instanceof ShadowOffsetX) {
+            write((ShadowOffsetX)_s.anon, out);
+        } else if (_s.anon instanceof ShadowOffsetY) {
+            write((ShadowOffsetY)_s.anon, out);
         } else if (_s.anon instanceof ShadowStyleBooleanPropertiesr) {
             write((ShadowStyleBooleanPropertiesr)_s.anon, out);
         } else if (_s.anon instanceof ShapeBooleanProperties) {
@@ -14383,11 +14629,11 @@ class RoundTripOArtTextStyles12Atom {
 }
 class SlideNameAtom {
     RecordHeader rh;
-    byte[] todo;
+    int[] slideName;
     public String toString() {
         String _s = "SlideNameAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
-        _s = _s + "todo: " + String.valueOf(todo) + ", ";
+        _s = _s + "slideName: " + String.valueOf(slideName) + ", ";
         return _s;
     }
 }
@@ -17307,6 +17553,16 @@ class HspNext {
         return _s;
     }
 }
+class Pib {
+    OfficeArtFOPTEOPID opid;
+    int pib;
+    public String toString() {
+        String _s = "Pib:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "pib: " + String.valueOf(pib) + "(" + Integer.toHexString(pib).toUpperCase() + "), ";
+        return _s;
+    }
+}
 class ShapePath {
     OfficeArtFOPTEOPID opid;
     int shapePath;
@@ -17314,6 +17570,26 @@ class ShapePath {
         String _s = "ShapePath:";
         _s = _s + "opid: " + String.valueOf(opid) + ", ";
         _s = _s + "shapePath: " + String.valueOf(shapePath) + "(" + Integer.toHexString(shapePath).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class adjust2Value {
+    OfficeArtFOPTEOPID opid;
+    int adjust2value;
+    public String toString() {
+        String _s = "adjust2Value:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "adjust2value: " + String.valueOf(adjust2value) + "(" + Integer.toHexString(adjust2value).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class adjust3Value {
+    OfficeArtFOPTEOPID opid;
+    int adjust3value;
+    public String toString() {
+        String _s = "adjust3Value:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "adjust3value: " + String.valueOf(adjust3value) + "(" + Integer.toHexString(adjust3value).toUpperCase() + "), ";
         return _s;
     }
 }
@@ -17505,6 +17781,16 @@ class LineWidth {
         return _s;
     }
 }
+class LineDashing {
+    OfficeArtFOPTEOPID opid;
+    int lineDashing;
+    public String toString() {
+        String _s = "LineDashing:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "lineDashing: " + String.valueOf(lineDashing) + "(" + Integer.toHexString(lineDashing).toUpperCase() + "), ";
+        return _s;
+    }
+}
 class LineStartArrowhead {
     OfficeArtFOPTEOPID opid;
     int lineStartArrowhead;
@@ -17522,6 +17808,46 @@ class LineEndArrowhead {
         String _s = "LineEndArrowhead:";
         _s = _s + "opid: " + String.valueOf(opid) + ", ";
         _s = _s + "lineEndArrowhead: " + String.valueOf(lineEndArrowhead) + "(" + Integer.toHexString(lineEndArrowhead).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class LineStartArrowWidth {
+    OfficeArtFOPTEOPID opid;
+    int lineStartArrowWidth;
+    public String toString() {
+        String _s = "LineStartArrowWidth:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "lineStartArrowWidth: " + String.valueOf(lineStartArrowWidth) + "(" + Integer.toHexString(lineStartArrowWidth).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class LineStartArrowLength {
+    OfficeArtFOPTEOPID opid;
+    int lineStartArrowLength;
+    public String toString() {
+        String _s = "LineStartArrowLength:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "lineStartArrowLength: " + String.valueOf(lineStartArrowLength) + "(" + Integer.toHexString(lineStartArrowLength).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class LineEndArrowWidth {
+    OfficeArtFOPTEOPID opid;
+    int lineEndArrowWidth;
+    public String toString() {
+        String _s = "LineEndArrowWidth:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "lineEndArrowWidth: " + String.valueOf(lineEndArrowWidth) + "(" + Integer.toHexString(lineEndArrowWidth).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class LineEndArrowLength {
+    OfficeArtFOPTEOPID opid;
+    int lineEndArrowLength;
+    public String toString() {
+        String _s = "LineEndArrowLength:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "lineEndArrowLength: " + String.valueOf(lineEndArrowLength) + "(" + Integer.toHexString(lineEndArrowLength).toUpperCase() + "), ";
         return _s;
     }
 }
@@ -17594,6 +17920,36 @@ class ShadowColor {
         String _s = "ShadowColor:";
         _s = _s + "opid: " + String.valueOf(opid) + ", ";
         _s = _s + "shadowColor: " + String.valueOf(shadowColor) + ", ";
+        return _s;
+    }
+}
+class ShadowOpacity {
+    OfficeArtFOPTEOPID opid;
+    FixedPoint shadowOpacity;
+    public String toString() {
+        String _s = "ShadowOpacity:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "shadowOpacity: " + String.valueOf(shadowOpacity) + ", ";
+        return _s;
+    }
+}
+class ShadowOffsetX {
+    OfficeArtFOPTEOPID opid;
+    int shadowOffsetX;
+    public String toString() {
+        String _s = "ShadowOffsetX:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "shadowOffsetX: " + String.valueOf(shadowOffsetX) + "(" + Integer.toHexString(shadowOffsetX).toUpperCase() + "), ";
+        return _s;
+    }
+}
+class ShadowOffsetY {
+    OfficeArtFOPTEOPID opid;
+    int shadowOffsetY;
+    public String toString() {
+        String _s = "ShadowOffsetY:";
+        _s = _s + "opid: " + String.valueOf(opid) + ", ";
+        _s = _s + "shadowOffsetY: " + String.valueOf(shadowOffsetY) + "(" + Integer.toHexString(shadowOffsetY).toUpperCase() + "), ";
         return _s;
     }
 }
@@ -17704,26 +18060,6 @@ class LidRegroup {
         String _s = "LidRegroup:";
         _s = _s + "opid: " + String.valueOf(opid) + ", ";
         _s = _s + "lidRegroup: " + String.valueOf(lidRegroup) + "(" + Integer.toHexString(lidRegroup).toUpperCase() + "), ";
-        return _s;
-    }
-}
-class adjust2Value {
-    OfficeArtFOPTEOPID opid;
-    int adjust2value;
-    public String toString() {
-        String _s = "adjust2Value:";
-        _s = _s + "opid: " + String.valueOf(opid) + ", ";
-        _s = _s + "adjust2value: " + String.valueOf(adjust2value) + "(" + Integer.toHexString(adjust2value).toUpperCase() + "), ";
-        return _s;
-    }
-}
-class adjust3Value {
-    OfficeArtFOPTEOPID opid;
-    int adjust3value;
-    public String toString() {
-        String _s = "adjust3Value:";
-        _s = _s + "opid: " + String.valueOf(opid) + ", ";
-        _s = _s + "adjust3value: " + String.valueOf(adjust3value) + "(" + Integer.toHexString(adjust3value).toUpperCase() + "), ";
         return _s;
     }
 }

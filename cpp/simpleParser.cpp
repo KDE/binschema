@@ -2326,9 +2326,11 @@ void PPT::parseSlideNameAtom(LEInputStream& in, SlideNameAtom& _s) {
     if (!(_s.rh.recLen%2==0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
-    _c = _s.rh.recLen;
-    _s.todo.resize(_c);
-    in.readBytes(_s.todo);
+    _c = _s.rh.recLen/2;
+    _s.slideName.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
+        _s.slideName[_i] = in.readuint16();
+    }
 }
 void PPT::parseSlideProgTagsContainer(LEInputStream& in, SlideProgTagsContainer& _s) {
     _s.streamOffset = in.getPosition();
@@ -6162,6 +6164,20 @@ void PPT::parseHspNext(LEInputStream& in, HspNext& _s) {
     }
     _s.hspNext = in.readint32();
 }
+void PPT::parsePib(LEInputStream& in, Pib& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0140)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0140");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.pib = in.readuint32();
+}
 void PPT::parseShapePath(LEInputStream& in, ShapePath& _s) {
     _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -6178,6 +6194,34 @@ void PPT::parseShapePath(LEInputStream& in, ShapePath& _s) {
     if (!(((quint32)_s.shapePath)<=4)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.shapePath)<=4");
     }
+}
+void PPT::parseadjust2Value(LEInputStream& in, adjust2Value& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0148)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0148");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.adjust2value = in.readint32();
+}
+void PPT::parseadjust3Value(LEInputStream& in, adjust3Value& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0149)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0149");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.adjust3value = in.readint32();
 }
 void PPT::parseGeometryBooleanProperties(LEInputStream& in, GeometryBooleanProperties& _s) {
     _s.streamOffset = in.getPosition();
@@ -6366,6 +6410,20 @@ void PPT::parseLineWidth(LEInputStream& in, LineWidth& _s) {
     }
     _s.lineWidth = in.readuint32();
 }
+void PPT::parseLineDashing(LEInputStream& in, LineDashing& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x01CE)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01CE");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.lineDashing = in.readuint32();
+}
 void PPT::parseLineStartArrowhead(LEInputStream& in, LineStartArrowhead& _s) {
     _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
@@ -6399,6 +6457,62 @@ void PPT::parseLineEndArrowhead(LEInputStream& in, LineEndArrowhead& _s) {
     if (!(((quint32)_s.lineEndArrowhead)<=8)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.lineEndArrowhead)<=8");
     }
+}
+void PPT::parseLineStartArrowWidth(LEInputStream& in, LineStartArrowWidth& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x01D2)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01D2");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.lineStartArrowWidth = in.readuint32();
+}
+void PPT::parseLineStartArrowLength(LEInputStream& in, LineStartArrowLength& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x01D3)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01D3");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.lineStartArrowLength = in.readuint32();
+}
+void PPT::parseLineEndArrowWidth(LEInputStream& in, LineEndArrowWidth& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x01D4)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01D4");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.lineEndArrowWidth = in.readuint32();
+}
+void PPT::parseLineEndArrowLength(LEInputStream& in, LineEndArrowLength& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x01D5)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x01D5");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.lineEndArrowLength = in.readuint32();
 }
 void PPT::parseLineJoinStyle(LEInputStream& in, LineJoinStyle& _s) {
     _s.streamOffset = in.getPosition();
@@ -6465,6 +6579,48 @@ void PPT::parseShadowColor(LEInputStream& in, ShadowColor& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
     }
     parseOfficeArtCOLORREF(in, _s.shadowColor);
+}
+void PPT::parseShadowOpacity(LEInputStream& in, ShadowOpacity& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0204)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0204");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    parseFixedPoint(in, _s.shadowOpacity);
+}
+void PPT::parseShadowOffsetX(LEInputStream& in, ShadowOffsetX& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0205)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0205");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.shadowOffsetX = in.readint32();
+}
+void PPT::parseShadowOffsetY(LEInputStream& in, ShadowOffsetY& _s) {
+    _s.streamOffset = in.getPosition();
+    parseOfficeArtFOPTEOPID(in, _s.opid);
+    if (!(_s.opid.opid == 0x0206)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0206");
+    }
+    if (!(_s.opid.fBid == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
+    }
+    if (!(_s.opid.fComplex == false)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    }
+    _s.shadowOffsetY = in.readint32();
 }
 void PPT::parseShadowStyleBooleanPropertiesr(LEInputStream& in, ShadowStyleBooleanPropertiesr& _s) {
     _s.streamOffset = in.getPosition();
@@ -6568,34 +6724,6 @@ void PPT::parseLidRegroup(LEInputStream& in, LidRegroup& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
     }
     _s.lidRegroup = in.readuint32();
-}
-void PPT::parseadjust2Value(LEInputStream& in, adjust2Value& _s) {
-    _s.streamOffset = in.getPosition();
-    parseOfficeArtFOPTEOPID(in, _s.opid);
-    if (!(_s.opid.opid == 0x0148)) {
-        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0148");
-    }
-    if (!(_s.opid.fBid == false)) {
-        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
-    }
-    if (!(_s.opid.fComplex == false)) {
-        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
-    }
-    _s.adjust2value = in.readint32();
-}
-void PPT::parseadjust3Value(LEInputStream& in, adjust3Value& _s) {
-    _s.streamOffset = in.getPosition();
-    parseOfficeArtFOPTEOPID(in, _s.opid);
-    if (!(_s.opid.opid == 0x0149)) {
-        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0149");
-    }
-    if (!(_s.opid.fBid == false)) {
-        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
-    }
-    if (!(_s.opid.fComplex == false)) {
-        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
-    }
-    _s.adjust3value = in.readint32();
 }
 void PPT::parseWzFillId(LEInputStream& in, WzFillId& _s) {
     _s.streamOffset = in.getPosition();
@@ -7690,158 +7818,212 @@ void PPT::parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s)
         _s.anon.clear();
         in.rewind(_m);
     try {
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new Pib(&_s));
+        parsePib(in, *(Pib*)_s.anon.data());
+    } catch (IncorrectValueException _xxxxxxxxxxxxx) {
+        _s.anon.clear();
+        in.rewind(_m);
+    try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShapePath(&_s));
         parseShapePath(in, *(ShapePath*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new GeometryBooleanProperties(&_s));
         parseGeometryBooleanProperties(in, *(GeometryBooleanProperties*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillType(&_s));
         parseFillType(in, *(FillType*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillColor(&_s));
         parseFillColor(in, *(FillColor*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillBackColor(&_s));
         parseFillBackColor(in, *(FillBackColor*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillBlip(&_s));
         parseFillBlip(in, *(FillBlip*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillStyleBooleanProperties(&_s));
         parseFillStyleBooleanProperties(in, *(FillStyleBooleanProperties*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineColor(&_s));
         parseLineColor(in, *(LineColor*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineBackColor(&_s));
         parseLineBackColor(in, *(LineBackColor*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineFillBlip(&_s));
         parseLineFillBlip(in, *(LineFillBlip*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineWidth(&_s));
         parseLineWidth(in, *(LineWidth*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.clear();
+        in.rewind(_m);
+    try {
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineDashing(&_s));
+        parseLineDashing(in, *(LineDashing*)_s.anon.data());
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillRectRight(&_s));
         parseFillRectRight(in, *(FillRectRight*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new FillRectBottom(&_s));
         parseFillRectBottom(in, *(FillRectBottom*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new WzFillId(&_s));
         parseWzFillId(in, *(WzFillId*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineStyleBooleanProperties(&_s));
         parseLineStyleBooleanProperties(in, *(LineStyleBooleanProperties*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineStartArrowhead(&_s));
         parseLineStartArrowhead(in, *(LineStartArrowhead*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineEndArrowhead(&_s));
         parseLineEndArrowhead(in, *(LineEndArrowhead*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.clear();
+        in.rewind(_m);
+    try {
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineStartArrowWidth(&_s));
+        parseLineStartArrowWidth(in, *(LineStartArrowWidth*)_s.anon.data());
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.clear();
+        in.rewind(_m);
+    try {
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineStartArrowLength(&_s));
+        parseLineStartArrowLength(in, *(LineStartArrowLength*)_s.anon.data());
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.clear();
+        in.rewind(_m);
+    try {
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineEndArrowWidth(&_s));
+        parseLineEndArrowWidth(in, *(LineEndArrowWidth*)_s.anon.data());
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.clear();
+        in.rewind(_m);
+    try {
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineEndArrowLength(&_s));
+        parseLineEndArrowLength(in, *(LineEndArrowLength*)_s.anon.data());
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new LineJoinStyle(&_s));
         parseLineJoinStyle(in, *(LineJoinStyle*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShadowColor(&_s));
         parseShadowColor(in, *(ShadowColor*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.clear();
+        in.rewind(_m);
+    try {
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShadowOpacity(&_s));
+        parseShadowOpacity(in, *(ShadowOpacity*)_s.anon.data());
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.clear();
+        in.rewind(_m);
+    try {
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShadowOffsetX(&_s));
+        parseShadowOffsetX(in, *(ShadowOffsetX*)_s.anon.data());
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+        _s.anon.clear();
+        in.rewind(_m);
+    try {
+        _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShadowOffsetY(&_s));
+        parseShadowOffsetY(in, *(ShadowOffsetY*)_s.anon.data());
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShadowStyleBooleanPropertiesr(&_s));
         parseShadowStyleBooleanPropertiesr(in, *(ShadowStyleBooleanPropertiesr*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new ShapeBooleanProperties(&_s));
         parseShapeBooleanProperties(in, *(ShapeBooleanProperties*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new HspMaster(&_s));
         parseHspMaster(in, *(HspMaster*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new Rotation(&_s));
         parseRotation(in, *(Rotation*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new LidRegroup(&_s));
         parseLidRegroup(in, *(LidRegroup*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
     try {
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new BWMode(&_s));
         parseBWMode(in, *(BWMode*)_s.anon.data());
-    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
+    } catch (IncorrectValueException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
         _s.anon.clear();
         in.rewind(_m);
         _s.anon = OfficeArtFOPTEChoice::anonChoice(new OfficeArtFOPTE(&_s));
         parseOfficeArtFOPTE(in, *(OfficeArtFOPTE*)_s.anon.data());
-    }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+    }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 }
 void PPT::parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
     _s.streamOffset = in.getPosition();

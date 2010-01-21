@@ -2230,7 +2230,7 @@
 			<limitation name="recType" value="0x0FBA" />
 			<limitation name="recLen" expression="%2==0" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<uint16 name="slideName" count="rh.recLen/2" />
 	</struct>
 	<struct name="SlideProgTagsContainer">
 		<type name="rh" type="RecordHeader">
@@ -3089,6 +3089,7 @@
 			<type type="AnchorText" />
 			<type type="TextBooleanProperties" />
 			<type type="HspNext" />
+			<type type="Pib" />
 			<type type="ShapePath" />
 			<type type="GeometryBooleanProperties" />
 			<type type="FillType" />
@@ -3100,14 +3101,22 @@
 			<type type="LineBackColor" />
 			<type type="LineFillBlip" />
 			<type type="LineWidth" />
+			<type type="LineDashing" />
 			<type type="FillRectRight" />
 			<type type="FillRectBottom" />
 			<type type="WzFillId" />
 			<type type="LineStyleBooleanProperties" />
 			<type type="LineStartArrowhead" />
 			<type type="LineEndArrowhead" />
+			<type type="LineStartArrowWidth" />
+			<type type="LineStartArrowLength" />
+			<type type="LineEndArrowWidth" />
+			<type type="LineEndArrowLength" />
 			<type type="LineJoinStyle" />
 			<type type="ShadowColor" />
+			<type type="ShadowOpacity" />
+			<type type="ShadowOffsetX" />
+			<type type="ShadowOffsetY" />
 			<type type="ShadowStyleBooleanPropertiesr" />
 			<type type="ShapeBooleanProperties" />
 			<type type="HspMaster" />
@@ -3253,6 +3262,14 @@
 		</type>
 		<int32 name="hspNext" />
 	</struct>
+	<struct name="Pib">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0140" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="pib" />
+	</struct>
 	<struct name="ShapePath">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0144" />
@@ -3262,6 +3279,22 @@
 		<uint32 name="shapePath">
 			<limitation expression="&lt;=4" />
 		</uint32>
+	</struct>
+	<struct name="adjust2Value">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0148" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="adjust2value" />
+	</struct>
+	<struct name="adjust3Value">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0149" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="adjust3value" />
 	</struct>
 	<struct name="GeometryBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -3392,6 +3425,14 @@
 		-->
 		<uint32 name="lineWidth" />
 	</struct>
+	<struct name="LineDashing">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01CE" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lineDashing" />
+	</struct>
 	<struct name="LineStartArrowhead">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x01D0" />
@@ -3411,6 +3452,38 @@
 		<uint32 name="lineEndArrowhead">
 			<limitation expression="&lt;=8" />
 		</uint32>
+	</struct>
+	<struct name="LineStartArrowWidth">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01D2" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lineStartArrowWidth" />
+	</struct>
+	<struct name="LineStartArrowLength">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01D3" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lineStartArrowLength" />
+	</struct>
+	<struct name="LineEndArrowWidth">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01D4" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lineEndArrowWidth" />
+	</struct>
+	<struct name="LineEndArrowLength">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01D5" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lineEndArrowLength" />
 	</struct>
 	<struct name="LineJoinStyle">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -3458,6 +3531,30 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<type name="shadowColor" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="ShadowOpacity">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0204" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="shadowOpacity" type="FixedPoint" />
+	</struct>
+	<struct name="ShadowOffsetX">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0205" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="shadowOffsetX" />
+	</struct>
+	<struct name="ShadowOffsetY">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0206" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="shadowOffsetY" />
 	</struct>
 	<struct name="ShadowStyleBooleanPropertiesr">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -3530,22 +3627,6 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<uint32 name="lidRegroup" />
-	</struct>
-	<struct name="adjust2Value">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x0148" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
-		</type>
-		<int32 name="adjust2value" />
-	</struct>
-	<struct name="adjust3Value">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x0149" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
-		</type>
-		<int32 name="adjust3value" />
 	</struct>
 	<struct name="WzFillId">
 		<type name="opid" type="OfficeArtFOPTEOPID">

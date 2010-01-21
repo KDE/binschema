@@ -550,8 +550,14 @@ class TextBooleanProperties;
 void parseTextBooleanProperties(LEInputStream& in, TextBooleanProperties& _s);
 class HspNext;
 void parseHspNext(LEInputStream& in, HspNext& _s);
+class Pib;
+void parsePib(LEInputStream& in, Pib& _s);
 class ShapePath;
 void parseShapePath(LEInputStream& in, ShapePath& _s);
+class adjust2Value;
+void parseadjust2Value(LEInputStream& in, adjust2Value& _s);
+class adjust3Value;
+void parseadjust3Value(LEInputStream& in, adjust3Value& _s);
 class GeometryBooleanProperties;
 void parseGeometryBooleanProperties(LEInputStream& in, GeometryBooleanProperties& _s);
 class FillType;
@@ -576,16 +582,32 @@ class LineFillBlip;
 void parseLineFillBlip(LEInputStream& in, LineFillBlip& _s);
 class LineWidth;
 void parseLineWidth(LEInputStream& in, LineWidth& _s);
+class LineDashing;
+void parseLineDashing(LEInputStream& in, LineDashing& _s);
 class LineStartArrowhead;
 void parseLineStartArrowhead(LEInputStream& in, LineStartArrowhead& _s);
 class LineEndArrowhead;
 void parseLineEndArrowhead(LEInputStream& in, LineEndArrowhead& _s);
+class LineStartArrowWidth;
+void parseLineStartArrowWidth(LEInputStream& in, LineStartArrowWidth& _s);
+class LineStartArrowLength;
+void parseLineStartArrowLength(LEInputStream& in, LineStartArrowLength& _s);
+class LineEndArrowWidth;
+void parseLineEndArrowWidth(LEInputStream& in, LineEndArrowWidth& _s);
+class LineEndArrowLength;
+void parseLineEndArrowLength(LEInputStream& in, LineEndArrowLength& _s);
 class LineJoinStyle;
 void parseLineJoinStyle(LEInputStream& in, LineJoinStyle& _s);
 class LineStyleBooleanProperties;
 void parseLineStyleBooleanProperties(LEInputStream& in, LineStyleBooleanProperties& _s);
 class ShadowColor;
 void parseShadowColor(LEInputStream& in, ShadowColor& _s);
+class ShadowOpacity;
+void parseShadowOpacity(LEInputStream& in, ShadowOpacity& _s);
+class ShadowOffsetX;
+void parseShadowOffsetX(LEInputStream& in, ShadowOffsetX& _s);
+class ShadowOffsetY;
+void parseShadowOffsetY(LEInputStream& in, ShadowOffsetY& _s);
 class ShadowStyleBooleanPropertiesr;
 void parseShadowStyleBooleanPropertiesr(LEInputStream& in, ShadowStyleBooleanPropertiesr& _s);
 class HspMaster;
@@ -596,10 +618,6 @@ class ShapeBooleanProperties;
 void parseShapeBooleanProperties(LEInputStream& in, ShapeBooleanProperties& _s);
 class LidRegroup;
 void parseLidRegroup(LEInputStream& in, LidRegroup& _s);
-class adjust2Value;
-void parseadjust2Value(LEInputStream& in, adjust2Value& _s);
-class adjust3Value;
-void parseadjust3Value(LEInputStream& in, adjust3Value& _s);
 class WzFillId;
 void parseWzFillId(LEInputStream& in, WzFillId& _s);
 class OfficeArtClientAnchor;
@@ -1579,7 +1597,7 @@ public:
 class SlideNameAtom : public StreamOffset {
 public:
     RecordHeader rh;
-    QByteArray todo;
+    QVector<quint16> slideName;
     SlideNameAtom(void* /*dummy*/ = 0) {}
 };
 class SlideProgTagsContainer : public StreamOffset {
@@ -3286,11 +3304,29 @@ public:
     qint32 hspNext;
     HspNext(void* /*dummy*/ = 0) {}
 };
+class Pib : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    quint32 pib;
+    Pib(void* /*dummy*/ = 0) {}
+};
 class ShapePath : public StreamOffset {
 public:
     OfficeArtFOPTEOPID opid;
     quint32 shapePath;
     ShapePath(void* /*dummy*/ = 0) {}
+};
+class adjust2Value : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    qint32 adjust2value;
+    adjust2Value(void* /*dummy*/ = 0) {}
+};
+class adjust3Value : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    qint32 adjust3value;
+    adjust3Value(void* /*dummy*/ = 0) {}
 };
 class GeometryBooleanProperties : public StreamOffset {
 public:
@@ -3398,6 +3434,12 @@ public:
     quint32 lineWidth;
     LineWidth(void* /*dummy*/ = 0) {}
 };
+class LineDashing : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    quint32 lineDashing;
+    LineDashing(void* /*dummy*/ = 0) {}
+};
 class LineStartArrowhead : public StreamOffset {
 public:
     OfficeArtFOPTEOPID opid;
@@ -3409,6 +3451,30 @@ public:
     OfficeArtFOPTEOPID opid;
     quint32 lineEndArrowhead;
     LineEndArrowhead(void* /*dummy*/ = 0) {}
+};
+class LineStartArrowWidth : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    quint32 lineStartArrowWidth;
+    LineStartArrowWidth(void* /*dummy*/ = 0) {}
+};
+class LineStartArrowLength : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    quint32 lineStartArrowLength;
+    LineStartArrowLength(void* /*dummy*/ = 0) {}
+};
+class LineEndArrowWidth : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    quint32 lineEndArrowWidth;
+    LineEndArrowWidth(void* /*dummy*/ = 0) {}
+};
+class LineEndArrowLength : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    quint32 lineEndArrowLength;
+    LineEndArrowLength(void* /*dummy*/ = 0) {}
 };
 class LineJoinStyle : public StreamOffset {
 public:
@@ -3448,6 +3514,24 @@ public:
     OfficeArtFOPTEOPID opid;
     OfficeArtCOLORREF shadowColor;
     ShadowColor(void* /*dummy*/ = 0) {}
+};
+class ShadowOpacity : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    FixedPoint shadowOpacity;
+    ShadowOpacity(void* /*dummy*/ = 0) {}
+};
+class ShadowOffsetX : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    qint32 shadowOffsetX;
+    ShadowOffsetX(void* /*dummy*/ = 0) {}
+};
+class ShadowOffsetY : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    qint32 shadowOffsetY;
+    ShadowOffsetY(void* /*dummy*/ = 0) {}
 };
 class ShadowStyleBooleanPropertiesr : public StreamOffset {
 public:
@@ -3508,18 +3592,6 @@ public:
     OfficeArtFOPTEOPID opid;
     quint32 lidRegroup;
     LidRegroup(void* /*dummy*/ = 0) {}
-};
-class adjust2Value : public StreamOffset {
-public:
-    OfficeArtFOPTEOPID opid;
-    qint32 adjust2value;
-    adjust2Value(void* /*dummy*/ = 0) {}
-};
-class adjust3Value : public StreamOffset {
-public:
-    OfficeArtFOPTEOPID opid;
-    qint32 adjust3value;
-    adjust3Value(void* /*dummy*/ = 0) {}
 };
 class WzFillId : public StreamOffset {
 public:
@@ -3892,6 +3964,7 @@ public:
         explicit anonChoice(AnchorText* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(TextBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(HspNext* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(Pib* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(ShapePath* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(GeometryBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(FillType* a) :QSharedPointer<StreamOffset>(a) {}
@@ -3903,14 +3976,22 @@ public:
         explicit anonChoice(LineBackColor* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineFillBlip* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineWidth* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(LineDashing* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(FillRectRight* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(FillRectBottom* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(WzFillId* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineStyleBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineStartArrowhead* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineEndArrowhead* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(LineStartArrowWidth* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(LineStartArrowLength* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(LineEndArrowWidth* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(LineEndArrowLength* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineJoinStyle* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(ShadowColor* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(ShadowOpacity* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(ShadowOffsetX* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(ShadowOffsetY* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(ShadowStyleBooleanPropertiesr* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(ShapeBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(HspMaster* a) :QSharedPointer<StreamOffset>(a) {}
