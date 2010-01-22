@@ -34462,8 +34462,8 @@ void parseHTMLDocInfo9Atom(LEInputStream& in, HTMLDocInfo9Atom& _s) {
     _s.unused1 = in.readuint32();
     _s.encoding = in.readuint32();
     _s.frameColorType = in.readuint16();
-    if (!(((quint16)_s.frameColorType) == 0x1 || ((quint16)_s.frameColorType) == 0x02 || ((quint16)_s.frameColorType) == 0x04)) {
-        throw IncorrectValueException(in.getPosition(), "((quint16)_s.frameColorType) == 0x1 || ((quint16)_s.frameColorType) == 0x02 || ((quint16)_s.frameColorType) == 0x04");
+    if (!(((quint16)_s.frameColorType) == 0 || ((quint16)_s.frameColorType) == 1 || ((quint16)_s.frameColorType) == 2 || ((quint16)_s.frameColorType) == 3 || ((quint16)_s.frameColorType) == 4 || ((quint16)_s.frameColorType) == 5)) {
+        throw IncorrectValueException(in.getPosition(), "((quint16)_s.frameColorType) == 0 || ((quint16)_s.frameColorType) == 1 || ((quint16)_s.frameColorType) == 2 || ((quint16)_s.frameColorType) == 3 || ((quint16)_s.frameColorType) == 4 || ((quint16)_s.frameColorType) == 5");
     }
     _s.screenSize = in.readuint8();
     _s.unused2 = in.readuint8();
@@ -34476,10 +34476,10 @@ void parseHTMLDocInfo9Atom(LEInputStream& in, HTMLDocInfo9Atom& _s) {
     _s.fAllowPNG = in.readbit();
     _s.fShowSlideAnimation = in.readbit();
     _s.reserved1 = in.readbit();
-    _s.unused3 = in.readuint16();
-    if (!(((quint16)_s.unused3)>=0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint16)_s.unused3)>=0");
+    if (!(((bool)_s.reserved1) == false)) {
+        throw IncorrectValueException(in.getPosition(), "((bool)_s.reserved1) == false");
     }
+    _s.unused3 = in.readuint16();
 }
 void write(const HTMLDocInfo9Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
@@ -34783,11 +34783,8 @@ void parseOutlineTextPropsHeaderExAtom(LEInputStream& in, OutlineTextPropsHeader
     int _c;
     LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
-    }
-    if (!(_s.rh.recInstance>=0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance>=0");
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
     }
     if (!(_s.rh.recInstance<=5)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance<=5");
@@ -38084,9 +38081,6 @@ void parseFontEntityAtom(LEInputStream& in, FontEntityAtom& _s) {
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
     }
-    if (!(_s.rh.recInstance>=0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance>=0");
-    }
     if (!(_s.rh.recInstance<=128)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance<=128");
     }
@@ -38234,9 +38228,6 @@ void parseFontEmbedDataBlob(LEInputStream& in, FontEmbedDataBlob& _s) {
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
-    }
-    if (!(_s.rh.recInstance>=0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance>=0");
     }
     if (!(_s.rh.recInstance<=3)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance<=3");
@@ -59403,11 +59394,8 @@ void parseTextMasterStyle9Atom(QXmlStreamReader& in, TextMasterStyle9Atom& _s) {
 void parseBlipEntityAtom(LEInputStream& in, BlipEntityAtom& _s) {
     _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
-    if (!(_s.rh.recVer == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
-    }
-    if (!(_s.rh.recInstance>=0)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance>=0");
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
     }
     if (!(_s.rh.recInstance<=128)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance<=128");

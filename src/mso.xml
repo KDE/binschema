@@ -619,8 +619,7 @@
 	</struct>
 	<struct name="BlipEntityAtom">
 		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0x0" />
-			<limitation name="recInstance" expression="&gt;=0" />
+			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" expression="&lt;=128" />
 			<limitation name="recType" value="0x07F9" />
 		</type>
@@ -752,7 +751,7 @@
 		<uint32 name="encoding" />
 		<!--ToDo Encoding limitation -->
 		<uint16 name="frameColorType">
-			<limitation value="0x1|0x02|0x04" />
+			<limitation value="0|1|2|3|4|5" />
 		</uint16>
 		<uint8 name="screenSize" />
 		<uint8 name="unused2" />
@@ -764,10 +763,10 @@
 		<bit name="fRelyOnVML" />
 		<bit name="fAllowPNG" />
 		<bit name="fShowSlideAnimation" />
-		<bit name="reserved1" />
-		<uint16 name="unused3">
-			<limitation expression="&gt;=0" />
-		</uint16>
+		<bit name="reserved1">
+			<limitation value='false' />
+		</bit>
+		<uint16 name="unused3"/>
 	</struct>
 	<struct name="HTMLPublishInfo9Container">
 		<type name="rh" type="RecordHeader">
@@ -800,8 +799,7 @@
 	</struct>
 	<struct name="OutlineTextPropsHeaderExAtom">
 		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0x0" />
-			<limitation name="recInstance" expression="&gt;=0" />
+			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" expression="&lt;=5" />
 			<limitation name="recType" value="0xFAF" />
 		</type>
@@ -1890,7 +1888,6 @@
 	<struct name="FontEntityAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
-			<limitation name="recInstance" expression="&gt;=0" />
 			<limitation name="recInstance" expression="&lt;=128" />
 			<limitation name="recType" value="0xFB7" />
 			<limitation name="recLen" value="0x44" />
@@ -1911,7 +1908,6 @@
 	<struct name="FontEmbedDataBlob">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
-			<limitation name="recInstance" expression="&gt;=0" />
 			<limitation name="recInstance" expression="&lt;=3" />
 			<limitation name="recType" value="0xFB8" />
 		</type>

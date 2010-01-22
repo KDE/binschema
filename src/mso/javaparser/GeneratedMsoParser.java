@@ -1062,8 +1062,8 @@ System.out.println(in.getPosition()+" "+_s);
         _s.unused1 = in.readuint32();
         _s.encoding = in.readuint32();
         _s.frameColorType = in.readuint16();
-        if (!(_s.frameColorType == 0x1 || _s.frameColorType == 0x02 || _s.frameColorType == 0x04)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.frameColorType == 0x1 || _s.frameColorType == 0x02 || _s.frameColorType == 0x04 for value " + String.valueOf(_s.frameColorType) );
+        if (!(_s.frameColorType == 0 || _s.frameColorType == 1 || _s.frameColorType == 2 || _s.frameColorType == 3 || _s.frameColorType == 4 || _s.frameColorType == 5)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.frameColorType == 0 || _s.frameColorType == 1 || _s.frameColorType == 2 || _s.frameColorType == 3 || _s.frameColorType == 4 || _s.frameColorType == 5 for value " + String.valueOf(_s.frameColorType) );
         }
         _s.screenSize = in.readuint8();
         _s.unused2 = in.readuint8();
@@ -1076,10 +1076,10 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fAllowPNG = in.readbit();
         _s.fShowSlideAnimation = in.readbit();
         _s.reserved1 = in.readbit();
-        _s.unused3 = in.readuint16();
-        if (!(_s.unused3>=0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.unused3>=0 for value " + String.valueOf(_s.unused3) );
+        if (!(_s.reserved1 == false)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved1 == false for value " + String.valueOf(_s.reserved1) );
         }
+        _s.unused3 = in.readuint16();
         return _s;
     }
     void write(HTMLDocInfo9Atom _s, LEOutputStream out) throws IOException  {
@@ -1192,11 +1192,8 @@ System.out.println(in.getPosition()+" "+_s);
         OutlineTextPropsHeaderExAtom _s = new OutlineTextPropsHeaderExAtom();
         int _c;
         _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0x0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance>=0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance>=0 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recInstance<=5)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance<=5 for value " + String.valueOf(_s.rh) );
@@ -2678,9 +2675,6 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recVer == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recInstance>=0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance>=0 for value " + String.valueOf(_s.rh) );
-        }
         if (!(_s.rh.recInstance<=128)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance<=128 for value " + String.valueOf(_s.rh) );
         }
@@ -2730,9 +2724,6 @@ System.out.println(in.getPosition()+" "+_s);
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance>=0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance>=0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recInstance<=3)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance<=3 for value " + String.valueOf(_s.rh) );
@@ -11624,11 +11615,8 @@ System.out.println(in.getPosition()+" "+_s);
     BlipEntityAtom parseBlipEntityAtom(LEInputStream in) throws IOException  {
         BlipEntityAtom _s = new BlipEntityAtom();
         _s.rh = parseRecordHeader(in);
-        if (!(_s.rh.recVer == 0x0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0x0 for value " + String.valueOf(_s.rh) );
-        }
-        if (!(_s.rh.recInstance>=0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance>=0 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recInstance<=128)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance<=128 for value " + String.valueOf(_s.rh) );
