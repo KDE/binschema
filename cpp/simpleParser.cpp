@@ -5145,7 +5145,7 @@ void PPT::parseTextContainer(LEInputStream& in, TextContainer& _s) {
             _s.style->rgTextCFRun.append(TextCFRun(_s.style.data()));
             parseTextCFRun(in, _s.style->rgTextCFRun.last());
             sum += _s.style->rgTextCFRun.last().count;
-        } while (sum < count);
+        } while (sum <= count);
     }
     _atend = false;
     while (!_atend) {

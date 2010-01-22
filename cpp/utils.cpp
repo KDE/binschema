@@ -236,9 +236,14 @@ printStyleTextPropAtom(QXmlStreamWriter& out, const Introspectable* i,
             //qDebug() << "CF " << characterCount << " " << cis->value[0](ci, 0).toInt() << " " << sum;
             delete ci;
             out.writeEndElement();
-        } while (sum < characterCount);
+        } while (sum <= characterCount);
     } catch (IOException& e) {
         qDebug() << "Error: " << e.msg;
+    }
+    if (buffer.size() != listream.getPosition()) {
+        qDebug() << "Error: " << buffer.size() - listream.getPosition()
+            << " bytes left for StyleTextPropAtom at position "
+            << i->streamOffset;
     }
 }
 

@@ -598,7 +598,7 @@ public class QtParserGenerator {
 		out
 				.println("            parseTextCFRun(in, _s.style->rgTextCFRun.last());");
 		out.println("            sum += _s.style->rgTextCFRun.last().count;");
-		out.println("        } while (sum < count);");
+		out.println("        } while (sum <= count);");
 		out.println("    }");
 	}
 
