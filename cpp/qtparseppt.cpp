@@ -26,7 +26,10 @@ bool
 parse(const QString& file) {
     try {
         POLE::Storage storage(file.toLocal8Bit());
-        if (!storage.open()) return false;
+        if (!storage.open()) {
+            qDebug() << "Cannot open file " << file << ".";
+            return false;
+        }
 
         string prefix;
         if (storage.isDirectory("PP97_DUALSTORAGE")) {
