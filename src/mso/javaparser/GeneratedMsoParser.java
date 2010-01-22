@@ -8647,14 +8647,8 @@ System.out.println(in.getPosition()+" "+_s);
     Pib parsePib(LEInputStream in) throws IOException  {
         Pib _s = new Pib();
         _s.opid = parseOfficeArtFOPTEOPID(in);
-        if (!(_s.opid.opid == 0x0140)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0140 for value " + String.valueOf(_s.opid) );
-        }
-        if (!(_s.opid.fBid == false)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.opid.fBid == false for value " + String.valueOf(_s.opid) );
-        }
-        if (!(_s.opid.fComplex == false)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.opid.fComplex == false for value " + String.valueOf(_s.opid) );
+        if (!(_s.opid.opid == 0x0104)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.opid.opid == 0x0104 for value " + String.valueOf(_s.opid) );
         }
         _s.pib = in.readuint32();
         return _s;

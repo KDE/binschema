@@ -3264,9 +3264,7 @@
 	</struct>
 	<struct name="Pib">
 		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x0140" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
+			<limitation name="opid" value="0x0104" />
 		</type>
 		<uint32 name="pib" />
 	</struct>

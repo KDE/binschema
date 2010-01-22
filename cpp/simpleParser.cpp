@@ -6167,14 +6167,8 @@ void PPT::parseHspNext(LEInputStream& in, HspNext& _s) {
 void PPT::parsePib(LEInputStream& in, Pib& _s) {
     _s.streamOffset = in.getPosition();
     parseOfficeArtFOPTEOPID(in, _s.opid);
-    if (!(_s.opid.opid == 0x0140)) {
-        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0140");
-    }
-    if (!(_s.opid.fBid == false)) {
-        throw IncorrectValueException(in.getPosition(), "_s.opid.fBid == false");
-    }
-    if (!(_s.opid.fComplex == false)) {
-        throw IncorrectValueException(in.getPosition(), "_s.opid.fComplex == false");
+    if (!(_s.opid.opid == 0x0104)) {
+        throw IncorrectValueException(in.getPosition(), "_s.opid.opid == 0x0104");
     }
     _s.pib = in.readuint32();
 }
