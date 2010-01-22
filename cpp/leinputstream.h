@@ -17,7 +17,7 @@ public:
 class IncorrectValueException : public IOException {
 public:
     IncorrectValueException(const QString& msg) :IOException(msg) {}
-    IncorrectValueException(qint64 pos, const char* errMsg) :IOException(errMsg) {}
+    IncorrectValueException(qint64 /*pos*/, const char* errMsg) :IOException(errMsg) {}
     ~IncorrectValueException() throw() {}
 };
 
@@ -31,6 +31,8 @@ class LEInputStream {
 private:
     QIODevice* input;
     QDataStream data;
+
+    qint64 maxPosition;
 
     qint8 bitfieldpos;
     quint8 bitfield;
@@ -75,6 +77,7 @@ public:
     };
 
     LEInputStream(QIODevice* in) :input(in), data(in) {
+        maxPosition = 0;
         bitfield = 0;
         bitfieldpos = -1;
         data.setByteOrder(QDataStream::LittleEndian);
@@ -82,6 +85,7 @@ public:
 
     Mark setMark() { return Mark(input); }
     void rewind(const Mark& m) {
+        maxPosition = qMax(input->pos(), maxPosition);
         if (!m.input || !m.input->seek(m.pos)) {
             throw IOException("Cannot rewind.");
         }
@@ -237,6 +241,8 @@ public:
     }
 
     qint64 getPosition() const { return input->pos(); }
+
+    qint64 getMaxPosition() const { return qMax(input->pos(), maxPosition); }
 };
 
 #endif
