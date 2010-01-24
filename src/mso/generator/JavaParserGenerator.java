@@ -300,10 +300,10 @@ public class JavaParserGenerator {
 					+ " instanceof IncorrectValueException) && !(" + exception
 					+ " instanceof java.io.EOFException)) throw " + exception
 					+ ";");
-			out
-					.println(s
-							+ "    if (in.distanceFromMark(_m) > 16) throw new IOException("
-							+ exception + ");//onlyfordebug");
+//			out
+//					.println(s
+//							+ "    if (in.distanceFromMark(_m) > 16) throw new IOException("
+//							+ exception + ");//onlyfordebug");
 			out.println(s + "    in.rewind(_m);");
 			exception = exception + "x";
 			closing = closing + "}";
@@ -338,9 +338,9 @@ public class JavaParserGenerator {
 		out.println(s + "        " + m.type + " _t = parse" + m.type + "(in);");
 		out.println(s + "        _s." + m.name + ".add(_t);");
 		out.println(s + "    } catch(IncorrectValueException _e) {");
-		out
-				.println(s
-						+ "    if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug");
+	//	out
+	//			.println(s
+	//					+ "    if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug");
 		out.println(s + "        _atend = true;");
 		out.println(s + "        in.rewind(_m);");
 		out.println(s + "    } catch(java.io.EOFException _e) {");
