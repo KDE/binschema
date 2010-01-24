@@ -12,7 +12,7 @@
 		<mkdir dir="bin" />
 		<copy file="src/mso.xml" todir="bin" />
 		<copy file="src/mso.xsd" todir="bin" />
-		<javac srcdir="src" destdir="bin" excludes="mso/javaparser/**" classpath="${classpath}" />
+		<javac source="1.6" srcdir="src" destdir="bin" excludes="mso/javaparser/**" classpath="${classpath}" debug="on" debuglevel="source" />
 	</target>
 	<target name="generateJavaParser" depends="compileGenerator" description="compile the source ">
 		<dependset>
@@ -22,13 +22,13 @@
 		<java classname="mso.generator.ParserGeneratorRunner" classpath="${classpath}" />
 	</target>
 	<target name="compileJavaParser" depends="generateJavaParser" description="compile the source ">
-		<javac srcdir="src" destdir="bin" excludes="mso/javaparser" classpath="${classpath}" />
+		<javac source="1.6" srcdir="src" destdir="bin" excludes="mso/javaparser" classpath="${classpath}" debug="on" debuglevel="source" />
 	</target>
 	<target name="testJavaParser" depends="compileJavaParser" description="compile the source ">
 		<java classname="mso.javaparser.ParserTester" classpath="${classpath}" />
 	</target>
 	<target name="mso.jar" depends="testJavaParser" description="package the compiled code in a jar">
-		<jar destfile="mso.jar" basedir="bin" includes="mso/generator/**,mso.xml,mso.xsd" level="9" strict="warn">
+		<jar destfile="mso.jar" basedir="bin" includes="mso/generator/**,mso.xml,mso.xsd" level="9">
 			<manifest>
 				<attribute name="Main-Class" value="mso.generator.ParserGeneratorRunner" />
 			</manifest>
