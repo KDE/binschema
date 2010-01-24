@@ -27,8 +27,8 @@
 	<target name="testJavaParser" depends="compileJavaParser" description="compile the source ">
 		<java classname="mso.javaparser.ParserTester" classpath="${classpath}" />
 	</target>
-	<target name="mso.jar" depends="compileGenerator" description="package the compiled code in a jar">
-		<jar destfile="mso.jar" basedir="bin" includes="mso/generator/**,mso.xml,mso.xsd">
+	<target name="mso.jar" depends="testJavaParser" description="package the compiled code in a jar">
+		<jar destfile="mso.jar" basedir="bin" includes="mso/generator/**,mso.xml,mso.xsd" level="9" strict="warn">
 			<manifest>
 				<attribute name="Main-Class" value="mso.generator.ParserGeneratorRunner" />
 			</manifest>

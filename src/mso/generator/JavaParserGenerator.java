@@ -330,9 +330,9 @@ public class JavaParserGenerator {
 		out.println(s + "_atend = false;");
 		out.println(s + "_i=0;");
 		out.println(s + "while (!_atend) {");
-		out
-				.println(s
-						+ "    System.out.println(\"round \"+(_i++) + \" \" + in.getPosition());");
+	//	out
+	//			.println(s
+	//					+ "    System.out.println(\"round \"+(_i++) + \" \" + in.getPosition());");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
 		out.println(s + "        " + m.type + " _t = parse" + m.type + "(in);");
