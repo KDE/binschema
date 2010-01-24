@@ -288,8 +288,14 @@ class ExCDAudioContainer;
 void parseExCDAudioContainer(LEInputStream& in, ExCDAudioContainer& _s);
 class ExControlAtom;
 void parseExControlAtom(LEInputStream& in, ExControlAtom& _s);
-class ExHyperlinkContainer;
-void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s);
+class ExHyperlinkAtom;
+void parseExHyperlinkAtom(LEInputStream& in, ExHyperlinkAtom& _s);
+class FriendlyNameAtom;
+void parseFriendlyNameAtom(LEInputStream& in, FriendlyNameAtom& _s);
+class TargetAtom;
+void parseTargetAtom(LEInputStream& in, TargetAtom& _s);
+class LocationAtom;
+void parseLocationAtom(LEInputStream& in, LocationAtom& _s);
 class ExMCIMovieContainer;
 void parseExMCIMovieContainer(LEInputStream& in, ExMCIMovieContainer& _s);
 class ExMIDIAudioContainer;
@@ -520,6 +526,8 @@ class ExObjListContainer;
 void parseExObjListContainer(LEInputStream& in, ExObjListContainer& _s);
 class ExControlContainer;
 void parseExControlContainer(LEInputStream& in, ExControlContainer& _s);
+class ExHyperlinkContainer;
+void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s);
 class ExOleLinkContainer;
 void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s);
 class ExOleEmbedContainer;
@@ -552,6 +560,8 @@ class HspNext;
 void parseHspNext(LEInputStream& in, HspNext& _s);
 class Pib;
 void parsePib(LEInputStream& in, Pib& _s);
+class PibName;
+void parsePibName(LEInputStream& in, PibName& _s);
 class ShapePath;
 void parseShapePath(LEInputStream& in, ShapePath& _s);
 class adjust2Value;
@@ -576,12 +586,16 @@ class FillStyleBooleanProperties;
 void parseFillStyleBooleanProperties(LEInputStream& in, FillStyleBooleanProperties& _s);
 class LineColor;
 void parseLineColor(LEInputStream& in, LineColor& _s);
+class LineOpacity;
+void parseLineOpacity(LEInputStream& in, LineOpacity& _s);
 class LineBackColor;
 void parseLineBackColor(LEInputStream& in, LineBackColor& _s);
 class LineFillBlip;
 void parseLineFillBlip(LEInputStream& in, LineFillBlip& _s);
 class LineWidth;
 void parseLineWidth(LEInputStream& in, LineWidth& _s);
+class LineStyle;
+void parseLineStyle(LEInputStream& in, LineStyle& _s);
 class LineDashing;
 void parseLineDashing(LEInputStream& in, LineDashing& _s);
 class LineStartArrowhead;
@@ -1829,11 +1843,29 @@ public:
     quint32 slideIdRef;
     ExControlAtom(void* /*dummy*/ = 0) {}
 };
-class ExHyperlinkContainer : public StreamOffset {
+class ExHyperlinkAtom : public StreamOffset {
 public:
     OfficeArtRecordHeader rh;
-    QByteArray todo;
-    ExHyperlinkContainer(void* /*dummy*/ = 0) {}
+    quint32 exHyperLinkId;
+    ExHyperlinkAtom(void* /*dummy*/ = 0) {}
+};
+class FriendlyNameAtom : public StreamOffset {
+public:
+    OfficeArtRecordHeader rh;
+    QVector<quint16> friendlyName;
+    FriendlyNameAtom(void* /*dummy*/ = 0) {}
+};
+class TargetAtom : public StreamOffset {
+public:
+    OfficeArtRecordHeader rh;
+    QVector<quint32> target;
+    TargetAtom(void* /*dummy*/ = 0) {}
+};
+class LocationAtom : public StreamOffset {
+public:
+    OfficeArtRecordHeader rh;
+    QVector<quint32> location;
+    LocationAtom(void* /*dummy*/ = 0) {}
 };
 class ExMCIMovieContainer : public StreamOffset {
 public:
@@ -3160,6 +3192,15 @@ public:
     QSharedPointer<MetafileBlob> metafile;
     ExControlContainer(void* /*dummy*/ = 0) {}
 };
+class ExHyperlinkContainer : public StreamOffset {
+public:
+    OfficeArtRecordHeader rh;
+    ExHyperlinkAtom exHyperlinkAtom;
+    QSharedPointer<FriendlyNameAtom> friendlyNameAtom;
+    QSharedPointer<TargetAtom> targetAtom;
+    QSharedPointer<LocationAtom> locationAtom;
+    ExHyperlinkContainer(void* /*dummy*/ = 0) {}
+};
 class ExOleLinkContainer : public StreamOffset {
 public:
     RecordHeader rh;
@@ -3310,6 +3351,12 @@ public:
     quint32 pib;
     Pib(void* /*dummy*/ = 0) {}
 };
+class PibName : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    quint32 pibName;
+    PibName(void* /*dummy*/ = 0) {}
+};
 class ShapePath : public StreamOffset {
 public:
     OfficeArtFOPTEOPID opid;
@@ -3416,6 +3463,12 @@ public:
     OfficeArtCOLORREF lineColor;
     LineColor(void* /*dummy*/ = 0) {}
 };
+class LineOpacity : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    qint32 lineOpacity;
+    LineOpacity(void* /*dummy*/ = 0) {}
+};
 class LineBackColor : public StreamOffset {
 public:
     OfficeArtFOPTEOPID opid;
@@ -3433,6 +3486,12 @@ public:
     OfficeArtFOPTEOPID opid;
     quint32 lineWidth;
     LineWidth(void* /*dummy*/ = 0) {}
+};
+class LineStyle : public StreamOffset {
+public:
+    OfficeArtFOPTEOPID opid;
+    quint32 lineStyle;
+    LineStyle(void* /*dummy*/ = 0) {}
 };
 class LineDashing : public StreamOffset {
 public:
@@ -3965,6 +4024,7 @@ public:
         explicit anonChoice(TextBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(HspNext* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(Pib* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(PibName* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(ShapePath* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(GeometryBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(FillType* a) :QSharedPointer<StreamOffset>(a) {}
@@ -3973,9 +4033,11 @@ public:
         explicit anonChoice(FillBlip* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(FillStyleBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineColor* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(LineOpacity* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineBackColor* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineFillBlip* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineWidth* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit anonChoice(LineStyle* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(LineDashing* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(FillRectRight* a) :QSharedPointer<StreamOffset>(a) {}
         explicit anonChoice(FillRectBottom* a) :QSharedPointer<StreamOffset>(a) {}

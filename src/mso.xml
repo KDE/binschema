@@ -766,7 +766,7 @@
 		<bit name="reserved1">
 			<limitation value='false' />
 		</bit>
-		<uint16 name="unused3"/>
+		<uint16 name="unused3" />
 	</struct>
 	<struct name="HTMLPublishInfo9Container">
 		<type name="rh" type="RecordHeader">
@@ -1521,10 +1521,6 @@
 	<struct name="TextCFRun">
 		<uint32 name="count">
 			<limitation expression="&gt;0" />
-			<!--
-				upper limit is a hack to try to circumvent harder implementation
-			-->
-			<limitation expression="&lt;1000" />
 		</uint32>
 		<type name="cf" type="TextCFException" />
 	</struct>
@@ -2686,7 +2682,46 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFD7" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="exHyperlinkAtom" type="ExHyperlinkAtom" />
+		<type name="friendlyNameAtom" type="FriendlyNameAtom" optional="true" />
+		<type name="targetAtom" type="TargetAtom" optional="true" />
+		<type name="locationAtom" type="LocationAtom" optional="true" />
+	</struct>
+	<struct name="ExHyperlinkAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFD3" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint32 name="exHyperLinkId" />
+	</struct>
+	<struct name="FriendlyNameAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint16 name="friendlyName" count="rh.recLen/2" />
+	</struct>
+	<struct name="TargetAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint32 name="target" count="rh.recLen/2" />
+	</struct>
+	<struct name="LocationAtom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="3" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" expression="%2==0" />
+		</type>
+		<uint32 name="location" count="rh.recLen/2" />
 	</struct>
 	<struct name="ExMCIMovieContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -3086,6 +3121,7 @@
 			<type type="TextBooleanProperties" />
 			<type type="HspNext" />
 			<type type="Pib" />
+			<type type="PibName" />
 			<type type="ShapePath" />
 			<type type="GeometryBooleanProperties" />
 			<type type="FillType" />
@@ -3094,9 +3130,11 @@
 			<type type="FillBlip" />
 			<type type="FillStyleBooleanProperties" />
 			<type type="LineColor" />
+			<type type="LineOpacity" />
 			<type type="LineBackColor" />
 			<type type="LineFillBlip" />
 			<type type="LineWidth" />
+			<type type="LineStyle" />
 			<type type="LineDashing" />
 			<type type="FillRectRight" />
 			<type type="FillRectBottom" />
@@ -3264,6 +3302,12 @@
 		</type>
 		<uint32 name="pib" />
 	</struct>
+	<struct name="PibName">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0105" />
+		</type>
+		<uint32 name="pibName" />
+	</struct>
 	<struct name="ShapePath">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0144" />
@@ -3396,6 +3440,17 @@
 		</type>
 		<type name="lineColor" type="OfficeArtCOLORREF" />
 	</struct>
+	<struct name="LineOpacity">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01C1" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="lineOpacity">
+			<limitation expression="&gt;=0" />
+			<limitation expression="&lt;=65536" />
+		</int32>
+	</struct>
 	<struct name="LineBackColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x01C2" />
@@ -3418,6 +3473,14 @@
 			default = 0x2535 english metric units. 1587.5 EMUs is 1 Master Units
 		-->
 		<uint32 name="lineWidth" />
+	</struct>
+	<struct name="LineStyle">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01CD" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lineStyle" />
 	</struct>
 	<struct name="LineDashing">
 		<type name="opid" type="OfficeArtFOPTEOPID">

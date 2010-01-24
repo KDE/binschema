@@ -576,17 +576,18 @@ public class QtParserGenerator {
 	}
 
 	private void styleTextPropAtomFix2(PrintWriter out) {
-		out
-				.println("    if ((_s.text.is<TextCharsAtom>() || _s.text.is<TextBytesAtom>()) && _s.style) {");
-		out.println("        quint32 count = (_s.text.is<TextCharsAtom>())");
-		out
-				.println("                ?_s.text.get<TextCharsAtom>()->textChars.size()");
-		out
-				.println("                :_s.text.get<TextBytesAtom>()->textChars.size();");
+		out.println("    if (_s.style) {");
+		out.println("        quint32 count = 0;");
+		out.println("        if (_s.text.is<TextCharsAtom>()) {");
+		out.println("            count = _s.text.get<TextCharsAtom>()->textChars.size();");
+		out.println("        }");
+		out.println("        if (_s.text.is<TextBytesAtom>()) {");
+		out.println("            count = _s.text.get<TextBytesAtom>()->textChars.size();");
+		out.println("        }");
 		out.println("        quint32 sum = 0;");
 		out.println("        do {");
 		out
-				.println("            _s.style->rgTextPFRun.append(TextPFRun(_s.style.data()));");
+				.println("        _s.style->rgTextPFRun.append(TextPFRun(_s.style.data()));");
 		out
 				.println("            parseTextPFRun(in, _s.style->rgTextPFRun.last());");
 		out.println("            sum += _s.style->rgTextPFRun.last().count;");
