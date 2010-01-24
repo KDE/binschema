@@ -14,14 +14,14 @@
 		<copy file="src/mso.xsd" todir="bin" />
 		<javac source="1.6" srcdir="src" destdir="bin" excludes="mso/javaparser/**" classpath="${classpath}" debug="on" debuglevel="source" />
 	</target>
-	<target name="generateJavaParser" depends="compileGenerator" description="compile the source ">
+	<target name="generateParsers" depends="compileGenerator" description="compile the source ">
 		<dependset>
 			<srcfilelist dir="src" files="mso.xsd;mso.xml" />
 			<targetfilelist dir="src/mso/javaparser" files="GeneratedMsoParser.java" />
 		</dependset>
 		<java classname="mso.generator.ParserGeneratorRunner" classpath="${classpath}" />
 	</target>
-	<target name="compileJavaParser" depends="generateJavaParser" description="compile the source ">
+	<target name="compileJavaParser" depends="generateParsers" description="compile the source ">
 		<javac source="1.6" srcdir="src" destdir="bin" excludes="mso/javaparser" classpath="${classpath}" debug="on" debuglevel="source" />
 	</target>
 	<target name="testJavaParser" depends="compileJavaParser" description="compile the source ">
