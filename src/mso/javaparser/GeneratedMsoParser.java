@@ -110,9 +110,16 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.relVersion == 0x8 || _s.relVersion == 0x9)) {
             throw new IncorrectValueException(in.getPosition() + "_s.relVersion == 0x8 || _s.relVersion == 0x9 for value " + String.valueOf(_s.relVersion) );
         }
-        if (_s.rh.recLen==3*_s.lenUserName+0x14) {
-            _c = 2*_s.lenUserName;
-            _s.unicodeUserName = in.readBytes(_c);
+        if (_s.rh.recLen>3*_s.lenUserName+0x18) {
+            _c = _s.lenUserName;
+            _s.unicodeUserName = new int[_c];
+            for (int _i=0; _i<_c; ++_i) {
+                _s.unicodeUserName[_i] = in.readuint16();
+            }
+        }
+        if (_s.rh.recLen-0x18-3*_s.lenUserName>0) {
+            _c = _s.rh.recLen-0x18-3*_s.lenUserName;
+            _s.unknown = in.readBytes(_c);
         }
         return _s;
     }
@@ -130,8 +137,13 @@ System.out.println(in.getPosition()+" "+_s);
             out.writeuint8(_i);
         }
         out.writeuint32(_s.relVersion);
-        if (_s.rh.recLen==3*_s.lenUserName+0x14) {
-            for (byte _i: _s.unicodeUserName) {
+        if (_s.rh.recLen>3*_s.lenUserName+0x18) {
+            for (int _i: _s.unicodeUserName) {
+                out.writeuint16(_i);
+            }
+        }
+        if (_s.rh.recLen-0x18-3*_s.lenUserName>0) {
+            for (byte _i: _s.unknown) {
                 out.writeuint8(_i);
             }
         }
@@ -150,7 +162,6 @@ System.out.println(in.getPosition()+" "+_s);
                 Byte _t = parseByte(in);
                 _s.anon.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -190,7 +201,6 @@ System.out.println(in.getPosition()+" "+_s);
                 Byte _t = parseByte(in);
                 _s.trailing.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -222,7 +232,6 @@ System.out.println(in.getPosition()+" "+_s);
                 OfficeArtBStoreContainerFileBlock _t = parseOfficeArtBStoreContainerFileBlock(in);
                 _s.anon1.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -448,7 +457,6 @@ System.out.println(in.getPosition()+" "+_s);
                 PowerPointStruct _t = parsePowerPointStruct(in);
                 _s.anon.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -701,7 +709,6 @@ System.out.println(in.getPosition()+" "+_s);
                 DocInfoListSubContainerOrAtom _t = parseDocInfoListSubContainerOrAtom(in);
                 _s.rgChildRec.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -1170,7 +1177,6 @@ System.out.println(in.getPosition()+" "+_s);
                 OutlineTextProps9Entry _t = parseOutlineTextProps9Entry(in);
                 _s.rgOutlineTextProps9Entry.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -1351,14 +1357,16 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _s.fSubset = in.readbit();
         _s.fSubsetOptionConfirmed = in.readbit();
-        _s.unused = in.readuint30();
+        _s.unuseda = in.readuint14();
+        _s.unusedb = in.readuint16();
         return _s;
     }
     void write(FontEmbedFlags10Atom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         out.writebit(_s.fSubset);
         out.writebit(_s.fSubsetOptionConfirmed);
-        out.writeuint30(_s.unused);
+        out.writeuint14(_s.unuseda);
+        out.writeuint16(_s.unusedb);
     }
     CopyrightAtom parseCopyrightAtom(LEInputStream in) throws IOException  {
         CopyrightAtom _s = new CopyrightAtom();
@@ -1434,15 +1442,15 @@ System.out.println(in.getPosition()+" "+_s);
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 0x04 for value " + String.valueOf(_s.rh) );
         }
         _s.fRemovePII = in.readbit();
-        _s.reserved2a = in.readuint20();
+        _s.reserved2a = in.readuint7();
         if (!(_s.reserved2a == 0x0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.reserved2a == 0x0 for value " + String.valueOf(_s.reserved2a) );
         }
-        _s.reserved2b = in.readuint6();
+        _s.reserved2b = in.readuint8();
         if (!(_s.reserved2b == 0x0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.reserved2b == 0x0 for value " + String.valueOf(_s.reserved2b) );
         }
-        _s.reserved2c = in.readuint5();
+        _s.reserved2c = in.readuint16();
         if (!(_s.reserved2c == 0x0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.reserved2c == 0x0 for value " + String.valueOf(_s.reserved2c) );
         }
@@ -1451,9 +1459,9 @@ System.out.println(in.getPosition()+" "+_s);
     void write(FilterPrivacyFlags10Atom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         out.writebit(_s.fRemovePII);
-        out.writeuint20(_s.reserved2a);
-        out.writeuint6(_s.reserved2b);
-        out.writeuint5(_s.reserved2c);
+        out.writeuint7(_s.reserved2a);
+        out.writeuint8(_s.reserved2b);
+        out.writeuint16(_s.reserved2c);
     }
     OutlineTextProps10Container parseOutlineTextProps10Container(LEInputStream in) throws IOException  {
         OutlineTextProps10Container _s = new OutlineTextProps10Container();
@@ -1479,7 +1487,6 @@ System.out.println(in.getPosition()+" "+_s);
                 OutlineTextProps10Entry _t = parseOutlineTextProps10Entry(in);
                 _s.rgOutlineTextProps10Entry.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -1521,7 +1528,6 @@ System.out.println(in.getPosition()+" "+_s);
                 TextCFException10 _t = parseTextCFException10(in);
                 _s.rgStyleTextProp10.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -1954,7 +1960,6 @@ System.out.println(in.getPosition()+" "+_s);
                 SlideListWithTextSubContainerOrAtom _t = parseSlideListWithTextSubContainerOrAtom(in);
                 _s.rgChildRec.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -1996,7 +2001,6 @@ System.out.println(in.getPosition()+" "+_s);
                 NotesPersistAtom _t = parseNotesPersistAtom(in);
                 _s.rgNotesPersistAtom.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -4066,14 +4070,14 @@ System.out.println(in.getPosition()+" "+_s);
         _c = _s.rh.recLen/2;
         _s.target = new int[_c];
         for (int _i=0; _i<_c; ++_i) {
-            _s.target[_i] = in.readuint32();
+            _s.target[_i] = in.readuint16();
         }
         return _s;
     }
     void write(TargetAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         for (int _i: _s.target) {
-            out.writeuint32(_i);
+            out.writeuint16(_i);
         }
     }
     LocationAtom parseLocationAtom(LEInputStream in) throws IOException  {
@@ -4095,14 +4099,14 @@ System.out.println(in.getPosition()+" "+_s);
         _c = _s.rh.recLen/2;
         _s.location = new int[_c];
         for (int _i=0; _i<_c; ++_i) {
-            _s.location[_i] = in.readuint32();
+            _s.location[_i] = in.readuint16();
         }
         return _s;
     }
     void write(LocationAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         for (int _i: _s.location) {
-            out.writeuint32(_i);
+            out.writeuint16(_i);
         }
     }
     ExMCIMovieContainer parseExMCIMovieContainer(LEInputStream in) throws IOException  {
@@ -4542,7 +4546,6 @@ System.out.println(in.getPosition()+" "+_s);
                 OfficeArtSolverContainerFileBlock _t = parseOfficeArtSolverContainerFileBlock(in);
                 _s.rgfb.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -6572,7 +6575,6 @@ System.out.println(in.getPosition()+" "+_s);
                 Byte _t = parseByte(in);
                 _s.padding.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -6636,11 +6638,35 @@ System.out.println(in.getPosition()+" "+_s);
     }
     PicturesStream parsePicturesStream(LEInputStream in) throws IOException  {
         PicturesStream _s = new PicturesStream();
+        Object _m;
+        boolean _atend;
+        int _i;
         _s.anon1 = parseOfficeArtBStoreDelay(in);
+        _atend = false;
+        _i=0;
+        while (!_atend) {
+            System.out.println("round "+(_i++) + " " + in.getPosition());
+            _m = in.setMark();
+            try {
+                Byte _t = parseByte(in);
+                _s.trailing.add(_t);
+            } catch(IncorrectValueException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } catch(java.io.EOFException _e) {
+                _atend = true;
+                in.rewind(_m);
+            } finally {
+                in.releaseMark(_m);
+           }
+        }
         return _s;
     }
     void write(PicturesStream _s, LEOutputStream out) throws IOException  {
         write(_s.anon1, out);
+        for (Byte _i: _s.trailing) {
+            write(_i, out);
+        }
     }
     OfficeArtMetafileHeader parseOfficeArtMetafileHeader(LEInputStream in) throws IOException  {
         OfficeArtMetafileHeader _s = new OfficeArtMetafileHeader();
@@ -7301,13 +7327,11 @@ System.out.println(in.getPosition()+" "+_s);
             _s.text = parseTextCharsAtom(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.text = parseTextBytesAtom(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         }} finally {
             in.releaseMark(_m);
@@ -7332,7 +7356,6 @@ System.out.println(in.getPosition()+" "+_s);
                 TextContainerMeta _t = parseTextContainerMeta(in);
                 _s.meta.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -7362,7 +7385,6 @@ System.out.println(in.getPosition()+" "+_s);
                 TextBookmarkAtom _t = parseTextBookmarkAtom(in);
                 _s.bookmark.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -7392,7 +7414,6 @@ System.out.println(in.getPosition()+" "+_s);
                 TextContainerInteractiveInfo _t = parseTextContainerInteractiveInfo(in);
                 _s.interactive.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -7432,31 +7453,26 @@ System.out.println(in.getPosition()+" "+_s);
             _s.meta = parseSlideNumberMCAtom(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.meta = parseDateTimeMCAtom(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.meta = parseGenericDateMCAtom(in);
         } catch (IOException _xxx) {
             if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.meta = parseHeaderMCAtom(in);
         } catch (IOException _xxxx) {
             if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.meta = parseFooterMCAtom(in);
         } catch (IOException _xxxxx) {
             if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
             _s.meta = parseRTFDateTimeMCAtom(in);
         }}}}} finally {
@@ -8471,13 +8487,11 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseOfficeArtFConnectorRule(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtFArcRule(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseOfficeArtFCalloutRule(in);
         }} finally {
@@ -9863,7 +9877,6 @@ System.out.println(in.getPosition()+" "+_s);
                 Pcr _t = parsePcr(in);
                 _s.RgPrc.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -9903,7 +9916,6 @@ System.out.println(in.getPosition()+" "+_s);
             _s.prm = parsePrm0(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.prm = parsePrm1(in);
         } finally {
@@ -10043,37 +10055,31 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseOfficeArtBlipEMF(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipWMF(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipPICT(in);
         } catch (IOException _xxx) {
             if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipJPEG(in);
         } catch (IOException _xxxx) {
             if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipPNG(in);
         } catch (IOException _xxxxx) {
             if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOfficeArtBlipDIB(in);
         } catch (IOException _xxxxxx) {
             if (!(_xxxxxx instanceof IncorrectValueException) && !(_xxxxxx instanceof java.io.EOFException)) throw _xxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseOfficeArtBlipTIFF(in);
         }}}}}} finally {
@@ -10222,7 +10228,6 @@ System.out.println(in.getPosition()+" "+_s);
                 TextMasterStyle10Atom _t = parseTextMasterStyle10Atom(in);
                 _s.rgTextMasterStyle10.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -10253,7 +10258,6 @@ System.out.println(in.getPosition()+" "+_s);
                 CommentIndex10Container _t = parseCommentIndex10Container(in);
                 _s.rgCommentIndex10.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -10484,7 +10488,6 @@ System.out.println(in.getPosition()+" "+_s);
                 TextContainer _t = parseTextContainer(in);
                 _s.atoms.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -10510,7 +10513,6 @@ System.out.println(in.getPosition()+" "+_s);
             _s.interactive = parseMouseInteractiveInfoContainer(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.interactive = parseMouseTextInteractiveInfoAtom(in);
         } finally {
@@ -10533,13 +10535,11 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseOutlineTextRefAtom(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseTextContainer(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseTextRulerAtom(in);
         }} finally {
@@ -10825,7 +10825,6 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseProgStringTagContainer(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseSlideProgBinaryTagContainer(in);
         } finally {
@@ -10848,61 +10847,51 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseExAviMovieContainer(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExCDAudioContainer(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExControlContainer(in);
         } catch (IOException _xxx) {
             if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExHyperlinkContainer(in);
         } catch (IOException _xxxx) {
             if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExMCIMovieContainer(in);
         } catch (IOException _xxxxx) {
             if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExMIDIAudioContainer(in);
         } catch (IOException _xxxxxx) {
             if (!(_xxxxxx instanceof IncorrectValueException) && !(_xxxxxx instanceof java.io.EOFException)) throw _xxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExOleEmbedContainer(in);
         } catch (IOException _xxxxxxx) {
             if (!(_xxxxxxx instanceof IncorrectValueException) && !(_xxxxxxx instanceof java.io.EOFException)) throw _xxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExOleLinkContainer(in);
         } catch (IOException _xxxxxxxx) {
             if (!(_xxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExWAVAudioEmbeddedContainer(in);
         } catch (IOException _xxxxxxxxx) {
             if (!(_xxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExWAVAudioLinkContainer(in);
         } catch (IOException _xxxxxxxxxx) {
             if (!(_xxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseUnknownExObjListSubContainerChild(in);
         }}}}}}}}}} finally {
@@ -11015,295 +11004,246 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseProtectionBooleanProperties(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseadjust2Value(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseadjust3Value(in);
         } catch (IOException _xxx) {
             if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseITxid(in);
         } catch (IOException _xxxx) {
             if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseDxTextLeft(in);
         } catch (IOException _xxxxx) {
             if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseDyTextTop(in);
         } catch (IOException _xxxxxx) {
             if (!(_xxxxxx instanceof IncorrectValueException) && !(_xxxxxx instanceof java.io.EOFException)) throw _xxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseDxTextRight(in);
         } catch (IOException _xxxxxxx) {
             if (!(_xxxxxxx instanceof IncorrectValueException) && !(_xxxxxxx instanceof java.io.EOFException)) throw _xxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseDyTextBottom(in);
         } catch (IOException _xxxxxxxx) {
             if (!(_xxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseWrapText(in);
         } catch (IOException _xxxxxxxxx) {
             if (!(_xxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseAnchorText(in);
         } catch (IOException _xxxxxxxxxx) {
             if (!(_xxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseTextBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxx) {
             if (!(_xxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseHspNext(in);
         } catch (IOException _xxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parsePib(in);
         } catch (IOException _xxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parsePibName(in);
         } catch (IOException _xxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseShapePath(in);
         } catch (IOException _xxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseGeometryBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseFillType(in);
         } catch (IOException _xxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseFillColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseFillBackColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseFillBlip(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseFillStyleBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineOpacity(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineBackColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineFillBlip(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineWidth(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineStyle(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineDashing(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseFillRectRight(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseFillRectBottom(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseWzFillId(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineStyleBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineStartArrowhead(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineEndArrowhead(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineStartArrowWidth(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineStartArrowLength(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineEndArrowWidth(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineEndArrowLength(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLineJoinStyle(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseShadowColor(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseShadowOpacity(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseShadowOffsetX(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseShadowOffsetY(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseShadowStyleBooleanPropertiesr(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseShapeBooleanProperties(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseHspMaster(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseRotation(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseLidRegroup(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseBWMode(in);
         } catch (IOException _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) {
             if (!(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseOfficeArtFOPTE(in);
         }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}} finally {
@@ -11526,7 +11466,6 @@ System.out.println(in.getPosition()+" "+_s);
                 ShapeClientRoundtripDataSubcontainerOrAtom _t = parseShapeClientRoundtripDataSubcontainerOrAtom(in);
                 _s.rgShapeClientRoundtripData.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -11689,7 +11628,6 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseOfficeArtFBSE(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseOfficeArtBlip(in);
         } finally {
@@ -11730,7 +11668,6 @@ System.out.println(in.getPosition()+" "+_s);
                 GuideAtom _t = parseGuideAtom(in);
                 _s.rgGuideAtom.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -12488,37 +12425,31 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseDocProgTagsContainer(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseNormalViewSetInfoContainer(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseNotesTextViewInfoContainer(in);
         } catch (IOException _xxx) {
             if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseOutlineViewInfoContainer(in);
         } catch (IOException _xxxx) {
             if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseSlideViewInfoInstance(in);
         } catch (IOException _xxxxx) {
             if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseSorterViewInfoContainer(in);
         } catch (IOException _xxxxxx) {
             if (!(_xxxxxx instanceof IncorrectValueException) && !(_xxxxxx instanceof java.io.EOFException)) throw _xxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseVBAInfoContainer(in);
         }}}}}} finally {
@@ -12693,7 +12624,6 @@ System.out.println(in.getPosition()+" "+_s);
                 OfficeArtSpgrContainerFileBlock _t = parseOfficeArtSpgrContainerFileBlock(in);
                 _s.deletedShapes.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -12735,7 +12665,6 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseOfficeArtSpContainer(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseOfficeArtSpgrContainer(in);
         } finally {
@@ -12758,25 +12687,21 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parsePP9DocBinaryTagExtension(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parsePP10DocBinaryTagExtension(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parsePP11DocBinaryTagExtension(in);
         } catch (IOException _xxx) {
             if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parsePP12DocBinaryTagExtension(in);
         } catch (IOException _xxxx) {
             if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseUnknownBinaryTag(in);
         }}}} finally {
@@ -12871,7 +12796,6 @@ System.out.println(in.getPosition()+" "+_s);
                 SchemeListElementColorSchemeAtom _t = parseSchemeListElementColorSchemeAtom(in);
                 _s.rgSchemeListElementColorScheme.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -12890,7 +12814,6 @@ System.out.println(in.getPosition()+" "+_s);
                 TextMasterStyleAtom _t = parseTextMasterStyleAtom(in);
                 _s.rgTextMasterStyle.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -12966,7 +12889,6 @@ System.out.println(in.getPosition()+" "+_s);
                 RoundTripMainMasterRecord _t = parseRoundTripMainMasterRecord(in);
                 _s.rgRoundTripMainMaster.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -13117,7 +13039,6 @@ System.out.println(in.getPosition()+" "+_s);
                 RoundTripSlideRecord _t = parseRoundTripSlideRecord(in);
                 _s.rgRoundTripSlide.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -13173,7 +13094,7 @@ System.out.println(in.getPosition()+" "+_s);
         _s.notesAtom = parseNotesAtom(in);
         _m = in.setMark();
         try {
-            _s.perSlideHeadersFootersContainer = parsePerSlideHeadersFootersContainer(in);
+            _s.perSlideHFContainer = parsePerSlideHeadersFootersContainer(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
@@ -13206,6 +13127,17 @@ System.out.println(in.getPosition()+" "+_s);
         } finally {
             in.releaseMark(_m);
         }
+        _m = in.setMark();
+        try {
+            _s.perSlideHFContainer2 = parsePerSlideHeadersFootersContainer(in);
+        } catch(IncorrectValueException _e) {
+            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
+            in.rewind(_m);
+        } catch(java.io.EOFException _e) {
+            in.rewind(_m);
+        } finally {
+            in.releaseMark(_m);
+        }
         _atend = false;
         _i=0;
         while (!_atend) {
@@ -13215,7 +13147,6 @@ System.out.println(in.getPosition()+" "+_s);
                 NotesRoundTripAtom _t = parseNotesRoundTripAtom(in);
                 _s.rgNotesRoundTripAtom.add(_t);
             } catch(IncorrectValueException _e) {
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
                 _atend = true;
                 in.rewind(_m);
             } catch(java.io.EOFException _e) {
@@ -13230,11 +13161,12 @@ System.out.println(in.getPosition()+" "+_s);
     void write(NotesContainer _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         write(_s.notesAtom, out);
-        if (_s.perSlideHeadersFootersContainer != null) write(_s.perSlideHeadersFootersContainer, out);
+        if (_s.perSlideHFContainer != null) write(_s.perSlideHFContainer, out);
         write(_s.drawing, out);
         write(_s.slideSchemeColorSchemeAtom, out);
         if (_s.slideNameAtom != null) write(_s.slideNameAtom, out);
         if (_s.slideProgTagsContainer != null) write(_s.slideProgTagsContainer, out);
+        if (_s.perSlideHFContainer2 != null) write(_s.perSlideHFContainer2, out);
         for (NotesRoundTripAtom _i: _s.rgNotesRoundTripAtom) {
             write(_i, out);
         }
@@ -13247,7 +13179,6 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseProgStringTagContainer(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseDocProgBinaryTagContainer(in);
         } finally {
@@ -13270,7 +13201,6 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseMainMasterContainer(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseSlideContainer(in);
         } finally {
@@ -13293,55 +13223,46 @@ System.out.println(in.getPosition()+" "+_s);
             _s.anon = parseDocumentContainer(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_x);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseMasterOrSlideContainer(in);
         } catch (IOException _xx) {
             if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parsePersistDirectoryAtom(in);
         } catch (IOException _xxx) {
             if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseNotesContainer(in);
         } catch (IOException _xxxx) {
             if (!(_xxxx instanceof IncorrectValueException) && !(_xxxx instanceof java.io.EOFException)) throw _xxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseHandoutContainer(in);
         } catch (IOException _xxxxx) {
             if (!(_xxxxx instanceof IncorrectValueException) && !(_xxxxx instanceof java.io.EOFException)) throw _xxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseSlideContainer(in);
         } catch (IOException _xxxxxx) {
             if (!(_xxxxxx instanceof IncorrectValueException) && !(_xxxxxx instanceof java.io.EOFException)) throw _xxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExOleObjStg(in);
         } catch (IOException _xxxxxxx) {
             if (!(_xxxxxxx instanceof IncorrectValueException) && !(_xxxxxxx instanceof java.io.EOFException)) throw _xxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseExControlStg(in);
         } catch (IOException _xxxxxxxx) {
             if (!(_xxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxx);//onlyfordebug
             in.rewind(_m);
         try {
             _s.anon = parseVbaProjectStg(in);
         } catch (IOException _xxxxxxxxx) {
             if (!(_xxxxxxxxx instanceof IncorrectValueException) && !(_xxxxxxxxx instanceof java.io.EOFException)) throw _xxxxxxxxx;
-            if (in.distanceFromMark(_m) > 16) throw new IOException(_xxxxxxxxx);//onlyfordebug
             in.rewind(_m);
             _s.anon = parseUserEditAtom(in);
         }}}}}}}}} finally {
@@ -13399,7 +13320,8 @@ class CurrentUserAtom {
     int unused;
     byte[] ansiUserName;
     int relVersion;
-    byte[] unicodeUserName;
+    int[] unicodeUserName;
+    byte[] unknown;
     public String toString() {
         String _s = "CurrentUserAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -13414,6 +13336,7 @@ class CurrentUserAtom {
         _s = _s + "ansiUserName: " + String.valueOf(ansiUserName) + ", ";
         _s = _s + "relVersion: " + String.valueOf(relVersion) + "(" + Integer.toHexString(relVersion).toUpperCase() + "), ";
         _s = _s + "unicodeUserName: " + String.valueOf(unicodeUserName) + ", ";
+        _s = _s + "unknown: " + String.valueOf(unknown) + ", ";
         return _s;
     }
 }
@@ -13937,13 +13860,15 @@ class FontEmbedFlags10Atom {
     RecordHeader rh;
     boolean fSubset;
     boolean fSubsetOptionConfirmed;
-    int unused;
+    short unuseda;
+    int unusedb;
     public String toString() {
         String _s = "FontEmbedFlags10Atom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "fSubset: " + String.valueOf(fSubset) + ", ";
         _s = _s + "fSubsetOptionConfirmed: " + String.valueOf(fSubsetOptionConfirmed) + ", ";
-        _s = _s + "unused: " + String.valueOf(unused) + "(" + Integer.toHexString(unused).toUpperCase() + "), ";
+        _s = _s + "unuseda: " + String.valueOf(unuseda) + "(" + Integer.toHexString(unuseda).toUpperCase() + "), ";
+        _s = _s + "unusedb: " + String.valueOf(unusedb) + "(" + Integer.toHexString(unusedb).toUpperCase() + "), ";
         return _s;
     }
 }
@@ -13970,9 +13895,9 @@ class KeywordsAtom {
 class FilterPrivacyFlags10Atom {
     RecordHeader rh;
     boolean fRemovePII;
-    int reserved2a;
+    byte reserved2a;
     byte reserved2b;
-    byte reserved2c;
+    int reserved2c;
     public String toString() {
         String _s = "FilterPrivacyFlags10Atom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -16941,9 +16866,11 @@ class DocumentSummaryInformationPropertySetStream {
 }
 class PicturesStream {
     OfficeArtBStoreDelay anon1;
+    final java.util.List<Byte> trailing = new java.util.ArrayList<Byte>();
     public String toString() {
         String _s = "PicturesStream:";
         _s = _s + "anon1: " + String.valueOf(anon1) + ", ";
+        _s = _s + "trailing: " + String.valueOf(trailing) + ", ";
         return _s;
     }
 }
@@ -19350,21 +19277,23 @@ class SlideContainer {
 class NotesContainer {
     RecordHeader rh;
     NotesAtom notesAtom;
-    PerSlideHeadersFootersContainer perSlideHeadersFootersContainer;
+    PerSlideHeadersFootersContainer perSlideHFContainer;
     DrawingContainer drawing;
     SlideSchemeColorSchemeAtom slideSchemeColorSchemeAtom;
     SlideNameAtom slideNameAtom;
     SlideProgTagsContainer slideProgTagsContainer;
+    PerSlideHeadersFootersContainer perSlideHFContainer2;
     final java.util.List<NotesRoundTripAtom> rgNotesRoundTripAtom = new java.util.ArrayList<NotesRoundTripAtom>();
     public String toString() {
         String _s = "NotesContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "notesAtom: " + String.valueOf(notesAtom) + ", ";
-        _s = _s + "perSlideHeadersFootersContainer: " + String.valueOf(perSlideHeadersFootersContainer) + ", ";
+        _s = _s + "perSlideHFContainer: " + String.valueOf(perSlideHFContainer) + ", ";
         _s = _s + "drawing: " + String.valueOf(drawing) + ", ";
         _s = _s + "slideSchemeColorSchemeAtom: " + String.valueOf(slideSchemeColorSchemeAtom) + ", ";
         _s = _s + "slideNameAtom: " + String.valueOf(slideNameAtom) + ", ";
         _s = _s + "slideProgTagsContainer: " + String.valueOf(slideProgTagsContainer) + ", ";
+        _s = _s + "perSlideHFContainer2: " + String.valueOf(perSlideHFContainer2) + ", ";
         _s = _s + "rgNotesRoundTripAtom: " + String.valueOf(rgNotesRoundTripAtom) + ", ";
         return _s;
     }

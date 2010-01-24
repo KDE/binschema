@@ -42,8 +42,10 @@
 		<uint32 name="relVersion">
 			<limitation value="0x8|0x9" />
 		</uint32>
-		<uint8 name="unicodeUserName" count="2*lenUserName"
-			condition="rh.recLen==3*lenUserName+0x14" />
+		<uint16 name="unicodeUserName" count="lenUserName"
+			condition="rh.recLen&gt;3*lenUserName+0x18" />
+		<uint8 name="unknown" count="rh.recLen-0x18-3*lenUserName"
+			condition="rh.recLen-0x18-3*lenUserName&gt;0" />
 	</struct>
 	<struct name="TODOS">
 		<type name="anon" type="Byte" array="true" />
@@ -57,6 +59,7 @@
 	</struct>
 	<struct name="PicturesStream">
 		<type name="anon1" type="OfficeArtBStoreDelay" />
+		<type name="trailing" type="Byte" array="true" />
 	</struct>
 	<struct name="OfficeArtBStoreDelay">
 		<type name="anon1" array="true" type="OfficeArtBStoreContainerFileBlock" />
@@ -996,7 +999,8 @@
 		</type>
 		<bit name="fSubset" />
 		<bit name="fSubsetOptionConfirmed" />
-		<uint30 name="unused" />
+		<uint14 name="unuseda" />
+		<uint16 name="unusedb" />
 	</struct>
 	<struct name="CopyrightAtom">
 		<type name="rh" type="RecordHeader">
@@ -1026,15 +1030,15 @@
 			<limitation name="recLen" value="0x04" />
 		</type>
 		<bit name="fRemovePII" />
-		<uint20 name="reserved2a">
+		<uint7 name="reserved2a">
 			<limitation value="0x0" />
-		</uint20>
-		<uint6 name="reserved2b">
+		</uint7>
+		<uint8 name="reserved2b">
 			<limitation value="0x0" />
-		</uint6>
-		<uint5 name="reserved2c">
+		</uint8>
+		<uint16 name="reserved2c">
 			<limitation value="0x0" />
-		</uint5>
+		</uint16>
 	</struct>
 	<struct name="OutlineTextProps10Container">
 		<type name="rh" type="RecordHeader">
@@ -2331,14 +2335,19 @@
 		</type>
 		<type name="notesAtom" type="NotesAtom" />
 		<!--
-			perSlideHeadersFootersContainer is not in the documentation
+			perSlideHFContainer is not in the documentation
 		-->
-		<type name="perSlideHeadersFootersContainer" type="PerSlideHeadersFootersContainer"
+		<type name="perSlideHFContainer" type="PerSlideHeadersFootersContainer"
 			optional="true" />
 		<type name="drawing" type="DrawingContainer" />
 		<type name="slideSchemeColorSchemeAtom" type="SlideSchemeColorSchemeAtom" />
 		<type name="slideNameAtom" type="SlideNameAtom" optional="true" />
 		<type name="slideProgTagsContainer" type="SlideProgTagsContainer"
+			optional="true" />
+		<!--
+			perSlideHFContainer2 is not in the documentation
+		-->
+		<type name="perSlideHFContainer2" type="PerSlideHeadersFootersContainer"
 			optional="true" />
 		<type name="rgNotesRoundTripAtom" type="NotesRoundTripAtom"
 			array="true" />
@@ -2712,7 +2721,7 @@
 			<limitation name="recType" value="0xFBA" />
 			<limitation name="recLen" expression="%2==0" />
 		</type>
-		<uint32 name="target" count="rh.recLen/2" />
+		<uint16 name="target" count="rh.recLen/2" />
 	</struct>
 	<struct name="LocationAtom">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -2721,7 +2730,7 @@
 			<limitation name="recType" value="0xFBA" />
 			<limitation name="recLen" expression="%2==0" />
 		</type>
-		<uint32 name="location" count="rh.recLen/2" />
+		<uint16 name="location" count="rh.recLen/2" />
 	</struct>
 	<struct name="ExMCIMovieContainer">
 		<type name="rh" type="OfficeArtRecordHeader">

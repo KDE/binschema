@@ -1548,6 +1548,7 @@ private:
 public:
     static const Introspection _introspection;
     bool _has_unicodeUserName;
+    bool _has_unknown;
     RecordHeader rh;
     quint32 size;
     quint32 headerToken;
@@ -1559,7 +1560,8 @@ public:
     quint16 unused;
     QByteArray ansiUserName;
     quint32 relVersion;
-    QByteArray unicodeUserName;
+    QVector<quint16> unicodeUserName;
+    QByteArray unknown;
     explicit CurrentUserAtom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this) {}
@@ -1577,6 +1579,7 @@ public:
         _s = _s + "ansiUserName: " + "[array of ansiUserName]" + ", ";
         _s = _s + "relVersion: " + QString::number(relVersion) + "(" + QString::number(relVersion,16).toUpper() + ")" + ", ";
         _s = _s + "unicodeUserName: " + "[array of unicodeUserName]" + ", ";
+        _s = _s + "unknown: " + "[array of unknown]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -2414,7 +2417,8 @@ public:
     RecordHeader rh;
     bool fSubset;
     bool fSubsetOptionConfirmed;
-    quint32 unused;
+    quint16 unuseda;
+    quint16 unusedb;
     explicit FontEmbedFlags10Atom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this) {}
@@ -2423,7 +2427,8 @@ public:
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "fSubset: " + QString::number(fSubset) + ", ";
         _s = _s + "fSubsetOptionConfirmed: " + QString::number(fSubsetOptionConfirmed) + ", ";
-        _s = _s + "unused: " + QString::number(unused) + "(" + QString::number(unused,16).toUpper() + ")" + ", ";
+        _s = _s + "unuseda: " + QString::number(unuseda) + "(" + QString::number(unuseda,16).toUpper() + ")" + ", ";
+        _s = _s + "unusedb: " + QString::number(unusedb) + "(" + QString::number(unusedb,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -2471,9 +2476,9 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     bool fRemovePII;
-    quint32 reserved2a;
+    quint8 reserved2a;
     quint8 reserved2b;
-    quint8 reserved2c;
+    quint16 reserved2c;
     explicit FilterPrivacyFlags10Atom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this) {}
@@ -4515,7 +4520,7 @@ private:
 public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
-    QVector<quint32> target;
+    QVector<quint16> target;
     explicit TargetAtom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this) {}
@@ -4533,7 +4538,7 @@ private:
 public:
     static const Introspection _introspection;
     OfficeArtRecordHeader rh;
-    QVector<quint32> location;
+    QVector<quint16> location;
     explicit LocationAtom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this) {}
@@ -6837,12 +6842,14 @@ private:
 public:
     static const Introspection _introspection;
     OfficeArtBStoreDelay anon1;
+    QList<Byte> trailing;
     explicit PicturesStream(const Introspectable* parent)
        :Introspectable(parent),
         anon1(this) {}
     QString toString() {
         QString _s = "PicturesStream:";
         _s = _s + "anon1: " + anon1.toString() + ", ";
+        _s = _s + "trailing: " + "[array of trailing]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -10802,11 +10809,12 @@ public:
     static const Introspection _introspection;
     RecordHeader rh;
     NotesAtom notesAtom;
-    QSharedPointer<PerSlideHeadersFootersContainer> perSlideHeadersFootersContainer;
+    QSharedPointer<PerSlideHeadersFootersContainer> perSlideHFContainer;
     DrawingContainer drawing;
     SlideSchemeColorSchemeAtom slideSchemeColorSchemeAtom;
     QSharedPointer<SlideNameAtom> slideNameAtom;
     QSharedPointer<SlideProgTagsContainer> slideProgTagsContainer;
+    QSharedPointer<PerSlideHeadersFootersContainer> perSlideHFContainer2;
     QList<NotesRoundTripAtom> rgNotesRoundTripAtom;
     explicit NotesContainer(const Introspectable* parent)
        :Introspectable(parent),
@@ -10818,11 +10826,12 @@ public:
         QString _s = "NotesContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "notesAtom: " + notesAtom.toString() + ", ";
-        _s = _s + "perSlideHeadersFootersContainer: " + ((perSlideHeadersFootersContainer)?perSlideHeadersFootersContainer->toString() :"null") + ", ";
+        _s = _s + "perSlideHFContainer: " + ((perSlideHFContainer)?perSlideHFContainer->toString() :"null") + ", ";
         _s = _s + "drawing: " + drawing.toString() + ", ";
         _s = _s + "slideSchemeColorSchemeAtom: " + slideSchemeColorSchemeAtom.toString() + ", ";
         _s = _s + "slideNameAtom: " + ((slideNameAtom)?slideNameAtom->toString() :"null") + ", ";
         _s = _s + "slideProgTagsContainer: " + ((slideProgTagsContainer)?slideProgTagsContainer->toString() :"null") + ", ";
+        _s = _s + "perSlideHFContainer2: " + ((perSlideHFContainer2)?perSlideHFContainer2->toString() :"null") + ", ";
         _s = _s + "rgNotesRoundTripAtom: " + "[array of rgNotesRoundTripAtom]" + ", ";
         return _s;
     }
@@ -10961,10 +10970,10 @@ class CurrentUserAtom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[12];
-    static int (* const numberOfInstances[12])(const Introspectable*);
-    static QVariant (* const value[12])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[12])(const Introspectable*, int position);
+    static const QString names[13];
+    static int (* const numberOfInstances[13])(const Introspectable*);
+    static QVariant (* const value[13])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[13])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const CurrentUserAtom*>(i)->rh);
     }
@@ -11002,12 +11011,18 @@ public:
         return static_cast<const CurrentUserAtom*>(i)->_has_unicodeUserName ?1 :0;
     }
     static QVariant get_unicodeUserName(const Introspectable* i, int j) {
-        return static_cast<const CurrentUserAtom*>(i)->unicodeUserName;
+        return qVariantFromValue(static_cast<const CurrentUserAtom*>(i)->unicodeUserName);
+    }
+    static int count_unknown(const Introspectable* i) {
+        return static_cast<const CurrentUserAtom*>(i)->_has_unknown ?1 :0;
+    }
+    static QVariant get_unknown(const Introspectable* i, int j) {
+        return static_cast<const CurrentUserAtom*>(i)->unknown;
     }
 };
 const QString CurrentUserAtom::_Introspection::name("CurrentUserAtom");
-const int CurrentUserAtom::_Introspection::numberOfMembers(12);
-const QString CurrentUserAtom::_Introspection::names[12] = {
+const int CurrentUserAtom::_Introspection::numberOfMembers(13);
+const QString CurrentUserAtom::_Introspection::names[13] = {
     "rh",
     "size",
     "headerToken",
@@ -11020,8 +11035,9 @@ const QString CurrentUserAtom::_Introspection::names[12] = {
     "ansiUserName",
     "relVersion",
     "unicodeUserName",
+    "unknown",
 };
-int (* const CurrentUserAtom::_Introspection::numberOfInstances[12])(const Introspectable*) = {
+int (* const CurrentUserAtom::_Introspection::numberOfInstances[13])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
     Introspection::one,
@@ -11034,8 +11050,9 @@ int (* const CurrentUserAtom::_Introspection::numberOfInstances[12])(const Intro
     Introspection::one,
     Introspection::one,
     _Introspection::count_unicodeUserName,
+    _Introspection::count_unknown,
 };
-QVariant (* const CurrentUserAtom::_Introspection::value[12])(const Introspectable*, int position) = {
+QVariant (* const CurrentUserAtom::_Introspection::value[13])(const Introspectable*, int position) = {
     Introspection::nullValue,
     _Introspection::get_size,
     _Introspection::get_headerToken,
@@ -11048,9 +11065,11 @@ QVariant (* const CurrentUserAtom::_Introspection::value[12])(const Introspectab
     _Introspection::get_ansiUserName,
     _Introspection::get_relVersion,
     _Introspection::get_unicodeUserName,
+    _Introspection::get_unknown,
 };
-const Introspectable* (* const CurrentUserAtom::_Introspection::introspectable[12])(const Introspectable*, int position) = {
+const Introspectable* (* const CurrentUserAtom::_Introspection::introspectable[13])(const Introspectable*, int position) = {
     _Introspection::get_rh,
+    Introspection::null,
     Introspection::null,
     Introspection::null,
     Introspection::null,
@@ -11064,7 +11083,7 @@ const Introspectable* (* const CurrentUserAtom::_Introspection::introspectable[1
     Introspection::null,
 };
 const Introspection CurrentUserAtom::_introspection(
-    "CurrentUserAtom", 12, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "CurrentUserAtom", 13, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class TODOS::_Introspection {
 public:
     static const QString name;
@@ -12920,10 +12939,10 @@ class FontEmbedFlags10Atom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[4];
-    static int (* const numberOfInstances[4])(const Introspectable*);
-    static QVariant (* const value[4])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[4])(const Introspectable*, int position);
+    static const QString names[5];
+    static int (* const numberOfInstances[5])(const Introspectable*);
+    static QVariant (* const value[5])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[5])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const FontEmbedFlags10Atom*>(i)->rh);
     }
@@ -12933,38 +12952,45 @@ public:
     static QVariant get_fSubsetOptionConfirmed(const Introspectable* i, int j) {
         return static_cast<const FontEmbedFlags10Atom*>(i)->fSubsetOptionConfirmed;
     }
-    static QVariant get_unused(const Introspectable* i, int j) {
-        return static_cast<const FontEmbedFlags10Atom*>(i)->unused;
+    static QVariant get_unuseda(const Introspectable* i, int j) {
+        return static_cast<const FontEmbedFlags10Atom*>(i)->unuseda;
+    }
+    static QVariant get_unusedb(const Introspectable* i, int j) {
+        return static_cast<const FontEmbedFlags10Atom*>(i)->unusedb;
     }
 };
 const QString FontEmbedFlags10Atom::_Introspection::name("FontEmbedFlags10Atom");
-const int FontEmbedFlags10Atom::_Introspection::numberOfMembers(4);
-const QString FontEmbedFlags10Atom::_Introspection::names[4] = {
+const int FontEmbedFlags10Atom::_Introspection::numberOfMembers(5);
+const QString FontEmbedFlags10Atom::_Introspection::names[5] = {
     "rh",
     "fSubset",
     "fSubsetOptionConfirmed",
-    "unused",
+    "unuseda",
+    "unusedb",
 };
-int (* const FontEmbedFlags10Atom::_Introspection::numberOfInstances[4])(const Introspectable*) = {
+int (* const FontEmbedFlags10Atom::_Introspection::numberOfInstances[5])(const Introspectable*) = {
+    Introspection::one,
     Introspection::one,
     Introspection::one,
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const FontEmbedFlags10Atom::_Introspection::value[4])(const Introspectable*, int position) = {
+QVariant (* const FontEmbedFlags10Atom::_Introspection::value[5])(const Introspectable*, int position) = {
     Introspection::nullValue,
     _Introspection::get_fSubset,
     _Introspection::get_fSubsetOptionConfirmed,
-    _Introspection::get_unused,
+    _Introspection::get_unuseda,
+    _Introspection::get_unusedb,
 };
-const Introspectable* (* const FontEmbedFlags10Atom::_Introspection::introspectable[4])(const Introspectable*, int position) = {
+const Introspectable* (* const FontEmbedFlags10Atom::_Introspection::introspectable[5])(const Introspectable*, int position) = {
     _Introspection::get_rh,
+    Introspection::null,
     Introspection::null,
     Introspection::null,
     Introspection::null,
 };
 const Introspection FontEmbedFlags10Atom::_introspection(
-    "FontEmbedFlags10Atom", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "FontEmbedFlags10Atom", 5, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class CopyrightAtom::_Introspection {
 public:
     static const QString name;
@@ -23564,30 +23590,40 @@ class PicturesStream::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[1];
-    static int (* const numberOfInstances[1])(const Introspectable*);
-    static QVariant (* const value[1])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static const Introspectable* get_anon1(const Introspectable* i, int j) {
         return &(static_cast<const PicturesStream*>(i)->anon1);
     }
+    static int count_trailing(const Introspectable* i) {
+        return static_cast<const PicturesStream*>(i)->trailing.size();
+    }
+    static const Introspectable* get_trailing(const Introspectable* i, int j) {
+        return &(static_cast<const PicturesStream*>(i)->trailing[j]);
+    }
 };
 const QString PicturesStream::_Introspection::name("PicturesStream");
-const int PicturesStream::_Introspection::numberOfMembers(1);
-const QString PicturesStream::_Introspection::names[1] = {
+const int PicturesStream::_Introspection::numberOfMembers(2);
+const QString PicturesStream::_Introspection::names[2] = {
     "anon1",
+    "trailing",
 };
-int (* const PicturesStream::_Introspection::numberOfInstances[1])(const Introspectable*) = {
+int (* const PicturesStream::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
+    _Introspection::count_trailing,
 };
-QVariant (* const PicturesStream::_Introspection::value[1])(const Introspectable*, int position) = {
+QVariant (* const PicturesStream::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
     Introspection::nullValue,
 };
-const Introspectable* (* const PicturesStream::_Introspection::introspectable[1])(const Introspectable*, int position) = {
+const Introspectable* (* const PicturesStream::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_anon1,
+    _Introspection::get_trailing,
 };
 const Introspection PicturesStream::_introspection(
-    "PicturesStream", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "PicturesStream", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class OfficeArtMetafileHeader::_Introspection {
 public:
     static const QString name;
@@ -32682,21 +32718,21 @@ class NotesContainer::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[8];
-    static int (* const numberOfInstances[8])(const Introspectable*);
-    static QVariant (* const value[8])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[8])(const Introspectable*, int position);
+    static const QString names[9];
+    static int (* const numberOfInstances[9])(const Introspectable*);
+    static QVariant (* const value[9])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[9])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const NotesContainer*>(i)->rh);
     }
     static const Introspectable* get_notesAtom(const Introspectable* i, int j) {
         return &(static_cast<const NotesContainer*>(i)->notesAtom);
     }
-    static int count_perSlideHeadersFootersContainer(const Introspectable* i) {
-        return get_perSlideHeadersFootersContainer(i, 0) ?1 :0;
+    static int count_perSlideHFContainer(const Introspectable* i) {
+        return get_perSlideHFContainer(i, 0) ?1 :0;
     }
-    static const Introspectable* get_perSlideHeadersFootersContainer(const Introspectable* i, int j) {
-        return static_cast<const NotesContainer*>(i)->perSlideHeadersFootersContainer.data();
+    static const Introspectable* get_perSlideHFContainer(const Introspectable* i, int j) {
+        return static_cast<const NotesContainer*>(i)->perSlideHFContainer.data();
     }
     static const Introspectable* get_drawing(const Introspectable* i, int j) {
         return &(static_cast<const NotesContainer*>(i)->drawing);
@@ -32716,6 +32752,12 @@ public:
     static const Introspectable* get_slideProgTagsContainer(const Introspectable* i, int j) {
         return static_cast<const NotesContainer*>(i)->slideProgTagsContainer.data();
     }
+    static int count_perSlideHFContainer2(const Introspectable* i) {
+        return get_perSlideHFContainer2(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_perSlideHFContainer2(const Introspectable* i, int j) {
+        return static_cast<const NotesContainer*>(i)->perSlideHFContainer2.data();
+    }
     static int count_rgNotesRoundTripAtom(const Introspectable* i) {
         return static_cast<const NotesContainer*>(i)->rgNotesRoundTripAtom.size();
     }
@@ -32724,28 +32766,31 @@ public:
     }
 };
 const QString NotesContainer::_Introspection::name("NotesContainer");
-const int NotesContainer::_Introspection::numberOfMembers(8);
-const QString NotesContainer::_Introspection::names[8] = {
+const int NotesContainer::_Introspection::numberOfMembers(9);
+const QString NotesContainer::_Introspection::names[9] = {
     "rh",
     "notesAtom",
-    "perSlideHeadersFootersContainer",
+    "perSlideHFContainer",
     "drawing",
     "slideSchemeColorSchemeAtom",
     "slideNameAtom",
     "slideProgTagsContainer",
+    "perSlideHFContainer2",
     "rgNotesRoundTripAtom",
 };
-int (* const NotesContainer::_Introspection::numberOfInstances[8])(const Introspectable*) = {
+int (* const NotesContainer::_Introspection::numberOfInstances[9])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
-    _Introspection::count_perSlideHeadersFootersContainer,
+    _Introspection::count_perSlideHFContainer,
     Introspection::one,
     Introspection::one,
     _Introspection::count_slideNameAtom,
     _Introspection::count_slideProgTagsContainer,
+    _Introspection::count_perSlideHFContainer2,
     _Introspection::count_rgNotesRoundTripAtom,
 };
-QVariant (* const NotesContainer::_Introspection::value[8])(const Introspectable*, int position) = {
+QVariant (* const NotesContainer::_Introspection::value[9])(const Introspectable*, int position) = {
+    Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
@@ -32755,18 +32800,19 @@ QVariant (* const NotesContainer::_Introspection::value[8])(const Introspectable
     Introspection::nullValue,
     Introspection::nullValue,
 };
-const Introspectable* (* const NotesContainer::_Introspection::introspectable[8])(const Introspectable*, int position) = {
+const Introspectable* (* const NotesContainer::_Introspection::introspectable[9])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     _Introspection::get_notesAtom,
-    _Introspection::get_perSlideHeadersFootersContainer,
+    _Introspection::get_perSlideHFContainer,
     _Introspection::get_drawing,
     _Introspection::get_slideSchemeColorSchemeAtom,
     _Introspection::get_slideNameAtom,
     _Introspection::get_slideProgTagsContainer,
+    _Introspection::get_perSlideHFContainer2,
     _Introspection::get_rgNotesRoundTripAtom,
 };
 const Introspection NotesContainer::_introspection(
-    "NotesContainer", 8, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "NotesContainer", 9, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class DocProgTagsSubContainerOrAtom::_Introspection {
 public:
     static const QString name;
@@ -32953,11 +32999,19 @@ void parseCurrentUserAtom(LEInputStream& in, CurrentUserAtom& _s) {
     if (!(((quint32)_s.relVersion) == 0x8 || ((quint32)_s.relVersion) == 0x9)) {
         throw IncorrectValueException(in.getPosition(), "((quint32)_s.relVersion) == 0x8 || ((quint32)_s.relVersion) == 0x9");
     }
-    _s._has_unicodeUserName = _s.rh.recLen==3*_s.lenUserName+0x14;
+    _s._has_unicodeUserName = _s.rh.recLen>3*_s.lenUserName+0x18;
     if (_s._has_unicodeUserName) {
-        _c = 2*_s.lenUserName;
+        _c = _s.lenUserName;
         _s.unicodeUserName.resize(_c);
-        in.readBytes(_s.unicodeUserName);
+        for (int _i=0; _i<_c; ++_i) {
+            _s.unicodeUserName[_i] = in.readuint16();
+        }
+    }
+    _s._has_unknown = _s.rh.recLen-0x18-3*_s.lenUserName>0;
+    if (_s._has_unknown) {
+        _c = _s.rh.recLen-0x18-3*_s.lenUserName;
+        _s.unknown.resize(_c);
+        in.readBytes(_s.unknown);
     }
 }
 void write(const CurrentUserAtom& _s, LEOutputStream& out) {
@@ -32972,8 +33026,13 @@ void write(const CurrentUserAtom& _s, LEOutputStream& out) {
     out.writeuint16(_s.unused);
     out.writeBytes(_s.ansiUserName);
     out.writeuint32(_s.relVersion);
-    if (_s.rh.recLen==3*_s.lenUserName+0x14) {
-        out.writeBytes(_s.unicodeUserName);
+    if (_s.rh.recLen>3*_s.lenUserName+0x18) {
+        foreach (quint16 _i, _s.unicodeUserName) {
+            out.writeuint16(_i);
+        }
+    }
+    if (_s.rh.recLen-0x18-3*_s.lenUserName>0) {
+        out.writeBytes(_s.unknown);
     }
 }
 void parseCurrentUserAtom(QXmlStreamReader& in, CurrentUserAtom& _s) {
@@ -33070,6 +33129,11 @@ void parseCurrentUserAtom(QXmlStreamReader& in, CurrentUserAtom& _s) {
     }
     if (in.name() != "relVersion") {
         qDebug() << "not startelement in relVersion " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -35487,13 +35551,15 @@ void parseFontEmbedFlags10Atom(LEInputStream& in, FontEmbedFlags10Atom& _s) {
     }
     _s.fSubset = in.readbit();
     _s.fSubsetOptionConfirmed = in.readbit();
-    _s.unused = in.readuint30();
+    _s.unuseda = in.readuint14();
+    _s.unusedb = in.readuint16();
 }
 void write(const FontEmbedFlags10Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writebit(_s.fSubset);
     out.writebit(_s.fSubsetOptionConfirmed);
-    out.writeuint30(_s.unused);
+    out.writeuint14(_s.unuseda);
+    out.writeuint16(_s.unusedb);
 }
 void parseFontEmbedFlags10Atom(QXmlStreamReader& in, FontEmbedFlags10Atom& _s) {
     in.readNext();
@@ -35525,11 +35591,20 @@ void parseFontEmbedFlags10Atom(QXmlStreamReader& in, FontEmbedFlags10Atom& _s) {
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint30 " << in.lineNumber();
+        qDebug() << "not startelement in uint14 " << in.lineNumber();
         return;
     }
-    if (in.name() != "unused") {
-        qDebug() << "not startelement in unused " << in.lineNumber();
+    if (in.name() != "unuseda") {
+        qDebug() << "not startelement in unuseda " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "unusedb") {
+        qDebug() << "not startelement in unusedb " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -35640,25 +35715,25 @@ void parseFilterPrivacyFlags10Atom(LEInputStream& in, FilterPrivacyFlags10Atom& 
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 0x04");
     }
     _s.fRemovePII = in.readbit();
-    _s.reserved2a = in.readuint20();
-    if (!(((quint32)_s.reserved2a) == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved2a) == 0x0");
+    _s.reserved2a = in.readuint7();
+    if (!(((quint8)_s.reserved2a) == 0x0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2a) == 0x0");
     }
-    _s.reserved2b = in.readuint6();
+    _s.reserved2b = in.readuint8();
     if (!(((quint8)_s.reserved2b) == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2b) == 0x0");
     }
-    _s.reserved2c = in.readuint5();
-    if (!(((quint8)_s.reserved2c) == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2c) == 0x0");
+    _s.reserved2c = in.readuint16();
+    if (!(((quint16)_s.reserved2c) == 0x0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint16)_s.reserved2c) == 0x0");
     }
 }
 void write(const FilterPrivacyFlags10Atom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     out.writebit(_s.fRemovePII);
-    out.writeuint20(_s.reserved2a);
-    out.writeuint6(_s.reserved2b);
-    out.writeuint5(_s.reserved2c);
+    out.writeuint7(_s.reserved2a);
+    out.writeuint8(_s.reserved2b);
+    out.writeuint16(_s.reserved2c);
 }
 void parseFilterPrivacyFlags10Atom(QXmlStreamReader& in, FilterPrivacyFlags10Atom& _s) {
     in.readNext();
@@ -35681,7 +35756,7 @@ void parseFilterPrivacyFlags10Atom(QXmlStreamReader& in, FilterPrivacyFlags10Ato
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint20 " << in.lineNumber();
+        qDebug() << "not startelement in uint7 " << in.lineNumber();
         return;
     }
     if (in.name() != "reserved2a") {
@@ -35690,7 +35765,7 @@ void parseFilterPrivacyFlags10Atom(QXmlStreamReader& in, FilterPrivacyFlags10Ato
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint6 " << in.lineNumber();
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
         return;
     }
     if (in.name() != "reserved2b") {
@@ -35699,7 +35774,7 @@ void parseFilterPrivacyFlags10Atom(QXmlStreamReader& in, FilterPrivacyFlags10Ato
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint5 " << in.lineNumber();
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;
     }
     if (in.name() != "reserved2c") {
@@ -41422,13 +41497,13 @@ void parseTargetAtom(LEInputStream& in, TargetAtom& _s) {
     _c = _s.rh.recLen/2;
     _s.target.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.target[_i] = in.readuint32();
+        _s.target[_i] = in.readuint16();
     }
 }
 void write(const TargetAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    foreach (quint32 _i, _s.target) {
-        out.writeuint32(_i);
+    foreach (quint16 _i, _s.target) {
+        out.writeuint16(_i);
     }
 }
 void parseTargetAtom(QXmlStreamReader& in, TargetAtom& _s) {
@@ -41443,7 +41518,7 @@ void parseTargetAtom(QXmlStreamReader& in, TargetAtom& _s) {
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -41468,13 +41543,13 @@ void parseLocationAtom(LEInputStream& in, LocationAtom& _s) {
     _c = _s.rh.recLen/2;
     _s.location.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
-        _s.location[_i] = in.readuint32();
+        _s.location[_i] = in.readuint16();
     }
 }
 void write(const LocationAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    foreach (quint32 _i, _s.location) {
-        out.writeuint32(_i);
+    foreach (quint16 _i, _s.location) {
+        out.writeuint16(_i);
     }
 }
 void parseLocationAtom(QXmlStreamReader& in, LocationAtom& _s) {
@@ -41489,7 +41564,7 @@ void parseLocationAtom(QXmlStreamReader& in, LocationAtom& _s) {
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint32 " << in.lineNumber();
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -49251,10 +49326,31 @@ void parseDocumentSummaryInformationPropertySetStream(QXmlStreamReader& in, Docu
 }
 void parsePicturesStream(LEInputStream& in, PicturesStream& _s) {
     _s.streamOffset = in.getPosition();
+    LEInputStream::Mark _m;
+    bool _atend;
     parseOfficeArtBStoreDelay(in, _s.anon1);
+    _atend = false;
+    while (!_atend) {
+        _m = in.setMark();
+        try {
+            _s.trailing.append(Byte(&_s));
+            parseByte(in, _s.trailing.last());
+        } catch(IncorrectValueException _e) {
+            _s.trailing.removeLast();
+            _atend = true;
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.trailing.removeLast();
+            _atend = true;
+            in.rewind(_m);
+        }
+    }
 }
 void write(const PicturesStream& _s, LEOutputStream& out) {
     write(_s.anon1, out);
+    foreach (Byte _i, _s.trailing) {
+        write(_i, out);
+    }
 }
 void parsePicturesStream(QXmlStreamReader& in, PicturesStream& _s) {
     in.readNext();
@@ -49264,6 +49360,11 @@ void parsePicturesStream(QXmlStreamReader& in, PicturesStream& _s) {
     }
     if (in.name() != "anon1") {
         qDebug() << "not startelement in anon1 " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in Byte " << in.lineNumber();
         return;
     }
     skipToStartElement(in);
@@ -62555,13 +62656,13 @@ void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
     parseNotesAtom(in, _s.notesAtom);
     _m = in.setMark();
     try {
-        _s.perSlideHeadersFootersContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
-        parsePerSlideHeadersFootersContainer(in, *_s.perSlideHeadersFootersContainer.data());
+        _s.perSlideHFContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
+        parsePerSlideHeadersFootersContainer(in, *_s.perSlideHFContainer.data());
     } catch(IncorrectValueException _e) {
-        _s.perSlideHeadersFootersContainer.clear();
+        _s.perSlideHFContainer.clear();
         in.rewind(_m);
     } catch(EOFException _e) {
-        _s.perSlideHeadersFootersContainer.clear();
+        _s.perSlideHFContainer.clear();
         in.rewind(_m);
     }
     parseDrawingContainer(in, _s.drawing);
@@ -62588,6 +62689,17 @@ void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
         _s.slideProgTagsContainer.clear();
         in.rewind(_m);
     }
+    _m = in.setMark();
+    try {
+        _s.perSlideHFContainer2 = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
+        parsePerSlideHeadersFootersContainer(in, *_s.perSlideHFContainer2.data());
+    } catch(IncorrectValueException _e) {
+        _s.perSlideHFContainer2.clear();
+        in.rewind(_m);
+    } catch(EOFException _e) {
+        _s.perSlideHFContainer2.clear();
+        in.rewind(_m);
+    }
     _atend = false;
     while (!_atend) {
         _m = in.setMark();
@@ -62608,11 +62720,12 @@ void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
 void write(const NotesContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.notesAtom, out);
-    if (_s.perSlideHeadersFootersContainer) write(*_s.perSlideHeadersFootersContainer, out);
+    if (_s.perSlideHFContainer) write(*_s.perSlideHFContainer, out);
     write(_s.drawing, out);
     write(_s.slideSchemeColorSchemeAtom, out);
     if (_s.slideNameAtom) write(*_s.slideNameAtom, out);
     if (_s.slideProgTagsContainer) write(*_s.slideProgTagsContainer, out);
+    if (_s.perSlideHFContainer2) write(*_s.perSlideHFContainer2, out);
     foreach (NotesRoundTripAtom _i, _s.rgNotesRoundTripAtom) {
         write(_i, out);
     }
@@ -62641,7 +62754,7 @@ void parseNotesContainer(QXmlStreamReader& in, NotesContainer& _s) {
         qDebug() << "not startelement in PerSlideHeadersFootersContainer " << in.lineNumber();
         return;
     }
-    if (in.name() == "perSlideHeadersFootersContainer") {
+    if (in.name() == "perSlideHFContainer") {
         skipToStartElement(in);
     }
     if (!in.isStartElement()) {
@@ -62674,6 +62787,13 @@ void parseNotesContainer(QXmlStreamReader& in, NotesContainer& _s) {
         return;
     }
     if (in.name() == "slideProgTagsContainer") {
+        skipToStartElement(in);
+    }
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in PerSlideHeadersFootersContainer " << in.lineNumber();
+        return;
+    }
+    if (in.name() == "perSlideHFContainer2") {
         skipToStartElement(in);
     }
     if (!in.isStartElement()) {
