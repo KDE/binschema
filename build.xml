@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<project name="msoparser" default="testJavaParser" basedir=".">
-
+<!-- build file for mso.jar -->
+<project name="msoparser" default="mso.jar" basedir=".">
 	<!-- The latest version of the POI library can be found at
 		http://poi.apache.org
 		http://archive.apache.org/dist/poi/release/bin/
 	     Download it and adapt the path below to use it.
 	-->
-
-<!--	<property name="classpath" location="bin;/usr/share/java/xercesImpl.jar;lib/poi-3.2-FINAL-20081019.jar"/> -->
-	<property name="classpath" location="bin;/usr/share/java/xercesImpl.jar;lib/poi-3.6-20091214.jar"/>
-
+	<!--	<property name="classpath" location="bin;/usr/share/java/xercesImpl.jar;lib/poi-3.2-FINAL-20081019.jar"/> -->
+	<property name="classpath" location="bin;/usr/share/java/xercesImpl.jar;lib/poi-3.6-20091214.jar" />
 	<target name="compileGenerator">
 		<mkdir dir="bin" />
-		<javac srcdir="src" destdir="bin" excludes="mso/javaparser/**" classpath="${classpath}"/>
+		<copy file="src/mso.xml" todir="bin" />
+		<copy file="src/mso.xsd" todir="bin" />
+		<javac srcdir="src" destdir="bin" excludes="mso/javaparser/**" classpath="${classpath}" />
 	</target>
-
 	<target name="generateJavaParser" depends="compileGenerator" description="compile the source ">
 		<dependset>
 			<srcfilelist dir="src" files="mso.xsd;mso.xml" />
-			<targetfilelist dir="src/mso/javaparser" files="GeneratedMsoParser.java"/>
+			<targetfilelist dir="src/mso/javaparser" files="GeneratedMsoParser.java" />
 		</dependset>
 		<java classname="mso.generator.ParserGeneratorRunner" classpath="${classpath}" />
 	</target>
-
 	<target name="compileJavaParser" depends="generateJavaParser" description="compile the source ">
 		<javac srcdir="src" destdir="bin" excludes="mso/javaparser" classpath="${classpath}" />
 	</target>
-
 	<target name="testJavaParser" depends="compileJavaParser" description="compile the source ">
 		<java classname="mso.javaparser.ParserTester" classpath="${classpath}" />
 	</target>
-
+	<target name="mso.jar" depends="compileGenerator" description="package the compiled code in a jar">
+		<jar destfile="mso.jar" basedir="bin" includes="mso/generator/**,mso.xml,mso.xsd">
+			<manifest>
+				<attribute name="Main-Class" value="mso.generator.ParserGeneratorRunner" />
+			</manifest>
+		</jar>
+	</target>
 	<target name="clean">
 		<delete dir="bin" />
+		<delete dir="mso.jar" />
 	</target>
 </project>
