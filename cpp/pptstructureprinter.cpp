@@ -15,9 +15,30 @@
 
 using namespace std;
 
+class RecordType {
+public:
+    QString name;
+    QList<int> rectInstances;
+};
+
+QString
+getRecordNameString(const QList<RecordType>& rts, quint16 recInstance) {
+    QString name;
+    foreach (const RecordType& rt, rts) {
+        if (rt.rectInstances.size() == 0 || rt.rectInstances.contains(recInstance)) {
+            if (name.isNull()) {
+                name = rt.name;
+            } else {
+                name += "/" + rt.name;
+            }
+        }
+    }
+    return name;
+}
+
 void
 printStructure(LEInputStream& in, int depth, QTextStream& out,
-        const QMap<int, QString>& recordTypeNames) {
+        const QMap<int, QList<RecordType> >& recordTypeNames) {
     quint8 recVer = in.readuint4();
     quint16 recInstance = in.readuint12();
     quint16 recType = in.readuint16();
@@ -26,7 +47,9 @@ printStructure(LEInputStream& in, int depth, QTextStream& out,
     QString hexinstance = QString::number(recInstance, 16);
     QString hextype = QString::number(recType, 16);
     QString t = "\t";
-    out << depth << t << recVer << t << hexinstance << t << hextype << t << recLen << t << in.getPosition() << t << recordTypeNames.value(recType) << endl;
+    QString recordTypeName = getRecordNameString(recordTypeNames.value(recType),
+        recInstance);
+    out << depth << t << recVer << t << hexinstance << t << hextype << t << recLen << t << in.getPosition() << t << recordTypeName << endl;
 
     if (recVer == 0xF && recType != 0x428) {
         int end = in.getPosition() + recLen;
@@ -42,7 +65,7 @@ printStructure(LEInputStream& in, int depth, QTextStream& out,
 }
 
 bool
-parse(const QString& file, const QMap<int, QString>& recordTypeNames) {
+parse(const QString& file, const QMap<int, QList<RecordType> >& recordTypeNames) {
     QFile out;
     out.open(stdout, QIODevice::WriteOnly);
     QTextStream textout(&out);
@@ -83,31 +106,50 @@ parse(const QString& file, const QMap<int, QString>& recordTypeNames) {
     }
     return true;
 }
+QList<int>
+getNumbers(const QString& value) {
+    QList<int> numbers;
+    foreach (QString s, value.split("|")) {
+        int base = 10;
+        if (s.startsWith("0x")) {
+            s.replace("0x", "");
+            base = 16;
+        }
+        bool ok;
+        int value = s.toInt(&ok, base);
+        if (!ok) return QList<int>();
+        numbers.append(value);
+    }
+    return numbers;
+}
 
-QMap<int, QString>
+QMap<int, QList<RecordType> >
 getRecordTypeNames(const QString& filename) {
     QDomDocument dom;
     QFile f(filename);
     f.open(QIODevice::ReadOnly);
     dom.setContent(&f);
 
-    QMap<int, QString> map;
-    QDomNodeList limits = dom.elementsByTagName("limitation");
-    for (int i=0; i<limits.count(); ++i) {
-        QDomElement l = limits.item(i).toElement();
-        if (l.attribute("name") == "recType") {
-            QString name
-                = l.parentNode().parentNode().toElement().attribute("name");
-            QString value = l.attribute("value").replace("0x", "");
-            foreach (QString s, value.split("|")) {
-                bool ok;
-                int typeNumber = s.toInt(&ok, 16);
-                if (map.contains(typeNumber)) {
-                    map[typeNumber] += "/" + name;
-                } else {
-                    map[typeNumber] = name;
-                }
+    QMap<int, QList<RecordType> > map;
+    QDomNodeList structs = dom.elementsByTagName("struct");
+    for (int i=0; i<structs.count(); ++i) {
+        QDomElement s = structs.item(i).toElement();
+        QDomElement rh = s.elementsByTagName("type").item(0).toElement();
+        if (rh.isNull() || rh.attribute("name") != "rh") continue;
+        QList<int> typeNumbers;
+        RecordType rt;
+        rt.name = s.attribute("name");
+        QDomNodeList limits = rh.elementsByTagName("limitation");
+        for (int i=0; i<limits.count(); ++i) {
+            QDomElement l = limits.item(i).toElement();
+            if (l.attribute("name") == "recType") {
+                typeNumbers = getNumbers(l.attribute("value"));
+            } else if (l.attribute("name") == "recInstance") {
+                rt.rectInstances = getNumbers(l.attribute("value"));
             }
+        }
+        foreach (int typeNumber, typeNumbers) {
+            map[typeNumber].append(rt);
         }
     }
 
@@ -119,7 +161,7 @@ main(int argc, char** argv) {
     QCoreApplication app(argc, argv);
     //if (argc < 2) return -1;
 
-    const QMap<int, QString> recordTypeNames
+    const QMap<int, QList<RecordType> > recordTypeNames
         = getRecordTypeNames(":/src/mso.xml");
 
     for (int i=1; i<argc; ++i) {
