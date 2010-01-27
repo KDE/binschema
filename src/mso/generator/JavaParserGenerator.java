@@ -113,7 +113,7 @@ public class JavaParserGenerator {
 					+ ") {");
 			s = s + "    ";
 		}
-		if (m.type() instanceof Choice) {
+		if (m.isChoice) {
 			boolean first = true;
 			Choice c = (Choice) m.type();
 			for (String t : c.getChoiceNames()) {
@@ -131,13 +131,13 @@ public class JavaParserGenerator {
 		} else if (m.isArray) {
 			String t = getTypeName(m);
 			out.println(s + "for (" + t + " _i: _s." + m.name + ") {");
-			if (m.isComplex) {
+			if (m.isStruct) {
 				out.println(s + "    write(_i, out);");
 			} else {
 				out.println(s + "    out.write" + m.type().name + "(_i);");
 			}
 			out.println(s + "}");
-		} else if (m.isComplex) {
+		} else if (m.isStruct) {
 			out.print(s);
 			if (m.isOptional) {
 				out.print("if (_s." + m.name + " != null) ");
@@ -237,13 +237,13 @@ public class JavaParserGenerator {
 			count = prependStructureToExpression(m.count, "_s");
 		}
 		String parse;
-		if (m.isComplex) {
+		if (m.isStruct) {
 			parse = "parse" + m.type().name + "(in);";
 		} else {
 			parse = "in.read" + m.type().name + "();";
 		}
 
-		if (m.type() instanceof Choice) {
+		if (m.isChoice) {
 			printChoiceParser(out, s, m);
 			return;
 		}

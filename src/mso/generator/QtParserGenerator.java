@@ -323,21 +323,21 @@ public class QtParserGenerator {
 		String index = (m.count == null) ? "" : "[_i]";
 		if (m.condition != null) {
 			String condition = prependStructureToExpression(m.condition, "_s");
-			if (!m.isComplex) {
+			if (!m.isStruct) {
 				out.println(s + "_s._has_" + m.name + " = " + condition + ";");
 				out.println(s + "if (_s._has_" + m.name + ") {");
 			} else {
 				out.println(s + "if (" + condition + ") {");
 			}
 			s = s + "    ";
-			if (m.isComplex) {
+			if (m.isStruct) {
 				out.println(s + "_s." + m.name + " = QSharedPointer<"
 						+ m.type().name + ">(new " + m.type().name + "(&_s));");
 				index = ".data()";
 			}
 		}
 		String parse;
-		if (m.isComplex) {
+		if (m.isStruct) {
 			String star = (m.condition == null) ? "" : "*";
 			parse = "parse" + m.type().name + "(in, " + star + "_s." + m.name
 					+ index + ");";
@@ -345,7 +345,7 @@ public class QtParserGenerator {
 			parse = "_s." + m.name + index + " = in.read" + m.type().name
 					+ "();";
 		}
-		if (m.type() instanceof Choice) {
+		if (m.isChoice) {
 			printChoiceParser(out, s, structure, m);
 			return;
 		}
@@ -367,7 +367,7 @@ public class QtParserGenerator {
 			out.println(s + "_c = " + count + ";");
 		}
 		if (m.count != null) {
-			if (!m.isComplex) {
+			if (!m.isStruct) {
 				out.println(s + "_s." + m.name + ".resize(_c);");
 			}
 			if (m.type() == m.parent.registry.uint8) { // special case for
@@ -375,7 +375,7 @@ public class QtParserGenerator {
 				out.println(s + "in.readBytes(_s." + m.name + ");");
 			} else {
 				out.println(s + "for (int _i=0; _i<_c; ++_i) {");
-				if (m.isComplex) {
+				if (m.isStruct) {
 					out.println(s + "    _s." + m.name + ".append("
 							+ m.type().name + "(&_s));");
 				}
@@ -412,7 +412,7 @@ public class QtParserGenerator {
 			out.println(s + "if (in.name() == \"" + m.name + "\") {");
 			s = s + "    ";
 		}
-		if (!m.isComplex) {
+		if (!m.isStruct) {
 			out.println(s + "in.readElementText();");
 		} else {
 			out.println(s + "skipToStartElement(in);");
@@ -439,7 +439,7 @@ public class QtParserGenerator {
 			out.println("    if (" + getExpression("_s", m.condition) + ") {");
 			s = s + "    ";
 		}
-		if (m.type() instanceof Choice) {
+		if (m.isChoice) {
 			boolean first = true;
 			for (String t : ((Choice) m.type()).getChoiceNames()) {
 				out.print(s);
@@ -458,14 +458,14 @@ public class QtParserGenerator {
 			} else {
 				String t = getTypeName(m);
 				out.println(s + "foreach (" + t + " _i, _s." + m.name + ") {");
-				if (m.isComplex) {
+				if (m.isStruct) {
 					out.println(s + "    write(_i, out);");
 				} else {
 					out.println(s + "    out.write" + m.type().name + "(_i);");
 				}
 				out.println(s + "}");
 			}
-		} else if (m.isComplex) {
+		} else if (m.isStruct) {
 			out.print(s);
 			if (m.isOptional || m.condition != null) {
 				out.print("if (_s." + m.name + ") write(*");
@@ -528,7 +528,7 @@ public class QtParserGenerator {
 
 	private String getMemberDeclaration(Member m) {
 		if (m.isArray) {
-			if (m.isComplex) {
+			if (m.isStruct) {
 				return "QList<" + m.type().name + "> " + m.name;
 			} else {
 				if ("quint8".equals(getTypeName(m))) {
@@ -537,7 +537,7 @@ public class QtParserGenerator {
 					return "QVector<" + getTypeName(m) + "> " + m.name;
 				}
 			}
-		} else if (m.isComplex && (m.isOptional || m.condition != null)) {
+		} else if (m.isStruct && (m.isOptional || m.condition != null)) {
 			return "QSharedPointer<" + getTypeName(m) + "> " + m.name;
 		}
 		return getTypeName(m) + " " + m.name;
@@ -554,7 +554,7 @@ public class QtParserGenerator {
 						+ mn + ",16).toUpper() + \")\"";
 			} else if (m.type() == m.type().registry.bit) {
 				s = "QString::number(" + mn + ")";
-			} else if (m.type() instanceof Choice) {
+			} else if (m.isChoice) {
 				s = "\"<choice>\"";
 			} else if (m.isOptional || m.condition != null) {
 				s = "((" + mn + ")?" + mn + "->toString() :\"null\")";
@@ -616,7 +616,7 @@ public class QtParserGenerator {
 			out.println("    static const Introspection _introspection;");
 		}
 		for (Member m : s.members) {
-			if (!m.isComplex && m.condition != null) {
+			if (!m.isStruct && m.condition != null) {
 				out.println("    bool _has_" + m.name + ";");
 			}
 		}
@@ -636,8 +636,8 @@ public class QtParserGenerator {
 			out.print("\n       :Introspectable(parent)");
 			first = false;
 			for (Member m : s.members) {
-				if (m.isComplex && !m.isArray && !m.isOptional
-						&& !(m.type() instanceof Choice) && m.condition == null) {
+				if (m.isStruct && !m.isArray && !m.isOptional
+						&& !(m.isChoice) && m.condition == null) {
 					if (first) {
 						out.print("\n       :");
 						first = false;
@@ -692,7 +692,7 @@ public class QtParserGenerator {
 					&& m.name.equals("todo")) {
 				break;
 			}
-			if (!m.isComplex && !(m.type() instanceof Choice)) {
+			if (!m.isStruct && !(m.isChoice)) {
 				if (m.condition != null) {
 					out.println("    static int count_" + m.name
 							+ "(const Introspectable* i) {");
@@ -712,7 +712,7 @@ public class QtParserGenerator {
 						+ "*>(i)->" + m.name + ".size();");
 				out.println("    }");
 			}
-			if (m.isComplex || m.type() instanceof Choice) {
+			if (m.isStruct || m.isChoice) {
 				out.println("    static const Introspectable* get_" + m.name
 						+ "(const Introspectable* i, int j) {");
 			} else {
@@ -720,9 +720,9 @@ public class QtParserGenerator {
 						+ "(const Introspectable* i, int j) {");
 			}
 			String dm = "static_cast<const " + s.name + "*>(i)->" + m.name + "";
-			if (!(m.type() instanceof Choice)) {
+			if (!(m.isChoice)) {
 				out.print("        ");
-				if (!m.isComplex) {
+				if (!m.isStruct) {
 					if (m.isArray && m.type() != m.type().registry.uint8) {
 						out.println("return qVariantFromValue(" + dm + ");");
 					} else {
@@ -753,7 +753,7 @@ public class QtParserGenerator {
 				+ "])(const Introspectable*) = {");
 		for (Member m : s.members) {
 			if (m.condition != null
-					|| ((m.isComplex || m.type() instanceof Choice) && (m.isOptional || m.isArray))) {
+					|| ((m.isStruct || m.isChoice) && (m.isOptional || m.isArray))) {
 				out.println("    _Introspection::count_" + m.name + ",");
 			} else {
 				// arrays of simple types count as one instance
@@ -768,7 +768,7 @@ public class QtParserGenerator {
 					&& config.enableStyleTextPropAtomFix
 					&& m.name.equals("todo")) {
 				break;
-			} else if (m.isComplex || m.type() instanceof Choice) {
+			} else if (m.isStruct || m.isChoice) {
 				out.println("    Introspection::nullValue,");
 			} else {
 				out.println("    _Introspection::get_" + m.name + ",");
@@ -779,7 +779,7 @@ public class QtParserGenerator {
 				+ "::introspectable[" + nm
 				+ "])(const Introspectable*, int position) = {");
 		for (Member m : s.members) {
-			if (m.isComplex || m.type() instanceof Choice) {
+			if (m.isStruct || m.isChoice) {
 				out.println("    _Introspection::get_" + m.name + ",");
 			} else {
 				out.println("    Introspection::null,");
@@ -889,7 +889,7 @@ public class QtParserGenerator {
 			} else {
 				mname = name;
 			}
-			if (!m.isComplex) {
+			if (!m.isStruct) {
 				mname = "((" + getTypeName(m) + ")" + mname + ")";
 			}
 			String condition = l.expression;

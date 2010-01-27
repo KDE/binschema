@@ -93,8 +93,10 @@ class Member {
 	final String condition;
 	final boolean isArray;
 	final boolean isOptional;
-	final boolean isComplex;
 	final boolean isInteger;
+	final boolean isSimple;
+	final boolean isStruct;
+	final boolean isChoice;
 	final Limitation limitations[];
 
 	Member(Struct parent_, Element e) {
@@ -107,10 +109,12 @@ class Member {
 
 		isOptional = e.hasAttribute("optional");
 		isArray = count != null || e.hasAttribute("array");
-		isComplex = e.hasAttribute("type");
-		if (isComplex) {
+		if (e.hasAttribute("type")) {
 			typeName = e.getAttribute("type");
 			isInteger = false;
+			isSimple = false;
+			isChoice = false;
+			isStruct = true;
 		} else if (e.getNodeName().equals("choice")) {
 			NodeList l = e.getElementsByTagName("type");
 			String choiceName = "choice";
@@ -131,10 +135,16 @@ class Member {
 			typeName = choiceName;
 			new Choice(parent.registry, choiceName, choices);
 			isInteger = false;
+			isSimple = false;
+			isChoice = true;
+			isStruct = false;
 		} else {
 			typeName = e.getNodeName();
 			isInteger = typeName.startsWith("int")
 					|| typeName.startsWith("uint");
+			isSimple = true;
+			isChoice = false;
+			isStruct = false;
 		}
 
 		List<Limitation> _limitations = new ArrayList<Limitation>();
@@ -376,7 +386,7 @@ public class ParserGeneratorUtils {
 		List<Struct> parents = new ArrayList<Struct>();
 		for (Struct p : mso.structs) {
 			for (Member m : s.members) {
-				if (m.isComplex && m.type() == s) {
+				if (m.type() instanceof Struct && m.type() == s) {
 					parents.add(p);
 				}
 			}
