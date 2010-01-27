@@ -80,7 +80,7 @@ public class JavaParserGenerator {
 			out.println("        int _c;");
 		}
 		if (s.containsOptionalMember || s.containsUnknownLengthArrayMember
-				|| s.containsUnsureChoice) {
+				|| s.containsChoice) {
 			out.println("        Object _m;");
 		}
 		if (s.containsUnknownLengthArrayMember) {

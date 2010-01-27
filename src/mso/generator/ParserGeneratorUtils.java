@@ -20,8 +20,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 class MSO {
-	List<Struct> structs = new ArrayList<Struct>();
-	List<Stream> streams = new ArrayList<Stream>();
+	final List<Struct> structs = new ArrayList<Struct>();
+	final List<Choice> choices = new ArrayList<Choice>();
+	final List<Stream> streams = new ArrayList<Stream>();
 
 	MSO(Document dom) throws IOException {
 		TypeRegistry typeRegistry = new TypeRegistry();
@@ -49,16 +50,11 @@ class MSO {
 				}
 			}
 		}
-
-		// now that all structs are parsed a second step is done where
-		// the Choices are introspected. If all options in a choice start with
-		// the same member type
-		// and the choice have different limitations on the member types, the
-		// use of exceptions in the
-		// parsing can be avoided
-		// for (Struct s : structs) {
-		// s.tryToSimplifyChoice();
-		// }
+		for (TypeRegistry.Type t : typeRegistry.types.values()) {
+			if (t instanceof Choice) {
+				choices.add((Choice) t);
+			}
+		}
 
 		NodeList l = dom.getElementsByTagName("stream");
 		for (int i = 0; i < l.getLength(); ++i) {
@@ -175,7 +171,7 @@ class Member {
 }
 
 class TypeRegistry {
-	private final Map<String, Type> types = new HashMap<String, Type>();
+	protected final Map<String, Type> types = new HashMap<String, Type>();
 
 	class Type {
 		public final TypeRegistry registry;
@@ -226,8 +222,9 @@ class Struct extends TypeRegistry.Type {
 	final boolean containsOptionalMember;
 	final boolean containsUnknownLengthArrayMember;
 	final boolean containsKnownLengthArrayMember;
-	boolean containsUnsureChoice;
-	boolean containsSureChoice;
+	final boolean containsUnsureChoice;
+	final boolean containsSureChoice;
+	final boolean containsChoice;
 
 	Struct(TypeRegistry registry, Element e) {
 		registry.super(registry, e.getAttribute("name"));
@@ -236,7 +233,8 @@ class Struct extends TypeRegistry.Type {
 		boolean _containsOptionalMember = false;
 		boolean _containsUnknownLengthArrayMember = false;
 		boolean _containsKnownLengthArrayMember = false;
-		boolean _containsChoice = false;
+		boolean _containsSureChoice = false;
+		boolean _containsUnsureChoice = false;
 		NodeList l = e.getChildNodes();
 		for (int i = 0; i < l.getLength(); ++i) {
 			Node n = l.item(i);
@@ -254,30 +252,131 @@ class Struct extends TypeRegistry.Type {
 						|| (m.isArray && m.count == null);
 				_containsKnownLengthArrayMember = _containsKnownLengthArrayMember
 						|| m.count != null;
-				_containsChoice = _containsChoice || m.type() instanceof Choice;
+				if (m.type() instanceof Choice) {
+					_containsSureChoice = _containsSureChoice
+							|| ((Choice) m.type()).commonType != null;
+					_containsUnsureChoice = _containsSureChoice
+							|| ((Choice) m.type()).commonType == null;
+				}
 			}
 		}
 		containsArrayMember = _containsArrayMember;
 		containsOptionalMember = _containsOptionalMember;
 		containsUnknownLengthArrayMember = _containsUnknownLengthArrayMember;
 		containsKnownLengthArrayMember = _containsKnownLengthArrayMember;
-		containsUnsureChoice = _containsChoice;
-		containsSureChoice = false;
+		containsUnsureChoice = _containsUnsureChoice;
+		containsSureChoice = _containsSureChoice;
+		containsChoice = containsUnsureChoice || containsSureChoice;
 	}
 }
 
 class Choice extends TypeRegistry.Type {
-	final List<Struct> choices;
+	final TypeRegistry.Type commonType;
+	final List<Option> options = new ArrayList<Option>();
 
-	Choice(TypeRegistry registry, String name, List<Struct> choices_) {
+	class Lim {
+		Limitation[] limitations;
+		Lim[] lims;
+	}
+
+	class Option {
+		Struct type;
+		TypeRegistry.Type commonType;
+		Lim lim = new Lim();
+	}
+
+	Choice(TypeRegistry registry, String name, List<Struct> choices) {
 		registry.super(registry, name);
-		choices = choices_;
+		TypeRegistry.Type common = null;
+		for (Struct s : choices) {
+			Option o = new Option();
+			o.type = s;
+			o.commonType = common;
+			setLimitations(s, o);
+			common = o.commonType;
+			options.add(o);
+		}
+		commonType = common;
+		for (Option o : options) {
+			if (!compareTypes(commonType, o.commonType)) {
+				throw new Error("The choice has no common options.");
+			}
+		}
+	}
+
+	static private boolean compareMembers(Member a, Member b) {
+		if (a.isArray != b.isArray)
+			return false;
+		if (a.type() != b.type())
+			return false;
+		if (a.isOptional != b.isOptional)
+			return false;
+		return true;
+	}
+
+	static private boolean structsWithSameMembers(TypeRegistry.Type a,
+			TypeRegistry.Type b) {
+		if (a instanceof Struct && b instanceof Struct) {
+			Struct as = (Struct) a;
+			Struct bs = (Struct) b;
+			if (as.members.size() != bs.members.size()) {
+				return false;
+			}
+			for (int i = 0; i < as.members.size(); ++i) {
+				if (!compareMembers(as.members.get(i), bs.members.get(i))) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	static private boolean compareTypes(TypeRegistry.Type a, TypeRegistry.Type b) {
+		return a == b || structsWithSameMembers(a, b);
+	}
+
+	void setLimitations(Choice c, Option o) {
+		// all restrictions in the
+		o.lim.lims = new Lim[c.options.size()];
+		for (int i = 0; i < c.options.size(); ++i) {
+			o.lim.lims[i] = c.options.get(i).lim;
+		}
+		o.commonType = c.commonType;
+	}
+
+	void setLimitations(Struct s, Option o) {
+		Member m = s.members.get(0);
+		if (m.isOptional) {
+			throw new Error("choice member may not be optional");
+		}
+		TypeRegistry.Type t = m.type();
+		if (t instanceof Choice) {
+			setLimitations((Choice) t, o);
+			return;
+		}
+		// if the type is equal to a previous common type, use that
+		if (t == o.commonType) {
+			o.lim.limitations = m.limitations;
+			return;
+		}
+		// if this struct has no limitations, take its first member
+		if (m.limitations.length == 0) {
+			setLimitations((Struct) t, o);
+			return;
+		}
+		if (o.commonType != null && !compareTypes(t, o.commonType)) {
+			throw new Error("Conflicting common type: " + t.name + " vs "
+					+ o.commonType.name);
+		}
+		o.lim.limitations = m.limitations;
+		o.commonType = t;
 	}
 
 	String[] getChoiceNames() {
-		String n[] = new String[choices.size()];
-		for (int i = 0; i < choices.size(); ++i) {
-			n[i] = choices.get(i).name;
+		String n[] = new String[options.size()];
+		for (int i = 0; i < options.size(); ++i) {
+			n[i] = options.get(i).type.name;
 		}
 		return n;
 	}

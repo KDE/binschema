@@ -257,7 +257,7 @@ public class QtParserGenerator {
 			out.println("    int _c;");
 		}
 		if (s.containsArrayMember || s.containsOptionalMember
-				|| s.containsUnsureChoice) {
+				|| s.containsChoice) {
 			out.println("    LEInputStream::Mark _m;");
 		}
 		if (s.containsUnknownLengthArrayMember) {
