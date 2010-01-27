@@ -50785,7 +50785,7 @@ void parseTextContainer(QXmlStreamReader& in, TextContainer& _s) {
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceTextCharsAtomTextBytesAtom " << in.lineNumber();
         return;
     }
     if (in.name() == "text") {
@@ -50884,7 +50884,7 @@ void write(const TextContainerMeta& _s, LEOutputStream& out) {
 void parseTextContainerMeta(QXmlStreamReader& in, TextContainerMeta& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom " << in.lineNumber();
         return;
     }
     if (in.name() != "meta") {
@@ -53289,7 +53289,7 @@ void write(const OfficeArtSolverContainerFileBlock& _s, LEOutputStream& out) {
 void parseOfficeArtSolverContainerFileBlock(QXmlStreamReader& in, OfficeArtSolverContainerFileBlock& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -57054,7 +57054,7 @@ void write(const Prm& _s, LEOutputStream& out) {
 void parsePrm(QXmlStreamReader& in, Prm& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choicePrm0Prm1 " << in.lineNumber();
         return;
     }
     if (in.name() != "prm") {
@@ -57346,7 +57346,7 @@ void write(const OfficeArtBlip& _s, LEOutputStream& out) {
 void parseOfficeArtBlip(QXmlStreamReader& in, OfficeArtBlip& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -58096,7 +58096,7 @@ void write(const TextContainerInteractiveInfo& _s, LEOutputStream& out) {
 void parseTextContainerInteractiveInfo(QXmlStreamReader& in, TextContainerInteractiveInfo& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom " << in.lineNumber();
         return;
     }
     if (in.name() != "interactive") {
@@ -58137,7 +58137,7 @@ void write(const TextClientDataSubContainerOrAtom& _s, LEOutputStream& out) {
 void parseTextClientDataSubContainerOrAtom(QXmlStreamReader& in, TextClientDataSubContainerOrAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceOutlineTextRefAtomTextContainerTextRulerAtom " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -58709,7 +58709,7 @@ void write(const SlideProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
 void parseSlideProgTagsSubContainerOrAtom(QXmlStreamReader& in, SlideProgTagsSubContainerOrAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceProgStringTagContainerSlideProgBinaryTagContainer " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -58814,7 +58814,7 @@ void write(const ExObjListSubContainer& _s, LEOutputStream& out) {
 void parseExObjListSubContainer(QXmlStreamReader& in, ExObjListSubContainer& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -59369,7 +59369,7 @@ void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
 void parseOfficeArtFOPTEChoice(QXmlStreamReader& in, OfficeArtFOPTEChoice& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -60020,7 +60020,7 @@ void write(const OfficeArtBStoreContainerFileBlock& _s, LEOutputStream& out) {
 void parseOfficeArtBStoreContainerFileBlock(QXmlStreamReader& in, OfficeArtBStoreContainerFileBlock& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceOfficeArtFBSEOfficeArtBlip " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -61574,7 +61574,7 @@ void write(const DocInfoListSubContainerOrAtom& _s, LEOutputStream& out) {
 void parseDocInfoListSubContainerOrAtom(QXmlStreamReader& in, DocInfoListSubContainerOrAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -61988,7 +61988,7 @@ void write(const OfficeArtSpgrContainerFileBlock& _s, LEOutputStream& out) {
 void parseOfficeArtSpgrContainerFileBlock(QXmlStreamReader& in, OfficeArtSpgrContainerFileBlock& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceOfficeArtSpContainerOfficeArtSpgrContainer " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -62045,7 +62045,7 @@ void write(const DocProgBinaryTagSubContainerOrAtom& _s, LEOutputStream& out) {
 void parseDocProgBinaryTagSubContainerOrAtom(QXmlStreamReader& in, DocProgBinaryTagSubContainerOrAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -62826,7 +62826,7 @@ void write(const DocProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
 void parseDocProgTagsSubContainerOrAtom(QXmlStreamReader& in, DocProgTagsSubContainerOrAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceProgStringTagContainerDocProgBinaryTagContainer " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -62859,7 +62859,7 @@ void write(const MasterOrSlideContainer& _s, LEOutputStream& out) {
 void parseMasterOrSlideContainer(QXmlStreamReader& in, MasterOrSlideContainer& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceMainMasterContainerSlideContainer " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -62956,7 +62956,7 @@ void write(const PowerPointStruct& _s, LEOutputStream& out) {
 void parsePowerPointStruct(QXmlStreamReader& in, PowerPointStruct& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice " << in.lineNumber();
+        qDebug() << "not startelement in choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {

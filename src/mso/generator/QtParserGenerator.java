@@ -257,7 +257,7 @@ public class QtParserGenerator {
 			out.println("    int _c;");
 		}
 		if (s.containsArrayMember || s.containsOptionalMember
-				|| s.containsChoice) {
+				|| s.containsUnsureChoice) {
 			out.println("    LEInputStream::Mark _m;");
 		}
 		if (s.containsUnknownLengthArrayMember) {
@@ -270,7 +270,7 @@ public class QtParserGenerator {
 				break;
 			}
 			printStructureMemberParser(out, s.name, m);
-			if (m.type.contains("RecordHeader")) {
+			if (m.type().name.contains("RecordHeader")) {
 				// out.println("qDebug() << in.getPosition()<<\" \"<<\"" +
 				// s.name
 				// + "\"<<_s.rh.toString();");
@@ -331,20 +331,21 @@ public class QtParserGenerator {
 			}
 			s = s + "    ";
 			if (m.isComplex) {
-				out.println(s + "_s." + m.name + " = QSharedPointer<" + m.type
-						+ ">(new " + m.type + "(&_s));");
+				out.println(s + "_s." + m.name + " = QSharedPointer<"
+						+ m.type().name + ">(new " + m.type().name + "(&_s));");
 				index = ".data()";
 			}
 		}
 		String parse;
 		if (m.isComplex) {
 			String star = (m.condition == null) ? "" : "*";
-			parse = "parse" + m.type + "(in, " + star + "_s." + m.name + index
-					+ ");";
+			parse = "parse" + m.type().name + "(in, " + star + "_s." + m.name
+					+ index + ");";
 		} else {
-			parse = "_s." + m.name + index + " = in.read" + m.type + "();";
+			parse = "_s." + m.name + index + " = in.read" + m.type().name
+					+ "();";
 		}
-		if (m.choices != null) {
+		if (m.type() instanceof Choice) {
 			printChoiceParser(out, s, structure, m);
 			return;
 		}
@@ -369,14 +370,14 @@ public class QtParserGenerator {
 			if (!m.isComplex) {
 				out.println(s + "_s." + m.name + ".resize(_c);");
 			}
-			if (m.type.equals("uint8")) { // special case for reading bytearrays
-				// quickly
+			if (m.type() == m.parent.registry.uint8) { // special case for
+				// reading bytearrays quickly
 				out.println(s + "in.readBytes(_s." + m.name + ");");
 			} else {
 				out.println(s + "for (int _i=0; _i<_c; ++_i) {");
 				if (m.isComplex) {
-					out.println(s + "    _s." + m.name + ".append(" + m.type
-							+ "(&_s));");
+					out.println(s + "    _s." + m.name + ".append("
+							+ m.type().name + "(&_s));");
 				}
 				out.println(s + "    " + parse);
 				printLimitationCheck(out, "        ", "_s." + m.name + "[_i]",
@@ -396,8 +397,8 @@ public class QtParserGenerator {
 		String s = "    ";
 
 		out.println(s + "if (!in.isStartElement()) {");
-		out.println(s + "    qDebug() << \"not startelement in " + m.type
-				+ " \" << in.lineNumber();");
+		out.println(s + "    qDebug() << \"not startelement in "
+				+ m.type().name + " \" << in.lineNumber();");
 		out.println(s + "    return;");
 		out.println(s + "}");
 		if (!m.isOptional && !m.isArray) {
@@ -438,9 +439,9 @@ public class QtParserGenerator {
 			out.println("    if (" + getExpression("_s", m.condition) + ") {");
 			s = s + "    ";
 		}
-		if (m.choices != null) {
+		if (m.type() instanceof Choice) {
 			boolean first = true;
-			for (String t : m.choices.getChoiceNames()) {
+			for (String t : ((Choice) m.type()).getChoiceNames()) {
 				out.print(s);
 				if (!first) {
 					out.print("} else ");
@@ -452,7 +453,7 @@ public class QtParserGenerator {
 			}
 			out.println(s + "}");
 		} else if (m.isArray) {
-			if (m.type.equals("uint8")) {
+			if (m.type() == m.parent.registry.uint8) {
 				out.println(s + "out.writeBytes(_s." + m.name + ");");
 			} else {
 				String t = getTypeName(m);
@@ -460,7 +461,7 @@ public class QtParserGenerator {
 				if (m.isComplex) {
 					out.println(s + "    write(_i, out);");
 				} else {
-					out.println(s + "    out.write" + m.type + "(_i);");
+					out.println(s + "    out.write" + m.type().name + "(_i);");
 				}
 				out.println(s + "}");
 			}
@@ -473,7 +474,8 @@ public class QtParserGenerator {
 			}
 			out.println("_s." + m.name + ", out);");
 		} else {
-			out.println(s + "out.write" + m.type + "(_s." + m.name + ");");
+			out.println(s + "out.write" + m.type().name + "(_s." + m.name
+					+ ");");
 		}
 		if (m.condition != null) {
 			out.println("    }");
@@ -481,58 +483,53 @@ public class QtParserGenerator {
 	}
 
 	private String getTypeName(Member m) {
-		String t = m.type;
-		if (m.isComplex) {
-			return t;
-		} else if ("bit".equals(t)) {
+		TypeRegistry.Type t = m.type();
+		TypeRegistry r = t.registry;
+		if (t instanceof Choice) {
+			return createChoiceClass(m.name, (Choice) t);
+		} else if (t == r.bit) {
 			return "bool";
-		} else if ("uint2".equals(t) || "uint3".equals(t) || "uint4".equals(t)
-				|| "uint5".equals(t) || "uint6".equals(t) || "uint7".equals(t)
-				|| "uint8".equals(t)) {
+		} else if (t == r.uint2 || t == r.uint3 || t == r.uint4 || t == r.uint5
+				|| t == r.uint6 || t == r.uint7 || t == r.uint8) {
 			return "quint8";
-		} else if ("uint9".equals(t) || "uint12".equals(t)
-				|| "uint14".equals(t) || "uint15".equals(t)
-				|| "uint16".equals(t)) {
+		} else if (t == r.uint9 || t == r.uint12 || t == r.uint14
+				|| t == r.uint15 || t == r.uint16) {
 			return "quint16";
-		} else if ("uint20".equals(t) || "uint30".equals(t)
-				|| "uint32".equals(t)) {
+		} else if (t == r.uint20 || t == r.uint30 || t == r.uint32) {
 			return "quint32";
-		} else if ("int16".equals(t)) {
+		} else if (t == r.int16) {
 			return "qint16";
-		} else if ("int32".equals(t)) {
+		} else if (t == r.int32) {
 			return "qint32";
-		} else if ("choice".equals(t)) {
-			return createChoiceClass(m);
-		} else {
-			return t;
 		}
+		return m.type().name;
 	}
 
-	private String createChoiceClass(Member m) {
+	private String createChoiceClass(String name, Choice c) {
 		String base = "StreamOffset";
 		if (config.enableIntrospection) {
 			base = "Introspectable";
 		}
-		String choice = "class " + m.name + "Choice : public QSharedPointer<"
+		String choice = "class " + name + "Choice : public QSharedPointer<"
 				+ base + "> {\n";
 		choice += "    public:\n";
-		choice += "        " + m.name + "Choice() {}\n";
-		for (String c : m.choices.getChoiceNames()) {
-			choice += "        explicit " + m.name + "Choice(" + c
+		choice += "        " + name + "Choice() {}\n";
+		for (String s : c.getChoiceNames()) {
+			choice += "        explicit " + name + "Choice(" + s
 					+ "* a) :QSharedPointer<" + base + ">(a) {}\n";
 		}
 		choice += "        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }\n";
 		choice += "        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }\n";
 		choice += "        template <typename T> bool is() const { return get<T>(); }\n";
 		choice += "    };\n";
-		choice += "    " + m.name + "Choice";
+		choice += "    " + name + "Choice";
 		return choice;
 	}
 
 	private String getMemberDeclaration(Member m) {
 		if (m.isArray) {
 			if (m.isComplex) {
-				return "QList<" + m.type + "> " + m.name;
+				return "QList<" + m.type().name + "> " + m.name;
 			} else {
 				if ("quint8".equals(getTypeName(m))) {
 					return "QByteArray " + m.name;
@@ -552,13 +549,12 @@ public class QtParserGenerator {
 		if (m.isArray) {
 			s = "\"[array of " + mn + "]\"";
 		} else {
-			if (m.isInteger) {// m.type.contains("int") ||
-				// m.type.equals("bit")) {
+			if (m.isInteger) {
 				s = "QString::number(" + mn + ") + \"(\" + QString::number("
 						+ mn + ",16).toUpper() + \")\"";
-			} else if (m.type.equals("bit")) {
+			} else if (m.type() == m.type().registry.bit) {
 				s = "QString::number(" + mn + ")";
-			} else if (m.choices != null) {
+			} else if (m.type() instanceof Choice) {
 				s = "\"<choice>\"";
 			} else if (m.isOptional || m.condition != null) {
 				s = "((" + mn + ")?" + mn + "->toString() :\"null\")";
@@ -579,10 +575,12 @@ public class QtParserGenerator {
 		out.println("    if (_s.style) {");
 		out.println("        quint32 count = 0;");
 		out.println("        if (_s.text.is<TextCharsAtom>()) {");
-		out.println("            count = _s.text.get<TextCharsAtom>()->textChars.size();");
+		out
+				.println("            count = _s.text.get<TextCharsAtom>()->textChars.size();");
 		out.println("        }");
 		out.println("        if (_s.text.is<TextBytesAtom>()) {");
-		out.println("            count = _s.text.get<TextBytesAtom>()->textChars.size();");
+		out
+				.println("            count = _s.text.get<TextBytesAtom>()->textChars.size();");
 		out.println("        }");
 		out.println("        quint32 sum = 0;");
 		out.println("        do {");
@@ -639,7 +637,7 @@ public class QtParserGenerator {
 			first = false;
 			for (Member m : s.members) {
 				if (m.isComplex && !m.isArray && !m.isOptional
-						&& m.choices == null && m.condition == null) {
+						&& !(m.type() instanceof Choice) && m.condition == null) {
 					if (first) {
 						out.print("\n       :");
 						first = false;
@@ -694,7 +692,7 @@ public class QtParserGenerator {
 					&& m.name.equals("todo")) {
 				break;
 			}
-			if (!m.isComplex && m.choices == null) {
+			if (!m.isComplex && !(m.type() instanceof Choice)) {
 				if (m.condition != null) {
 					out.println("    static int count_" + m.name
 							+ "(const Introspectable* i) {");
@@ -714,7 +712,7 @@ public class QtParserGenerator {
 						+ "*>(i)->" + m.name + ".size();");
 				out.println("    }");
 			}
-			if (m.isComplex || m.choices != null) {
+			if (m.isComplex || m.type() instanceof Choice) {
 				out.println("    static const Introspectable* get_" + m.name
 						+ "(const Introspectable* i, int j) {");
 			} else {
@@ -722,10 +720,10 @@ public class QtParserGenerator {
 						+ "(const Introspectable* i, int j) {");
 			}
 			String dm = "static_cast<const " + s.name + "*>(i)->" + m.name + "";
-			if (m.choices == null) {
+			if (!(m.type() instanceof Choice)) {
 				out.print("        ");
 				if (!m.isComplex) {
-					if (m.isArray && m.type != "uint8") {
+					if (m.isArray && m.type() != m.type().registry.uint8) {
 						out.println("return qVariantFromValue(" + dm + ");");
 					} else {
 						out.println("return " + dm + ";");
@@ -755,7 +753,7 @@ public class QtParserGenerator {
 				+ "])(const Introspectable*) = {");
 		for (Member m : s.members) {
 			if (m.condition != null
-					|| ((m.isComplex || m.choices != null) && (m.isOptional || m.isArray))) {
+					|| ((m.isComplex || m.type() instanceof Choice) && (m.isOptional || m.isArray))) {
 				out.println("    _Introspection::count_" + m.name + ",");
 			} else {
 				// arrays of simple types count as one instance
@@ -770,7 +768,7 @@ public class QtParserGenerator {
 					&& config.enableStyleTextPropAtomFix
 					&& m.name.equals("todo")) {
 				break;
-			} else if (m.isComplex || m.choices != null) {
+			} else if (m.isComplex || m.type() instanceof Choice) {
 				out.println("    Introspection::nullValue,");
 			} else {
 				out.println("    _Introspection::get_" + m.name + ",");
@@ -781,7 +779,7 @@ public class QtParserGenerator {
 				+ "::introspectable[" + nm
 				+ "])(const Introspectable*, int position) = {");
 		for (Member m : s.members) {
-			if (m.isComplex || m.choices != null) {
+			if (m.isComplex || m.type() instanceof Choice) {
 				out.println("    _Introspection::get_" + m.name + ",");
 			} else {
 				out.println("    Introspection::null,");
@@ -803,7 +801,8 @@ public class QtParserGenerator {
 		String exception = "_x";
 		String choice;
 		out.println(s + "_m = in.setMark();");
-		String choices[] = m.choices.getChoiceNames();
+		Choice c = (Choice) m.type();
+		String choices[] = c.getChoiceNames();
 		int length = (m.isOptional) ? choices.length : choices.length - 1;
 		for (int i = 0; i < length; ++i) {
 			choice = choices[i];
@@ -834,8 +833,9 @@ public class QtParserGenerator {
 		out.println(s + "_atend = in.getPosition() - _startPos >= "
 				+ getExpression("_s", m.size) + ";");
 		out.println(s + "while (!_atend) {");
-		out.println(s + "    _s." + m.name + ".append(" + m.type + "(&_s));");
-		out.println(s + "    parse" + m.type + "(in, _s." + m.name
+		out.println(s + "    _s." + m.name + ".append(" + m.type().name
+				+ "(&_s));");
+		out.println(s + "    parse" + m.type().name + "(in, _s." + m.name
 				+ ".last());");
 		out.println(s + "    _atend = in.getPosition() - _startPos >= "
 				+ getExpression("_s", m.size) + ";");
@@ -847,9 +847,9 @@ public class QtParserGenerator {
 		out.println(s + "while (!_atend) {");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
-		out.println(s + "        _s." + m.name + ".append(" + m.type
+		out.println(s + "        _s." + m.name + ".append(" + m.type().name
 				+ "(&_s));");
-		out.println(s + "        parse" + m.type + "(in, _s." + m.name
+		out.println(s + "        parse" + m.type().name + "(in, _s." + m.name
 				+ ".last());");
 		out.println(s + "    } catch(IncorrectValueException _e) {");
 		out.println(s + "        _s." + m.name + ".removeLast();");
@@ -867,9 +867,9 @@ public class QtParserGenerator {
 		out.println(s + "_m = in.setMark();");
 		out.println(s + "try {");
 		// out.println(s + "    " + m.type + " _t;");
-		out.println(s + "    _s." + m.name + " = QSharedPointer<" + m.type
-				+ ">(new " + m.type + "(&_s));");
-		out.println(s + "    parse" + m.type + "(in, *_s." + m.name
+		out.println(s + "    _s." + m.name + " = QSharedPointer<"
+				+ m.type().name + ">(new " + m.type().name + "(&_s));");
+		out.println(s + "    parse" + m.type().name + "(in, *_s." + m.name
 				+ ".data());");
 		out.println(s + "} catch(IncorrectValueException _e) {");
 		out.println(s + "    _s." + m.name + ".clear();");

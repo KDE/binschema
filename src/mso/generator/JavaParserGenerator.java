@@ -80,7 +80,7 @@ public class JavaParserGenerator {
 			out.println("        int _c;");
 		}
 		if (s.containsOptionalMember || s.containsUnknownLengthArrayMember
-				|| s.containsChoice) {
+				|| s.containsUnsureChoice) {
 			out.println("        Object _m;");
 		}
 		if (s.containsUnknownLengthArrayMember) {
@@ -113,9 +113,10 @@ public class JavaParserGenerator {
 					+ ") {");
 			s = s + "    ";
 		}
-		if (m.choices != null) {
+		if (m.type() instanceof Choice) {
 			boolean first = true;
-			for (String t : m.choices.getChoiceNames()) {
+			Choice c = (Choice) m.type();
+			for (String t : c.getChoiceNames()) {
 				out.print(s);
 				if (!first) {
 					out.print("} else ");
@@ -133,7 +134,7 @@ public class JavaParserGenerator {
 			if (m.isComplex) {
 				out.println(s + "    write(_i, out);");
 			} else {
-				out.println(s + "    out.write" + m.type + "(_i);");
+				out.println(s + "    out.write" + m.type().name + "(_i);");
 			}
 			out.println(s + "}");
 		} else if (m.isComplex) {
@@ -143,7 +144,8 @@ public class JavaParserGenerator {
 			}
 			out.println("write(_s." + m.name + ", out);");
 		} else {
-			out.println(s + "out.write" + m.type + "(_s." + m.name + ");");
+			out.println(s + "out.write" + m.type().name + "(_s." + m.name
+					+ ");");
 		}
 		if (m.condition != null) {
 			out.println("        }");
@@ -151,35 +153,32 @@ public class JavaParserGenerator {
 	}
 
 	String getTypeName(Member m) {
-		String t = m.type;
-		if (m.isComplex) {
-			return t;
-		} else if ("bit".equals(t)) {
-			return "boolean";
-		} else if ("uint2".equals(t) || "uint3".equals(t) || "uint4".equals(t)
-				|| "uint5".equals(t) || "uint6".equals(t) || "uint7".equals(t)
-				|| "uint8".equals(t)) {
-			return "byte";
-		} else if ("uint9".equals(t) || "uint12".equals(t)
-				|| "uint14".equals(t) || "uint15".equals(t)
-				|| "int16".equals(t)) {
-			return "short";
-		} else if ("uint16".equals(t) || "uint20".equals(t)
-				|| "uint30".equals(t) || "uint32".equals(t)
-				|| "int32".equals(t)) {
-			return "int";
-		} else if ("choice".equals(t)) {
+		final TypeRegistry.Type t = m.type();
+		final TypeRegistry r = m.parent.registry;
+		if (t instanceof Struct) {
+			return m.type().name;
+		} else if (t instanceof Choice) {
 			return "Object";
-		} else {
-			return t;
+		} else if (t == r.bit) {
+			return "boolean";
+		} else if (t == r.uint2 || t == r.uint3 || t == r.uint4 || t == r.uint5
+				|| t == r.uint6 || t == r.uint7 || t == r.uint8) {
+			return "byte";
+		} else if (t == r.uint9 || t == r.uint12 || t == r.uint14
+				|| t == r.uint15 || t == r.int16) {
+			return "short";
+		} else if (t == r.uint16 || t == r.uint20 || t == r.uint30
+				|| t == r.uint32 || t == r.int32) {
+			return "int";
 		}
+		return t.name;
 	}
 
 	String getMemberDeclaration(Member m) {
 		if (m.isArray) {
 			if (m.count == null) {
-				return "final java.util.List<" + m.type + "> " + m.name
-						+ " = new java.util.ArrayList<" + m.type + ">()";
+				return "final java.util.List<" + m.type().name + "> " + m.name
+						+ " = new java.util.ArrayList<" + m.type().name + ">()";
 			} else {
 				return getTypeName(m) + "[] " + m.name;
 			}
@@ -239,12 +238,12 @@ public class JavaParserGenerator {
 		}
 		String parse;
 		if (m.isComplex) {
-			parse = "parse" + m.type + "(in);";
+			parse = "parse" + m.type().name + "(in);";
 		} else {
-			parse = "in.read" + m.type + "();";
+			parse = "in.read" + m.type().name + "();";
 		}
 
-		if (m.choices != null) {
+		if (m.type() instanceof Choice) {
 			printChoiceParser(out, s, m);
 			return;
 		}
@@ -266,7 +265,7 @@ public class JavaParserGenerator {
 		}
 		out.print(s + "_s." + m.name + " = ");
 		if (count != null) {
-			if (m.type.equals("uint8")) {
+			if (m.type() == m.parent.registry.uint8) {
 				out.println("in.readBytes(_c);");
 			} else {
 				out.println("new " + getTypeName(m) + "[_c];");
@@ -289,7 +288,8 @@ public class JavaParserGenerator {
 		String closing = "";
 		String exception = "_x";
 		out.println(s + "_m = in.setMark();");
-		String choices[] = m.choices.getChoiceNames();
+		Choice c = (Choice) m.type();
+		String choices[] = c.getChoiceNames();
 		int length = (m.isOptional) ? choices.length : choices.length - 1;
 		for (int i = 0; i < length; ++i) {
 			out.println(s + "try {");
@@ -300,10 +300,10 @@ public class JavaParserGenerator {
 					+ " instanceof IncorrectValueException) && !(" + exception
 					+ " instanceof java.io.EOFException)) throw " + exception
 					+ ";");
-//			out
-//					.println(s
-//							+ "    if (in.distanceFromMark(_m) > 16) throw new IOException("
-//							+ exception + ");//onlyfordebug");
+			// out
+			// .println(s
+			// + "    if (in.distanceFromMark(_m) > 16) throw new IOException("
+			// + exception + ");//onlyfordebug");
 			out.println(s + "    in.rewind(_m);");
 			exception = exception + "x";
 			closing = closing + "}";
@@ -321,7 +321,8 @@ public class JavaParserGenerator {
 		out.println(s + "int _startPos = in.getPosition();");
 		out.println(s + "while (in.getPosition() - _startPos < "
 				+ getExpression("_s", m.size) + ") {");
-		out.println(s + "    " + m.type + " _t = parse" + m.type + "(in);");
+		out.println(s + "    " + m.type().name + " _t = parse" + m.type().name
+				+ "(in);");
 		out.println(s + "    _s." + m.name + ".add(_t);");
 		out.println(s + "}");
 	}
@@ -330,17 +331,20 @@ public class JavaParserGenerator {
 		out.println(s + "_atend = false;");
 		out.println(s + "_i=0;");
 		out.println(s + "while (!_atend) {");
-	//	out
-	//			.println(s
-	//					+ "    System.out.println(\"round \"+(_i++) + \" \" + in.getPosition());");
+		// out
+		// .println(s
+		// +
+		// "    System.out.println(\"round \"+(_i++) + \" \" + in.getPosition());");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
-		out.println(s + "        " + m.type + " _t = parse" + m.type + "(in);");
+		out.println(s + "        " + m.type().name + " _t = parse"
+				+ m.type().name + "(in);");
 		out.println(s + "        _s." + m.name + ".add(_t);");
 		out.println(s + "    } catch(IncorrectValueException _e) {");
-	//	out
-	//			.println(s
-	//					+ "    if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug");
+		// out
+		// .println(s
+		// +
+		// "    if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug");
 		out.println(s + "        _atend = true;");
 		out.println(s + "        in.rewind(_m);");
 		out.println(s + "    } catch(java.io.EOFException _e) {");
@@ -355,7 +359,8 @@ public class JavaParserGenerator {
 	void printOptionalMemberParser(PrintWriter out, String s, Member m) {
 		out.println(s + "_m = in.setMark();");
 		out.println(s + "try {");
-		out.println(s + "    _s." + m.name + " = parse" + m.type + "(in);");
+		out.println(s + "    _s." + m.name + " = parse" + m.type().name
+				+ "(in);");
 		out.println(s + "} catch(IncorrectValueException _e) {");
 		out
 				.println(s

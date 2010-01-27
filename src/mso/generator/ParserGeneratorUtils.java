@@ -24,11 +24,41 @@ class MSO {
 	List<Stream> streams = new ArrayList<Stream>();
 
 	MSO(Document dom) throws IOException {
+		TypeRegistry typeRegistry = new TypeRegistry();
+
+		// retrieve all the structs
 		List<Element> orderedElements = ParserGeneratorUtils
 				.getOrderedStructureList(dom);
 		for (Element e : orderedElements) {
-			structs.add(new Struct(e));
+			String typeName = e.getAttribute("name");
+			TypeRegistry.Type t = typeRegistry.getType(typeName);
+			Struct s = null;
+			if (t instanceof Struct) {
+				s = (Struct) t;
+			} else {
+				s = new Struct(typeRegistry, e);
+			}
+			structs.add(s);
 		}
+		// check that all members have a non-null type
+		for (Struct s : structs) {
+			for (Member m : s.members) {
+				if (m.type() == null) {
+					throw new Error("Member " + m.name + " of structure "
+							+ s.name + " has no parsed type.");
+				}
+			}
+		}
+
+		// now that all structs are parsed a second step is done where
+		// the Choices are introspected. If all options in a choice start with
+		// the same member type
+		// and the choice have different limitations on the member types, the
+		// use of exceptions in the
+		// parsing can be avoided
+		// for (Struct s : structs) {
+		// s.tryToSimplifyChoice();
+		// }
 
 		NodeList l = dom.getElementsByTagName("stream");
 		for (int i = 0; i < l.getLength(); ++i) {
@@ -54,39 +84,10 @@ class Limitation {
 	}
 }
 
-class Choices {
-	final List<Struct> choices;
-
-	Choices(List<Struct> c) {
-		choices = c;
-
-		// find the common members
-		List<Member> common = choices.get(0).members;
-		for (int i = 0; i < common.size(); ++i) {
-			List<Member> members = choices.get(i).members;
-			for (int j = 0; j < common.size(); ++j) {
-				if (j >= members.size()
-						|| !members.get(j).equals(common.get(i))) {
-					while (common.size() > j) {
-						common.remove(j);
-					}
-				}
-			}
-		}
-	}
-
-	String[] getChoiceNames() {
-		String n[] = new String[choices.size()];
-		for (int i = 0; i < choices.size(); ++i) {
-			n[i] = choices.get(i).name;
-		}
-		return n;
-	}
-}
-
 class Member {
+	final Struct parent;
 	final String name;
-	final String type;
+	private final String typeName;
 	final String count;
 	final String size;
 	final String condition;
@@ -94,38 +95,46 @@ class Member {
 	final boolean isOptional;
 	final boolean isComplex;
 	final boolean isInteger;
-	final Choices choices;
 	final Limitation limitations[];
 
-	Member(Element e) {
+	Member(Struct parent_, Element e) {
+		parent = parent_;
 		name = e.getAttribute("name");
 		condition = (e.hasAttribute("condition")) ? e.getAttribute("condition")
 				: null;
 		count = (e.hasAttribute("count")) ? e.getAttribute("count") : null;
 		size = (e.hasAttribute("size")) ? e.getAttribute("size") : null;
 
-		List<Struct> _choices = null;
 		isOptional = e.hasAttribute("optional");
 		isArray = count != null || e.hasAttribute("array");
 		isComplex = e.hasAttribute("type");
 		if (isComplex) {
-			type = e.getAttribute("type");
+			typeName = e.getAttribute("type");
 			isInteger = false;
-		} else {
-			type = e.getNodeName();
-			isInteger = type.startsWith("int") || type.startsWith("uint");
-			if (type.equals("choice")) {
-				_choices = new ArrayList<Struct>();
-				Element msoelement = (Element) e.getParentNode()
-						.getParentNode();
-				NodeList l = e.getElementsByTagName("type");
-				for (int i = 0; i < l.getLength(); ++i) {
-					String choicetype = ((Element) l.item(i))
-							.getAttribute("type");
-					_choices.add(new Struct(getStructElement(msoelement,
-							choicetype)));
+		} else if (e.getNodeName().equals("choice")) {
+			NodeList l = e.getElementsByTagName("type");
+			String choiceName = "choice";
+			List<Struct> choices = new ArrayList<Struct>();
+			Element msoelement = (Element) e.getParentNode().getParentNode();
+			for (int i = 0; i < l.getLength(); ++i) {
+				String type = ((Element) l.item(i)).getAttribute("type");
+				Element ce = getStructElement(msoelement, type);
+				choiceName += type;
+				TypeRegistry.Type t = parent.registry.getType(ce
+						.getAttribute("name"));
+				if (t instanceof Struct) {
+					choices.add((Struct) t);
+				} else {
+					choices.add(new Struct(parent.registry, ce));
 				}
 			}
+			typeName = choiceName;
+			new Choice(parent.registry, choiceName, choices);
+			isInteger = false;
+		} else {
+			typeName = e.getNodeName();
+			isInteger = typeName.startsWith("int")
+					|| typeName.startsWith("uint");
 		}
 
 		List<Limitation> _limitations = new ArrayList<Limitation>();
@@ -135,8 +144,11 @@ class Member {
 				_limitations.add(new Limitation((Element) l.item(i)));
 			}
 		}
-		choices = (_choices == null) ? null : new Choices(_choices);
 		limitations = _limitations.toArray(new Limitation[0]);
+	}
+
+	public TypeRegistry.Type type() {
+		return parent.registry.getType(typeName);
 	}
 
 	private static Element getStructElement(Element mso, String typename) {
@@ -152,18 +164,63 @@ class Member {
 
 }
 
-class Struct {
+class TypeRegistry {
+	private final Map<String, Type> types = new HashMap<String, Type>();
 
-	String name;
+	class Type {
+		public final TypeRegistry registry;
+		public final String name;
+
+		Type(TypeRegistry r, String name_) {
+			registry = r;
+			name = name_;
+			if (types.containsKey(name)) {
+				throw new Error("Duplicate key: " + name);
+			}
+			types.put(name, this);
+		}
+
+		Type get(String name) {
+			return types.get(name);
+		}
+	}
+
+	protected Type getType(String name) {
+		return types.get(name);
+	}
+
+	final public Type bit = new Type(this, "bit");
+	final public Type uint2 = new Type(this, "uint2");
+	final public Type uint3 = new Type(this, "uint3");
+	final public Type uint4 = new Type(this, "uint4");
+	final public Type uint5 = new Type(this, "uint5");
+	final public Type uint6 = new Type(this, "uint6");
+	final public Type uint7 = new Type(this, "uint7");
+	final public Type uint8 = new Type(this, "uint8");
+	final public Type uint9 = new Type(this, "uint9");
+	final public Type uint12 = new Type(this, "uint12");
+	final public Type uint14 = new Type(this, "uint14");
+	final public Type uint15 = new Type(this, "uint15");
+	final public Type uint16 = new Type(this, "uint16");
+	final public Type uint20 = new Type(this, "uint20");
+	final public Type uint30 = new Type(this, "uint30");
+	final public Type uint32 = new Type(this, "uint32");
+	final public Type int16 = new Type(this, "int16");
+	final public Type int32 = new Type(this, "int32");
+}
+
+class Struct extends TypeRegistry.Type {
+
 	final List<Member> members = new ArrayList<Member>();
 	final boolean containsArrayMember;
 	final boolean containsOptionalMember;
 	final boolean containsUnknownLengthArrayMember;
 	final boolean containsKnownLengthArrayMember;
-	final boolean containsChoice;
+	boolean containsUnsureChoice;
+	boolean containsSureChoice;
 
-	Struct(Element e) {
-		name = e.getAttribute("name");
+	Struct(TypeRegistry registry, Element e) {
+		registry.super(registry, e.getAttribute("name"));
 
 		boolean _containsArrayMember = false;
 		boolean _containsOptionalMember = false;
@@ -178,7 +235,7 @@ class Struct {
 				if (me.getNodeName().equals("limitation")) {
 					break;
 				}
-				Member m = new Member(me);
+				Member m = new Member(this, me);
 				members.add(m);
 				_containsArrayMember = _containsArrayMember || m.isArray;
 				_containsOptionalMember = _containsOptionalMember
@@ -187,14 +244,32 @@ class Struct {
 						|| (m.isArray && m.count == null);
 				_containsKnownLengthArrayMember = _containsKnownLengthArrayMember
 						|| m.count != null;
-				_containsChoice = _containsChoice || m.choices != null;
+				_containsChoice = _containsChoice || m.type() instanceof Choice;
 			}
 		}
 		containsArrayMember = _containsArrayMember;
 		containsOptionalMember = _containsOptionalMember;
 		containsUnknownLengthArrayMember = _containsUnknownLengthArrayMember;
 		containsKnownLengthArrayMember = _containsKnownLengthArrayMember;
-		containsChoice = _containsChoice;
+		containsUnsureChoice = _containsChoice;
+		containsSureChoice = false;
+	}
+}
+
+class Choice extends TypeRegistry.Type {
+	final List<Struct> choices;
+
+	Choice(TypeRegistry registry, String name, List<Struct> choices_) {
+		registry.super(registry, name);
+		choices = choices_;
+	}
+
+	String[] getChoiceNames() {
+		String n[] = new String[choices.size()];
+		for (int i = 0; i < choices.size(); ++i) {
+			n[i] = choices.get(i).name;
+		}
+		return n;
 	}
 }
 
@@ -301,7 +376,7 @@ public class ParserGeneratorUtils {
 		List<Struct> parents = new ArrayList<Struct>();
 		for (Struct p : mso.structs) {
 			for (Member m : s.members) {
-				if (m.isComplex && m.type.equals(s.name)) {
+				if (m.isComplex && m.type() == s) {
 					parents.add(p);
 				}
 			}
