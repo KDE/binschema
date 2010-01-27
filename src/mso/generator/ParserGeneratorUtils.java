@@ -346,17 +346,6 @@ public class ParserGeneratorUtils {
 		return orderedList;
 	}
 
-	static boolean hasElementWithAttribute(Element e, String attribute) {
-		NodeList l = e.getChildNodes();
-		for (int i = 0; i < l.getLength(); ++i) {
-			Node n = l.item(i);
-			if (n instanceof Element && ((Element) n).hasAttribute(attribute)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	static Map<Integer, String> getRecordTypeNames(Document dom)
 			throws XPathExpressionException {
 		Map<Integer, String> map = new HashMap<Integer, String>();
@@ -380,17 +369,5 @@ public class ParserGeneratorUtils {
 			}
 		}
 		return map;
-	}
-
-	static List<Struct> getPossibleParents(MSO mso, Struct s) {
-		List<Struct> parents = new ArrayList<Struct>();
-		for (Struct p : mso.structs) {
-			for (Member m : s.members) {
-				if (m.type() instanceof Struct && m.type() == s) {
-					parents.add(p);
-				}
-			}
-		}
-		return parents;
 	}
 }
