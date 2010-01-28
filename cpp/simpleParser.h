@@ -2942,16 +2942,16 @@ public:
 class TextContainer : public StreamOffset {
 public:
     TextHeaderAtom textHeaderAtom;
-    class textChoice : public QSharedPointer<StreamOffset> {
+    class choiceTextCharsAtomTextBytesAtom : public QSharedPointer<StreamOffset> {
     public:
-        textChoice() {}
-        explicit textChoice(TextCharsAtom* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit textChoice(TextBytesAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceTextCharsAtomTextBytesAtom() {}
+        explicit choiceTextCharsAtomTextBytesAtom(TextCharsAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceTextCharsAtomTextBytesAtom(TextBytesAtom* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    textChoice text;
+    choiceTextCharsAtomTextBytesAtom text;
     QSharedPointer<StyleTextPropAtom> style;
     QList<TextContainerMeta> meta;
     QSharedPointer<MasterTextPropAtom> master;
@@ -2962,20 +2962,20 @@ public:
 };
 class TextContainerMeta : public StreamOffset {
 public:
-    class metaChoice : public QSharedPointer<StreamOffset> {
+    class choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom : public QSharedPointer<StreamOffset> {
     public:
-        metaChoice() {}
-        explicit metaChoice(SlideNumberMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit metaChoice(DateTimeMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit metaChoice(GenericDateMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit metaChoice(HeaderMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit metaChoice(FooterMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit metaChoice(RTFDateTimeMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom() {}
+        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(SlideNumberMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(DateTimeMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(GenericDateMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(HeaderMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(FooterMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(RTFDateTimeMCAtom* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    metaChoice meta;
+    choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom meta;
     TextContainerMeta(void* /*dummy*/ = 0) {}
 };
 class SlidePersistAtom : public StreamOffset {
@@ -3236,17 +3236,17 @@ public:
 };
 class OfficeArtSolverContainerFileBlock : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(OfficeArtFConnectorRule* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtFArcRule* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtFCalloutRule* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule() {}
+        explicit choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(OfficeArtFConnectorRule* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(OfficeArtFArcRule* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(OfficeArtFCalloutRule* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule anon;
     OfficeArtSolverContainerFileBlock(void* /*dummy*/ = 0) {}
 };
 class ProtectionBooleanProperties : public StreamOffset {
@@ -3731,16 +3731,16 @@ public:
 };
 class Prm : public StreamOffset {
 public:
-    class prmChoice : public QSharedPointer<StreamOffset> {
+    class choicePrm0Prm1 : public QSharedPointer<StreamOffset> {
     public:
-        prmChoice() {}
-        explicit prmChoice(Prm0* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit prmChoice(Prm1* a) :QSharedPointer<StreamOffset>(a) {}
+        choicePrm0Prm1() {}
+        explicit choicePrm0Prm1(Prm0* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choicePrm0Prm1(Prm1* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    prmChoice prm;
+    choicePrm0Prm1 prm;
     Prm(void* /*dummy*/ = 0) {}
 };
 class OfficeArtBlipEMF : public StreamOffset {
@@ -3775,21 +3775,21 @@ public:
 };
 class OfficeArtBlip : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(OfficeArtBlipEMF* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtBlipWMF* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtBlipPICT* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtBlipJPEG* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtBlipPNG* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtBlipDIB* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtBlipTIFF* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF() {}
+        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipEMF* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipWMF* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipPICT* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipJPEG* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipPNG* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipDIB* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipTIFF* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF anon;
     OfficeArtBlip(void* /*dummy*/ = 0) {}
 };
 class ZoomViewInfoAtom : public StreamOffset {
@@ -3869,31 +3869,31 @@ public:
 };
 class TextContainerInteractiveInfo : public StreamOffset {
 public:
-    class interactiveChoice : public QSharedPointer<StreamOffset> {
+    class choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom : public QSharedPointer<StreamOffset> {
     public:
-        interactiveChoice() {}
-        explicit interactiveChoice(MouseInteractiveInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit interactiveChoice(MouseTextInteractiveInfoAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom() {}
+        explicit choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom(MouseInteractiveInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom(MouseTextInteractiveInfoAtom* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    interactiveChoice interactive;
+    choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom interactive;
     TextContainerInteractiveInfo(void* /*dummy*/ = 0) {}
 };
 class TextClientDataSubContainerOrAtom : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceOutlineTextRefAtomTextContainerTextRulerAtom : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(OutlineTextRefAtom* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(TextContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(TextRulerAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceOutlineTextRefAtomTextContainerTextRulerAtom() {}
+        explicit choiceOutlineTextRefAtomTextContainerTextRulerAtom(OutlineTextRefAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOutlineTextRefAtomTextContainerTextRulerAtom(TextContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOutlineTextRefAtomTextContainerTextRulerAtom(TextRulerAtom* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceOutlineTextRefAtomTextContainerTextRulerAtom anon;
     TextClientDataSubContainerOrAtom(void* /*dummy*/ = 0) {}
 };
 class TextPFRun : public StreamOffset {
@@ -3963,39 +3963,39 @@ public:
 };
 class SlideProgTagsSubContainerOrAtom : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceProgStringTagContainerSlideProgBinaryTagContainer : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(ProgStringTagContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(SlideProgBinaryTagContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceProgStringTagContainerSlideProgBinaryTagContainer() {}
+        explicit choiceProgStringTagContainerSlideProgBinaryTagContainer(ProgStringTagContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProgStringTagContainerSlideProgBinaryTagContainer(SlideProgBinaryTagContainer* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceProgStringTagContainerSlideProgBinaryTagContainer anon;
     SlideProgTagsSubContainerOrAtom(void* /*dummy*/ = 0) {}
 };
 class ExObjListSubContainer : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(ExAviMovieContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExCDAudioContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExControlContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExHyperlinkContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExMCIMovieContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExMIDIAudioContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExOleEmbedContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExOleLinkContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExWAVAudioEmbeddedContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExWAVAudioLinkContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(UnknownExObjListSubContainerChild* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild() {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExAviMovieContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExCDAudioContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExControlContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExHyperlinkContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExMCIMovieContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExMIDIAudioContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExOleEmbedContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExOleLinkContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExWAVAudioEmbeddedContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExWAVAudioLinkContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(UnknownExObjListSubContainerChild* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild anon;
     ExObjListSubContainer(void* /*dummy*/ = 0) {}
 };
 class OfficeArtDggContainer : public StreamOffset {
@@ -4012,64 +4012,64 @@ public:
 };
 class OfficeArtFOPTEChoice : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(ProtectionBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(adjust2Value* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(adjust3Value* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ITxid* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(DxTextLeft* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(DyTextTop* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(DxTextRight* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(DyTextBottom* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(WrapText* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(AnchorText* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(TextBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(HspNext* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(Pib* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(PibName* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ShapePath* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(GeometryBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(FillType* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(FillColor* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(FillBackColor* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(FillBlip* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(FillStyleBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineColor* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineOpacity* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineBackColor* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineFillBlip* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineWidth* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineStyle* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineDashing* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(FillRectRight* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(FillRectBottom* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(WzFillId* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineStyleBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineStartArrowhead* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineEndArrowhead* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineStartArrowWidth* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineStartArrowLength* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineEndArrowWidth* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineEndArrowLength* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LineJoinStyle* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ShadowColor* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ShadowOpacity* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ShadowOffsetX* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ShadowOffsetY* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ShadowStyleBooleanPropertiesr* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ShapeBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(HspMaster* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(Rotation* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(LidRegroup* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(BWMode* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtFOPTE* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE() {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ProtectionBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(adjust2Value* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(adjust3Value* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ITxid* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(DxTextLeft* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(DyTextTop* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(DxTextRight* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(DyTextBottom* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(WrapText* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(AnchorText* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(TextBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(HspNext* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(Pib* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(PibName* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShapePath* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(GeometryBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillType* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillColor* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillBackColor* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillBlip* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillStyleBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineColor* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineOpacity* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineBackColor* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineFillBlip* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineWidth* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineStyle* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineDashing* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillRectRight* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillRectBottom* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(WzFillId* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineStyleBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineStartArrowhead* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineEndArrowhead* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineStartArrowWidth* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineStartArrowLength* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineEndArrowWidth* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineEndArrowLength* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineJoinStyle* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShadowColor* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShadowOpacity* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShadowOffsetX* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShadowOffsetY* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShadowStyleBooleanPropertiesr* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShapeBooleanProperties* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(HspMaster* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(Rotation* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LidRegroup* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(BWMode* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(OfficeArtFOPTE* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE anon;
     OfficeArtFOPTEChoice(void* /*dummy*/ = 0) {}
 };
 class OfficeArtClientData : public StreamOffset {
@@ -4137,16 +4137,16 @@ public:
 };
 class OfficeArtBStoreContainerFileBlock : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceOfficeArtFBSEOfficeArtBlip : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(OfficeArtFBSE* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtBlip* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceOfficeArtFBSEOfficeArtBlip() {}
+        explicit choiceOfficeArtFBSEOfficeArtBlip(OfficeArtFBSE* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOfficeArtFBSEOfficeArtBlip(OfficeArtBlip* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceOfficeArtFBSEOfficeArtBlip anon;
     OfficeArtBStoreContainerFileBlock(void* /*dummy*/ = 0) {}
 };
 class SlideViewInfoInstance : public StreamOffset {
@@ -4280,21 +4280,21 @@ public:
 };
 class DocInfoListSubContainerOrAtom : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(DocProgTagsContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(NormalViewSetInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(NotesTextViewInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OutlineViewInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(SlideViewInfoInstance* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(SorterViewInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(VBAInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer() {}
+        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(DocProgTagsContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(NormalViewSetInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(NotesTextViewInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(OutlineViewInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(SlideViewInfoInstance* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(SorterViewInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(VBAInfoContainer* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer anon;
     DocInfoListSubContainerOrAtom(void* /*dummy*/ = 0) {}
 };
 class PP9DocBinaryTagExtension : public StreamOffset {
@@ -4335,33 +4335,33 @@ public:
 };
 class OfficeArtSpgrContainerFileBlock : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceOfficeArtSpContainerOfficeArtSpgrContainer : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(OfficeArtSpContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(OfficeArtSpgrContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceOfficeArtSpContainerOfficeArtSpgrContainer() {}
+        explicit choiceOfficeArtSpContainerOfficeArtSpgrContainer(OfficeArtSpContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceOfficeArtSpContainerOfficeArtSpgrContainer(OfficeArtSpgrContainer* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceOfficeArtSpContainerOfficeArtSpgrContainer anon;
     OfficeArtSpgrContainerFileBlock(void* /*dummy*/ = 0) {}
 };
 class DocProgBinaryTagSubContainerOrAtom : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(PP9DocBinaryTagExtension* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(PP10DocBinaryTagExtension* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(PP11DocBinaryTagExtension* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(PP12DocBinaryTagExtension* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(UnknownBinaryTag* a) :QSharedPointer<StreamOffset>(a) {}
+        choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag() {}
+        explicit choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(PP9DocBinaryTagExtension* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(PP10DocBinaryTagExtension* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(PP11DocBinaryTagExtension* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(PP12DocBinaryTagExtension* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(UnknownBinaryTag* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag anon;
     DocProgBinaryTagSubContainerOrAtom(void* /*dummy*/ = 0) {}
 };
 class DrawingContainer : public StreamOffset {
@@ -4426,52 +4426,52 @@ public:
 };
 class DocProgTagsSubContainerOrAtom : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceProgStringTagContainerDocProgBinaryTagContainer : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(ProgStringTagContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(DocProgBinaryTagContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceProgStringTagContainerDocProgBinaryTagContainer() {}
+        explicit choiceProgStringTagContainerDocProgBinaryTagContainer(ProgStringTagContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceProgStringTagContainerDocProgBinaryTagContainer(DocProgBinaryTagContainer* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceProgStringTagContainerDocProgBinaryTagContainer anon;
     DocProgTagsSubContainerOrAtom(void* /*dummy*/ = 0) {}
 };
 class MasterOrSlideContainer : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceMainMasterContainerSlideContainer : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(MainMasterContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(SlideContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceMainMasterContainerSlideContainer() {}
+        explicit choiceMainMasterContainerSlideContainer(MainMasterContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceMainMasterContainerSlideContainer(SlideContainer* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceMainMasterContainerSlideContainer anon;
     MasterOrSlideContainer(void* /*dummy*/ = 0) {}
 };
 class PowerPointStruct : public StreamOffset {
 public:
-    class anonChoice : public QSharedPointer<StreamOffset> {
+    class choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom : public QSharedPointer<StreamOffset> {
     public:
-        anonChoice() {}
-        explicit anonChoice(DocumentContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(MasterOrSlideContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(PersistDirectoryAtom* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(NotesContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(HandoutContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(SlideContainer* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExOleObjStg* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(ExControlStg* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(VbaProjectStg* a) :QSharedPointer<StreamOffset>(a) {}
-        explicit anonChoice(UserEditAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom() {}
+        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(DocumentContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(MasterOrSlideContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(PersistDirectoryAtom* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(NotesContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(HandoutContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(SlideContainer* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(ExOleObjStg* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(ExControlStg* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(VbaProjectStg* a) :QSharedPointer<StreamOffset>(a) {}
+        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(UserEditAtom* a) :QSharedPointer<StreamOffset>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    anonChoice anon;
+    choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom anon;
     PowerPointStruct(void* /*dummy*/ = 0) {}
 };
 } // close namespace

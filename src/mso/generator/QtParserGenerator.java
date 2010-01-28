@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import mso.generator.Choice.Option;
+
 public class QtParserGenerator {
 
 	public class QtParserConfiguration {
@@ -456,7 +458,7 @@ public class QtParserGenerator {
 			if (m.type() == m.parent.registry.uint8) {
 				out.println(s + "out.writeBytes(_s." + m.name + ");");
 			} else {
-				String t = getTypeName(m);
+				String t = getTypeName(m.type());
 				out.println(s + "foreach (" + t + " _i, _s." + m.name + ") {");
 				if (m.isStruct) {
 					out.println(s + "    write(_i, out);");
@@ -482,11 +484,10 @@ public class QtParserGenerator {
 		}
 	}
 
-	private String getTypeName(Member m) {
-		TypeRegistry.Type t = m.type();
+	private String getTypeName(TypeRegistry.Type t) {
 		TypeRegistry r = t.registry;
 		if (t instanceof Choice) {
-			return createChoiceClass(m.name, (Choice) t);
+			return createChoiceClass(t.name, (Choice) t);
 		} else if (t == r.bit) {
 			return "bool";
 		} else if (t == r.uint2 || t == r.uint3 || t == r.uint4 || t == r.uint5
@@ -502,7 +503,7 @@ public class QtParserGenerator {
 		} else if (t == r.int32) {
 			return "qint32";
 		}
-		return m.type().name;
+		return t.name;
 	}
 
 	private String createChoiceClass(String name, Choice c) {
@@ -510,37 +511,38 @@ public class QtParserGenerator {
 		if (config.enableIntrospection) {
 			base = "Introspectable";
 		}
-		String choice = "class " + name + "Choice : public QSharedPointer<"
-				+ base + "> {\n";
+		String choice = "class " + name + " : public QSharedPointer<" + base
+				+ "> {\n";
 		choice += "    public:\n";
-		choice += "        " + name + "Choice() {}\n";
+		choice += "        " + name + "() {}\n";
 		for (String s : c.getChoiceNames()) {
-			choice += "        explicit " + name + "Choice(" + s
+			choice += "        explicit " + name + "(" + s
 					+ "* a) :QSharedPointer<" + base + ">(a) {}\n";
 		}
 		choice += "        template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }\n";
 		choice += "        template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }\n";
 		choice += "        template <typename T> bool is() const { return get<T>(); }\n";
 		choice += "    };\n";
-		choice += "    " + name + "Choice";
+		choice += "    " + name;
 		return choice;
 	}
 
 	private String getMemberDeclaration(Member m) {
+		String t = getTypeName(m.type());
 		if (m.isArray) {
 			if (m.isStruct) {
 				return "QList<" + m.type().name + "> " + m.name;
 			} else {
-				if ("quint8".equals(getTypeName(m))) {
+				if ("quint8".equals(t)) {
 					return "QByteArray " + m.name;
 				} else {
-					return "QVector<" + getTypeName(m) + "> " + m.name;
+					return "QVector<" + t + "> " + m.name;
 				}
 			}
 		} else if (m.isStruct && (m.isOptional || m.condition != null)) {
-			return "QSharedPointer<" + getTypeName(m) + "> " + m.name;
+			return "QSharedPointer<" + t + "> " + m.name;
 		}
-		return getTypeName(m) + " " + m.name;
+		return t + " " + m.name;
 	}
 
 	private String memberToString(Member m, String prefix) {
@@ -636,8 +638,8 @@ public class QtParserGenerator {
 			out.print("\n       :Introspectable(parent)");
 			first = false;
 			for (Member m : s.members) {
-				if (m.isStruct && !m.isArray && !m.isOptional
-						&& !(m.isChoice) && m.condition == null) {
+				if (m.isStruct && !m.isArray && !m.isOptional && !(m.isChoice)
+						&& m.condition == null) {
 					if (first) {
 						out.print("\n       :");
 						first = false;
@@ -797,6 +799,86 @@ public class QtParserGenerator {
 
 	private void printChoiceParser(PrintWriter out, String s, String structure,
 			Member m) {
+		Choice c = (Choice) m.type();
+		if (c.commonType == null) {
+			printUnsureChoiceParser(out, s, structure, m);
+		} else {
+			printSureChoiceParser(out, s, structure, m);
+		}
+	}
+
+	String getClause(TypeRegistry.Type t, Choice.Lim lim) {
+		if (lim.limitations != null && lim.limitations.length > 0) {
+			String ls = "";
+			String name = "_choice";
+			for (int i = 0; i < lim.limitations.length; ++i) {
+				Limitation l = lim.limitations[i];
+				String condition = l.expression;
+				String mname = name;
+				if (t instanceof Struct) {
+					mname += "." + l.name;
+				}
+				if (condition == null) {
+					condition = getCondition(mname, l);
+				} else {
+					condition = getExpression(mname, condition);
+				}
+				if (ls.length() > 0) {
+					ls += "&&";
+				}
+				ls += "(" + condition + ")";
+			}
+			return ls;
+		} else if (lim.lims != null && lim.lims.length > 0) {
+			String ls = "";
+			for (int i = 0; i < lim.lims.length; ++i) {
+				Choice.Lim l = lim.lims[i];
+				String condition = getClause(t, l);
+				if (ls.length() > 0) {
+					ls += "||";
+				}
+				ls += "(" + condition + ")";
+			}
+			return ls;
+		}
+		return null;
+	}
+
+	private void printSureChoiceParser(PrintWriter out, String s,
+			String structure, Member m) {
+		out.println(s + "_m = in.setMark();");
+		Choice c = (Choice) m.type();
+		String type = getTypeName(c.commonType);
+		if (c.commonType instanceof Struct) {
+			out.println(s + type + " _choice(&_s);");
+			out.println(s + "parse" + type + "(in, _choice);");
+		} else {
+			out.println(s + type + " _choice = in.read" + c.commonType.name
+					+ "();");
+		}
+		out.println(s + "in.rewind(_m);");
+		for (int i = 0; i < c.options.size(); ++i) {
+			out.print(s);
+			if (i > 0) {
+				out.print("} else ");
+			}
+			Option o = c.options.get(i);
+			String clause = getClause(o.commonType, o.lim);
+			if (clause == null || (!m.isOptional && i == c.options.size() - 1)) {
+				out.println("{");
+			} else {
+				out.println("if (" + clause + ") {");
+			}
+			out.println(s + "    _s." + m.name + " = " + structure + "::"
+					+ m.type().name + "(new " + o.type.name + "(&_s));");
+			out.println(s + "    parse" + o.type.name + "(in, *(" + o.type.name
+					+ "*)_s." + m.name + ".data());");
+		}
+		out.println(s + "}");
+	}
+
+	private void printUnsureChoiceParser(PrintWriter out, String s,
+			String structure, Member m) {
 		String closing = "";
 		String exception = "_x";
 		String choice;
@@ -890,7 +972,7 @@ public class QtParserGenerator {
 				mname = name;
 			}
 			if (!m.isStruct) {
-				mname = "((" + getTypeName(m) + ")" + mname + ")";
+				mname = "((" + getTypeName(m.type()) + ")" + mname + ")";
 			}
 			String condition = l.expression;
 			if (condition == null) {
@@ -901,13 +983,6 @@ public class QtParserGenerator {
 
 			out.println(s + "if (!(" + condition + ")) {");
 			String exceptionType = "IncorrectValueException";
-			// if (!condition.contains(".recType")
-			// && !condition.contains(".recVer")
-			// && !condition.contains(".recInstance")) {
-			// // special value for debugging: we only have recoverable
-			// // exceptions in record headers, remove this in final code
-			// exceptionType = "IOException";
-			// }
 			out.println(s + "    throw " + exceptionType
 					+ "(in.getPosition(), \"" + condition + "\");");
 			out.println(s + "}");
