@@ -5205,10 +5205,10 @@ void PPT::parseTextContainer(LEInputStream& in, TextContainer& _s) {
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFA0)&&(_choice.recLen%2==0)) {
-        _s.text = TextContainer::choiceTextCharsAtomTextBytesAtom(new TextCharsAtom(&_s));
+        _s.text = TextContainer::choice1060411409(new TextCharsAtom(&_s));
         parseTextCharsAtom(in, *(TextCharsAtom*)_s.text.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFA8)) {
-        _s.text = TextContainer::choiceTextCharsAtomTextBytesAtom(new TextBytesAtom(&_s));
+        _s.text = TextContainer::choice1060411409(new TextBytesAtom(&_s));
         parseTextBytesAtom(in, *(TextBytesAtom*)_s.text.data());
     }
     _m = in.setMark();
@@ -5322,22 +5322,22 @@ void PPT::parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s) {
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFD8)&&(_choice.recLen == 4)) {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new SlideNumberMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new SlideNumberMCAtom(&_s));
         parseSlideNumberMCAtom(in, *(SlideNumberMCAtom*)_s.meta.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF7)&&(_choice.recLen == 8)) {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new DateTimeMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new DateTimeMCAtom(&_s));
         parseDateTimeMCAtom(in, *(DateTimeMCAtom*)_s.meta.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF8)&&(_choice.recLen == 4)) {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new GenericDateMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new GenericDateMCAtom(&_s));
         parseGenericDateMCAtom(in, *(GenericDateMCAtom*)_s.meta.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF9)&&(_choice.recLen == 4)) {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new HeaderMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new HeaderMCAtom(&_s));
         parseHeaderMCAtom(in, *(HeaderMCAtom*)_s.meta.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFFA)&&(_choice.recLen == 4)) {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new FooterMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new FooterMCAtom(&_s));
         parseFooterMCAtom(in, *(FooterMCAtom*)_s.meta.data());
     } else {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new RTFDateTimeMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new RTFDateTimeMCAtom(&_s));
         parseRTFDateTimeMCAtom(in, *(RTFDateTimeMCAtom*)_s.meta.data());
     }
 }
@@ -6082,13 +6082,13 @@ void PPT::parseOfficeArtSolverContainerFileBlock(LEInputStream& in, OfficeArtSol
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 1)&&(_choice.recInstance == 0)&&(_choice.recType == 0xF012)&&(_choice.recLen == 0x18)) {
-        _s.anon = OfficeArtSolverContainerFileBlock::choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(new OfficeArtFConnectorRule(&_s));
+        _s.anon = OfficeArtSolverContainerFileBlock::choice3062460075(new OfficeArtFConnectorRule(&_s));
         parseOfficeArtFConnectorRule(in, *(OfficeArtFConnectorRule*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xF014)&&(_choice.recLen == 8)) {
-        _s.anon = OfficeArtSolverContainerFileBlock::choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(new OfficeArtFArcRule(&_s));
+        _s.anon = OfficeArtSolverContainerFileBlock::choice3062460075(new OfficeArtFArcRule(&_s));
         parseOfficeArtFArcRule(in, *(OfficeArtFArcRule*)_s.anon.data());
     } else {
-        _s.anon = OfficeArtSolverContainerFileBlock::choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(new OfficeArtFCalloutRule(&_s));
+        _s.anon = OfficeArtSolverContainerFileBlock::choice3062460075(new OfficeArtFCalloutRule(&_s));
         parseOfficeArtFCalloutRule(in, *(OfficeArtFCalloutRule*)_s.anon.data());
     }
 }
@@ -7065,10 +7065,10 @@ void PPT::parsePrm(LEInputStream& in, Prm& _s) {
     bool _choice = in.readbit();
     in.rewind(_m);
     if ((_choice == false)) {
-        _s.prm = Prm::choicePrm0Prm1(new Prm0(&_s));
+        _s.prm = Prm::choice1129181155(new Prm0(&_s));
         parsePrm0(in, *(Prm0*)_s.prm.data());
     } else {
-        _s.prm = Prm::choicePrm0Prm1(new Prm1(&_s));
+        _s.prm = Prm::choice1129181155(new Prm1(&_s));
         parsePrm1(in, *(Prm1*)_s.prm.data());
     }
 }
@@ -7164,25 +7164,25 @@ void PPT::parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s) {
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0)&&(_choice.recInstance == 0x3D4 || _choice.recInstance == 0x3D5)&&(_choice.recType == 0xF01A)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipEMF(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipEMF(&_s));
         parseOfficeArtBlipEMF(in, *(OfficeArtBlipEMF*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x216 || _choice.recInstance == 0x217)&&(_choice.recType == 0xF01B)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipWMF(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipWMF(&_s));
         parseOfficeArtBlipWMF(in, *(OfficeArtBlipWMF*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x542 || _choice.recInstance == 0x543)&&(_choice.recType == 0xF01C)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipPICT(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipPICT(&_s));
         parseOfficeArtBlipPICT(in, *(OfficeArtBlipPICT*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x46A || _choice.recInstance == 0x46B || _choice.recInstance == 0x6E2 || _choice.recInstance == 0x6E3)&&(_choice.recType == 0xF01D)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipJPEG(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipJPEG(&_s));
         parseOfficeArtBlipJPEG(in, *(OfficeArtBlipJPEG*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x6E0 || _choice.recInstance == 0x6E1)&&(_choice.recType == 0xF01E)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipPNG(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipPNG(&_s));
         parseOfficeArtBlipPNG(in, *(OfficeArtBlipPNG*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x7A8 || _choice.recInstance == 0x7A9)&&(_choice.recType == 0xF01F)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipDIB(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipDIB(&_s));
         parseOfficeArtBlipDIB(in, *(OfficeArtBlipDIB*)_s.anon.data());
     } else {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipTIFF(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipTIFF(&_s));
         parseOfficeArtBlipTIFF(in, *(OfficeArtBlipTIFF*)_s.anon.data());
     }
 }
@@ -7514,10 +7514,10 @@ void PPT::parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInte
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0xFF2)) {
-        _s.interactive = TextContainerInteractiveInfo::choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom(new MouseInteractiveInfoContainer(&_s));
+        _s.interactive = TextContainerInteractiveInfo::choice2203269482(new MouseInteractiveInfoContainer(&_s));
         parseMouseInteractiveInfoContainer(in, *(MouseInteractiveInfoContainer*)_s.interactive.data());
     } else {
-        _s.interactive = TextContainerInteractiveInfo::choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom(new MouseTextInteractiveInfoAtom(&_s));
+        _s.interactive = TextContainerInteractiveInfo::choice2203269482(new MouseTextInteractiveInfoAtom(&_s));
         parseMouseTextInteractiveInfoAtom(in, *(MouseTextInteractiveInfoAtom*)_s.interactive.data());
     }
 }
@@ -7529,13 +7529,13 @@ void PPT::parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDat
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xF9E)&&(_choice.recLen == 4)) {
-        _s.anon = TextClientDataSubContainerOrAtom::choiceOutlineTextRefAtomTextContainerTextRulerAtom(new OutlineTextRefAtom(&_s));
+        _s.anon = TextClientDataSubContainerOrAtom::choice948925432(new OutlineTextRefAtom(&_s));
         parseOutlineTextRefAtom(in, *(OutlineTextRefAtom*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0 || _choice.recInstance == 1 || _choice.recInstance == 2 || _choice.recInstance == 3 || _choice.recInstance == 4 || _choice.recInstance == 5)&&(_choice.recType == 0xF9F)&&(_choice.recLen == 4)) {
-        _s.anon = TextClientDataSubContainerOrAtom::choiceOutlineTextRefAtomTextContainerTextRulerAtom(new TextContainer(&_s));
+        _s.anon = TextClientDataSubContainerOrAtom::choice948925432(new TextContainer(&_s));
         parseTextContainer(in, *(TextContainer*)_s.anon.data());
     } else {
-        _s.anon = TextClientDataSubContainerOrAtom::choiceOutlineTextRefAtomTextContainerTextRulerAtom(new TextRulerAtom(&_s));
+        _s.anon = TextClientDataSubContainerOrAtom::choice948925432(new TextRulerAtom(&_s));
         parseTextRulerAtom(in, *(TextRulerAtom*)_s.anon.data());
     }
 }
@@ -7746,10 +7746,10 @@ void PPT::parseSlideProgTagsSubContainerOrAtom(LEInputStream& in, SlideProgTagsS
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1389)) {
-        _s.anon = SlideProgTagsSubContainerOrAtom::choiceProgStringTagContainerSlideProgBinaryTagContainer(new ProgStringTagContainer(&_s));
+        _s.anon = SlideProgTagsSubContainerOrAtom::choice310259039(new ProgStringTagContainer(&_s));
         parseProgStringTagContainer(in, *(ProgStringTagContainer*)_s.anon.data());
     } else {
-        _s.anon = SlideProgTagsSubContainerOrAtom::choiceProgStringTagContainerSlideProgBinaryTagContainer(new SlideProgBinaryTagContainer(&_s));
+        _s.anon = SlideProgTagsSubContainerOrAtom::choice310259039(new SlideProgBinaryTagContainer(&_s));
         parseSlideProgBinaryTagContainer(in, *(SlideProgBinaryTagContainer*)_s.anon.data());
     }
 }
@@ -7761,37 +7761,37 @@ void PPT::parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1006)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExAviMovieContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExAviMovieContainer(&_s));
         parseExAviMovieContainer(in, *(ExAviMovieContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x100E)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExCDAudioContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExCDAudioContainer(&_s));
         parseExCDAudioContainer(in, *(ExCDAudioContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFEE)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExControlContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExControlContainer(&_s));
         parseExControlContainer(in, *(ExControlContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFD7)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExHyperlinkContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExHyperlinkContainer(&_s));
         parseExHyperlinkContainer(in, *(ExHyperlinkContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1007)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExMCIMovieContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExMCIMovieContainer(&_s));
         parseExMCIMovieContainer(in, *(ExMCIMovieContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x100D)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExMIDIAudioContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExMIDIAudioContainer(&_s));
         parseExMIDIAudioContainer(in, *(ExMIDIAudioContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x0FCC)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExOleEmbedContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExOleEmbedContainer(&_s));
         parseExOleEmbedContainer(in, *(ExOleEmbedContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x0FCE)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExOleLinkContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExOleLinkContainer(&_s));
         parseExOleLinkContainer(in, *(ExOleLinkContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x100F)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExWAVAudioEmbeddedContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExWAVAudioEmbeddedContainer(&_s));
         parseExWAVAudioEmbeddedContainer(in, *(ExWAVAudioEmbeddedContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1010)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExWAVAudioLinkContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExWAVAudioLinkContainer(&_s));
         parseExWAVAudioLinkContainer(in, *(ExWAVAudioLinkContainer*)_s.anon.data());
     } else {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new UnknownExObjListSubContainerChild(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new UnknownExObjListSubContainerChild(&_s));
         parseUnknownExObjListSubContainerChild(in, *(UnknownExObjListSubContainerChild*)_s.anon.data());
     }
 }
@@ -7864,154 +7864,154 @@ void PPT::parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s)
     parseOfficeArtFOPTEOPID(in, _choice);
     in.rewind(_m);
     if ((_choice.opid == 0x007F)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ProtectionBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ProtectionBooleanProperties(&_s));
         parseProtectionBooleanProperties(in, *(ProtectionBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x0148)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new adjust2Value(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new adjust2Value(&_s));
         parseadjust2Value(in, *(adjust2Value*)_s.anon.data());
     } else if ((_choice.opid == 0x0149)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new adjust3Value(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new adjust3Value(&_s));
         parseadjust3Value(in, *(adjust3Value*)_s.anon.data());
     } else if ((_choice.opid == 0x0080)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ITxid(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ITxid(&_s));
         parseITxid(in, *(ITxid*)_s.anon.data());
     } else if ((_choice.opid == 0x0081)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new DxTextLeft(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new DxTextLeft(&_s));
         parseDxTextLeft(in, *(DxTextLeft*)_s.anon.data());
     } else if ((_choice.opid == 0x0082)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new DyTextTop(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new DyTextTop(&_s));
         parseDyTextTop(in, *(DyTextTop*)_s.anon.data());
     } else if ((_choice.opid == 0x0083)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new DxTextRight(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new DxTextRight(&_s));
         parseDxTextRight(in, *(DxTextRight*)_s.anon.data());
     } else if ((_choice.opid == 0x0084)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new DyTextBottom(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new DyTextBottom(&_s));
         parseDyTextBottom(in, *(DyTextBottom*)_s.anon.data());
     } else if ((_choice.opid == 0x0085)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new WrapText(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new WrapText(&_s));
         parseWrapText(in, *(WrapText*)_s.anon.data());
     } else if ((_choice.opid == 0x0087)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new AnchorText(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new AnchorText(&_s));
         parseAnchorText(in, *(AnchorText*)_s.anon.data());
     } else if ((_choice.opid == 0x00BF)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new TextBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new TextBooleanProperties(&_s));
         parseTextBooleanProperties(in, *(TextBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x008A)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new HspNext(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new HspNext(&_s));
         parseHspNext(in, *(HspNext*)_s.anon.data());
     } else if ((_choice.opid == 0x0104)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new Pib(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new Pib(&_s));
         parsePib(in, *(Pib*)_s.anon.data());
     } else if ((_choice.opid == 0x0105)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new PibName(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new PibName(&_s));
         parsePibName(in, *(PibName*)_s.anon.data());
     } else if ((_choice.opid == 0x0144)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShapePath(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShapePath(&_s));
         parseShapePath(in, *(ShapePath*)_s.anon.data());
     } else if ((_choice.opid == 0x017F)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new GeometryBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new GeometryBooleanProperties(&_s));
         parseGeometryBooleanProperties(in, *(GeometryBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x0180)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillType(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillType(&_s));
         parseFillType(in, *(FillType*)_s.anon.data());
     } else if ((_choice.opid == 0x0181)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillColor(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillColor(&_s));
         parseFillColor(in, *(FillColor*)_s.anon.data());
     } else if ((_choice.opid == 0x0183)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillBackColor(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillBackColor(&_s));
         parseFillBackColor(in, *(FillBackColor*)_s.anon.data());
     } else if ((_choice.opid == 0x0186)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillBlip(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillBlip(&_s));
         parseFillBlip(in, *(FillBlip*)_s.anon.data());
     } else if ((_choice.opid == 0x01BF)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillStyleBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillStyleBooleanProperties(&_s));
         parseFillStyleBooleanProperties(in, *(FillStyleBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x01C0)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineColor(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineColor(&_s));
         parseLineColor(in, *(LineColor*)_s.anon.data());
     } else if ((_choice.opid == 0x01C1)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineOpacity(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineOpacity(&_s));
         parseLineOpacity(in, *(LineOpacity*)_s.anon.data());
     } else if ((_choice.opid == 0x01C2)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineBackColor(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineBackColor(&_s));
         parseLineBackColor(in, *(LineBackColor*)_s.anon.data());
     } else if ((_choice.opid == 0x01C5)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineFillBlip(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineFillBlip(&_s));
         parseLineFillBlip(in, *(LineFillBlip*)_s.anon.data());
     } else if ((_choice.opid == 0x01CB)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineWidth(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineWidth(&_s));
         parseLineWidth(in, *(LineWidth*)_s.anon.data());
     } else if ((_choice.opid == 0x01CD)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineStyle(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineStyle(&_s));
         parseLineStyle(in, *(LineStyle*)_s.anon.data());
     } else if ((_choice.opid == 0x01CE)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineDashing(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineDashing(&_s));
         parseLineDashing(in, *(LineDashing*)_s.anon.data());
     } else if ((_choice.opid == 0x0193)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillRectRight(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillRectRight(&_s));
         parseFillRectRight(in, *(FillRectRight*)_s.anon.data());
     } else if ((_choice.opid == 0x0194)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillRectBottom(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillRectBottom(&_s));
         parseFillRectBottom(in, *(FillRectBottom*)_s.anon.data());
     } else if ((_choice.opid == 0x0403)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new WzFillId(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new WzFillId(&_s));
         parseWzFillId(in, *(WzFillId*)_s.anon.data());
     } else if ((_choice.opid == 0x01FF)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineStyleBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineStyleBooleanProperties(&_s));
         parseLineStyleBooleanProperties(in, *(LineStyleBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x01D0)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineStartArrowhead(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineStartArrowhead(&_s));
         parseLineStartArrowhead(in, *(LineStartArrowhead*)_s.anon.data());
     } else if ((_choice.opid == 0x01D1)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineEndArrowhead(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineEndArrowhead(&_s));
         parseLineEndArrowhead(in, *(LineEndArrowhead*)_s.anon.data());
     } else if ((_choice.opid == 0x01D2)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineStartArrowWidth(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineStartArrowWidth(&_s));
         parseLineStartArrowWidth(in, *(LineStartArrowWidth*)_s.anon.data());
     } else if ((_choice.opid == 0x01D3)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineStartArrowLength(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineStartArrowLength(&_s));
         parseLineStartArrowLength(in, *(LineStartArrowLength*)_s.anon.data());
     } else if ((_choice.opid == 0x01D4)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineEndArrowWidth(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineEndArrowWidth(&_s));
         parseLineEndArrowWidth(in, *(LineEndArrowWidth*)_s.anon.data());
     } else if ((_choice.opid == 0x01D5)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineEndArrowLength(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineEndArrowLength(&_s));
         parseLineEndArrowLength(in, *(LineEndArrowLength*)_s.anon.data());
     } else if ((_choice.opid == 0x01D6)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineJoinStyle(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineJoinStyle(&_s));
         parseLineJoinStyle(in, *(LineJoinStyle*)_s.anon.data());
     } else if ((_choice.opid == 0x0201)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShadowColor(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShadowColor(&_s));
         parseShadowColor(in, *(ShadowColor*)_s.anon.data());
     } else if ((_choice.opid == 0x0204)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShadowOpacity(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShadowOpacity(&_s));
         parseShadowOpacity(in, *(ShadowOpacity*)_s.anon.data());
     } else if ((_choice.opid == 0x0205)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShadowOffsetX(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShadowOffsetX(&_s));
         parseShadowOffsetX(in, *(ShadowOffsetX*)_s.anon.data());
     } else if ((_choice.opid == 0x0206)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShadowOffsetY(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShadowOffsetY(&_s));
         parseShadowOffsetY(in, *(ShadowOffsetY*)_s.anon.data());
     } else if ((_choice.opid == 0x023F)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShadowStyleBooleanPropertiesr(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShadowStyleBooleanPropertiesr(&_s));
         parseShadowStyleBooleanPropertiesr(in, *(ShadowStyleBooleanPropertiesr*)_s.anon.data());
     } else if ((_choice.opid == 0x033F)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShapeBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShapeBooleanProperties(&_s));
         parseShapeBooleanProperties(in, *(ShapeBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x0301)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new HspMaster(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new HspMaster(&_s));
         parseHspMaster(in, *(HspMaster*)_s.anon.data());
     } else if ((_choice.opid == 0x0004)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new Rotation(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new Rotation(&_s));
         parseRotation(in, *(Rotation*)_s.anon.data());
     } else if ((_choice.opid == 0x0388)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LidRegroup(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LidRegroup(&_s));
         parseLidRegroup(in, *(LidRegroup*)_s.anon.data());
     } else if ((_choice.opid == 0x0304)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new BWMode(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new BWMode(&_s));
         parseBWMode(in, *(BWMode*)_s.anon.data());
     } else {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new OfficeArtFOPTE(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new OfficeArtFOPTE(&_s));
         parseOfficeArtFOPTE(in, *(OfficeArtFOPTE*)_s.anon.data());
     }
 }
@@ -8224,10 +8224,10 @@ void PPT::parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBSt
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0x2)&&(_choice.recInstance == 0 || _choice.recInstance == 1 || _choice.recInstance == 2 || _choice.recInstance == 3 || _choice.recInstance == 4 || _choice.recInstance == 5 || _choice.recInstance == 6 || _choice.recInstance == 7 || _choice.recInstance == 0x11 || _choice.recInstance == 0x12)&&(_choice.recType == 0xF007)) {
-        _s.anon = OfficeArtBStoreContainerFileBlock::choiceOfficeArtFBSEOfficeArtBlip(new OfficeArtFBSE(&_s));
+        _s.anon = OfficeArtBStoreContainerFileBlock::choice2043165903(new OfficeArtFBSE(&_s));
         parseOfficeArtFBSE(in, *(OfficeArtFBSE*)_s.anon.data());
     } else {
-        _s.anon = OfficeArtBStoreContainerFileBlock::choiceOfficeArtFBSEOfficeArtBlip(new OfficeArtBlip(&_s));
+        _s.anon = OfficeArtBStoreContainerFileBlock::choice2043165903(new OfficeArtBlip(&_s));
         parseOfficeArtBlip(in, *(OfficeArtBlip*)_s.anon.data());
     }
 }
@@ -8879,25 +8879,25 @@ void PPT::parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubCo
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x1388)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new DocProgTagsContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new DocProgTagsContainer(&_s));
         parseDocProgTagsContainer(in, *(DocProgTagsContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0x414)&&(_choice.recLen == 0x1C)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new NormalViewSetInfoContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new NormalViewSetInfoContainer(&_s));
         parseNormalViewSetInfoContainer(in, *(NormalViewSetInfoContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0x413)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new NotesTextViewInfoContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new NotesTextViewInfoContainer(&_s));
         parseNotesTextViewInfoContainer(in, *(NotesTextViewInfoContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x407)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new OutlineViewInfoContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new OutlineViewInfoContainer(&_s));
         parseOutlineViewInfoContainer(in, *(OutlineViewInfoContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x3FA)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new SlideViewInfoInstance(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new SlideViewInfoInstance(&_s));
         parseSlideViewInfoInstance(in, *(SlideViewInfoInstance*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0x408)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new SorterViewInfoContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new SorterViewInfoContainer(&_s));
         parseSorterViewInfoContainer(in, *(SorterViewInfoContainer*)_s.anon.data());
     } else {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new VBAInfoContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new VBAInfoContainer(&_s));
         parseVBAInfoContainer(in, *(VBAInfoContainer*)_s.anon.data());
     }
 }
@@ -9053,10 +9053,10 @@ void PPT::parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrC
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0F004)) {
-        _s.anon = OfficeArtSpgrContainerFileBlock::choiceOfficeArtSpContainerOfficeArtSpgrContainer(new OfficeArtSpContainer(&_s));
+        _s.anon = OfficeArtSpgrContainerFileBlock::choice3415770141(new OfficeArtSpContainer(&_s));
         parseOfficeArtSpContainer(in, *(OfficeArtSpContainer*)_s.anon.data());
     } else {
-        _s.anon = OfficeArtSpgrContainerFileBlock::choiceOfficeArtSpContainerOfficeArtSpgrContainer(new OfficeArtSpgrContainer(&_s));
+        _s.anon = OfficeArtSpgrContainerFileBlock::choice3415770141(new OfficeArtSpgrContainer(&_s));
         parseOfficeArtSpgrContainer(in, *(OfficeArtSpgrContainer*)_s.anon.data());
     }
 }
@@ -9068,19 +9068,19 @@ void PPT::parseDocProgBinaryTagSubContainerOrAtom(LEInputStream& in, DocProgBina
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0x0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0FBA)&&(_choice.recLen == 0x0E)) {
-        _s.anon = DocProgBinaryTagSubContainerOrAtom::choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(new PP9DocBinaryTagExtension(&_s));
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::choice214961565(new PP9DocBinaryTagExtension(&_s));
         parsePP9DocBinaryTagExtension(in, *(PP9DocBinaryTagExtension*)_s.anon.data());
     } else if ((_choice.recVer == 0x0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0FBA)&&(_choice.recLen == 0x10)) {
-        _s.anon = DocProgBinaryTagSubContainerOrAtom::choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(new PP10DocBinaryTagExtension(&_s));
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::choice214961565(new PP10DocBinaryTagExtension(&_s));
         parsePP10DocBinaryTagExtension(in, *(PP10DocBinaryTagExtension*)_s.anon.data());
     } else if ((_choice.recVer == 0x0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0FBA)&&(_choice.recLen == 0x10)) {
-        _s.anon = DocProgBinaryTagSubContainerOrAtom::choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(new PP11DocBinaryTagExtension(&_s));
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::choice214961565(new PP11DocBinaryTagExtension(&_s));
         parsePP11DocBinaryTagExtension(in, *(PP11DocBinaryTagExtension*)_s.anon.data());
     } else if ((_choice.recVer == 0x0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0FBA)&&(_choice.recLen == 0x10)) {
-        _s.anon = DocProgBinaryTagSubContainerOrAtom::choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(new PP12DocBinaryTagExtension(&_s));
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::choice214961565(new PP12DocBinaryTagExtension(&_s));
         parsePP12DocBinaryTagExtension(in, *(PP12DocBinaryTagExtension*)_s.anon.data());
     } else {
-        _s.anon = DocProgBinaryTagSubContainerOrAtom::choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(new UnknownBinaryTag(&_s));
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::choice214961565(new UnknownBinaryTag(&_s));
         parseUnknownBinaryTag(in, *(UnknownBinaryTag*)_s.anon.data());
     }
 }
@@ -9463,10 +9463,10 @@ void PPT::parseDocProgTagsSubContainerOrAtom(LEInputStream& in, DocProgTagsSubCo
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1389)) {
-        _s.anon = DocProgTagsSubContainerOrAtom::choiceProgStringTagContainerDocProgBinaryTagContainer(new ProgStringTagContainer(&_s));
+        _s.anon = DocProgTagsSubContainerOrAtom::choice61655436(new ProgStringTagContainer(&_s));
         parseProgStringTagContainer(in, *(ProgStringTagContainer*)_s.anon.data());
     } else {
-        _s.anon = DocProgTagsSubContainerOrAtom::choiceProgStringTagContainerDocProgBinaryTagContainer(new DocProgBinaryTagContainer(&_s));
+        _s.anon = DocProgTagsSubContainerOrAtom::choice61655436(new DocProgBinaryTagContainer(&_s));
         parseDocProgBinaryTagContainer(in, *(DocProgBinaryTagContainer*)_s.anon.data());
     }
 }
@@ -9478,10 +9478,10 @@ void PPT::parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer&
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03F8)) {
-        _s.anon = MasterOrSlideContainer::choiceMainMasterContainerSlideContainer(new MainMasterContainer(&_s));
+        _s.anon = MasterOrSlideContainer::choice2788643208(new MainMasterContainer(&_s));
         parseMainMasterContainer(in, *(MainMasterContainer*)_s.anon.data());
     } else {
-        _s.anon = MasterOrSlideContainer::choiceMainMasterContainerSlideContainer(new SlideContainer(&_s));
+        _s.anon = MasterOrSlideContainer::choice2788643208(new SlideContainer(&_s));
         parseSlideContainer(in, *(SlideContainer*)_s.anon.data());
     }
 }
@@ -9493,34 +9493,34 @@ void PPT::parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03E8)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new DocumentContainer(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new DocumentContainer(&_s));
         parseDocumentContainer(in, *(DocumentContainer*)_s.anon.data());
     } else if (((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03F8))||((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03EE))) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new MasterOrSlideContainer(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new MasterOrSlideContainer(&_s));
         parseMasterOrSlideContainer(in, *(MasterOrSlideContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1772)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new PersistDirectoryAtom(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new PersistDirectoryAtom(&_s));
         parsePersistDirectoryAtom(in, *(PersistDirectoryAtom*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x03F0)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new NotesContainer(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new NotesContainer(&_s));
         parseNotesContainer(in, *(NotesContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0FC9)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new HandoutContainer(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new HandoutContainer(&_s));
         parseHandoutContainer(in, *(HandoutContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03EE)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new SlideContainer(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new SlideContainer(&_s));
         parseSlideContainer(in, *(SlideContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1011)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new ExOleObjStg(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new ExOleObjStg(&_s));
         parseExOleObjStg(in, *(ExOleObjStg*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x1011)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new ExControlStg(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new ExControlStg(&_s));
         parseExControlStg(in, *(ExControlStg*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x1011)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new VbaProjectStg(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new VbaProjectStg(&_s));
         parseVbaProjectStg(in, *(VbaProjectStg*)_s.anon.data());
     } else {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new UserEditAtom(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new UserEditAtom(&_s));
         parseUserEditAtom(in, *(UserEditAtom*)_s.anon.data());
     }
 }

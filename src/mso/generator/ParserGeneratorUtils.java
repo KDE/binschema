@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.zip.CRC32;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -113,7 +114,7 @@ class Member {
 			isStruct = true;
 		} else if (e.getNodeName().equals("choice")) {
 			NodeList l = e.getElementsByTagName("type");
-			String choiceName = "choice";
+			String choiceName = "";
 			List<Struct> choices = new ArrayList<Struct>();
 			Element msoelement = (Element) e.getParentNode().getParentNode();
 			for (int i = 0; i < l.getLength(); ++i) {
@@ -128,6 +129,9 @@ class Member {
 					choices.add(new Struct(parent.registry, ce));
 				}
 			}
+			CRC32 crc = new CRC32();
+			crc.update(choiceName.getBytes());
+			choiceName = "choice" + crc.getValue();
 			typeName = choiceName;
 			new Choice(parent.registry, choiceName, choices);
 			isInteger = false;

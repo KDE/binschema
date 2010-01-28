@@ -7260,16 +7260,16 @@ private:
 public:
     static const Introspection _introspection;
     TextHeaderAtom textHeaderAtom;
-    class choiceTextCharsAtomTextBytesAtom : public QSharedPointer<Introspectable> {
+    class choice1060411409 : public QSharedPointer<Introspectable> {
     public:
-        choiceTextCharsAtomTextBytesAtom() {}
-        explicit choiceTextCharsAtomTextBytesAtom(TextCharsAtom* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceTextCharsAtomTextBytesAtom(TextBytesAtom* a) :QSharedPointer<Introspectable>(a) {}
+        choice1060411409() {}
+        explicit choice1060411409(TextCharsAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1060411409(TextBytesAtom* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceTextCharsAtomTextBytesAtom text;
+    choice1060411409 text;
     QSharedPointer<StyleTextPropAtom> style;
     QList<TextContainerMeta> meta;
     QSharedPointer<MasterTextPropAtom> master;
@@ -7298,20 +7298,20 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom : public QSharedPointer<Introspectable> {
+    class choice242357012 : public QSharedPointer<Introspectable> {
     public:
-        choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom() {}
-        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(SlideNumberMCAtom* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(DateTimeMCAtom* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(GenericDateMCAtom* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(HeaderMCAtom* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(FooterMCAtom* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(RTFDateTimeMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        choice242357012() {}
+        explicit choice242357012(SlideNumberMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice242357012(DateTimeMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice242357012(GenericDateMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice242357012(HeaderMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice242357012(FooterMCAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice242357012(RTFDateTimeMCAtom* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom meta;
+    choice242357012 meta;
     explicit TextContainerMeta(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -7917,17 +7917,17 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule : public QSharedPointer<Introspectable> {
+    class choice3062460075 : public QSharedPointer<Introspectable> {
     public:
-        choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule() {}
-        explicit choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(OfficeArtFConnectorRule* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(OfficeArtFArcRule* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(OfficeArtFCalloutRule* a) :QSharedPointer<Introspectable>(a) {}
+        choice3062460075() {}
+        explicit choice3062460075(OfficeArtFConnectorRule* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice3062460075(OfficeArtFArcRule* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice3062460075(OfficeArtFCalloutRule* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule anon;
+    choice3062460075 anon;
     explicit OfficeArtSolverContainerFileBlock(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -9263,16 +9263,16 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choicePrm0Prm1 : public QSharedPointer<Introspectable> {
+    class choice1129181155 : public QSharedPointer<Introspectable> {
     public:
-        choicePrm0Prm1() {}
-        explicit choicePrm0Prm1(Prm0* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choicePrm0Prm1(Prm1* a) :QSharedPointer<Introspectable>(a) {}
+        choice1129181155() {}
+        explicit choice1129181155(Prm0* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1129181155(Prm1* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choicePrm0Prm1 prm;
+    choice1129181155 prm;
     explicit Prm(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -9365,21 +9365,21 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF : public QSharedPointer<Introspectable> {
+    class choice279968329 : public QSharedPointer<Introspectable> {
     public:
-        choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF() {}
-        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipEMF* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipWMF* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipPICT* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipJPEG* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipPNG* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipDIB* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(OfficeArtBlipTIFF* a) :QSharedPointer<Introspectable>(a) {}
+        choice279968329() {}
+        explicit choice279968329(OfficeArtBlipEMF* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice279968329(OfficeArtBlipWMF* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice279968329(OfficeArtBlipPICT* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice279968329(OfficeArtBlipJPEG* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice279968329(OfficeArtBlipPNG* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice279968329(OfficeArtBlipDIB* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice279968329(OfficeArtBlipTIFF* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF anon;
+    choice279968329 anon;
     explicit OfficeArtBlip(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -9608,16 +9608,16 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom : public QSharedPointer<Introspectable> {
+    class choice2203269482 : public QSharedPointer<Introspectable> {
     public:
-        choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom() {}
-        explicit choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom(MouseInteractiveInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom(MouseTextInteractiveInfoAtom* a) :QSharedPointer<Introspectable>(a) {}
+        choice2203269482() {}
+        explicit choice2203269482(MouseInteractiveInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2203269482(MouseTextInteractiveInfoAtom* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom interactive;
+    choice2203269482 interactive;
     explicit TextContainerInteractiveInfo(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -9632,17 +9632,17 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceOutlineTextRefAtomTextContainerTextRulerAtom : public QSharedPointer<Introspectable> {
+    class choice948925432 : public QSharedPointer<Introspectable> {
     public:
-        choiceOutlineTextRefAtomTextContainerTextRulerAtom() {}
-        explicit choiceOutlineTextRefAtomTextContainerTextRulerAtom(OutlineTextRefAtom* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOutlineTextRefAtomTextContainerTextRulerAtom(TextContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOutlineTextRefAtomTextContainerTextRulerAtom(TextRulerAtom* a) :QSharedPointer<Introspectable>(a) {}
+        choice948925432() {}
+        explicit choice948925432(OutlineTextRefAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice948925432(TextContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice948925432(TextRulerAtom* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceOutlineTextRefAtomTextContainerTextRulerAtom anon;
+    choice948925432 anon;
     explicit TextClientDataSubContainerOrAtom(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -9834,16 +9834,16 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceProgStringTagContainerSlideProgBinaryTagContainer : public QSharedPointer<Introspectable> {
+    class choice310259039 : public QSharedPointer<Introspectable> {
     public:
-        choiceProgStringTagContainerSlideProgBinaryTagContainer() {}
-        explicit choiceProgStringTagContainerSlideProgBinaryTagContainer(ProgStringTagContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProgStringTagContainerSlideProgBinaryTagContainer(SlideProgBinaryTagContainer* a) :QSharedPointer<Introspectable>(a) {}
+        choice310259039() {}
+        explicit choice310259039(ProgStringTagContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice310259039(SlideProgBinaryTagContainer* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceProgStringTagContainerSlideProgBinaryTagContainer anon;
+    choice310259039 anon;
     explicit SlideProgTagsSubContainerOrAtom(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -9858,25 +9858,25 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild : public QSharedPointer<Introspectable> {
+    class choice2338534801 : public QSharedPointer<Introspectable> {
     public:
-        choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild() {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExAviMovieContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExCDAudioContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExControlContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExHyperlinkContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExMCIMovieContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExMIDIAudioContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExOleEmbedContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExOleLinkContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExWAVAudioEmbeddedContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(ExWAVAudioLinkContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(UnknownExObjListSubContainerChild* a) :QSharedPointer<Introspectable>(a) {}
+        choice2338534801() {}
+        explicit choice2338534801(ExAviMovieContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2338534801(ExCDAudioContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2338534801(ExControlContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2338534801(ExHyperlinkContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2338534801(ExMCIMovieContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2338534801(ExMIDIAudioContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2338534801(ExOleEmbedContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2338534801(ExOleLinkContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2338534801(ExWAVAudioEmbeddedContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2338534801(ExWAVAudioLinkContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2338534801(UnknownExObjListSubContainerChild* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild anon;
+    choice2338534801 anon;
     explicit ExObjListSubContainer(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -9924,64 +9924,64 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE : public QSharedPointer<Introspectable> {
+    class choice1276819694 : public QSharedPointer<Introspectable> {
     public:
-        choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE() {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ProtectionBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(adjust2Value* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(adjust3Value* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ITxid* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(DxTextLeft* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(DyTextTop* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(DxTextRight* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(DyTextBottom* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(WrapText* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(AnchorText* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(TextBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(HspNext* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(Pib* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(PibName* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShapePath* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(GeometryBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillType* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillColor* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillBackColor* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillBlip* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillStyleBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineColor* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineOpacity* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineBackColor* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineFillBlip* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineWidth* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineStyle* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineDashing* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillRectRight* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(FillRectBottom* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(WzFillId* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineStyleBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineStartArrowhead* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineEndArrowhead* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineStartArrowWidth* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineStartArrowLength* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineEndArrowWidth* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineEndArrowLength* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LineJoinStyle* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShadowColor* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShadowOpacity* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShadowOffsetX* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShadowOffsetY* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShadowStyleBooleanPropertiesr* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(ShapeBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(HspMaster* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(Rotation* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(LidRegroup* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(BWMode* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(OfficeArtFOPTE* a) :QSharedPointer<Introspectable>(a) {}
+        choice1276819694() {}
+        explicit choice1276819694(ProtectionBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(adjust2Value* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(adjust3Value* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(ITxid* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(DxTextLeft* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(DyTextTop* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(DxTextRight* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(DyTextBottom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(WrapText* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(AnchorText* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(TextBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(HspNext* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(Pib* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(PibName* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(ShapePath* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(GeometryBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(FillType* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(FillColor* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(FillBackColor* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(FillBlip* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(FillStyleBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineColor* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineOpacity* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineBackColor* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineFillBlip* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineWidth* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineStyle* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineDashing* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(FillRectRight* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(FillRectBottom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(WzFillId* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineStyleBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineStartArrowhead* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineEndArrowhead* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineStartArrowWidth* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineStartArrowLength* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineEndArrowWidth* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineEndArrowLength* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LineJoinStyle* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(ShadowColor* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(ShadowOpacity* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(ShadowOffsetX* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(ShadowOffsetY* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(ShadowStyleBooleanPropertiesr* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(ShapeBooleanProperties* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(HspMaster* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(Rotation* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(LidRegroup* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(BWMode* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1276819694(OfficeArtFOPTE* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE anon;
+    choice1276819694 anon;
     explicit OfficeArtFOPTEChoice(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -10159,16 +10159,16 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceOfficeArtFBSEOfficeArtBlip : public QSharedPointer<Introspectable> {
+    class choice2043165903 : public QSharedPointer<Introspectable> {
     public:
-        choiceOfficeArtFBSEOfficeArtBlip() {}
-        explicit choiceOfficeArtFBSEOfficeArtBlip(OfficeArtFBSE* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOfficeArtFBSEOfficeArtBlip(OfficeArtBlip* a) :QSharedPointer<Introspectable>(a) {}
+        choice2043165903() {}
+        explicit choice2043165903(OfficeArtFBSE* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2043165903(OfficeArtBlip* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceOfficeArtFBSEOfficeArtBlip anon;
+    choice2043165903 anon;
     explicit OfficeArtBStoreContainerFileBlock(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -10498,21 +10498,21 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer : public QSharedPointer<Introspectable> {
+    class choice2631814737 : public QSharedPointer<Introspectable> {
     public:
-        choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer() {}
-        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(DocProgTagsContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(NormalViewSetInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(NotesTextViewInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(OutlineViewInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(SlideViewInfoInstance* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(SorterViewInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(VBAInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        choice2631814737() {}
+        explicit choice2631814737(DocProgTagsContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2631814737(NormalViewSetInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2631814737(NotesTextViewInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2631814737(OutlineViewInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2631814737(SlideViewInfoInstance* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2631814737(SorterViewInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2631814737(VBAInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer anon;
+    choice2631814737 anon;
     explicit DocInfoListSubContainerOrAtom(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -10630,16 +10630,16 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceOfficeArtSpContainerOfficeArtSpgrContainer : public QSharedPointer<Introspectable> {
+    class choice3415770141 : public QSharedPointer<Introspectable> {
     public:
-        choiceOfficeArtSpContainerOfficeArtSpgrContainer() {}
-        explicit choiceOfficeArtSpContainerOfficeArtSpgrContainer(OfficeArtSpContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceOfficeArtSpContainerOfficeArtSpgrContainer(OfficeArtSpgrContainer* a) :QSharedPointer<Introspectable>(a) {}
+        choice3415770141() {}
+        explicit choice3415770141(OfficeArtSpContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice3415770141(OfficeArtSpgrContainer* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceOfficeArtSpContainerOfficeArtSpgrContainer anon;
+    choice3415770141 anon;
     explicit OfficeArtSpgrContainerFileBlock(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -10654,19 +10654,19 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag : public QSharedPointer<Introspectable> {
+    class choice214961565 : public QSharedPointer<Introspectable> {
     public:
-        choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag() {}
-        explicit choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(PP9DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(PP10DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(PP11DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(PP12DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(UnknownBinaryTag* a) :QSharedPointer<Introspectable>(a) {}
+        choice214961565() {}
+        explicit choice214961565(PP9DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice214961565(PP10DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice214961565(PP11DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice214961565(PP12DocBinaryTagExtension* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice214961565(UnknownBinaryTag* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag anon;
+    choice214961565 anon;
     explicit DocProgBinaryTagSubContainerOrAtom(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -10842,16 +10842,16 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceProgStringTagContainerDocProgBinaryTagContainer : public QSharedPointer<Introspectable> {
+    class choice61655436 : public QSharedPointer<Introspectable> {
     public:
-        choiceProgStringTagContainerDocProgBinaryTagContainer() {}
-        explicit choiceProgStringTagContainerDocProgBinaryTagContainer(ProgStringTagContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceProgStringTagContainerDocProgBinaryTagContainer(DocProgBinaryTagContainer* a) :QSharedPointer<Introspectable>(a) {}
+        choice61655436() {}
+        explicit choice61655436(ProgStringTagContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice61655436(DocProgBinaryTagContainer* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceProgStringTagContainerDocProgBinaryTagContainer anon;
+    choice61655436 anon;
     explicit DocProgTagsSubContainerOrAtom(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -10866,16 +10866,16 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceMainMasterContainerSlideContainer : public QSharedPointer<Introspectable> {
+    class choice2788643208 : public QSharedPointer<Introspectable> {
     public:
-        choiceMainMasterContainerSlideContainer() {}
-        explicit choiceMainMasterContainerSlideContainer(MainMasterContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceMainMasterContainerSlideContainer(SlideContainer* a) :QSharedPointer<Introspectable>(a) {}
+        choice2788643208() {}
+        explicit choice2788643208(MainMasterContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice2788643208(SlideContainer* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceMainMasterContainerSlideContainer anon;
+    choice2788643208 anon;
     explicit MasterOrSlideContainer(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -10890,24 +10890,24 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom : public QSharedPointer<Introspectable> {
+    class choice394521820 : public QSharedPointer<Introspectable> {
     public:
-        choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom() {}
-        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(DocumentContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(MasterOrSlideContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(PersistDirectoryAtom* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(NotesContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(HandoutContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(SlideContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(ExOleObjStg* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(ExControlStg* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(VbaProjectStg* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(UserEditAtom* a) :QSharedPointer<Introspectable>(a) {}
+        choice394521820() {}
+        explicit choice394521820(DocumentContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice394521820(MasterOrSlideContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice394521820(PersistDirectoryAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice394521820(NotesContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice394521820(HandoutContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice394521820(SlideContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice394521820(ExOleObjStg* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice394521820(ExControlStg* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice394521820(VbaProjectStg* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice394521820(UserEditAtom* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom anon;
+    choice394521820 anon;
     explicit PowerPointStruct(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -50662,10 +50662,10 @@ void parseTextContainer(LEInputStream& in, TextContainer& _s) {
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFA0)&&(_choice.recLen%2==0)) {
-        _s.text = TextContainer::choiceTextCharsAtomTextBytesAtom(new TextCharsAtom(&_s));
+        _s.text = TextContainer::choice1060411409(new TextCharsAtom(&_s));
         parseTextCharsAtom(in, *(TextCharsAtom*)_s.text.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFA8)) {
-        _s.text = TextContainer::choiceTextCharsAtomTextBytesAtom(new TextBytesAtom(&_s));
+        _s.text = TextContainer::choice1060411409(new TextBytesAtom(&_s));
         parseTextBytesAtom(in, *(TextBytesAtom*)_s.text.data());
     }
     _m = in.setMark();
@@ -50782,7 +50782,7 @@ void parseTextContainer(QXmlStreamReader& in, TextContainer& _s) {
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceTextCharsAtomTextBytesAtom " << in.lineNumber();
+        qDebug() << "not startelement in choice1060411409 " << in.lineNumber();
         return;
     }
     if (in.name() == "text") {
@@ -50833,22 +50833,22 @@ void parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s) {
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFD8)&&(_choice.recLen == 4)) {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new SlideNumberMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new SlideNumberMCAtom(&_s));
         parseSlideNumberMCAtom(in, *(SlideNumberMCAtom*)_s.meta.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF7)&&(_choice.recLen == 8)) {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new DateTimeMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new DateTimeMCAtom(&_s));
         parseDateTimeMCAtom(in, *(DateTimeMCAtom*)_s.meta.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF8)&&(_choice.recLen == 4)) {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new GenericDateMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new GenericDateMCAtom(&_s));
         parseGenericDateMCAtom(in, *(GenericDateMCAtom*)_s.meta.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF9)&&(_choice.recLen == 4)) {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new HeaderMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new HeaderMCAtom(&_s));
         parseHeaderMCAtom(in, *(HeaderMCAtom*)_s.meta.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFFA)&&(_choice.recLen == 4)) {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new FooterMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new FooterMCAtom(&_s));
         parseFooterMCAtom(in, *(FooterMCAtom*)_s.meta.data());
     } else {
-        _s.meta = TextContainerMeta::choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom(new RTFDateTimeMCAtom(&_s));
+        _s.meta = TextContainerMeta::choice242357012(new RTFDateTimeMCAtom(&_s));
         parseRTFDateTimeMCAtom(in, *(RTFDateTimeMCAtom*)_s.meta.data());
     }
 }
@@ -50870,7 +50870,7 @@ void write(const TextContainerMeta& _s, LEOutputStream& out) {
 void parseTextContainerMeta(QXmlStreamReader& in, TextContainerMeta& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceSlideNumberMCAtomDateTimeMCAtomGenericDateMCAtomHeaderMCAtomFooterMCAtomRTFDateTimeMCAtom " << in.lineNumber();
+        qDebug() << "not startelement in choice242357012 " << in.lineNumber();
         return;
     }
     if (in.name() != "meta") {
@@ -53251,13 +53251,13 @@ void parseOfficeArtSolverContainerFileBlock(LEInputStream& in, OfficeArtSolverCo
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 1)&&(_choice.recInstance == 0)&&(_choice.recType == 0xF012)&&(_choice.recLen == 0x18)) {
-        _s.anon = OfficeArtSolverContainerFileBlock::choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(new OfficeArtFConnectorRule(&_s));
+        _s.anon = OfficeArtSolverContainerFileBlock::choice3062460075(new OfficeArtFConnectorRule(&_s));
         parseOfficeArtFConnectorRule(in, *(OfficeArtFConnectorRule*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xF014)&&(_choice.recLen == 8)) {
-        _s.anon = OfficeArtSolverContainerFileBlock::choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(new OfficeArtFArcRule(&_s));
+        _s.anon = OfficeArtSolverContainerFileBlock::choice3062460075(new OfficeArtFArcRule(&_s));
         parseOfficeArtFArcRule(in, *(OfficeArtFArcRule*)_s.anon.data());
     } else {
-        _s.anon = OfficeArtSolverContainerFileBlock::choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule(new OfficeArtFCalloutRule(&_s));
+        _s.anon = OfficeArtSolverContainerFileBlock::choice3062460075(new OfficeArtFCalloutRule(&_s));
         parseOfficeArtFCalloutRule(in, *(OfficeArtFCalloutRule*)_s.anon.data());
     }
 }
@@ -53273,7 +53273,7 @@ void write(const OfficeArtSolverContainerFileBlock& _s, LEOutputStream& out) {
 void parseOfficeArtSolverContainerFileBlock(QXmlStreamReader& in, OfficeArtSolverContainerFileBlock& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceOfficeArtFConnectorRuleOfficeArtFArcRuleOfficeArtFCalloutRule " << in.lineNumber();
+        qDebug() << "not startelement in choice3062460075 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -57021,10 +57021,10 @@ void parsePrm(LEInputStream& in, Prm& _s) {
     bool _choice = in.readbit();
     in.rewind(_m);
     if ((_choice == false)) {
-        _s.prm = Prm::choicePrm0Prm1(new Prm0(&_s));
+        _s.prm = Prm::choice1129181155(new Prm0(&_s));
         parsePrm0(in, *(Prm0*)_s.prm.data());
     } else {
-        _s.prm = Prm::choicePrm0Prm1(new Prm1(&_s));
+        _s.prm = Prm::choice1129181155(new Prm1(&_s));
         parsePrm1(in, *(Prm1*)_s.prm.data());
     }
 }
@@ -57038,7 +57038,7 @@ void write(const Prm& _s, LEOutputStream& out) {
 void parsePrm(QXmlStreamReader& in, Prm& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choicePrm0Prm1 " << in.lineNumber();
+        qDebug() << "not startelement in choice1129181155 " << in.lineNumber();
         return;
     }
     if (in.name() != "prm") {
@@ -57274,25 +57274,25 @@ void parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s) {
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0)&&(_choice.recInstance == 0x3D4 || _choice.recInstance == 0x3D5)&&(_choice.recType == 0xF01A)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipEMF(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipEMF(&_s));
         parseOfficeArtBlipEMF(in, *(OfficeArtBlipEMF*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x216 || _choice.recInstance == 0x217)&&(_choice.recType == 0xF01B)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipWMF(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipWMF(&_s));
         parseOfficeArtBlipWMF(in, *(OfficeArtBlipWMF*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x542 || _choice.recInstance == 0x543)&&(_choice.recType == 0xF01C)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipPICT(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipPICT(&_s));
         parseOfficeArtBlipPICT(in, *(OfficeArtBlipPICT*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x46A || _choice.recInstance == 0x46B || _choice.recInstance == 0x6E2 || _choice.recInstance == 0x6E3)&&(_choice.recType == 0xF01D)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipJPEG(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipJPEG(&_s));
         parseOfficeArtBlipJPEG(in, *(OfficeArtBlipJPEG*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x6E0 || _choice.recInstance == 0x6E1)&&(_choice.recType == 0xF01E)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipPNG(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipPNG(&_s));
         parseOfficeArtBlipPNG(in, *(OfficeArtBlipPNG*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x7A8 || _choice.recInstance == 0x7A9)&&(_choice.recType == 0xF01F)) {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipDIB(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipDIB(&_s));
         parseOfficeArtBlipDIB(in, *(OfficeArtBlipDIB*)_s.anon.data());
     } else {
-        _s.anon = OfficeArtBlip::choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF(new OfficeArtBlipTIFF(&_s));
+        _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipTIFF(&_s));
         parseOfficeArtBlipTIFF(in, *(OfficeArtBlipTIFF*)_s.anon.data());
     }
 }
@@ -57316,7 +57316,7 @@ void write(const OfficeArtBlip& _s, LEOutputStream& out) {
 void parseOfficeArtBlip(QXmlStreamReader& in, OfficeArtBlip& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceOfficeArtBlipEMFOfficeArtBlipWMFOfficeArtBlipPICTOfficeArtBlipJPEGOfficeArtBlipPNGOfficeArtBlipDIBOfficeArtBlipTIFF " << in.lineNumber();
+        qDebug() << "not startelement in choice279968329 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -58050,10 +58050,10 @@ void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteracti
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0xFF2)) {
-        _s.interactive = TextContainerInteractiveInfo::choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom(new MouseInteractiveInfoContainer(&_s));
+        _s.interactive = TextContainerInteractiveInfo::choice2203269482(new MouseInteractiveInfoContainer(&_s));
         parseMouseInteractiveInfoContainer(in, *(MouseInteractiveInfoContainer*)_s.interactive.data());
     } else {
-        _s.interactive = TextContainerInteractiveInfo::choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom(new MouseTextInteractiveInfoAtom(&_s));
+        _s.interactive = TextContainerInteractiveInfo::choice2203269482(new MouseTextInteractiveInfoAtom(&_s));
         parseMouseTextInteractiveInfoAtom(in, *(MouseTextInteractiveInfoAtom*)_s.interactive.data());
     }
 }
@@ -58067,7 +58067,7 @@ void write(const TextContainerInteractiveInfo& _s, LEOutputStream& out) {
 void parseTextContainerInteractiveInfo(QXmlStreamReader& in, TextContainerInteractiveInfo& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceMouseInteractiveInfoContainerMouseTextInteractiveInfoAtom " << in.lineNumber();
+        qDebug() << "not startelement in choice2203269482 " << in.lineNumber();
         return;
     }
     if (in.name() != "interactive") {
@@ -58084,13 +58084,13 @@ void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubC
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xF9E)&&(_choice.recLen == 4)) {
-        _s.anon = TextClientDataSubContainerOrAtom::choiceOutlineTextRefAtomTextContainerTextRulerAtom(new OutlineTextRefAtom(&_s));
+        _s.anon = TextClientDataSubContainerOrAtom::choice948925432(new OutlineTextRefAtom(&_s));
         parseOutlineTextRefAtom(in, *(OutlineTextRefAtom*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0 || _choice.recInstance == 1 || _choice.recInstance == 2 || _choice.recInstance == 3 || _choice.recInstance == 4 || _choice.recInstance == 5)&&(_choice.recType == 0xF9F)&&(_choice.recLen == 4)) {
-        _s.anon = TextClientDataSubContainerOrAtom::choiceOutlineTextRefAtomTextContainerTextRulerAtom(new TextContainer(&_s));
+        _s.anon = TextClientDataSubContainerOrAtom::choice948925432(new TextContainer(&_s));
         parseTextContainer(in, *(TextContainer*)_s.anon.data());
     } else {
-        _s.anon = TextClientDataSubContainerOrAtom::choiceOutlineTextRefAtomTextContainerTextRulerAtom(new TextRulerAtom(&_s));
+        _s.anon = TextClientDataSubContainerOrAtom::choice948925432(new TextRulerAtom(&_s));
         parseTextRulerAtom(in, *(TextRulerAtom*)_s.anon.data());
     }
 }
@@ -58106,7 +58106,7 @@ void write(const TextClientDataSubContainerOrAtom& _s, LEOutputStream& out) {
 void parseTextClientDataSubContainerOrAtom(QXmlStreamReader& in, TextClientDataSubContainerOrAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceOutlineTextRefAtomTextContainerTextRulerAtom " << in.lineNumber();
+        qDebug() << "not startelement in choice948925432 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -58662,10 +58662,10 @@ void parseSlideProgTagsSubContainerOrAtom(LEInputStream& in, SlideProgTagsSubCon
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1389)) {
-        _s.anon = SlideProgTagsSubContainerOrAtom::choiceProgStringTagContainerSlideProgBinaryTagContainer(new ProgStringTagContainer(&_s));
+        _s.anon = SlideProgTagsSubContainerOrAtom::choice310259039(new ProgStringTagContainer(&_s));
         parseProgStringTagContainer(in, *(ProgStringTagContainer*)_s.anon.data());
     } else {
-        _s.anon = SlideProgTagsSubContainerOrAtom::choiceProgStringTagContainerSlideProgBinaryTagContainer(new SlideProgBinaryTagContainer(&_s));
+        _s.anon = SlideProgTagsSubContainerOrAtom::choice310259039(new SlideProgBinaryTagContainer(&_s));
         parseSlideProgBinaryTagContainer(in, *(SlideProgBinaryTagContainer*)_s.anon.data());
     }
 }
@@ -58679,7 +58679,7 @@ void write(const SlideProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
 void parseSlideProgTagsSubContainerOrAtom(QXmlStreamReader& in, SlideProgTagsSubContainerOrAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceProgStringTagContainerSlideProgBinaryTagContainer " << in.lineNumber();
+        qDebug() << "not startelement in choice310259039 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -58696,37 +58696,37 @@ void parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _s) {
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1006)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExAviMovieContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExAviMovieContainer(&_s));
         parseExAviMovieContainer(in, *(ExAviMovieContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x100E)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExCDAudioContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExCDAudioContainer(&_s));
         parseExCDAudioContainer(in, *(ExCDAudioContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFEE)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExControlContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExControlContainer(&_s));
         parseExControlContainer(in, *(ExControlContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFD7)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExHyperlinkContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExHyperlinkContainer(&_s));
         parseExHyperlinkContainer(in, *(ExHyperlinkContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1007)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExMCIMovieContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExMCIMovieContainer(&_s));
         parseExMCIMovieContainer(in, *(ExMCIMovieContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x100D)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExMIDIAudioContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExMIDIAudioContainer(&_s));
         parseExMIDIAudioContainer(in, *(ExMIDIAudioContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x0FCC)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExOleEmbedContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExOleEmbedContainer(&_s));
         parseExOleEmbedContainer(in, *(ExOleEmbedContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x0FCE)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExOleLinkContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExOleLinkContainer(&_s));
         parseExOleLinkContainer(in, *(ExOleLinkContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x100F)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExWAVAudioEmbeddedContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExWAVAudioEmbeddedContainer(&_s));
         parseExWAVAudioEmbeddedContainer(in, *(ExWAVAudioEmbeddedContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1010)) {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new ExWAVAudioLinkContainer(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new ExWAVAudioLinkContainer(&_s));
         parseExWAVAudioLinkContainer(in, *(ExWAVAudioLinkContainer*)_s.anon.data());
     } else {
-        _s.anon = ExObjListSubContainer::choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild(new UnknownExObjListSubContainerChild(&_s));
+        _s.anon = ExObjListSubContainer::choice2338534801(new UnknownExObjListSubContainerChild(&_s));
         parseUnknownExObjListSubContainerChild(in, *(UnknownExObjListSubContainerChild*)_s.anon.data());
     }
 }
@@ -58758,7 +58758,7 @@ void write(const ExObjListSubContainer& _s, LEOutputStream& out) {
 void parseExObjListSubContainer(QXmlStreamReader& in, ExObjListSubContainer& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceExAviMovieContainerExCDAudioContainerExControlContainerExHyperlinkContainerExMCIMovieContainerExMIDIAudioContainerExOleEmbedContainerExOleLinkContainerExWAVAudioEmbeddedContainerExWAVAudioLinkContainerUnknownExObjListSubContainerChild " << in.lineNumber();
+        qDebug() << "not startelement in choice2338534801 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -58913,154 +58913,154 @@ void parseOfficeArtFOPTEChoice(LEInputStream& in, OfficeArtFOPTEChoice& _s) {
     parseOfficeArtFOPTEOPID(in, _choice);
     in.rewind(_m);
     if ((_choice.opid == 0x007F)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ProtectionBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ProtectionBooleanProperties(&_s));
         parseProtectionBooleanProperties(in, *(ProtectionBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x0148)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new adjust2Value(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new adjust2Value(&_s));
         parseadjust2Value(in, *(adjust2Value*)_s.anon.data());
     } else if ((_choice.opid == 0x0149)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new adjust3Value(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new adjust3Value(&_s));
         parseadjust3Value(in, *(adjust3Value*)_s.anon.data());
     } else if ((_choice.opid == 0x0080)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ITxid(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ITxid(&_s));
         parseITxid(in, *(ITxid*)_s.anon.data());
     } else if ((_choice.opid == 0x0081)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new DxTextLeft(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new DxTextLeft(&_s));
         parseDxTextLeft(in, *(DxTextLeft*)_s.anon.data());
     } else if ((_choice.opid == 0x0082)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new DyTextTop(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new DyTextTop(&_s));
         parseDyTextTop(in, *(DyTextTop*)_s.anon.data());
     } else if ((_choice.opid == 0x0083)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new DxTextRight(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new DxTextRight(&_s));
         parseDxTextRight(in, *(DxTextRight*)_s.anon.data());
     } else if ((_choice.opid == 0x0084)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new DyTextBottom(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new DyTextBottom(&_s));
         parseDyTextBottom(in, *(DyTextBottom*)_s.anon.data());
     } else if ((_choice.opid == 0x0085)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new WrapText(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new WrapText(&_s));
         parseWrapText(in, *(WrapText*)_s.anon.data());
     } else if ((_choice.opid == 0x0087)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new AnchorText(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new AnchorText(&_s));
         parseAnchorText(in, *(AnchorText*)_s.anon.data());
     } else if ((_choice.opid == 0x00BF)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new TextBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new TextBooleanProperties(&_s));
         parseTextBooleanProperties(in, *(TextBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x008A)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new HspNext(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new HspNext(&_s));
         parseHspNext(in, *(HspNext*)_s.anon.data());
     } else if ((_choice.opid == 0x0104)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new Pib(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new Pib(&_s));
         parsePib(in, *(Pib*)_s.anon.data());
     } else if ((_choice.opid == 0x0105)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new PibName(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new PibName(&_s));
         parsePibName(in, *(PibName*)_s.anon.data());
     } else if ((_choice.opid == 0x0144)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShapePath(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShapePath(&_s));
         parseShapePath(in, *(ShapePath*)_s.anon.data());
     } else if ((_choice.opid == 0x017F)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new GeometryBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new GeometryBooleanProperties(&_s));
         parseGeometryBooleanProperties(in, *(GeometryBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x0180)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillType(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillType(&_s));
         parseFillType(in, *(FillType*)_s.anon.data());
     } else if ((_choice.opid == 0x0181)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillColor(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillColor(&_s));
         parseFillColor(in, *(FillColor*)_s.anon.data());
     } else if ((_choice.opid == 0x0183)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillBackColor(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillBackColor(&_s));
         parseFillBackColor(in, *(FillBackColor*)_s.anon.data());
     } else if ((_choice.opid == 0x0186)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillBlip(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillBlip(&_s));
         parseFillBlip(in, *(FillBlip*)_s.anon.data());
     } else if ((_choice.opid == 0x01BF)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillStyleBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillStyleBooleanProperties(&_s));
         parseFillStyleBooleanProperties(in, *(FillStyleBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x01C0)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineColor(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineColor(&_s));
         parseLineColor(in, *(LineColor*)_s.anon.data());
     } else if ((_choice.opid == 0x01C1)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineOpacity(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineOpacity(&_s));
         parseLineOpacity(in, *(LineOpacity*)_s.anon.data());
     } else if ((_choice.opid == 0x01C2)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineBackColor(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineBackColor(&_s));
         parseLineBackColor(in, *(LineBackColor*)_s.anon.data());
     } else if ((_choice.opid == 0x01C5)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineFillBlip(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineFillBlip(&_s));
         parseLineFillBlip(in, *(LineFillBlip*)_s.anon.data());
     } else if ((_choice.opid == 0x01CB)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineWidth(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineWidth(&_s));
         parseLineWidth(in, *(LineWidth*)_s.anon.data());
     } else if ((_choice.opid == 0x01CD)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineStyle(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineStyle(&_s));
         parseLineStyle(in, *(LineStyle*)_s.anon.data());
     } else if ((_choice.opid == 0x01CE)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineDashing(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineDashing(&_s));
         parseLineDashing(in, *(LineDashing*)_s.anon.data());
     } else if ((_choice.opid == 0x0193)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillRectRight(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillRectRight(&_s));
         parseFillRectRight(in, *(FillRectRight*)_s.anon.data());
     } else if ((_choice.opid == 0x0194)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new FillRectBottom(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new FillRectBottom(&_s));
         parseFillRectBottom(in, *(FillRectBottom*)_s.anon.data());
     } else if ((_choice.opid == 0x0403)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new WzFillId(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new WzFillId(&_s));
         parseWzFillId(in, *(WzFillId*)_s.anon.data());
     } else if ((_choice.opid == 0x01FF)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineStyleBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineStyleBooleanProperties(&_s));
         parseLineStyleBooleanProperties(in, *(LineStyleBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x01D0)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineStartArrowhead(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineStartArrowhead(&_s));
         parseLineStartArrowhead(in, *(LineStartArrowhead*)_s.anon.data());
     } else if ((_choice.opid == 0x01D1)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineEndArrowhead(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineEndArrowhead(&_s));
         parseLineEndArrowhead(in, *(LineEndArrowhead*)_s.anon.data());
     } else if ((_choice.opid == 0x01D2)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineStartArrowWidth(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineStartArrowWidth(&_s));
         parseLineStartArrowWidth(in, *(LineStartArrowWidth*)_s.anon.data());
     } else if ((_choice.opid == 0x01D3)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineStartArrowLength(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineStartArrowLength(&_s));
         parseLineStartArrowLength(in, *(LineStartArrowLength*)_s.anon.data());
     } else if ((_choice.opid == 0x01D4)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineEndArrowWidth(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineEndArrowWidth(&_s));
         parseLineEndArrowWidth(in, *(LineEndArrowWidth*)_s.anon.data());
     } else if ((_choice.opid == 0x01D5)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineEndArrowLength(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineEndArrowLength(&_s));
         parseLineEndArrowLength(in, *(LineEndArrowLength*)_s.anon.data());
     } else if ((_choice.opid == 0x01D6)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LineJoinStyle(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LineJoinStyle(&_s));
         parseLineJoinStyle(in, *(LineJoinStyle*)_s.anon.data());
     } else if ((_choice.opid == 0x0201)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShadowColor(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShadowColor(&_s));
         parseShadowColor(in, *(ShadowColor*)_s.anon.data());
     } else if ((_choice.opid == 0x0204)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShadowOpacity(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShadowOpacity(&_s));
         parseShadowOpacity(in, *(ShadowOpacity*)_s.anon.data());
     } else if ((_choice.opid == 0x0205)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShadowOffsetX(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShadowOffsetX(&_s));
         parseShadowOffsetX(in, *(ShadowOffsetX*)_s.anon.data());
     } else if ((_choice.opid == 0x0206)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShadowOffsetY(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShadowOffsetY(&_s));
         parseShadowOffsetY(in, *(ShadowOffsetY*)_s.anon.data());
     } else if ((_choice.opid == 0x023F)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShadowStyleBooleanPropertiesr(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShadowStyleBooleanPropertiesr(&_s));
         parseShadowStyleBooleanPropertiesr(in, *(ShadowStyleBooleanPropertiesr*)_s.anon.data());
     } else if ((_choice.opid == 0x033F)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new ShapeBooleanProperties(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new ShapeBooleanProperties(&_s));
         parseShapeBooleanProperties(in, *(ShapeBooleanProperties*)_s.anon.data());
     } else if ((_choice.opid == 0x0301)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new HspMaster(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new HspMaster(&_s));
         parseHspMaster(in, *(HspMaster*)_s.anon.data());
     } else if ((_choice.opid == 0x0004)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new Rotation(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new Rotation(&_s));
         parseRotation(in, *(Rotation*)_s.anon.data());
     } else if ((_choice.opid == 0x0388)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new LidRegroup(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new LidRegroup(&_s));
         parseLidRegroup(in, *(LidRegroup*)_s.anon.data());
     } else if ((_choice.opid == 0x0304)&&(_choice.fBid == false)&&(_choice.fComplex == false)) {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new BWMode(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new BWMode(&_s));
         parseBWMode(in, *(BWMode*)_s.anon.data());
     } else {
-        _s.anon = OfficeArtFOPTEChoice::choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE(new OfficeArtFOPTE(&_s));
+        _s.anon = OfficeArtFOPTEChoice::choice1276819694(new OfficeArtFOPTE(&_s));
         parseOfficeArtFOPTE(in, *(OfficeArtFOPTE*)_s.anon.data());
     }
 }
@@ -59170,7 +59170,7 @@ void write(const OfficeArtFOPTEChoice& _s, LEOutputStream& out) {
 void parseOfficeArtFOPTEChoice(QXmlStreamReader& in, OfficeArtFOPTEChoice& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceProtectionBooleanPropertiesadjust2Valueadjust3ValueITxidDxTextLeftDyTextTopDxTextRightDyTextBottomWrapTextAnchorTextTextBooleanPropertiesHspNextPibPibNameShapePathGeometryBooleanPropertiesFillTypeFillColorFillBackColorFillBlipFillStyleBooleanPropertiesLineColorLineOpacityLineBackColorLineFillBlipLineWidthLineStyleLineDashingFillRectRightFillRectBottomWzFillIdLineStyleBooleanPropertiesLineStartArrowheadLineEndArrowheadLineStartArrowWidthLineStartArrowLengthLineEndArrowWidthLineEndArrowLengthLineJoinStyleShadowColorShadowOpacityShadowOffsetXShadowOffsetYShadowStyleBooleanPropertiesrShapeBooleanPropertiesHspMasterRotationLidRegroupBWModeOfficeArtFOPTE " << in.lineNumber();
+        qDebug() << "not startelement in choice1276819694 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -59805,10 +59805,10 @@ void parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBStoreCo
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0x2)&&(_choice.recInstance == 0 || _choice.recInstance == 1 || _choice.recInstance == 2 || _choice.recInstance == 3 || _choice.recInstance == 4 || _choice.recInstance == 5 || _choice.recInstance == 6 || _choice.recInstance == 7 || _choice.recInstance == 0x11 || _choice.recInstance == 0x12)&&(_choice.recType == 0xF007)) {
-        _s.anon = OfficeArtBStoreContainerFileBlock::choiceOfficeArtFBSEOfficeArtBlip(new OfficeArtFBSE(&_s));
+        _s.anon = OfficeArtBStoreContainerFileBlock::choice2043165903(new OfficeArtFBSE(&_s));
         parseOfficeArtFBSE(in, *(OfficeArtFBSE*)_s.anon.data());
     } else {
-        _s.anon = OfficeArtBStoreContainerFileBlock::choiceOfficeArtFBSEOfficeArtBlip(new OfficeArtBlip(&_s));
+        _s.anon = OfficeArtBStoreContainerFileBlock::choice2043165903(new OfficeArtBlip(&_s));
         parseOfficeArtBlip(in, *(OfficeArtBlip*)_s.anon.data());
     }
 }
@@ -59822,7 +59822,7 @@ void write(const OfficeArtBStoreContainerFileBlock& _s, LEOutputStream& out) {
 void parseOfficeArtBStoreContainerFileBlock(QXmlStreamReader& in, OfficeArtBStoreContainerFileBlock& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceOfficeArtFBSEOfficeArtBlip " << in.lineNumber();
+        qDebug() << "not startelement in choice2043165903 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -61320,25 +61320,25 @@ void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContain
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x1388)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new DocProgTagsContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new DocProgTagsContainer(&_s));
         parseDocProgTagsContainer(in, *(DocProgTagsContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0x414)&&(_choice.recLen == 0x1C)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new NormalViewSetInfoContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new NormalViewSetInfoContainer(&_s));
         parseNormalViewSetInfoContainer(in, *(NormalViewSetInfoContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0x413)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new NotesTextViewInfoContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new NotesTextViewInfoContainer(&_s));
         parseNotesTextViewInfoContainer(in, *(NotesTextViewInfoContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x407)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new OutlineViewInfoContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new OutlineViewInfoContainer(&_s));
         parseOutlineViewInfoContainer(in, *(OutlineViewInfoContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x3FA)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new SlideViewInfoInstance(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new SlideViewInfoInstance(&_s));
         parseSlideViewInfoInstance(in, *(SlideViewInfoInstance*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0x408)) {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new SorterViewInfoContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new SorterViewInfoContainer(&_s));
         parseSorterViewInfoContainer(in, *(SorterViewInfoContainer*)_s.anon.data());
     } else {
-        _s.anon = DocInfoListSubContainerOrAtom::choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer(new VBAInfoContainer(&_s));
+        _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new VBAInfoContainer(&_s));
         parseVBAInfoContainer(in, *(VBAInfoContainer*)_s.anon.data());
     }
 }
@@ -61362,7 +61362,7 @@ void write(const DocInfoListSubContainerOrAtom& _s, LEOutputStream& out) {
 void parseDocInfoListSubContainerOrAtom(QXmlStreamReader& in, DocInfoListSubContainerOrAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceDocProgTagsContainerNormalViewSetInfoContainerNotesTextViewInfoContainerOutlineViewInfoContainerSlideViewInfoInstanceSorterViewInfoContainerVBAInfoContainer " << in.lineNumber();
+        qDebug() << "not startelement in choice2631814737 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -61760,10 +61760,10 @@ void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContai
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0F004)) {
-        _s.anon = OfficeArtSpgrContainerFileBlock::choiceOfficeArtSpContainerOfficeArtSpgrContainer(new OfficeArtSpContainer(&_s));
+        _s.anon = OfficeArtSpgrContainerFileBlock::choice3415770141(new OfficeArtSpContainer(&_s));
         parseOfficeArtSpContainer(in, *(OfficeArtSpContainer*)_s.anon.data());
     } else {
-        _s.anon = OfficeArtSpgrContainerFileBlock::choiceOfficeArtSpContainerOfficeArtSpgrContainer(new OfficeArtSpgrContainer(&_s));
+        _s.anon = OfficeArtSpgrContainerFileBlock::choice3415770141(new OfficeArtSpgrContainer(&_s));
         parseOfficeArtSpgrContainer(in, *(OfficeArtSpgrContainer*)_s.anon.data());
     }
 }
@@ -61777,7 +61777,7 @@ void write(const OfficeArtSpgrContainerFileBlock& _s, LEOutputStream& out) {
 void parseOfficeArtSpgrContainerFileBlock(QXmlStreamReader& in, OfficeArtSpgrContainerFileBlock& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceOfficeArtSpContainerOfficeArtSpgrContainer " << in.lineNumber();
+        qDebug() << "not startelement in choice3415770141 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -61794,19 +61794,19 @@ void parseDocProgBinaryTagSubContainerOrAtom(LEInputStream& in, DocProgBinaryTag
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0x0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0FBA)&&(_choice.recLen == 0x0E)) {
-        _s.anon = DocProgBinaryTagSubContainerOrAtom::choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(new PP9DocBinaryTagExtension(&_s));
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::choice214961565(new PP9DocBinaryTagExtension(&_s));
         parsePP9DocBinaryTagExtension(in, *(PP9DocBinaryTagExtension*)_s.anon.data());
     } else if ((_choice.recVer == 0x0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0FBA)&&(_choice.recLen == 0x10)) {
-        _s.anon = DocProgBinaryTagSubContainerOrAtom::choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(new PP10DocBinaryTagExtension(&_s));
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::choice214961565(new PP10DocBinaryTagExtension(&_s));
         parsePP10DocBinaryTagExtension(in, *(PP10DocBinaryTagExtension*)_s.anon.data());
     } else if ((_choice.recVer == 0x0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0FBA)&&(_choice.recLen == 0x10)) {
-        _s.anon = DocProgBinaryTagSubContainerOrAtom::choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(new PP11DocBinaryTagExtension(&_s));
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::choice214961565(new PP11DocBinaryTagExtension(&_s));
         parsePP11DocBinaryTagExtension(in, *(PP11DocBinaryTagExtension*)_s.anon.data());
     } else if ((_choice.recVer == 0x0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0FBA)&&(_choice.recLen == 0x10)) {
-        _s.anon = DocProgBinaryTagSubContainerOrAtom::choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(new PP12DocBinaryTagExtension(&_s));
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::choice214961565(new PP12DocBinaryTagExtension(&_s));
         parsePP12DocBinaryTagExtension(in, *(PP12DocBinaryTagExtension*)_s.anon.data());
     } else {
-        _s.anon = DocProgBinaryTagSubContainerOrAtom::choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag(new UnknownBinaryTag(&_s));
+        _s.anon = DocProgBinaryTagSubContainerOrAtom::choice214961565(new UnknownBinaryTag(&_s));
         parseUnknownBinaryTag(in, *(UnknownBinaryTag*)_s.anon.data());
     }
 }
@@ -61826,7 +61826,7 @@ void write(const DocProgBinaryTagSubContainerOrAtom& _s, LEOutputStream& out) {
 void parseDocProgBinaryTagSubContainerOrAtom(QXmlStreamReader& in, DocProgBinaryTagSubContainerOrAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choicePP9DocBinaryTagExtensionPP10DocBinaryTagExtensionPP11DocBinaryTagExtensionPP12DocBinaryTagExtensionUnknownBinaryTag " << in.lineNumber();
+        qDebug() << "not startelement in choice214961565 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -62591,10 +62591,10 @@ void parseDocProgTagsSubContainerOrAtom(LEInputStream& in, DocProgTagsSubContain
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1389)) {
-        _s.anon = DocProgTagsSubContainerOrAtom::choiceProgStringTagContainerDocProgBinaryTagContainer(new ProgStringTagContainer(&_s));
+        _s.anon = DocProgTagsSubContainerOrAtom::choice61655436(new ProgStringTagContainer(&_s));
         parseProgStringTagContainer(in, *(ProgStringTagContainer*)_s.anon.data());
     } else {
-        _s.anon = DocProgTagsSubContainerOrAtom::choiceProgStringTagContainerDocProgBinaryTagContainer(new DocProgBinaryTagContainer(&_s));
+        _s.anon = DocProgTagsSubContainerOrAtom::choice61655436(new DocProgBinaryTagContainer(&_s));
         parseDocProgBinaryTagContainer(in, *(DocProgBinaryTagContainer*)_s.anon.data());
     }
 }
@@ -62608,7 +62608,7 @@ void write(const DocProgTagsSubContainerOrAtom& _s, LEOutputStream& out) {
 void parseDocProgTagsSubContainerOrAtom(QXmlStreamReader& in, DocProgTagsSubContainerOrAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceProgStringTagContainerDocProgBinaryTagContainer " << in.lineNumber();
+        qDebug() << "not startelement in choice61655436 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -62625,10 +62625,10 @@ void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s) 
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03F8)) {
-        _s.anon = MasterOrSlideContainer::choiceMainMasterContainerSlideContainer(new MainMasterContainer(&_s));
+        _s.anon = MasterOrSlideContainer::choice2788643208(new MainMasterContainer(&_s));
         parseMainMasterContainer(in, *(MainMasterContainer*)_s.anon.data());
     } else {
-        _s.anon = MasterOrSlideContainer::choiceMainMasterContainerSlideContainer(new SlideContainer(&_s));
+        _s.anon = MasterOrSlideContainer::choice2788643208(new SlideContainer(&_s));
         parseSlideContainer(in, *(SlideContainer*)_s.anon.data());
     }
 }
@@ -62642,7 +62642,7 @@ void write(const MasterOrSlideContainer& _s, LEOutputStream& out) {
 void parseMasterOrSlideContainer(QXmlStreamReader& in, MasterOrSlideContainer& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceMainMasterContainerSlideContainer " << in.lineNumber();
+        qDebug() << "not startelement in choice2788643208 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
@@ -62659,34 +62659,34 @@ void parsePowerPointStruct(LEInputStream& in, PowerPointStruct& _s) {
     parseRecordHeader(in, _choice);
     in.rewind(_m);
     if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03E8)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new DocumentContainer(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new DocumentContainer(&_s));
         parseDocumentContainer(in, *(DocumentContainer*)_s.anon.data());
     } else if (((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03F8))||((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03EE))) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new MasterOrSlideContainer(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new MasterOrSlideContainer(&_s));
         parseMasterOrSlideContainer(in, *(MasterOrSlideContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1772)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new PersistDirectoryAtom(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new PersistDirectoryAtom(&_s));
         parsePersistDirectoryAtom(in, *(PersistDirectoryAtom*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x03F0)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new NotesContainer(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new NotesContainer(&_s));
         parseNotesContainer(in, *(NotesContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0FC9)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new HandoutContainer(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new HandoutContainer(&_s));
         parseHandoutContainer(in, *(HandoutContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03EE)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new SlideContainer(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new SlideContainer(&_s));
         parseSlideContainer(in, *(SlideContainer*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1011)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new ExOleObjStg(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new ExOleObjStg(&_s));
         parseExOleObjStg(in, *(ExOleObjStg*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x1011)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new ExControlStg(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new ExControlStg(&_s));
         parseExControlStg(in, *(ExControlStg*)_s.anon.data());
     } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x1011)) {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new VbaProjectStg(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new VbaProjectStg(&_s));
         parseVbaProjectStg(in, *(VbaProjectStg*)_s.anon.data());
     } else {
-        _s.anon = PowerPointStruct::choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom(new UserEditAtom(&_s));
+        _s.anon = PowerPointStruct::choice394521820(new UserEditAtom(&_s));
         parseUserEditAtom(in, *(UserEditAtom*)_s.anon.data());
     }
 }
@@ -62716,7 +62716,7 @@ void write(const PowerPointStruct& _s, LEOutputStream& out) {
 void parsePowerPointStruct(QXmlStreamReader& in, PowerPointStruct& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choiceDocumentContainerMasterOrSlideContainerPersistDirectoryAtomNotesContainerHandoutContainerSlideContainerExOleObjStgExControlStgVbaProjectStgUserEditAtom " << in.lineNumber();
+        qDebug() << "not startelement in choice394521820 " << in.lineNumber();
         return;
     }
     if (in.name() != "anon") {
