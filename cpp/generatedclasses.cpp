@@ -317,6 +317,10 @@ class TextBookmarkAtom;
 void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s);
 void parseTextBookmarkAtom(QXmlStreamReader& in, TextBookmarkAtom& _s);
 void write(const TextBookmarkAtom& v, LEOutputStream& out);
+class TextRange;
+void parseTextRange(LEInputStream& in, TextRange& _s);
+void parseTextRange(QXmlStreamReader& in, TextRange& _s);
+void write(const TextRange& v, LEOutputStream& out);
 class MouseTextInteractiveInfoAtom;
 void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s);
 void parseMouseTextInteractiveInfoAtom(QXmlStreamReader& in, MouseTextInteractiveInfoAtom& _s);
@@ -3113,20 +3117,38 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
+class TextRange : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    qint32 begin;
+    qint32 end;
+    explicit TextRange(const Introspectable* parent)
+       :Introspectable(parent) {}
+    QString toString() {
+        QString _s = "TextRange:";
+        _s = _s + "begin: " + QString::number(begin) + "(" + QString::number(begin,16).toUpper() + ")" + ", ";
+        _s = _s + "end: " + QString::number(end) + "(" + QString::number(end,16).toUpper() + ")" + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
 class MouseTextInteractiveInfoAtom : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray range;
+    TextRange range;
     explicit MouseTextInteractiveInfoAtom(const Introspectable* parent)
        :Introspectable(parent),
-        rh(this) {}
+        rh(this),
+        range(this) {}
     QString toString() {
         QString _s = "MouseTextInteractiveInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "range: " + "[array of range]" + ", ";
+        _s = _s + "range: " + range.toString() + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -14437,6 +14459,41 @@ const Introspectable* (* const TextBookmarkAtom::_Introspection::introspectable[
 };
 const Introspection TextBookmarkAtom::_introspection(
     "TextBookmarkAtom", 4, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class TextRange::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static QVariant get_begin(const Introspectable* i, int j) {
+        return static_cast<const TextRange*>(i)->begin;
+    }
+    static QVariant get_end(const Introspectable* i, int j) {
+        return static_cast<const TextRange*>(i)->end;
+    }
+};
+const QString TextRange::_Introspection::name("TextRange");
+const int TextRange::_Introspection::numberOfMembers(2);
+const QString TextRange::_Introspection::names[2] = {
+    "begin",
+    "end",
+};
+int (* const TextRange::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const TextRange::_Introspection::value[2])(const Introspectable*, int position) = {
+    _Introspection::get_begin,
+    _Introspection::get_end,
+};
+const Introspectable* (* const TextRange::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    Introspection::null,
+    Introspection::null,
+};
+const Introspection TextRange::_introspection(
+    "TextRange", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class MouseTextInteractiveInfoAtom::_Introspection {
 public:
     static const QString name;
@@ -14448,8 +14505,8 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const MouseTextInteractiveInfoAtom*>(i)->rh);
     }
-    static QVariant get_range(const Introspectable* i, int j) {
-        return static_cast<const MouseTextInteractiveInfoAtom*>(i)->range;
+    static const Introspectable* get_range(const Introspectable* i, int j) {
+        return &(static_cast<const MouseTextInteractiveInfoAtom*>(i)->range);
     }
 };
 const QString MouseTextInteractiveInfoAtom::_Introspection::name("MouseTextInteractiveInfoAtom");
@@ -14464,11 +14521,11 @@ int (* const MouseTextInteractiveInfoAtom::_Introspection::numberOfInstances[2])
 };
 QVariant (* const MouseTextInteractiveInfoAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_range,
+    Introspection::nullValue,
 };
 const Introspectable* (* const MouseTextInteractiveInfoAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
-    Introspection::null,
+    _Introspection::get_range,
 };
 const Introspection MouseTextInteractiveInfoAtom::_introspection(
     "MouseTextInteractiveInfoAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
@@ -37516,10 +37573,38 @@ void parseTextBookmarkAtom(QXmlStreamReader& in, TextBookmarkAtom& _s) {
     }
     in.readElementText();
 }
+void parseTextRange(LEInputStream& in, TextRange& _s) {
+    _s.streamOffset = in.getPosition();
+    _s.begin = in.readint32();
+    _s.end = in.readint32();
+}
+void write(const TextRange& _s, LEOutputStream& out) {
+    out.writeint32(_s.begin);
+    out.writeint32(_s.end);
+}
+void parseTextRange(QXmlStreamReader& in, TextRange& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "begin") {
+        qDebug() << "not startelement in begin " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in int32 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "end") {
+        qDebug() << "not startelement in end " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+}
 void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s) {
     _s.streamOffset = in.getPosition();
-    int _c;
-    LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -37533,13 +37618,11 @@ void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveIn
     if (!(_s.rh.recLen == 8)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 8");
     }
-    _c = 8;
-    _s.range.resize(_c);
-    in.readBytes(_s.range);
+    parseTextRange(in, _s.range);
 }
 void write(const MouseTextInteractiveInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    out.writeBytes(_s.range);
+    write(_s.range, out);
 }
 void parseMouseTextInteractiveInfoAtom(QXmlStreamReader& in, MouseTextInteractiveInfoAtom& _s) {
     in.readNext();
@@ -37553,10 +37636,14 @@ void parseMouseTextInteractiveInfoAtom(QXmlStreamReader& in, MouseTextInteractiv
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        qDebug() << "not startelement in TextRange " << in.lineNumber();
         return;
     }
-    in.readElementText();
+    if (in.name() != "range") {
+        qDebug() << "not startelement in range " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
 }
 void parseSlideId(LEInputStream& in, SlideId& _s) {
     _s.streamOffset = in.getPosition();

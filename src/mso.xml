@@ -1601,6 +1601,10 @@
 		</int32>
 		<int32 name="bookmarkID" />
 	</struct>
+	<struct name="TextRange">
+		<int32 name="begin" />
+		<int32 name="end" />
+	</struct>
 	<struct name="MouseTextInteractiveInfoAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
@@ -1612,7 +1616,7 @@
 			<limitation name="recType" value="0xFDF" />
 			<limitation name="recLen" value="8" />
 		</type>
-		<uint8 name="range" count="8" />
+		<type name="range" type="TextRange" />
 	</struct>
 	<struct name="SlideId">
 		<uint32 name="slideId">

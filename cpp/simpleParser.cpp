@@ -1769,10 +1769,13 @@ void PPT::parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s) {
     _s.end = in.readint32();
     _s.bookmarkID = in.readint32();
 }
+void PPT::parseTextRange(LEInputStream& in, TextRange& _s) {
+    _s.streamOffset = in.getPosition();
+    _s.begin = in.readint32();
+    _s.end = in.readint32();
+}
 void PPT::parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s) {
     _s.streamOffset = in.getPosition();
-    int _c;
-    LEInputStream::Mark _m;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
@@ -1786,9 +1789,7 @@ void PPT::parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteract
     if (!(_s.rh.recLen == 8)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 8");
     }
-    _c = 8;
-    _s.range.resize(_c);
-    in.readBytes(_s.range);
+    parseTextRange(in, _s.range);
 }
 void PPT::parseSlideId(LEInputStream& in, SlideId& _s) {
     _s.streamOffset = in.getPosition();

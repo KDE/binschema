@@ -2377,9 +2377,18 @@ System.out.println(in.getPosition()+" "+_s);
         out.writeint32(_s.end);
         out.writeint32(_s.bookmarkID);
     }
+    TextRange parseTextRange(LEInputStream in) throws IOException  {
+        TextRange _s = new TextRange();
+        _s.begin = in.readint32();
+        _s.end = in.readint32();
+        return _s;
+    }
+    void write(TextRange _s, LEOutputStream out) throws IOException  {
+        out.writeint32(_s.begin);
+        out.writeint32(_s.end);
+    }
     MouseTextInteractiveInfoAtom parseMouseTextInteractiveInfoAtom(LEInputStream in) throws IOException  {
         MouseTextInteractiveInfoAtom _s = new MouseTextInteractiveInfoAtom();
-        int _c;
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
@@ -2393,15 +2402,12 @@ System.out.println(in.getPosition()+" "+_s);
         if (!(_s.rh.recLen == 8)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 8 for value " + String.valueOf(_s.rh) );
         }
-        _c = 8;
-        _s.range = in.readBytes(_c);
+        _s.range = parseTextRange(in);
         return _s;
     }
     void write(MouseTextInteractiveInfoAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
-        for (byte _i: _s.range) {
-            out.writeuint8(_i);
-        }
+        write(_s.range, out);
     }
     SlideId parseSlideId(LEInputStream in) throws IOException  {
         SlideId _s = new SlideId();
@@ -14252,9 +14258,19 @@ class TextBookmarkAtom {
         return _s;
     }
 }
+class TextRange {
+    int begin;
+    int end;
+    public String toString() {
+        String _s = "TextRange:";
+        _s = _s + "begin: " + String.valueOf(begin) + "(" + Integer.toHexString(begin).toUpperCase() + "), ";
+        _s = _s + "end: " + String.valueOf(end) + "(" + Integer.toHexString(end).toUpperCase() + "), ";
+        return _s;
+    }
+}
 class MouseTextInteractiveInfoAtom {
     RecordHeader rh;
-    byte[] range;
+    TextRange range;
     public String toString() {
         String _s = "MouseTextInteractiveInfoAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";

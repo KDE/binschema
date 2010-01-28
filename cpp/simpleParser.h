@@ -164,6 +164,8 @@ class RTFDateTimeMCAtom;
 void parseRTFDateTimeMCAtom(LEInputStream& in, RTFDateTimeMCAtom& _s);
 class TextBookmarkAtom;
 void parseTextBookmarkAtom(LEInputStream& in, TextBookmarkAtom& _s);
+class TextRange;
+void parseTextRange(LEInputStream& in, TextRange& _s);
 class MouseTextInteractiveInfoAtom;
 void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s);
 class SlideId;
@@ -1342,10 +1344,16 @@ public:
     qint32 bookmarkID;
     TextBookmarkAtom(void* /*dummy*/ = 0) {}
 };
+class TextRange : public StreamOffset {
+public:
+    qint32 begin;
+    qint32 end;
+    TextRange(void* /*dummy*/ = 0) {}
+};
 class MouseTextInteractiveInfoAtom : public StreamOffset {
 public:
     RecordHeader rh;
-    QByteArray range;
+    TextRange range;
     MouseTextInteractiveInfoAtom(void* /*dummy*/ = 0) {}
 };
 class SlideId : public StreamOffset {
