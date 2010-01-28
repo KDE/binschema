@@ -890,7 +890,7 @@ public class QtParserGenerator {
 			choice = choices[i];
 			out.println(s + "try {");
 			out.println(s + "    _s." + m.name + " = " + structure + "::"
-					+ m.name + "Choice(new " + choice + "(&_s));");
+					+ c.name + "(new " + choice + "(&_s));");
 			out.println(s + "    parse" + choice + "(in, *(" + choice + "*)_s."
 					+ m.name + ".data());");
 			out.println(s + "} catch (IncorrectValueException " + exception
@@ -903,7 +903,7 @@ public class QtParserGenerator {
 		if (!m.isOptional) {
 			choice = choices[choices.length - 1];
 			out.println(s + "    _s." + m.name + " = " + structure + "::"
-					+ m.name + "Choice(new " + choice + "(&_s));");
+					+ c.name + "(new " + choice + "(&_s));");
 			out.println(s + "    parse" + choice + "(in, *(" + choice + "*)_s."
 					+ m.name + ".data());");
 		}

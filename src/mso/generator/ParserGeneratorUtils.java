@@ -300,12 +300,39 @@ class Choice extends TypeRegistry.Type {
 			common = o.commonType;
 			options.add(o);
 		}
-		commonType = common;
+		// check if the common type is the same
+
 		for (Option o : options) {
-			if (!compareTypes(commonType, o.commonType)) {
-				throw new Error("The choice has no common options.");
+			if (!compareTypes(common, o.commonType)) {
+				System.err.println("The choice has no common options.");
+				common = null;
 			}
 		}
+		if (common == null) {
+			commonType = null;
+			return;
+		}
+		// Check if the limitations are distinctive.
+		// This means that the restrictions of an option must not be a subset of
+		// the restrictions for an option that is later.
+		for (int i = 0; i < options.size(); ++i) {
+			for (int j = i + 1; j < options.size(); ++j) {
+				if (isSubSet(options.get(i), options.get(j))) {
+					common = null;
+				}
+			}
+		}
+
+		// if the options are distinctive we can use them
+		commonType = common;
+	}
+
+	/**
+	 * Returns true if the limitations in option a are a subset of the
+	 * limitations in option b.
+	 */
+	static private boolean isSubSet(Option a, Option b) {
+		return true;
 	}
 
 	static private boolean compareMembers(Member a, Member b) {
