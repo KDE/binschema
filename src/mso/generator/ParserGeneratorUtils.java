@@ -79,6 +79,22 @@ class Limitation {
 			value = e.getAttribute("value");
 		}
 	}
+
+	public boolean equals(Object o) {
+		if (!(o instanceof Limitation))
+			return false;
+		Limitation l = (Limitation) o;
+		if (!l.name.equals(name))
+			return false;
+		if (expression != null) {
+			if (l.expression == null || !expression.equals(l.expression))
+				return false;
+		}
+		// value is not null
+		if (l.value == null || !l.value.equals(value))
+			return false;
+		return true;
+	}
 }
 
 class Member {
@@ -301,11 +317,16 @@ class Choice extends TypeRegistry.Type {
 			options.add(o);
 		}
 		// check if the common type is the same
-
 		for (Option o : options) {
 			if (!compareTypes(common, o.commonType)) {
-				System.err.println("The choice has no common options.");
+				String types = "";
+				for (Option op : options) {
+					types = types + " " + o.type.name;
+				}
+				System.err.println("The choice " + name
+						+ " has no common options for types" + types);
 				common = null;
+				break;
 			}
 		}
 		if (common == null) {
@@ -329,9 +350,23 @@ class Choice extends TypeRegistry.Type {
 
 	/**
 	 * Returns true if the limitations in option a are a subset of the
-	 * limitations in option b.
+	 * limitations in option b. a is a subset of b if every limitation in a is
+	 * also present in b. If unsure here, it is best to return true.
 	 */
 	static private boolean isSubSet(Option a, Option b) {
+		if (a.lim.limitations != null && b.lim.limitations != null) {
+			for (Limitation la : a.lim.limitations) {
+				boolean found = false;
+				for (Limitation lb : b.lim.limitations) {
+					if (la.equals(lb)) {
+						found = true;
+					}
+				}
+				if (!found) {
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
