@@ -79,22 +79,6 @@ class Limitation {
 			value = e.getAttribute("value");
 		}
 	}
-
-	public boolean equals(Object o) {
-		if (!(o instanceof Limitation))
-			return false;
-		Limitation l = (Limitation) o;
-		if (!l.name.equals(name))
-			return false;
-		if (expression != null) {
-			if (l.expression == null || !expression.equals(l.expression))
-				return false;
-		}
-		// value is not null
-		if (l.value == null || !l.value.equals(value))
-			return false;
-		return true;
-	}
 }
 
 class Member {
@@ -149,7 +133,7 @@ class Member {
 			crc.update(choiceName.getBytes());
 			choiceName = "choice" + crc.getValue();
 			typeName = choiceName;
-			new Choice(parent.registry, choiceName, choices);
+			new Choice(parent.registry, choiceName, choices, isOptional);
 			isInteger = false;
 			isSimple = false;
 			isChoice = true;
@@ -305,7 +289,8 @@ class Choice extends TypeRegistry.Type {
 		Lim lim = new Lim();
 	}
 
-	Choice(TypeRegistry registry, String name, List<Struct> choices) {
+	Choice(TypeRegistry registry, String name, List<Struct> choices,
+			boolean optional) {
 		registry.super(registry, name);
 		TypeRegistry.Type common = null;
 		for (Struct s : choices) {
@@ -321,7 +306,7 @@ class Choice extends TypeRegistry.Type {
 			if (!compareTypes(common, o.commonType)) {
 				String types = "";
 				for (Option op : options) {
-					types = types + " " + o.type.name;
+					types = types + " " + op.type.name;
 				}
 				System.err.println("The choice " + name
 						+ " has no common options for types" + types);
@@ -333,12 +318,23 @@ class Choice extends TypeRegistry.Type {
 			commonType = null;
 			return;
 		}
-		// Check if the limitations are distinctive.
-		// This means that the restrictions of an option must not be a subset of
-		// the restrictions for an option that is later.
+		// Check if the limitations are distinctive
+		// if limitation on an earlier option are a subset of a later
+		// limitation,
+		// then then the limitations cannot be used for making the choice
+		// so must make sure that earlier sets of limitations are not
+		// subsets of later limitations.
 		for (int i = 0; i < options.size(); ++i) {
-			for (int j = i + 1; j < options.size(); ++j) {
-				if (isSubSet(options.get(i), options.get(j))) {
+			int last = (optional) ? options.size() : options.size() - 1;
+			for (int j = i + 1; j < last; ++j) {
+				// the double negation is important: we cannot be sure that it
+				// is a subset
+				// we must be sure that it is not a subset
+				Option a = options.get(i);
+				Option b = options.get(j);
+				if (!noOverlap(a.lim, b.lim)) {
+					System.err.println("Options " + a.type.name + " and "
+							+ b.type.name + " have overlap.");
 					common = null;
 				}
 			}
@@ -349,20 +345,68 @@ class Choice extends TypeRegistry.Type {
 	}
 
 	/**
-	 * Returns true if the limitations in option a are a subset of the
-	 * limitations in option b. a is a subset of b if every limitation in a is
-	 * also present in b. If unsure here, it is best to return true.
+	 * Return true if not all of the limitations in a are sure to be present in
+	 * b. Err on the side of safety: if unsure return false;
 	 */
-	static private boolean isSubSet(Option a, Option b) {
-		if (a.lim.limitations != null && b.lim.limitations != null) {
-			for (Limitation la : a.lim.limitations) {
-				boolean found = false;
-				for (Limitation lb : b.lim.limitations) {
-					if (la.equals(lb)) {
-						found = true;
-					}
+	static private boolean noOverlap(Lim a, Lim b) {
+		if (a.limitations == null && a.lims == null)
+			return false;
+		if (a.limitations != null) {
+			if (!noOverlap(a.limitations, b)) {
+				return false;
+			}
+		}
+		if (a.lims != null) {
+			for (Lim sa : a.lims) {
+				if (!noOverlap(sa, b)) {
+					return false;
 				}
-				if (!found) {
+			}
+		}
+		return true;
+	}
+
+	static private boolean noOverlap(Limitation a[], Lim b) {
+		if (b.limitations == null && b.lims == null)
+			return false;
+		if (b.limitations != null) {
+			if (!noOverlap(a, b.limitations)) {
+				return false;
+			}
+		}
+		if (b.lims != null) {
+			for (Lim sb : b.lims) {
+				if (!noOverlap(a, sb)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Return true if sure that a and b define value spaces with no overlap
+	 */
+	static private boolean noOverlap(Limitation a[], Limitation b[]) {
+		for (int i = 0; i < a.length; ++i) {
+			for (int j = 0; j < b.length; ++j) {
+				if (a[i].name.equals(b[j].name)
+						&& noOverlap(a[i].value, b[j].value)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	static private boolean noOverlap(String a, String b) {
+		if (a == null || b == null)
+			return false;
+		String[] avalues = a.split("\\|");
+		String[] bvalues = b.split("\\|");
+		for (int i = 0; i < avalues.length; ++i) {
+			for (int j = 0; j < bvalues.length; ++j) {
+				if (avalues[i].equals(bvalues[j])) {
 					return false;
 				}
 			}
