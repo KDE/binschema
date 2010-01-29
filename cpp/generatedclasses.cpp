@@ -51032,19 +51032,19 @@ void parseTextContainerMeta(LEInputStream& in, TextContainerMeta& _s) {
     RecordHeader _choice(&_s);
     parseRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFD8)&&(_choice.recLen == 4)) {
+    if ((_choice.recInstance == 0)&&(_choice.recType == 0xFD8)&&(_choice.recLen == 4)) {
         _s.meta = TextContainerMeta::choice242357012(new SlideNumberMCAtom(&_s));
         parseSlideNumberMCAtom(in, *(SlideNumberMCAtom*)_s.meta.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF7)&&(_choice.recLen == 8)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0xFF7)&&(_choice.recLen == 8)) {
         _s.meta = TextContainerMeta::choice242357012(new DateTimeMCAtom(&_s));
         parseDateTimeMCAtom(in, *(DateTimeMCAtom*)_s.meta.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF8)&&(_choice.recLen == 4)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0xFF8)&&(_choice.recLen == 4)) {
         _s.meta = TextContainerMeta::choice242357012(new GenericDateMCAtom(&_s));
         parseGenericDateMCAtom(in, *(GenericDateMCAtom*)_s.meta.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF9)&&(_choice.recLen == 4)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0xFF9)&&(_choice.recLen == 4)) {
         _s.meta = TextContainerMeta::choice242357012(new HeaderMCAtom(&_s));
         parseHeaderMCAtom(in, *(HeaderMCAtom*)_s.meta.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFFA)&&(_choice.recLen == 4)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0xFFA)&&(_choice.recLen == 4)) {
         _s.meta = TextContainerMeta::choice242357012(new FooterMCAtom(&_s));
         parseFooterMCAtom(in, *(FooterMCAtom*)_s.meta.data());
     } else {
@@ -53626,10 +53626,10 @@ void parseOfficeArtSolverContainerFileBlock(LEInputStream& in, OfficeArtSolverCo
     OfficeArtRecordHeader _choice(&_s);
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 1)&&(_choice.recInstance == 0)&&(_choice.recType == 0xF012)&&(_choice.recLen == 0x18)) {
+    if ((_choice.recVer == 1)&&(_choice.recType == 0xF012)&&(_choice.recLen == 0x18)) {
         _s.anon = OfficeArtSolverContainerFileBlock::choice3062460075(new OfficeArtFConnectorRule(&_s));
         parseOfficeArtFConnectorRule(in, *(OfficeArtFConnectorRule*)_s.anon.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xF014)&&(_choice.recLen == 8)) {
+    } else if ((_choice.recVer == 0)&&(_choice.recType == 0xF014)&&(_choice.recLen == 8)) {
         _s.anon = OfficeArtSolverContainerFileBlock::choice3062460075(new OfficeArtFArcRule(&_s));
         parseOfficeArtFArcRule(in, *(OfficeArtFArcRule*)_s.anon.data());
     } else {
@@ -57659,22 +57659,22 @@ void parseOfficeArtBlip(LEInputStream& in, OfficeArtBlip& _s) {
     OfficeArtRecordHeader _choice(&_s);
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0)&&(_choice.recInstance == 0x3D4 || _choice.recInstance == 0x3D5)&&(_choice.recType == 0xF01A)) {
+    if ((_choice.recInstance == 0x3D4 || _choice.recInstance == 0x3D5)&&(_choice.recType == 0xF01A)) {
         _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipEMF(&_s));
         parseOfficeArtBlipEMF(in, *(OfficeArtBlipEMF*)_s.anon.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x216 || _choice.recInstance == 0x217)&&(_choice.recType == 0xF01B)) {
+    } else if ((_choice.recInstance == 0x216 || _choice.recInstance == 0x217)&&(_choice.recType == 0xF01B)) {
         _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipWMF(&_s));
         parseOfficeArtBlipWMF(in, *(OfficeArtBlipWMF*)_s.anon.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x542 || _choice.recInstance == 0x543)&&(_choice.recType == 0xF01C)) {
+    } else if ((_choice.recInstance == 0x542 || _choice.recInstance == 0x543)&&(_choice.recType == 0xF01C)) {
         _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipPICT(&_s));
         parseOfficeArtBlipPICT(in, *(OfficeArtBlipPICT*)_s.anon.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x46A || _choice.recInstance == 0x46B || _choice.recInstance == 0x6E2 || _choice.recInstance == 0x6E3)&&(_choice.recType == 0xF01D)) {
+    } else if ((_choice.recInstance == 0x46A || _choice.recInstance == 0x46B || _choice.recInstance == 0x6E2 || _choice.recInstance == 0x6E3)&&(_choice.recType == 0xF01D)) {
         _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipJPEG(&_s));
         parseOfficeArtBlipJPEG(in, *(OfficeArtBlipJPEG*)_s.anon.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x6E0 || _choice.recInstance == 0x6E1)&&(_choice.recType == 0xF01E)) {
+    } else if ((_choice.recInstance == 0x6E0 || _choice.recInstance == 0x6E1)&&(_choice.recType == 0xF01E)) {
         _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipPNG(&_s));
         parseOfficeArtBlipPNG(in, *(OfficeArtBlipPNG*)_s.anon.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0x7A8 || _choice.recInstance == 0x7A9)&&(_choice.recType == 0xF01F)) {
+    } else if ((_choice.recInstance == 0x7A8 || _choice.recInstance == 0x7A9)&&(_choice.recType == 0xF01F)) {
         _s.anon = OfficeArtBlip::choice279968329(new OfficeArtBlipDIB(&_s));
         parseOfficeArtBlipDIB(in, *(OfficeArtBlipDIB*)_s.anon.data());
     } else {
@@ -58544,7 +58544,7 @@ void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteracti
     RecordHeader _choice(&_s);
     parseRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0xFF2)) {
+    if ((_choice.recVer == 0xF)&&(_choice.recType == 0xFF2)) {
         _s.interactive = TextContainerInteractiveInfo::choice2203269482(new MouseInteractiveInfoContainer(&_s));
         parseMouseInteractiveInfoContainer(in, *(MouseInteractiveInfoContainer*)_s.interactive.data());
     } else {
@@ -58578,10 +58578,10 @@ void parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubC
     RecordHeader _choice(&_s);
     parseRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xF9E)&&(_choice.recLen == 4)) {
+    if ((_choice.recInstance == 0)&&(_choice.recType == 0xF9E)&&(_choice.recLen == 4)) {
         _s.anon = TextClientDataSubContainerOrAtom::choice948925432(new OutlineTextRefAtom(&_s));
         parseOutlineTextRefAtom(in, *(OutlineTextRefAtom*)_s.anon.data());
-    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0 || _choice.recInstance == 1 || _choice.recInstance == 2 || _choice.recInstance == 3 || _choice.recInstance == 4 || _choice.recInstance == 5)&&(_choice.recType == 0xF9F)&&(_choice.recLen == 4)) {
+    } else if ((_choice.recInstance == 0 || _choice.recInstance == 1 || _choice.recInstance == 2 || _choice.recInstance == 3 || _choice.recInstance == 4 || _choice.recInstance == 5)&&(_choice.recType == 0xF9F)&&(_choice.recLen == 4)) {
         _s.anon = TextClientDataSubContainerOrAtom::choice948925432(new TextContainer(&_s));
         parseTextContainer(in, *(TextContainer*)_s.anon.data());
     } else {
@@ -59156,7 +59156,7 @@ void parseSlideProgTagsSubContainerOrAtom(LEInputStream& in, SlideProgTagsSubCon
     RecordHeader _choice(&_s);
     parseRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1389)) {
+    if ((_choice.recInstance == 0)&&(_choice.recType == 0x1389)) {
         _s.anon = SlideProgTagsSubContainerOrAtom::choice310259039(new ProgStringTagContainer(&_s));
         parseProgStringTagContainer(in, *(ProgStringTagContainer*)_s.anon.data());
     } else {
@@ -59190,34 +59190,34 @@ void parseExObjListSubContainer(LEInputStream& in, ExObjListSubContainer& _s) {
     OfficeArtRecordHeader _choice(&_s);
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1006)) {
+    if ((_choice.recInstance == 0)&&(_choice.recType == 0x1006)) {
         _s.anon = ExObjListSubContainer::choice2338534801(new ExAviMovieContainer(&_s));
         parseExAviMovieContainer(in, *(ExAviMovieContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x100E)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0x100E)) {
         _s.anon = ExObjListSubContainer::choice2338534801(new ExCDAudioContainer(&_s));
         parseExCDAudioContainer(in, *(ExCDAudioContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFEE)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0xFEE)) {
         _s.anon = ExObjListSubContainer::choice2338534801(new ExControlContainer(&_s));
         parseExControlContainer(in, *(ExControlContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFD7)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0xFD7)) {
         _s.anon = ExObjListSubContainer::choice2338534801(new ExHyperlinkContainer(&_s));
         parseExHyperlinkContainer(in, *(ExHyperlinkContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1007)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0x1007)) {
         _s.anon = ExObjListSubContainer::choice2338534801(new ExMCIMovieContainer(&_s));
         parseExMCIMovieContainer(in, *(ExMCIMovieContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x100D)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0x100D)) {
         _s.anon = ExObjListSubContainer::choice2338534801(new ExMIDIAudioContainer(&_s));
         parseExMIDIAudioContainer(in, *(ExMIDIAudioContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x0FCC)) {
+    } else if ((_choice.recInstance == 0x0)&&(_choice.recType == 0x0FCC)) {
         _s.anon = ExObjListSubContainer::choice2338534801(new ExOleEmbedContainer(&_s));
         parseExOleEmbedContainer(in, *(ExOleEmbedContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x0FCE)) {
+    } else if ((_choice.recInstance == 0x0)&&(_choice.recType == 0x0FCE)) {
         _s.anon = ExObjListSubContainer::choice2338534801(new ExOleLinkContainer(&_s));
         parseExOleLinkContainer(in, *(ExOleLinkContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x100F)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0x100F)) {
         _s.anon = ExObjListSubContainer::choice2338534801(new ExWAVAudioEmbeddedContainer(&_s));
         parseExWAVAudioEmbeddedContainer(in, *(ExWAVAudioEmbeddedContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1010)) {
+    } else if ((_choice.recInstance == 0)&&(_choice.recType == 0x1010)) {
         _s.anon = ExObjListSubContainer::choice2338534801(new ExWAVAudioLinkContainer(&_s));
         parseExWAVAudioLinkContainer(in, *(ExWAVAudioLinkContainer*)_s.anon.data());
     } else {
@@ -62260,22 +62260,22 @@ void parseDocInfoListSubContainerOrAtom(LEInputStream& in, DocInfoListSubContain
     RecordHeader _choice(&_s);
     parseRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x1388)) {
+    if ((_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x1388)) {
         _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new DocProgTagsContainer(&_s));
         parseDocProgTagsContainer(in, *(DocProgTagsContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0x414)&&(_choice.recLen == 0x1C)) {
+    } else if ((_choice.recInstance == 1)&&(_choice.recType == 0x414)&&(_choice.recLen == 0x1C)) {
         _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new NormalViewSetInfoContainer(&_s));
         parseNormalViewSetInfoContainer(in, *(NormalViewSetInfoContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0x413)) {
+    } else if ((_choice.recInstance == 1)&&(_choice.recType == 0x413)) {
         _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new NotesTextViewInfoContainer(&_s));
         parseNotesTextViewInfoContainer(in, *(NotesTextViewInfoContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x407)) {
+    } else if ((_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x407)) {
         _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new OutlineViewInfoContainer(&_s));
         parseOutlineViewInfoContainer(in, *(OutlineViewInfoContainer*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x3FA)) {
+    } else if ((_choice.recInstance == 0 || _choice.recInstance == 1)&&(_choice.recType == 0x3FA)) {
         _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new SlideViewInfoInstance(&_s));
         parseSlideViewInfoInstance(in, *(SlideViewInfoInstance*)_s.anon.data());
-    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0x408)) {
+    } else if ((_choice.recInstance == 1)&&(_choice.recType == 0x408)) {
         _s.anon = DocInfoListSubContainerOrAtom::choice2631814737(new SorterViewInfoContainer(&_s));
         parseSorterViewInfoContainer(in, *(SorterViewInfoContainer*)_s.anon.data());
     } else {
@@ -62756,7 +62756,7 @@ void parseOfficeArtSpgrContainerFileBlock(LEInputStream& in, OfficeArtSpgrContai
     OfficeArtRecordHeader _choice(&_s);
     parseOfficeArtRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x0F004)) {
+    if ((_choice.recInstance == 0)&&(_choice.recType == 0x0F004)) {
         _s.anon = OfficeArtSpgrContainerFileBlock::choice3415770141(new OfficeArtSpContainer(&_s));
         parseOfficeArtSpContainer(in, *(OfficeArtSpContainer*)_s.anon.data());
     } else {
@@ -63769,7 +63769,7 @@ void parseDocProgTagsSubContainerOrAtom(LEInputStream& in, DocProgTagsSubContain
     RecordHeader _choice(&_s);
     parseRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0x1389)) {
+    if ((_choice.recInstance == 0)&&(_choice.recType == 0x1389)) {
         _s.anon = DocProgTagsSubContainerOrAtom::choice61655436(new ProgStringTagContainer(&_s));
         parseProgStringTagContainer(in, *(ProgStringTagContainer*)_s.anon.data());
     } else {
@@ -63803,7 +63803,7 @@ void parseMasterOrSlideContainer(LEInputStream& in, MasterOrSlideContainer& _s) 
     RecordHeader _choice(&_s);
     parseRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0x0)&&(_choice.recType == 0x03F8)) {
+    if ((_choice.recInstance == 0x0)&&(_choice.recType == 0x03F8)) {
         _s.anon = MasterOrSlideContainer::choice2788643208(new MainMasterContainer(&_s));
         parseMainMasterContainer(in, *(MainMasterContainer*)_s.anon.data());
     } else {

@@ -79,6 +79,22 @@ class Limitation {
 			value = e.getAttribute("value");
 		}
 	}
+
+	public boolean equals(Object o) {
+		if (!(o instanceof Limitation))
+			return false;
+		Limitation l = (Limitation) o;
+		if (!l.name.equals(name))
+			return false;
+		if (expression != null) {
+			if (l.expression == null || !expression.equals(l.expression))
+				return false;
+		}
+		// value is not null
+		if (l.value == null || !l.value.equals(value))
+			return false;
+		return true;
+	}
 }
 
 class Member {
@@ -278,6 +294,32 @@ class Option {
 	class Lim {
 		Limitation[] limitations;
 		Lim[] lims;
+
+		boolean containsCommonLimitation(Limitation l) {
+			if (limitations != null) {
+				for (int i = 0; i < limitations.length; ++i) {
+					if (limitations[i].equals(l)) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		void removeLimitation(Limitation l) {
+			if (!containsCommonLimitation(l))
+				return;
+			if (limitations != null) {
+				Limitation[] nl = new Limitation[limitations.length - 1];
+				int pos = 0;
+				for (int i = 0; i < limitations.length; ++i) {
+					if (!limitations[i].equals(l)) {
+						nl[pos++] = limitations[i];
+					}
+				}
+				limitations = nl;
+			}
+		}
 	}
 
 	Struct type;
@@ -388,6 +430,11 @@ class Choice extends TypeRegistry.Type {
 
 		// if the options are distinctive we can use them
 		commonType = common;
+
+		if (!optional && common != null) {
+			// remove options that are present in all options
+			removeNonDistinctiveLimitations();
+		}
 	}
 
 	/**
@@ -492,12 +539,32 @@ class Choice extends TypeRegistry.Type {
 		return a == b || structsWithSameMembers(a, b);
 	}
 
-	String[] getChoiceNames() {
+	public String[] getChoiceNames() {
 		String n[] = new String[options.size()];
 		for (int i = 0; i < options.size(); ++i) {
 			n[i] = options.get(i).type.name;
 		}
 		return n;
+	}
+
+	void removeNonDistinctiveLimitations() {
+		Option.Lim a = options.get(0).lim;
+		if (a.limitations != null) {
+			for (int i = 0; i < a.limitations.length; ++i) {
+				Limitation l = a.limitations[i];
+				boolean common = true;
+				for (int j = 1; j < options.size(); ++j) {
+					common = common
+							&& options.get(j).lim.containsCommonLimitation(l);
+				}
+				if (common) {
+					for (int j = 0; j < options.size(); ++j) {
+						options.get(j).lim.removeLimitation(l);
+					}
+					i = 0;
+				}
+			}
+		}
 	}
 }
 
