@@ -34099,6 +34099,7 @@ void parseFooterAtom(QXmlStreamReader& in, FooterAtom& _s) {
 void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -34111,26 +34112,44 @@ void parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFoot
     }
     parseHeadersFootersAtom(in, _s.hfAtom);
     _m = in.setMark();
-    try {
-        _s.userDateAtom = QSharedPointer<UserDateAtom>(new UserDateAtom(&_s));
-        parseUserDateAtom(in, *_s.userDateAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.userDateAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.userDateAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFBA)&&(_optionCheck.recLen%2==0)&&(_optionCheck.recLen<=510);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.userDateAtom = QSharedPointer<UserDateAtom>(new UserDateAtom(&_s));
+            parseUserDateAtom(in, *_s.userDateAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.userDateAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.userDateAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.footerAtom = QSharedPointer<FooterAtom>(new FooterAtom(&_s));
-        parseFooterAtom(in, *_s.footerAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.footerAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.footerAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 2)&&(_optionCheck.recType == 0xFBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.footerAtom = QSharedPointer<FooterAtom>(new FooterAtom(&_s));
+            parseFooterAtom(in, *_s.footerAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.footerAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.footerAtom.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const PerSlideHeadersFootersContainer& _s, LEOutputStream& out) {
@@ -49533,6 +49552,7 @@ void parseOfficeArtMetafileHeader(QXmlStreamReader& in, OfficeArtMetafileHeader&
 void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -49545,26 +49565,44 @@ void parseSlideHeadersFootersContainer(LEInputStream& in, SlideHeadersFootersCon
     }
     parseHeadersFootersAtom(in, _s.hfAtom);
     _m = in.setMark();
-    try {
-        _s.userDateAtom = QSharedPointer<UserDateAtom>(new UserDateAtom(&_s));
-        parseUserDateAtom(in, *_s.userDateAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.userDateAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.userDateAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFBA)&&(_optionCheck.recLen%2==0)&&(_optionCheck.recLen<=510);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.userDateAtom = QSharedPointer<UserDateAtom>(new UserDateAtom(&_s));
+            parseUserDateAtom(in, *_s.userDateAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.userDateAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.userDateAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.footerAtom = QSharedPointer<FooterAtom>(new FooterAtom(&_s));
-        parseFooterAtom(in, *_s.footerAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.footerAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.footerAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 2)&&(_optionCheck.recType == 0xFBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.footerAtom = QSharedPointer<FooterAtom>(new FooterAtom(&_s));
+            parseFooterAtom(in, *_s.footerAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.footerAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.footerAtom.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const SlideHeadersFootersContainer& _s, LEOutputStream& out) {
@@ -49611,6 +49649,7 @@ void parseSlideHeadersFootersContainer(QXmlStreamReader& in, SlideHeadersFooters
 void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -49623,37 +49662,64 @@ void parseNotesHeadersFootersContainer(LEInputStream& in, NotesHeadersFootersCon
     }
     parseHeadersFootersAtom(in, _s.hfAtom);
     _m = in.setMark();
-    try {
-        _s.userDateAtom = QSharedPointer<UserDateAtom>(new UserDateAtom(&_s));
-        parseUserDateAtom(in, *_s.userDateAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.userDateAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.userDateAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFBA)&&(_optionCheck.recLen%2==0)&&(_optionCheck.recLen<=510);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.userDateAtom = QSharedPointer<UserDateAtom>(new UserDateAtom(&_s));
+            parseUserDateAtom(in, *_s.userDateAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.userDateAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.userDateAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.headerAtom = QSharedPointer<HeaderAtom>(new HeaderAtom(&_s));
-        parseHeaderAtom(in, *_s.headerAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.headerAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.headerAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 1)&&(_optionCheck.recType == 0xFBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.headerAtom = QSharedPointer<HeaderAtom>(new HeaderAtom(&_s));
+            parseHeaderAtom(in, *_s.headerAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.headerAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.headerAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.footerAtom = QSharedPointer<FooterAtom>(new FooterAtom(&_s));
-        parseFooterAtom(in, *_s.footerAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.footerAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.footerAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 2)&&(_optionCheck.recType == 0xFBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.footerAtom = QSharedPointer<FooterAtom>(new FooterAtom(&_s));
+            parseFooterAtom(in, *_s.footerAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.footerAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.footerAtom.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const NotesHeadersFootersContainer& _s, LEOutputStream& out) {
@@ -50267,6 +50333,7 @@ void parseTextDefaults10Atom(QXmlStreamReader& in, TextDefaults10Atom& _s) {
 void parseCommentIndex10Container(LEInputStream& in, CommentIndex10Container& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -50278,26 +50345,44 @@ void parseCommentIndex10Container(LEInputStream& in, CommentIndex10Container& _s
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x2EE4");
     }
     _m = in.setMark();
-    try {
-        _s.authorNameAtom = QSharedPointer<AuthorNameAtom>(new AuthorNameAtom(&_s));
-        parseAuthorNameAtom(in, *_s.authorNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.authorNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.authorNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen<=104)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.authorNameAtom = QSharedPointer<AuthorNameAtom>(new AuthorNameAtom(&_s));
+            parseAuthorNameAtom(in, *_s.authorNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.authorNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.authorNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.authorIndexAtom = QSharedPointer<CommentIndex10Atom>(new CommentIndex10Atom(&_s));
-        parseCommentIndex10Atom(in, *_s.authorIndexAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.authorIndexAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.authorIndexAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x2EE5)&&(_optionCheck.recLen == 0x08);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.authorIndexAtom = QSharedPointer<CommentIndex10Atom>(new CommentIndex10Atom(&_s));
+            parseCommentIndex10Atom(in, *_s.authorIndexAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.authorIndexAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.authorIndexAtom.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const CommentIndex10Container& _s, LEOutputStream& out) {
@@ -50742,6 +50827,7 @@ void parseNormalViewSetInfoAtom(QXmlStreamReader& in, NormalViewSetInfoAtom& _s)
 void parseTextContainer(LEInputStream& in, TextContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     bool _atend;
     parseTextHeaderAtom(in, _s.textHeaderAtom);
     _m = in.setMark();
@@ -50756,15 +50842,24 @@ void parseTextContainer(LEInputStream& in, TextContainer& _s) {
         parseTextBytesAtom(in, *(TextBytesAtom*)_s.text.data());
     }
     _m = in.setMark();
-    try {
-        _s.style = QSharedPointer<StyleTextPropAtom>(new StyleTextPropAtom(&_s));
-        parseStyleTextPropAtom(in, *_s.style.data());
-    } catch(IncorrectValueException _e) {
-        _s.style.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.style.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFA1);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.style = QSharedPointer<StyleTextPropAtom>(new StyleTextPropAtom(&_s));
+            parseStyleTextPropAtom(in, *_s.style.data());
+        } catch(IncorrectValueException _e) {
+            _s.style.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.style.clear();
+            in.rewind(_m);
+        }
     }
     _atend = false;
     while (!_atend) {
@@ -50783,15 +50878,24 @@ void parseTextContainer(LEInputStream& in, TextContainer& _s) {
         }
     }
     _m = in.setMark();
-    try {
-        _s.master = QSharedPointer<MasterTextPropAtom>(new MasterTextPropAtom(&_s));
-        parseMasterTextPropAtom(in, *_s.master.data());
-    } catch(IncorrectValueException _e) {
-        _s.master.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.master.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFA2);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.master = QSharedPointer<MasterTextPropAtom>(new MasterTextPropAtom(&_s));
+            parseMasterTextPropAtom(in, *_s.master.data());
+        } catch(IncorrectValueException _e) {
+            _s.master.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.master.clear();
+            in.rewind(_m);
+        }
     }
     _atend = false;
     while (!_atend) {
@@ -50810,15 +50914,24 @@ void parseTextContainer(LEInputStream& in, TextContainer& _s) {
         }
     }
     _m = in.setMark();
-    try {
-        _s.specialinfo = QSharedPointer<TextSpecialInfoAtom>(new TextSpecialInfoAtom(&_s));
-        parseTextSpecialInfoAtom(in, *_s.specialinfo.data());
-    } catch(IncorrectValueException _e) {
-        _s.specialinfo.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.specialinfo.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0xFAA);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.specialinfo = QSharedPointer<TextSpecialInfoAtom>(new TextSpecialInfoAtom(&_s));
+            parseTextSpecialInfoAtom(in, *_s.specialinfo.data());
+        } catch(IncorrectValueException _e) {
+            _s.specialinfo.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.specialinfo.clear();
+            in.rewind(_m);
+        }
     }
     _atend = false;
     while (!_atend) {
@@ -51967,50 +52080,87 @@ void parseTextCFException(QXmlStreamReader& in, TextCFException& _s) {
 void parseFontCollectionEntry(LEInputStream& in, FontCollectionEntry& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseFontEntityAtom(in, _s.fontEntityAtom);
     _m = in.setMark();
-    try {
-        _s.fontEmbedData1 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
-        parseFontEmbedDataBlob(in, *_s.fontEmbedData1.data());
-    } catch(IncorrectValueException _e) {
-        _s.fontEmbedData1.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.fontEmbedData1.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance<=3)&&(_optionCheck.recType == 0xFB8);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.fontEmbedData1 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
+            parseFontEmbedDataBlob(in, *_s.fontEmbedData1.data());
+        } catch(IncorrectValueException _e) {
+            _s.fontEmbedData1.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.fontEmbedData1.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.fontEmbedData2 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
-        parseFontEmbedDataBlob(in, *_s.fontEmbedData2.data());
-    } catch(IncorrectValueException _e) {
-        _s.fontEmbedData2.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.fontEmbedData2.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance<=3)&&(_optionCheck.recType == 0xFB8);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.fontEmbedData2 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
+            parseFontEmbedDataBlob(in, *_s.fontEmbedData2.data());
+        } catch(IncorrectValueException _e) {
+            _s.fontEmbedData2.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.fontEmbedData2.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.fontEmbedData3 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
-        parseFontEmbedDataBlob(in, *_s.fontEmbedData3.data());
-    } catch(IncorrectValueException _e) {
-        _s.fontEmbedData3.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.fontEmbedData3.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance<=3)&&(_optionCheck.recType == 0xFB8);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.fontEmbedData3 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
+            parseFontEmbedDataBlob(in, *_s.fontEmbedData3.data());
+        } catch(IncorrectValueException _e) {
+            _s.fontEmbedData3.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.fontEmbedData3.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.fontEmbedData4 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
-        parseFontEmbedDataBlob(in, *_s.fontEmbedData4.data());
-    } catch(IncorrectValueException _e) {
-        _s.fontEmbedData4.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.fontEmbedData4.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance<=3)&&(_optionCheck.recType == 0xFB8);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.fontEmbedData4 = QSharedPointer<FontEmbedDataBlob>(new FontEmbedDataBlob(&_s));
+            parseFontEmbedDataBlob(in, *_s.fontEmbedData4.data());
+        } catch(IncorrectValueException _e) {
+            _s.fontEmbedData4.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.fontEmbedData4.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const FontCollectionEntry& _s, LEOutputStream& out) {
@@ -52801,6 +52951,7 @@ void parseExObjListContainer(QXmlStreamReader& in, ExObjListContainer& _s) {
 void parseExControlContainer(LEInputStream& in, ExControlContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -52814,48 +52965,84 @@ void parseExControlContainer(LEInputStream& in, ExControlContainer& _s) {
     parseExControlAtom(in, _s.exControlAtom);
     parseExOleObjAtom(in, _s.exOleObjAtom);
     _m = in.setMark();
-    try {
-        _s.menuNameAtom = QSharedPointer<MenuNameAtom>(new MenuNameAtom(&_s));
-        parseMenuNameAtom(in, *_s.menuNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.menuNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.menuNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x1)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2 == 0 );
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.menuNameAtom = QSharedPointer<MenuNameAtom>(new MenuNameAtom(&_s));
+            parseMenuNameAtom(in, *_s.menuNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.menuNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.menuNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.progIdAtom = QSharedPointer<ProgIDAtom>(new ProgIDAtom(&_s));
-        parseProgIDAtom(in, *_s.progIdAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.progIdAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.progIdAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x2)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2 == 0 );
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.progIdAtom = QSharedPointer<ProgIDAtom>(new ProgIDAtom(&_s));
+            parseProgIDAtom(in, *_s.progIdAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.progIdAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.progIdAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.clipboardNameAtom = QSharedPointer<ClipboardNameAtom>(new ClipboardNameAtom(&_s));
-        parseClipboardNameAtom(in, *_s.clipboardNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.clipboardNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.clipboardNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x3)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2 == 0 );
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.clipboardNameAtom = QSharedPointer<ClipboardNameAtom>(new ClipboardNameAtom(&_s));
+            parseClipboardNameAtom(in, *_s.clipboardNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.clipboardNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.clipboardNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.metafile = QSharedPointer<MetafileBlob>(new MetafileBlob(&_s));
-        parseMetafileBlob(in, *_s.metafile.data());
-    } catch(IncorrectValueException _e) {
-        _s.metafile.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.metafile.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x0FC1)&&(_optionCheck.recLen>16);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.metafile = QSharedPointer<MetafileBlob>(new MetafileBlob(&_s));
+            parseMetafileBlob(in, *_s.metafile.data());
+        } catch(IncorrectValueException _e) {
+            _s.metafile.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.metafile.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const ExControlContainer& _s, LEOutputStream& out) {
@@ -52928,6 +53115,7 @@ void parseExControlContainer(QXmlStreamReader& in, ExControlContainer& _s) {
 void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -52940,37 +53128,64 @@ void parseExHyperlinkContainer(LEInputStream& in, ExHyperlinkContainer& _s) {
     }
     parseExHyperlinkAtom(in, _s.exHyperlinkAtom);
     _m = in.setMark();
-    try {
-        _s.friendlyNameAtom = QSharedPointer<FriendlyNameAtom>(new FriendlyNameAtom(&_s));
-        parseFriendlyNameAtom(in, *_s.friendlyNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.friendlyNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.friendlyNameAtom.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.friendlyNameAtom = QSharedPointer<FriendlyNameAtom>(new FriendlyNameAtom(&_s));
+            parseFriendlyNameAtom(in, *_s.friendlyNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.friendlyNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.friendlyNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.targetAtom = QSharedPointer<TargetAtom>(new TargetAtom(&_s));
-        parseTargetAtom(in, *_s.targetAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.targetAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.targetAtom.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 1)&&(_optionCheck.recType == 0xFBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.targetAtom = QSharedPointer<TargetAtom>(new TargetAtom(&_s));
+            parseTargetAtom(in, *_s.targetAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.targetAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.targetAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.locationAtom = QSharedPointer<LocationAtom>(new LocationAtom(&_s));
-        parseLocationAtom(in, *_s.locationAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.locationAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.locationAtom.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 3)&&(_optionCheck.recType == 0xFBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.locationAtom = QSharedPointer<LocationAtom>(new LocationAtom(&_s));
+            parseLocationAtom(in, *_s.locationAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.locationAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.locationAtom.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const ExHyperlinkContainer& _s, LEOutputStream& out) {
@@ -53025,6 +53240,7 @@ void parseExHyperlinkContainer(QXmlStreamReader& in, ExHyperlinkContainer& _s) {
 void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -53038,48 +53254,84 @@ void parseExOleLinkContainer(LEInputStream& in, ExOleLinkContainer& _s) {
     parseExOleLinkAtom(in, _s.exOleLinkAtom);
     parseExOleObjAtom(in, _s.exOleObjAtom);
     _m = in.setMark();
-    try {
-        _s.menuNameAtom = QSharedPointer<MenuNameAtom>(new MenuNameAtom(&_s));
-        parseMenuNameAtom(in, *_s.menuNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.menuNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.menuNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x1)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2 == 0 );
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.menuNameAtom = QSharedPointer<MenuNameAtom>(new MenuNameAtom(&_s));
+            parseMenuNameAtom(in, *_s.menuNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.menuNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.menuNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.progIdAtom = QSharedPointer<ProgIDAtom>(new ProgIDAtom(&_s));
-        parseProgIDAtom(in, *_s.progIdAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.progIdAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.progIdAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x2)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2 == 0 );
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.progIdAtom = QSharedPointer<ProgIDAtom>(new ProgIDAtom(&_s));
+            parseProgIDAtom(in, *_s.progIdAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.progIdAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.progIdAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.clipboardNameAtom = QSharedPointer<ClipboardNameAtom>(new ClipboardNameAtom(&_s));
-        parseClipboardNameAtom(in, *_s.clipboardNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.clipboardNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.clipboardNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x3)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2 == 0 );
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.clipboardNameAtom = QSharedPointer<ClipboardNameAtom>(new ClipboardNameAtom(&_s));
+            parseClipboardNameAtom(in, *_s.clipboardNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.clipboardNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.clipboardNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.metafile = QSharedPointer<MetafileBlob>(new MetafileBlob(&_s));
-        parseMetafileBlob(in, *_s.metafile.data());
-    } catch(IncorrectValueException _e) {
-        _s.metafile.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.metafile.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x0FC1)&&(_optionCheck.recLen>16);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.metafile = QSharedPointer<MetafileBlob>(new MetafileBlob(&_s));
+            parseMetafileBlob(in, *_s.metafile.data());
+        } catch(IncorrectValueException _e) {
+            _s.metafile.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.metafile.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const ExOleLinkContainer& _s, LEOutputStream& out) {
@@ -53152,6 +53404,7 @@ void parseExOleLinkContainer(QXmlStreamReader& in, ExOleLinkContainer& _s) {
 void parseExOleEmbedContainer(LEInputStream& in, ExOleEmbedContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -53165,48 +53418,84 @@ void parseExOleEmbedContainer(LEInputStream& in, ExOleEmbedContainer& _s) {
     parseExOleEmbedAtom(in, _s.exOleEmbedAtom);
     parseExOleObjAtom(in, _s.exOleObjAtom);
     _m = in.setMark();
-    try {
-        _s.menuNameAtom = QSharedPointer<MenuNameAtom>(new MenuNameAtom(&_s));
-        parseMenuNameAtom(in, *_s.menuNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.menuNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.menuNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x1)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2 == 0 );
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.menuNameAtom = QSharedPointer<MenuNameAtom>(new MenuNameAtom(&_s));
+            parseMenuNameAtom(in, *_s.menuNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.menuNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.menuNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.progIdAtom = QSharedPointer<ProgIDAtom>(new ProgIDAtom(&_s));
-        parseProgIDAtom(in, *_s.progIdAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.progIdAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.progIdAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x2)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2 == 0 );
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.progIdAtom = QSharedPointer<ProgIDAtom>(new ProgIDAtom(&_s));
+            parseProgIDAtom(in, *_s.progIdAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.progIdAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.progIdAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.clipboardNameAtom = QSharedPointer<ClipboardNameAtom>(new ClipboardNameAtom(&_s));
-        parseClipboardNameAtom(in, *_s.clipboardNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.clipboardNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.clipboardNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x3)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2 == 0 );
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.clipboardNameAtom = QSharedPointer<ClipboardNameAtom>(new ClipboardNameAtom(&_s));
+            parseClipboardNameAtom(in, *_s.clipboardNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.clipboardNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.clipboardNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.metafile = QSharedPointer<MetafileBlob>(new MetafileBlob(&_s));
-        parseMetafileBlob(in, *_s.metafile.data());
-    } catch(IncorrectValueException _e) {
-        _s.metafile.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.metafile.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x0FC1)&&(_optionCheck.recLen>16);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.metafile = QSharedPointer<MetafileBlob>(new MetafileBlob(&_s));
+            parseMetafileBlob(in, *_s.metafile.data());
+        } catch(IncorrectValueException _e) {
+            _s.metafile.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.metafile.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const ExOleEmbedContainer& _s, LEOutputStream& out) {
@@ -56649,6 +56938,7 @@ void parseOfficeArtClientAnchor(QXmlStreamReader& in, OfficeArtClientAnchor& _s)
 void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -56661,15 +56951,24 @@ void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s) 
     }
     parseAnimationInfoAtom(in, _s.animationAtom);
     _m = in.setMark();
-    try {
-        _s.animationSound = QSharedPointer<SoundContainer>(new SoundContainer(&_s));
-        parseSoundContainer(in, *_s.animationSound.data());
-    } catch(IncorrectValueException _e) {
-        _s.animationSound.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.animationSound.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x7E6);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.animationSound = QSharedPointer<SoundContainer>(new SoundContainer(&_s));
+            parseSoundContainer(in, *_s.animationSound.data());
+        } catch(IncorrectValueException _e) {
+            _s.animationSound.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.animationSound.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const AnimationInfoContainer& _s, LEOutputStream& out) {
@@ -57599,6 +57898,7 @@ void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension
     _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
@@ -57627,15 +57927,24 @@ void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension
         throw IncorrectValueException(in.getPosition(), "_s.rhData.recType == 0x138B");
     }
     _m = in.setMark();
-    try {
-        _s.fontCollectionContainer = QSharedPointer<FontCollection10Container>(new FontCollection10Container(&_s));
-        parseFontCollection10Container(in, *_s.fontCollectionContainer.data());
-    } catch(IncorrectValueException _e) {
-        _s.fontCollectionContainer.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.fontCollectionContainer.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x07D6);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.fontCollectionContainer = QSharedPointer<FontCollection10Container>(new FontCollection10Container(&_s));
+            parseFontCollection10Container(in, *_s.fontCollectionContainer.data());
+        } catch(IncorrectValueException _e) {
+            _s.fontCollectionContainer.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.fontCollectionContainer.clear();
+            in.rewind(_m);
+        }
     }
     _atend = false;
     while (!_atend) {
@@ -57654,15 +57963,24 @@ void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension
         }
     }
     _m = in.setMark();
-    try {
-        _s.textDefaultsAtom = QSharedPointer<TextDefaults10Atom>(new TextDefaults10Atom(&_s));
-        parseTextDefaults10Atom(in, *_s.textDefaultsAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.textDefaultsAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.textDefaultsAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x0FB4);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.textDefaultsAtom = QSharedPointer<TextDefaults10Atom>(new TextDefaults10Atom(&_s));
+            parseTextDefaults10Atom(in, *_s.textDefaultsAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.textDefaultsAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.textDefaultsAtom.clear();
+            in.rewind(_m);
+        }
     }
     parseGridSpacing10Atom(in, _s.gridSpacingAtom);
     _atend = false;
@@ -57682,114 +58000,204 @@ void parsePP10DocBinaryTagExtension(LEInputStream& in, PP10DocBinaryTagExtension
         }
     }
     _m = in.setMark();
-    try {
-        _s.fontEmbedFlagsAtom = QSharedPointer<FontEmbedFlags10Atom>(new FontEmbedFlags10Atom(&_s));
-        parseFontEmbedFlags10Atom(in, *_s.fontEmbedFlagsAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.fontEmbedFlagsAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.fontEmbedFlagsAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x32C8)&&(_optionCheck.recLen == 0x04);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.fontEmbedFlagsAtom = QSharedPointer<FontEmbedFlags10Atom>(new FontEmbedFlags10Atom(&_s));
+            parseFontEmbedFlags10Atom(in, *_s.fontEmbedFlagsAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.fontEmbedFlagsAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.fontEmbedFlagsAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.copyrightAtom = QSharedPointer<CopyrightAtom>(new CopyrightAtom(&_s));
-        parseCopyrightAtom(in, *_s.copyrightAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.copyrightAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.copyrightAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x1)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen<=510)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.copyrightAtom = QSharedPointer<CopyrightAtom>(new CopyrightAtom(&_s));
+            parseCopyrightAtom(in, *_s.copyrightAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.copyrightAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.copyrightAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.keywordsAtom = QSharedPointer<KeywordsAtom>(new KeywordsAtom(&_s));
-        parseKeywordsAtom(in, *_s.keywordsAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.keywordsAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.keywordsAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x2)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen<=510)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.keywordsAtom = QSharedPointer<KeywordsAtom>(new KeywordsAtom(&_s));
+            parseKeywordsAtom(in, *_s.keywordsAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.keywordsAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.keywordsAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.filterPrivacyFlagsAtom = QSharedPointer<FilterPrivacyFlags10Atom>(new FilterPrivacyFlags10Atom(&_s));
-        parseFilterPrivacyFlags10Atom(in, *_s.filterPrivacyFlagsAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.filterPrivacyFlagsAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.filterPrivacyFlagsAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x36B0)&&(_optionCheck.recLen == 0x04);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.filterPrivacyFlagsAtom = QSharedPointer<FilterPrivacyFlags10Atom>(new FilterPrivacyFlags10Atom(&_s));
+            parseFilterPrivacyFlags10Atom(in, *_s.filterPrivacyFlagsAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.filterPrivacyFlagsAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.filterPrivacyFlagsAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.outlineTextPropsContainer = QSharedPointer<OutlineTextProps10Container>(new OutlineTextProps10Container(&_s));
-        parseOutlineTextProps10Container(in, *_s.outlineTextPropsContainer.data());
-    } catch(IncorrectValueException _e) {
-        _s.outlineTextPropsContainer.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.outlineTextPropsContainer.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x0FB3);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.outlineTextPropsContainer = QSharedPointer<OutlineTextProps10Container>(new OutlineTextProps10Container(&_s));
+            parseOutlineTextProps10Container(in, *_s.outlineTextPropsContainer.data());
+        } catch(IncorrectValueException _e) {
+            _s.outlineTextPropsContainer.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.outlineTextPropsContainer.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.docToolbarStatesAtom = QSharedPointer<DocToolbarStates10Atom>(new DocToolbarStates10Atom(&_s));
-        parseDocToolbarStates10Atom(in, *_s.docToolbarStatesAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.docToolbarStatesAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.docToolbarStatesAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x36B1)&&(_optionCheck.recLen == 0x01);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.docToolbarStatesAtom = QSharedPointer<DocToolbarStates10Atom>(new DocToolbarStates10Atom(&_s));
+            parseDocToolbarStates10Atom(in, *_s.docToolbarStatesAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.docToolbarStatesAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.docToolbarStatesAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.slideListTableContainer = QSharedPointer<SlideListTable10Container>(new SlideListTable10Container(&_s));
-        parseSlideListTable10Container(in, *_s.slideListTableContainer.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideListTableContainer.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideListTableContainer.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x2EF1);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideListTableContainer = QSharedPointer<SlideListTable10Container>(new SlideListTable10Container(&_s));
+            parseSlideListTable10Container(in, *_s.slideListTableContainer.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideListTableContainer.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideListTableContainer.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.rgDiffTree10Container = QSharedPointer<DiffTree10Container>(new DiffTree10Container(&_s));
-        parseDiffTree10Container(in, *_s.rgDiffTree10Container.data());
-    } catch(IncorrectValueException _e) {
-        _s.rgDiffTree10Container.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.rgDiffTree10Container.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x2EEC);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.rgDiffTree10Container = QSharedPointer<DiffTree10Container>(new DiffTree10Container(&_s));
+            parseDiffTree10Container(in, *_s.rgDiffTree10Container.data());
+        } catch(IncorrectValueException _e) {
+            _s.rgDiffTree10Container.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.rgDiffTree10Container.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.modifyPasswordAtom = QSharedPointer<ModifyPasswordAtom>(new ModifyPasswordAtom(&_s));
-        parseModifyPasswordAtom(in, *_s.modifyPasswordAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.modifyPasswordAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.modifyPasswordAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x03)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen<=510)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.modifyPasswordAtom = QSharedPointer<ModifyPasswordAtom>(new ModifyPasswordAtom(&_s));
+            parseModifyPasswordAtom(in, *_s.modifyPasswordAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.modifyPasswordAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.modifyPasswordAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.photoAlbumInfoAtom = QSharedPointer<PhotoAlbumInfo10Atom>(new PhotoAlbumInfo10Atom(&_s));
-        parsePhotoAlbumInfo10Atom(in, *_s.photoAlbumInfoAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.photoAlbumInfoAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.photoAlbumInfoAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x036B2)&&(_optionCheck.recLen == 0x06);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.photoAlbumInfoAtom = QSharedPointer<PhotoAlbumInfo10Atom>(new PhotoAlbumInfo10Atom(&_s));
+            parsePhotoAlbumInfo10Atom(in, *_s.photoAlbumInfoAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.photoAlbumInfoAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.photoAlbumInfoAtom.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const PP10DocBinaryTagExtension& _s, LEOutputStream& out) {
@@ -58857,6 +59265,7 @@ void parseExObjListSubContainer(QXmlStreamReader& in, ExObjListSubContainer& _s)
 void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -58869,50 +59278,86 @@ void parseOfficeArtDggContainer(LEInputStream& in, OfficeArtDggContainer& _s) {
     }
     parseOfficeArtFDGGBlock(in, _s.drawingGroup);
     _m = in.setMark();
-    try {
-        _s.blipStore = QSharedPointer<OfficeArtBStoreContainer>(new OfficeArtBStoreContainer(&_s));
-        parseOfficeArtBStoreContainer(in, *_s.blipStore.data());
-    } catch(IncorrectValueException _e) {
-        _s.blipStore.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.blipStore.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recType == 0x0F001);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.blipStore = QSharedPointer<OfficeArtBStoreContainer>(new OfficeArtBStoreContainer(&_s));
+            parseOfficeArtBStoreContainer(in, *_s.blipStore.data());
+        } catch(IncorrectValueException _e) {
+            _s.blipStore.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.blipStore.clear();
+            in.rewind(_m);
+        }
     }
     parseOfficeArtFOPT(in, _s.drawingPrimaryOptions);
     _m = in.setMark();
-    try {
-        _s.drawingTertiaryOptions = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
-        parseOfficeArtTertiaryFOPT(in, *_s.drawingTertiaryOptions.data());
-    } catch(IncorrectValueException _e) {
-        _s.drawingTertiaryOptions.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.drawingTertiaryOptions.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 3)&&(_optionCheck.recType == 0xF122);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.drawingTertiaryOptions = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
+            parseOfficeArtTertiaryFOPT(in, *_s.drawingTertiaryOptions.data());
+        } catch(IncorrectValueException _e) {
+            _s.drawingTertiaryOptions.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.drawingTertiaryOptions.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.colorMRU = QSharedPointer<OfficeArtColorMRUContainer>(new OfficeArtColorMRUContainer(&_s));
-        parseOfficeArtColorMRUContainer(in, *_s.colorMRU.data());
-    } catch(IncorrectValueException _e) {
-        _s.colorMRU.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.colorMRU.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recType == 0xF11A)&&(_optionCheck.recLen==4*_optionCheck.recInstance);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.colorMRU = QSharedPointer<OfficeArtColorMRUContainer>(new OfficeArtColorMRUContainer(&_s));
+            parseOfficeArtColorMRUContainer(in, *_s.colorMRU.data());
+        } catch(IncorrectValueException _e) {
+            _s.colorMRU.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.colorMRU.clear();
+            in.rewind(_m);
+        }
     }
     parseOfficeArtSplitMenuColorContainer(in, _s.splitColors);
     _m = in.setMark();
-    try {
-        _s.unknown = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
-        parseOfficeArtTertiaryFOPT(in, *_s.unknown.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 3)&&(_optionCheck.recType == 0xF122);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
+            parseOfficeArtTertiaryFOPT(in, *_s.unknown.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const OfficeArtDggContainer& _s, LEOutputStream& out) {
@@ -59269,6 +59714,7 @@ void parseOfficeArtFOPTEChoice(QXmlStreamReader& in, OfficeArtFOPTEChoice& _s) {
 void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -59281,92 +59727,164 @@ void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xF011");
     }
     _m = in.setMark();
-    try {
-        _s.shapeFlagsAtom = QSharedPointer<ShapeFlagsAtom>(new ShapeFlagsAtom(&_s));
-        parseShapeFlagsAtom(in, *_s.shapeFlagsAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.shapeFlagsAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.shapeFlagsAtom.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xBDB)&&(_optionCheck.recLen == 1);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.shapeFlagsAtom = QSharedPointer<ShapeFlagsAtom>(new ShapeFlagsAtom(&_s));
+            parseShapeFlagsAtom(in, *_s.shapeFlagsAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.shapeFlagsAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.shapeFlagsAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.shapeFlags10Atom = QSharedPointer<ShapeFlags10Atom>(new ShapeFlags10Atom(&_s));
-        parseShapeFlags10Atom(in, *_s.shapeFlags10Atom.data());
-    } catch(IncorrectValueException _e) {
-        _s.shapeFlags10Atom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.shapeFlags10Atom.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xBDC)&&(_optionCheck.recLen == 1);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.shapeFlags10Atom = QSharedPointer<ShapeFlags10Atom>(new ShapeFlags10Atom(&_s));
+            parseShapeFlags10Atom(in, *_s.shapeFlags10Atom.data());
+        } catch(IncorrectValueException _e) {
+            _s.shapeFlags10Atom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.shapeFlags10Atom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.exObjRefAtom = QSharedPointer<ExObjRefAtom>(new ExObjRefAtom(&_s));
-        parseExObjRefAtom(in, *_s.exObjRefAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.exObjRefAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.exObjRefAtom.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xBC1)&&(_optionCheck.recLen == 4);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.exObjRefAtom = QSharedPointer<ExObjRefAtom>(new ExObjRefAtom(&_s));
+            parseExObjRefAtom(in, *_s.exObjRefAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.exObjRefAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.exObjRefAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.animationInfo = QSharedPointer<AnimationInfoContainer>(new AnimationInfoContainer(&_s));
-        parseAnimationInfoContainer(in, *_s.animationInfo.data());
-    } catch(IncorrectValueException _e) {
-        _s.animationInfo.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.animationInfo.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x1014);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.animationInfo = QSharedPointer<AnimationInfoContainer>(new AnimationInfoContainer(&_s));
+            parseAnimationInfoContainer(in, *_s.animationInfo.data());
+        } catch(IncorrectValueException _e) {
+            _s.animationInfo.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.animationInfo.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.mouseClickInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
-        parseMouseInteractiveInfoContainer(in, *_s.mouseClickInteractiveInfo.data());
-    } catch(IncorrectValueException _e) {
-        _s.mouseClickInteractiveInfo.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.mouseClickInteractiveInfo.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0 || _optionCheck.recInstance == 1)&&(_optionCheck.recType == 0xFF2);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.mouseClickInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
+            parseMouseInteractiveInfoContainer(in, *_s.mouseClickInteractiveInfo.data());
+        } catch(IncorrectValueException _e) {
+            _s.mouseClickInteractiveInfo.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.mouseClickInteractiveInfo.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.mouseOverInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
-        parseMouseInteractiveInfoContainer(in, *_s.mouseOverInteractiveInfo.data());
-    } catch(IncorrectValueException _e) {
-        _s.mouseOverInteractiveInfo.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.mouseOverInteractiveInfo.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0 || _optionCheck.recInstance == 1)&&(_optionCheck.recType == 0xFF2);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.mouseOverInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
+            parseMouseInteractiveInfoContainer(in, *_s.mouseOverInteractiveInfo.data());
+        } catch(IncorrectValueException _e) {
+            _s.mouseOverInteractiveInfo.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.mouseOverInteractiveInfo.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.placeholderAtom = QSharedPointer<PlaceholderAtom>(new PlaceholderAtom(&_s));
-        parsePlaceholderAtom(in, *_s.placeholderAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.placeholderAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.placeholderAtom.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xBC3)&&(_optionCheck.recLen == 8);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.placeholderAtom = QSharedPointer<PlaceholderAtom>(new PlaceholderAtom(&_s));
+            parsePlaceholderAtom(in, *_s.placeholderAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.placeholderAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.placeholderAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.recolorInfoAtom = QSharedPointer<RecolorInfoAtom>(new RecolorInfoAtom(&_s));
-        parseRecolorInfoAtom(in, *_s.recolorInfoAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.recolorInfoAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.recolorInfoAtom.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFE7);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.recolorInfoAtom = QSharedPointer<RecolorInfoAtom>(new RecolorInfoAtom(&_s));
+            parseRecolorInfoAtom(in, *_s.recolorInfoAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.recolorInfoAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.recolorInfoAtom.clear();
+            in.rewind(_m);
+        }
     }
     _atend = false;
     while (!_atend) {
@@ -59385,15 +59903,24 @@ void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
         }
     }
     _m = in.setMark();
-    try {
-        _s.unknown = QSharedPointer<UnknownOfficeArtClientDataChild>(new UnknownOfficeArtClientDataChild(&_s));
-        parseUnknownOfficeArtClientDataChild(in, *_s.unknown.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFE8 || _optionCheck.recType == 0x1019);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown = QSharedPointer<UnknownOfficeArtClientDataChild>(new UnknownOfficeArtClientDataChild(&_s));
+            parseUnknownOfficeArtClientDataChild(in, *_s.unknown.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const OfficeArtClientData& _s, LEOutputStream& out) {
@@ -59888,12 +60415,13 @@ void parseOfficeArtBStoreContainerFileBlock(LEInputStream& in, OfficeArtBStoreCo
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
     _m = in.setMark();
-    try {
+    OfficeArtRecordHeader _choice(&_s);
+    parseOfficeArtRecordHeader(in, _choice);
+    in.rewind(_m);
+    if ((_choice.recVer == 0x2)&&(_choice.recInstance == 0 || _choice.recInstance == 1 || _choice.recInstance == 2 || _choice.recInstance == 3 || _choice.recInstance == 4 || _choice.recInstance == 5 || _choice.recInstance == 6 || _choice.recInstance == 7 || _choice.recInstance == 0x11 || _choice.recInstance == 0x12)&&(_choice.recType == 0xF007)) {
         _s.anon = OfficeArtBStoreContainerFileBlock::choice2043165903(new OfficeArtFBSE(&_s));
         parseOfficeArtFBSE(in, *(OfficeArtFBSE*)_s.anon.data());
-    } catch (IncorrectValueException _x) {
-        _s.anon.clear();
-        in.rewind(_m);
+    } else {
         _s.anon = OfficeArtBStoreContainerFileBlock::choice2043165903(new OfficeArtBlip(&_s));
         parseOfficeArtBlip(in, *(OfficeArtBlip*)_s.anon.data());
     }
@@ -60503,6 +61031,7 @@ void parseTextMasterStyle10Atom(QXmlStreamReader& in, TextMasterStyle10Atom& _s)
 void parseDocumentTextInfoContainer(LEInputStream& in, DocumentTextInfoContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -60514,59 +61043,104 @@ void parseDocumentTextInfoContainer(LEInputStream& in, DocumentTextInfoContainer
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x03F2");
     }
     _m = in.setMark();
-    try {
-        _s.kinsoku = QSharedPointer<KinsokuContainer>(new KinsokuContainer(&_s));
-        parseKinsokuContainer(in, *_s.kinsoku.data());
-    } catch(IncorrectValueException _e) {
-        _s.kinsoku.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.kinsoku.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0x2)&&(_optionCheck.recType == 0x0FC8);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.kinsoku = QSharedPointer<KinsokuContainer>(new KinsokuContainer(&_s));
+            parseKinsokuContainer(in, *_s.kinsoku.data());
+        } catch(IncorrectValueException _e) {
+            _s.kinsoku.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.kinsoku.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.fontCollection = QSharedPointer<FontCollectionContainer>(new FontCollectionContainer(&_s));
-        parseFontCollectionContainer(in, *_s.fontCollection.data());
-    } catch(IncorrectValueException _e) {
-        _s.fontCollection.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.fontCollection.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x07D5);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.fontCollection = QSharedPointer<FontCollectionContainer>(new FontCollectionContainer(&_s));
+            parseFontCollectionContainer(in, *_s.fontCollection.data());
+        } catch(IncorrectValueException _e) {
+            _s.fontCollection.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.fontCollection.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.textCFDefaultsAtom = QSharedPointer<TextCFExceptionAtom>(new TextCFExceptionAtom(&_s));
-        parseTextCFExceptionAtom(in, *_s.textCFDefaultsAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.textCFDefaultsAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.textCFDefaultsAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x0FA4);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.textCFDefaultsAtom = QSharedPointer<TextCFExceptionAtom>(new TextCFExceptionAtom(&_s));
+            parseTextCFExceptionAtom(in, *_s.textCFDefaultsAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.textCFDefaultsAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.textCFDefaultsAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.textPFDefaultsAtom = QSharedPointer<TextPFExceptionAtom>(new TextPFExceptionAtom(&_s));
-        parseTextPFExceptionAtom(in, *_s.textPFDefaultsAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.textPFDefaultsAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.textPFDefaultsAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x0FA5);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.textPFDefaultsAtom = QSharedPointer<TextPFExceptionAtom>(new TextPFExceptionAtom(&_s));
+            parseTextPFExceptionAtom(in, *_s.textPFDefaultsAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.textPFDefaultsAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.textPFDefaultsAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.defaultRulerAtom = QSharedPointer<DefaultRulerAtom>(new DefaultRulerAtom(&_s));
-        parseDefaultRulerAtom(in, *_s.defaultRulerAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.defaultRulerAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.defaultRulerAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x0FAB);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.defaultRulerAtom = QSharedPointer<DefaultRulerAtom>(new DefaultRulerAtom(&_s));
+            parseDefaultRulerAtom(in, *_s.defaultRulerAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.defaultRulerAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.defaultRulerAtom.clear();
+            in.rewind(_m);
+        }
     }
     parseTextSIExceptionAtom(in, _s.textSIDefaultsAtom);
     parseTextMasterStyleAtom(in, _s.textMasterStyleAtom);
@@ -60688,6 +61262,7 @@ void parseDrawingGroupContainer(QXmlStreamReader& in, DrawingGroupContainer& _s)
 void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -60699,126 +61274,225 @@ void parseOfficeArtSpContainer(LEInputStream& in, OfficeArtSpContainer& _s) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0x0F004");
     }
     _m = in.setMark();
-    try {
-        _s.shapeGroup = QSharedPointer<OfficeArtFSPGR>(new OfficeArtFSPGR(&_s));
-        parseOfficeArtFSPGR(in, *_s.shapeGroup.data());
-    } catch(IncorrectValueException _e) {
-        _s.shapeGroup.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.shapeGroup.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x1)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x0F009)&&(_optionCheck.recLen == 0x10);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.shapeGroup = QSharedPointer<OfficeArtFSPGR>(new OfficeArtFSPGR(&_s));
+            parseOfficeArtFSPGR(in, *_s.shapeGroup.data());
+        } catch(IncorrectValueException _e) {
+            _s.shapeGroup.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.shapeGroup.clear();
+            in.rewind(_m);
+        }
     }
     parseOfficeArtFSP(in, _s.shapeProp);
     _m = in.setMark();
-    try {
-        _s.deletedshape = QSharedPointer<OfficeArtFPSPL>(new OfficeArtFPSPL(&_s));
-        parseOfficeArtFPSPL(in, *_s.deletedshape.data());
-    } catch(IncorrectValueException _e) {
-        _s.deletedshape.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.deletedshape.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xF11D)&&(_optionCheck.recLen == 4);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.deletedshape = QSharedPointer<OfficeArtFPSPL>(new OfficeArtFPSPL(&_s));
+            parseOfficeArtFPSPL(in, *_s.deletedshape.data());
+        } catch(IncorrectValueException _e) {
+            _s.deletedshape.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.deletedshape.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.shapePrimaryOptions = QSharedPointer<OfficeArtFOPT>(new OfficeArtFOPT(&_s));
-        parseOfficeArtFOPT(in, *_s.shapePrimaryOptions.data());
-    } catch(IncorrectValueException _e) {
-        _s.shapePrimaryOptions.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.shapePrimaryOptions.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x3)&&(_optionCheck.recType == 0x0F00B);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.shapePrimaryOptions = QSharedPointer<OfficeArtFOPT>(new OfficeArtFOPT(&_s));
+            parseOfficeArtFOPT(in, *_s.shapePrimaryOptions.data());
+        } catch(IncorrectValueException _e) {
+            _s.shapePrimaryOptions.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.shapePrimaryOptions.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.shapeSecondaryOptions1 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(&_s));
-        parseOfficeArtSecondaryFOPT(in, *_s.shapeSecondaryOptions1.data());
-    } catch(IncorrectValueException _e) {
-        _s.shapeSecondaryOptions1.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.shapeSecondaryOptions1.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 3)&&(_optionCheck.recType == 0xF121);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.shapeSecondaryOptions1 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(&_s));
+            parseOfficeArtSecondaryFOPT(in, *_s.shapeSecondaryOptions1.data());
+        } catch(IncorrectValueException _e) {
+            _s.shapeSecondaryOptions1.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.shapeSecondaryOptions1.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.shapeTertiaryOptions1 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
-        parseOfficeArtTertiaryFOPT(in, *_s.shapeTertiaryOptions1.data());
-    } catch(IncorrectValueException _e) {
-        _s.shapeTertiaryOptions1.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.shapeTertiaryOptions1.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 3)&&(_optionCheck.recType == 0xF122);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.shapeTertiaryOptions1 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
+            parseOfficeArtTertiaryFOPT(in, *_s.shapeTertiaryOptions1.data());
+        } catch(IncorrectValueException _e) {
+            _s.shapeTertiaryOptions1.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.shapeTertiaryOptions1.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.childAnchor = QSharedPointer<OfficeArtChildAnchor>(new OfficeArtChildAnchor(&_s));
-        parseOfficeArtChildAnchor(in, *_s.childAnchor.data());
-    } catch(IncorrectValueException _e) {
-        _s.childAnchor.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.childAnchor.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xF00F)&&(_optionCheck.recLen == 0x10);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.childAnchor = QSharedPointer<OfficeArtChildAnchor>(new OfficeArtChildAnchor(&_s));
+            parseOfficeArtChildAnchor(in, *_s.childAnchor.data());
+        } catch(IncorrectValueException _e) {
+            _s.childAnchor.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.childAnchor.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.clientAnchor = QSharedPointer<OfficeArtClientAnchor>(new OfficeArtClientAnchor(&_s));
-        parseOfficeArtClientAnchor(in, *_s.clientAnchor.data());
-    } catch(IncorrectValueException _e) {
-        _s.clientAnchor.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.clientAnchor.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xF010)&&(_optionCheck.recLen == 0x8 || _optionCheck.recLen == 0x10);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.clientAnchor = QSharedPointer<OfficeArtClientAnchor>(new OfficeArtClientAnchor(&_s));
+            parseOfficeArtClientAnchor(in, *_s.clientAnchor.data());
+        } catch(IncorrectValueException _e) {
+            _s.clientAnchor.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.clientAnchor.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.clientData = QSharedPointer<OfficeArtClientData>(new OfficeArtClientData(&_s));
-        parseOfficeArtClientData(in, *_s.clientData.data());
-    } catch(IncorrectValueException _e) {
-        _s.clientData.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.clientData.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xF011);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.clientData = QSharedPointer<OfficeArtClientData>(new OfficeArtClientData(&_s));
+            parseOfficeArtClientData(in, *_s.clientData.data());
+        } catch(IncorrectValueException _e) {
+            _s.clientData.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.clientData.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.clientTextbox = QSharedPointer<OfficeArtClientTextBox>(new OfficeArtClientTextBox(&_s));
-        parseOfficeArtClientTextBox(in, *_s.clientTextbox.data());
-    } catch(IncorrectValueException _e) {
-        _s.clientTextbox.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.clientTextbox.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0 || _optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xF00D);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.clientTextbox = QSharedPointer<OfficeArtClientTextBox>(new OfficeArtClientTextBox(&_s));
+            parseOfficeArtClientTextBox(in, *_s.clientTextbox.data());
+        } catch(IncorrectValueException _e) {
+            _s.clientTextbox.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.clientTextbox.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.shapeSecondaryOptions2 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(&_s));
-        parseOfficeArtSecondaryFOPT(in, *_s.shapeSecondaryOptions2.data());
-    } catch(IncorrectValueException _e) {
-        _s.shapeSecondaryOptions2.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.shapeSecondaryOptions2.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 3)&&(_optionCheck.recType == 0xF121);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.shapeSecondaryOptions2 = QSharedPointer<OfficeArtSecondaryFOPT>(new OfficeArtSecondaryFOPT(&_s));
+            parseOfficeArtSecondaryFOPT(in, *_s.shapeSecondaryOptions2.data());
+        } catch(IncorrectValueException _e) {
+            _s.shapeSecondaryOptions2.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.shapeSecondaryOptions2.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.shapeTertiaryOptions2 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
-        parseOfficeArtTertiaryFOPT(in, *_s.shapeTertiaryOptions2.data());
-    } catch(IncorrectValueException _e) {
-        _s.shapeTertiaryOptions2.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.shapeTertiaryOptions2.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 3)&&(_optionCheck.recType == 0xF122);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.shapeTertiaryOptions2 = QSharedPointer<OfficeArtTertiaryFOPT>(new OfficeArtTertiaryFOPT(&_s));
+            parseOfficeArtTertiaryFOPT(in, *_s.shapeTertiaryOptions2.data());
+        } catch(IncorrectValueException _e) {
+            _s.shapeTertiaryOptions2.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.shapeTertiaryOptions2.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const OfficeArtSpContainer& _s, LEOutputStream& out) {
@@ -60937,6 +61611,7 @@ void parseOfficeArtSpContainer(QXmlStreamReader& in, OfficeArtSpContainer& _s) {
 void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
@@ -60949,228 +61624,408 @@ void parseDocumentContainer(LEInputStream& in, DocumentContainer& _s) {
     }
     parseDocumentAtom(in, _s.documentAtom);
     _m = in.setMark();
-    try {
-        _s.exObjList = QSharedPointer<ExObjListContainer>(new ExObjListContainer(&_s));
-        parseExObjListContainer(in, *_s.exObjList.data());
-    } catch(IncorrectValueException _e) {
-        _s.exObjList.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.exObjList.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x0409)&&(_optionCheck.recLen>=12);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.exObjList = QSharedPointer<ExObjListContainer>(new ExObjListContainer(&_s));
+            parseExObjListContainer(in, *_s.exObjList.data());
+        } catch(IncorrectValueException _e) {
+            _s.exObjList.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.exObjList.clear();
+            in.rewind(_m);
+        }
     }
     parseDocumentTextInfoContainer(in, _s.documentTextInfo);
     _m = in.setMark();
-    try {
-        _s.soundCollection = QSharedPointer<SoundCollectionContainer>(new SoundCollectionContainer(&_s));
-        parseSoundCollectionContainer(in, *_s.soundCollection.data());
-    } catch(IncorrectValueException _e) {
-        _s.soundCollection.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.soundCollection.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 5)&&(_optionCheck.recType == 0x7E4);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.soundCollection = QSharedPointer<SoundCollectionContainer>(new SoundCollectionContainer(&_s));
+            parseSoundCollectionContainer(in, *_s.soundCollection.data());
+        } catch(IncorrectValueException _e) {
+            _s.soundCollection.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.soundCollection.clear();
+            in.rewind(_m);
+        }
     }
     parseDrawingGroupContainer(in, _s.drawingGroup);
     parseMasterListWithTextContainer(in, _s.masterList);
     _m = in.setMark();
-    try {
-        _s.docInfoList = QSharedPointer<DocInfoListContainer>(new DocInfoListContainer(&_s));
-        parseDocInfoListContainer(in, *_s.docInfoList.data());
-    } catch(IncorrectValueException _e) {
-        _s.docInfoList.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.docInfoList.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x7D0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.docInfoList = QSharedPointer<DocInfoListContainer>(new DocInfoListContainer(&_s));
+            parseDocInfoListContainer(in, *_s.docInfoList.data());
+        } catch(IncorrectValueException _e) {
+            _s.docInfoList.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.docInfoList.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.slideHF = QSharedPointer<SlideHeadersFootersContainer>(new SlideHeadersFootersContainer(&_s));
-        parseSlideHeadersFootersContainer(in, *_s.slideHF.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideHF.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideHF.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 3)&&(_optionCheck.recType == 0xFD9);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideHF = QSharedPointer<SlideHeadersFootersContainer>(new SlideHeadersFootersContainer(&_s));
+            parseSlideHeadersFootersContainer(in, *_s.slideHF.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideHF.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideHF.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.notesHF = QSharedPointer<NotesHeadersFootersContainer>(new NotesHeadersFootersContainer(&_s));
-        parseNotesHeadersFootersContainer(in, *_s.notesHF.data());
-    } catch(IncorrectValueException _e) {
-        _s.notesHF.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.notesHF.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 4)&&(_optionCheck.recType == 0xFD9);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.notesHF = QSharedPointer<NotesHeadersFootersContainer>(new NotesHeadersFootersContainer(&_s));
+            parseNotesHeadersFootersContainer(in, *_s.notesHF.data());
+        } catch(IncorrectValueException _e) {
+            _s.notesHF.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.notesHF.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.slideList = QSharedPointer<SlideListWithTextContainer>(new SlideListWithTextContainer(&_s));
-        parseSlideListWithTextContainer(in, *_s.slideList.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideList.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideList.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0x0)&&(_optionCheck.recType == 0x0FF0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideList = QSharedPointer<SlideListWithTextContainer>(new SlideListWithTextContainer(&_s));
+            parseSlideListWithTextContainer(in, *_s.slideList.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideList.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideList.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.slideHF2 = QSharedPointer<SlideHeadersFootersContainer>(new SlideHeadersFootersContainer(&_s));
-        parseSlideHeadersFootersContainer(in, *_s.slideHF2.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideHF2.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideHF2.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 3)&&(_optionCheck.recType == 0xFD9);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideHF2 = QSharedPointer<SlideHeadersFootersContainer>(new SlideHeadersFootersContainer(&_s));
+            parseSlideHeadersFootersContainer(in, *_s.slideHF2.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideHF2.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideHF2.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.notesList = QSharedPointer<NotesListWithTextContainer>(new NotesListWithTextContainer(&_s));
-        parseNotesListWithTextContainer(in, *_s.notesList.data());
-    } catch(IncorrectValueException _e) {
-        _s.notesList.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.notesList.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 2)&&(_optionCheck.recType == 0x0FF0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.notesList = QSharedPointer<NotesListWithTextContainer>(new NotesListWithTextContainer(&_s));
+            parseNotesListWithTextContainer(in, *_s.notesList.data());
+        } catch(IncorrectValueException _e) {
+            _s.notesList.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.notesList.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.slideShowDocInfoAtom = QSharedPointer<SlideShowDocInfoAtom>(new SlideShowDocInfoAtom(&_s));
-        parseSlideShowDocInfoAtom(in, *_s.slideShowDocInfoAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideShowDocInfoAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideShowDocInfoAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 1)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x0401)&&(_optionCheck.recLen == 0x50);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideShowDocInfoAtom = QSharedPointer<SlideShowDocInfoAtom>(new SlideShowDocInfoAtom(&_s));
+            parseSlideShowDocInfoAtom(in, *_s.slideShowDocInfoAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideShowDocInfoAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideShowDocInfoAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.namedShows = QSharedPointer<NamedShowsContainer>(new NamedShowsContainer(&_s));
-        parseNamedShowsContainer(in, *_s.namedShows.data());
-    } catch(IncorrectValueException _e) {
-        _s.namedShows.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.namedShows.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x410);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.namedShows = QSharedPointer<NamedShowsContainer>(new NamedShowsContainer(&_s));
+            parseNamedShowsContainer(in, *_s.namedShows.data());
+        } catch(IncorrectValueException _e) {
+            _s.namedShows.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.namedShows.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.summary = QSharedPointer<SummaryContainer>(new SummaryContainer(&_s));
-        parseSummaryContainer(in, *_s.summary.data());
-    } catch(IncorrectValueException _e) {
-        _s.summary.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.summary.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x402);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.summary = QSharedPointer<SummaryContainer>(new SummaryContainer(&_s));
+            parseSummaryContainer(in, *_s.summary.data());
+        } catch(IncorrectValueException _e) {
+            _s.summary.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.summary.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.docRoutingSlipAtom = QSharedPointer<DocRoutingSlipAtom>(new DocRoutingSlipAtom(&_s));
-        parseDocRoutingSlipAtom(in, *_s.docRoutingSlipAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.docRoutingSlipAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.docRoutingSlipAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x406);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.docRoutingSlipAtom = QSharedPointer<DocRoutingSlipAtom>(new DocRoutingSlipAtom(&_s));
+            parseDocRoutingSlipAtom(in, *_s.docRoutingSlipAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.docRoutingSlipAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.docRoutingSlipAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.printOptionsAtom = QSharedPointer<PrintOptionsAtom>(new PrintOptionsAtom(&_s));
-        parsePrintOptionsAtom(in, *_s.printOptionsAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.printOptionsAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.printOptionsAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x1770)&&(_optionCheck.recLen == 5);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.printOptionsAtom = QSharedPointer<PrintOptionsAtom>(new PrintOptionsAtom(&_s));
+            parsePrintOptionsAtom(in, *_s.printOptionsAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.printOptionsAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.printOptionsAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.rtCustomTableStylesAtom1 = QSharedPointer<RoundTripCustomTableStyles12Atom>(new RoundTripCustomTableStyles12Atom(&_s));
-        parseRoundTripCustomTableStyles12Atom(in, *_s.rtCustomTableStylesAtom1.data());
-    } catch(IncorrectValueException _e) {
-        _s.rtCustomTableStylesAtom1.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.rtCustomTableStylesAtom1.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0 || _optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x428);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.rtCustomTableStylesAtom1 = QSharedPointer<RoundTripCustomTableStyles12Atom>(new RoundTripCustomTableStyles12Atom(&_s));
+            parseRoundTripCustomTableStyles12Atom(in, *_s.rtCustomTableStylesAtom1.data());
+        } catch(IncorrectValueException _e) {
+            _s.rtCustomTableStylesAtom1.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.rtCustomTableStylesAtom1.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.unknown1 = QSharedPointer<UnknownDocumentContainerChild>(new UnknownDocumentContainerChild(&_s));
-        parseUnknownDocumentContainerChild(in, *_s.unknown1.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown1.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown1.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x1773);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown1 = QSharedPointer<UnknownDocumentContainerChild>(new UnknownDocumentContainerChild(&_s));
+            parseUnknownDocumentContainerChild(in, *_s.unknown1.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown1.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown1.clear();
+            in.rewind(_m);
+        }
     }
     parseEndDocumentAtom(in, _s.endDocumentAtom);
     _m = in.setMark();
-    try {
-        _s.unknown2 = QSharedPointer<UnknownDocumentContainerChild3>(new UnknownDocumentContainerChild3(&_s));
-        parseUnknownDocumentContainerChild3(in, *_s.unknown2.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown2.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown2.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 4)&&(_optionCheck.recType == 0x101A);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown2 = QSharedPointer<UnknownDocumentContainerChild3>(new UnknownDocumentContainerChild3(&_s));
+            parseUnknownDocumentContainerChild3(in, *_s.unknown2.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown2.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown2.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.unknown3 = QSharedPointer<UnknownDocumentContainerChild2>(new UnknownDocumentContainerChild2(&_s));
-        parseUnknownDocumentContainerChild2(in, *_s.unknown3.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown3.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown3.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x1788);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown3 = QSharedPointer<UnknownDocumentContainerChild2>(new UnknownDocumentContainerChild2(&_s));
+            parseUnknownDocumentContainerChild2(in, *_s.unknown3.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown3.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown3.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.unknown4 = QSharedPointer<UnknownDocumentContainerChild3>(new UnknownDocumentContainerChild3(&_s));
-        parseUnknownDocumentContainerChild3(in, *_s.unknown4.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown4.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown4.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 4)&&(_optionCheck.recType == 0x101A);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown4 = QSharedPointer<UnknownDocumentContainerChild3>(new UnknownDocumentContainerChild3(&_s));
+            parseUnknownDocumentContainerChild3(in, *_s.unknown4.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown4.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown4.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.unknown5 = QSharedPointer<UnknownDocumentContainerChild4>(new UnknownDocumentContainerChild4(&_s));
-        parseUnknownDocumentContainerChild4(in, *_s.unknown5.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown5.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown5.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x41A);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown5 = QSharedPointer<UnknownDocumentContainerChild4>(new UnknownDocumentContainerChild4(&_s));
+            parseUnknownDocumentContainerChild4(in, *_s.unknown5.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown5.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown5.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.rtCustomTableStylesAtom2 = QSharedPointer<RoundTripCustomTableStyles12Atom>(new RoundTripCustomTableStyles12Atom(&_s));
-        parseRoundTripCustomTableStyles12Atom(in, *_s.rtCustomTableStylesAtom2.data());
-    } catch(IncorrectValueException _e) {
-        _s.rtCustomTableStylesAtom2.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.rtCustomTableStylesAtom2.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0 || _optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x428);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.rtCustomTableStylesAtom2 = QSharedPointer<RoundTripCustomTableStyles12Atom>(new RoundTripCustomTableStyles12Atom(&_s));
+            parseRoundTripCustomTableStyles12Atom(in, *_s.rtCustomTableStylesAtom2.data());
+        } catch(IncorrectValueException _e) {
+            _s.rtCustomTableStylesAtom2.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.rtCustomTableStylesAtom2.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const DocumentContainer& _s, LEOutputStream& out) {
@@ -61461,6 +62316,7 @@ void parsePP9DocBinaryTagExtension(LEInputStream& in, PP9DocBinaryTagExtension& 
     _s.streamOffset = in.getPosition();
     int _c;
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0x0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0x0");
@@ -61493,38 +62349,65 @@ void parsePP9DocBinaryTagExtension(LEInputStream& in, PP9DocBinaryTagExtension& 
     parseKinsoku9Container(in, _s.kinsokuContainer);
     parseExHyperlink9Container(in, _s.rgExternalHyperlink9);
     _m = in.setMark();
-    try {
-        _s.presAdvisorFlagsAtom = QSharedPointer<PresAdvisorFlags9Atom>(new PresAdvisorFlags9Atom(&_s));
-        parsePresAdvisorFlags9Atom(in, *_s.presAdvisorFlagsAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.presAdvisorFlagsAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.presAdvisorFlagsAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x177A)&&(_optionCheck.recLen == 0x4);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.presAdvisorFlagsAtom = QSharedPointer<PresAdvisorFlags9Atom>(new PresAdvisorFlags9Atom(&_s));
+            parsePresAdvisorFlags9Atom(in, *_s.presAdvisorFlagsAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.presAdvisorFlagsAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.presAdvisorFlagsAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.envelopeDataAtom = QSharedPointer<EnvelopeData9Atom>(new EnvelopeData9Atom(&_s));
-        parseEnvelopeData9Atom(in, *_s.envelopeDataAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.envelopeDataAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.envelopeDataAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x1785);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.envelopeDataAtom = QSharedPointer<EnvelopeData9Atom>(new EnvelopeData9Atom(&_s));
+            parseEnvelopeData9Atom(in, *_s.envelopeDataAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.envelopeDataAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.envelopeDataAtom.clear();
+            in.rewind(_m);
+        }
     }
     parseEnvelopeFlags9Atom(in, _s.envelopeFlagsAtom);
     _m = in.setMark();
-    try {
-        _s.htmlDocInfoAtom = QSharedPointer<HTMLDocInfo9Atom>(new HTMLDocInfo9Atom(&_s));
-        parseHTMLDocInfo9Atom(in, *_s.htmlDocInfoAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.htmlDocInfoAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.htmlDocInfoAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0x0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x177B)&&(_optionCheck.recLen == 0x10);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.htmlDocInfoAtom = QSharedPointer<HTMLDocInfo9Atom>(new HTMLDocInfo9Atom(&_s));
+            parseHTMLDocInfo9Atom(in, *_s.htmlDocInfoAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.htmlDocInfoAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.htmlDocInfoAtom.clear();
+            in.rewind(_m);
+        }
     }
     parseHTMLPublishInfo9Container(in, _s.htmlPublishInfoAtom);
     parseBroadcastDocInfo9Container(in, _s.rgBroadcastDocInfo9);
@@ -61708,6 +62591,7 @@ void parseOutlineTextProps9Entry(QXmlStreamReader& in, OutlineTextProps9Entry& _
 void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     bool _atend;
     parseOfficeArtRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -61721,27 +62605,45 @@ void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
     }
     parseOfficeArtFDG(in, _s.drawingData);
     _m = in.setMark();
-    try {
-        _s.regroupItems = QSharedPointer<OfficeArtFRITContainer>(new OfficeArtFRITContainer(&_s));
-        parseOfficeArtFRITContainer(in, *_s.regroupItems.data());
-    } catch(IncorrectValueException _e) {
-        _s.regroupItems.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.regroupItems.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recType == 0xF118)&&(_optionCheck.recLen==4*_optionCheck.recInstance);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.regroupItems = QSharedPointer<OfficeArtFRITContainer>(new OfficeArtFRITContainer(&_s));
+            parseOfficeArtFRITContainer(in, *_s.regroupItems.data());
+        } catch(IncorrectValueException _e) {
+            _s.regroupItems.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.regroupItems.clear();
+            in.rewind(_m);
+        }
     }
     parseOfficeArtSpgrContainer(in, _s.groupShape);
     _m = in.setMark();
-    try {
-        _s.shape = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(&_s));
-        parseOfficeArtSpContainer(in, *_s.shape.data());
-    } catch(IncorrectValueException _e) {
-        _s.shape.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.shape.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x0F004);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.shape = QSharedPointer<OfficeArtSpContainer>(new OfficeArtSpContainer(&_s));
+            parseOfficeArtSpContainer(in, *_s.shape.data());
+        } catch(IncorrectValueException _e) {
+            _s.shape.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.shape.clear();
+            in.rewind(_m);
+        }
     }
     _atend = false;
     while (!_atend) {
@@ -61760,15 +62662,24 @@ void parseOfficeArtDgContainer(LEInputStream& in, OfficeArtDgContainer& _s) {
         }
     }
     _m = in.setMark();
-    try {
-        _s.solvers = QSharedPointer<OfficeArtSolverContainer>(new OfficeArtSolverContainer(&_s));
-        parseOfficeArtSolverContainer(in, *_s.solvers.data());
-    } catch(IncorrectValueException _e) {
-        _s.solvers.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.solvers.clear();
-        in.rewind(_m);
+    {
+        OfficeArtRecordHeader _optionCheck(&_s);
+        parseOfficeArtRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recType == 0xF005);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.solvers = QSharedPointer<OfficeArtSolverContainer>(new OfficeArtSolverContainer(&_s));
+            parseOfficeArtSolverContainer(in, *_s.solvers.data());
+        } catch(IncorrectValueException _e) {
+            _s.solvers.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.solvers.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const OfficeArtDgContainer& _s, LEOutputStream& out) {
@@ -62010,6 +62921,7 @@ void parseDocProgBinaryTagContainer(QXmlStreamReader& in, DocProgBinaryTagContai
 void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -62023,15 +62935,24 @@ void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
     }
     parseSlideAtom(in, _s.slideAtom);
     _m = in.setMark();
-    try {
-        _s.unknown = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(&_s));
-        parseSlideShowSlideInfoAtom(in, *_s.unknown.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x03F9)&&(_optionCheck.recLen == 0x10);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(&_s));
+            parseSlideShowSlideInfoAtom(in, *_s.unknown.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown.clear();
+            in.rewind(_m);
+        }
     }
     _atend = false;
     while (!_atend) {
@@ -62066,61 +62987,106 @@ void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
         }
     }
     _m = in.setMark();
-    try {
-        _s.roundTripOArtTextSTyles12Atom = QSharedPointer<RoundTripOArtTextStyles12Atom>(new RoundTripOArtTextStyles12Atom(&_s));
-        parseRoundTripOArtTextStyles12Atom(in, *_s.roundTripOArtTextSTyles12Atom.data());
-    } catch(IncorrectValueException _e) {
-        _s.roundTripOArtTextSTyles12Atom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.roundTripOArtTextSTyles12Atom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x423);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.roundTripOArtTextSTyles12Atom = QSharedPointer<RoundTripOArtTextStyles12Atom>(new RoundTripOArtTextStyles12Atom(&_s));
+            parseRoundTripOArtTextStyles12Atom(in, *_s.roundTripOArtTextSTyles12Atom.data());
+        } catch(IncorrectValueException _e) {
+            _s.roundTripOArtTextSTyles12Atom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.roundTripOArtTextSTyles12Atom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.slideShowInfoAtom = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(&_s));
-        parseSlideShowSlideInfoAtom(in, *_s.slideShowInfoAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideShowInfoAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideShowInfoAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x03F9)&&(_optionCheck.recLen == 0x10);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideShowInfoAtom = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(&_s));
+            parseSlideShowSlideInfoAtom(in, *_s.slideShowInfoAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideShowInfoAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideShowInfoAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.perSlideHeadersFootersContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
-        parsePerSlideHeadersFootersContainer(in, *_s.perSlideHeadersFootersContainer.data());
-    } catch(IncorrectValueException _e) {
-        _s.perSlideHeadersFootersContainer.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.perSlideHeadersFootersContainer.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFD9);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.perSlideHeadersFootersContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
+            parsePerSlideHeadersFootersContainer(in, *_s.perSlideHeadersFootersContainer.data());
+        } catch(IncorrectValueException _e) {
+            _s.perSlideHeadersFootersContainer.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.perSlideHeadersFootersContainer.clear();
+            in.rewind(_m);
+        }
     }
     parseDrawingContainer(in, _s.drawing);
     parseSlideSchemeColorSchemeAtom(in, _s.slideSchemeColorSchemeAtom);
     _m = in.setMark();
-    try {
-        _s.slideNameAtom = QSharedPointer<SlideNameAtom>(new SlideNameAtom(&_s));
-        parseSlideNameAtom(in, *_s.slideNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 3)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideNameAtom = QSharedPointer<SlideNameAtom>(new SlideNameAtom(&_s));
+            parseSlideNameAtom(in, *_s.slideNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.slideProgTagsContainer = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(&_s));
-        parseSlideProgTagsContainer(in, *_s.slideProgTagsContainer.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideProgTagsContainer.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideProgTagsContainer.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x1388);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideProgTagsContainer = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(&_s));
+            parseSlideProgTagsContainer(in, *_s.slideProgTagsContainer.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideProgTagsContainer.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideProgTagsContainer.clear();
+            in.rewind(_m);
+        }
     }
     _atend = false;
     while (!_atend) {
@@ -62139,37 +63105,64 @@ void parseMainMasterContainer(LEInputStream& in, MainMasterContainer& _s) {
         }
     }
     _m = in.setMark();
-    try {
-        _s.unknown2 = QSharedPointer<UnknownSlideContainerChild>(new UnknownSlideContainerChild(&_s));
-        parseUnknownSlideContainerChild(in, *_s.unknown2.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown2.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown2.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x101D);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown2 = QSharedPointer<UnknownSlideContainerChild>(new UnknownSlideContainerChild(&_s));
+            parseUnknownSlideContainerChild(in, *_s.unknown2.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown2.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown2.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.templateNameAtom = QSharedPointer<TemplateNameAtom>(new TemplateNameAtom(&_s));
-        parseTemplateNameAtom(in, *_s.templateNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.templateNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.templateNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 2)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.templateNameAtom = QSharedPointer<TemplateNameAtom>(new TemplateNameAtom(&_s));
+            parseTemplateNameAtom(in, *_s.templateNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.templateNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.templateNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.unknown3 = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(&_s));
-        parseSlideProgTagsContainer(in, *_s.unknown3.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown3.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown3.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x1388);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown3 = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(&_s));
+            parseSlideProgTagsContainer(in, *_s.unknown3.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown3.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown3.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const MainMasterContainer& _s, LEOutputStream& out) {
@@ -62316,6 +63309,7 @@ void parseMainMasterContainer(QXmlStreamReader& in, MainMasterContainer& _s) {
 void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -62329,61 +63323,106 @@ void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
     }
     parseSlideAtom(in, _s.slideAtom);
     _m = in.setMark();
-    try {
-        _s.slideShowSlideInfoAtom = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(&_s));
-        parseSlideShowSlideInfoAtom(in, *_s.slideShowSlideInfoAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideShowSlideInfoAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideShowSlideInfoAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x03F9)&&(_optionCheck.recLen == 0x10);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideShowSlideInfoAtom = QSharedPointer<SlideShowSlideInfoAtom>(new SlideShowSlideInfoAtom(&_s));
+            parseSlideShowSlideInfoAtom(in, *_s.slideShowSlideInfoAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideShowSlideInfoAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideShowSlideInfoAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.perSlideHFContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
-        parsePerSlideHeadersFootersContainer(in, *_s.perSlideHFContainer.data());
-    } catch(IncorrectValueException _e) {
-        _s.perSlideHFContainer.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.perSlideHFContainer.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFD9);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.perSlideHFContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
+            parsePerSlideHeadersFootersContainer(in, *_s.perSlideHFContainer.data());
+        } catch(IncorrectValueException _e) {
+            _s.perSlideHFContainer.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.perSlideHFContainer.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.rtSlideSyncInfo12 = QSharedPointer<RoundTripSlideSyncInfo12Container>(new RoundTripSlideSyncInfo12Container(&_s));
-        parseRoundTripSlideSyncInfo12Container(in, *_s.rtSlideSyncInfo12.data());
-    } catch(IncorrectValueException _e) {
-        _s.rtSlideSyncInfo12.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.rtSlideSyncInfo12.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x3714);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.rtSlideSyncInfo12 = QSharedPointer<RoundTripSlideSyncInfo12Container>(new RoundTripSlideSyncInfo12Container(&_s));
+            parseRoundTripSlideSyncInfo12Container(in, *_s.rtSlideSyncInfo12.data());
+        } catch(IncorrectValueException _e) {
+            _s.rtSlideSyncInfo12.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.rtSlideSyncInfo12.clear();
+            in.rewind(_m);
+        }
     }
     parseDrawingContainer(in, _s.drawing);
     parseSlideSchemeColorSchemeAtom(in, _s.slideSchemeColorSchemeAtom);
     _m = in.setMark();
-    try {
-        _s.slideNameAtom = QSharedPointer<SlideNameAtom>(new SlideNameAtom(&_s));
-        parseSlideNameAtom(in, *_s.slideNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 3)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideNameAtom = QSharedPointer<SlideNameAtom>(new SlideNameAtom(&_s));
+            parseSlideNameAtom(in, *_s.slideNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.slideProgTagsContainer = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(&_s));
-        parseSlideProgTagsContainer(in, *_s.slideProgTagsContainer.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideProgTagsContainer.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideProgTagsContainer.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x1388);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideProgTagsContainer = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(&_s));
+            parseSlideProgTagsContainer(in, *_s.slideProgTagsContainer.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideProgTagsContainer.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideProgTagsContainer.clear();
+            in.rewind(_m);
+        }
     }
     _atend = false;
     while (!_atend) {
@@ -62402,15 +63441,24 @@ void parseSlideContainer(LEInputStream& in, SlideContainer& _s) {
         }
     }
     _m = in.setMark();
-    try {
-        _s.unknown = QSharedPointer<UnknownSlideContainerChild>(new UnknownSlideContainerChild(&_s));
-        parseUnknownSlideContainerChild(in, *_s.unknown.data());
-    } catch(IncorrectValueException _e) {
-        _s.unknown.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.unknown.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x101D);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.unknown = QSharedPointer<UnknownSlideContainerChild>(new UnknownSlideContainerChild(&_s));
+            parseUnknownSlideContainerChild(in, *_s.unknown.data());
+        } catch(IncorrectValueException _e) {
+            _s.unknown.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.unknown.clear();
+            in.rewind(_m);
+        }
     }
 }
 void write(const SlideContainer& _s, LEOutputStream& out) {
@@ -62517,6 +63565,7 @@ void parseSlideContainer(QXmlStreamReader& in, SlideContainer& _s) {
 void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
     _s.streamOffset = in.getPosition();
     LEInputStream::Mark _m;
+    bool _possiblyPresent;
     bool _atend;
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
@@ -62530,50 +63579,86 @@ void parseNotesContainer(LEInputStream& in, NotesContainer& _s) {
     }
     parseNotesAtom(in, _s.notesAtom);
     _m = in.setMark();
-    try {
-        _s.perSlideHFContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
-        parsePerSlideHeadersFootersContainer(in, *_s.perSlideHFContainer.data());
-    } catch(IncorrectValueException _e) {
-        _s.perSlideHFContainer.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.perSlideHFContainer.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFD9);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.perSlideHFContainer = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
+            parsePerSlideHeadersFootersContainer(in, *_s.perSlideHFContainer.data());
+        } catch(IncorrectValueException _e) {
+            _s.perSlideHFContainer.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.perSlideHFContainer.clear();
+            in.rewind(_m);
+        }
     }
     parseDrawingContainer(in, _s.drawing);
     parseSlideSchemeColorSchemeAtom(in, _s.slideSchemeColorSchemeAtom);
     _m = in.setMark();
-    try {
-        _s.slideNameAtom = QSharedPointer<SlideNameAtom>(new SlideNameAtom(&_s));
-        parseSlideNameAtom(in, *_s.slideNameAtom.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideNameAtom.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideNameAtom.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0)&&(_optionCheck.recInstance == 3)&&(_optionCheck.recType == 0x0FBA)&&(_optionCheck.recLen%2==0);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideNameAtom = QSharedPointer<SlideNameAtom>(new SlideNameAtom(&_s));
+            parseSlideNameAtom(in, *_s.slideNameAtom.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideNameAtom.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideNameAtom.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.slideProgTagsContainer = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(&_s));
-        parseSlideProgTagsContainer(in, *_s.slideProgTagsContainer.data());
-    } catch(IncorrectValueException _e) {
-        _s.slideProgTagsContainer.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.slideProgTagsContainer.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0x1388);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.slideProgTagsContainer = QSharedPointer<SlideProgTagsContainer>(new SlideProgTagsContainer(&_s));
+            parseSlideProgTagsContainer(in, *_s.slideProgTagsContainer.data());
+        } catch(IncorrectValueException _e) {
+            _s.slideProgTagsContainer.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.slideProgTagsContainer.clear();
+            in.rewind(_m);
+        }
     }
     _m = in.setMark();
-    try {
-        _s.perSlideHFContainer2 = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
-        parsePerSlideHeadersFootersContainer(in, *_s.perSlideHFContainer2.data());
-    } catch(IncorrectValueException _e) {
-        _s.perSlideHFContainer2.clear();
-        in.rewind(_m);
-    } catch(EOFException _e) {
-        _s.perSlideHFContainer2.clear();
-        in.rewind(_m);
+    {
+        RecordHeader _optionCheck(&_s);
+        parseRecordHeader(in, _optionCheck);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFD9);
+    }
+    in.rewind(_m);
+    _m = in.setMark();
+    if (_possiblyPresent) {
+        try {
+            _s.perSlideHFContainer2 = QSharedPointer<PerSlideHeadersFootersContainer>(new PerSlideHeadersFootersContainer(&_s));
+            parsePerSlideHeadersFootersContainer(in, *_s.perSlideHFContainer2.data());
+        } catch(IncorrectValueException _e) {
+            _s.perSlideHFContainer2.clear();
+            in.rewind(_m);
+        } catch(EOFException _e) {
+            _s.perSlideHFContainer2.clear();
+            in.rewind(_m);
+        }
     }
     _atend = false;
     while (!_atend) {

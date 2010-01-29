@@ -7,8 +7,6 @@ import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import mso.generator.Choice.Option;
-
 public class QtParserGenerator {
 
 	public class QtParserConfiguration {
@@ -261,6 +259,9 @@ public class QtParserGenerator {
 		if (s.containsArrayMember || s.containsOptionalMember
 				|| s.containsChoice) {
 			out.println("    LEInputStream::Mark _m;");
+		}
+		if (s.containsOptionalMember) {
+			out.println("    bool _possiblyPresent;");
 		}
 		if (s.containsUnknownLengthArrayMember) {
 			out.println("    bool _atend;");
@@ -807,10 +808,9 @@ public class QtParserGenerator {
 		}
 	}
 
-	String getClause(TypeRegistry.Type t, Choice.Lim lim) {
+	String getClause(String name, TypeRegistry.Type t, Option.Lim lim) {
+		String ls = "";
 		if (lim.limitations != null && lim.limitations.length > 0) {
-			String ls = "";
-			String name = "_choice";
 			for (int i = 0; i < lim.limitations.length; ++i) {
 				Limitation l = lim.limitations[i];
 				String condition = l.expression;
@@ -828,20 +828,17 @@ public class QtParserGenerator {
 				}
 				ls += "(" + condition + ")";
 			}
-			return ls;
 		} else if (lim.lims != null && lim.lims.length > 0) {
-			String ls = "";
 			for (int i = 0; i < lim.lims.length; ++i) {
-				Choice.Lim l = lim.lims[i];
-				String condition = getClause(t, l);
+				Option.Lim l = lim.lims[i];
+				String condition = getClause(name, t, l);
 				if (ls.length() > 0) {
 					ls += "||";
 				}
 				ls += "(" + condition + ")";
 			}
-			return ls;
 		}
-		return null;
+		return ls.replace("..", ".");
 	}
 
 	private void printSureChoiceParser(PrintWriter out, String s,
@@ -863,7 +860,7 @@ public class QtParserGenerator {
 				out.print("} else ");
 			}
 			Option o = c.options.get(i);
-			String clause = getClause(o.commonType, o.lim);
+			String clause = getClause("_choice", o.limitsType, o.lim);
 			if (clause == null || (!m.isOptional && i == c.options.size() - 1)) {
 				out.println("{");
 			} else {
@@ -947,18 +944,29 @@ public class QtParserGenerator {
 
 	private void printOptionalMemberParser(PrintWriter out, String s, Member m) {
 		out.println(s + "_m = in.setMark();");
-		out.println(s + "try {");
-		// out.println(s + "    " + m.type + " _t;");
-		out.println(s + "    _s." + m.name + " = QSharedPointer<"
+		Option o = new Option((Struct) m.type(), null);
+		String type = getTypeName(o.limitsType);
+		out.println(s + "{");
+		out.println(s + "    " + type + " _optionCheck(&_s);");
+		out.println(s + "    parse" + type + "(in, _optionCheck);");
+		out.println(s + "    _possiblyPresent = "
+				+ getClause("_optionCheck", o.limitsType, o.lim) + ";");
+		out.println(s + "}");
+		out.println(s + "in.rewind(_m);");
+		out.println(s + "_m = in.setMark();");
+		out.println(s + "if (_possiblyPresent) {");
+		out.println(s + "    try {");
+		out.println(s + "        _s." + m.name + " = QSharedPointer<"
 				+ m.type().name + ">(new " + m.type().name + "(&_s));");
-		out.println(s + "    parse" + m.type().name + "(in, *_s." + m.name
+		out.println(s + "        parse" + m.type().name + "(in, *_s." + m.name
 				+ ".data());");
-		out.println(s + "} catch(IncorrectValueException _e) {");
-		out.println(s + "    _s." + m.name + ".clear();");
-		out.println(s + "    in.rewind(_m);");
-		out.println(s + "} catch(EOFException _e) {");
-		out.println(s + "    _s." + m.name + ".clear();");
-		out.println(s + "    in.rewind(_m);");
+		out.println(s + "    } catch(IncorrectValueException _e) {");
+		out.println(s + "        _s." + m.name + ".clear();");
+		out.println(s + "        in.rewind(_m);");
+		out.println(s + "    } catch(EOFException _e) {");
+		out.println(s + "        _s." + m.name + ".clear();");
+		out.println(s + "        in.rewind(_m);");
+		out.println(s + "    }");
 		out.println(s + "}");
 	}
 

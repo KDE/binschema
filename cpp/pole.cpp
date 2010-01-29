@@ -688,9 +688,10 @@ void DirTree::load(unsigned char* buffer, unsigned size)
 
         // CLSID, contains a object class GUI if this entry is a storage or root
         // storage or all zero if not.
+#ifdef POLE_DEBUG
         printf("DirTree::load name=%s type=%i prev=%i next=%i child=%i start=%i size=%i clsid=%i.%i.%i.%i\n",
                name.c_str(),type,e.prev,e.next,e.child,e.start,e.size,readU32(buffer+0x50+p),readU32(buffer+0x54+p),readU32(buffer+0x58+p),readU32(buffer+0x5C+p));
-
+#endif
         entries.push_back(e);
     }
 }
@@ -861,8 +862,8 @@ void StorageIO::load()
         unsigned k = 109;
         unsigned mblock = header->mbat_start;
         for (unsigned r = 0; r < header->num_mbat; r++) {
-            unsigned long r = loadBigBlock(mblock, buffer2, bbat->blockSize);
-            if (r != bbat->blockSize) {
+            unsigned long rr = loadBigBlock(mblock, buffer2, bbat->blockSize);
+            if (rr != bbat->blockSize) {
                 delete[] buffer2;
                 return;
             }
@@ -884,6 +885,7 @@ void StorageIO::load()
             delete[] buffer;
             return;
         }
+        bbat->load(buffer, buflen);
         delete[] buffer;
     }
 

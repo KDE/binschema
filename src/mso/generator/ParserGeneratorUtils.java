@@ -274,36 +274,82 @@ class Struct extends TypeRegistry.Type {
 	}
 }
 
-class Choice extends TypeRegistry.Type {
-	final TypeRegistry.Type commonType;
-	final List<Option> options = new ArrayList<Option>();
-
+class Option {
 	class Lim {
 		Limitation[] limitations;
 		Lim[] lims;
 	}
 
-	class Option {
-		Struct type;
-		TypeRegistry.Type commonType;
-		Lim lim = new Lim();
+	Struct type;
+	TypeRegistry.Type limitsType;
+	Lim lim = new Lim();
+
+	Option(Struct s, TypeRegistry.Type suggestedType) {
+		type = s;
+		setLimitations(s, suggestedType);
 	}
+
+	Option(Struct s) {
+		type = s;
+		setLimitations(s, null);
+	}
+
+	private void setLimitations(Choice c) {
+		// all restrictions in the
+		lim.lims = new Option.Lim[c.options.size()];
+		for (int i = 0; i < c.options.size(); ++i) {
+			lim.lims[i] = c.options.get(i).lim;
+		}
+		limitsType = c.commonType;
+	}
+
+	private void setLimitations(Struct s, TypeRegistry.Type suggestedType) {
+		Member m = s.members.get(0);
+		if (m.isOptional) {
+			throw new Error("choice member may not be optional");
+		}
+		TypeRegistry.Type t = m.type();
+		if (t instanceof Choice) {
+			setLimitations((Choice) t);
+			return;
+		}
+		// if the type is equal to a previous common type, use that
+		if (t == suggestedType) {
+			lim.limitations = m.limitations;
+			limitsType = suggestedType;
+			return;
+		}
+		// if this struct has no limitations, take its first member
+		if (m.limitations.length == 0) {
+			setLimitations((Struct) t, suggestedType);
+			return;
+		}
+		lim.limitations = m.limitations;
+		limitsType = t;
+	}
+}
+
+class Choice extends TypeRegistry.Type {
+	final TypeRegistry.Type commonType;
+	final List<Option> options = new ArrayList<Option>();
 
 	Choice(TypeRegistry registry, String name, List<Struct> choices,
 			boolean optional) {
 		registry.super(registry, name);
 		TypeRegistry.Type common = null;
 		for (Struct s : choices) {
-			Option o = new Option();
-			o.type = s;
-			o.commonType = common;
-			setLimitations(s, o);
-			common = o.commonType;
+			Option o = new Option(s, common);
+			if (common != null && o.limitsType != common
+					&& !compareTypes(common, o.limitsType)) {
+				throw new Error("Conflicting common type: " + common.name
+						+ " vs " + o.limitsType.name);
+			}
+			common = o.limitsType;
 			options.add(o);
 		}
 		// check if the common type is the same
 		for (Option o : options) {
-			if (!compareTypes(common, o.commonType)) {
+			if (!compareTypes(common, o.limitsType)) {
 				String types = "";
 				for (Option op : options) {
 					types = types + " " + op.type.name;
@@ -348,7 +394,7 @@ class Choice extends TypeRegistry.Type {
 	 * Return true if not all of the limitations in a are sure to be present in
 	 * b. Err on the side of safety: if unsure return false;
 	 */
-	static private boolean noOverlap(Lim a, Lim b) {
+	static private boolean noOverlap(Option.Lim a, Option.Lim b) {
 		if (a.limitations == null && a.lims == null)
 			return false;
 		if (a.limitations != null) {
@@ -357,7 +403,7 @@ class Choice extends TypeRegistry.Type {
 			}
 		}
 		if (a.lims != null) {
-			for (Lim sa : a.lims) {
+			for (Option.Lim sa : a.lims) {
 				if (!noOverlap(sa, b)) {
 					return false;
 				}
@@ -366,7 +412,7 @@ class Choice extends TypeRegistry.Type {
 		return true;
 	}
 
-	static private boolean noOverlap(Limitation a[], Lim b) {
+	static private boolean noOverlap(Limitation a[], Option.Lim b) {
 		if (b.limitations == null && b.lims == null)
 			return false;
 		if (b.limitations != null) {
@@ -375,7 +421,7 @@ class Choice extends TypeRegistry.Type {
 			}
 		}
 		if (b.lims != null) {
-			for (Lim sb : b.lims) {
+			for (Option.Lim sb : b.lims) {
 				if (!noOverlap(a, sb)) {
 					return false;
 				}
@@ -444,43 +490,6 @@ class Choice extends TypeRegistry.Type {
 
 	static private boolean compareTypes(TypeRegistry.Type a, TypeRegistry.Type b) {
 		return a == b || structsWithSameMembers(a, b);
-	}
-
-	void setLimitations(Choice c, Option o) {
-		// all restrictions in the
-		o.lim.lims = new Lim[c.options.size()];
-		for (int i = 0; i < c.options.size(); ++i) {
-			o.lim.lims[i] = c.options.get(i).lim;
-		}
-		o.commonType = c.commonType;
-	}
-
-	void setLimitations(Struct s, Option o) {
-		Member m = s.members.get(0);
-		if (m.isOptional) {
-			throw new Error("choice member may not be optional");
-		}
-		TypeRegistry.Type t = m.type();
-		if (t instanceof Choice) {
-			setLimitations((Choice) t, o);
-			return;
-		}
-		// if the type is equal to a previous common type, use that
-		if (t == o.commonType) {
-			o.lim.limitations = m.limitations;
-			return;
-		}
-		// if this struct has no limitations, take its first member
-		if (m.limitations.length == 0) {
-			setLimitations((Struct) t, o);
-			return;
-		}
-		if (o.commonType != null && !compareTypes(t, o.commonType)) {
-			throw new Error("Conflicting common type: " + t.name + " vs "
-					+ o.commonType.name);
-		}
-		o.lim.limitations = m.limitations;
-		o.commonType = t;
 	}
 
 	String[] getChoiceNames() {
