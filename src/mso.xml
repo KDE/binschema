@@ -705,15 +705,12 @@
 		<bit name="fDisableNumberOfLinesBodyRule" />
 		<bit name="fDisableTooManyFontsRule" />
 		<bit name="fDisablePrintTip" />
-		<uint7 name="reserveda">
+		<uint5 name="reserveda">
 			<limitation value="0" />
-		</uint7>
-		<uint7 name="reservedb">
+		</uint5>
+		<uint16 name="reservedb">
 			<limitation value="0" />
-		</uint7>
-		<uint7 name="reservedc">
-			<limitation value="0" />
-		</uint7>
+		</uint16>
 	</struct>
 	<struct name="EnvelopeData9Atom">
 		<type name="rh" type="RecordHeader">
@@ -733,15 +730,18 @@
 		<bit name="fHasEnvelope" />
 		<bit name="fEnvelopeVisible" />
 		<uint2 name="reserved1">
-			<limitation value="0x0" />
+			<limitation value="0" />
 		</uint2>
 		<bit name="fEnvelopeDirty" />
-		<uint7 name="reserved2a">
-			<limitation value="0x0" />
-		</uint7>
-		<uint20 name="reserved2b">
-			<limitation value="0x0" />
-		</uint20>
+		<uint3 name="reserved2a">
+			<limitation value="0" />
+		</uint3>
+		<uint8 name="reserved2b">
+			<limitation value="0" />
+		</uint8>
+		<uint16 name="reserved2c">
+			<limitation value="0" />
+		</uint16>
 	</struct>
 	<struct name="HTMLDocInfo9Atom">
 		<type name="rh" type="RecordHeader">
@@ -3173,12 +3173,12 @@
 			<type type="OfficeArtFOPTE" />
 		</choice>
 	</struct>
-	<struct name="OfficeArtFOPTEComplexData">
-		<uint8 name="data" count="0" />
-		<!--
-			(../fopt[_position]/opid.fComplex)?../fopt[_position]/op:0" />
-		-->
-	</struct>
+	<!--
+		<struct name="OfficeArtFOPTEComplexData"> <uint8 name="data" count="0"
+		/> (../fopt[_position]/opid.fComplex)?../fopt[_position]/op:0" />
+
+		</struct>
+	-->
 	<struct name="ProtectionBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x007F" />
