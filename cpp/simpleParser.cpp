@@ -1588,9 +1588,6 @@ void PPT::parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s) {
     _s.textChars.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
         _s.textChars[_i] = in.readuint16();
-        if (!(((quint16)_s.textChars[_i]) != 0)) {
-            throw IncorrectValueException(in.getPosition(), "((quint16)_s.textChars[_i]) != 0");
-        }
     }
 }
 void PPT::parseTextBytesAtom(LEInputStream& in, TextBytesAtom& _s) {
@@ -1793,14 +1790,31 @@ void PPT::parseTextRange(LEInputStream& in, TextRange& _s) {
     _s.begin = in.readint32();
     _s.end = in.readint32();
 }
-void PPT::parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s) {
+void PPT::parseMouseClickTextInteractiveInfoAtom(LEInputStream& in, MouseClickTextInteractiveInfoAtom& _s) {
     _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
     }
-    if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0 || _s.rh.recInstance == 1");
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    }
+    if (!(_s.rh.recType == 0xFDF)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFDF");
+    }
+    if (!(_s.rh.recLen == 8)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 8");
+    }
+    parseTextRange(in, _s.range);
+}
+void PPT::parseMouseOverTextInteractiveInfoAtom(LEInputStream& in, MouseOverTextInteractiveInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
+    }
+    if (!(_s.rh.recInstance == 1)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 1");
     }
     if (!(_s.rh.recType == 0xFDF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFDF");
@@ -7233,14 +7247,32 @@ void PPT::parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer&
         }
     }
 }
-void PPT::parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s) {
+void PPT::parseMouseClickInteractiveInfoContainer(LEInputStream& in, MouseClickInteractiveInfoContainer& _s) {
     _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
     }
-    if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0 || _s.rh.recInstance == 1");
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
+    }
+    if (!(_s.rh.recType == 0xFF2)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFF2");
+    }
+    parseInteractiveInfoAtom(in, _s.interactiveInfoAtom);
+    if (_s.rh.recLen>24) {
+        _s.macroNameAtom = QSharedPointer<MacroNameAtom>(new MacroNameAtom(&_s));
+        parseMacroNameAtom(in, *_s.macroNameAtom.data());
+    }
+}
+void PPT::parseMouseOverInteractiveInfoContainer(LEInputStream& in, MouseOverInteractiveInfoContainer& _s) {
+    _s.streamOffset = in.getPosition();
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
+    }
+    if (!(_s.rh.recInstance == 1)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 1");
     }
     if (!(_s.rh.recType == 0xFF2)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFF2");
@@ -7914,12 +7946,18 @@ void PPT::parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInte
     RecordHeader _choice(&_s);
     parseRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0xF)&&(_choice.recType == 0xFF2)) {
-        _s.interactive = TextContainerInteractiveInfo::choice2203269482(new MouseInteractiveInfoContainer(&_s));
-        parseMouseInteractiveInfoContainer(in, *(MouseInteractiveInfoContainer*)_s.interactive.data());
+    if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF2)) {
+        _s.interactive = TextContainerInteractiveInfo::choice1543770607(new MouseClickInteractiveInfoContainer(&_s));
+        parseMouseClickInteractiveInfoContainer(in, *(MouseClickInteractiveInfoContainer*)_s.interactive.data());
+    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0xFF2)) {
+        _s.interactive = TextContainerInteractiveInfo::choice1543770607(new MouseOverInteractiveInfoContainer(&_s));
+        parseMouseOverInteractiveInfoContainer(in, *(MouseOverInteractiveInfoContainer*)_s.interactive.data());
+    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFDF)&&(_choice.recLen == 8)) {
+        _s.interactive = TextContainerInteractiveInfo::choice1543770607(new MouseClickTextInteractiveInfoAtom(&_s));
+        parseMouseClickTextInteractiveInfoAtom(in, *(MouseClickTextInteractiveInfoAtom*)_s.interactive.data());
     } else {
-        _s.interactive = TextContainerInteractiveInfo::choice2203269482(new MouseTextInteractiveInfoAtom(&_s));
-        parseMouseTextInteractiveInfoAtom(in, *(MouseTextInteractiveInfoAtom*)_s.interactive.data());
+        _s.interactive = TextContainerInteractiveInfo::choice1543770607(new MouseOverTextInteractiveInfoAtom(&_s));
+        parseMouseOverTextInteractiveInfoAtom(in, *(MouseOverTextInteractiveInfoAtom*)_s.interactive.data());
     }
 }
 void PPT::parseTextClientDataSubContainerOrAtom(LEInputStream& in, TextClientDataSubContainerOrAtom& _s) {
@@ -8552,14 +8590,14 @@ void PPT::parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
     {
         RecordHeader _optionCheck(&_s);
         parseRecordHeader(in, _optionCheck);
-        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0 || _optionCheck.recInstance == 1)&&(_optionCheck.recType == 0xFF2);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFF2);
     }
     in.rewind(_m);
     _m = in.setMark();
     if (_possiblyPresent) {
         try {
-            _s.mouseClickInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
-            parseMouseInteractiveInfoContainer(in, *_s.mouseClickInteractiveInfo.data());
+            _s.mouseClickInteractiveInfo = QSharedPointer<MouseClickInteractiveInfoContainer>(new MouseClickInteractiveInfoContainer(&_s));
+            parseMouseClickInteractiveInfoContainer(in, *_s.mouseClickInteractiveInfo.data());
         } catch(IncorrectValueException _e) {
             _s.mouseClickInteractiveInfo.clear();
             in.rewind(_m);
@@ -8572,14 +8610,14 @@ void PPT::parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
     {
         RecordHeader _optionCheck(&_s);
         parseRecordHeader(in, _optionCheck);
-        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0 || _optionCheck.recInstance == 1)&&(_optionCheck.recType == 0xFF2);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 1)&&(_optionCheck.recType == 0xFF2);
     }
     in.rewind(_m);
     _m = in.setMark();
     if (_possiblyPresent) {
         try {
-            _s.mouseOverInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
-            parseMouseInteractiveInfoContainer(in, *_s.mouseOverInteractiveInfo.data());
+            _s.mouseOverInteractiveInfo = QSharedPointer<MouseOverInteractiveInfoContainer>(new MouseOverInteractiveInfoContainer(&_s));
+            parseMouseOverInteractiveInfoContainer(in, *_s.mouseOverInteractiveInfo.data());
         } catch(IncorrectValueException _e) {
             _s.mouseOverInteractiveInfo.clear();
             in.rewind(_m);

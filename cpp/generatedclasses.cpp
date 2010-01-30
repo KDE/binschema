@@ -321,10 +321,14 @@ class TextRange;
 void parseTextRange(LEInputStream& in, TextRange& _s);
 void parseTextRange(QXmlStreamReader& in, TextRange& _s);
 void write(const TextRange& v, LEOutputStream& out);
-class MouseTextInteractiveInfoAtom;
-void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s);
-void parseMouseTextInteractiveInfoAtom(QXmlStreamReader& in, MouseTextInteractiveInfoAtom& _s);
-void write(const MouseTextInteractiveInfoAtom& v, LEOutputStream& out);
+class MouseClickTextInteractiveInfoAtom;
+void parseMouseClickTextInteractiveInfoAtom(LEInputStream& in, MouseClickTextInteractiveInfoAtom& _s);
+void parseMouseClickTextInteractiveInfoAtom(QXmlStreamReader& in, MouseClickTextInteractiveInfoAtom& _s);
+void write(const MouseClickTextInteractiveInfoAtom& v, LEOutputStream& out);
+class MouseOverTextInteractiveInfoAtom;
+void parseMouseOverTextInteractiveInfoAtom(LEInputStream& in, MouseOverTextInteractiveInfoAtom& _s);
+void parseMouseOverTextInteractiveInfoAtom(QXmlStreamReader& in, MouseOverTextInteractiveInfoAtom& _s);
+void write(const MouseOverTextInteractiveInfoAtom& v, LEOutputStream& out);
 class SlideId;
 void parseSlideId(LEInputStream& in, SlideId& _s);
 void parseSlideId(QXmlStreamReader& in, SlideId& _s);
@@ -1265,10 +1269,14 @@ class AnimationInfoContainer;
 void parseAnimationInfoContainer(LEInputStream& in, AnimationInfoContainer& _s);
 void parseAnimationInfoContainer(QXmlStreamReader& in, AnimationInfoContainer& _s);
 void write(const AnimationInfoContainer& v, LEOutputStream& out);
-class MouseInteractiveInfoContainer;
-void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s);
-void parseMouseInteractiveInfoContainer(QXmlStreamReader& in, MouseInteractiveInfoContainer& _s);
-void write(const MouseInteractiveInfoContainer& v, LEOutputStream& out);
+class MouseClickInteractiveInfoContainer;
+void parseMouseClickInteractiveInfoContainer(LEInputStream& in, MouseClickInteractiveInfoContainer& _s);
+void parseMouseClickInteractiveInfoContainer(QXmlStreamReader& in, MouseClickInteractiveInfoContainer& _s);
+void write(const MouseClickInteractiveInfoContainer& v, LEOutputStream& out);
+class MouseOverInteractiveInfoContainer;
+void parseMouseOverInteractiveInfoContainer(LEInputStream& in, MouseOverInteractiveInfoContainer& _s);
+void parseMouseOverInteractiveInfoContainer(QXmlStreamReader& in, MouseOverInteractiveInfoContainer& _s);
+void write(const MouseOverInteractiveInfoContainer& v, LEOutputStream& out);
 class TextRulerAtom;
 void parseTextRulerAtom(LEInputStream& in, TextRulerAtom& _s);
 void parseTextRulerAtom(QXmlStreamReader& in, TextRulerAtom& _s);
@@ -3130,19 +3138,38 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class MouseTextInteractiveInfoAtom : public Introspectable {
+class MouseClickTextInteractiveInfoAtom : public Introspectable {
 private:
     class _Introspection;
 public:
     static const Introspection _introspection;
     RecordHeader rh;
     TextRange range;
-    explicit MouseTextInteractiveInfoAtom(const Introspectable* parent)
+    explicit MouseClickTextInteractiveInfoAtom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this),
         range(this) {}
     QString toString() {
-        QString _s = "MouseTextInteractiveInfoAtom:";
+        QString _s = "MouseClickTextInteractiveInfoAtom:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "range: " + range.toString() + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class MouseOverTextInteractiveInfoAtom : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    TextRange range;
+    explicit MouseOverTextInteractiveInfoAtom(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this),
+        range(this) {}
+    QString toString() {
+        QString _s = "MouseOverTextInteractiveInfoAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "range: " + range.toString() + ", ";
         return _s;
@@ -9108,7 +9135,7 @@ public:
     }
     const Introspection* getIntrospection() const { return &_introspection; }
 };
-class MouseInteractiveInfoContainer : public Introspectable {
+class MouseClickInteractiveInfoContainer : public Introspectable {
 private:
     class _Introspection;
 public:
@@ -9116,12 +9143,33 @@ public:
     RecordHeader rh;
     InteractiveInfoAtom interactiveInfoAtom;
     QSharedPointer<MacroNameAtom> macroNameAtom;
-    explicit MouseInteractiveInfoContainer(const Introspectable* parent)
+    explicit MouseClickInteractiveInfoContainer(const Introspectable* parent)
        :Introspectable(parent),
         rh(this),
         interactiveInfoAtom(this) {}
     QString toString() {
-        QString _s = "MouseInteractiveInfoContainer:";
+        QString _s = "MouseClickInteractiveInfoContainer:";
+        _s = _s + "rh: " + rh.toString() + ", ";
+        _s = _s + "interactiveInfoAtom: " + interactiveInfoAtom.toString() + ", ";
+        _s = _s + "macroNameAtom: " + ((macroNameAtom)?macroNameAtom->toString() :"null") + ", ";
+        return _s;
+    }
+    const Introspection* getIntrospection() const { return &_introspection; }
+};
+class MouseOverInteractiveInfoContainer : public Introspectable {
+private:
+    class _Introspection;
+public:
+    static const Introspection _introspection;
+    RecordHeader rh;
+    InteractiveInfoAtom interactiveInfoAtom;
+    QSharedPointer<MacroNameAtom> macroNameAtom;
+    explicit MouseOverInteractiveInfoContainer(const Introspectable* parent)
+       :Introspectable(parent),
+        rh(this),
+        interactiveInfoAtom(this) {}
+    QString toString() {
+        QString _s = "MouseOverInteractiveInfoContainer:";
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "interactiveInfoAtom: " + interactiveInfoAtom.toString() + ", ";
         _s = _s + "macroNameAtom: " + ((macroNameAtom)?macroNameAtom->toString() :"null") + ", ";
@@ -9611,16 +9659,18 @@ private:
     class _Introspection;
 public:
     static const Introspection _introspection;
-    class choice2203269482 : public QSharedPointer<Introspectable> {
+    class choice1543770607 : public QSharedPointer<Introspectable> {
     public:
-        choice2203269482() {}
-        explicit choice2203269482(MouseInteractiveInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
-        explicit choice2203269482(MouseTextInteractiveInfoAtom* a) :QSharedPointer<Introspectable>(a) {}
+        choice1543770607() {}
+        explicit choice1543770607(MouseClickInteractiveInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1543770607(MouseOverInteractiveInfoContainer* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1543770607(MouseClickTextInteractiveInfoAtom* a) :QSharedPointer<Introspectable>(a) {}
+        explicit choice1543770607(MouseOverTextInteractiveInfoAtom* a) :QSharedPointer<Introspectable>(a) {}
         template <typename T> T*get() { return dynamic_cast<T*>(this->data()); }
         template <typename T> const T*get() const { return dynamic_cast<const T*>(this->data()); }
         template <typename T> bool is() const { return get<T>(); }
     };
-    choice2203269482 interactive;
+    choice1543770607 interactive;
     explicit TextContainerInteractiveInfo(const Introspectable* parent)
        :Introspectable(parent) {}
     QString toString() {
@@ -10004,8 +10054,8 @@ public:
     QSharedPointer<ShapeFlags10Atom> shapeFlags10Atom;
     QSharedPointer<ExObjRefAtom> exObjRefAtom;
     QSharedPointer<AnimationInfoContainer> animationInfo;
-    QSharedPointer<MouseInteractiveInfoContainer> mouseClickInteractiveInfo;
-    QSharedPointer<MouseInteractiveInfoContainer> mouseOverInteractiveInfo;
+    QSharedPointer<MouseClickInteractiveInfoContainer> mouseClickInteractiveInfo;
+    QSharedPointer<MouseOverInteractiveInfoContainer> mouseOverInteractiveInfo;
     QSharedPointer<PlaceholderAtom> placeholderAtom;
     QSharedPointer<RecolorInfoAtom> recolorInfoAtom;
     QList<ShapeClientRoundtripDataSubcontainerOrAtom> rgShapeClientRoundtripData;
@@ -14475,7 +14525,7 @@ const Introspectable* (* const TextRange::_Introspection::introspectable[2])(con
 };
 const Introspection TextRange::_introspection(
     "TextRange", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class MouseTextInteractiveInfoAtom::_Introspection {
+class MouseClickTextInteractiveInfoAtom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
@@ -14484,32 +14534,67 @@ public:
     static QVariant (* const value[2])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const MouseTextInteractiveInfoAtom*>(i)->rh);
+        return &(static_cast<const MouseClickTextInteractiveInfoAtom*>(i)->rh);
     }
     static const Introspectable* get_range(const Introspectable* i, int j) {
-        return &(static_cast<const MouseTextInteractiveInfoAtom*>(i)->range);
+        return &(static_cast<const MouseClickTextInteractiveInfoAtom*>(i)->range);
     }
 };
-const QString MouseTextInteractiveInfoAtom::_Introspection::name("MouseTextInteractiveInfoAtom");
-const int MouseTextInteractiveInfoAtom::_Introspection::numberOfMembers(2);
-const QString MouseTextInteractiveInfoAtom::_Introspection::names[2] = {
+const QString MouseClickTextInteractiveInfoAtom::_Introspection::name("MouseClickTextInteractiveInfoAtom");
+const int MouseClickTextInteractiveInfoAtom::_Introspection::numberOfMembers(2);
+const QString MouseClickTextInteractiveInfoAtom::_Introspection::names[2] = {
     "rh",
     "range",
 };
-int (* const MouseTextInteractiveInfoAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+int (* const MouseClickTextInteractiveInfoAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const MouseTextInteractiveInfoAtom::_Introspection::value[2])(const Introspectable*, int position) = {
+QVariant (* const MouseClickTextInteractiveInfoAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
     Introspection::nullValue,
 };
-const Introspectable* (* const MouseTextInteractiveInfoAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+const Introspectable* (* const MouseClickTextInteractiveInfoAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     _Introspection::get_range,
 };
-const Introspection MouseTextInteractiveInfoAtom::_introspection(
-    "MouseTextInteractiveInfoAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+const Introspection MouseClickTextInteractiveInfoAtom::_introspection(
+    "MouseClickTextInteractiveInfoAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class MouseOverTextInteractiveInfoAtom::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[2];
+    static int (* const numberOfInstances[2])(const Introspectable*);
+    static QVariant (* const value[2])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[2])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const MouseOverTextInteractiveInfoAtom*>(i)->rh);
+    }
+    static const Introspectable* get_range(const Introspectable* i, int j) {
+        return &(static_cast<const MouseOverTextInteractiveInfoAtom*>(i)->range);
+    }
+};
+const QString MouseOverTextInteractiveInfoAtom::_Introspection::name("MouseOverTextInteractiveInfoAtom");
+const int MouseOverTextInteractiveInfoAtom::_Introspection::numberOfMembers(2);
+const QString MouseOverTextInteractiveInfoAtom::_Introspection::names[2] = {
+    "rh",
+    "range",
+};
+int (* const MouseOverTextInteractiveInfoAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+};
+QVariant (* const MouseOverTextInteractiveInfoAtom::_Introspection::value[2])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const MouseOverTextInteractiveInfoAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    _Introspection::get_range,
+};
+const Introspection MouseOverTextInteractiveInfoAtom::_introspection(
+    "MouseOverTextInteractiveInfoAtom", 2, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class SlideId::_Introspection {
 public:
     static const QString name;
@@ -28926,7 +29011,7 @@ const Introspectable* (* const AnimationInfoContainer::_Introspection::introspec
 };
 const Introspection AnimationInfoContainer::_introspection(
     "AnimationInfoContainer", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class MouseInteractiveInfoContainer::_Introspection {
+class MouseClickInteractiveInfoContainer::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
@@ -28935,42 +29020,87 @@ public:
     static QVariant (* const value[3])(const Introspectable*, int position);
     static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
-        return &(static_cast<const MouseInteractiveInfoContainer*>(i)->rh);
+        return &(static_cast<const MouseClickInteractiveInfoContainer*>(i)->rh);
     }
     static const Introspectable* get_interactiveInfoAtom(const Introspectable* i, int j) {
-        return &(static_cast<const MouseInteractiveInfoContainer*>(i)->interactiveInfoAtom);
+        return &(static_cast<const MouseClickInteractiveInfoContainer*>(i)->interactiveInfoAtom);
     }
     static int count_macroNameAtom(const Introspectable* i) {
         return get_macroNameAtom(i, 0) ?1 :0;
     }
     static const Introspectable* get_macroNameAtom(const Introspectable* i, int j) {
-        return static_cast<const MouseInteractiveInfoContainer*>(i)->macroNameAtom.data();
+        return static_cast<const MouseClickInteractiveInfoContainer*>(i)->macroNameAtom.data();
     }
 };
-const QString MouseInteractiveInfoContainer::_Introspection::name("MouseInteractiveInfoContainer");
-const int MouseInteractiveInfoContainer::_Introspection::numberOfMembers(3);
-const QString MouseInteractiveInfoContainer::_Introspection::names[3] = {
+const QString MouseClickInteractiveInfoContainer::_Introspection::name("MouseClickInteractiveInfoContainer");
+const int MouseClickInteractiveInfoContainer::_Introspection::numberOfMembers(3);
+const QString MouseClickInteractiveInfoContainer::_Introspection::names[3] = {
     "rh",
     "interactiveInfoAtom",
     "macroNameAtom",
 };
-int (* const MouseInteractiveInfoContainer::_Introspection::numberOfInstances[3])(const Introspectable*) = {
+int (* const MouseClickInteractiveInfoContainer::_Introspection::numberOfInstances[3])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
     _Introspection::count_macroNameAtom,
 };
-QVariant (* const MouseInteractiveInfoContainer::_Introspection::value[3])(const Introspectable*, int position) = {
+QVariant (* const MouseClickInteractiveInfoContainer::_Introspection::value[3])(const Introspectable*, int position) = {
     Introspection::nullValue,
     Introspection::nullValue,
     Introspection::nullValue,
 };
-const Introspectable* (* const MouseInteractiveInfoContainer::_Introspection::introspectable[3])(const Introspectable*, int position) = {
+const Introspectable* (* const MouseClickInteractiveInfoContainer::_Introspection::introspectable[3])(const Introspectable*, int position) = {
     _Introspection::get_rh,
     _Introspection::get_interactiveInfoAtom,
     _Introspection::get_macroNameAtom,
 };
-const Introspection MouseInteractiveInfoContainer::_introspection(
-    "MouseInteractiveInfoContainer", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+const Introspection MouseClickInteractiveInfoContainer::_introspection(
+    "MouseClickInteractiveInfoContainer", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+class MouseOverInteractiveInfoContainer::_Introspection {
+public:
+    static const QString name;
+    static const int numberOfMembers;
+    static const QString names[3];
+    static int (* const numberOfInstances[3])(const Introspectable*);
+    static QVariant (* const value[3])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[3])(const Introspectable*, int position);
+    static const Introspectable* get_rh(const Introspectable* i, int j) {
+        return &(static_cast<const MouseOverInteractiveInfoContainer*>(i)->rh);
+    }
+    static const Introspectable* get_interactiveInfoAtom(const Introspectable* i, int j) {
+        return &(static_cast<const MouseOverInteractiveInfoContainer*>(i)->interactiveInfoAtom);
+    }
+    static int count_macroNameAtom(const Introspectable* i) {
+        return get_macroNameAtom(i, 0) ?1 :0;
+    }
+    static const Introspectable* get_macroNameAtom(const Introspectable* i, int j) {
+        return static_cast<const MouseOverInteractiveInfoContainer*>(i)->macroNameAtom.data();
+    }
+};
+const QString MouseOverInteractiveInfoContainer::_Introspection::name("MouseOverInteractiveInfoContainer");
+const int MouseOverInteractiveInfoContainer::_Introspection::numberOfMembers(3);
+const QString MouseOverInteractiveInfoContainer::_Introspection::names[3] = {
+    "rh",
+    "interactiveInfoAtom",
+    "macroNameAtom",
+};
+int (* const MouseOverInteractiveInfoContainer::_Introspection::numberOfInstances[3])(const Introspectable*) = {
+    Introspection::one,
+    Introspection::one,
+    _Introspection::count_macroNameAtom,
+};
+QVariant (* const MouseOverInteractiveInfoContainer::_Introspection::value[3])(const Introspectable*, int position) = {
+    Introspection::nullValue,
+    Introspection::nullValue,
+    Introspection::nullValue,
+};
+const Introspectable* (* const MouseOverInteractiveInfoContainer::_Introspection::introspectable[3])(const Introspectable*, int position) = {
+    _Introspection::get_rh,
+    _Introspection::get_interactiveInfoAtom,
+    _Introspection::get_macroNameAtom,
+};
+const Introspection MouseOverInteractiveInfoContainer::_introspection(
+    "MouseOverInteractiveInfoContainer", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class TextRulerAtom::_Introspection {
 public:
     static const QString name;
@@ -37012,9 +37142,6 @@ void parseTextCharsAtom(LEInputStream& in, TextCharsAtom& _s) {
     _s.textChars.resize(_c);
     for (int _i=0; _i<_c; ++_i) {
         _s.textChars[_i] = in.readuint16();
-        if (!(((quint16)_s.textChars[_i]) != 0)) {
-            throw IncorrectValueException(in.getPosition(), "((quint16)_s.textChars[_i]) != 0");
-        }
     }
 }
 void write(const TextCharsAtom& _s, LEOutputStream& out) {
@@ -37575,14 +37702,14 @@ void parseTextRange(QXmlStreamReader& in, TextRange& _s) {
     }
     in.readElementText();
 }
-void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveInfoAtom& _s) {
+void parseMouseClickTextInteractiveInfoAtom(LEInputStream& in, MouseClickTextInteractiveInfoAtom& _s) {
     _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
     }
-    if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0 || _s.rh.recInstance == 1");
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
     }
     if (!(_s.rh.recType == 0xFDF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFDF");
@@ -37592,11 +37719,53 @@ void parseMouseTextInteractiveInfoAtom(LEInputStream& in, MouseTextInteractiveIn
     }
     parseTextRange(in, _s.range);
 }
-void write(const MouseTextInteractiveInfoAtom& _s, LEOutputStream& out) {
+void write(const MouseClickTextInteractiveInfoAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.range, out);
 }
-void parseMouseTextInteractiveInfoAtom(QXmlStreamReader& in, MouseTextInteractiveInfoAtom& _s) {
+void parseMouseClickTextInteractiveInfoAtom(QXmlStreamReader& in, MouseClickTextInteractiveInfoAtom& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in TextRange " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "range") {
+        qDebug() << "not startelement in range " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+}
+void parseMouseOverTextInteractiveInfoAtom(LEInputStream& in, MouseOverTextInteractiveInfoAtom& _s) {
+    _s.streamOffset = in.getPosition();
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0");
+    }
+    if (!(_s.rh.recInstance == 1)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 1");
+    }
+    if (!(_s.rh.recType == 0xFDF)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFDF");
+    }
+    if (!(_s.rh.recLen == 8)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recLen == 8");
+    }
+    parseTextRange(in, _s.range);
+}
+void write(const MouseOverTextInteractiveInfoAtom& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.range, out);
+}
+void parseMouseOverTextInteractiveInfoAtom(QXmlStreamReader& in, MouseOverTextInteractiveInfoAtom& _s) {
     in.readNext();
     if (!in.isStartElement()) {
         qDebug() << "not startelement in RecordHeader " << in.lineNumber();
@@ -56938,14 +57107,14 @@ void parseAnimationInfoContainer(QXmlStreamReader& in, AnimationInfoContainer& _
         skipToStartElement(in);
     }
 }
-void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoContainer& _s) {
+void parseMouseClickInteractiveInfoContainer(LEInputStream& in, MouseClickInteractiveInfoContainer& _s) {
     _s.streamOffset = in.getPosition();
     parseRecordHeader(in, _s.rh);
     if (!(_s.rh.recVer == 0xF)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
     }
-    if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
-        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0 || _s.rh.recInstance == 1");
+    if (!(_s.rh.recInstance == 0)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 0");
     }
     if (!(_s.rh.recType == 0xFF2)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFF2");
@@ -56956,14 +57125,69 @@ void parseMouseInteractiveInfoContainer(LEInputStream& in, MouseInteractiveInfoC
         parseMacroNameAtom(in, *_s.macroNameAtom.data());
     }
 }
-void write(const MouseInteractiveInfoContainer& _s, LEOutputStream& out) {
+void write(const MouseClickInteractiveInfoContainer& _s, LEOutputStream& out) {
     write(_s.rh, out);
     write(_s.interactiveInfoAtom, out);
     if (_s.rh.recLen>24) {
         if (_s.macroNameAtom) write(*_s.macroNameAtom, out);
     }
 }
-void parseMouseInteractiveInfoContainer(QXmlStreamReader& in, MouseInteractiveInfoContainer& _s) {
+void parseMouseClickInteractiveInfoContainer(QXmlStreamReader& in, MouseClickInteractiveInfoContainer& _s) {
+    in.readNext();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in RecordHeader " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "rh") {
+        qDebug() << "not startelement in rh " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in InteractiveInfoAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "interactiveInfoAtom") {
+        qDebug() << "not startelement in interactiveInfoAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in MacroNameAtom " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "macroNameAtom") {
+        qDebug() << "not startelement in macroNameAtom " << in.lineNumber();
+        return;
+    }
+    skipToStartElement(in);
+}
+void parseMouseOverInteractiveInfoContainer(LEInputStream& in, MouseOverInteractiveInfoContainer& _s) {
+    _s.streamOffset = in.getPosition();
+    parseRecordHeader(in, _s.rh);
+    if (!(_s.rh.recVer == 0xF)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recVer == 0xF");
+    }
+    if (!(_s.rh.recInstance == 1)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recInstance == 1");
+    }
+    if (!(_s.rh.recType == 0xFF2)) {
+        throw IncorrectValueException(in.getPosition(), "_s.rh.recType == 0xFF2");
+    }
+    parseInteractiveInfoAtom(in, _s.interactiveInfoAtom);
+    if (_s.rh.recLen>24) {
+        _s.macroNameAtom = QSharedPointer<MacroNameAtom>(new MacroNameAtom(&_s));
+        parseMacroNameAtom(in, *_s.macroNameAtom.data());
+    }
+}
+void write(const MouseOverInteractiveInfoContainer& _s, LEOutputStream& out) {
+    write(_s.rh, out);
+    write(_s.interactiveInfoAtom, out);
+    if (_s.rh.recLen>24) {
+        if (_s.macroNameAtom) write(*_s.macroNameAtom, out);
+    }
+}
+void parseMouseOverInteractiveInfoContainer(QXmlStreamReader& in, MouseOverInteractiveInfoContainer& _s) {
     in.readNext();
     if (!in.isStartElement()) {
         qDebug() << "not startelement in RecordHeader " << in.lineNumber();
@@ -58478,25 +58702,35 @@ void parseTextContainerInteractiveInfo(LEInputStream& in, TextContainerInteracti
     RecordHeader _choice(&_s);
     parseRecordHeader(in, _choice);
     in.rewind(_m);
-    if ((_choice.recVer == 0xF)&&(_choice.recType == 0xFF2)) {
-        _s.interactive = TextContainerInteractiveInfo::choice2203269482(new MouseInteractiveInfoContainer(&_s));
-        parseMouseInteractiveInfoContainer(in, *(MouseInteractiveInfoContainer*)_s.interactive.data());
+    if ((_choice.recVer == 0xF)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFF2)) {
+        _s.interactive = TextContainerInteractiveInfo::choice1543770607(new MouseClickInteractiveInfoContainer(&_s));
+        parseMouseClickInteractiveInfoContainer(in, *(MouseClickInteractiveInfoContainer*)_s.interactive.data());
+    } else if ((_choice.recVer == 0xF)&&(_choice.recInstance == 1)&&(_choice.recType == 0xFF2)) {
+        _s.interactive = TextContainerInteractiveInfo::choice1543770607(new MouseOverInteractiveInfoContainer(&_s));
+        parseMouseOverInteractiveInfoContainer(in, *(MouseOverInteractiveInfoContainer*)_s.interactive.data());
+    } else if ((_choice.recVer == 0)&&(_choice.recInstance == 0)&&(_choice.recType == 0xFDF)&&(_choice.recLen == 8)) {
+        _s.interactive = TextContainerInteractiveInfo::choice1543770607(new MouseClickTextInteractiveInfoAtom(&_s));
+        parseMouseClickTextInteractiveInfoAtom(in, *(MouseClickTextInteractiveInfoAtom*)_s.interactive.data());
     } else {
-        _s.interactive = TextContainerInteractiveInfo::choice2203269482(new MouseTextInteractiveInfoAtom(&_s));
-        parseMouseTextInteractiveInfoAtom(in, *(MouseTextInteractiveInfoAtom*)_s.interactive.data());
+        _s.interactive = TextContainerInteractiveInfo::choice1543770607(new MouseOverTextInteractiveInfoAtom(&_s));
+        parseMouseOverTextInteractiveInfoAtom(in, *(MouseOverTextInteractiveInfoAtom*)_s.interactive.data());
     }
 }
 void write(const TextContainerInteractiveInfo& _s, LEOutputStream& out) {
-    if (_s.interactive.is<MouseInteractiveInfoContainer>()) {
-        write(*_s.interactive.get<MouseInteractiveInfoContainer>(), out);
-    } else if (_s.interactive.is<MouseTextInteractiveInfoAtom>()) {
-        write(*_s.interactive.get<MouseTextInteractiveInfoAtom>(), out);
+    if (_s.interactive.is<MouseClickInteractiveInfoContainer>()) {
+        write(*_s.interactive.get<MouseClickInteractiveInfoContainer>(), out);
+    } else if (_s.interactive.is<MouseOverInteractiveInfoContainer>()) {
+        write(*_s.interactive.get<MouseOverInteractiveInfoContainer>(), out);
+    } else if (_s.interactive.is<MouseClickTextInteractiveInfoAtom>()) {
+        write(*_s.interactive.get<MouseClickTextInteractiveInfoAtom>(), out);
+    } else if (_s.interactive.is<MouseOverTextInteractiveInfoAtom>()) {
+        write(*_s.interactive.get<MouseOverTextInteractiveInfoAtom>(), out);
     }
 }
 void parseTextContainerInteractiveInfo(QXmlStreamReader& in, TextContainerInteractiveInfo& _s) {
     in.readNext();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in choice2203269482 " << in.lineNumber();
+        qDebug() << "not startelement in choice1543770607 " << in.lineNumber();
         return;
     }
     if (in.name() != "interactive") {
@@ -59744,14 +59978,14 @@ void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
     {
         RecordHeader _optionCheck(&_s);
         parseRecordHeader(in, _optionCheck);
-        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0 || _optionCheck.recInstance == 1)&&(_optionCheck.recType == 0xFF2);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0)&&(_optionCheck.recType == 0xFF2);
     }
     in.rewind(_m);
     _m = in.setMark();
     if (_possiblyPresent) {
         try {
-            _s.mouseClickInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
-            parseMouseInteractiveInfoContainer(in, *_s.mouseClickInteractiveInfo.data());
+            _s.mouseClickInteractiveInfo = QSharedPointer<MouseClickInteractiveInfoContainer>(new MouseClickInteractiveInfoContainer(&_s));
+            parseMouseClickInteractiveInfoContainer(in, *_s.mouseClickInteractiveInfo.data());
         } catch(IncorrectValueException _e) {
             _s.mouseClickInteractiveInfo.clear();
             in.rewind(_m);
@@ -59764,14 +59998,14 @@ void parseOfficeArtClientData(LEInputStream& in, OfficeArtClientData& _s) {
     {
         RecordHeader _optionCheck(&_s);
         parseRecordHeader(in, _optionCheck);
-        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 0 || _optionCheck.recInstance == 1)&&(_optionCheck.recType == 0xFF2);
+        _possiblyPresent = (_optionCheck.recVer == 0xF)&&(_optionCheck.recInstance == 1)&&(_optionCheck.recType == 0xFF2);
     }
     in.rewind(_m);
     _m = in.setMark();
     if (_possiblyPresent) {
         try {
-            _s.mouseOverInteractiveInfo = QSharedPointer<MouseInteractiveInfoContainer>(new MouseInteractiveInfoContainer(&_s));
-            parseMouseInteractiveInfoContainer(in, *_s.mouseOverInteractiveInfo.data());
+            _s.mouseOverInteractiveInfo = QSharedPointer<MouseOverInteractiveInfoContainer>(new MouseOverInteractiveInfoContainer(&_s));
+            parseMouseOverInteractiveInfoContainer(in, *_s.mouseOverInteractiveInfo.data());
         } catch(IncorrectValueException _e) {
             _s.mouseOverInteractiveInfo.clear();
             in.rewind(_m);
@@ -59912,14 +60146,14 @@ void parseOfficeArtClientData(QXmlStreamReader& in, OfficeArtClientData& _s) {
         skipToStartElement(in);
     }
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in MouseInteractiveInfoContainer " << in.lineNumber();
+        qDebug() << "not startelement in MouseClickInteractiveInfoContainer " << in.lineNumber();
         return;
     }
     if (in.name() == "mouseClickInteractiveInfo") {
         skipToStartElement(in);
     }
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in MouseInteractiveInfoContainer " << in.lineNumber();
+        qDebug() << "not startelement in MouseOverInteractiveInfoContainer " << in.lineNumber();
         return;
     }
     if (in.name() == "mouseOverInteractiveInfo") {

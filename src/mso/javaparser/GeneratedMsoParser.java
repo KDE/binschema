@@ -2106,9 +2106,6 @@ System.out.println(in.getPosition()+" "+_s);
         _s.textChars = new int[_c];
         for (int _i=0; _i<_c; ++_i) {
             _s.textChars[_i] = in.readuint16();
-            if (!(_s.textChars[_i] != 0)) {
-                throw new IncorrectValueException(in.getPosition() + "_s.textChars[_i] != 0 for value " + String.valueOf(_s.textChars[_i]) );
-            }
         }
         return _s;
     }
@@ -2387,14 +2384,14 @@ System.out.println(in.getPosition()+" "+_s);
         out.writeint32(_s.begin);
         out.writeint32(_s.end);
     }
-    MouseTextInteractiveInfoAtom parseMouseTextInteractiveInfoAtom(LEInputStream in) throws IOException  {
-        MouseTextInteractiveInfoAtom _s = new MouseTextInteractiveInfoAtom();
+    MouseClickTextInteractiveInfoAtom parseMouseClickTextInteractiveInfoAtom(LEInputStream in) throws IOException  {
+        MouseClickTextInteractiveInfoAtom _s = new MouseClickTextInteractiveInfoAtom();
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 || _s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recType == 0xFDF)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFDF for value " + String.valueOf(_s.rh) );
@@ -2405,7 +2402,29 @@ System.out.println(in.getPosition()+" "+_s);
         _s.range = parseTextRange(in);
         return _s;
     }
-    void write(MouseTextInteractiveInfoAtom _s, LEOutputStream out) throws IOException  {
+    void write(MouseClickTextInteractiveInfoAtom _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.range, out);
+    }
+    MouseOverTextInteractiveInfoAtom parseMouseOverTextInteractiveInfoAtom(LEInputStream in) throws IOException  {
+        MouseOverTextInteractiveInfoAtom _s = new MouseOverTextInteractiveInfoAtom();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFDF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFDF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recLen == 8)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recLen == 8 for value " + String.valueOf(_s.rh) );
+        }
+        _s.range = parseTextRange(in);
+        return _s;
+    }
+    void write(MouseOverTextInteractiveInfoAtom _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         write(_s.range, out);
     }
@@ -9713,14 +9732,14 @@ System.out.println(in.getPosition()+" "+_s);
         write(_s.animationAtom, out);
         if (_s.animationSound != null) write(_s.animationSound, out);
     }
-    MouseInteractiveInfoContainer parseMouseInteractiveInfoContainer(LEInputStream in) throws IOException  {
-        MouseInteractiveInfoContainer _s = new MouseInteractiveInfoContainer();
+    MouseClickInteractiveInfoContainer parseMouseClickInteractiveInfoContainer(LEInputStream in) throws IOException  {
+        MouseClickInteractiveInfoContainer _s = new MouseClickInteractiveInfoContainer();
         _s.rh = parseRecordHeader(in);
         if (!(_s.rh.recVer == 0xF)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
         }
-        if (!(_s.rh.recInstance == 0 || _s.rh.recInstance == 1)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 || _s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        if (!(_s.rh.recInstance == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 0 for value " + String.valueOf(_s.rh) );
         }
         if (!(_s.rh.recType == 0xFF2)) {
             throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFF2 for value " + String.valueOf(_s.rh) );
@@ -9731,7 +9750,32 @@ System.out.println(in.getPosition()+" "+_s);
         }
         return _s;
     }
-    void write(MouseInteractiveInfoContainer _s, LEOutputStream out) throws IOException  {
+    void write(MouseClickInteractiveInfoContainer _s, LEOutputStream out) throws IOException  {
+        write(_s.rh, out);
+        write(_s.interactiveInfoAtom, out);
+        if (_s.rh.recLen>24) {
+            write(_s.macroNameAtom, out);
+        }
+    }
+    MouseOverInteractiveInfoContainer parseMouseOverInteractiveInfoContainer(LEInputStream in) throws IOException  {
+        MouseOverInteractiveInfoContainer _s = new MouseOverInteractiveInfoContainer();
+        _s.rh = parseRecordHeader(in);
+        if (!(_s.rh.recVer == 0xF)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recVer == 0xF for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recInstance == 1)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recInstance == 1 for value " + String.valueOf(_s.rh) );
+        }
+        if (!(_s.rh.recType == 0xFF2)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.rh.recType == 0xFF2 for value " + String.valueOf(_s.rh) );
+        }
+        _s.interactiveInfoAtom = parseInteractiveInfoAtom(in);
+        if (_s.rh.recLen>24) {
+            _s.macroNameAtom = parseMacroNameAtom(in);
+        }
+        return _s;
+    }
+    void write(MouseOverInteractiveInfoContainer _s, LEOutputStream out) throws IOException  {
         write(_s.rh, out);
         write(_s.interactiveInfoAtom, out);
         if (_s.rh.recLen>24) {
@@ -10484,21 +10528,35 @@ System.out.println(in.getPosition()+" "+_s);
         Object _m;
         _m = in.setMark();
         try {
-            _s.interactive = parseMouseInteractiveInfoContainer(in);
+            _s.interactive = parseMouseClickInteractiveInfoContainer(in);
         } catch (IOException _x) {
             if (!(_x instanceof IncorrectValueException) && !(_x instanceof java.io.EOFException)) throw _x;
             in.rewind(_m);
-            _s.interactive = parseMouseTextInteractiveInfoAtom(in);
-        } finally {
+        try {
+            _s.interactive = parseMouseOverInteractiveInfoContainer(in);
+        } catch (IOException _xx) {
+            if (!(_xx instanceof IncorrectValueException) && !(_xx instanceof java.io.EOFException)) throw _xx;
+            in.rewind(_m);
+        try {
+            _s.interactive = parseMouseClickTextInteractiveInfoAtom(in);
+        } catch (IOException _xxx) {
+            if (!(_xxx instanceof IncorrectValueException) && !(_xxx instanceof java.io.EOFException)) throw _xxx;
+            in.rewind(_m);
+            _s.interactive = parseMouseOverTextInteractiveInfoAtom(in);
+        }}} finally {
             in.releaseMark(_m);
         }
         return _s;
     }
     void write(TextContainerInteractiveInfo _s, LEOutputStream out) throws IOException  {
-        if (_s.interactive instanceof MouseInteractiveInfoContainer) {
-            write((MouseInteractiveInfoContainer)_s.interactive, out);
-        } else if (_s.interactive instanceof MouseTextInteractiveInfoAtom) {
-            write((MouseTextInteractiveInfoAtom)_s.interactive, out);
+        if (_s.interactive instanceof MouseClickInteractiveInfoContainer) {
+            write((MouseClickInteractiveInfoContainer)_s.interactive, out);
+        } else if (_s.interactive instanceof MouseOverInteractiveInfoContainer) {
+            write((MouseOverInteractiveInfoContainer)_s.interactive, out);
+        } else if (_s.interactive instanceof MouseClickTextInteractiveInfoAtom) {
+            write((MouseClickTextInteractiveInfoAtom)_s.interactive, out);
+        } else if (_s.interactive instanceof MouseOverTextInteractiveInfoAtom) {
+            write((MouseOverTextInteractiveInfoAtom)_s.interactive, out);
         }
     }
     TextClientDataSubContainerOrAtom parseTextClientDataSubContainerOrAtom(LEInputStream in) throws IOException  {
@@ -11389,7 +11447,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _m = in.setMark();
         try {
-            _s.mouseClickInteractiveInfo = parseMouseInteractiveInfoContainer(in);
+            _s.mouseClickInteractiveInfo = parseMouseClickInteractiveInfoContainer(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
@@ -11400,7 +11458,7 @@ System.out.println(in.getPosition()+" "+_s);
         }
         _m = in.setMark();
         try {
-            _s.mouseOverInteractiveInfo = parseMouseInteractiveInfoContainer(in);
+            _s.mouseOverInteractiveInfo = parseMouseOverInteractiveInfoContainer(in);
         } catch(IncorrectValueException _e) {
             if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug
             in.rewind(_m);
@@ -14256,11 +14314,21 @@ class TextRange {
         return _s;
     }
 }
-class MouseTextInteractiveInfoAtom {
+class MouseClickTextInteractiveInfoAtom {
     RecordHeader rh;
     TextRange range;
     public String toString() {
-        String _s = "MouseTextInteractiveInfoAtom:";
+        String _s = "MouseClickTextInteractiveInfoAtom:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "range: " + String.valueOf(range) + ", ";
+        return _s;
+    }
+}
+class MouseOverTextInteractiveInfoAtom {
+    RecordHeader rh;
+    TextRange range;
+    public String toString() {
+        String _s = "MouseOverTextInteractiveInfoAtom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "range: " + String.valueOf(range) + ", ";
         return _s;
@@ -18270,12 +18338,24 @@ class AnimationInfoContainer {
         return _s;
     }
 }
-class MouseInteractiveInfoContainer {
+class MouseClickInteractiveInfoContainer {
     RecordHeader rh;
     InteractiveInfoAtom interactiveInfoAtom;
     MacroNameAtom macroNameAtom;
     public String toString() {
-        String _s = "MouseInteractiveInfoContainer:";
+        String _s = "MouseClickInteractiveInfoContainer:";
+        _s = _s + "rh: " + String.valueOf(rh) + ", ";
+        _s = _s + "interactiveInfoAtom: " + String.valueOf(interactiveInfoAtom) + ", ";
+        _s = _s + "macroNameAtom: " + String.valueOf(macroNameAtom) + ", ";
+        return _s;
+    }
+}
+class MouseOverInteractiveInfoContainer {
+    RecordHeader rh;
+    InteractiveInfoAtom interactiveInfoAtom;
+    MacroNameAtom macroNameAtom;
+    public String toString() {
+        String _s = "MouseOverInteractiveInfoContainer:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "interactiveInfoAtom: " + String.valueOf(interactiveInfoAtom) + ", ";
         _s = _s + "macroNameAtom: " + String.valueOf(macroNameAtom) + ", ";
@@ -18730,8 +18810,8 @@ class OfficeArtClientData {
     ShapeFlags10Atom shapeFlags10Atom;
     ExObjRefAtom exObjRefAtom;
     AnimationInfoContainer animationInfo;
-    MouseInteractiveInfoContainer mouseClickInteractiveInfo;
-    MouseInteractiveInfoContainer mouseOverInteractiveInfo;
+    MouseClickInteractiveInfoContainer mouseClickInteractiveInfo;
+    MouseOverInteractiveInfoContainer mouseOverInteractiveInfo;
     PlaceholderAtom placeholderAtom;
     RecolorInfoAtom recolorInfoAtom;
     final java.util.List<ShapeClientRoundtripDataSubcontainerOrAtom> rgShapeClientRoundtripData = new java.util.ArrayList<ShapeClientRoundtripDataSubcontainerOrAtom>();
