@@ -373,7 +373,7 @@ public class QtParserGenerator {
 			if (!m.isStruct) {
 				out.println(s + "_s." + m.name + ".resize(_c);");
 			}
-			if (m.type() == m.parent.registry.uint8) { // special case for
+			if (m.type() == m.registry.uint8) { // special case for
 				// reading bytearrays quickly
 				out.println(s + "in.readBytes(_s." + m.name + ");");
 			} else {
@@ -456,7 +456,7 @@ public class QtParserGenerator {
 			}
 			out.println(s + "}");
 		} else if (m.isArray) {
-			if (m.type() == m.parent.registry.uint8) {
+			if (m.type() == m.registry.uint8) {
 				out.println(s + "out.writeBytes(_s." + m.name + ");");
 			} else {
 				String t = getTypeName(m.type());

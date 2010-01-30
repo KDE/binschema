@@ -98,7 +98,7 @@ class Limitation {
 }
 
 class Member {
-	final Struct parent;
+	final TypeRegistry registry;
 	final String name;
 	private final String typeName;
 	final String count;
@@ -112,8 +112,8 @@ class Member {
 	final boolean isChoice;
 	final Limitation limitations[];
 
-	Member(Struct parent_, Element e) {
-		parent = parent_;
+	Member(TypeRegistry r, Element e) {
+		registry = r;
 		name = e.getAttribute("name");
 		condition = (e.hasAttribute("condition")) ? e.getAttribute("condition")
 				: null;
@@ -137,19 +137,20 @@ class Member {
 				String type = ((Element) l.item(i)).getAttribute("type");
 				Element ce = getStructElement(msoelement, type);
 				choiceName += type;
-				TypeRegistry.Type t = parent.registry.getType(ce
-						.getAttribute("name"));
+				TypeRegistry.Type t = registry.getType(ce.getAttribute("name"));
 				if (t instanceof Struct) {
 					choices.add((Struct) t);
 				} else {
-					choices.add(new Struct(parent.registry, ce));
+					choices.add(new Struct(registry, ce));
 				}
 			}
 			CRC32 crc = new CRC32();
 			crc.update(choiceName.getBytes());
 			choiceName = "choice" + crc.getValue();
 			typeName = choiceName;
-			new Choice(parent.registry, choiceName, choices, isOptional);
+			if (registry.getType(typeName) == null) {
+				new Choice(registry, choiceName, choices, isOptional);
+			}
 			isInteger = false;
 			isSimple = false;
 			isChoice = true;
@@ -174,7 +175,7 @@ class Member {
 	}
 
 	public TypeRegistry.Type type() {
-		return parent.registry.getType(typeName);
+		return registry.getType(typeName);
 	}
 
 	private static Element getStructElement(Element mso, String typename) {
@@ -196,10 +197,12 @@ class TypeRegistry {
 	class Type {
 		public final TypeRegistry registry;
 		public final String name;
+		public final int size;
 
-		Type(TypeRegistry r, String name_) {
+		Type(TypeRegistry r, String name_, int size_) {
 			registry = r;
 			name = name_;
+			size = size_;
 			if (types.containsKey(name)) {
 				throw new Error("Duplicate key: " + name);
 			}
@@ -215,29 +218,30 @@ class TypeRegistry {
 		return types.get(name);
 	}
 
-	final public Type bit = new Type(this, "bit");
-	final public Type uint2 = new Type(this, "uint2");
-	final public Type uint3 = new Type(this, "uint3");
-	final public Type uint4 = new Type(this, "uint4");
-	final public Type uint5 = new Type(this, "uint5");
-	final public Type uint6 = new Type(this, "uint6");
-	final public Type uint7 = new Type(this, "uint7");
-	final public Type uint8 = new Type(this, "uint8");
-	final public Type uint9 = new Type(this, "uint9");
-	final public Type uint12 = new Type(this, "uint12");
-	final public Type uint14 = new Type(this, "uint14");
-	final public Type uint15 = new Type(this, "uint15");
-	final public Type uint16 = new Type(this, "uint16");
-	final public Type uint20 = new Type(this, "uint20");
-	final public Type uint30 = new Type(this, "uint30");
-	final public Type uint32 = new Type(this, "uint32");
-	final public Type int16 = new Type(this, "int16");
-	final public Type int32 = new Type(this, "int32");
+	final public Type bit = new Type(this, "bit", 1);
+	final public Type uint2 = new Type(this, "uint2", 2);
+	final public Type uint3 = new Type(this, "uint3", 3);
+	final public Type uint4 = new Type(this, "uint4", 4);
+	final public Type uint5 = new Type(this, "uint5", 5);
+	final public Type uint6 = new Type(this, "uint6", 6);
+	final public Type uint7 = new Type(this, "uint7", 7);
+	final public Type uint8 = new Type(this, "uint8", 8);
+	final public Type uint9 = new Type(this, "uint9", 9);
+	final public Type uint12 = new Type(this, "uint12", 12);
+	final public Type uint14 = new Type(this, "uint14", 14);
+	final public Type uint15 = new Type(this, "uint15", 15);
+	final public Type uint16 = new Type(this, "uint16", 16);
+	final public Type uint20 = new Type(this, "uint20", 20);
+	final public Type uint30 = new Type(this, "uint30", 30);
+	final public Type uint32 = new Type(this, "uint32", 32);
+	final public Type int16 = new Type(this, "int16", 16);
+	final public Type int32 = new Type(this, "int32", 32);
 }
 
 class Struct extends TypeRegistry.Type {
 
 	final List<Member> members = new ArrayList<Member>();
+	final String sizeExpression;
 	final boolean containsArrayMember;
 	final boolean containsOptionalMember;
 	final boolean containsUnknownLengthArrayMember;
@@ -246,8 +250,60 @@ class Struct extends TypeRegistry.Type {
 	final boolean containsSureChoice;
 	final boolean containsChoice;
 
+	static int getSize(TypeRegistry registry, Element e) {
+		int size = 0;
+		NodeList l = e.getChildNodes();
+		for (int i = 0; i < l.getLength(); ++i) {
+			Node n = l.item(i);
+			if (n instanceof Element) {
+				Element me = (Element) n;
+				if (me.getNodeName().equals("limitation")) {
+					continue;
+				}
+				Member m = new Member(registry, me);
+				if (m.type() == null)
+					System.err.println("null " + m.name);
+				if (m.isOptional || m.type() == null || m.type().size == -1) {
+					return -1;
+				}
+				if (m.isArray) {
+					Integer asize = null;
+					try {
+						if (m.size != null)
+							asize = Integer.decode(m.size);
+					} catch (NumberFormatException e1) {
+					}
+					Integer count = null;
+					try {
+						if (m.count != null)
+							count = Integer.decode(m.count);
+					} catch (NumberFormatException e2) {
+					}
+					if (asize != null) {
+						size += asize * 8;
+					} else if (count != null && m.type().size != -1) {
+						size += count * m.type().size;
+					} else {
+						return -1;
+					}
+				} else {
+					size += m.type().size;
+				}
+			}
+		}
+		if (size == 0) {
+			throw new Error("size is 0 for " + e.getAttribute("name"));
+		}
+		if (size % 8 != 0)
+			throw new Error("sizes do not add up to multiple of 8: " + size
+					+ " for " + e.getAttribute("name"));
+		System.err.println(e.getAttribute("name") + " " + (size / 8));
+		return size;
+	}
+
 	Struct(TypeRegistry registry, Element e) {
-		registry.super(registry, e.getAttribute("name"));
+		registry.super(registry, e.getAttribute("name"), getSize(registry, e));
+		sizeExpression = e.getAttribute("size");
 
 		boolean _containsArrayMember = false;
 		boolean _containsOptionalMember = false;
@@ -263,7 +319,7 @@ class Struct extends TypeRegistry.Type {
 				if (me.getNodeName().equals("limitation")) {
 					break;
 				}
-				Member m = new Member(this, me);
+				Member m = new Member(registry, me);
 				members.add(m);
 				_containsArrayMember = _containsArrayMember || m.isArray;
 				_containsOptionalMember = _containsOptionalMember
@@ -375,9 +431,19 @@ class Choice extends TypeRegistry.Type {
 	final TypeRegistry.Type commonType;
 	final List<Option> options = new ArrayList<Option>();
 
+	static int getSize(List<Struct> choices) {
+		int size = choices.get(0).size;
+		for (Struct s : choices) {
+			if (s.size != size) {
+				return -1;
+			}
+		}
+		return size;
+	}
+
 	Choice(TypeRegistry registry, String name, List<Struct> choices,
 			boolean optional) {
-		registry.super(registry, name);
+		registry.super(registry, name, getSize(choices));
 		TypeRegistry.Type common = null;
 		for (Struct s : choices) {
 			Option o = new Option(s, common);

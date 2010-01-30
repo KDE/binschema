@@ -154,7 +154,7 @@ public class JavaParserGenerator {
 
 	String getTypeName(Member m) {
 		final TypeRegistry.Type t = m.type();
-		final TypeRegistry r = m.parent.registry;
+		final TypeRegistry r = m.registry;
 		if (t instanceof Struct) {
 			return m.type().name;
 		} else if (t instanceof Choice) {
@@ -265,7 +265,7 @@ public class JavaParserGenerator {
 		}
 		out.print(s + "_s." + m.name + " = ");
 		if (count != null) {
-			if (m.type() == m.parent.registry.uint8) {
+			if (m.type() == m.registry.uint8) {
 				out.println("in.readBytes(_c);");
 			} else {
 				out.println("new " + getTypeName(m) + "[_c];");
