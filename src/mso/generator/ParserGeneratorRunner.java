@@ -29,17 +29,19 @@ public class ParserGeneratorRunner {
 
 		final Document dom = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder().parse(pgr.open(xmlfilename));
-		pgr.generateJavaParser(dom);
-		pgr.generateQtParser(dom);
-		pgr.generateSimpleQtParser(dom);
+		MSO mso = new MSO(dom);
+		pgr.generateJavaParser(mso);
+		pgr.generateQtParser(mso);
+		pgr.generateSimpleQtParser(mso);
+		pgr.generateApi(mso);
 	}
 
-	void generateJavaParser(Document dom) throws IOException {
+	void generateJavaParser(MSO mso) throws IOException {
 		final JavaParserGenerator g = new JavaParserGenerator();
-		g.generate(new MSO(dom), "src", "mso.javaparser", "GeneratedMsoParser");
+		g.generate(mso, "src", "mso.javaparser", "GeneratedMsoParser");
 	}
 
-	void generateQtParser(Document dom) throws IOException {
+	void generateQtParser(MSO mso) throws IOException {
 		// generate a parser with introspection
 		final QtParserGenerator g = new QtParserGenerator();
 		g.config.namespace = "";
@@ -51,11 +53,11 @@ public class ParserGeneratorRunner {
 		g.config.enableWriting = true;
 		g.config.enableToString = true;
 		g.config.enableStyleTextPropAtomFix = false;
-		g.generate(new MSO(dom));
+		g.generate(mso);
 	}
 
-	void generateSimpleQtParser(Document dom) throws IOException {
-		// generate a minimal parser but with a public header
+	void generateSimpleQtParser(MSO mso) throws IOException {
+		// generate a parser with introspection
 		final QtParserGenerator g = new QtParserGenerator();
 		g.config.namespace = "PPT";
 		g.config.basename = "simpleParser";
@@ -66,7 +68,17 @@ public class ParserGeneratorRunner {
 		g.config.enableWriting = false;
 		g.config.enableToString = false;
 		g.config.enableStyleTextPropAtomFix = true;
-		g.generate(new MSO(dom));
+		g.generate(mso);
+	}
+
+	void generateApi(MSO mso) throws IOException {
+		// generate a minimal parser but with a public header
+		final QtApiGenerator g = new QtApiGenerator();
+		g.config.namespace = "PPT";
+		g.config.basename = "api";
+		g.config.outputdir = "cpp";
+		g.config.createHeader = true;
+		g.generate(mso);
 	}
 
 	InputStream open(String name) throws Exception {
