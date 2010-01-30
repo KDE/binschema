@@ -1,7 +1,8 @@
 #ifndef LEINPUT_H
 #define LEINPUT_H
 
-#include <QtEndian>
+#include <QtCore/QtEndian>
+#include <QtCore/QDebug>
 
 inline quint8 readuint8(const char* d) {
     return *d;

@@ -307,7 +307,7 @@ public class QtParserGenerator {
 
 	}
 
-	private String prependStructureToExpression(String expression,
+	static private String prependStructureToExpression(String expression,
 			String structureName) {
 		if (expression.length() > 0) {
 			Pattern p = Pattern.compile("([^.\\w])([.a-zA-Z])");
@@ -997,14 +997,14 @@ public class QtParserGenerator {
 		}
 	}
 
-	private String getExpression(String structure, String expression) {
+	static String getExpression(String structure, String expression) {
 		if (Pattern.matches(".*[A-Za-z].*", expression)) {
 			return prependStructureToExpression(expression, structure);
 		}
 		return structure + expression;
 	}
 
-	private String getCondition(String name, Limitation l) {
+	static String getCondition(String name, Limitation l) {
 		String value = l.value;
 		String cmp = " == ";
 		String cmb = " || ";

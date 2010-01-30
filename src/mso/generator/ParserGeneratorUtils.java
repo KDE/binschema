@@ -261,8 +261,6 @@ class Struct extends TypeRegistry.Type {
 					continue;
 				}
 				Member m = new Member(registry, me);
-				if (m.type() == null)
-					System.err.println("null " + m.name);
 				if (m.isOptional || m.type() == null || m.type().size == -1) {
 					return -1;
 				}
@@ -297,7 +295,6 @@ class Struct extends TypeRegistry.Type {
 		if (size % 8 != 0)
 			throw new Error("sizes do not add up to multiple of 8: " + size
 					+ " for " + e.getAttribute("name"));
-		System.err.println(e.getAttribute("name") + " " + (size / 8));
 		return size;
 	}
 
