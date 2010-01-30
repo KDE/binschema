@@ -350,8 +350,6 @@ class OfficeArtSecondaryFOPT;
 void parseOfficeArtSecondaryFOPT(LEInputStream& in, OfficeArtSecondaryFOPT& _s);
 class OfficeArtTertiaryFOPT;
 void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s);
-class OfficeArtFOPTEComplexData;
-void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s);
 class FixedPoint;
 void parseFixedPoint(LEInputStream& in, FixedPoint& _s);
 class OfficeArtCOLORREF;
@@ -1005,8 +1003,7 @@ public:
     bool fDisableTooManyFontsRule;
     bool fDisablePrintTip;
     quint8 reserveda;
-    quint8 reservedb;
-    quint8 reservedc;
+    quint16 reservedb;
     PresAdvisorFlags9Atom(void* /*dummy*/ = 0) {}
 };
 class EnvelopeData9Atom : public StreamOffset {
@@ -1023,7 +1020,8 @@ public:
     quint8 reserved1;
     bool fEnvelopeDirty;
     quint8 reserved2a;
-    quint32 reserved2b;
+    quint8 reserved2b;
+    quint16 reserved2c;
     EnvelopeFlags9Atom(void* /*dummy*/ = 0) {}
 };
 class HTMLDocInfo9Atom : public StreamOffset {
@@ -2072,11 +2070,6 @@ public:
     QList<OfficeArtFOPTEChoice> fopt;
     QByteArray complexData;
     OfficeArtTertiaryFOPT(void* /*dummy*/ = 0) {}
-};
-class OfficeArtFOPTEComplexData : public StreamOffset {
-public:
-    QByteArray data;
-    OfficeArtFOPTEComplexData(void* /*dummy*/ = 0) {}
 };
 class FixedPoint : public StreamOffset {
 public:

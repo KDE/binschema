@@ -696,17 +696,13 @@ void PPT::parsePresAdvisorFlags9Atom(LEInputStream& in, PresAdvisorFlags9Atom& _
     _s.fDisableNumberOfLinesBodyRule = in.readbit();
     _s.fDisableTooManyFontsRule = in.readbit();
     _s.fDisablePrintTip = in.readbit();
-    _s.reserveda = in.readuint7();
+    _s.reserveda = in.readuint5();
     if (!(((quint8)_s.reserveda) == 0)) {
         throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserveda) == 0");
     }
-    _s.reservedb = in.readuint7();
-    if (!(((quint8)_s.reservedb) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reservedb) == 0");
-    }
-    _s.reservedc = in.readuint7();
-    if (!(((quint8)_s.reservedc) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reservedc) == 0");
+    _s.reservedb = in.readuint16();
+    if (!(((quint16)_s.reservedb) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint16)_s.reservedb) == 0");
     }
 }
 void PPT::parseEnvelopeData9Atom(LEInputStream& in, EnvelopeData9Atom& _s) {
@@ -745,17 +741,21 @@ void PPT::parseEnvelopeFlags9Atom(LEInputStream& in, EnvelopeFlags9Atom& _s) {
     _s.fHasEnvelope = in.readbit();
     _s.fEnvelopeVisible = in.readbit();
     _s.reserved1 = in.readuint2();
-    if (!(((quint8)_s.reserved1) == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved1) == 0x0");
+    if (!(((quint8)_s.reserved1) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved1) == 0");
     }
     _s.fEnvelopeDirty = in.readbit();
-    _s.reserved2a = in.readuint7();
-    if (!(((quint8)_s.reserved2a) == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2a) == 0x0");
+    _s.reserved2a = in.readuint3();
+    if (!(((quint8)_s.reserved2a) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2a) == 0");
     }
-    _s.reserved2b = in.readuint20();
-    if (!(((quint32)_s.reserved2b) == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved2b) == 0x0");
+    _s.reserved2b = in.readuint8();
+    if (!(((quint8)_s.reserved2b) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2b) == 0");
+    }
+    _s.reserved2c = in.readuint16();
+    if (!(((quint16)_s.reserved2c) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint16)_s.reserved2c) == 0");
     }
 }
 void PPT::parseHTMLDocInfo9Atom(LEInputStream& in, HTMLDocInfo9Atom& _s) {
@@ -3540,14 +3540,6 @@ void PPT::parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _
     _c = _s.rh.recLen-6*_s.rh.recInstance;
     _s.complexData.resize(_c);
     in.readBytes(_s.complexData);
-}
-void PPT::parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s) {
-    _s.streamOffset = in.getPosition();
-    int _c;
-    LEInputStream::Mark _m;
-    _c = 0;
-    _s.data.resize(_c);
-    in.readBytes(_s.data);
 }
 void PPT::parseFixedPoint(LEInputStream& in, FixedPoint& _s) {
     _s.streamOffset = in.getPosition();

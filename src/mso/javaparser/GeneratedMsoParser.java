@@ -951,17 +951,13 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fDisableNumberOfLinesBodyRule = in.readbit();
         _s.fDisableTooManyFontsRule = in.readbit();
         _s.fDisablePrintTip = in.readbit();
-        _s.reserveda = in.readuint7();
+        _s.reserveda = in.readuint5();
         if (!(_s.reserveda == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.reserveda == 0 for value " + String.valueOf(_s.reserveda) );
         }
-        _s.reservedb = in.readuint7();
+        _s.reservedb = in.readuint16();
         if (!(_s.reservedb == 0)) {
             throw new IncorrectValueException(in.getPosition() + "_s.reservedb == 0 for value " + String.valueOf(_s.reservedb) );
-        }
-        _s.reservedc = in.readuint7();
-        if (!(_s.reservedc == 0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reservedc == 0 for value " + String.valueOf(_s.reservedc) );
         }
         return _s;
     }
@@ -978,9 +974,8 @@ System.out.println(in.getPosition()+" "+_s);
         out.writebit(_s.fDisableNumberOfLinesBodyRule);
         out.writebit(_s.fDisableTooManyFontsRule);
         out.writebit(_s.fDisablePrintTip);
-        out.writeuint7(_s.reserveda);
-        out.writeuint7(_s.reservedb);
-        out.writeuint7(_s.reservedc);
+        out.writeuint5(_s.reserveda);
+        out.writeuint16(_s.reservedb);
     }
     EnvelopeData9Atom parseEnvelopeData9Atom(LEInputStream in) throws IOException  {
         EnvelopeData9Atom _s = new EnvelopeData9Atom();
@@ -1023,17 +1018,21 @@ System.out.println(in.getPosition()+" "+_s);
         _s.fHasEnvelope = in.readbit();
         _s.fEnvelopeVisible = in.readbit();
         _s.reserved1 = in.readuint2();
-        if (!(_s.reserved1 == 0x0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reserved1 == 0x0 for value " + String.valueOf(_s.reserved1) );
+        if (!(_s.reserved1 == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved1 == 0 for value " + String.valueOf(_s.reserved1) );
         }
         _s.fEnvelopeDirty = in.readbit();
-        _s.reserved2a = in.readuint7();
-        if (!(_s.reserved2a == 0x0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reserved2a == 0x0 for value " + String.valueOf(_s.reserved2a) );
+        _s.reserved2a = in.readuint3();
+        if (!(_s.reserved2a == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved2a == 0 for value " + String.valueOf(_s.reserved2a) );
         }
-        _s.reserved2b = in.readuint20();
-        if (!(_s.reserved2b == 0x0)) {
-            throw new IncorrectValueException(in.getPosition() + "_s.reserved2b == 0x0 for value " + String.valueOf(_s.reserved2b) );
+        _s.reserved2b = in.readuint8();
+        if (!(_s.reserved2b == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved2b == 0 for value " + String.valueOf(_s.reserved2b) );
+        }
+        _s.reserved2c = in.readuint16();
+        if (!(_s.reserved2c == 0)) {
+            throw new IncorrectValueException(in.getPosition() + "_s.reserved2c == 0 for value " + String.valueOf(_s.reserved2c) );
         }
         return _s;
     }
@@ -1043,8 +1042,9 @@ System.out.println(in.getPosition()+" "+_s);
         out.writebit(_s.fEnvelopeVisible);
         out.writeuint2(_s.reserved1);
         out.writebit(_s.fEnvelopeDirty);
-        out.writeuint7(_s.reserved2a);
-        out.writeuint20(_s.reserved2b);
+        out.writeuint3(_s.reserved2a);
+        out.writeuint8(_s.reserved2b);
+        out.writeuint16(_s.reserved2c);
     }
     HTMLDocInfo9Atom parseHTMLDocInfo9Atom(LEInputStream in) throws IOException  {
         HTMLDocInfo9Atom _s = new HTMLDocInfo9Atom();
@@ -4795,18 +4795,6 @@ System.out.println(in.getPosition()+" "+_s);
             write(_i, out);
         }
         for (byte _i: _s.complexData) {
-            out.writeuint8(_i);
-        }
-    }
-    OfficeArtFOPTEComplexData parseOfficeArtFOPTEComplexData(LEInputStream in) throws IOException  {
-        OfficeArtFOPTEComplexData _s = new OfficeArtFOPTEComplexData();
-        int _c;
-        _c = 0;
-        _s.data = in.readBytes(_c);
-        return _s;
-    }
-    void write(OfficeArtFOPTEComplexData _s, LEOutputStream out) throws IOException  {
-        for (byte _i: _s.data) {
             out.writeuint8(_i);
         }
     }
@@ -13660,8 +13648,7 @@ class PresAdvisorFlags9Atom {
     boolean fDisableTooManyFontsRule;
     boolean fDisablePrintTip;
     byte reserveda;
-    byte reservedb;
-    byte reservedc;
+    int reservedb;
     public String toString() {
         String _s = "PresAdvisorFlags9Atom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -13678,7 +13665,6 @@ class PresAdvisorFlags9Atom {
         _s = _s + "fDisablePrintTip: " + String.valueOf(fDisablePrintTip) + ", ";
         _s = _s + "reserveda: " + String.valueOf(reserveda) + "(" + Integer.toHexString(reserveda).toUpperCase() + "), ";
         _s = _s + "reservedb: " + String.valueOf(reservedb) + "(" + Integer.toHexString(reservedb).toUpperCase() + "), ";
-        _s = _s + "reservedc: " + String.valueOf(reservedc) + "(" + Integer.toHexString(reservedc).toUpperCase() + "), ";
         return _s;
     }
 }
@@ -13699,7 +13685,8 @@ class EnvelopeFlags9Atom {
     byte reserved1;
     boolean fEnvelopeDirty;
     byte reserved2a;
-    int reserved2b;
+    byte reserved2b;
+    int reserved2c;
     public String toString() {
         String _s = "EnvelopeFlags9Atom:";
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
@@ -13709,6 +13696,7 @@ class EnvelopeFlags9Atom {
         _s = _s + "fEnvelopeDirty: " + String.valueOf(fEnvelopeDirty) + ", ";
         _s = _s + "reserved2a: " + String.valueOf(reserved2a) + "(" + Integer.toHexString(reserved2a).toUpperCase() + "), ";
         _s = _s + "reserved2b: " + String.valueOf(reserved2b) + "(" + Integer.toHexString(reserved2b).toUpperCase() + "), ";
+        _s = _s + "reserved2c: " + String.valueOf(reserved2c) + "(" + Integer.toHexString(reserved2c).toUpperCase() + "), ";
         return _s;
     }
 }
@@ -15525,14 +15513,6 @@ class OfficeArtTertiaryFOPT {
         _s = _s + "rh: " + String.valueOf(rh) + ", ";
         _s = _s + "fopt: " + String.valueOf(fopt) + ", ";
         _s = _s + "complexData: " + String.valueOf(complexData) + ", ";
-        return _s;
-    }
-}
-class OfficeArtFOPTEComplexData {
-    byte[] data;
-    public String toString() {
-        String _s = "OfficeArtFOPTEComplexData:";
-        _s = _s + "data: " + String.valueOf(data) + ", ";
         return _s;
     }
 }

@@ -689,10 +689,6 @@ class OfficeArtTertiaryFOPT;
 void parseOfficeArtTertiaryFOPT(LEInputStream& in, OfficeArtTertiaryFOPT& _s);
 void parseOfficeArtTertiaryFOPT(QXmlStreamReader& in, OfficeArtTertiaryFOPT& _s);
 void write(const OfficeArtTertiaryFOPT& v, LEOutputStream& out);
-class OfficeArtFOPTEComplexData;
-void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s);
-void parseOfficeArtFOPTEComplexData(QXmlStreamReader& in, OfficeArtFOPTEComplexData& _s);
-void write(const OfficeArtFOPTEComplexData& v, LEOutputStream& out);
 class FixedPoint;
 void parseFixedPoint(LEInputStream& in, FixedPoint& _s);
 void parseFixedPoint(QXmlStreamReader& in, FixedPoint& _s);
@@ -2147,8 +2143,7 @@ public:
     bool fDisableTooManyFontsRule;
     bool fDisablePrintTip;
     quint8 reserveda;
-    quint8 reservedb;
-    quint8 reservedc;
+    quint16 reservedb;
     explicit PresAdvisorFlags9Atom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this) {}
@@ -2168,7 +2163,6 @@ public:
         _s = _s + "fDisablePrintTip: " + QString::number(fDisablePrintTip) + ", ";
         _s = _s + "reserveda: " + QString::number(reserveda) + "(" + QString::number(reserveda,16).toUpper() + ")" + ", ";
         _s = _s + "reservedb: " + QString::number(reservedb) + "(" + QString::number(reservedb,16).toUpper() + ")" + ", ";
-        _s = _s + "reservedc: " + QString::number(reservedc) + "(" + QString::number(reservedc,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -2202,7 +2196,8 @@ public:
     quint8 reserved1;
     bool fEnvelopeDirty;
     quint8 reserved2a;
-    quint32 reserved2b;
+    quint8 reserved2b;
+    quint16 reserved2c;
     explicit EnvelopeFlags9Atom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this) {}
@@ -2215,6 +2210,7 @@ public:
         _s = _s + "fEnvelopeDirty: " + QString::number(fEnvelopeDirty) + ", ";
         _s = _s + "reserved2a: " + QString::number(reserved2a) + "(" + QString::number(reserved2a,16).toUpper() + ")" + ", ";
         _s = _s + "reserved2b: " + QString::number(reserved2b) + "(" + QString::number(reserved2b,16).toUpper() + ")" + ", ";
+        _s = _s + "reserved2c: " + QString::number(reserved2c) + "(" + QString::number(reserved2c,16).toUpper() + ")" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -5112,21 +5108,6 @@ public:
         _s = _s + "rh: " + rh.toString() + ", ";
         _s = _s + "fopt: " + "[array of fopt]" + ", ";
         _s = _s + "complexData: " + "[array of complexData]" + ", ";
-        return _s;
-    }
-    const Introspection* getIntrospection() const { return &_introspection; }
-};
-class OfficeArtFOPTEComplexData : public Introspectable {
-private:
-    class _Introspection;
-public:
-    static const Introspection _introspection;
-    QByteArray data;
-    explicit OfficeArtFOPTEComplexData(const Introspectable* parent)
-       :Introspectable(parent) {}
-    QString toString() {
-        QString _s = "OfficeArtFOPTEComplexData:";
-        _s = _s + "data: " + "[array of data]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -12297,10 +12278,10 @@ class PresAdvisorFlags9Atom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[15];
-    static int (* const numberOfInstances[15])(const Introspectable*);
-    static QVariant (* const value[15])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[15])(const Introspectable*, int position);
+    static const QString names[14];
+    static int (* const numberOfInstances[14])(const Introspectable*);
+    static QVariant (* const value[14])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[14])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const PresAdvisorFlags9Atom*>(i)->rh);
     }
@@ -12343,13 +12324,10 @@ public:
     static QVariant get_reservedb(const Introspectable* i, int j) {
         return static_cast<const PresAdvisorFlags9Atom*>(i)->reservedb;
     }
-    static QVariant get_reservedc(const Introspectable* i, int j) {
-        return static_cast<const PresAdvisorFlags9Atom*>(i)->reservedc;
-    }
 };
 const QString PresAdvisorFlags9Atom::_Introspection::name("PresAdvisorFlags9Atom");
-const int PresAdvisorFlags9Atom::_Introspection::numberOfMembers(15);
-const QString PresAdvisorFlags9Atom::_Introspection::names[15] = {
+const int PresAdvisorFlags9Atom::_Introspection::numberOfMembers(14);
+const QString PresAdvisorFlags9Atom::_Introspection::names[14] = {
     "rh",
     "fDisableCaseStyleTitleRule",
     "fDisableCaseStyleBodyRule",
@@ -12364,10 +12342,8 @@ const QString PresAdvisorFlags9Atom::_Introspection::names[15] = {
     "fDisablePrintTip",
     "reserveda",
     "reservedb",
-    "reservedc",
 };
-int (* const PresAdvisorFlags9Atom::_Introspection::numberOfInstances[15])(const Introspectable*) = {
-    Introspection::one,
+int (* const PresAdvisorFlags9Atom::_Introspection::numberOfInstances[14])(const Introspectable*) = {
     Introspection::one,
     Introspection::one,
     Introspection::one,
@@ -12383,7 +12359,7 @@ int (* const PresAdvisorFlags9Atom::_Introspection::numberOfInstances[15])(const
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const PresAdvisorFlags9Atom::_Introspection::value[15])(const Introspectable*, int position) = {
+QVariant (* const PresAdvisorFlags9Atom::_Introspection::value[14])(const Introspectable*, int position) = {
     Introspection::nullValue,
     _Introspection::get_fDisableCaseStyleTitleRule,
     _Introspection::get_fDisableCaseStyleBodyRule,
@@ -12398,11 +12374,9 @@ QVariant (* const PresAdvisorFlags9Atom::_Introspection::value[15])(const Intros
     _Introspection::get_fDisablePrintTip,
     _Introspection::get_reserveda,
     _Introspection::get_reservedb,
-    _Introspection::get_reservedc,
 };
-const Introspectable* (* const PresAdvisorFlags9Atom::_Introspection::introspectable[15])(const Introspectable*, int position) = {
+const Introspectable* (* const PresAdvisorFlags9Atom::_Introspection::introspectable[14])(const Introspectable*, int position) = {
     _Introspection::get_rh,
-    Introspection::null,
     Introspection::null,
     Introspection::null,
     Introspection::null,
@@ -12418,7 +12392,7 @@ const Introspectable* (* const PresAdvisorFlags9Atom::_Introspection::introspect
     Introspection::null,
 };
 const Introspection PresAdvisorFlags9Atom::_introspection(
-    "PresAdvisorFlags9Atom", 15, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "PresAdvisorFlags9Atom", 14, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class EnvelopeData9Atom::_Introspection {
 public:
     static const QString name;
@@ -12458,10 +12432,10 @@ class EnvelopeFlags9Atom::_Introspection {
 public:
     static const QString name;
     static const int numberOfMembers;
-    static const QString names[7];
-    static int (* const numberOfInstances[7])(const Introspectable*);
-    static QVariant (* const value[7])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[7])(const Introspectable*, int position);
+    static const QString names[8];
+    static int (* const numberOfInstances[8])(const Introspectable*);
+    static QVariant (* const value[8])(const Introspectable*, int position);
+    static const Introspectable* (* const introspectable[8])(const Introspectable*, int position);
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const EnvelopeFlags9Atom*>(i)->rh);
     }
@@ -12483,10 +12457,13 @@ public:
     static QVariant get_reserved2b(const Introspectable* i, int j) {
         return static_cast<const EnvelopeFlags9Atom*>(i)->reserved2b;
     }
+    static QVariant get_reserved2c(const Introspectable* i, int j) {
+        return static_cast<const EnvelopeFlags9Atom*>(i)->reserved2c;
+    }
 };
 const QString EnvelopeFlags9Atom::_Introspection::name("EnvelopeFlags9Atom");
-const int EnvelopeFlags9Atom::_Introspection::numberOfMembers(7);
-const QString EnvelopeFlags9Atom::_Introspection::names[7] = {
+const int EnvelopeFlags9Atom::_Introspection::numberOfMembers(8);
+const QString EnvelopeFlags9Atom::_Introspection::names[8] = {
     "rh",
     "fHasEnvelope",
     "fEnvelopeVisible",
@@ -12494,8 +12471,10 @@ const QString EnvelopeFlags9Atom::_Introspection::names[7] = {
     "fEnvelopeDirty",
     "reserved2a",
     "reserved2b",
+    "reserved2c",
 };
-int (* const EnvelopeFlags9Atom::_Introspection::numberOfInstances[7])(const Introspectable*) = {
+int (* const EnvelopeFlags9Atom::_Introspection::numberOfInstances[8])(const Introspectable*) = {
+    Introspection::one,
     Introspection::one,
     Introspection::one,
     Introspection::one,
@@ -12504,7 +12483,7 @@ int (* const EnvelopeFlags9Atom::_Introspection::numberOfInstances[7])(const Int
     Introspection::one,
     Introspection::one,
 };
-QVariant (* const EnvelopeFlags9Atom::_Introspection::value[7])(const Introspectable*, int position) = {
+QVariant (* const EnvelopeFlags9Atom::_Introspection::value[8])(const Introspectable*, int position) = {
     Introspection::nullValue,
     _Introspection::get_fHasEnvelope,
     _Introspection::get_fEnvelopeVisible,
@@ -12512,9 +12491,11 @@ QVariant (* const EnvelopeFlags9Atom::_Introspection::value[7])(const Introspect
     _Introspection::get_fEnvelopeDirty,
     _Introspection::get_reserved2a,
     _Introspection::get_reserved2b,
+    _Introspection::get_reserved2c,
 };
-const Introspectable* (* const EnvelopeFlags9Atom::_Introspection::introspectable[7])(const Introspectable*, int position) = {
+const Introspectable* (* const EnvelopeFlags9Atom::_Introspection::introspectable[8])(const Introspectable*, int position) = {
     _Introspection::get_rh,
+    Introspection::null,
     Introspection::null,
     Introspection::null,
     Introspection::null,
@@ -12523,7 +12504,7 @@ const Introspectable* (* const EnvelopeFlags9Atom::_Introspection::introspectabl
     Introspection::null,
 };
 const Introspection EnvelopeFlags9Atom::_introspection(
-    "EnvelopeFlags9Atom", 7, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
+    "EnvelopeFlags9Atom", 8, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class HTMLDocInfo9Atom::_Introspection {
 public:
     static const QString name;
@@ -18949,34 +18930,6 @@ const Introspectable* (* const OfficeArtTertiaryFOPT::_Introspection::introspect
 };
 const Introspection OfficeArtTertiaryFOPT::_introspection(
     "OfficeArtTertiaryFOPT", 3, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
-class OfficeArtFOPTEComplexData::_Introspection {
-public:
-    static const QString name;
-    static const int numberOfMembers;
-    static const QString names[1];
-    static int (* const numberOfInstances[1])(const Introspectable*);
-    static QVariant (* const value[1])(const Introspectable*, int position);
-    static const Introspectable* (* const introspectable[1])(const Introspectable*, int position);
-    static QVariant get_data(const Introspectable* i, int j) {
-        return static_cast<const OfficeArtFOPTEComplexData*>(i)->data;
-    }
-};
-const QString OfficeArtFOPTEComplexData::_Introspection::name("OfficeArtFOPTEComplexData");
-const int OfficeArtFOPTEComplexData::_Introspection::numberOfMembers(1);
-const QString OfficeArtFOPTEComplexData::_Introspection::names[1] = {
-    "data",
-};
-int (* const OfficeArtFOPTEComplexData::_Introspection::numberOfInstances[1])(const Introspectable*) = {
-    Introspection::one,
-};
-QVariant (* const OfficeArtFOPTEComplexData::_Introspection::value[1])(const Introspectable*, int position) = {
-    _Introspection::get_data,
-};
-const Introspectable* (* const OfficeArtFOPTEComplexData::_Introspection::introspectable[1])(const Introspectable*, int position) = {
-    Introspection::null,
-};
-const Introspection OfficeArtFOPTEComplexData::_introspection(
-    "OfficeArtFOPTEComplexData", 1, _Introspection::names, _Introspection::numberOfInstances, _Introspection::value, _Introspection::introspectable);
 class FixedPoint::_Introspection {
 public:
     static const QString name;
@@ -34710,17 +34663,13 @@ void parsePresAdvisorFlags9Atom(LEInputStream& in, PresAdvisorFlags9Atom& _s) {
     _s.fDisableNumberOfLinesBodyRule = in.readbit();
     _s.fDisableTooManyFontsRule = in.readbit();
     _s.fDisablePrintTip = in.readbit();
-    _s.reserveda = in.readuint7();
+    _s.reserveda = in.readuint5();
     if (!(((quint8)_s.reserveda) == 0)) {
         throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserveda) == 0");
     }
-    _s.reservedb = in.readuint7();
-    if (!(((quint8)_s.reservedb) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reservedb) == 0");
-    }
-    _s.reservedc = in.readuint7();
-    if (!(((quint8)_s.reservedc) == 0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reservedc) == 0");
+    _s.reservedb = in.readuint16();
+    if (!(((quint16)_s.reservedb) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint16)_s.reservedb) == 0");
     }
 }
 void write(const PresAdvisorFlags9Atom& _s, LEOutputStream& out) {
@@ -34736,9 +34685,8 @@ void write(const PresAdvisorFlags9Atom& _s, LEOutputStream& out) {
     out.writebit(_s.fDisableNumberOfLinesBodyRule);
     out.writebit(_s.fDisableTooManyFontsRule);
     out.writebit(_s.fDisablePrintTip);
-    out.writeuint7(_s.reserveda);
-    out.writeuint7(_s.reservedb);
-    out.writeuint7(_s.reservedc);
+    out.writeuint5(_s.reserveda);
+    out.writeuint16(_s.reservedb);
 }
 void parsePresAdvisorFlags9Atom(QXmlStreamReader& in, PresAdvisorFlags9Atom& _s) {
     in.readNext();
@@ -34851,7 +34799,7 @@ void parsePresAdvisorFlags9Atom(QXmlStreamReader& in, PresAdvisorFlags9Atom& _s)
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint7 " << in.lineNumber();
+        qDebug() << "not startelement in uint5 " << in.lineNumber();
         return;
     }
     if (in.name() != "reserveda") {
@@ -34860,20 +34808,11 @@ void parsePresAdvisorFlags9Atom(QXmlStreamReader& in, PresAdvisorFlags9Atom& _s)
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint7 " << in.lineNumber();
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;
     }
     if (in.name() != "reservedb") {
         qDebug() << "not startelement in reservedb " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint7 " << in.lineNumber();
-        return;
-    }
-    if (in.name() != "reservedc") {
-        qDebug() << "not startelement in reservedc " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -34935,17 +34874,21 @@ void parseEnvelopeFlags9Atom(LEInputStream& in, EnvelopeFlags9Atom& _s) {
     _s.fHasEnvelope = in.readbit();
     _s.fEnvelopeVisible = in.readbit();
     _s.reserved1 = in.readuint2();
-    if (!(((quint8)_s.reserved1) == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved1) == 0x0");
+    if (!(((quint8)_s.reserved1) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved1) == 0");
     }
     _s.fEnvelopeDirty = in.readbit();
-    _s.reserved2a = in.readuint7();
-    if (!(((quint8)_s.reserved2a) == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2a) == 0x0");
+    _s.reserved2a = in.readuint3();
+    if (!(((quint8)_s.reserved2a) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2a) == 0");
     }
-    _s.reserved2b = in.readuint20();
-    if (!(((quint32)_s.reserved2b) == 0x0)) {
-        throw IncorrectValueException(in.getPosition(), "((quint32)_s.reserved2b) == 0x0");
+    _s.reserved2b = in.readuint8();
+    if (!(((quint8)_s.reserved2b) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint8)_s.reserved2b) == 0");
+    }
+    _s.reserved2c = in.readuint16();
+    if (!(((quint16)_s.reserved2c) == 0)) {
+        throw IncorrectValueException(in.getPosition(), "((quint16)_s.reserved2c) == 0");
     }
 }
 void write(const EnvelopeFlags9Atom& _s, LEOutputStream& out) {
@@ -34954,8 +34897,9 @@ void write(const EnvelopeFlags9Atom& _s, LEOutputStream& out) {
     out.writebit(_s.fEnvelopeVisible);
     out.writeuint2(_s.reserved1);
     out.writebit(_s.fEnvelopeDirty);
-    out.writeuint7(_s.reserved2a);
-    out.writeuint20(_s.reserved2b);
+    out.writeuint3(_s.reserved2a);
+    out.writeuint8(_s.reserved2b);
+    out.writeuint16(_s.reserved2c);
 }
 void parseEnvelopeFlags9Atom(QXmlStreamReader& in, EnvelopeFlags9Atom& _s) {
     in.readNext();
@@ -35005,7 +34949,7 @@ void parseEnvelopeFlags9Atom(QXmlStreamReader& in, EnvelopeFlags9Atom& _s) {
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint7 " << in.lineNumber();
+        qDebug() << "not startelement in uint3 " << in.lineNumber();
         return;
     }
     if (in.name() != "reserved2a") {
@@ -35014,11 +34958,20 @@ void parseEnvelopeFlags9Atom(QXmlStreamReader& in, EnvelopeFlags9Atom& _s) {
     }
     in.readElementText();
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint20 " << in.lineNumber();
+        qDebug() << "not startelement in uint8 " << in.lineNumber();
         return;
     }
     if (in.name() != "reserved2b") {
         qDebug() << "not startelement in reserved2b " << in.lineNumber();
+        return;
+    }
+    in.readElementText();
+    if (!in.isStartElement()) {
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
+        return;
+    }
+    if (in.name() != "reserved2c") {
+        qDebug() << "not startelement in reserved2c " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -43158,25 +43111,6 @@ void parseOfficeArtTertiaryFOPT(QXmlStreamReader& in, OfficeArtTertiaryFOPT& _s)
         return;
     }
     skipToStartElement(in);
-    if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint8 " << in.lineNumber();
-        return;
-    }
-    in.readElementText();
-}
-void parseOfficeArtFOPTEComplexData(LEInputStream& in, OfficeArtFOPTEComplexData& _s) {
-    _s.streamOffset = in.getPosition();
-    int _c;
-    LEInputStream::Mark _m;
-    _c = 0;
-    _s.data.resize(_c);
-    in.readBytes(_s.data);
-}
-void write(const OfficeArtFOPTEComplexData& _s, LEOutputStream& out) {
-    out.writeBytes(_s.data);
-}
-void parseOfficeArtFOPTEComplexData(QXmlStreamReader& in, OfficeArtFOPTEComplexData& _s) {
-    in.readNext();
     if (!in.isStartElement()) {
         qDebug() << "not startelement in uint8 " << in.lineNumber();
         return;
