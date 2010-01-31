@@ -14,9 +14,9 @@ testFile(const char* path) {
         qDebug() << "Error reading stream ";
         return;
     }
-    qDebug() << "Parsing stream of size " << array.size();
     PPT::PowerPointStructs s(array.data(), array.size());
-    qDebug() << "Parsed: " << (s._data != 0) << " " << s._size;
+    qDebug() << "Parsed " << s._size << " of " << array.size() << ": "
+        << ((s._size == array.size())?"OK":"FAIL");
 }
 int
 main(int argc, char** argv) {

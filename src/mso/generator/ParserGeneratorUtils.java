@@ -261,7 +261,8 @@ class Struct extends TypeRegistry.Type {
 					continue;
 				}
 				Member m = new Member(registry, me);
-				if (m.isOptional || m.type() == null || m.type().size == -1) {
+				if (m.isOptional || m.condition != null || m.type() == null
+						|| m.type().size == -1) {
 					return -1;
 				}
 				if (m.isArray) {

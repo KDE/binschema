@@ -267,7 +267,7 @@ public class QtApiGenerator {
 		}
 		// get the expression for the size
 		int size = getSize(m);
-		String count = String.valueOf(size / m.type().size);
+		String count = String.valueOf(size * 8 / m.type().size);
 		if (size == -1) {
 			if (m.count != null) {
 				count = m.count;
