@@ -1887,7 +1887,7 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray userDate;
+    QVector<quint16> userDate;
     explicit UserDateAtom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this) {}
@@ -1905,14 +1905,14 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray footer;
+    QVector<quint16> header;
     explicit HeaderAtom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this) {}
     QString toString() {
         QString _s = "HeaderAtom:";
         _s = _s + "rh: " + rh.toString() + ", ";
-        _s = _s + "footer: " + "[array of footer]" + ", ";
+        _s = _s + "header: " + "[array of header]" + ", ";
         return _s;
     }
     const Introspection* getIntrospection() const { return &_introspection; }
@@ -1923,7 +1923,7 @@ private:
 public:
     static const Introspection _introspection;
     RecordHeader rh;
-    QByteArray footer;
+    QVector<quint16> footer;
     explicit FooterAtom(const Introspectable* parent)
        :Introspectable(parent),
         rh(this) {}
@@ -11803,7 +11803,7 @@ public:
         return &(static_cast<const UserDateAtom*>(i)->rh);
     }
     static QVariant get_userDate(const Introspectable* i, int j) {
-        return static_cast<const UserDateAtom*>(i)->userDate;
+        return qVariantFromValue(static_cast<const UserDateAtom*>(i)->userDate);
     }
 };
 const QString UserDateAtom::_Introspection::name("UserDateAtom");
@@ -11837,15 +11837,15 @@ public:
     static const Introspectable* get_rh(const Introspectable* i, int j) {
         return &(static_cast<const HeaderAtom*>(i)->rh);
     }
-    static QVariant get_footer(const Introspectable* i, int j) {
-        return static_cast<const HeaderAtom*>(i)->footer;
+    static QVariant get_header(const Introspectable* i, int j) {
+        return qVariantFromValue(static_cast<const HeaderAtom*>(i)->header);
     }
 };
 const QString HeaderAtom::_Introspection::name("HeaderAtom");
 const int HeaderAtom::_Introspection::numberOfMembers(2);
 const QString HeaderAtom::_Introspection::names[2] = {
     "rh",
-    "footer",
+    "header",
 };
 int (* const HeaderAtom::_Introspection::numberOfInstances[2])(const Introspectable*) = {
     Introspection::one,
@@ -11853,7 +11853,7 @@ int (* const HeaderAtom::_Introspection::numberOfInstances[2])(const Introspecta
 };
 QVariant (* const HeaderAtom::_Introspection::value[2])(const Introspectable*, int position) = {
     Introspection::nullValue,
-    _Introspection::get_footer,
+    _Introspection::get_header,
 };
 const Introspectable* (* const HeaderAtom::_Introspection::introspectable[2])(const Introspectable*, int position) = {
     _Introspection::get_rh,
@@ -11873,7 +11873,7 @@ public:
         return &(static_cast<const FooterAtom*>(i)->rh);
     }
     static QVariant get_footer(const Introspectable* i, int j) {
-        return static_cast<const FooterAtom*>(i)->footer;
+        return qVariantFromValue(static_cast<const FooterAtom*>(i)->footer);
     }
 };
 const QString FooterAtom::_Introspection::name("FooterAtom");
@@ -34070,13 +34070,17 @@ void parseUserDateAtom(LEInputStream& in, UserDateAtom& _s) {
     if (!(_s.rh.recLen<=510)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen<=510");
     }
-    _c = _s.rh.recLen;
+    _c = _s.rh.recLen/2;
     _s.userDate.resize(_c);
-    in.readBytes(_s.userDate);
+    for (int _i=0; _i<_c; ++_i) {
+        _s.userDate[_i] = in.readuint16();
+    }
 }
 void write(const UserDateAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    out.writeBytes(_s.userDate);
+    foreach (quint16 _i, _s.userDate) {
+        out.writeuint16(_i);
+    }
 }
 void parseUserDateAtom(QXmlStreamReader& in, UserDateAtom& _s) {
     in.readNext();
@@ -34090,7 +34094,7 @@ void parseUserDateAtom(QXmlStreamReader& in, UserDateAtom& _s) {
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -34112,13 +34116,17 @@ void parseHeaderAtom(LEInputStream& in, HeaderAtom& _s) {
     if (!(_s.rh.recLen%2==0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
-    _c = _s.rh.recLen;
-    _s.footer.resize(_c);
-    in.readBytes(_s.footer);
+    _c = _s.rh.recLen/2;
+    _s.header.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
+        _s.header[_i] = in.readuint16();
+    }
 }
 void write(const HeaderAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    out.writeBytes(_s.footer);
+    foreach (quint16 _i, _s.header) {
+        out.writeuint16(_i);
+    }
 }
 void parseHeaderAtom(QXmlStreamReader& in, HeaderAtom& _s) {
     in.readNext();
@@ -34132,7 +34140,7 @@ void parseHeaderAtom(QXmlStreamReader& in, HeaderAtom& _s) {
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;
     }
     in.readElementText();
@@ -34154,13 +34162,17 @@ void parseFooterAtom(LEInputStream& in, FooterAtom& _s) {
     if (!(_s.rh.recLen%2==0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
-    _c = _s.rh.recLen;
+    _c = _s.rh.recLen/2;
     _s.footer.resize(_c);
-    in.readBytes(_s.footer);
+    for (int _i=0; _i<_c; ++_i) {
+        _s.footer[_i] = in.readuint16();
+    }
 }
 void write(const FooterAtom& _s, LEOutputStream& out) {
     write(_s.rh, out);
-    out.writeBytes(_s.footer);
+    foreach (quint16 _i, _s.footer) {
+        out.writeuint16(_i);
+    }
 }
 void parseFooterAtom(QXmlStreamReader& in, FooterAtom& _s) {
     in.readNext();
@@ -34174,7 +34186,7 @@ void parseFooterAtom(QXmlStreamReader& in, FooterAtom& _s) {
     }
     skipToStartElement(in);
     if (!in.isStartElement()) {
-        qDebug() << "not startelement in uint8 " << in.lineNumber();
+        qDebug() << "not startelement in uint16 " << in.lineNumber();
         return;
     }
     in.readElementText();

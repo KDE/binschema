@@ -339,7 +339,7 @@
 			<limitation name="recLen" expression="%2==0" />
 			<limitation name="recLen" expression="&lt;=510" />
 		</type>
-		<uint8 name="userDate" count="rh.recLen" />
+		<uint16 name="userDate" count="rh.recLen/2" />
 	</struct>
 	<struct name="HeaderAtom">
 		<type name="rh" type="RecordHeader">
@@ -348,7 +348,7 @@
 			<limitation name="recType" value="0xFBA" />
 			<limitation name="recLen" expression="%2==0" />
 		</type>
-		<uint8 name="footer" count="rh.recLen" />
+		<uint16 name="header" count="rh.recLen/2" />
 	</struct>
 	<struct name="FooterAtom">
 		<type name="rh" type="RecordHeader">
@@ -357,7 +357,7 @@
 			<limitation name="recType" value="0xFBA" />
 			<limitation name="recLen" expression="%2==0" />
 		</type>
-		<uint8 name="footer" count="rh.recLen" />
+		<uint16 name="footer" count="rh.recLen/2" />
 	</struct>
 	<struct name="PerSlideHeadersFootersContainer">
 		<type name="rh" type="RecordHeader">

@@ -908,19 +908,19 @@ public:
 class UserDateAtom : public StreamOffset {
 public:
     RecordHeader rh;
-    QByteArray userDate;
+    QVector<quint16> userDate;
     UserDateAtom(void* /*dummy*/ = 0) {}
 };
 class HeaderAtom : public StreamOffset {
 public:
     RecordHeader rh;
-    QByteArray footer;
+    QVector<quint16> header;
     HeaderAtom(void* /*dummy*/ = 0) {}
 };
 class FooterAtom : public StreamOffset {
 public:
     RecordHeader rh;
-    QByteArray footer;
+    QVector<quint16> footer;
     FooterAtom(void* /*dummy*/ = 0) {}
 };
 class PerSlideHeadersFootersContainer : public StreamOffset {

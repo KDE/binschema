@@ -362,9 +362,11 @@ void PPT::parseUserDateAtom(LEInputStream& in, UserDateAtom& _s) {
     if (!(_s.rh.recLen<=510)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen<=510");
     }
-    _c = _s.rh.recLen;
+    _c = _s.rh.recLen/2;
     _s.userDate.resize(_c);
-    in.readBytes(_s.userDate);
+    for (int _i=0; _i<_c; ++_i) {
+        _s.userDate[_i] = in.readuint16();
+    }
 }
 void PPT::parseHeaderAtom(LEInputStream& in, HeaderAtom& _s) {
     _s.streamOffset = in.getPosition();
@@ -383,9 +385,11 @@ void PPT::parseHeaderAtom(LEInputStream& in, HeaderAtom& _s) {
     if (!(_s.rh.recLen%2==0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
-    _c = _s.rh.recLen;
-    _s.footer.resize(_c);
-    in.readBytes(_s.footer);
+    _c = _s.rh.recLen/2;
+    _s.header.resize(_c);
+    for (int _i=0; _i<_c; ++_i) {
+        _s.header[_i] = in.readuint16();
+    }
 }
 void PPT::parseFooterAtom(LEInputStream& in, FooterAtom& _s) {
     _s.streamOffset = in.getPosition();
@@ -404,9 +408,11 @@ void PPT::parseFooterAtom(LEInputStream& in, FooterAtom& _s) {
     if (!(_s.rh.recLen%2==0)) {
         throw IncorrectValueException(in.getPosition(), "_s.rh.recLen%2==0");
     }
-    _c = _s.rh.recLen;
+    _c = _s.rh.recLen/2;
     _s.footer.resize(_c);
-    in.readBytes(_s.footer);
+    for (int _i=0; _i<_c; ++_i) {
+        _s.footer[_i] = in.readuint16();
+    }
 }
 void PPT::parsePerSlideHeadersFootersContainer(LEInputStream& in, PerSlideHeadersFootersContainer& _s) {
     _s.streamOffset = in.getPosition();
