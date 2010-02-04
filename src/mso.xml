@@ -367,7 +367,19 @@
 		</type>
 		<type name="hfAtom" type="HeadersFootersAtom" />
 		<type name="userDateAtom" type="UserDateAtom" optional="true" />
+		<!--
+			according to Microsoft documentation, there should be no headerAtom in
+			this struct, however in some ... documents add one. Adding it as an
+			optional field here still allows such files to be parsed.
+		-->
+		<type name="headerAtom" type="HeaderAtom" optional="true" />
 		<type name="footerAtom" type="FooterAtom" optional="true" />
+		<!--
+			according to Microsoft documentation, the userDateAtom must precede
+			footerAtom, however in some ... documents their order is swapped.
+			userDateAtom2 allows such files to still be parsed.
+		-->
+		<type name="userDateAtom2" type="UserDateAtom" optional="true" />
 	</struct>
 	<struct name="EndDocumentAtom">
 		<type name="rh" type="RecordHeader">
@@ -2260,8 +2272,81 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x138A" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
-		<!-- <type name="rec" type="SlideProgBinaryTagSubContainerOrAtom" /> -->
+		<type name="rec" type="SlideProgBinaryTagSubContainerOrAtom" />
+	</struct>
+	<struct name="SlideProgBinaryTagSubContainerOrAtom">
+		<choice name="anon">
+			<type type="PP9SlideBinaryTagExtension" />
+			<type type="PP10SlideBinaryTagExtension" />
+			<type type="PP12SlideBinaryTagExtension" />
+			<type type="UnknownBinaryTag" />
+		</choice>
+	</struct>
+	<struct name="PP9SlideBinaryTagExtension">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" value="0xE" />
+		</type>
+		<uint16 name="tagName" count="7">
+			<!-- <limitation value='"___PPT9"' /> -->
+		</uint16>
+		<type name="rhData" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<type name="rgTextMasterStyleAtom" type="TextMasterStyle9Atom"
+			array="true" />
+	</struct>
+	<struct name="PP10SlideBinaryTagExtension">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" value="0x10" />
+		</type>
+		<uint16 name="tagName" count="8">
+			<!-- <limitation value='"___PPT10"' />-->
+		</uint16>
+		<type name="rhData" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<!--
+			<type name="rgTextMasterStyleAtom" type="TextMasterStyle10Atom"
+			array="true" /> <type name="rgComment10Container"
+			type="Comment10Container" array="true" /> <type
+			name="linkedSlideAtom" type="LinkedSlide10Atom" optional="true" />
+			<type name="rgLinkedShape10Atom" type="LinedShape10Atom" array="true"
+			/> <type name="slideFlagsAtom" type="SlideFlags10Atom"
+			optional="true" /> <type name="slideTimeAtom" type="SlideTime10Atom"
+			optional="true" /> <type name="hashCodeAtom" type="HashCode10Atom"
+			optional="true" /> <type name="extTimeNodeContainer"
+			type="ExtTimeNodeContainer" optional="true" /> <type
+			name="buildListContainer" type="BuildListContainer" optional="true"
+			/>
+		-->
+		<uint8 name="todo" count="rhData.recLen" />
+	</struct>
+	<struct name="PP12SlideBinaryTagExtension">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" value="0xE" />
+		</type>
+		<uint16 name="tagName" count="8">
+			<!-- <limitation value='"___PPT12"' />-->
+		</uint16>
+		<type name="rhData" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<uint8 name="todo" count="rhData.recLen" />
 	</struct>
 	<struct name="ProgStringTagContainer">
 		<type name="rh" type="RecordHeader">
