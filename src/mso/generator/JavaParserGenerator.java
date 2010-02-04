@@ -269,10 +269,10 @@ public class JavaParserGenerator {
 				out.println("in.readBytes(_c);");
 			} else {
 				out.println("new " + getTypeName(m) + "[_c];");
-				out.println(s + "for (int _i=0; _i<_c; ++_i) {");
-				out.println(s + "    _s." + m.name + "[_i] = " + parse);
+				out.println(s + "for (int _j=0; _j<_c; ++_j) {");
+				out.println(s + "    _s." + m.name + "[_j] = " + parse);
 				printLimitationCheck(out, "            ", "_s." + m.name
-						+ "[_i]", m);
+						+ "[_j]", m);
 				out.println(s + "}");
 			}
 		} else {
