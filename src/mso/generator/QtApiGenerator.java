@@ -178,14 +178,20 @@ public class QtApiGenerator {
 				sp = "        ";
 			}
 			if (msize != -1 && s.size == -1) {
-				out.println(sp + "if (_position + " + msize
-						+ " > _maxsize) return;");
+				out.print(sp + "if (_position + " + msize);
+				if (m.isOptional) {
+					sp += "    ";
+					out.println(" <= _maxsize) {");
+				} else {
+					out.println(" > _maxsize) return;");
+				}
 			}
 			bytepos = printMemberParser(out, sp, s, m, bytepos);
 			printLimitationCheck(out, sp, m.name, m);
 			out.println(sp + "_position += _msize;");
-			if (condition != null) {
-				out.println("    }");
+			while (sp.length() > 4) {
+				sp = sp.substring(sp.length() - 4);
+				out.println(sp + "}");
 			}
 		}
 		if (s.size == -1) {
@@ -389,8 +395,7 @@ public class QtApiGenerator {
 						+ "(_d + _position, _maxsize - _position)._size;");
 			} else {
 				out.println(sp + "_msize = (" + t.name
-						+ "(_d + _position)._data) ?" + t.name
-						+ "::_size :0;");
+						+ "(_d + _position)._data) ?" + t.name + "::_size :0;");
 			}
 			if (!first) {
 				out.println(sp + "}");
