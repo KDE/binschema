@@ -1248,8 +1248,8 @@
 			<limitation value="0|1" />
 		</uint32>
 		<uint32 name="version">
-			<!-- OpenOffice writes 1 instead of 2 -->
-			<limitation value="1|2" />
+			<!-- OpenOffice writes 0 or 1 instead of 2 -->
+			<limitation value="0|1|2" />
 		</uint32>
 	</struct>
 	<struct name="NormalViewSetInfoContainer">
