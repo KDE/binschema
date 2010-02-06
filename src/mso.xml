@@ -368,9 +368,9 @@
 		<type name="hfAtom" type="HeadersFootersAtom" />
 		<type name="userDateAtom" type="UserDateAtom" optional="true" />
 		<!--
-			according to Microsoft documentation, there should be no headerAtom in
-			this struct, however in some ... documents add one. Adding it as an
-			optional field here still allows such files to be parsed.
+			according to Microsoft documentation, there should be no headerAtom
+			in this struct, however in some ... documents add one. Adding it as
+			an optional field here still allows such files to be parsed.
 		-->
 		<type name="headerAtom" type="HeaderAtom" optional="true" />
 		<type name="footerAtom" type="FooterAtom" optional="true" />
@@ -1389,9 +1389,13 @@
 		-->
 		<type name="master" type="MasterTextPropAtom" optional="true" />
 		<type name="bookmark" type="TextBookmarkAtom" array="true" />
+		<!--  this textRuler is not according to the specification -->
+		<type name="textRuler" type="TextRulerAtom" optional="true" />
 		<type name="specialinfo" type="TextSpecialInfoAtom" optional="true" />
 		<type name="interactive" type="TextContainerInteractiveInfo"
 			array="true" />
+		<!--  this second occurance is not according to the specification -->
+		<type name="specialinfo2" type="TextSpecialInfoAtom" optional="true" />
 	</struct>
 	<!-- our own invention -->
 	<struct name="TextContainerMeta">
@@ -2976,6 +2980,12 @@
 		-->
 		<type name="splitColors" type="OfficeArtSplitMenuColorContainer" />
 		<!--
+			sometimes the order is messed up in openoffice generated documents
+			This second blipSore takes that into account, but is not according to
+			the specification.
+		-->
+		<type name="blipStore2" type="OfficeArtBStoreContainer" optional="true" />
+		<!--
 			MS docs do not mention this instance of OfficeArtTertiaryFOPT
 		-->
 		<type name="unknown" type="OfficeArtTertiaryFOPT" optional="true" />
@@ -4012,7 +4022,7 @@
 	<struct name="OfficeArtClientTextBox">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0|0xF" />
-			<!--  documentations says value should be 0 -->
+			<!--  documentation says value should be 0 -->
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xF00D" />
 		</type>
