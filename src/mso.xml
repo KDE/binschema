@@ -2349,7 +2349,7 @@
 			<limitation name="recType" value="0x1389" />
 		</type>
 		<type name="tagNameAtom" type="TagNameAtom" />
-		<type name="tagValueAtom" type="TagValueAtom" />
+		<type name="tagValueAtom" type="TagValueAtom" optional="true" />
 	</struct>
 	<struct name="TagNameAtom">
 		<type name="rh" type="RecordHeader">
