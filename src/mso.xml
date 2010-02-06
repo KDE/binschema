@@ -266,10 +266,12 @@
 		<type name="docRoutingSlipAtom" type="DocRoutingSlipAtom"
 			optional="true" />
 		<type name="printOptionsAtom" type="PrintOptionsAtom" optional="true" />
+		<type name="unknown0" type="UnknownDocumentContainerChild"
+			array="true" />
 		<type name="rtCustomTableStylesAtom1" type="RoundTripCustomTableStyles12Atom"
 			optional="true" />
 		<type name="unknown1" type="UnknownDocumentContainerChild"
-			optional="true" />
+			array="true" />
 		<type name="endDocumentAtom" type="EndDocumentAtom" />
 		<type name="unknown2" type="UnknownDocumentContainerChild3"
 			optional="true" />
@@ -2120,7 +2122,7 @@
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0x1773" />
+			<limitation name="recType" value="0x1773|0x178c|0x178d" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
@@ -2635,8 +2637,9 @@
 	</struct>
 	<struct name="RoundTripSlideRecord">
 		<type name="rh" type="RecordHeader">
+		<!--  value 0x2b0c is deprecated, but can occur -->
 			<limitation name="recType"
-				value="0x40E|0x40F|0x41D|0x3714|0x2B0D|0x2B0B|0x422" />
+				value="0x40E|0x40F|0x41D|0x3714|0x2B0D|0x2B0B|0x2B0C|0x422" />
 			<!--
 				0x40E|0x40F|0x41C|0x41D|0x41E|0x41F|0x420|0x422|0x423|0x425|0x426|0x427|0x428"
 			-->
@@ -2893,7 +2896,7 @@
 			<limitation name="recVer" value="0x0" />
 			<limitation name="recInstance" value="0x0" />
 			<limitation name="recType" value="0x0FD1" />
-			<limitation name="recType" value="0xC" />
+			<limitation name="recLen" value="0xC" />
 		</type>
 		<uint32 name="slideIdRef">
 			<!--
