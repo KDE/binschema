@@ -271,27 +271,34 @@
 			optional="true" />
 		<type name="unknown1" type="UnknownDocumentContainerChild" array="true" />
 		<type name="endDocumentAtom" type="EndDocumentAtom" />
-		<type name="unknown2" type="UnknownDocumentContainerChild3"
-			optional="true" />
-		<type name="unknown3" type="UnknownDocumentContainerChild2"
-			optional="true" />
-		<type name="unknown4" type="UnknownDocumentContainerChild3"
-			optional="true" />
-		<type name="unknown5" type="UnknownDocumentContainerChild4"
-			optional="true" />
-		<type name="unknown6" type="UnknownDocumentContainerChild5"
-			optional="true" />
+		<type name="unknown2" type="UnknownDocumentContainerChild" array="true" />
 		<type name="rtCustomTableStylesAtom2" type="RoundTripCustomTableStyles12Atom"
 			optional="true" />
-		<type name="unknown7" type="TextMasterStyle10Atom" optional="true" />
+		<type name="unknown4" type="UnknownDocumentContainerChild" array="true" />
+		<type name="unknown5" type="TextMasterStyle10Atom" optional="true" />
 	</struct>
 	<struct name="SoundCollectionContainer">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0xF" />
-			<limitation name="recInstance" value="5" />
+			<!--
+				must be 5 according to the documentation, but a value of 0 has been
+				observed
+			-->
+			<limitation name="recInstance" value="0|5" />
 			<limitation name="recType" value="0x7E4" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="soundCollectionAtom" type="SoundCollectionAtom" />
+		<type name="rgSoundContainer" type="SoundContainer" array="true"
+			size="rh.recLen-12" />
+	</struct>
+	<struct name="SoundCollectionAtom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x7e5" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint32 name="soundIdSeed" />
 	</struct>
 	<struct name="SlideHeadersFootersContainer">
 		<type name="rh" type="RecordHeader">
@@ -2126,41 +2133,8 @@
 	</struct>
 	<struct name="UnknownDocumentContainerChild">
 		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0" />
-			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0x1773|0x178c|0x178d" />
-		</type>
-		<uint8 name="todo" count="rh.recLen" />
-	</struct>
-	<struct name="UnknownDocumentContainerChild2">
-		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0xF" />
-			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0x1788" />
-		</type>
-		<uint8 name="todo" count="rh.recLen" />
-	</struct>
-	<struct name="UnknownDocumentContainerChild3">
-		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0" />
-			<limitation name="recInstance" value="4" />
-			<limitation name="recType" value="0x101A" />
-		</type>
-		<uint8 name="todo" count="rh.recLen" />
-	</struct>
-	<struct name="UnknownDocumentContainerChild4">
-		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0" />
-			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0x41A" />
-		</type>
-		<uint8 name="todo" count="rh.recLen" />
-	</struct>
-	<struct name="UnknownDocumentContainerChild5">
-		<type name="rh" type="RecordHeader">
-			<limitation name="recVer" value="0xF" />
-			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0x416" />
+			<limitation name="recType"
+				value="0x416|0x41A|0x101A|0x1773|0x1788|0x178c|0x178d" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
@@ -2228,7 +2202,6 @@
 			optional="true" />
 		<type name="rgRoundTripMainMaster" type="RoundTripMainMasterRecord"
 			array="true" />
-		<type name="unknown2" type="UnknownSlideContainerChild" optional="true" />
 		<type name="templateNameAtom" type="TemplateNameAtom" optional="true" />
 		<!--
 			it is not documented that a SlideProgTagsContainer may appear here
@@ -2387,7 +2360,7 @@
 	<struct name="RoundTripMainMasterRecord">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recType"
-				value="0x41C|0x40E|0x040F|0x41E|0x0423|0x2B0D|0x2B0B|0x041D" />
+				value="0x41C|0x40E|0x040F|0x41E|0x0423|0x2B0D|0x2B0B|0x041D|0x2B0C|0x101D" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
@@ -3905,9 +3878,11 @@
 			array="true" />
 		<type name="placeholderAtom" type="PlaceholderAtom" optional="true" />
 		<type name="recolorInfoAtom" type="RecolorInfoAtom" optional="true" />
+		<type name="unknown1" type="UnknownOfficeArtClientDataChild"
+			optional="true" />
 		<type name="rgShapeClientRoundtripData" type="ShapeClientRoundtripDataSubcontainerOrAtom"
 			array="true" />
-		<type name="unknown" type="UnknownOfficeArtClientDataChild"
+		<type name="unknown2" type="UnknownOfficeArtClientDataChild"
 			optional="true" />
 	</struct>
 	<struct name="ShapeFlagsAtom">
@@ -3985,7 +3960,8 @@
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0xFF3" />
+			<!--  value should be 0xFF3, but value 0xFF2 has been observed too -->
+			<limitation name="recType" value="0xFF2|0xFF3" />
 			<limitation name="recLen" value="0x10" />
 		</type>
 		<uint32 name="soundIdRef" />
@@ -4101,10 +4077,12 @@
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x426" />
-			<limitation name="recLen" value="8" />
+			<!--  documentations says this field should be size 8 -->
+			<limitation name="recLen" value="8|40" />
 		</type>
 		<uint32 name="shapeCheckSum" />
 		<uint32 name="textCheckSum" />
+		<uint8 name="unknown" count="rh.recLen-8" />
 	</struct>
 	<struct name="OfficeArtClientTextBox">
 		<type name="rh" type="OfficeArtRecordHeader">
