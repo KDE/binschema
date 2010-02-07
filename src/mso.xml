@@ -252,7 +252,7 @@
 		<type name="slideList" type="SlideListWithTextContainer"
 			optional="true" />
 		<!--
-			occurance of a SlideHeadersFootersContainer after slideList is not
+			occurrence of a SlideHeadersFootersContainer after slideList is not
 			documented
 		-->
 		<type name="slideHF2" type="SlideHeadersFootersContainer"
@@ -266,12 +266,10 @@
 		<type name="docRoutingSlipAtom" type="DocRoutingSlipAtom"
 			optional="true" />
 		<type name="printOptionsAtom" type="PrintOptionsAtom" optional="true" />
-		<type name="unknown0" type="UnknownDocumentContainerChild"
-			array="true" />
+		<type name="unknown0" type="UnknownDocumentContainerChild" array="true" />
 		<type name="rtCustomTableStylesAtom1" type="RoundTripCustomTableStyles12Atom"
 			optional="true" />
-		<type name="unknown1" type="UnknownDocumentContainerChild"
-			array="true" />
+		<type name="unknown1" type="UnknownDocumentContainerChild" array="true" />
 		<type name="endDocumentAtom" type="EndDocumentAtom" />
 		<type name="unknown2" type="UnknownDocumentContainerChild3"
 			optional="true" />
@@ -281,8 +279,11 @@
 			optional="true" />
 		<type name="unknown5" type="UnknownDocumentContainerChild4"
 			optional="true" />
+		<type name="unknown6" type="UnknownDocumentContainerChild5"
+			optional="true" />
 		<type name="rtCustomTableStylesAtom2" type="RoundTripCustomTableStyles12Atom"
 			optional="true" />
+		<type name="unknown7" type="TextMasterStyle10Atom" optional="true" />
 	</struct>
 	<struct name="SoundCollectionContainer">
 		<type name="rh" type="RecordHeader">
@@ -1655,6 +1656,11 @@
 		<type name="defaultRulerAtom" type="DefaultRulerAtom" optional="true" />
 		<type name="textSIDefaultsAtom" type="TextSIExceptionAtom" />
 		<type name="textMasterStyleAtom" type="TextMasterStyleAtom" />
+		<!--
+			a document has been observed that has two TextMasterStyleAtom members
+		-->
+		<type name="textMasterStyleAtom2" type="TextMasterStyleAtom"
+			optional="true" />
 	</struct>
 	<struct name="TextCFExceptionAtom">
 		<type name="rh" type="RecordHeader">
@@ -2150,6 +2156,14 @@
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
 	</struct>
+	<struct name="UnknownDocumentContainerChild5">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x416" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
 	<struct name="UnknownOfficeArtClientDataChild">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
@@ -2404,12 +2418,17 @@
 		<type name="slideNameAtom" type="SlideNameAtom" optional="true" />
 		<type name="slideProgTagsContainer" type="SlideProgTagsContainer"
 			optional="true" />
-		<type name="rgRoundTripSlide" type="RoundTripSlideRecord" array="true" />
 		<!--
 			perhaps this undocumented type is part fo the RoundTripSlideRecord
 			collection
 		-->
 		<type name="unknown" type="UnknownSlideContainerChild" optional="true" />
+		<type name="rgRoundTripSlide" type="RoundTripSlideRecord" array="true" />
+		<!--
+			perhaps this undocumented type is part fo the RoundTripSlideRecord
+			collection
+		-->
+		<type name="unknown2" type="UnknownSlideContainerChild" optional="true" />
 	</struct>
 	<struct name="RoundTripSlideSyncInfo12Container">
 		<type name="rh" type="RecordHeader">
@@ -2637,7 +2656,7 @@
 	</struct>
 	<struct name="RoundTripSlideRecord">
 		<type name="rh" type="RecordHeader">
-		<!--  value 0x2b0c is deprecated, but can occur -->
+			<!--  value 0x2b0c is deprecated, but can occur -->
 			<limitation name="recType"
 				value="0x40E|0x40F|0x41D|0x3714|0x2B0D|0x2B0B|0x2B0C|0x422" />
 			<!--
@@ -2687,6 +2706,15 @@
 			<limitation name="recType" value="0x428" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="RoundTripCompositeMasterId12Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x41D" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint32 name="compositeMasterId" />
 	</struct>
 	<struct name="ColorStruct">
 		<uint8 name="red" />
@@ -3872,6 +3900,9 @@
 			optional="true" />
 		<type name="mouseOverInteractiveInfo" type="MouseOverInteractiveInfoContainer"
 			optional="true" />
+		<!--  sometimes this array occurs here -->
+		<type name="rgShapeClientRoundtripData0" type="ShapeClientRoundtripDataSubcontainerOrAtom"
+			array="true" />
 		<type name="placeholderAtom" type="PlaceholderAtom" optional="true" />
 		<type name="recolorInfoAtom" type="RecolorInfoAtom" optional="true" />
 		<type name="rgShapeClientRoundtripData" type="ShapeClientRoundtripDataSubcontainerOrAtom"
@@ -4017,10 +4048,63 @@
 		</int32>
 	</struct>
 	<struct name="ShapeClientRoundtripDataSubcontainerOrAtom">
+		<!--
+			<type name="rh" type="OfficeArtRecordHeader"> <limitation
+			name="recType" value="0x1388|0xBDD|0x41F|0x420|0x426" /> </type>
+			<uint8 name="todo" count="rh.recLen" />
+		-->
+		<choice name="anon">
+			<type type="ShapeProgsTagContainer" />
+			<type type="RoundTripNewPlaceHolderId12Atom" />
+			<type type="RoundTripShapeId12Atom" />
+			<type type="RoundTripHFPlaceholder12Atom" />
+			<type type="RoundTripShapeCheckSumForCustomLayouts12Atom" />
+		</choice>
+	</struct>
+	<struct name="ShapeProgsTagContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recType" value="0x1388|0xBDD|0x41F|0x420|0x426" />
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0|1|2" />
+			<limitation name="recType" value="0x1388" />
 		</type>
 		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="RoundTripNewPlaceHolderId12Atom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xBDD" />
+			<limitation name="recLen" value="1" />
+		</type>
+		<uint8 name="newPlaceHolderId" />
+	</struct>
+	<struct name="RoundTripShapeId12Atom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x41F" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint32 name="shapeId" />
+	</struct>
+	<struct name="RoundTripHFPlaceholder12Atom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x420" />
+			<limitation name="recLen" value="1" />
+		</type>
+		<uint8 name="placeHolderId" />
+	</struct>
+	<struct name="RoundTripShapeCheckSumForCustomLayouts12Atom">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x426" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<uint32 name="shapeCheckSum" />
+		<uint32 name="textCheckSum" />
 	</struct>
 	<struct name="OfficeArtClientTextBox">
 		<type name="rh" type="OfficeArtRecordHeader">
