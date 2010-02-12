@@ -17,6 +17,9 @@ testFile(const char* path) {
     PPT::PowerPointStructs s(array.data(), array.size());
     qDebug() << "Parsed " << s._size << " of " << array.size() << ": "
         << ((s._size == array.size())?"OK":"FAIL");
+    if (s._size != array.size()) {
+        qDebug() << path;
+    }
 }
 int
 main(int argc, char** argv) {
