@@ -1421,12 +1421,21 @@
 	<!-- our own invention -->
 	<struct name="TextContainerInteractiveInfo">
 		<choice name="interactive">
-			<type type="MouseClickInteractiveInfoContainer" />
-			<type type="MouseOverInteractiveInfoContainer" />
-			<type type="MouseClickTextInteractiveInfoAtom" />
-			<type type="MouseOverTextInteractiveInfoAtom" />
+			<type type="MouseClickTextInfo" />
+			<type type="MouseOverTextInfo" />
 		</choice>
 	</struct>
+	<!-- our own invention -->
+	<struct name="MouseClickTextInfo">
+		<type name="interactive" type="MouseClickInteractiveInfoContainer" />
+		<type name="text" type="MouseClickTextInteractiveInfoAtom" />
+	</struct>
+	<!-- our own invention -->
+	<struct name="MouseOverTextInfo">
+		<type name="interactive" type="MouseOverInteractiveInfoContainer" />
+		<type name="text" type="MouseOverTextInteractiveInfoAtom" />
+	</struct>
+	<!-- our own invention -->
 	<struct name="TextClientDataSubContainerOrAtom">
 		<choice name="anon">
 			<type type="OutlineTextRefAtom" />
