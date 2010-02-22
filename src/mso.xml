@@ -520,19 +520,26 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x138B" />
 		</type>
-		<type name="rgTextMasterStyle9" type="TextMasterStyle9Atom" />
-		<type name="blipCollectionContainer" type="BlipCollection9Container" />
-		<type name="textDefaultsAtom" type="TextDefaults9Atom" />
-		<type name="kinsokuContainer" type="Kinsoku9Container" />
-		<type name="rgExternalHyperlink9" type="ExHyperlink9Container" />
+		<type name="rgTextMasterStyle9" type="TextMasterStyle9Atom"
+			array="true" />
+		<type name="blipCollectionContainer" type="BlipCollection9Container"
+			optional="true" />
+		<type name="textDefaultsAtom" type="TextDefaults9Atom" optional="true" />
+		<type name="kinsokuContainer" type="Kinsoku9Container" optional="true" />
+		<type name="rgExternalHyperlink9" type="ExHyperlink9Container"
+			array="true" />
 		<type name="presAdvisorFlagsAtom" type="PresAdvisorFlags9Atom"
 			optional="true" />
 		<type name="envelopeDataAtom" type="EnvelopeData9Atom" optional="true" />
-		<type name="envelopeFlagsAtom" type="EnvelopeFlags9Atom" />
+		<type name="envelopeFlagsAtom" type="EnvelopeFlags9Atom"
+			optional="true" />
 		<type name="htmlDocInfoAtom" type="HTMLDocInfo9Atom" optional="true" />
-		<type name="htmlPublishInfoAtom" type="HTMLPublishInfo9Container" />
-		<type name="rgBroadcastDocInfo9" type="BroadcastDocInfo9Container" />
-		<type name="outlineTextPropsContainer" type="OutlineTextProps9Container" />
+		<type name="htmlPublishInfoAtom" type="HTMLPublishInfo9Container"
+			optional="true" />
+		<type name="rgBroadcastDocInfo9" type="BroadcastDocInfo9Container"
+			array="true" />
+		<type name="outlineTextPropsContainer" type="OutlineTextProps9Container"
+			optional="true" />
 	</struct>
 	<struct name="TextMasterStyle9Atom">
 		<type name="rh" type="RecordHeader">
@@ -641,7 +648,7 @@
 		<uint8 name="winBlipType">
 			<limitation value="0x02|0x03|0x05|0x06" />
 		</uint8>
-		<bit name="unused" />
+		<uint8 name="unused" />
 		<type name="blip" type="OfficeArtBStoreContainerFileBlock" />
 	</struct>
 	<struct name="TextDefaults9Atom">
@@ -818,7 +825,8 @@
 			<limitation name="recInstance" expression="&lt;=5" />
 			<limitation name="recType" value="0xFAF" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<uint32 name="slideIdRef" />
+		<uint32 name="txType" />
 	</struct>
 	<struct name="StyleTextProp9Atom">
 		<type name="rh" type="RecordHeader">
