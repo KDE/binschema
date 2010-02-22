@@ -826,7 +826,8 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFAC" />
 		</type>
-		<type name="rgStyleTextProp9" type="StyleTextProp9" size="rh.recLen" />
+		<type name="rgStyleTextProp9" type="StyleTextProp9" array="true"
+			size="rh.recLen" />
 	</struct>
 	<struct name="StyleTextProp9">
 		<type name="pf9" type="TextPFException9" />
@@ -2307,21 +2308,102 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x138B" />
 		</type>
-		<!--
-			<type name="rgTextMasterStyleAtom" type="TextMasterStyle10Atom"
-			array="true" /> <type name="rgComment10Container"
-			type="Comment10Container" array="true" /> <type
-			name="linkedSlideAtom" type="LinkedSlide10Atom" optional="true" />
-			<type name="rgLinkedShape10Atom" type="LinedShape10Atom" array="true"
-			/> <type name="slideFlagsAtom" type="SlideFlags10Atom"
-			optional="true" /> <type name="slideTimeAtom" type="SlideTime10Atom"
-			optional="true" /> <type name="hashCodeAtom" type="HashCode10Atom"
-			optional="true" /> <type name="extTimeNodeContainer"
-			type="ExtTimeNodeContainer" optional="true" /> <type
-			name="buildListContainer" type="BuildListContainer" optional="true"
-			/>
-		-->
-		<uint8 name="todo" count="rhData.recLen" />
+		<type name="rgTextMasterStyleAtom" type="TextMasterStyle10Atom"
+			array="true" />
+		<type name="rgComment10Container" type="Comment10Container"
+			array="true" />
+		<type name="linkedSlideAtom" type="LinkedSlide10Atom" optional="true" />
+		<type name="rgLinkedShape10Atom" type="LinkedShape10Atom" array="true" />
+		<type name="slideFlagsAtom" type="SlideFlags10Atom" optional="true" />
+		<type name="slideTimeAtom" type="SlideTime10Atom" optional="true" />
+		<type name="hashCodeAtom" type="HashCode10Atom" optional="true" />
+		<type name="extTimeNodeContainer" type="ExtTimeNodeContainer"
+			optional="true" />
+		<type name="buildListContainer" type="BuildListContainer"
+			optional="true" />
+	</struct>
+	<struct name="Comment10Container">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x2EE0" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="Comment10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x2EE1" />
+			<limitation name="recLen" value="0x1C" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="LinkedSlide10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x2EE6" />
+			<limitation name="recLen" value="0" />
+		</type>
+		<uint32 name="linkedSlideIdRef" />
+		<int32 name="clinkedShapes" />
+	</struct>
+	<struct name="LinkedShape10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x2EE7" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<uint32 name="shapeIdRef" />
+		<uint32 name="linkedShapeIdRef" />
+	</struct>
+	<struct name="SlideFlags10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x2EEA" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<bit name="fPreserveMaster" />
+		<bit name="fOverrideMasterAnimatino" />
+		<uint14 name="unuseda" />
+		<uint16 name="unusedb" />
+	</struct>
+	<struct name="SlideTime10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x2EEB" />
+			<limitation name="recLen" value="8" />
+		</type>
+		<type name="fileTime" type="FILETIME" />
+	</struct>
+	<struct name="HashCode10Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x2B00" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint32 name="hash" />
+	</struct>
+	<struct name="ExtTimeNodeContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="1" />
+			<limitation name="recType" value="0xF144" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
+	</struct>
+	<struct name="BuildListContainer">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x2B02" />
+		</type>
+		<uint8 name="todo" count="rh.recLen" />
 	</struct>
 	<struct name="PP12SlideBinaryTagExtension">
 		<type name="rh" type="RecordHeader">
@@ -3314,8 +3396,12 @@
 		<uint6 name="unused2" />
 	</struct>
 	<struct name="FixedPoint">
-		<int16 name="integral" />
+		<!--
+			strangely the fraction part seems to come first this conflicts with
+			what the spec suggests
+		-->
 		<uint16 name="fractional" />
+		<int16 name="integral" />
 	</struct>
 	<struct name="Rotation">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -4052,7 +4138,80 @@
 			<limitation name="recInstance" value="0|1|2" />
 			<limitation name="recType" value="0x1388" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<type name="rgChildRec" type="ShapeProgTagsSubContainerOrAtom" />
+	</struct>
+	<struct name="ShapeProgTagsSubContainerOrAtom">
+		<choice name="anon">
+			<type type="ProgStringTagContainer" />
+			<type type="ShapeProgBinaryTagsContainer" />
+		</choice>
+	</struct>
+	<struct name="ShapeProgBinaryTagsContainer">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138A" />
+		</type>
+		<type name="rgChildRec" type="ShapeProgBinaryTagsSubContainerOrAtom" />
+	</struct>
+	<struct name="ShapeProgBinaryTagsSubContainerOrAtom">
+		<choice name="anon">
+			<type type="PP9ShapeBinaryTagExtension" />
+			<type type="PP10ShapeBinaryTagExtension" />
+			<type type="PP11ShapeBinaryTagExtension" />
+			<type type="UnknownBinaryTag" />
+		</choice>
+	</struct>
+	<struct name="PP9ShapeBinaryTagExtension">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" value="0xE" />
+		</type>
+		<uint16 name="tagName" count="7">
+			<!-- <limitation value='"___PPT9"' /> -->
+		</uint16>
+		<type name="rhData" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<type name="styleTextProp9Atom" type="StyleTextProp9Atom" />
+	</struct>
+	<struct name="PP10ShapeBinaryTagExtension">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" value="0x10" />
+		</type>
+		<uint16 name="tagName" count="8">
+			<!-- <limitation value='"___PPT10"' /> -->
+		</uint16>
+		<type name="rhData" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<uint8 name="todo" count="rhData.recLen" />
+	</struct>
+	<struct name="PP11ShapeBinaryTagExtension">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xFBA" />
+			<limitation name="recLen" value="0x10" />
+		</type>
+		<uint16 name="tagName" count="8">
+			<!-- <limitation value='"___PPT11"' /> -->
+		</uint16>
+		<type name="rhData" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x138B" />
+		</type>
+		<uint8 name="todo" count="rhData.recLen" />
 	</struct>
 	<struct name="RoundTripNewPlaceHolderId12Atom">
 		<type name="rh" type="OfficeArtRecordHeader">
