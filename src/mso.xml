@@ -4146,23 +4146,23 @@
 			<limitation name="recInstance" value="0|1|2" />
 			<limitation name="recType" value="0x1388" />
 		</type>
-		<type name="rgChildRec" type="ShapeProgTagsSubContainerOrAtom" />
+		<type name="rgChildRec" type="ShapeProgTagsSubContainerOrAtom" array="true" />
 	</struct>
 	<struct name="ShapeProgTagsSubContainerOrAtom">
 		<choice name="anon">
 			<type type="ProgStringTagContainer" />
-			<type type="ShapeProgBinaryTagsContainer" />
+			<type type="ShapeProgBinaryTagContainer" />
 		</choice>
 	</struct>
-	<struct name="ShapeProgBinaryTagsContainer">
+	<struct name="ShapeProgBinaryTagContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x138A" />
 		</type>
-		<type name="rgChildRec" type="ShapeProgBinaryTagsSubContainerOrAtom" />
+		<type name="rec" type="ShapeProgBinaryTagSubContainerOrAtom" />
 	</struct>
-	<struct name="ShapeProgBinaryTagsSubContainerOrAtom">
+	<struct name="ShapeProgBinaryTagSubContainerOrAtom">
 		<choice name="anon">
 			<type type="PP9ShapeBinaryTagExtension" />
 			<type type="PP10ShapeBinaryTagExtension" />
