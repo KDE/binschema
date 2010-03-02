@@ -667,10 +667,10 @@
 			<limitation name="recType" value="0x0FC8" />
 		</type>
 		<type name="kinsoku9Atom" type="Kinsoku9Atom" />
-		<type name="kinsokuLeadingAtom" type="KinsokuLeadingAtom"
-			condition="kinsoku9Atom.korLevel==2 || kinsoku9Atom.scLevel==2 || kinsoku9Atom.tcLevel==2 || kinsoku9Atom.jpnLevel==2" />
-		<type name="kinsokuFollowingAtom" type="KinsokuFollowingAtom"
-			condition="kinsoku9Atom.korLevel==2 || kinsoku9Atom.scLevel==2 || kinsoku9Atom.tcLevel==2 || kinsoku9Atom.jpnLevel==2" />
+		<!--  condition for this field is too complex so we just say it is optional -->
+		<type name="kinsokuLeadingAtom" type="KinsokuLeadingAtom" optional="true" />
+		<!--  condition for this field is too complex so we just say it is optional -->
+		<type name="kinsokuFollowingAtom" type="KinsokuFollowingAtom" optional="true" />
 	</struct>
 	<struct name="Kinsoku9Atom">
 		<type name="rh" type="RecordHeader">
