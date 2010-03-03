@@ -48,13 +48,13 @@ public class QtParserGenerator {
 		if (config.enableXml) {
 			out.println("#include <QXmlStreamReader>");
 		}
-		out.println("#include \"leinputstream.h\"");
 		if (config.enableWriting) {
 			out.println("#include \"leoutputstream.h\"");
 		}
 		if (config.enableIntrospection) {
 			out.println("#include \"introspection.h\"");
 		}
+		out.println("class LEInputStream;");
 		out.println("namespace " + config.namespace + "{");
 
 		if (config.enableXml) {
@@ -102,6 +102,7 @@ public class QtParserGenerator {
 			out.println("#include \"" + config.basename + ".h\"");
 			out.println("using namespace " + config.namespace + ";");
 		}
+		out.println("#include \"leinputstream.h\"");
 
 		if (config.enableIntrospection) {
 			for (Struct s : mso.structs) {
