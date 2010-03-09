@@ -14,7 +14,7 @@ testFile(const char* path) {
         qDebug() << "Error reading stream ";
         return;
     }
-    PPT::PowerPointStructs s(array.data(), array.size());
+    MSO::PowerPointStructs s(array.data(), array.size());
     qDebug() << "Parsed " << s._size << " of " << array.size() << ": "
         << ((s._size == array.size())?"OK":"FAIL");
     if (s._size != array.size()) {

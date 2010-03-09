@@ -59,7 +59,7 @@ public class ParserGeneratorRunner {
 	void generateSimpleQtParser(MSO mso) throws IOException {
 		// generate a parser with introspection
 		final QtParserGenerator g = new QtParserGenerator();
-		g.config.namespace = "PPT";
+		g.config.namespace = "MSO";
 		g.config.basename = "simpleParser";
 		g.config.outputdir = "cpp";
 		g.config.createHeader = true;
@@ -74,7 +74,7 @@ public class ParserGeneratorRunner {
 	void generateApi(MSO mso) throws IOException {
 		// generate a minimal parser but with a public header
 		final QtApiGenerator g = new QtApiGenerator();
-		g.config.namespace = "PPT";
+		g.config.namespace = "MSO";
 		g.config.basename = "api";
 		g.config.outputdir = "cpp";
 		g.config.createHeader = true;

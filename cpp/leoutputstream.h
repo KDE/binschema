@@ -1,9 +1,7 @@
 #ifndef LEOUTPUTSTREAM_H
 #define LEOUTPUTSTREAM_H
 
-#include <QtCore/QIODevice>
-#include <QtCore/QDataStream>
-#include <exception>
+#include "leinputstream.h"
 
 class LEOutputStream {
 private:
