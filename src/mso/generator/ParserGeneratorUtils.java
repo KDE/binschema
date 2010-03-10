@@ -112,7 +112,7 @@ class Member {
 	final boolean isChoice;
 	final Limitation limitations[];
 
-	Member(TypeRegistry r, Element e) {
+	Member(TypeRegistry r, Element e) throws IOException {
 		registry = r;
 		name = e.getAttribute("name");
 		condition = (e.hasAttribute("condition")) ? e.getAttribute("condition")
@@ -122,6 +122,10 @@ class Member {
 
 		isOptional = e.hasAttribute("optional");
 		isArray = count != null || e.hasAttribute("array");
+		if (isOptional && isArray) {
+			throw new IOException("Member " + name
+					+ " is optional and array, which is not allowed.");
+		}
 		if (e.hasAttribute("type")) {
 			typeName = e.getAttribute("type");
 			isInteger = false;
@@ -250,7 +254,7 @@ class Struct extends TypeRegistry.Type {
 	final boolean containsSureChoice;
 	final boolean containsChoice;
 
-	static int getSize(TypeRegistry registry, Element e) {
+	static int getSize(TypeRegistry registry, Element e) throws IOException {
 		int size = 0;
 		NodeList l = e.getChildNodes();
 		for (int i = 0; i < l.getLength(); ++i) {
@@ -299,7 +303,7 @@ class Struct extends TypeRegistry.Type {
 		return size;
 	}
 
-	Struct(TypeRegistry registry, Element e) {
+	Struct(TypeRegistry registry, Element e) throws IOException {
 		registry.super(registry, e.getAttribute("name"), getSize(registry, e));
 		sizeExpression = e.getAttribute("size");
 

@@ -3109,7 +3109,7 @@
 		<!-- MS documentation does not say shape is optional -->
 		<type name="shape" type="OfficeArtSpContainer" optional="true" />
 		<type name="deletedShapes" type="OfficeArtSpgrContainerFileBlock"
-			array="true" optional="true" />
+			array="true" />
 		<!--  according to ms spec, solvers is not optional -->
 		<type name="solvers" type="OfficeArtSolverContainer" optional="true" />
 	</struct>
