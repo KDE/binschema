@@ -3350,6 +3350,7 @@
 			<type type="LineDashing" />
 			<type type="FillRectRight" />
 			<type type="FillRectBottom" />
+			<type type="FillDztype" />
 			<type type="WzFillId" />
 			<type type="LineStyleBooleanProperties" />
 			<type type="LineStartArrowhead" />
@@ -3652,13 +3653,21 @@
 		</type>
 		<int32 name="fillRectBottom" />
 	</struct>
+	<struct name="FillDztype">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0195" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="fillDztype" />
+	</struct>
 	<struct name="FillStyleBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x01BF" />
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
 		</type>
-		<bit name="fNoFillHitText" />
+		<bit name="fNoFillHitTest" />
 		<bit name="fillUseRect" />
 		<bit name="fillShape" />
 		<bit name="fHitTestFill" />
