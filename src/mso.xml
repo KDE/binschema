@@ -4020,8 +4020,8 @@
 	</struct>
   <struct name="OfficeArtClientData">
     <choice name="anon">
-      <type type="PptOfficeArtClientData"/>
       <type type="DocOfficeArtClientData"/>
+      <type type="PptOfficeArtClientData"/>
     </choice>
   </struct>
  	<struct name="PptOfficeArtClientData">
@@ -4029,7 +4029,6 @@
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xF011" />
-      <limitation name="recLen" expression="!=4" />
 		</type>
 		<type name="shapeFlagsAtom" type="ShapeFlagsAtom" optional="true" />
 		<type name="shapeFlags10Atom" type="ShapeFlags10Atom" optional="true" />
@@ -4052,15 +4051,15 @@
 		<type name="unknown2" type="UnknownOfficeArtClientDataChild"
 			optional="true" />
 	</struct>
-  <struct name="DocOfficeArtClientData">
-    <type name="rh" type="OfficeArtRecordHeader">
-      <limitation name="recVer" value="0|0xF" />
-      <limitation name="recInstance" value="0" />
-      <limitation name="recType" value="0xF011" />
-      <limitation name="recLen" value="0x4" />
-    </type>
-    <uint32 name="clientData" />
-  </struct>
+	<struct name="DocOfficeArtClientData">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF011" />
+			<limitation name="recLen" value="4" />
+		</type>
+		<uint32 name="clientData" />
+	</struct>
 	<struct name="ShapeFlagsAtom">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0" />
