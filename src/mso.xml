@@ -667,10 +667,16 @@
 			<limitation name="recType" value="0x0FC8" />
 		</type>
 		<type name="kinsoku9Atom" type="Kinsoku9Atom" />
-		<!--  condition for this field is too complex so we just say it is optional -->
-		<type name="kinsokuLeadingAtom" type="KinsokuLeadingAtom" optional="true" />
-		<!--  condition for this field is too complex so we just say it is optional -->
-		<type name="kinsokuFollowingAtom" type="KinsokuFollowingAtom" optional="true" />
+		<!--
+			condition for this field is too complex so we just say it is optional
+		-->
+		<type name="kinsokuLeadingAtom" type="KinsokuLeadingAtom"
+			optional="true" />
+		<!--
+			condition for this field is too complex so we just say it is optional
+		-->
+		<type name="kinsokuFollowingAtom" type="KinsokuFollowingAtom"
+			optional="true" />
 	</struct>
 	<struct name="Kinsoku9Atom">
 		<type name="rh" type="RecordHeader">
@@ -3432,35 +3438,35 @@
 		</type>
 		<int32 name="iTxid" />
 	</struct>
-  <struct name="DiagramBooleanProperties">
-    <type name="opid" type="OfficeArtFOPTEOPID">
-      <limitation name="opid" value="0x053F" />
-      <limitation name="fBid" value="false" />
-      <limitation name="fComplex" value="false" />
-    </type>
-    <bit name="fLockAgainstGrouping" />
-    <bit name="fLockAdjustHandles" />
-    <bit name="fLockText" />
-    <bit name="fLockVertices" />
-    <bit name="fLockCropping" />
-    <bit name="fLockAgainstSelect" />
-    <bit name="fLockPosition" />
-    <bit name="fLockAspectRatio" />
-    <bit name="fLockRotation" />
-    <bit name="fLockAgainstUngrouping" />
-    <uint6 name="unused6" />
-    <bit name="fUsefLockAgainstGrouping" />
-    <bit name="fUseLockAdjustHandles" />
-    <bit name="fUseLockText" />
-    <bit name="fUsefLockVertices" />
-    <bit name="fUsefLockCropping" />
-    <bit name="fUsefLockAgainstSelect" />
-    <bit name="fUsefLockPosition" />
-    <bit name="fUsefLockAspectRatio" />
-    <bit name="fUsefLockRotation" />
-    <bit name="fUsefLockAgainstUngrouping" />
-    <uint6 name="unused2" />
-  </struct>
+	<struct name="DiagramBooleanProperties">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x053F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="fLockAgainstGrouping" />
+		<bit name="fLockAdjustHandles" />
+		<bit name="fLockText" />
+		<bit name="fLockVertices" />
+		<bit name="fLockCropping" />
+		<bit name="fLockAgainstSelect" />
+		<bit name="fLockPosition" />
+		<bit name="fLockAspectRatio" />
+		<bit name="fLockRotation" />
+		<bit name="fLockAgainstUngrouping" />
+		<uint6 name="unused6" />
+		<bit name="fUsefLockAgainstGrouping" />
+		<bit name="fUseLockAdjustHandles" />
+		<bit name="fUseLockText" />
+		<bit name="fUsefLockVertices" />
+		<bit name="fUsefLockCropping" />
+		<bit name="fUsefLockAgainstSelect" />
+		<bit name="fUsefLockPosition" />
+		<bit name="fUsefLockAspectRatio" />
+		<bit name="fUsefLockRotation" />
+		<bit name="fUsefLockAgainstUngrouping" />
+		<uint6 name="unused2" />
+	</struct>
 	<struct name="DxTextLeft">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0081" />
@@ -3970,12 +3976,12 @@
 		<int32 name="xRight" />
 		<int32 name="yBottom" />
 	</struct>
-  <struct name="OfficeArtClientAnchor">
-    <choice name="anon">
-      <type type="PptOfficeArtClientAnchor"/>
-      <type type="DocOfficeArtClientAnchor"/>
-    </choice>
-  </struct>
+	<struct name="OfficeArtClientAnchor">
+		<choice name="anon">
+			<type type="PptOfficeArtClientAnchor" />
+			<type type="DocOfficeArtClientAnchor" />
+		</choice>
+	</struct>
 	<struct name="PptOfficeArtClientAnchor">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0" />
@@ -3986,15 +3992,15 @@
 		<type name="rect1" type="SmallRectStruct" condition="rh.recLen==0x8" />
 		<type name="rect2" type="RectStruct" condition="rh.recLen==0x10" />
 	</struct>
-  <struct name="DocOfficeArtClientAnchor">
-    <type name="rh" type="OfficeArtRecordHeader">
-      <limitation name="recVer" value="0" />
-      <limitation name="recInstance" value="0" />
-      <limitation name="recType" value="0xF010" />
-      <limitation name="recLen" value="0x4" />
-    </type>
-    <int32 name="clientAnchor" />
-  </struct>
+	<struct name="DocOfficeArtClientAnchor">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF010" />
+			<limitation name="recLen" value="0x4" />
+		</type>
+		<int32 name="clientAnchor" />
+	</struct>
 	<struct name="OfficeArtFPSPL">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0" />
@@ -4018,13 +4024,13 @@
 		<int16 name="right" />
 		<int16 name="bottom" />
 	</struct>
-  <struct name="OfficeArtClientData">
-    <choice name="anon">
-      <type type="DocOfficeArtClientData"/>
-      <type type="PptOfficeArtClientData"/>
-    </choice>
-  </struct>
- 	<struct name="PptOfficeArtClientData">
+	<struct name="OfficeArtClientData">
+		<choice name="anon">
+			<type type="DocOfficeArtClientData" />
+			<type type="PptOfficeArtClientData" />
+		</choice>
+	</struct>
+	<struct name="PptOfficeArtClientData">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0xF" />
 			<limitation name="recInstance" value="0" />
@@ -4218,7 +4224,8 @@
 			<limitation name="recInstance" value="0|1|2" />
 			<limitation name="recType" value="0x1388" />
 		</type>
-		<type name="rgChildRec" type="ShapeProgTagsSubContainerOrAtom" array="true" />
+		<type name="rgChildRec" type="ShapeProgTagsSubContainerOrAtom"
+			array="true" />
 	</struct>
 	<struct name="ShapeProgTagsSubContainerOrAtom">
 		<choice name="anon">
@@ -4332,32 +4339,32 @@
 		<uint32 name="textCheckSum" />
 		<uint8 name="unknown" count="rh.recLen-8" />
 	</struct>
-  <struct name="OfficeArtClientTextBox">
-    <choice name="anon">
-      <type type="PptOfficeArtClientTextBox"/>
-      <type type="DocOfficeArtClientTextBox"/>
-    </choice>
-  </struct>
+	<struct name="OfficeArtClientTextBox">
+		<choice name="anon">
+			<type type="PptOfficeArtClientTextBox" />
+			<type type="DocOfficeArtClientTextBox" />
+		</choice>
+	</struct>
 	<struct name="PptOfficeArtClientTextBox">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0|0xF" />
 			<!--  documentation says value should be 0 -->
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xF00D" />
-      <limitation name="recLen" expression="!=4" />
+			<limitation name="recLen" expression="!=4" />
 		</type>
 		<type name="rgChildRec" array="true" size="rh.recLen"
 			type="TextClientDataSubContainerOrAtom" />
 	</struct>
-  <struct name="DocOfficeArtClientTextBox">
-    <type name="rh" type="OfficeArtRecordHeader">
-      <limitation name="recVer" value="0|0xF" />
-      <limitation name="recInstance" value="0" />
-      <limitation name="recType" value="0xF00D" />
-      <limitation name="recLen" value="0x4" />
-    </type>
-    <uint32 name="clientTextBox" />
-  </struct>
+	<struct name="DocOfficeArtClientTextBox">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0|0xF" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF00D" />
+			<limitation name="recLen" value="0x4" />
+		</type>
+		<uint32 name="clientTextBox" />
+	</struct>
 	<struct name="TextRulerAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
