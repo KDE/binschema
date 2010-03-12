@@ -947,12 +947,15 @@ public class QtParserGenerator {
 		out.println(s + "_m = in.setMark();");
 		Option o = new Option((Struct) m.type(), null);
 		String type = getTypeName(o.limitsType);
-		out.println(s + "{");
+		out.println(s + "try {");
 		out.println(s + "    " + type + " _optionCheck(&_s);");
 		out.println(s + "    parse" + type + "(in, _optionCheck);");
 		out.println(s + "    _possiblyPresent = "
 				+ getClause("_optionCheck", o.limitsType, o.lim) + ";");
+		out.println(s + "} catch(EOFException _e) {");
+		out.println(s + "    _possiblyPresent = false;");
 		out.println(s + "}");
+
 		out.println(s + "in.rewind(_m);");
 		out.println(s + "_m = in.setMark();");
 		out.println(s + "if (_possiblyPresent) {");
