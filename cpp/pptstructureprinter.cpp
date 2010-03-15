@@ -51,7 +51,7 @@ printStructure(LEInputStream& in, int depth, QTextStream& out,
         recInstance);
     out << depth << t << recVer << t << hexinstance << t << hextype << t << recLen << t << in.getPosition() << t << recordTypeName << endl;
 
-    if (recVer == 0xF && recType != 0x428) {
+    if ((recVer == 0xF && recType != 0x428) || recType == 0x138B) {
         int end = in.getPosition() + recLen;
         while (in.getPosition() != end) {
             if (in.getPosition() > end) {
