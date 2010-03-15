@@ -2434,7 +2434,21 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x138B" />
 		</type>
-		<uint8 name="todo" count="rhData.recLen" />
+		<type name="roundTripHeaderFooterDefaultsAtom" type="RoundTripHeaderFooterDefaults12Atom"
+			optional="true" />
+	</struct>
+	<struct name="RoundTripHeaderFooterDefaults12Atom">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0x0424" />
+			<limitation name="recLen" value="1" />
+		</type>
+		<bit name="fIncludeDate" />
+		<bit name="fIncludeFooter" />
+		<bit name="fIncludeHeader" />
+		<bit name="fIncludeSlideNumber" />
+		<uint4 name="reserved" />
 	</struct>
 	<struct name="ProgStringTagContainer">
 		<type name="rh" type="RecordHeader">
