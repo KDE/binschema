@@ -3390,6 +3390,7 @@
 			<type type="Rotation" />
 			<type type="LidRegroup" />
 			<type type="BWMode" />
+			<type type="TxflTextFlow" />
 			<type type="OfficeArtFOPTE" />
 		</choice>
 	</struct>
@@ -3917,6 +3918,14 @@
 		<uint32 name="bWMode">
 			<limitation expression="&lt;=10" />
 		</uint32>
+	</struct>
+	<struct name="TxflTextFlow">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0088" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="txflTextFlow" />
 	</struct>
 	<struct name="ShapeBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
