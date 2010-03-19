@@ -3340,8 +3340,6 @@
 	<struct name="OfficeArtFOPTEChoice">
 		<choice name="anon">
 			<type type="ProtectionBooleanProperties" />
-			<type type="adjust2Value" />
-			<type type="adjust3Value" />
 			<type type="ITxid" />
 			<type type="DiagramBooleanProperties" />
 			<type type="DxTextLeft" />
@@ -3355,6 +3353,9 @@
 			<type type="Pib" />
 			<type type="PibName" />
 			<type type="ShapePath" />
+			<type type="AdjustValue" />
+			<type type="Adjust2Value" />
+			<type type="Adjust3Value" />
 			<type type="GeometryBooleanProperties" />
 			<type type="FillType" />
 			<type type="FillColor" />
@@ -3388,18 +3389,13 @@
 			<type type="ShapeBooleanProperties" />
 			<type type="HspMaster" />
 			<type type="Rotation" />
+			<type type="CalloutBooleanProperties" />
 			<type type="LidRegroup" />
 			<type type="BWMode" />
 			<type type="TxflTextFlow" />
 			<type type="OfficeArtFOPTE" />
 		</choice>
 	</struct>
-	<!--
-		<struct name="OfficeArtFOPTEComplexData"> <uint8 name="data" count="0"
-		/> (../fopt[_position]/opid.fComplex)?../fopt[_position]/op:0" />
-
-		</struct>
-	-->
 	<struct name="ProtectionBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x007F" />
@@ -3585,7 +3581,15 @@
 			<limitation expression="&lt;=4" />
 		</uint32>
 	</struct>
-	<struct name="adjust2Value">
+	<struct name="AdjustValue">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0147" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="adjustvalue" />
+	</struct>
+	<struct name="Adjust2Value">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0148" />
 			<limitation name="fBid" value="false" />
@@ -3593,7 +3597,7 @@
 		</type>
 		<int32 name="adjust2value" />
 	</struct>
-	<struct name="adjust3Value">
+	<struct name="Adjust3Value">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0149" />
 			<limitation name="fBid" value="false" />
@@ -3959,6 +3963,31 @@
 		<bit name="unused5" />
 		<bit name="unused6" />
 		<uint4 name="unused7" />
+	</struct>
+	<struct name="CalloutBooleanProperties">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x037F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="fCalloutLengthSpecified" />
+		<bit name="fCalloutDropAuto" />
+		<bit name="fCalloutMinusY" />
+		<bit name="fCalloutMinusX" />
+		<bit name="fCalloutTextBorder" />
+		<bit name="fCalloutAccentBar" />
+		<bit name="fCallout" />
+		<bit name="unused1a" />
+		<uint8 name="unused1b" />
+		<bit name="fUsefCalloutLengthSpecified" />
+		<bit name="fUsefCalloutDropAuto" />
+		<bit name="fUsefCalloutMinusY" />
+		<bit name="fUsefCalloutMinusX" />
+		<bit name="fUsefCalloutTextBorder" />
+		<bit name="fUsefCalloutAccentBar" />
+		<bit name="fUsefCallout" />
+		<bit name="unused2a" />
+		<uint8 name="unused2b" />
 	</struct>
 	<struct name="LidRegroup">
 		<type name="opid" type="OfficeArtFOPTEOPID">
