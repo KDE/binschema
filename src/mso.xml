@@ -2283,8 +2283,12 @@
 	<struct name="SlideProgBinaryTagSubContainerOrAtom">
 		<choice name="anon">
 			<type type="PP9SlideBinaryTagExtension" />
-			<type type="PP10SlideBinaryTagExtension" />
+			<!--
+				PP12 must come first because it fail if it is a PP10, but PP10 does
+				not fail if it is PP12.
+			-->
 			<type type="PP12SlideBinaryTagExtension" />
+			<type type="PP10SlideBinaryTagExtension" />
 			<type type="UnknownBinaryTag" />
 		</choice>
 	</struct>
@@ -2423,7 +2427,7 @@
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFBA" />
-			<limitation name="recLen" value="0xE" />
+			<limitation name="recLen" value="0x10" />
 		</type>
 		<uint16 name="tagName" count="8">
 			<!-- <limitation value='"___PPT12"' />-->
@@ -2434,7 +2438,7 @@
 			<limitation name="recType" value="0x138B" />
 		</type>
 		<type name="roundTripHeaderFooterDefaultsAtom" type="RoundTripHeaderFooterDefaults12Atom"
-			optional="true" />
+			condition="rhData.recLen &gt; 8" />
 	</struct>
 	<struct name="RoundTripHeaderFooterDefaults12Atom">
 		<type name="rh" type="RecordHeader">
