@@ -2360,8 +2360,8 @@
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0x2EE6" />
-			<limitation name="recLen" value="0" />
+			<limitation name="recType" value="0x2EE7" />
+			<limitation name="recLen" value="8" />
 		</type>
 		<uint32 name="linkedSlideIdRef" />
 		<int32 name="clinkedShapes" />
@@ -2370,7 +2370,7 @@
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
 			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0x2EE7" />
+			<limitation name="recType" value="0x2EE6" />
 			<limitation name="recLen" value="8" />
 		</type>
 		<uint32 name="shapeIdRef" />
