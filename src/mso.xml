@@ -431,7 +431,7 @@
 			<limitation name="recType" value="0x3FA" />
 		</type>
 		<type name="slideViewInfoAtom" type="SlideViewInfoAtom" />
-		<type name="zoomViewInfoAtom" type="ZoomViewInfoAtom" />
+		<type name="zoomViewInfoAtom" type="ZoomViewInfoAtom" optional="true" />
 		<type name="rgGuideAtom" type="GuideAtom" array="true" />
 	</struct>
 	<struct name="SlideViewInfoAtom">
