@@ -53,6 +53,11 @@
 	<struct name="Byte">
 		<uint8 name="b" />
 	</struct>
+	<struct name="ZeroByte">
+		<uint8 name="b">
+			<limitation value="0" />
+		</uint8>
+	</struct>
 	<struct name="CurrentUserStream">
 		<type name="anon1" type="CurrentUserAtom" />
 		<type name="trailing" type="Byte" array="true" />
@@ -216,7 +221,7 @@
 	</struct>
 	<struct name="PowerPointStructs">
 		<type name="anon" type="PowerPointStruct" array="true" />
-		<type name="padding" type="Byte" array="true" />
+		<type name="zeroPadding" type="ZeroByte" array="true" />
 	</struct>
 	<struct name="PowerPointStruct">
 		<choice name="anon">

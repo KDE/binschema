@@ -303,14 +303,16 @@ public class QtApiGenerator {
 		// parser for when size is not know: parse till the first fail
 		out.println(sp + "_msize = 0;");
 		out.println(sp + m.name + "Count = 0;");
-		out.println(sp + "while (_position < _maxsize) {");
 		if (m.type().size == -1) {
+			out.println(sp + "while (_position < _maxsize) {");
 			out
 					.println(sp
 							+ "    "
 							+ m.type().name
 							+ " _v(_d + _position + _msize, _maxsize - _position - _msize);");
 		} else {
+			out.println(sp + "while (_position + _msize + " + (m.type().size / 8)
+					+ " <= _maxsize) {");
 			if (s.size == -1) {
 				out.println(sp + "    if (_maxsize - _position - _msize < "
 						+ (m.type().size / 8) + ") return;");
