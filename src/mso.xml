@@ -221,7 +221,6 @@
 	</struct>
 	<struct name="PowerPointStructs">
 		<type name="anon" type="PowerPointStruct" array="true" />
-		<type name="zeroPadding" type="ZeroByte" array="true" />
 	</struct>
 	<struct name="PowerPointStruct">
 		<choice name="anon">
@@ -2647,6 +2646,7 @@
 		</uint16>
 		<uint16 name="unused" />
 		<uint32 name="encryptSessionPersistIdRef" condition="rh.recLen==32" />
+		<type name="zeroPadding" type="ZeroByte" array="true" />
 	</struct>
 	<struct name="VbaProjectStg">
 		<type name="rh" type="RecordHeader">
