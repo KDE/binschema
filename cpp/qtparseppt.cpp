@@ -54,11 +54,14 @@ parse(const QString& file) {
                 buffer.setData(array);
                 buffer.open(QIODevice::ReadOnly);
                 LEInputStream listream(&buffer);
-                qDebug() << "Parsing stream '" << streamname << "'";
+                qDebug() << "Parsing stream '" << streamname << "' of size "
+                        << array.size();
                 const Introspectable* i = parse(streamname, listream);
                 if (listream.getPosition() != (qint64)stream.size()) {
                     qDebug() << stream.size() - listream.getPosition()
-                        << "trailing bytes in stream " << streamname;
+                        << "trailing bytes in stream " << streamname
+                        << ", so probably an error at position "
+                        << listream.getMaxPosition();
                     return false;
                 }
                 buffer.close();

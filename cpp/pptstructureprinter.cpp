@@ -84,7 +84,8 @@ parse(const QString& file, const QMap<int, QList<RecordType> >& recordTypeNames)
             try {
                 POLE::Stream stream(&storage, prefix+*i);
                 QString streamname(QString::fromStdString(*i));
-                textout << "Stream '" << streamname << "':" << endl;
+                textout << "Stream '" << streamname << "' of size "
+                        << stream.size() << ":" << endl;
                 QByteArray array;
                 array.resize(stream.size());
                 unsigned long read = stream.read((unsigned char*)array.data(), stream.size());

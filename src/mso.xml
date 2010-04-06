@@ -216,6 +216,7 @@
 	</struct>
 	<struct name="PowerPointStructs">
 		<type name="anon" type="PowerPointStruct" array="true" />
+		<type name="padding" type="Byte" array="true" />
 	</struct>
 	<struct name="PowerPointStruct">
 		<choice name="anon">
