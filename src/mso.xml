@@ -1420,6 +1420,8 @@
 		<type name="bookmark" type="TextBookmarkAtom" array="true" />
 		<!--  this textRuler is not according to the specification -->
 		<type name="textRuler" type="TextRulerAtom" optional="true" />
+		<!--  this struct does not occur in the specification -->
+		<type name="unknown" type="UnknownTextContainerChild" optional="true" />
 		<type name="specialinfo" type="TextSpecialInfoAtom" optional="true" />
 		<type name="interactive" type="TextContainerInteractiveInfo"
 			array="true" />
@@ -2164,7 +2166,7 @@
 			<limitation name="recType"
 				value="0x416|0x41A|0x101A|0x1773|0x1788|0x178c|0x178d" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<uint8 name="unknown" count="rh.recLen" />
 	</struct>
 	<struct name="UnknownOfficeArtClientDataChild">
 		<type name="rh" type="RecordHeader">
@@ -2172,7 +2174,7 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0xFE8|0x1019" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<uint8 name="unknown" count="rh.recLen" />
 	</struct>
 	<struct name="UnknownSlideContainerChild">
 		<type name="rh" type="RecordHeader">
@@ -2180,7 +2182,15 @@
 			<limitation name="recInstance" value="0" />
 			<limitation name="recType" value="0x101D" />
 		</type>
-		<uint8 name="todo" count="rh.recLen" />
+		<uint8 name="unknown" count="rh.recLen" />
+	</struct>
+	<struct name="UnknownTextContainerChild">
+		<type name="rh" type="RecordHeader">
+			<limitation name="recVer" value="3" />
+			<limitation name="recInstance" value="9" />
+			<limitation name="recType" value="0" />
+		</type>
+		<uint8 name="unknown" count="rh.recLen" />
 	</struct>
 	<struct name="PersistDirectoryEntry">
 		<uint20 name="persistId" />
@@ -2339,8 +2349,7 @@
 		<type name="slideFlagsAtom" type="SlideFlags10Atom" optional="true" />
 		<type name="slideTimeAtom" type="SlideTime10Atom" optional="true" />
 		<!--
-			Structures with a member with rectype 0x101d occur in
-			strange places.
+			Structures with a member with rectype 0x101d occur in strange places.
 		-->
 		<type name="unknown" type="UnknownSlideContainerChild" optional="true" />
 		<type name="hashCodeAtom" type="HashCode10Atom" optional="true" />
