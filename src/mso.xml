@@ -2338,6 +2338,11 @@
 		<type name="rgLinkedShape10Atom" type="LinkedShape10Atom" array="true" />
 		<type name="slideFlagsAtom" type="SlideFlags10Atom" optional="true" />
 		<type name="slideTimeAtom" type="SlideTime10Atom" optional="true" />
+		<!--
+			Structures with a member with rectype 0x101d occur in
+			strange places.
+		-->
+		<type name="unknown" type="UnknownSlideContainerChild" optional="true" />
 		<type name="hashCodeAtom" type="HashCode10Atom" optional="true" />
 		<type name="extTimeNodeContainer" type="ExtTimeNodeContainer"
 			optional="true" />
