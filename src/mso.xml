@@ -3420,6 +3420,10 @@
 			<type type="LidRegroup" />
 			<type type="BWMode" />
 			<type type="TxflTextFlow" />
+			<type type="PosH" />
+			<type type="PosRelH" />
+			<type type="PosV" />
+			<type type="PosRelV" />
 			<type type="PWrapPolygonVertices" />
 			<type type="DxWrapDistLeft" />
 			<type type="DyWrapDistTop" />
@@ -3964,6 +3968,38 @@
 		</type>
 		<uint32 name="txflTextFlow" />
 	</struct>
+	<struct name="PosH">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x038F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="posH" />
+	</struct>
+	<struct name="PosRelH">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0390" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="posRelH" />
+	</struct>
+	<struct name="PosV">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0391" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="posV" />
+	</struct>
+	<struct name="PosRelV">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0392" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="posRelV" />
+	</struct>
 	<struct name="ShapeBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x033F" />
@@ -4029,10 +4065,10 @@
 		<uint32 name="pWrapPolygonVertices" />
 	</struct>
 	<struct name="PWrapPolygonVertices_complex">
-                <uint16 name="nElems" /> 
-                <uint16 name="nElemsAlloc" /> 
-                <uint16 name="cbElem" /> 
-                <uint8 name="data" count="(cbElem==0xFFF0)?(4 * nElems):(cbElem * nElems)" /> 
+		<uint16 name="nElems" />
+		<uint16 name="nElemsAlloc" />
+		<uint16 name="cbElem" />
+		<uint8 name="data" count="(cbElem==0xFFF0)?(4 * nElems):(cbElem * nElems)" />
 	</struct>
 	<struct name="DxWrapDistLeft">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -4107,7 +4143,7 @@
 		<int32 name="dxWidthHR" />
 	</struct>
 	<struct name="GroupShapeBooleanProperties">
-	        <type name="opid" type="OfficeArtFOPTEOPID">
+		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x03bf" />
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
