@@ -3413,9 +3413,19 @@
 			<type type="HspMaster" />
 			<type type="Rotation" />
 			<type type="CalloutBooleanProperties" />
+			<type type="PctHR" />
+			<type type="AlignHR" />
+			<type type="DxHeightHR" />
+			<type type="DxWidthHR" />
 			<type type="LidRegroup" />
 			<type type="BWMode" />
 			<type type="TxflTextFlow" />
+			<type type="PWrapPolygonVertices" />
+			<type type="DxWrapDistLeft" />
+			<type type="DyWrapDistTop" />
+			<type type="DxWrapDistRight" />
+			<type type="DyWrapDistBottom" />
+			<type type="GroupShapeBooleanProperties" />
 			<type type="OfficeArtFOPTE" />
 		</choice>
 	</struct>
@@ -4012,6 +4022,50 @@
 		<bit name="unused2a" />
 		<uint8 name="unused2b" />
 	</struct>
+	<struct name="PWrapPolygonVertices">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0383" />
+		</type>
+		<uint32 name="pWrapPolygonVertices" />
+	</struct>
+	<struct name="PWrapPolygonVertices_complex">
+                <uint16 name="nElems" /> 
+                <uint16 name="nElemsAlloc" /> 
+                <uint16 name="cbElem" /> 
+                <uint8 name="data" count="(cbElem==0xFFF0)?(4 * nElems):(cbElem * nElems)" /> 
+	</struct>
+	<struct name="DxWrapDistLeft">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0384" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="dxWrapDistLeft" />
+	</struct>
+	<struct name="DyWrapDistTop">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0385" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="dyWrapDistTop" />
+	</struct>
+	<struct name="DxWrapDistRight">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0386" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="dxWrapDistRight" />
+	</struct>
+	<struct name="DyWrapDistBottom">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0387" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="dyWrapDistBottom" />
+	</struct>
 	<struct name="LidRegroup">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0388" />
@@ -4019,6 +4073,77 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<uint32 name="lidRegroup" />
+	</struct>
+	<struct name="PctHR">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0393" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="pctHR" />
+	</struct>
+	<struct name="AlignHR">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0394" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="alignHR" />
+	</struct>
+	<struct name="DxHeightHR">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0395" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="dxHeightHR" />
+	</struct>
+	<struct name="DxWidthHR">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0396" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="dxWidthHR" />
+	</struct>
+	<struct name="GroupShapeBooleanProperties">
+	        <type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x03bf" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="fPrint" />
+		<bit name="fHidden" />
+		<bit name="fOneD" />
+		<bit name="fIsButton" />
+		<bit name="fOnDblClickNotify" />
+		<bit name="fBehindDocument" />
+		<bit name="fEditedWrap" />
+		<bit name="fScriptAnchor" />
+		<bit name="fReallyHidden" />
+		<bit name="fAllowOverlap" />
+		<bit name="fUserDrawn" />
+		<bit name="fHorizRule" />
+		<bit name="fNoshadeHR" />
+		<bit name="fStandardHR" />
+		<bit name="fIsBullet" />
+		<bit name="fLayoutInCell" />
+		<bit name="fUsefPrint" />
+		<bit name="fUsefHidden" />
+		<bit name="fUsefOneD" />
+		<bit name="fUsefIsButton" />
+		<bit name="fUsefOnDblClickNotify" />
+		<bit name="fUsefBehindDocument" />
+		<bit name="fUsefEditedWrap" />
+		<bit name="fUsefScriptAnchor" />
+		<bit name="fUsefReallyHidden" />
+		<bit name="fUsefAllowOverlap" />
+		<bit name="fUsefUserDrawn" />
+		<bit name="fUsefHorizRule" />
+		<bit name="fUsefNoshadeHR" />
+		<bit name="fUsefStandardHR" />
+		<bit name="fUsefIsBullet" />
+		<bit name="fUsefLayoutInCell" />
 	</struct>
 	<struct name="WzFillId">
 		<type name="opid" type="OfficeArtFOPTEOPID">
