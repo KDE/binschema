@@ -3253,6 +3253,10 @@
 		<type name="shapeTertiaryOptions2" type="OfficeArtTertiaryFOPT"
 			optional="true" />
 	</struct>
+	<struct name="OfficeArtInlineSpContainer">
+                <type name="shape" type="OfficeArtSpContainer" />
+		<type name="rgfb" type="OfficeArtBStoreContainerFileBlock" array="true" />
+	</struct>
 	<struct name="OfficeArtSolverContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0xF" />
