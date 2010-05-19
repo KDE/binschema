@@ -4,12 +4,7 @@
 	<struct name="RecordHeader">
 		<uint4 name="recVer" />
 		<uint12 name="recInstance" />
-		<uint16 name="recType">
-			<!--
-					this limitation helps debugging
-				-->
-			<limitation expression="&gt;0" />
-		</uint16>
+		<uint16 name="recType" />
 		<uint32 name="recLen" />
 	</struct>
 	<struct name="CurrentUserAtom">
