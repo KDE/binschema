@@ -2,15 +2,22 @@
 #include "pole.h"
 #include <QtCore/QDebug>
 
+using namespace std;
+
 void
 testFile(const char* path) {
     POLE::Storage storage(path);
     if (!storage.open()) return;
-    std::string prefix;
+    string prefix;
     if (storage.isDirectory("PP97_DUALSTORAGE")) {
         prefix = "PP97_DUALSTORAGE/";
     } else {
         prefix = "/";
+    }
+    list<string> entries = storage.entries(prefix);
+    for (list<string>::const_iterator i=entries.begin(); i!=entries.end(); ++i) {
+        // if encrypted, do not report failure.
+        if (*i == "EncryptedSummary") return;
     }
     POLE::Stream stream(&storage, prefix + "PowerPoint Document");
 

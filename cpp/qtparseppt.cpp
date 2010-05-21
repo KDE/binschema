@@ -37,7 +37,12 @@ parse(const QString& file) {
         } else {
             prefix = "/";
         }
+
         list<string> entries = storage.entries(prefix);
+        for (list<string>::const_iterator i=entries.begin(); i!=entries.end(); ++i) {
+            // if encrypted, do not report failure.
+            if (*i == "EncryptedSummary") return true;
+        }
         for (list<string>::const_iterator i=entries.begin(); i!=entries.end(); ++i) {
             if (!storage.isDirectory(prefix+*i)) {
                 POLE::Stream stream(&storage, prefix+*i);
