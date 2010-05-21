@@ -6,7 +6,14 @@ void
 testFile(const char* path) {
     POLE::Storage storage(path);
     if (!storage.open()) return;
-    POLE::Stream stream(&storage, "/PowerPoint Document");
+    std::string prefix;
+    if (storage.isDirectory("PP97_DUALSTORAGE")) {
+        prefix = "PP97_DUALSTORAGE/";
+    } else {
+        prefix = "/";
+    }
+    POLE::Stream stream(&storage, prefix + "PowerPoint Document");
+
     QByteArray array;
     array.resize(stream.size());
     unsigned long read = stream.read((unsigned char*)array.data(), stream.size());
