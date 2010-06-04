@@ -3381,6 +3381,7 @@
 			<type type="GeometryBooleanProperties" />
 			<type type="FillType" />
 			<type type="FillColor" />
+			<type type="FillOpacity" />
 			<type type="FillBackColor" />
 			<type type="FillBlip" />
 			<type type="FillStyleBooleanProperties" />
@@ -3683,6 +3684,14 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<type name="fillColor" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="FillOpacity">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0182" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="fillOpacity"/>
 	</struct>
 	<struct name="FillBackColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
