@@ -3143,7 +3143,8 @@
 		<type name="drawingData" type="OfficeArtFDG" optional="true" />
 		<!-- MS documentation does not say regroupItems is optional -->
 		<type name="regroupItems" type="OfficeArtFRITContainer" optional="true" />
-		<type name="groupShape" type="OfficeArtSpgrContainer" />
+		<!-- MS documentation does not say regroupItems is optional but it is at least in Excel -->
+		<type name="groupShape" type="OfficeArtSpgrContainer" optional="true" />
 		<!-- MS documentation does not say shape is optional -->
 		<type name="shape" type="OfficeArtSpContainer" optional="true" />
 		<type name="deletedShapes" type="OfficeArtSpgrContainerFileBlock"
