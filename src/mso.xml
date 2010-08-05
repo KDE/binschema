@@ -3143,9 +3143,11 @@
 		<type name="drawingData" type="OfficeArtFDG" optional="true" />
 		<!-- MS documentation does not say regroupItems is optional -->
 		<type name="regroupItems" type="OfficeArtFRITContainer" optional="true" />
-		<type name="groupShape" type="OfficeArtSpgrContainer" />
+		<!-- MS documentation does not say regroupItems is optional but it is -->
+		<type name="groupShape" type="OfficeArtSpgrContainer" optional="true" />
 		<!-- MS documentation does not say shape is optional -->
 		<type name="shape" type="OfficeArtSpContainer" optional="true" />
+		<!-- MS documentation does not say shape is optional -->
 		<type name="deletedShapes" type="OfficeArtSpgrContainerFileBlock"
 			array="true" />
 		<!--  according to ms spec, solvers is not optional -->
@@ -3218,6 +3220,10 @@
 		<choice name="anon">
 			<type type="OfficeArtSpContainer" />
 			<type type="OfficeArtSpgrContainer" />
+			<type type="OfficeArtFSP" />
+			<type type="OfficeArtFSPGR" />
+			<type type="OfficeArtClientAnchor" />
+			<type type="OfficeArtClientData" />
 		</choice>
 	</struct>
 	<struct name="OfficeArtSpContainer">
@@ -4224,6 +4230,7 @@
 		<choice name="anon">
 			<type type="PptOfficeArtClientAnchor" />
 			<type type="DocOfficeArtClientAnchor" />
+			<type type="XlsOfficeArtClientAnchor" />
 		</choice>
 	</struct>
 	<struct name="PptOfficeArtClientAnchor">
@@ -4245,6 +4252,30 @@
 		</type>
 		<int32 name="clientAnchor" />
 	</struct>
+
+    <!-- OfficeArtClientAnchorHF, OfficeArtClientAnchorSheet, OfficeArtClientAnchorChart -->
+    <struct name="XlsOfficeArtClientAnchor">
+        <type name="rh" type="OfficeArtRecordHeader">
+            <limitation name="recVer" value="0" />
+            <limitation name="recInstance" value="0" />
+            <limitation name="recType" value="0xF010" />
+            <limitation name="recLen" value="0x8|0x12" />
+        </type>
+        <bit name="fMove" />
+        <bit name="fSize" />
+        <uint14 name="unused" />
+        <int32 name="width" condition="rh.recLen==0x8" />
+        <int32 name="height" condition="rh.recLen==0x8" />
+        <uint16 name="colL" condition="rh.recLen==0x12" />
+        <int16 name="dxL" condition="rh.recLen==0x12" />
+        <uint16 name="rwT" condition="rh.recLen==0x12" />
+        <int16 name="dyT" condition="rh.recLen==0x12" />
+        <uint16 name="colR" condition="rh.recLen==0x12" />
+        <int16 name="dxR" condition="rh.recLen==0x12" />
+        <uint16 name="rwB" condition="rh.recLen==0x12" />
+        <int16 name="dyB" condition="rh.recLen==0x12" />
+    </struct>
+
 	<struct name="OfficeArtFPSPL">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0" />
@@ -4272,6 +4303,7 @@
 		<choice name="anon">
 			<type type="DocOfficeArtClientData" />
 			<type type="PptOfficeArtClientData" />
+			<type type="XlsOfficeArtClientData" />
 		</choice>
 	</struct>
 	<struct name="PptOfficeArtClientData">
@@ -4310,6 +4342,14 @@
 		</type>
 		<uint32 name="clientData" />
 	</struct>
+    <struct name="XlsOfficeArtClientData">
+        <type name="rh" type="OfficeArtRecordHeader">
+            <limitation name="recVer" value="0" />
+            <limitation name="recInstance" value="0" />
+            <limitation name="recType" value="0xF011" />
+            <limitation name="recLen" value="0" />
+        </type>
+    </struct>
 	<struct name="ShapeFlagsAtom">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0" />
@@ -4585,21 +4625,19 @@
 	</struct>
 	<struct name="OfficeArtClientTextBox">
 		<choice name="anon">
-			<type type="PptOfficeArtClientTextBox" />
-			<type type="DocOfficeArtClientTextBox" />
+            <type type="XlsOfficeArtClientTextBox" />
+            <type type="DocOfficeArtClientTextBox" />
+            <type type="PptOfficeArtClientTextBox" />
 		</choice>
 	</struct>
-	<struct name="PptOfficeArtClientTextBox">
-		<type name="rh" type="OfficeArtRecordHeader">
-			<limitation name="recVer" value="0|0xF" />
-			<!--  documentation says value should be 0 -->
-			<limitation name="recInstance" value="0" />
-			<limitation name="recType" value="0xF00D" />
-			<limitation name="recLen" expression="!=4" />
-		</type>
-		<type name="rgChildRec" array="true" size="rh.recLen"
-			type="TextClientDataSubContainerOrAtom" />
-	</struct>
+    <struct name="XlsOfficeArtClientTextBox">
+        <type name="rh" type="OfficeArtRecordHeader">
+            <limitation name="recVer" value="0" />
+            <limitation name="recInstance" value="0" />
+            <limitation name="recType" value="0xF00D" />
+            <limitation name="recLen" value="0" />
+        </type>
+    </struct>
 	<struct name="DocOfficeArtClientTextBox">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0|0xF" />
@@ -4609,6 +4647,17 @@
 		</type>
 		<uint32 name="clientTextBox" />
 	</struct>
+    <struct name="PptOfficeArtClientTextBox">
+        <type name="rh" type="OfficeArtRecordHeader">
+            <limitation name="recVer" value="0|0xF" />
+            <!--  documentation says value should be 0 -->
+            <limitation name="recInstance" value="0" />
+            <limitation name="recType" value="0xF00D" />
+            <limitation name="recLen" expression="!=4" />
+        </type>
+        <type name="rgChildRec" array="true" size="rh.recLen"
+            type="TextClientDataSubContainerOrAtom" />
+    </struct>
 	<struct name="TextRulerAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
