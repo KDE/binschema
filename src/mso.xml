@@ -3409,7 +3409,7 @@
 			<type type="ShadowOpacity" />
 			<type type="ShadowOffsetX" />
 			<type type="ShadowOffsetY" />
-			<type type="ShadowStyleBooleanPropertiesr" />
+			<type type="ShadowStyleBooleanProperties" />
 			<type type="ShapeBooleanProperties" />
 			<type type="HspMaster" />
 			<type type="Rotation" />
@@ -3906,6 +3906,14 @@
 		<bit name="fUsefLineOpaqueBackColor" />
 		<uint6 name="unused4" />
 	</struct>
+	<struct name="ShadowType">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0200" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="shadowType" />
+	</struct>
 	<struct name="ShadowColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0201" />
@@ -3938,16 +3946,16 @@
 		</type>
 		<int32 name="shadowOffsetY" />
 	</struct>
-	<struct name="ShadowStyleBooleanPropertiesr">
+	<struct name="ShadowStyleBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x023F" />
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
 		</type>
-		<bit name="fshadowObscured" />
+		<bit name="fShadowObscured" />
 		<bit name="fShadow" />
 		<uint14 name="unused1" />
-		<bit name="fUsefshadowObscured" />
+		<bit name="fUsefShadowObscured" />
 		<bit name="fUsefShadow" />
 		<uint14 name="unused2" />
 	</struct>
