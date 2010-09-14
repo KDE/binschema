@@ -909,16 +909,16 @@ public class QtParserGenerator {
 	}
 
 	private void printFixedSizeArrayParser(PrintWriter out, String s, Member m) {
-		out.println(s + "int _startPos = in.getPosition();");
-		out.println(s + "_atend = in.getPosition() - _startPos >= "
-				+ getExpression("_s", m.size) + ";");
+		out.println(s + "qint64 _startPos = in.getPosition();");
+		out.println(s + "int _totalSize = qMin(" + getExpression("_s", m.size)
+				+ ", quint32(in.getSize() - _startPos));");
+		out.println(s + "_atend = in.getPosition() - _startPos >= _totalSize;");
 		out.println(s + "while (!_atend) {");
 		out.println(s + "    _s." + m.name + ".append(" + m.type().name
 				+ "(&_s));");
 		out.println(s + "    parse" + m.type().name + "(in, _s." + m.name
 				+ ".last());");
-		out.println(s + "    _atend = in.getPosition() - _startPos >= "
-				+ getExpression("_s", m.size) + ";");
+		out.println(s + "    _atend = in.getPosition() - _startPos >= _totalSize;");
 		out.println(s + "}");
 	}
 
