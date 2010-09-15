@@ -910,6 +910,12 @@ public class QtParserGenerator {
 
 	private void printFixedSizeArrayParser(PrintWriter out, String s, Member m) {
 		out.println(s + "qint64 _startPos = in.getPosition();");
+		/* _totalSize should really be just getExpression("_s", m.size)
+		   The check for the end of the stream is only a workaround for
+		   a limitation in the current Excel file parser. In Excel,
+		   the stream is split up in blocks and the current code parses
+		   these blocks separately and reassembles them later instead of
+		   assembling the raw data transparantly in a stream. */
 		out.println(s + "int _totalSize = qMin(" + getExpression("_s", m.size)
 				+ ", quint32(in.getSize() - _startPos));");
 		out.println(s + "_atend = in.getPosition() - _startPos >= _totalSize;");
