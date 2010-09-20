@@ -3384,6 +3384,11 @@
 			<type type="AdjustValue" />
 			<type type="Adjust2Value" />
 			<type type="Adjust3Value" />
+            <type type="Adjust4Value" />
+            <type type="Adjust5Value" />
+            <type type="Adjust6Value" />
+            <type type="Adjust7Value" />
+            <type type="Adjust8Value" />
 			<type type="GeometryBooleanProperties" />
 			<type type="FillType" />
 			<type type="FillColor" />
@@ -3418,6 +3423,11 @@
 			<type type="ShapeBooleanProperties" />
 			<type type="HspMaster" />
 			<type type="Rotation" />
+			<type type="DxyCalloutGap" />
+			<type type="Spcoa" />
+			<type type="Spcod" />
+			<type type="DxyCalloutDropSpecified" />
+			<type type="DxyCalloutLengthSpecified" />
 			<type type="CalloutBooleanProperties" />
 			<type type="PctHR" />
 			<type type="AlignHR" />
@@ -3648,6 +3658,46 @@
 		</type>
 		<int32 name="adjust3value" />
 	</struct>
+    <struct name="Adjust4Value">
+        <type name="opid" type="OfficeArtFOPTEOPID">
+            <limitation name="opid" value="0x014A" />
+            <limitation name="fBid" value="false" />
+            <limitation name="fComplex" value="false" />
+        </type>
+        <int32 name="adjust4value" />
+    </struct>
+    <struct name="Adjust5Value">
+        <type name="opid" type="OfficeArtFOPTEOPID">
+            <limitation name="opid" value="0x014B" />
+            <limitation name="fBid" value="false" />
+            <limitation name="fComplex" value="false" />
+        </type>
+        <int32 name="adjust5value" />
+    </struct>
+    <struct name="Adjust6Value">
+        <type name="opid" type="OfficeArtFOPTEOPID">
+            <limitation name="opid" value="0x014C" />
+            <limitation name="fBid" value="false" />
+            <limitation name="fComplex" value="false" />
+        </type>
+        <int32 name="adjust6value" />
+    </struct>
+    <struct name="Adjust7Value">
+        <type name="opid" type="OfficeArtFOPTEOPID">
+            <limitation name="opid" value="0x014D" />
+            <limitation name="fBid" value="false" />
+            <limitation name="fComplex" value="false" />
+        </type>
+        <int32 name="adjust7value" />
+    </struct>
+    <struct name="Adjust8Value">
+        <type name="opid" type="OfficeArtFOPTEOPID">
+            <limitation name="opid" value="0x014E" />
+            <limitation name="fBid" value="false" />
+            <limitation name="fComplex" value="false" />
+        </type>
+        <int32 name="adjust8value" />
+    </struct>
 	<struct name="GeometryBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x017F" />
@@ -4055,6 +4105,46 @@
 		<bit name="unused6" />
 		<uint4 name="unused7" />
 	</struct>
+	<struct name="DxyCalloutGap">
+        <type name="opid" type="OfficeArtFOPTEOPID">
+            <limitation name="opid" value="0x0341" />
+            <limitation name="fBid" value="false" />
+            <limitation name="fComplex" value="false" />
+        </type>
+        <uint32 name="dxyCalloutGap" />
+	</struct>
+	<struct name="Spcoa">
+        <type name="opid" type="OfficeArtFOPTEOPID">
+            <limitation name="opid" value="0x0342" />
+            <limitation name="fBid" value="false" />
+            <limitation name="fComplex" value="false" />
+        </type>
+        <uint32 name="spcoa" />
+	</struct>
+    <struct name="Spcod">
+        <type name="opid" type="OfficeArtFOPTEOPID">
+            <limitation name="opid" value="0x0343" />
+            <limitation name="fBid" value="false" />
+            <limitation name="fComplex" value="false" />
+        </type>
+        <uint32 name="spcod" />
+    </struct>
+    <struct name="DxyCalloutDropSpecified">
+        <type name="opid" type="OfficeArtFOPTEOPID">
+            <limitation name="opid" value="0x0344" />
+            <limitation name="fBid" value="false" />
+            <limitation name="fComplex" value="false" />
+        </type>
+        <uint32 name="dxyCalloutDropSpecified" />
+    </struct>
+    <struct name="DxyCalloutLengthSpecified">
+        <type name="opid" type="OfficeArtFOPTEOPID">
+            <limitation name="opid" value="0x0345" />
+            <limitation name="fBid" value="false" />
+            <limitation name="fComplex" value="false" />
+        </type>
+        <uint32 name="dxyCalloutLengthSpecified" />
+    </struct>
 	<struct name="CalloutBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x037F" />
