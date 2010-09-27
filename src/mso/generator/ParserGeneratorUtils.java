@@ -232,6 +232,7 @@ class TypeRegistry {
 	final public Type uint8 = new Type(this, "uint8", 8);
 	final public Type uint9 = new Type(this, "uint9", 9);
 	final public Type uint12 = new Type(this, "uint12", 12);
+	final public Type uint13 = new Type(this, "uint13", 13);
 	final public Type uint14 = new Type(this, "uint14", 14);
 	final public Type uint15 = new Type(this, "uint15", 15);
 	final public Type uint16 = new Type(this, "uint16", 16);
