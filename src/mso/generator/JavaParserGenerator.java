@@ -164,8 +164,9 @@ public class JavaParserGenerator {
 		} else if (t == r.uint2 || t == r.uint3 || t == r.uint4 || t == r.uint5
 				|| t == r.uint6 || t == r.uint7 || t == r.uint8) {
 			return "byte";
-		} else if (t == r.uint9 || t == r.uint12 || t == r.uint14
-				|| t == r.uint15 || t == r.int16) {
+		} else if (t == r.uint9 || t == r.uint12 || t == r.uint13
+				|| t == r.uint14 || t == r.uint15
+				|| t == r.int16) {
 			return "short";
 		} else if (t == r.uint16 || t == r.uint20 || t == r.uint30
 				|| t == r.uint32 || t == r.int32) {

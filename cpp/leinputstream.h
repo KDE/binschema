@@ -268,6 +268,7 @@ public:
     qint64 getPosition() const { return input->pos(); }
 
     qint64 getMaxPosition() const { return qMax(input->pos(), maxPosition); }
+    qint64 getSize() const { return input->size(); }
 };
 
 #endif

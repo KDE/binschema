@@ -78,6 +78,11 @@ public class LEOutputStream {
 		output.write(v >> 4);
 	}
 
+	public void writeuint13(short v) throws IOException {
+		writeBits(5, v);
+		output.write(v >> 5);
+	}
+
 	public void writeuint14(short v) throws IOException {
 		if (bitfieldpos == 0) {
 			output.write(v);

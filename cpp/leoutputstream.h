@@ -76,6 +76,11 @@ public:
         data << (quint8)(v >> 4);
     }
 
+    void writeuint13(quint16 v) {
+        writeBits(5, v);
+        data << (quint8)(v >> 5);
+    }
+
     void writeuint14(quint16 v) {
         if (bitfieldpos == 0) {
             data << (quint8) v;

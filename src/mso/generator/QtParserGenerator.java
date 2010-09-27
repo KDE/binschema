@@ -495,8 +495,9 @@ public class QtParserGenerator {
 		} else if (t == r.uint2 || t == r.uint3 || t == r.uint4 || t == r.uint5
 				|| t == r.uint6 || t == r.uint7 || t == r.uint8) {
 			return "quint8";
-		} else if (t == r.uint9 || t == r.uint12 || t == r.uint14
-				|| t == r.uint15 || t == r.uint16) {
+		} else if (t == r.uint9 || t == r.uint12 || t == r.uint13
+				|| t == r.uint14 || t == r.uint15
+				|| t == r.uint16) {
 			return "quint16";
 		} else if (t == r.uint20 || t == r.uint30 || t == r.uint32) {
 			return "quint32";
