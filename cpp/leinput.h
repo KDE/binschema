@@ -98,6 +98,9 @@ inline quint16 readuint9(const char* d) {
 inline quint16 readuint12_4(const char* d) {
     return readuint16(d) >> 4 & 0x0FFF;
 }
+inline quint16 readuint13_3(const char* d) {
+    return readuint16(d) >> 3 & 0x1FFF;
+}
 inline quint16 readuint14(const char* d) {
     return readuint16(d) & 0x3FFF;
 }

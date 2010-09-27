@@ -127,6 +127,14 @@ public class LEInputStream {
 		return (short) v;
 	}
 
+	public short readuint13() throws IOException {
+		// we assume there are 5 bits left
+		int a = getBits(5) & 0x1F;
+		int b = readUnsignedByte();
+		int v = (b << 5) | a;
+		return (short) v;
+	}
+
 	public short readuint14() throws IOException {
 		int v;
 		if (bitfieldpos < 0) {
