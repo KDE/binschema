@@ -3396,6 +3396,7 @@
 			<type type="FillType" />
 			<type type="FillColor" />
 			<type type="FillOpacity" />
+			<type type="FillAngle" />
 			<type type="FillBackColor" />
 			<type type="FillBlip" />
 			<type type="FillStyleBooleanProperties" />
@@ -3449,8 +3450,38 @@
 			<type type="DxWrapDistRight" />
 			<type type="DyWrapDistBottom" />
 			<type type="GroupShapeBooleanProperties" />
+			<type type="PVertices" />
+			<type type="PSegmentInfo" />
 			<type type="OfficeArtFOPTE" />
 		</choice>
+	</struct>
+	<struct name="PVertices">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0145" />
+		</type>
+		<uint32 name="pVertices" />
+	</struct>
+	<struct name="PVertices_complex">
+		<uint16 name="nElems" />
+		<uint16 name="nElemsAlloc" />
+		<uint16 name="cbElem" />
+		<uint8 name="data" count="(cbElem==0xFFF0)?(4 * nElems):(cbElem * nElems)" />
+	</struct>
+	<struct name="PSegmentInfo">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0146" />
+		</type>
+		<uint32 name="pSegmentInfo" />
+	</struct>
+	<struct name="PSegmentInfo_complex">
+		<uint16 name="nElems" />
+		<uint16 name="nElemsAlloc" />
+		<uint16 name="cbElem" />
+		<uint8 name="data" count="(cbElem==0xFFF0)?(4 * nElems):(cbElem * nElems)" />
+	</struct>
+	<struct name="MSOPATHINFO">
+		<uint3 name="type" />
+		<uint13 name="segments" />
 	</struct>
 	<struct name="ProtectionBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -3751,6 +3782,14 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<int32 name="fillOpacity" />
+	</struct>
+	<struct name="FillAngle">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x018B" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillAngle" type="FixedPoint" />
 	</struct>
 	<struct name="FillBackColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
