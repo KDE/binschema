@@ -3143,7 +3143,10 @@
 		<type name="drawingData" type="OfficeArtFDG" optional="true" />
 		<!-- MS documentation does not say regroupItems is optional -->
 		<type name="regroupItems" type="OfficeArtFRITContainer" optional="true" />
-		<!-- MS documentation does not say regroupItems is optional but it is at least in Excel -->
+		<!--
+			MS documentation does not say regroupItems is optional but it is at
+			least in Excel
+		-->
 		<type name="groupShape" type="OfficeArtSpgrContainer" optional="true" />
 		<!-- MS documentation does not say shape is optional -->
 		<type name="shape" type="OfficeArtSpContainer" optional="true" />
@@ -3255,7 +3258,7 @@
 			optional="true" />
 	</struct>
 	<struct name="OfficeArtInlineSpContainer">
-                <type name="shape" type="OfficeArtSpContainer" />
+		<type name="shape" type="OfficeArtSpContainer" />
 		<type name="rgfb" type="OfficeArtBStoreContainerFileBlock" array="true" />
 	</struct>
 	<struct name="OfficeArtSolverContainer">
@@ -3384,11 +3387,11 @@
 			<type type="AdjustValue" />
 			<type type="Adjust2Value" />
 			<type type="Adjust3Value" />
-            <type type="Adjust4Value" />
-            <type type="Adjust5Value" />
-            <type type="Adjust6Value" />
-            <type type="Adjust7Value" />
-            <type type="Adjust8Value" />
+			<type type="Adjust4Value" />
+			<type type="Adjust5Value" />
+			<type type="Adjust6Value" />
+			<type type="Adjust7Value" />
+			<type type="Adjust8Value" />
 			<type type="GeometryBooleanProperties" />
 			<type type="FillType" />
 			<type type="FillColor" />
@@ -3658,46 +3661,46 @@
 		</type>
 		<int32 name="adjust3value" />
 	</struct>
-    <struct name="Adjust4Value">
-        <type name="opid" type="OfficeArtFOPTEOPID">
-            <limitation name="opid" value="0x014A" />
-            <limitation name="fBid" value="false" />
-            <limitation name="fComplex" value="false" />
-        </type>
-        <int32 name="adjust4value" />
-    </struct>
-    <struct name="Adjust5Value">
-        <type name="opid" type="OfficeArtFOPTEOPID">
-            <limitation name="opid" value="0x014B" />
-            <limitation name="fBid" value="false" />
-            <limitation name="fComplex" value="false" />
-        </type>
-        <int32 name="adjust5value" />
-    </struct>
-    <struct name="Adjust6Value">
-        <type name="opid" type="OfficeArtFOPTEOPID">
-            <limitation name="opid" value="0x014C" />
-            <limitation name="fBid" value="false" />
-            <limitation name="fComplex" value="false" />
-        </type>
-        <int32 name="adjust6value" />
-    </struct>
-    <struct name="Adjust7Value">
-        <type name="opid" type="OfficeArtFOPTEOPID">
-            <limitation name="opid" value="0x014D" />
-            <limitation name="fBid" value="false" />
-            <limitation name="fComplex" value="false" />
-        </type>
-        <int32 name="adjust7value" />
-    </struct>
-    <struct name="Adjust8Value">
-        <type name="opid" type="OfficeArtFOPTEOPID">
-            <limitation name="opid" value="0x014E" />
-            <limitation name="fBid" value="false" />
-            <limitation name="fComplex" value="false" />
-        </type>
-        <int32 name="adjust8value" />
-    </struct>
+	<struct name="Adjust4Value">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x014A" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="adjust4value" />
+	</struct>
+	<struct name="Adjust5Value">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x014B" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="adjust5value" />
+	</struct>
+	<struct name="Adjust6Value">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x014C" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="adjust6value" />
+	</struct>
+	<struct name="Adjust7Value">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x014D" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="adjust7value" />
+	</struct>
+	<struct name="Adjust8Value">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x014E" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="adjust8value" />
+	</struct>
 	<struct name="GeometryBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x017F" />
@@ -3747,7 +3750,7 @@
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
 		</type>
-		<int32 name="fillOpacity"/>
+		<int32 name="fillOpacity" />
 	</struct>
 	<struct name="FillBackColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -4106,45 +4109,45 @@
 		<uint4 name="unused7" />
 	</struct>
 	<struct name="DxyCalloutGap">
-        <type name="opid" type="OfficeArtFOPTEOPID">
-            <limitation name="opid" value="0x0341" />
-            <limitation name="fBid" value="false" />
-            <limitation name="fComplex" value="false" />
-        </type>
-        <uint32 name="dxyCalloutGap" />
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0341" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="dxyCalloutGap" />
 	</struct>
 	<struct name="Spcoa">
-        <type name="opid" type="OfficeArtFOPTEOPID">
-            <limitation name="opid" value="0x0342" />
-            <limitation name="fBid" value="false" />
-            <limitation name="fComplex" value="false" />
-        </type>
-        <uint32 name="spcoa" />
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0342" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="spcoa" />
 	</struct>
-    <struct name="Spcod">
-        <type name="opid" type="OfficeArtFOPTEOPID">
-            <limitation name="opid" value="0x0343" />
-            <limitation name="fBid" value="false" />
-            <limitation name="fComplex" value="false" />
-        </type>
-        <uint32 name="spcod" />
-    </struct>
-    <struct name="DxyCalloutDropSpecified">
-        <type name="opid" type="OfficeArtFOPTEOPID">
-            <limitation name="opid" value="0x0344" />
-            <limitation name="fBid" value="false" />
-            <limitation name="fComplex" value="false" />
-        </type>
-        <uint32 name="dxyCalloutDropSpecified" />
-    </struct>
-    <struct name="DxyCalloutLengthSpecified">
-        <type name="opid" type="OfficeArtFOPTEOPID">
-            <limitation name="opid" value="0x0345" />
-            <limitation name="fBid" value="false" />
-            <limitation name="fComplex" value="false" />
-        </type>
-        <uint32 name="dxyCalloutLengthSpecified" />
-    </struct>
+	<struct name="Spcod">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0343" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="spcod" />
+	</struct>
+	<struct name="DxyCalloutDropSpecified">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0344" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="dxyCalloutDropSpecified" />
+	</struct>
+	<struct name="DxyCalloutLengthSpecified">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0345" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="dxyCalloutLengthSpecified" />
+	</struct>
 	<struct name="CalloutBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x037F" />
@@ -4351,28 +4354,31 @@
 		<int32 name="clientAnchor" />
 	</struct>
 
-    <!-- OfficeArtClientAnchorHF, OfficeArtClientAnchorSheet, OfficeArtClientAnchorChart -->
-    <struct name="XlsOfficeArtClientAnchor">
-        <type name="rh" type="OfficeArtRecordHeader">
-            <limitation name="recVer" value="0" />
-            <limitation name="recInstance" value="0" />
-            <limitation name="recType" value="0xF010" />
-            <limitation name="recLen" value="0x8|0x12" />
-        </type>
-        <bit name="fMove" />
-        <bit name="fSize" />
-        <uint14 name="unused" />
-        <int32 name="width" condition="rh.recLen==0x8" />
-        <int32 name="height" condition="rh.recLen==0x8" />
-        <uint16 name="colL" condition="rh.recLen==0x12" />
-        <int16 name="dxL" condition="rh.recLen==0x12" />
-        <uint16 name="rwT" condition="rh.recLen==0x12" />
-        <int16 name="dyT" condition="rh.recLen==0x12" />
-        <uint16 name="colR" condition="rh.recLen==0x12" />
-        <int16 name="dxR" condition="rh.recLen==0x12" />
-        <uint16 name="rwB" condition="rh.recLen==0x12" />
-        <int16 name="dyB" condition="rh.recLen==0x12" />
-    </struct>
+	<!--
+		OfficeArtClientAnchorHF, OfficeArtClientAnchorSheet,
+		OfficeArtClientAnchorChart
+	-->
+	<struct name="XlsOfficeArtClientAnchor">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF010" />
+			<limitation name="recLen" value="0x8|0x12" />
+		</type>
+		<bit name="fMove" />
+		<bit name="fSize" />
+		<uint14 name="unused" />
+		<int32 name="width" condition="rh.recLen==0x8" />
+		<int32 name="height" condition="rh.recLen==0x8" />
+		<uint16 name="colL" condition="rh.recLen==0x12" />
+		<int16 name="dxL" condition="rh.recLen==0x12" />
+		<uint16 name="rwT" condition="rh.recLen==0x12" />
+		<int16 name="dyT" condition="rh.recLen==0x12" />
+		<uint16 name="colR" condition="rh.recLen==0x12" />
+		<int16 name="dxR" condition="rh.recLen==0x12" />
+		<uint16 name="rwB" condition="rh.recLen==0x12" />
+		<int16 name="dyB" condition="rh.recLen==0x12" />
+	</struct>
 
 	<struct name="OfficeArtFPSPL">
 		<type name="rh" type="OfficeArtRecordHeader">
@@ -4440,14 +4446,14 @@
 		</type>
 		<uint32 name="clientData" />
 	</struct>
-    <struct name="XlsOfficeArtClientData">
-        <type name="rh" type="OfficeArtRecordHeader">
-            <limitation name="recVer" value="0" />
-            <limitation name="recInstance" value="0" />
-            <limitation name="recType" value="0xF011" />
-            <limitation name="recLen" value="0" />
-        </type>
-    </struct>
+	<struct name="XlsOfficeArtClientData">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF011" />
+			<limitation name="recLen" value="0" />
+		</type>
+	</struct>
 	<struct name="ShapeFlagsAtom">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0" />
@@ -4723,19 +4729,19 @@
 	</struct>
 	<struct name="OfficeArtClientTextBox">
 		<choice name="anon">
-            <type type="XlsOfficeArtClientTextBox" />
-            <type type="DocOfficeArtClientTextBox" />
-            <type type="PptOfficeArtClientTextBox" />
+			<type type="XlsOfficeArtClientTextBox" />
+			<type type="DocOfficeArtClientTextBox" />
+			<type type="PptOfficeArtClientTextBox" />
 		</choice>
 	</struct>
-    <struct name="XlsOfficeArtClientTextBox">
-        <type name="rh" type="OfficeArtRecordHeader">
-            <limitation name="recVer" value="0" />
-            <limitation name="recInstance" value="0" />
-            <limitation name="recType" value="0xF00D" />
-            <limitation name="recLen" value="0" />
-        </type>
-    </struct>
+	<struct name="XlsOfficeArtClientTextBox">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0" />
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF00D" />
+			<limitation name="recLen" value="0" />
+		</type>
+	</struct>
 	<struct name="DocOfficeArtClientTextBox">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0|0xF" />
@@ -4745,17 +4751,17 @@
 		</type>
 		<uint32 name="clientTextBox" />
 	</struct>
-    <struct name="PptOfficeArtClientTextBox">
-        <type name="rh" type="OfficeArtRecordHeader">
-            <limitation name="recVer" value="0|0xF" />
-            <!--  documentation says value should be 0 -->
-            <limitation name="recInstance" value="0" />
-            <limitation name="recType" value="0xF00D" />
-            <limitation name="recLen" expression="!=4" />
-        </type>
-        <type name="rgChildRec" array="true" size="rh.recLen"
-            type="TextClientDataSubContainerOrAtom" />
-    </struct>
+	<struct name="PptOfficeArtClientTextBox">
+		<type name="rh" type="OfficeArtRecordHeader">
+			<limitation name="recVer" value="0|0xF" />
+			<!--  documentation says value should be 0 -->
+			<limitation name="recInstance" value="0" />
+			<limitation name="recType" value="0xF00D" />
+			<limitation name="recLen" expression="!=4" />
+		</type>
+		<type name="rgChildRec" array="true" size="rh.recLen"
+			type="TextClientDataSubContainerOrAtom" />
+	</struct>
 	<struct name="TextRulerAtom">
 		<type name="rh" type="RecordHeader">
 			<limitation name="recVer" value="0" />
