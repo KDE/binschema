@@ -3396,9 +3396,33 @@
 			<type type="FillType" />
 			<type type="FillColor" />
 			<type type="FillOpacity" />
-			<type type="FillAngle" />
 			<type type="FillBackColor" />
+			<type type="FillBackOpacity" />
+			<type type="FillCrMod" />
 			<type type="FillBlip" />
+			<type type="FillBlipName" />
+			<type type="FillBlipFlags" />
+			<type type="FillWidth" />
+			<type type="FillHeight" />
+			<type type="FillAngle" />
+			<type type="FillFocus" />
+			<type type="FillToLeft" />
+			<type type="FillToTop" />
+			<type type="FillToRight" />
+			<type type="FillToBottom" />
+			<type type="FillRectLeft" />
+			<type type="FillRectTop" />
+			<type type="FillRectRight" />
+			<type type="FillRectBottom" />
+			<type type="FillDztype" />
+			<type type="FillShadePreset" />
+			<type type="FillShadeColors" />
+			<type type="FillOriginX" />
+			<type type="FillOriginY" />
+			<type type="FillShapeOriginX" />
+			<type type="FillShapeOriginY" />
+			<type type="FillColorExt" />
+			<type type="FillBackColorExt" />
 			<type type="FillStyleBooleanProperties" />
 			<type type="LineColor" />
 			<type type="LineOpacity" />
@@ -3407,9 +3431,6 @@
 			<type type="LineWidth" />
 			<type type="LineStyle" />
 			<type type="LineDashing" />
-			<type type="FillRectRight" />
-			<type type="FillRectBottom" />
-			<type type="FillDztype" />
 			<type type="WzFillId" />
 			<type type="LineStyleBooleanProperties" />
 			<type type="LineStartArrowhead" />
@@ -3460,12 +3481,6 @@
 			<limitation name="opid" value="0x0145" />
 		</type>
 		<uint32 name="pVertices" />
-	</struct>
-	<struct name="PVertices_complex">
-		<uint16 name="nElems" />
-		<uint16 name="nElemsAlloc" />
-		<uint16 name="cbElem" />
-		<uint8 name="data" count="(cbElem==0xFFF0)?(4 * nElems):(cbElem * nElems)" />
 	</struct>
 	<struct name="PSegmentInfo">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -3781,15 +3796,7 @@
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
 		</type>
-		<int32 name="fillOpacity" />
-	</struct>
-	<struct name="FillAngle">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x018B" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
-		</type>
-		<type name="fillAngle" type="FixedPoint" />
+		<type name="fillOpacity" type="FixedPoint" />
 	</struct>
 	<struct name="FillBackColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -3799,11 +3806,121 @@
 		</type>
 		<type name="fillBackColor" type="OfficeArtCOLORREF" />
 	</struct>
+	<struct name="FillBackOpacity">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0184" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillBackOpacity" type="FixedPoint" />
+	</struct>
+	<struct name="FillCrMod">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0185" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillCrMod" type="OfficeArtCOLORREF" />
+	</struct>
 	<struct name="FillBlip">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0186" />
 		</type>
 		<uint32 name="fillBlip" />
+	</struct>
+	<struct name="FillBlipName">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0187" />
+		</type>
+		<uint32 name="fillBlipName" />
+	</struct>
+	<struct name="FillBlipFlags">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0188" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="fillBlipFlags" />
+	</struct>
+	<struct name="FillWidth">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0189" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="fillWidth" />
+	</struct>
+	<struct name="FillHeight">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x018A" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="fillHeight" />
+	</struct>
+	<struct name="FillAngle">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x018B" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillAngle" type="FixedPoint" />
+	</struct>
+	<struct name="FillFocus">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x018C" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="fillFocus" />
+	</struct>
+	<struct name="FillToLeft">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x018D" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillToLeft" type="FixedPoint" />
+	</struct>
+	<struct name="FillToTop">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x018E" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillToTop" type="FixedPoint" />
+	</struct>
+	<struct name="FillToRight">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x018F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillToRight" type="FixedPoint" />
+	</struct>
+	<struct name="FillToBottom">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0190" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillToBottom" type="FixedPoint" />
+	</struct>
+	<struct name="FillRectLeft">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0191" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="fillRectLeft" />
+	</struct>
+	<struct name="FillRectTop">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0192" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="fillRectTop" />
 	</struct>
 	<struct name="FillRectRight">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -3829,6 +3946,104 @@
 		</type>
 		<int32 name="fillDztype" />
 	</struct>
+	<struct name="FillShadePreset">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0196" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="fillShadePreset" />
+	</struct>
+	<struct name="FillShadeColors">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0197" />
+		</type>
+		<uint32 name="fillShadeColors" />
+	</struct>
+	<struct name="FillShadeColors_complex">
+		<uint16 name="nElems" />
+		<uint16 name="nElemsAlloc" />
+		<uint16 name="cbElem" />
+		<uint8 name="data" count="(cbElem==0xFFF0)?(4 * nElems):(cbElem * nElems)" />
+	</struct>
+	<struct name="FillOriginX">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0198" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillOriginX" type="FixedPoint" />
+	</struct>
+	<struct name="FillOriginY">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0199" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillOriginY" type="FixedPoint" />
+	</struct>
+	<struct name="FillShapeOriginX">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x019A" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillShapeOriginX" type="FixedPoint" />
+	</struct>
+	<struct name="FillShapeOriginY">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x019B" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillShapeOriginY" type="FixedPoint" />
+	</struct>
+	<!--
+	<struct name="FillShadeType">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x019C" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillShadeType" type="MSOSHADETYPE" />
+	</struct>
+	-->
+	<struct name="FillColorExt">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x019E" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillColorExt" type="OfficeArtCOLORREF" />
+	</struct>
+	<!--
+	<struct name="FillColorExtMod">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01A0" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillColorExtMod" type="MSOTINTSHADE" />
+	</struct>
+	-->
+	<struct name="FillBackColorExt">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01A2" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillBackColorExt" type="OfficeArtCOLORREF" />
+	</struct>
+	<!--
+	<struct name="FillBackColorExtMod">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01A5" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="fillBackColorExtMod" type="MSOTINTSHADE" />
+	</struct>
+	-->
 	<struct name="FillStyleBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x01BF" />
@@ -3845,7 +4060,7 @@
 		<bit name="unused1a" />
 		<uint8 name="unused1b" />
 		<bit name="fUseNoFillHitTest" />
-		<bit name="fUseFillUseRext" />
+		<bit name="fUseFillUseRect" />
 		<bit name="fUseFillShape" />
 		<bit name="fUseHitTestFill" />
 		<bit name="fUseFilled" />
@@ -3854,6 +4069,27 @@
 		<bit name="unused2a" />
 		<uint8 name="unused2b" />
 	</struct>
+	<!--
+	<struct name="MSOSHADETYPE">
+		<bit name="msoshadeNone" />
+		<bit name="msoshadeGamma" />
+		<bit name="msoshadeSigma" />
+		<bit name="msoshadeBand" />
+		<bit name="msoshadeOneColor" />
+		<uint13 name="unused1a" />
+		<uint13 name="unused1b" />
+		<bit name="unused1c" />
+	</struct>
+	-->
+	<!--
+	<struct name="MSOTINTSHADE">
+		<choice name="anon">
+			<type type="MSOCOLORMODUNDEFINED" />
+			<type type="MSOSHADE" />
+			<type type="MSOTINT" />
+		</choice>
+        </struct>
+	-->
 	<struct name="LineColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x01C0" />
