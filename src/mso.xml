@@ -1395,7 +1395,7 @@
 		<type name="slidePersistAtom" type="SlidePersistAtom" />
 		<type name="atoms" type="TextContainer" array="true" />
 	</struct>
-	<!-- our own invention -->
+	<!-- Our own invention, to keep text related containers together. -->
 	<struct name="TextContainer">
 		<!--
 			this is an interpretation of the ABNF in the MS-PPT doc
@@ -1407,19 +1407,22 @@
 		</choice>
 		<type name="style" type="StyleTextPropAtom" optional="true" />
 		<type name="meta" type="TextContainerMeta" array="true" />
-		<!--
-			perhaps this does not belong here, see
-			TextClientDataSubContainerOrAtom
-		-->
+
+		<!-- Perhaps this does not belong here.  Following containers
+		     are optional and their order might differ.  See
+		     TextClientDataSubContainerOrAtom. -->
+
 		<type name="master" type="MasterTextPropAtom" optional="true" />
 		<type name="bookmark" type="TextBookmarkAtom" array="true" />
-		<!--  this textRuler is not according to the specification -->
-		<type name="textRuler" type="TextRulerAtom" optional="true" />
-		<!--  this struct does not occur in the specification -->
+
+		<!-- NOTE: Do not parse TextRulerAtom here, we need to have it
+		     outside to provide additional info to the content of both
+		     OutlineTextRefAtom or TextContainer. -->
+
+		<!--  Does not occur in the spec. (MSOffice2003 specific) -->
 		<type name="unknown" type="UnknownTextContainerChild" optional="true" />
 		<type name="specialinfo" type="TextSpecialInfoAtom" optional="true" />
-		<type name="interactive" type="TextContainerInteractiveInfo"
-			array="true" />
+		<type name="interactive" type="TextContainerInteractiveInfo" array="true" />
 		<!--  this second occurance is not according to the specification -->
 		<type name="specialinfo2" type="TextSpecialInfoAtom" optional="true" />
 	</struct>
@@ -3256,6 +3259,10 @@
 			Only exists if shapeTertiaryOptions1 does not. -->
 		<type name="shapeTertiaryOptions2" type="OfficeArtTertiaryFOPT"
 			optional="true" />
+
+		<!-- Does not occur in the spec. (MSOffice2003 specific).  It
+                     has the same length as RTFDateTimeMCAtom. -->
+		<type name="unknown" type="UnknownTextContainerChild" optional="true" />
 	</struct>
 	<struct name="OfficeArtInlineSpContainer">
 		<type name="shape" type="OfficeArtSpContainer" />
@@ -3383,6 +3390,10 @@
 			<type type="HspNext" />
 			<type type="Pib" />
 			<type type="PibName" />
+			<type type="GeoLeft" />
+			<type type="GeoTop" />
+			<type type="GeoRight" />
+			<type type="GeoBottom" />
 			<type type="ShapePath" />
 			<type type="AdjustValue" />
 			<type type="Adjust2Value" />
@@ -3447,6 +3458,7 @@
 			<type type="ShadowStyleBooleanProperties" />
 			<type type="ShapeBooleanProperties" />
 			<type type="HspMaster" />
+			<type type="Cxstyle" />
 			<type type="Rotation" />
 			<type type="DxyCalloutGap" />
 			<type type="Spcoa" />
@@ -3475,24 +3487,6 @@
 			<type type="PSegmentInfo" />
 			<type type="OfficeArtFOPTE" />
 		</choice>
-	</struct>
-	<struct name="PVertices">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x0145" />
-		</type>
-		<uint32 name="pVertices" />
-	</struct>
-	<struct name="PSegmentInfo">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x0146" />
-		</type>
-		<uint32 name="pSegmentInfo" />
-	</struct>
-	<struct name="PSegmentInfo_complex">
-		<uint16 name="nElems" />
-		<uint16 name="nElemsAlloc" />
-		<uint16 name="cbElem" />
-		<uint8 name="data" count="(cbElem==0xFFF0)?(4 * nElems):(cbElem * nElems)" />
 	</struct>
 	<struct name="MSOPATHINFO">
 		<uint3 name="type" />
@@ -3673,6 +3667,38 @@
 		</type>
 		<uint32 name="pibName" />
 	</struct>
+	<struct name="GeoLeft">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0140" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="geoLeft" />
+	</struct>
+	<struct name="GeoTop">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0141" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="geoTop" />
+	</struct>
+	<struct name="GeoRight">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0142" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="geoRight" />
+	</struct>
+	<struct name="GeoBottom">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0143" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="geoBottom" />
+	</struct>
 	<struct name="ShapePath">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0144" />
@@ -3682,6 +3708,24 @@
 		<uint32 name="shapePath">
 			<limitation expression="&lt;=4" />
 		</uint32>
+	</struct>
+	<struct name="PVertices">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0145" />
+		</type>
+		<uint32 name="pVertices" />
+	</struct>
+	<struct name="PSegmentInfo">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0146" />
+		</type>
+		<uint32 name="pSegmentInfo" />
+	</struct>
+	<struct name="PSegmentInfo_complex">
+		<uint16 name="nElems" />
+		<uint16 name="nElemsAlloc" />
+		<uint16 name="cbElem" />
+		<uint8 name="data" count="(cbElem==0xFFF0)?(4 * nElems):(cbElem * nElems)" />
 	</struct>
 	<struct name="AdjustValue">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -4299,6 +4343,16 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<uint32 name="hspMaster" />
+	</struct>
+	<struct name="Cxstyle">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0303" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="cxstyle">
+			<limitation expression="&lt;=4" />
+		</uint32>
 	</struct>
 	<struct name="BWMode">
 		<type name="opid" type="OfficeArtFOPTEOPID">
