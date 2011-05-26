@@ -3377,24 +3377,38 @@
 	<!-- This type is invented to make OPTE specific parsing possible -->
 	<struct name="OfficeArtFOPTEChoice">
 		<choice name="anon">
+			<type type="Rotation" />
 			<type type="ProtectionBooleanProperties" />
 			<type type="ITxid" />
-			<type type="DiagramBooleanProperties" />
 			<type type="DxTextLeft" />
 			<type type="DyTextTop" />
 			<type type="DxTextRight" />
 			<type type="DyTextBottom" />
 			<type type="WrapText" />
 			<type type="AnchorText" />
-			<type type="TextBooleanProperties" />
+			<type type="TxflTextFlow" />
+			<type type="CdirFont" />
 			<type type="HspNext" />
+			<type type="Txdir" />
+			<type type="TextBooleanProperties" />
+			<type type="CropFromTop" />
+			<type type="CropFromBottom" />
+			<type type="CropFromLeft" />
+			<type type="CropFromRight" />
 			<type type="Pib" />
 			<type type="PibName" />
+			<type type="PibFlags" />
+			<type type="PictureTransparent" />
+			<type type="PictureContrast" />
+			<type type="PictureBrightness" />
+			<type type="BlipBooleanProperties" />
 			<type type="GeoLeft" />
 			<type type="GeoTop" />
 			<type type="GeoRight" />
 			<type type="GeoBottom" />
 			<type type="ShapePath" />
+			<type type="PVertices" />
+			<type type="PSegmentInfo" />
 			<type type="AdjustValue" />
 			<type type="Adjust2Value" />
 			<type type="Adjust3Value" />
@@ -3442,8 +3456,6 @@
 			<type type="LineWidth" />
 			<type type="LineStyle" />
 			<type type="LineDashing" />
-			<type type="WzFillId" />
-			<type type="LineStyleBooleanProperties" />
 			<type type="LineStartArrowhead" />
 			<type type="LineEndArrowhead" />
 			<type type="LineStartArrowWidth" />
@@ -3451,40 +3463,40 @@
 			<type type="LineEndArrowWidth" />
 			<type type="LineEndArrowLength" />
 			<type type="LineJoinStyle" />
+			<type type="LineStyleBooleanProperties" />
+			<type type="ShadowType" />
 			<type type="ShadowColor" />
 			<type type="ShadowOpacity" />
 			<type type="ShadowOffsetX" />
 			<type type="ShadowOffsetY" />
 			<type type="ShadowStyleBooleanProperties" />
-			<type type="ShapeBooleanProperties" />
 			<type type="HspMaster" />
 			<type type="Cxstyle" />
-			<type type="Rotation" />
+			<type type="BWMode" />
+			<type type="ShapeBooleanProperties" />
 			<type type="DxyCalloutGap" />
 			<type type="Spcoa" />
 			<type type="Spcod" />
 			<type type="DxyCalloutDropSpecified" />
 			<type type="DxyCalloutLengthSpecified" />
 			<type type="CalloutBooleanProperties" />
-			<type type="PctHR" />
-			<type type="AlignHR" />
-			<type type="DxHeightHR" />
-			<type type="DxWidthHR" />
-			<type type="LidRegroup" />
-			<type type="BWMode" />
-			<type type="TxflTextFlow" />
-			<type type="PosH" />
-			<type type="PosRelH" />
-			<type type="PosV" />
-			<type type="PosRelV" />
 			<type type="PWrapPolygonVertices" />
 			<type type="DxWrapDistLeft" />
 			<type type="DyWrapDistTop" />
 			<type type="DxWrapDistRight" />
 			<type type="DyWrapDistBottom" />
+			<type type="LidRegroup" />
+			<type type="PosH" />
+			<type type="PosRelH" />
+			<type type="PosV" />
+			<type type="PosRelV" />
+			<type type="PctHR" />
+			<type type="AlignHR" />
+			<type type="DxHeightHR" />
+			<type type="DxWidthHR" />
 			<type type="GroupShapeBooleanProperties" />
-			<type type="PVertices" />
-			<type type="PSegmentInfo" />
+			<type type="WzFillId" />
+			<type type="DiagramBooleanProperties" />
 			<type type="OfficeArtFOPTE" />
 		</choice>
 	</struct>
@@ -3492,6 +3504,25 @@
 		<uint3 name="type" />
 		<uint13 name="segments" />
 	</struct>
+	<struct name="FixedPoint">
+		<!--
+			strangely the fraction part seems to come first this conflicts with
+			what the spec suggests
+		-->
+		<uint16 name="fractional" />
+		<int16 name="integral" />
+	</struct>
+	<!-- Properties: BEGIN -->
+        <!-- Transform Property Set -->
+	<struct name="Rotation">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0004" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="rotation" type="FixedPoint" />
+	</struct>
+	<!-- Protection -->
 	<struct name="ProtectionBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x007F" />
@@ -3521,22 +3552,7 @@
 		<bit name="fUsefLockAgainstUngrouping" />
 		<uint6 name="unused2" />
 	</struct>
-	<struct name="FixedPoint">
-		<!--
-			strangely the fraction part seems to come first this conflicts with
-			what the spec suggests
-		-->
-		<uint16 name="fractional" />
-		<int16 name="integral" />
-	</struct>
-	<struct name="Rotation">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x0004" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
-		</type>
-		<type name="rotation" type="FixedPoint" />
-	</struct>
+	<!-- Text Property Set -->
 	<struct name="ITxid">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0080" />
@@ -3544,35 +3560,6 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<int32 name="iTxid" />
-	</struct>
-	<struct name="DiagramBooleanProperties">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x053F" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
-		</type>
-		<bit name="fLockAgainstGrouping" />
-		<bit name="fLockAdjustHandles" />
-		<bit name="fLockText" />
-		<bit name="fLockVertices" />
-		<bit name="fLockCropping" />
-		<bit name="fLockAgainstSelect" />
-		<bit name="fLockPosition" />
-		<bit name="fLockAspectRatio" />
-		<bit name="fLockRotation" />
-		<bit name="fLockAgainstUngrouping" />
-		<uint6 name="unused6" />
-		<bit name="fUsefLockAgainstGrouping" />
-		<bit name="fUseLockAdjustHandles" />
-		<bit name="fUseLockText" />
-		<bit name="fUsefLockVertices" />
-		<bit name="fUsefLockCropping" />
-		<bit name="fUsefLockAgainstSelect" />
-		<bit name="fUsefLockPosition" />
-		<bit name="fUsefLockAspectRatio" />
-		<bit name="fUsefLockRotation" />
-		<bit name="fUsefLockAgainstUngrouping" />
-		<uint6 name="unused2" />
 	</struct>
 	<struct name="DxTextLeft">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -3626,6 +3613,44 @@
 			<limitation expression="&lt;=9" />
 		</uint32>
 	</struct>
+	<struct name="TxflTextFlow">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0088" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="txflTextFlow">
+			<limitation expression="&lt;=5" />
+                </uint32>
+	</struct>
+	<struct name="CdirFont">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0089" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="cdirFont">
+			<limitation expression="&lt;=3" />
+                </uint32>
+	</struct>
+	<struct name="HspNext">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x008A" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="hspNext" />
+	</struct>
+	<struct name="Txdir">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x008B" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="txdir">
+			<limitation expression="&lt;=2" />
+                </uint32>
+	</struct>
 	<struct name="TextBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x00BF" />
@@ -3647,13 +3672,38 @@
 		<uint3 name="unused6a" />
 		<uint8 name="unused6b" />
 	</struct>
-	<struct name="HspNext">
+	<!-- Blip Property Set -->
+	<struct name="CropFromTop">
 		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x008A" />
+			<limitation name="opid" value="0x0100" />
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
 		</type>
-		<int32 name="hspNext" />
+		<type name="cropFromTop" type="FixedPoint" />
+	</struct>
+	<struct name="CropFromBottom">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0101" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="cropFromBottom" type="FixedPoint" />
+	</struct>
+	<struct name="CropFromLeft">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0102" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="cropFromLeft" type="FixedPoint" />
+	</struct>
+	<struct name="CropFromRight">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0103" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="cropFromRight" type="FixedPoint" />
 	</struct>
 	<struct name="Pib">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -3667,6 +3717,64 @@
 		</type>
 		<uint32 name="pibName" />
 	</struct>
+	<struct name="PibFlags">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0106" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="pibFlags" />
+	</struct>
+	<struct name="PictureTransparent">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0107" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="pictureTransparent" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="PictureContrast">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0108" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="pictureContrast" />
+	</struct>
+	<struct name="PictureBrightness">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0109" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<int32 name="pictureBrightness" />
+	</struct>
+	<struct name="BlipBooleanProperties">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x013F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+                <bit name="fPictureActive" />
+                <bit name="fPictureBiLevel" />
+                <bit name="fPictureGray" />
+                <bit name="fNoHitTestPicture" />
+                <bit name="fLooping" />
+                <bit name="fRewind" />
+                <bit name="fPicturePreserveGrays" />
+		<bit name="unused1a" />
+		<uint8 name="unused1b" />
+                <bit name="fUsefPictureActive" />
+                <bit name="fUsefPictureBiLevel" />
+                <bit name="fUsefPictureGray" />
+                <bit name="fUsefNoHitTestPicture" />
+                <bit name="fUsefLooping" />
+                <bit name="fUsefRewind" />
+                <bit name="fUsefPicturePreserveGrays" />
+		<bit name="unused2a" />
+		<uint8 name="unused2b" />
+	</struct>
+	<!-- Geometry Property Set -->
 	<struct name="GeoLeft">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0140" />
@@ -3714,6 +3822,12 @@
 			<limitation name="opid" value="0x0145" />
 		</type>
 		<uint32 name="pVertices" />
+	</struct>
+	<struct name="PVertices_complex">
+		<uint16 name="nElems" />
+		<uint16 name="nElemsAlloc" />
+		<uint16 name="cbElem" />
+		<uint8 name="data" count="(cbElem==0xFFF0)?(4 * nElems):(cbElem * nElems)" />
 	</struct>
 	<struct name="PSegmentInfo">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -3816,6 +3930,7 @@
 		<bit name="unused3b" />
 		<uint8 name="unused4" />
 	</struct>
+	<!-- Fill Style Property Set -->
 	<struct name="FillType">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0180" />
@@ -4134,6 +4249,7 @@
 		</choice>
         </struct>
 	-->
+	<!-- Line Style Property Set -->
 	<struct name="LineColor">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x01C0" />
@@ -4283,6 +4399,7 @@
 		<bit name="fUsefLineOpaqueBackColor" />
 		<uint6 name="unused4" />
 	</struct>
+	<!-- Shadow Style Property Set -->
 	<struct name="ShadowType">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0200" />
@@ -4336,6 +4453,7 @@
 		<bit name="fUsefShadow" />
 		<uint14 name="unused2" />
 	</struct>
+	<!-- Shape Property Set -->
 	<struct name="HspMaster">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0301" />
@@ -4363,46 +4481,6 @@
 		<uint32 name="bWMode">
 			<limitation expression="&lt;=10" />
 		</uint32>
-	</struct>
-	<struct name="TxflTextFlow">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x0088" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
-		</type>
-		<uint32 name="txflTextFlow" />
-	</struct>
-	<struct name="PosH">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x038F" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
-		</type>
-		<uint32 name="posH" />
-	</struct>
-	<struct name="PosRelH">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x0390" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
-		</type>
-		<uint32 name="posRelH" />
-	</struct>
-	<struct name="PosV">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x0391" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
-		</type>
-		<uint32 name="posV" />
-	</struct>
-	<struct name="PosRelV">
-		<type name="opid" type="OfficeArtFOPTEOPID">
-			<limitation name="opid" value="0x0392" />
-			<limitation name="fBid" value="false" />
-			<limitation name="fComplex" value="false" />
-		</type>
-		<uint32 name="posRelV" />
 	</struct>
 	<struct name="ShapeBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -4437,6 +4515,7 @@
 		<bit name="unused6" />
 		<uint4 name="unused7" />
 	</struct>
+        <!-- Callout Property Set -->
 	<struct name="DxyCalloutGap">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0341" />
@@ -4502,6 +4581,7 @@
 		<bit name="unused2a" />
 		<uint8 name="unused2b" />
 	</struct>
+	<!-- Group Shape Property Set -->
 	<struct name="PWrapPolygonVertices">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0383" />
@@ -4553,6 +4633,38 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<uint32 name="lidRegroup" />
+	</struct>
+	<struct name="PosH">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x038F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="posH" />
+	</struct>
+	<struct name="PosRelH">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0390" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="posRelH" />
+	</struct>
+	<struct name="PosV">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0391" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="posV" />
+	</struct>
+	<struct name="PosRelV">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x0392" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="posRelV" />
 	</struct>
 	<struct name="PctHR">
 		<type name="opid" type="OfficeArtFOPTEOPID">
@@ -4625,12 +4737,44 @@
 		<bit name="fUsefIsBullet" />
 		<bit name="fUsefLayoutInCell" />
 	</struct>
+	<!-- Unknown HTML Property Set -->
 	<struct name="WzFillId">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x0403" />
 		</type>
 		<int32 name="wzFillId" />
 	</struct>
+	<!-- Diagram Property Set -->
+	<struct name="DiagramBooleanProperties">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x053F" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<bit name="fLockAgainstGrouping" />
+		<bit name="fLockAdjustHandles" />
+		<bit name="fLockText" />
+		<bit name="fLockVertices" />
+		<bit name="fLockCropping" />
+		<bit name="fLockAgainstSelect" />
+		<bit name="fLockPosition" />
+		<bit name="fLockAspectRatio" />
+		<bit name="fLockRotation" />
+		<bit name="fLockAgainstUngrouping" />
+		<uint6 name="unused6" />
+		<bit name="fUsefLockAgainstGrouping" />
+		<bit name="fUseLockAdjustHandles" />
+		<bit name="fUseLockText" />
+		<bit name="fUsefLockVertices" />
+		<bit name="fUsefLockCropping" />
+		<bit name="fUsefLockAgainstSelect" />
+		<bit name="fUsefLockPosition" />
+		<bit name="fUsefLockAspectRatio" />
+		<bit name="fUsefLockRotation" />
+		<bit name="fUsefLockAgainstUngrouping" />
+		<uint6 name="unused2" />
+	</struct>
+	<!-- Properties: END -->
 	<struct name="OfficeArtCOLORREF">
 		<uint8 name="red" />
 		<uint8 name="green" />
@@ -5180,12 +5324,19 @@
 		<!--  <type name="fibRgCswNew" type="fibRgCswNew" />-->
 		<uint8 name="trail" count="fibRgLw.cbMac-156-8*cbRgFcLcb-2*cswNew" />
 	</struct>
+        <!--
+	     The FibBase structure is the fixed-size portion of the Fib.  Let's
+             support Word6, Word7 and Word8 files.  FibBase of any newer file
+             is compatible with Word8.
+	  -->
 	<struct name="FibBase">
-		<uint16 name="wIdent">
-			<limitation value="0xA5EC" />
-		</uint16>
+		<uint16 name="wIdent" />
+                <!-- NOTE: Word6 and Word7 use other magic number.  The
+                     expected value was Word8 specific. -->
+		<!-- <limitation value="0xA5EC" /> -->
+		<!-- </uint16> -->
 		<uint16 name="nFib">
-			<limitation value="0xC0|0xC1|0xC2|0x101|0x10B|0x10C|0x112" />
+			<limitation value="0x65|0x67|0x68|0xC0|0xC1|0xC2|0x101|0x10B|0x10C|0x112" />
 		</uint16>
 		<uint16 name="unused" />
 		<uint16 name="lid" />
@@ -5203,9 +5354,11 @@
 		<bit name="fLoadOverride" />
 		<bit name="fFarEast" />
 		<bit name="fObfuscated" />
-		<uint16 name="nFibBack">
-			<limitation value="0xBF|0xC1" />
-		</uint16>
+		<uint16 name="nFibBack" />
+                <!-- NOTE: In case of Word6 it's ZERO.  The expected values
+                     were Word8 specific. -->
+		<!--	<limitation value="0xBF|0xC1" /> -->
+		<!-- </uint16> -->
 		<uint32 name="IKey" />
 		<uint8 name="envr">
 			<limitation value="0" />
