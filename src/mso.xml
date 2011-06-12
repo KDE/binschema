@@ -62,7 +62,7 @@
 		<type name="trailing" type="Byte" array="true" />
 	</struct>
 	<struct name="OfficeArtBStoreDelay">
-		<type name="anon1" array="true" type="OfficeArtBStoreContainerFileBlock" />
+		<type name="rgfb" array="true" type="OfficeArtBStoreContainerFileBlock" />
 	</struct>
 	<struct name="OfficeArtRecordHeader">
 		<uint4 name="recVer" />
@@ -4751,28 +4751,22 @@
 			<limitation name="fBid" value="false" />
 			<limitation name="fComplex" value="false" />
 		</type>
-		<bit name="fLockAgainstGrouping" />
-		<bit name="fLockAdjustHandles" />
-		<bit name="fLockText" />
-		<bit name="fLockVertices" />
-		<bit name="fLockCropping" />
-		<bit name="fLockAgainstSelect" />
-		<bit name="fLockPosition" />
-		<bit name="fLockAspectRatio" />
-		<bit name="fLockRotation" />
-		<bit name="fLockAgainstUngrouping" />
-		<uint6 name="unused6" />
-		<bit name="fUsefLockAgainstGrouping" />
-		<bit name="fUseLockAdjustHandles" />
-		<bit name="fUseLockText" />
-		<bit name="fUsefLockVertices" />
-		<bit name="fUsefLockCropping" />
-		<bit name="fUsefLockAgainstSelect" />
-		<bit name="fUsefLockPosition" />
-		<bit name="fUsefLockAspectRatio" />
-		<bit name="fUsefLockRotation" />
-		<bit name="fUsefLockAgainstUngrouping" />
-		<uint6 name="unused2" />
+		<bit name="fPseudoInline" />
+		<bit name="fDoLayout" />
+		<bit name="fReverse" />
+		<bit name="fDoFormat" />
+		<bit name="unused1" />
+		<bit name="unused2" />
+		<uint2 name="unused3a" />
+		<uint8 name="unused3b" />
+		<bit name="fUsefPseudoInline" />
+		<bit name="fUsefDoLayout" />
+		<bit name="fUsefReverse" />
+		<bit name="fUsefDoFormat" />
+		<bit name="unused4" />
+		<bit name="unused5" />
+		<uint2 name="unused6a" />
+		<uint8 name="unused6b" />
 	</struct>
 	<!-- Properties: END -->
 	<struct name="OfficeArtCOLORREF">
@@ -5360,23 +5354,27 @@
 		<!--	<limitation value="0xBF|0xC1" /> -->
 		<!-- </uint16> -->
 		<uint32 name="IKey" />
-		<uint8 name="envr">
-			<limitation value="0" />
-		</uint8>
-		<bit name="fMac">
-			<limitation value="false" />
-		</bit>
+		<uint8 name="envr" />
+		<!-- NOTE: Some Word8 files have different values. -->
+		<!--	<limitation value="0" /> -->
+		<!-- </uint8> -->
+		<bit name="fMac" />
+		<!-- NOTE: Some Word8 files have different values. -->
+		<!--	<limitation value="false" /> -->
+		<!-- </bit> -->
 		<bit name="fEmptySpecial" />
 		<bit name="fLoadOverridePage" />
 		<bit name="reserved1" />
 		<bit name="reserved2" />
 		<uint3 name="fSpare0" />
-		<uint16 name="reserved3">
-			<limitation value="0" />
-		</uint16>
-		<uint16 name="reserved4">
-			<limitation value="0" />
-		</uint16>
+		<uint16 name="reserved3" />
+		<!-- NOTE: Some Word8 files have different values. -->
+		<!--	<limitation value="0" /> -->
+		<!-- </uint16> -->
+		<uint16 name="reserved4" />
+		<!-- NOTE: Some Word8 files have different values. -->
+		<!--	<limitation value="0" /> -->
+		<!-- </uint16> -->
 		<uint32 name="reserved5" />
 		<uint32 name="reserved6" />
 	</struct>
