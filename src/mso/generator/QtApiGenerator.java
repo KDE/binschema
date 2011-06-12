@@ -58,9 +58,6 @@ public class QtApiGenerator {
 			out.println("#ifndef " + config.basename.toUpperCase() + "_H");
 			out.println("#define " + config.basename.toUpperCase() + "_H");
 		}
-		// out.println("#include <QtCore/QString>");
-		// out.println("#include <QtCore/QByteArray>");
-		// out.println("#include <QtCore/QVector>");
 		out.println("#include \"leinput.h\"");
 		out.println("namespace " + config.namespace + "{");
 
@@ -123,6 +120,7 @@ public class QtApiGenerator {
 				out.println("    bool _has_" + m.name + ";");
 			}
 		}
+		out.println("    operator const void * () const { return _data; }");
 		out.println("};");
 	}
 
@@ -204,6 +202,8 @@ public class QtApiGenerator {
 		for (Member m : s.members) {
 			if (m.isArray && m.isStruct) {
 				printStructArrayAccessor(out, s, m);
+			} else if (m.isChoice) {
+				printChoiceAccessor(out, s, m);
 			}
 		}
 	}
@@ -387,21 +387,28 @@ public class QtApiGenerator {
 		// try all options until one has non-zero size
 		// String s = "";
 		boolean first = true;
+		String sp2 = sp;
 		for (Option o : c.options) {
 			TypeRegistry.Type t = o.type;
 			if (!first) {
 				out.println(sp + "if (_msize == 0) {");
-				out.print(sp);
 			}
+			String name = m.name + "_" + t.name;
 			if (t.size == -1) {
-				out.println(sp + "_msize = " + t.name
-						+ "(_d + _position, _maxsize - _position)._size;");
+				out.println(sp2 + name + " = " + t.name
+					+ "(_d + _position, _maxsize - _position);");
+				out.println(sp2 + "_msize = " + name + "._size;");
 			} else {
-				out.println(sp + "_msize = (" + t.name
-						+ "(_d + _position)._data) ?" + t.name + "::_size :0;");
+				out.println(sp2 + name + " = " + t.name
+					+ "(_d + _position);");
+				out.println(sp2 + "_msize = (" + name
+					+ "._data) ?" + t.name
+					+ "::_size : 0;");
 			}
 			if (!first) {
 				out.println(sp + "}");
+			} else {
+				sp2 = sp + "    ";
 			}
 			first = false;
 		}
@@ -431,6 +438,20 @@ public class QtApiGenerator {
 			return "qint32";
 		}
 		return t.name;
+	}
+
+	private void printChoiceAccessor(PrintWriter out, TypeRegistry.Type s,
+			Member m) {
+		Choice c = (Choice)m.type();
+		out.println("namespace " + config.namespace + " {");
+		for (Option o : c.options) {
+			String t = o.type.name;
+			out.println("    template <> const " + t + "& " + s.name + "::" + m.name + "<" + t + ">() const {");
+			out.println("        return " + m.name + "_" + t + ";");
+
+			out.println("    }");
+		}
+		out.println("}");
 	}
 
 	private void printStructArrayAccessor(PrintWriter out, TypeRegistry.Type s,
@@ -472,7 +493,13 @@ public class QtApiGenerator {
 				out.println("    " + t + " " + m.name + "(quint32 i) const;");
 			}
 		} else if (m.isChoice) {
-			out.println("    " + t + " " + m.name + "() const;");
+			out.println("    template <typename A> const A& " + m.name + "() const;");
+			Choice c = (Choice)m.type();
+			for (Option o : c.options) {
+				TypeRegistry.Type ct = o.type;
+				out.println("    " + ct.name + " " + m.name + "_"
+					+ ct.name + ";");
+			}
 		} else {
 			out.println("    " + t + " " + m.name + ";");
 		}
