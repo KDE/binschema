@@ -70,9 +70,6 @@ public class QtApiGenerator {
 		for (Struct s : mso.structs) {
 			printStructureClassDeclaration(out, s);
 		}
-		for (Choice s : mso.choices) {
-			printChoiceClassDeclaration(out, s);
-		}
 
 		if (config.createHeader) {
 			out.println("} // close namespace");
@@ -83,7 +80,6 @@ public class QtApiGenerator {
 			out = new PrintWriter(fout);
 			out.println(generatedWarning);
 			out.println("#include \"" + config.basename + ".h\"");
-			// out.println("using namespace " + config.namespace + ";");
 		}
 
 		for (Struct s : mso.structs) {
@@ -121,25 +117,6 @@ public class QtApiGenerator {
 			}
 		}
 		out.println("    operator const void * () const { return _data; }");
-		out.println("};");
-	}
-
-	private void printChoiceClassDeclaration(PrintWriter out, Choice s) {
-		// TODO
-		out.println("class " + s.name + " {");
-		out.println("public:");
-		out.println("    const char* _data;");
-		if (s.size == -1) {
-			out.println("    quint32 _size;");
-			out.println("    " + s.name + "() :_data(0), _size(0) {}");
-			out.println("    " + s.name
-					+ "(const char* data, const quint32 size);");
-		} else {
-			out.println("    static const quint32 _size;");
-			out.println("    " + s.name + "() :_data(0) {}");
-			out.println("    " + s.name + "(const char* data);// "
-					+ (s.size / 8) + " bytes");
-		}
 		out.println("};");
 	}
 
@@ -489,17 +466,21 @@ public class QtApiGenerator {
 				out.println("    const " + t + "* " + m.name + ";");
 			}
 			if (m.isStruct || m.isChoice) {
+				out.println("private:");
 				out.println("    quint32 " + m.name + "Offset;");
+				out.println("public:");
 				out.println("    " + t + " " + m.name + "(quint32 i) const;");
 			}
 		} else if (m.isChoice) {
 			out.println("    template <typename A> const A& " + m.name + "() const;");
 			Choice c = (Choice)m.type();
+			out.println("private:");
 			for (Option o : c.options) {
 				TypeRegistry.Type ct = o.type;
 				out.println("    " + ct.name + " " + m.name + "_"
 					+ ct.name + ";");
 			}
+			out.println("public:");
 		} else {
 			out.println("    " + t + " " + m.name + ";");
 		}
