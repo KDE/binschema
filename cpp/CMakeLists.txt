@@ -37,9 +37,13 @@ ADD_EXECUTABLE(ppttosvg ppttosvg.cpp ${MSO_RCC_SRCS})
 TARGET_LINK_LIBRARIES(ppttosvg qtppt ${QT_LIBRARIES} ${LIBXML2_LIBRARIES}
   ${LIBXSLT_LIBRARIES})
 
-ADD_LIBRARY(simpleparser SHARED simpleParser.cpp pole.cpp)
+ADD_LIBRARY(simpleparser STATIC simpleParser.cpp pole.cpp)
+
+ADD_EXECUTABLE(simpletest simpletest.cpp)
+TARGET_LINK_LIBRARIES(simpletest simpleparser ${QT_LIBRARIES})
 
 ADD_LIBRARY(api STATIC api.cpp pole.cpp)
 
 ADD_EXECUTABLE(apitest apitest.cpp)
 TARGET_LINK_LIBRARIES(apitest api ${QT_LIBRARIES})
+
