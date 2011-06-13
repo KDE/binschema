@@ -100,12 +100,12 @@ public class QtApiGenerator {
 		if (s.size == -1) {
 			out.println("    quint32 _size;");
 			out.println("    " + s.name + "() :_data(0), _size(0) {}");
-			out.println("    " + s.name
+			out.println("    explicit " + s.name
 					+ "(const char* data, const quint32 size);");
 		} else {
 			out.println("    static const quint32 _size;");
 			out.println("    " + s.name + "() :_data(0) {}");
-			out.println("    " + s.name + "(const char* data);// "
+			out.println("    " + s.name + "(const char* data, quint32/*ignored*/ = 0);// "
 					+ (s.size / 8) + " bytes");
 		}
 		boolean hasData = false;
@@ -141,7 +141,7 @@ public class QtApiGenerator {
 			out.println("{");
 		} else {
 			out.println("const quint32 " + c + "_size = " + (s.size / 8) + ";");
-			out.println(c + s.name + "(const char* _d) :_data(0)");
+			out.println(c + s.name + "(const char* _d, quint32/*ignored*/) :_data(0)");
 			out.println("{");
 		}
 		out.println("    quint32 _position = 0;");
@@ -279,35 +279,15 @@ public class QtApiGenerator {
 				+ ";");
 	}
 
-	private void printFixedSizeStructArrayMemberParser(PrintWriter out,
-			String sp, Struct s, Member m) {
-		int size = (m.type().size / 8);
-		if (m.count != null) {
-                	out.println(sp + m.name + " = MSOFixedArray<" + m.type().name +">(_d + _position, " + size + " * " + m.count + ", " + m.count + ");");
-			out.println(sp + "if (" + m.name + "._count != "
-				+ m.count + ") return;");
-		} else if (m.size != null) {
-			out.println(sp + "if (_maxsize - _position < " + m.size
-				+ ") return;");
-                	out.println(sp + m.name + " = MSOFixedArray<" + m.type().name +">(_d + _position, " + m.size + ");");
-			out.println(sp + "if (" + m.name + "._size != " + m.size
-				+ ") return;");
-                } else {
-                	out.println(sp + m.name + " = MSOFixedArray<" + m.type().name +">(_d + _position, _maxsize - _position);");
-			out.println(sp + "if (" + m.name
-				+ "._data == 0) return;");
-                }
-		out.println(sp + "    _msize = " + m.name + "._size;");
-	}
-
 	private void printStructArrayMemberParser(PrintWriter out, String sp,
 			Struct s, Member m) {
-		if (m.type().size != -1) {
-			printFixedSizeStructArrayMemberParser(out, sp, s, m);
-			return;
-		}
 		if (m.count != null) {
-                	out.println(sp + m.name + " = MSOArray<" + m.type().name +">(_d + _position, _maxsize - _position, " + m.count + ");");
+			String size = "_maxsize - _position, ";
+			if (m.type().size != -1) {
+				size = (m.type().size / 8) + " * " + m.count
+					+ ", ";
+			}
+                	out.println(sp + m.name + " = MSOArray<" + m.type().name +">(_d + _position, " + size + m.count + ");");
 			out.println(sp + "if (" + m.name + "._count != "
 				+ m.count + ") return;");
 		} else if (m.size != null) {
@@ -495,7 +475,7 @@ public class QtApiGenerator {
 					out.println("    MSOArray<" + t + "> "
 						+ m.name + ";");
 				} else {
-					out.println("    MSOFixedArray<" + t
+					out.println("    MSOArray<" + t
 						+ "> " + m.name + ";");
 				}
 			}

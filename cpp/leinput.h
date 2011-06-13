@@ -19,54 +19,27 @@ public:
     operator QByteArray() const;
 };
 
+template <typename T> class MSOArray;
 template <typename T>
 class MSOconst_iterator {
 private:
-    mutable T currentItem;
+    T currentItem;
+    const MSOArray<T>& c;
+    quint32 offset;
 public:
-    bool operator!=(const MSOconst_iterator &o) const;
-    void operator++();
-    const T& operator*() const {
+    MSOconst_iterator(const MSOArray<T>& c_, int o) :c(c_), offset(o) {
+        currentItem = T(c._data, c._size);
+    }
+    inline bool operator!=(const MSOconst_iterator &o) const {
+        return offset != o.offset;
+    }
+    inline void operator++() {
+        offset += currentItem._size;
+        currentItem = T(c._data + offset, c._size - offset);
+    }
+    inline const T& operator*() const {
         return currentItem;
     }
-};
-
-template <typename T>
-class MSOFixedArray {
-public:
-    typedef MSOconst_iterator<T> const_iterator;
-    const char* _data;
-    quint32 _count;
-    quint32 _size;
-    MSOFixedArray() :_data(0), _count(0), _size(0) {}
-    MSOFixedArray(const char* _d, quint32 _maxsize) :_data(0), _count(0), _size(0) {
-        quint32 _msize = 0;
-        quint32 _mcount = 0;
-        while (_msize < _maxsize) {
-            T _v(_d + _msize);
-            if (_v._data == 0) return;
-            _msize += T::_size;
-            _mcount++;
-        }
-        _data = _d;
-        _count = _mcount;
-        _size = _msize;
-    }
-    MSOFixedArray(const char* _d, quint32 _maxsize, quint32 _mcount) :_data(0), _count(0), _size(0) {
-        quint32 _msize = 0;
-        for (quint32 _i = 0; _i < _mcount; ++_i) {
-            T _v(_d + _msize);
-            if (_v._data == 0) return;
-            _msize += T::_size;
-            if (_msize > _maxsize) return;
-        }
-        _data = _d;
-        _count = _mcount;
-        _size = _msize;
-    }
-    int size() const;
-    MSOconst_iterator<T> begin() const;
-    MSOconst_iterator<T> end() const;
 };
 template <typename T>
 class MSOArray {
@@ -76,35 +49,51 @@ public:
     quint32 _count;
     quint32 _size;
     MSOArray() :_data(0), _count(0), _size(0) {}
-    MSOArray(const char* _d, quint32 _maxsize) :_data(0), _count(0), _size(0) {
-        quint32 _msize = 0;
-        quint32 _mcount = 0;
-        while (_msize < _maxsize) {
-            T _v(_d + _msize, _maxsize - _msize);
-            if (_v._data == 0) return;
-            _msize += _v._size;
-            _mcount++;
+    MSOArray(const char* d, quint32 maxsize) :_data(0), _count(0), _size(0) {
+        quint32 msize = 0;
+        quint32 mcount = 0;
+        while (msize < maxsize) {
+            T v(d + msize, maxsize - msize);
+            if (v._data == 0) return;
+            msize += v._size;
+            mcount++;
         }
-        _data = _d;
-        _count = _mcount;
-        _size = _msize;
+        _data = d;
+        _count = mcount;
+        _size = msize;
     }
-    MSOArray(const char* _d, quint32 _maxsize, quint32 _mcount) :_data(0), _count(0), _size(0) {
-        quint32 _msize = 0;
-        for (quint32 _i = 0; _i < _mcount; ++_i) {
-            T _v(_d + _msize, _maxsize - _msize);
-            if (_v._data == 0) return;
-            _msize += _v._size;
-            if (_msize > _maxsize) return;
+    MSOArray(const char* d, quint32 maxsize, quint32 mcount) :_data(0), _count(0), _size(0) {
+        quint32 msize = 0;
+        for (quint32 i = 0; i < mcount; ++i) {
+            T v(d + msize, maxsize - msize);
+            if (v._data == 0) return;
+            msize += v._size;
+            if (msize > maxsize) return;
         }
-        _data = _d;
-        _count = _mcount;
-        _size = _msize;
+        _data = d;
+        _count = mcount;
+        _size = msize;
     }
-    int size() const;
-    MSOconst_iterator<T> begin() const;
-    MSOconst_iterator<T> end() const;
-    const T operator[](quint32) const { return T(); }
+    inline int size() const {
+        return _count;
+    }
+    inline MSOconst_iterator<T> begin() const {
+        return MSOconst_iterator<T>(*this, 0);
+    }
+    inline MSOconst_iterator<T> end() const {
+        return MSOconst_iterator<T>(*this, _size);
+    }
+    T operator[](quint32 pos) const {
+        T t(_data, _size);
+        quint32 i = 0;
+        quint32 offset = 0;
+        while (i < pos) {
+            offset += t._size;
+            t = T(_data + offset, _size - offset);
+            ++i;
+        }
+        return t;
+    }
 };
 
 inline quint8 readuint8(const char* d) {
