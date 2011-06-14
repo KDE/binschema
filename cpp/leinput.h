@@ -54,7 +54,9 @@ public:
         quint32 mcount = 0;
         while (msize < maxsize) {
             T v(d + msize, maxsize - msize);
-            if (v._data == 0) return;
+            if (v._data == 0) {
+                break;
+            }
             msize += v._size;
             mcount++;
         }
@@ -66,9 +68,13 @@ public:
         quint32 msize = 0;
         for (quint32 i = 0; i < mcount; ++i) {
             T v(d + msize, maxsize - msize);
-            if (v._data == 0) return;
+            if (v._data == 0) {
+                return;
+            }
             msize += v._size;
-            if (msize > maxsize) return;
+            if (msize > maxsize) {
+                return;
+            }
         }
         _data = d;
         _count = mcount;

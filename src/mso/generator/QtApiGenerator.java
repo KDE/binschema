@@ -118,11 +118,11 @@ public class QtApiGenerator {
 				out.println("    bool _has_" + m.name + ";");
 			}
 		}
-		out.println("    operator const void * () const { return _data; }");
-		out.println("    const " + s.name + "* operator->() const { return this; }");
-		out.println("    const " + s.name + "& operator*() const { return *this; }");
+		out.println("    inline operator const void * () const { return _data; }");
+		out.println("    inline const " + s.name + "* operator->() const { return this; }");
+		out.println("    inline const " + s.name + "& operator*() const { return *this; }");
 		if (!hasData) {
-			out.println("    const " + s.name + "* data() const { return this; }");
+			out.println("    inline const " + s.name + "* data() const { return this; }");
 		}
 		out.println("};");
 	}
