@@ -26,8 +26,9 @@ public class QtApiGenerator {
 		TypeRegistry r = t.registry;
 		if (t == r.bit) {
 			return "bool";
-		} else if (t == r.uint2 || t == r.uint3 || t == r.uint4 || t == r.uint5
-				|| t == r.uint6 || t == r.uint7 || t == r.uint8) {
+		} else if (t == r.uint2 || t == r.uint3 || t == r.uint4
+				|| t == r.uint5 || t == r.uint6 || t == r.uint7
+				|| t == r.uint8) {
 			return "quint8";
 		} else if (t == r.uint9 || t == r.uint12 || t == r.uint13
 				|| t == r.uint14 || t == r.uint15
@@ -55,16 +56,15 @@ public class QtApiGenerator {
 		PrintWriter out = new PrintWriter(fout);
 		out.println(generatedWarning);
 		if (config.createHeader) {
-			out.println("#ifndef " + config.basename.toUpperCase() + "_H");
-			out.println("#define " + config.basename.toUpperCase() + "_H");
+			out.println("#ifndef " + config.basename.toUpperCase()
+				+ "_H");
+			out.println("#define " + config.basename.toUpperCase()
+				+ "_H");
 		}
 		out.println("#include \"leinput.h\"");
 		out.println("namespace " + config.namespace + "{");
 
 		for (Struct s : mso.structs) {
-			out.println("class " + s.name + ";");
-		}
-		for (Choice s : mso.choices) {
 			out.println("class " + s.name + ";");
 		}
 		for (Struct s : mso.structs) {
@@ -100,23 +100,30 @@ public class QtApiGenerator {
 		if (s.size == -1) {
 			out.println("    quint32 _size;");
 			out.println("    " + s.name + "() :_data(0), _size(0) {}");
-			out.println("    " + s.name
+			out.println("    explicit " + s.name
 					+ "(const char* data, const quint32 size);");
 		} else {
 			out.println("    static const quint32 _size;");
 			out.println("    " + s.name + "() :_data(0) {}");
-			out.println("    " + s.name + "(const char* data);// "
+			out.println("    " + s.name + "(const char* data, quint32/*ignored*/ = 0);// "
 					+ (s.size / 8) + " bytes");
 		}
+		boolean hasData = false;
 		for (Member m : s.members) {
-			printMemberDeclaration(out, m);
+			hasData = hasData || m.name.equals("data");
+			printMemberDeclaration(out, m, s.name);
 		}
 		for (Member m : s.members) {
 			if (m.isSimple && m.condition != null) {
 				out.println("    bool _has_" + m.name + ";");
 			}
 		}
-		out.println("    operator const void * () const { return _data; }");
+		out.println("    inline operator const void * () const { return _data; }");
+		out.println("    inline const " + s.name + "* operator->() const { return this; }");
+		out.println("    inline const " + s.name + "& operator*() const { return *this; }");
+		if (!hasData) {
+			out.println("    inline const " + s.name + "* data() const { return this; }");
+		}
 		out.println("};");
 	}
 
@@ -134,7 +141,7 @@ public class QtApiGenerator {
 			out.println("{");
 		} else {
 			out.println("const quint32 " + c + "_size = " + (s.size / 8) + ";");
-			out.println(c + s.name + "(const char* _d) :_data(0)");
+			out.println(c + s.name + "(const char* _d, quint32/*ignored*/) :_data(0)");
 			out.println("{");
 		}
 		out.println("    quint32 _position = 0;");
@@ -178,7 +185,7 @@ public class QtApiGenerator {
 		// access functions
 		for (Member m : s.members) {
 			if (m.isArray && m.isStruct) {
-				printStructArrayAccessor(out, s, m);
+				//printStructArrayAccessor(out, s, m);
 			} else if (m.isChoice) {
 				printChoiceAccessor(out, s, m);
 			}
@@ -265,43 +272,36 @@ public class QtApiGenerator {
 								+ m.type().name + " and size " + size);
 			}
 		}
-		out.println(sp + m.name + "Count = " + count + ";");
-		out.println(sp + "_msize = " + m.name + "Count*" + (m.type().size / 8)
+		String type = getTypeName(m.type());
+		if ("quint8".equals(type)) type = "char";
+		out.println(sp + m.name + " = MSOCastArray<" + type + ">((const " + type + "*)(_d + _position), " + count + ");");
+		out.println(sp + "_msize = (" + count + ")*" + (m.type().size / 8)
 				+ ";");
-		out.println(sp + m.name + " = (const " + type(m)
-				+ "*)(_d + _position);");
 	}
 
 	private void printStructArrayMemberParser(PrintWriter out, String sp,
 			Struct s, Member m) {
-		if (m.count != null || m.size != null) {
-			printStructFixedArrayMemberParser(out, sp, s, m);
-			return;
-		}
-		// parser for when size is not know: parse till the first fail
-		out.println(sp + "_msize = 0;");
-		out.println(sp + m.name + "Count = 0;");
-		if (m.type().size == -1) {
-			out.println(sp + "while (_position < _maxsize) {");
-			out
-					.println(sp
-							+ "    "
-							+ m.type().name
-							+ " _v(_d + _position + _msize, _maxsize - _position - _msize);");
-		} else {
-			out.println(sp + "while (_position + _msize + " + (m.type().size / 8)
-					+ " <= _maxsize) {");
-			if (s.size == -1) {
-				out.println(sp + "    if (_maxsize - _position - _msize < "
-						+ (m.type().size / 8) + ") return;");
+		if (m.count != null) {
+			String size = "_maxsize - _position, ";
+			if (m.type().size != -1) {
+				size = (m.type().size / 8) + " * " + m.count
+					+ ", ";
 			}
-			out.println(sp + "    " + m.type().name
-					+ " _v(_d + _position + _msize);");
-		}
-		out.println(sp + "    if (_v._data == 0) break;");
-		out.println(sp + "    _msize += _v._size;");
-		out.println(sp + "    " + m.name + "Count++;");
-		out.println(sp + "}");
+                	out.println(sp + m.name + " = MSOArray<" + m.type().name +">(_d + _position, " + size + m.count + ");");
+			out.println(sp + "if (" + m.name + "._count != "
+				+ m.count + ") return;");
+		} else if (m.size != null) {
+			out.println(sp + "if (_maxsize - _position < " + m.size
+				+ ") return;");
+                	out.println(sp + m.name + " = MSOArray<" + m.type().name +">(_d + _position, " + m.size + ");");
+			out.println(sp + "if (" + m.name + "._size != " + m.size
+				+ ") return;");
+                } else {
+                	out.println(sp + m.name + " = MSOArray<" + m.type().name +">(_d + _position, _maxsize - _position);");
+			out.println(sp + "if (" + m.name
+				+ "._data == 0) return;");
+                }
+		out.println(sp + "    _msize = " + m.name + "._size;");
 	}
 
 	private void printStructFixedArrayMemberParser(PrintWriter out, String sp,
@@ -370,7 +370,7 @@ public class QtApiGenerator {
 			if (!first) {
 				out.println(sp + "if (_msize == 0) {");
 			}
-			String name = m.name + "_" + t.name;
+			String name = m.name + "._" + t.name;
 			if (t.size == -1) {
 				out.println(sp2 + name + " = " + t.name
 					+ "(_d + _position, _maxsize - _position);");
@@ -423,8 +423,12 @@ public class QtApiGenerator {
 		out.println("namespace " + config.namespace + " {");
 		for (Option o : c.options) {
 			String t = o.type.name;
-			out.println("    template <> const " + t + "& " + s.name + "::" + m.name + "<" + t + ">() const {");
-			out.println("        return " + m.name + "_" + t + ";");
+			out.println("    template <> const " + t + "* " + s.name + "::C_" + m.name + "::get<" + t + ">() const {");
+			out.println("        return &_" + t + ";");
+
+			out.println("    }");
+			out.println("    template <> bool " + s.name + "::C_" + m.name + "::is<" + t + ">() const {");
+			out.println("        return _" + t + "._data;");
 
 			out.println("    }");
 		}
@@ -458,36 +462,47 @@ public class QtApiGenerator {
 		out.println("}");
 	}
 
-	private void printMemberDeclaration(PrintWriter out, Member m) {
+	private void printMemberDeclaration(PrintWriter out, Member m,
+			String className) {
 		String t = getTypeName(m.type());
 		if (m.isArray) {
-			out.println("    quint32 " + m.name + "Count;");
 			if (m.isSimple) {
-				out.println("    const " + t + "* " + m.name + ";");
+				if ("quint8".equals(t)) t = "char";
+				out.println("    MSOCastArray<" + t + "> " + m.name + ";");
 			}
 			if (m.isStruct || m.isChoice) {
-				out.println("private:");
-				out.println("    quint32 " + m.name + "Offset;");
-				out.println("public:");
-				out.println("    " + t + " " + m.name + "(quint32 i) const;");
+				if (m.type().size == -1) {
+					out.println("    MSOArray<" + t + "> "
+						+ m.name + ";");
+				} else {
+					out.println("    MSOArray<" + t
+						+ "> " + m.name + ";");
+				}
 			}
 		} else if (m.isChoice) {
-			out.println("    template <typename A> const A& " + m.name + "() const;");
 			Choice c = (Choice)m.type();
-			out.println("private:");
+			out.println("    class C_" + m.name + " {");
+			out.println("    friend class " + className + ";");
+			out.println("    private:");
+//			out.println("    union {");
 			for (Option o : c.options) {
 				TypeRegistry.Type ct = o.type;
-				out.println("    " + ct.name + " " + m.name + "_"
+				out.println("        " + ct.name + " _"
 					+ ct.name + ";");
 			}
-			out.println("public:");
+//			out.println("    };");
+			out.println("    public:");
+			out.println("        template <typename A> const A* get() const;");
+			out.println("        template <typename A> bool is() const;");
+			out.println("    };");
+			out.println("    C_" + m.name + " " + m.name + ";");
 		} else {
 			out.println("    " + t + " " + m.name + ";");
 		}
 	}
 
-	private void printLimitationCheck(PrintWriter out, String s, String name,
-			Member m) {
+	private void printLimitationCheck(PrintWriter out, String s,
+			String name, Member m) {
 		if (m.type() instanceof Choice)
 			return;
 		for (Limitation l : m.limitations) {

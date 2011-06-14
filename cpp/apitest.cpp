@@ -35,8 +35,26 @@ testFile(const char* path) {
         qDebug() << path;
     }
 }
+
+static const char* const fixedstring = "ABC";
+
+void testiterator() {
+    MSO::TODOS t(fixedstring, 3);
+    int total = 0;
+    foreach (const MSO::Byte& b, t.anon) {
+        qDebug() << b.b;
+        total += b.b;
+    }
+    for (int i = 0; i < t.anon.size(); ++i) {
+        qDebug() << t.anon[i].b;
+        total += t.anon[i].b;
+    }
+    qDebug() << total;
+}
+
 int
 main(int argc, char** argv) {
+    //testiterator();
     for (int i=1; i<argc; ++i) {
         testFile(argv[i]);
     }
