@@ -101,7 +101,7 @@ public class QtApiGenerator {
 			out.println("    quint32 _size;");
 			out.println("    " + s.name + "() :_data(0), _size(0) {}");
 			out.println("    explicit " + s.name
-					+ "(const char* data, const quint32 size);");
+					+ "(const char* data, const quint32 maxsize);");
 		} else {
 			out.println("    static const quint32 _size;");
 			out.println("    " + s.name + "() :_data(0) {}");
