@@ -6,3 +6,5 @@ cpp/simpleParser.cpp
 cpp/simpleParser.h
 mso.jar
 src/mso/javaparser/GeneratedMsoParser.java
+.classpath
+.project

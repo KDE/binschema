@@ -15,7 +15,6 @@ import org.apache.poi.poifs.filesystem.Entry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class MSOParser {
-	@SuppressWarnings("unchecked")
 	public void parse(String filepath) throws IOException {
 
 		// if (test()) return;
@@ -33,7 +32,7 @@ public class MSOParser {
 
 	private void parseDirectory(GeneratedMsoParser parser, DirectoryEntry de)
 			throws IOException {
-		for (Iterator iter = de.getEntries(); iter.hasNext();) {
+		for (Iterator<Entry> iter = de.getEntries(); iter.hasNext();) {
 			Entry entry = (Entry) iter.next();
 			if (entry instanceof DirectoryEntry) {
 				System.out.println("found dir entry: " + entry.getName());

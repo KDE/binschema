@@ -6,7 +6,7 @@
 		http://archive.apache.org/dist/poi/release/bin/
 	     Download it and adapt the path below to use it.
 	-->
-	<property name="classpath" location="bin;/usr/share/java/jaxp_parser_impl.jar;/usr/share/java/xercesImpl.jar;lib/poi-3.6-20091214.jar" />
+	<property name="classpath" location="bin;/usr/share/java/jaxp_parser_impl.jar;/usr/share/java/xercesImpl.jar;lib/poi-3.7-20101029.jar" />
 	<target name="compileGenerator">
 		<mkdir dir="bin" />
 		<copy file="src/mso.xml" todir="bin" />
