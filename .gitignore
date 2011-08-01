@@ -1,0 +1,8 @@
+bin/
+cpp/api.cpp
+cpp/api.h
+cpp/generatedclasses.cpp
+cpp/simpleParser.cpp
+cpp/simpleParser.h
+mso.jar
+src/mso/javaparser/GeneratedMsoParser.java
