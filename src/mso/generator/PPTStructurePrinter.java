@@ -38,7 +38,6 @@ public class PPTStructurePrinter {
 		p.parse(testfile, recordTypeNames, out);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void parse(String filepath, Map<Integer, String> recordTypeNames,
 			PrintStream out) throws IOException {
 		POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(filepath));
@@ -52,7 +51,7 @@ public class PPTStructurePrinter {
 
 	void parse(DirectoryEntry dir, Map<Integer, String> recordTypeNames,
 			PrintStream out) throws IOException {
-		for (Iterator iter = dir.getEntries(); iter.hasNext();) {
+		for (Iterator<Entry> iter = dir.getEntries(); iter.hasNext();) {
 			Entry entry = (Entry) iter.next();
 			if (entry instanceof DirectoryEntry) {
 				out.println("found directory entry: " + entry.getName());
