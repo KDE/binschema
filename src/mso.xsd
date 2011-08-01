@@ -37,17 +37,13 @@
 			</extension>
 		</complexContent>
 	</complexType>
-	<complexType name="vartypeType">
-		<complexContent>
-			<extension base="tns:msoMemberType">
-				<attribute name="type" type="NCName" use="required" />
-				<attribute name="size" type="string" use="required" />
-			</extension>
-		</complexContent>
-	</complexType>
 	<complexType name="choiceType">
 		<sequence>
-			<element name="type" minOccurs="2" maxOccurs="unbounded" />
+			<element name="type" minOccurs="2" maxOccurs="unbounded">
+				<complexType>
+					<attribute name="type" type="NCName" use="required"/>
+				</complexType>
+			</element>
 		</sequence>
 		<attribute name="name" type="NCName" use="required" />
 		<attribute name="optional" type="boolean" use="optional"
@@ -76,7 +72,6 @@
 				<element name="uint30" type="tns:intType" />
 				<element name="uint32" type="tns:intType" />
 				<element name="type" type="tns:typeType" />
-				<element name="vartype" type="tns:vartypeType" />
 				<element name="choice" type="tns:choiceType" />
 			</choice>
 			<element name="limitation" type="tns:limitationType"
@@ -103,7 +98,11 @@
 			<field xpath="@name" />
 		</key>
 		<keyref name="structRef" refer="tns:uniqueStructs">
-			<selector xpath="tns:struct/tns:*" />
+			<selector xpath="tns:struct/tns:type" />
+			<field xpath="@type" />
+		</keyref>
+		<keyref name="structRef2" refer="tns:uniqueStructs">
+			<selector xpath="tns:struct/tns:choice/tns:type" />
 			<field xpath="@type" />
 		</keyref>
 	</element>

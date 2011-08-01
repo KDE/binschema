@@ -500,11 +500,11 @@
 	</struct>
 	<struct name="DocProgBinaryTagSubContainerOrAtom">
 		<choice name="anon">
-			<type name="__PPT9" type="PP9DocBinaryTagExtension" />
-			<type name="__PPT10" type="PP10DocBinaryTagExtension" />
-			<type name="__PPT11" type="PP11DocBinaryTagExtension" />
-			<type name="__PPT12" type="PP12DocBinaryTagExtension" />
-			<type name="__unknown" type="UnknownBinaryTag" />
+			<type type="PP9DocBinaryTagExtension" />
+			<type type="PP10DocBinaryTagExtension" />
+			<type type="PP11DocBinaryTagExtension" />
+			<type type="PP12DocBinaryTagExtension" />
+			<type type="UnknownBinaryTag" />
 		</choice>
 	</struct>
 	<struct name="PP9DocBinaryTagExtension">
