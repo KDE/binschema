@@ -16,9 +16,6 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class MSOParser {
 	public void parse(String filepath) throws IOException {
-
-		// if (test()) return;
-
 		GeneratedMsoParser parser = new GeneratedMsoParser();
 		POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(filepath));
 		DirectoryEntry root = fs.getRoot();

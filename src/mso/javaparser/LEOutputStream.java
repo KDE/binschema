@@ -36,7 +36,7 @@ public class LEOutputStream {
 			throw new IOException(
 					"Cannot write this type halfway through a bit operation.");
 		if (output.size() >= 424) {
-			int p = output.size();
+			output.size();
 		}
 	}
 
