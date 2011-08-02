@@ -1,0 +1,206 @@
+<!-- This document is a loose version of a way to describe parts of a PDF -->
+<grammar xmlns="http://www.example.org/grammar">
+ <struct name="PDF">
+  <type name="header" type="Header"/>
+  <type name="body" type="Body"/>
+  <type name="crossReferenceTable" type="CrossReferenceTable"/>
+  <type name="trailer" type="Trailer"/>
+ </struct>
+ <struct name="Whitespace">
+  <uint8 name="ws">
+   <limitation value="0x00|0x09|0x0A|0x0C|0x0D|0x20"/>
+  </uint8>
+ </struct>
+ <struct name="Delimiter">
+  <uint8 name="delimiter">
+   <limitation value="'('|')'|'['|']'|'{'|'}'|'/'|'%'"/>
+  </uint8>
+ </struct>
+ <struct name="Digit">
+  <uint8 name="digit">
+   <limitation value="'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'"/>
+  </uint8>
+ </struct>
+ <struct name="Eol">
+  <hex>0D0A</hex>
+ </struct>
+ <struct name="Header">
+  <text>%PDF-1.3</text>
+  <type name="ws" type="Whitespace" minCount="1" maxCount="unbounded"/>
+ </struct>
+ <struct name="Body">
+ </struct>
+ <struct name="CrossReferenceLine">
+  <type name="offset" count="10" type="Digit"/>
+  <hex>20</hex>
+  <type name="generation" count="5" type="Digit"/>
+  <hex>20</hex>
+  <uint8 name="state">
+   <limitation value="'n'|'f'"/>
+  </uint8>
+  <hex>0D0A</hex>
+ </struct>
+ <struct name="CrossReferenceSection">
+  <type name="start" array="true" type="Digit"/>
+  <hex>20</hex>
+  <type name="offset" array="true" type="Digit"/>
+  <type name="ws" type="Whitespace" minCount="1" maxCount="unbounded"/>
+  <type name="entries" type="CrossReferenceLine" minCount="1" maxCount="unbounded"/>
+ </struct>
+ <struct name="CrossReferenceTable">
+  <text>xref</text>
+  <type name="ws" type="Whitespace" minCount="1" maxCount="unbounded"/>
+  <type name="sections" type="CrossReferenceSection" minCount="1" maxCount="unbounded"/>
+ </struct>
+ <struct name="Boolean">
+  <choice name="boolean">
+   <text>true</text>
+   <text>false</text>
+  </choice>
+ </struct>
+ <struct name="Integer">
+  <uint8 name="sign">
+   <limitation value="'+'|'-'"/>
+  </uint8>
+  <type name="value" minCount="1" maxCount="unbounded" type="Digit"/>
+ </struct>
+ <struct name="Real">
+  <uint8 name="sign">
+   <limitation value="'+'|'-'"/>
+  </uint8>
+  <type name="integer" minCount="0" maxCount="unbounded" type="Digit"/>
+  <text>.</text>
+  <type name="fraction" minCount="0" maxCount="unbounded" type="Digit"/>
+ </struct>
+ <struct name="Number">
+  <choice name="value">
+   <type type="Integer"/>
+   <type type="Real"/>
+  </choice>
+ </struct>
+ <struct name="EscapedCharacter">
+  <text>\</text>
+  <uint8 name="character"/>
+ </struct>
+ <struct name="ParenthesisStringCharacters">
+  <uint8 name="literal" minCount="1" maxCount="unbounded">
+   <limitation expression="!='\'"/>
+   <limitation expression="!=')'"/>
+   <limitation expression="!='('"/>
+  </uint8>
+ </struct>
+ <struct name="ParenthesisStringContent">
+  <choice name="content">
+   <type type="EscapedCharacter"/>
+   <type type="ParenthesisStringCharacters"/>
+   <type type="ParenthesisString"/>
+  </choice>
+ </struct>
+ <struct name="ParenthesisString">
+  <text>(</text>
+  <type name="string" type="ParenthesisStringContent" array="true"/>
+  <text>)</text>
+ </struct>
+ <struct name="Hexadecimal">
+  <uint8 name="character">
+   <limitation value="'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'a'|'b'|'c'|'d'|'e'|'f'|'A'|'B'|'C'|'D'|'E'|'F'"/>
+  </uint8>
+ </struct>
+ <struct name="HexadecimalStringContent">
+  <type type="Hexadecimal" name="a"/>
+  <type name="ws" type="Whitespace" array="true"/>
+  <type type="Hexadecimal" name="b"/>
+  <type name="ws2" type="Whitespace" array="true"/>
+ </struct>
+ <struct name="HexadecimalString">
+  <text>&lt;</text>
+  <type name="string" type="HexadecimalStringContent" array="true"/>
+  <text>&gt;</text>
+ </struct>
+ <struct name="String">
+  <choice name="string">
+   <type type="ParenthesisString"/>
+   <type type="HexadecimalString"/>
+  </choice>
+ </struct>
+ <struct name="Name">
+  <text>/</text>
+  <uint8 name="name" array="true">
+   <limitation expression="!=0x00"/>
+   <limitation expression="!=0x09"/>
+   <limitation expression="!=0x0A"/>
+   <limitation expression="!=0x0C"/>
+   <limitation expression="!=0x0D"/>
+   <limitation expression="!=0x20"/>
+   <limitation expression="!='('"/>
+   <limitation expression="!=')'"/>
+   <limitation expression="!='['"/>
+   <limitation expression="!=']'"/>
+   <limitation expression="!='{'"/>
+   <limitation expression="!='}'"/>
+   <limitation expression="!='/'"/>
+   <limitation expression="!='%'"/>
+  </uint8>
+ </struct>
+ <struct name="ArrayEntry">
+  <choice name="entry">
+   <type type="Number"/>
+   <type type="String"/>
+   <type type="Dictionary"/>
+   <type type="Array"/>
+  </choice>
+  <type name="ws" type="Whitespace" minCount="1" maxCount="unbounded"/>
+ </struct>
+ <struct name="Array">
+  <text>[</text>
+  <type name="ws" type="Whitespace" minCount="1" maxCount="unbounded"/>
+  <type name="entries" type="ArrayEntry" array="true"/>
+  <text>]</text>
+ </struct>
+ <struct name="Object">
+  <choice name="entry">
+   <type type="Number"/>
+   <type type="String"/>
+   <type type="Dictionary"/>
+   <type type="Array"/>
+  </choice>
+ </struct>
+ <struct name="DictionaryEntry">
+  <type name="key" type="Name"/>
+  <type name="ws" type="Whitespace" minCount="1" maxCount="unbounded"/>
+  <type name="value" type="Object"/>
+  <type name="ws2" type="Whitespace" minCount="1" maxCount="unbounded"/>
+ </struct>
+ <struct name="Dictionary">
+  <text>&lt;&lt;</text>
+  <type name="ws" type="Whitespace" minCount="1" maxCount="unbounded"/>
+  <type name="entries" type="DictionaryEntry" array="true"/>
+  <text>&gt;&gt;</text>
+ </struct>
+ <struct name="Stream">
+  <type name="info" type="Dictionary"/>
+  <type name="ws" type="Whitespace" minCount="1" maxCount="unbounded"/>
+  <text>stream</text>
+  <choice name="ws2">
+   <hex>0A</hex>
+   <hex>0D0A</hex>
+  </choice>
+  <uint8 name="stream" count="info['Length']"/>
+  <choice name="endstream">
+   <hex>0A6E65736472746165</hex>
+   <hex>0D6E65736472746165</hex>
+   <hex>0D0A6E65736472746165</hex>
+   <text>endstream</text>
+  </choice>
+ </struct>
+ <struct name="Null">
+  <text>null</text>
+ </struct>
+ <struct name="Trailer">
+  <text>trailer</text>
+  <text>startxref</text>
+  <type name="ws" type="Whitespace" minCount="1" maxCount="unbounded"/>
+  <type name="startxref" array="true" type="Digit"/>
+  <text>%%EOF</text>
+ </struct>
+</grammar>
