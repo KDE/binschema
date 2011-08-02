@@ -856,24 +856,23 @@ public class QtParserGenerator {
 					+ "();");
 		}
 		out.println(s + "in.rewind(_m);");
+		out.println(s + "qint64 startPos = in.getPosition();");
 		for (int i = 0; i < c.options.size(); ++i) {
 			out.print(s);
-			if (i > 0) {
-				out.print("} else ");
-			}
 			Option o = c.options.get(i);
 			String clause = getClause("_choice", o.limitsType, o.lim);
+			out.print("if (startPos == in.getPosition()");
 			if (clause == null || (!m.isOptional && i == c.options.size() - 1)) {
-				out.println("{");
+				out.println(") {");
 			} else {
-				out.println("if (" + clause + ") {");
+				out.println(" && (" + clause + ")) {");
 			}
 			out.println(s + "    _s." + m.name + " = " + structure + "::"
 					+ m.type().name + "(new " + o.type.name + "(&_s));");
 			out.println(s + "    parse" + o.type.name + "(in, *(" + o.type.name
 					+ "*)_s." + m.name + ".data());");
+			out.println(s + "}");
 		}
-		out.println(s + "}");
 	}
 
 	private void printUnsureChoiceParser(PrintWriter out, String s,
