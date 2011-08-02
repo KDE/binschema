@@ -3494,6 +3494,10 @@
 			<type type="AlignHR" />
 			<type type="DxHeightHR" />
 			<type type="DxWidthHR" />
+			<type type="BorderTopColor" />
+			<type type="BorderLeftColor" />
+			<type type="BorderBottomColor" />
+			<type type="BorderRightColor" />
 			<type type="GroupShapeBooleanProperties" />
 			<type type="WzFillId" />
 			<type type="DiagramBooleanProperties" />
@@ -4697,6 +4701,38 @@
 			<limitation name="fComplex" value="false" />
 		</type>
 		<int32 name="dxWidthHR" />
+	</struct>
+	<struct name="BorderTopColor">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x039b" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="borderTopColor" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="BorderLeftColor">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x039c" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="borderLeftColor" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="BorderBottomColor">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x039d" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="borderBottomColor" type="OfficeArtCOLORREF" />
+	</struct>
+	<struct name="BorderRightColor">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x039e" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<type name="borderRightColor" type="OfficeArtCOLORREF" />
 	</struct>
 	<struct name="GroupShapeBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
