@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -13,40 +14,50 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 public class ParserGeneratorRunner {
 
 	public static void main(String[] args) throws Exception {
-		final String xmlfilename = "mso.xml";
 		final String xsdfilename = "mso.xsd";
 
 		ParserGeneratorRunner pgr = new ParserGeneratorRunner();
 		new File("src/mso/javaparser").mkdirs();
-		new File("cpp").mkdirs();
 
 		final Validator v = pgr.createValidator(xsdfilename);
-		v.validate(new StreamSource(pgr.open(xmlfilename)));
 
+		//pgr.generate(v, "pdf.xml", "PDF", "cpp");
+		pgr.generate(v, "mso.xml", "MSO", "cpp");
+	}
+
+	void generate(Validator v, String xmlfilename, String namespace,
+			String cppdir) throws SAXException, IOException,
+			ParserConfigurationException, Exception {
+		v.validate(new StreamSource(open(xmlfilename)));
 		final Document dom = DocumentBuilderFactory.newInstance()
-				.newDocumentBuilder().parse(pgr.open(xmlfilename));
+				.newDocumentBuilder().parse(open(xmlfilename));
 		MSO mso = new MSO(dom);
-		pgr.generateJavaParser(mso);
-		pgr.generateQtParser(mso);
-		pgr.generateSimpleQtParser(mso);
-		pgr.generateApi(mso);
+		new File(cppdir).mkdirs();
+		generateJavaParser(mso, namespace);
+		generateQtParser(mso, "", "generatedclasses", cppdir);
+		generateSimpleQtParser(mso, namespace, "simpleParser", cppdir);
+		generateApi(mso, namespace, "api", cppdir);
 	}
 
-	void generateJavaParser(MSO mso) throws IOException {
+	void generateJavaParser(MSO mso, String namespace) throws IOException {
 		final JavaParserGenerator g = new JavaParserGenerator();
-		g.generate(mso, "src", "mso.javaparser", "GeneratedMsoParser");
+		String l = namespace.toLowerCase();
+		String il = namespace.substring(0, 1) + l.substring(1);
+		g.generate(mso, "src", l + ".javaparser", "Generated" + il + "Parser");
 	}
 
-	void generateQtParser(MSO mso) throws IOException {
+	void generateQtParser(MSO mso, String namespace, String basename,
+			String outputdir) throws IOException {
 		// generate a parser with introspection
 		final QtParserGenerator g = new QtParserGenerator();
-		g.config.namespace = "";
-		g.config.basename = "generatedclasses";
-		g.config.outputdir = "cpp";
+		g.config.namespace = namespace;
+		g.config.basename = basename;
+		g.config.outputdir = outputdir;
 		g.config.createHeader = false;
 		g.config.enableIntrospection = true;
 		g.config.enableXml = true;
@@ -56,12 +67,13 @@ public class ParserGeneratorRunner {
 		g.generate(mso);
 	}
 
-	void generateSimpleQtParser(MSO mso) throws IOException {
+	void generateSimpleQtParser(MSO mso, String namespace, String basename,
+			String outputdir) throws IOException {
 		// generate a parser with introspection
 		final QtParserGenerator g = new QtParserGenerator();
-		g.config.namespace = "MSO";
-		g.config.basename = "simpleParser";
-		g.config.outputdir = "cpp";
+		g.config.namespace = namespace;
+		g.config.basename = basename;
+		g.config.outputdir = outputdir;
 		g.config.createHeader = true;
 		g.config.enableIntrospection = false;
 		g.config.enableXml = false;
@@ -71,12 +83,13 @@ public class ParserGeneratorRunner {
 		g.generate(mso);
 	}
 
-	void generateApi(MSO mso) throws IOException {
+	void generateApi(MSO mso, String namespace, String basename,
+			String outputdir) throws IOException {
 		// generate a minimal parser but with a public header
 		final QtApiGenerator g = new QtApiGenerator();
-		g.config.namespace = "MSO";
-		g.config.basename = "api";
-		g.config.outputdir = "cpp";
+		g.config.namespace = namespace;
+		g.config.basename = basename;
+		g.config.outputdir = outputdir;
 		g.config.createHeader = true;
 		g.generate(mso);
 	}
@@ -108,5 +121,4 @@ public class ParserGeneratorRunner {
 		Schema schema = factory.newSchema(sources);
 		return schema.newValidator();
 	}
-
 }
