@@ -15,8 +15,8 @@
 		<attribute name="array" type="boolean" use="optional"
 			default="false" />
 		<attribute name="count" type="string" use="optional" />
-		<attribute name="minCount" type="string" use="optional" />
-		<attribute name="maxCount" type="string" use="optional" />
+		<attribute name="minOccurs" type="string" use="optional" />
+		<attribute name="maxOccurs" type="string" use="optional" />
 		<attribute name="condition" type="string" use="optional" />
 	</complexType>
 	<complexType name="intType">
