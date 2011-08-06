@@ -41,11 +41,6 @@ public class Option {
 		setLimitations(s, suggestedType);
 	}
 
-	Option(Struct s) {
-		type = s;
-		setLimitations(s, null);
-	}
-
 	private void setLimitations(Choice c) {
 		// all restrictions in the
 		lim.lims = new Option.Lim[c.options.size()];

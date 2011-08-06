@@ -7,7 +7,7 @@ public class Choice extends TypeRegistry.Type {
 	public final TypeRegistry.Type commonType;
 	public final List<Option> options = new ArrayList<Option>();
 
-	static int getSize(List<Struct> choices) {
+	private static int getSize(List<Struct> choices) {
 		int size = choices.get(0).size;
 		for (Struct s : choices) {
 			if (s.size != size) {
@@ -189,7 +189,7 @@ public class Choice extends TypeRegistry.Type {
 		return n;
 	}
 
-	void removeNonDistinctiveLimitations() {
+	private void removeNonDistinctiveLimitations() {
 		Option.Lim a = options.get(0).lim;
 		if (a.limitations != null) {
 			for (int i = 0; i < a.limitations.length; ++i) {

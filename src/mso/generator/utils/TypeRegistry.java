@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TypeRegistry {
-	protected final Map<String, Type> types = new HashMap<String, Type>();
+	final Map<String, Type> types = new HashMap<String, Type>();
 
 	public class Type {
 		public final TypeRegistry registry;
@@ -20,13 +20,9 @@ public class TypeRegistry {
 			}
 			types.put(name, this);
 		}
-
-		Type get(String name) {
-			return types.get(name);
-		}
 	}
 
-	protected Type getType(String name) {
+	Type getType(String name) {
 		return types.get(name);
 	}
 

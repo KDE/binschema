@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 
 public class MSO {
 	public final List<Struct> structs = new ArrayList<Struct>();
-	final List<Choice> choices = new ArrayList<Choice>();
+	private final List<Choice> choices = new ArrayList<Choice>();
 	public final List<Stream> streams = new ArrayList<Stream>();
 
 	public MSO(Document dom) throws IOException {

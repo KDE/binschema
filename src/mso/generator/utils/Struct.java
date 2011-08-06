@@ -20,7 +20,7 @@ public class Struct extends TypeRegistry.Type {
 	final boolean containsSureChoice;
 	public final boolean containsChoice;
 
-	static int getSize(TypeRegistry registry, Element e) throws IOException {
+	private static int getSize(TypeRegistry registry, Element e) throws IOException {
 		int size = 0;
 		NodeList l = e.getChildNodes();
 		for (int i = 0; i < l.getLength(); ++i) {
