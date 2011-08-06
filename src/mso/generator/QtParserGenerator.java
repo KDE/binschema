@@ -7,6 +7,15 @@ import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import mso.generator.utils.Choice;
+import mso.generator.utils.Limitation;
+import mso.generator.utils.MSO;
+import mso.generator.utils.Member;
+import mso.generator.utils.Option;
+import mso.generator.utils.Stream;
+import mso.generator.utils.Struct;
+import mso.generator.utils.TypeRegistry;
+
 public class QtParserGenerator {
 
 	public class QtParserConfiguration {

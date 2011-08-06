@@ -1,11 +1,11 @@
-package mso.generator;
+package mso.generator.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class Choice extends TypeRegistry.Type {
-	final TypeRegistry.Type commonType;
-	final List<Option> options = new ArrayList<Option>();
+public class Choice extends TypeRegistry.Type {
+	public final TypeRegistry.Type commonType;
+	public final List<Option> options = new ArrayList<Option>();
 
 	static int getSize(List<Struct> choices) {
 		int size = choices.get(0).size;

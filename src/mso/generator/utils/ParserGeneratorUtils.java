@@ -1,4 +1,4 @@
-package mso.generator;
+package mso.generator.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class ParserGeneratorUtils {
 		return orderedList;
 	}
 
-	static Map<Integer, String> getRecordTypeNames(Document dom)
+	public static Map<Integer, String> getRecordTypeNames(Document dom)
 			throws XPathExpressionException {
 		Map<Integer, String> map = new HashMap<Integer, String>();
 

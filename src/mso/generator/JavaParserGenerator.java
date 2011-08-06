@@ -6,6 +6,14 @@ import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import mso.generator.utils.Choice;
+import mso.generator.utils.Limitation;
+import mso.generator.utils.MSO;
+import mso.generator.utils.Member;
+import mso.generator.utils.Stream;
+import mso.generator.utils.Struct;
+import mso.generator.utils.TypeRegistry;
+
 public class JavaParserGenerator {
 	void generate(MSO mso, String dir, String packagename, String classname)
 			throws IOException {

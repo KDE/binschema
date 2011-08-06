@@ -1,4 +1,4 @@
-package mso.generator;
+package mso.generator.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,20 +8,20 @@ import java.util.zip.CRC32;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-class Member {
-	final TypeRegistry registry;
-	final String name;
+public class Member {
+	public final TypeRegistry registry;
+	public final String name;
 	private final String typeName;
-	final String count;
-	final String size;
-	final String condition;
-	final boolean isArray;
-	final boolean isOptional;
-	final boolean isInteger;
-	final boolean isSimple;
-	final boolean isStruct;
-	final boolean isChoice;
-	final Limitation limitations[];
+	public final String count;
+	public final String size;
+	public final String condition;
+	public final boolean isArray;
+	public final boolean isOptional;
+	public final boolean isInteger;
+	public final boolean isSimple;
+	public final boolean isStruct;
+	public final boolean isChoice;
+	public final Limitation limitations[];
 
 	Member(TypeRegistry r, Element e) throws IOException {
 		registry = r;

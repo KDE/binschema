@@ -1,12 +1,12 @@
-package mso.generator;
+package mso.generator.utils;
 
 import java.util.HashMap;
 import java.util.Map;
 
-class TypeRegistry {
+public class TypeRegistry {
 	protected final Map<String, Type> types = new HashMap<String, Type>();
 
-	class Type {
+	public class Type {
 		public final TypeRegistry registry;
 		public final String name;
 		public final int size;

@@ -5,6 +5,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import mso.generator.utils.Choice;
+import mso.generator.utils.Limitation;
+import mso.generator.utils.MSO;
+import mso.generator.utils.Member;
+import mso.generator.utils.Option;
+import mso.generator.utils.Struct;
+import mso.generator.utils.TypeRegistry;
+
 public class QtApiGenerator {
 
 	public class QtApiConfiguration {

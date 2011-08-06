@@ -1,11 +1,11 @@
-package mso.generator;
+package mso.generator.utils;
 
 import org.w3c.dom.Element;
 
-class Limitation {
-	final String name;
-	final String expression;
-	final String value;
+public class Limitation {
+	public final String name;
+	public final String expression;
+	public final String value;
 
 	Limitation(Element e) {
 		name = e.getAttribute("name");

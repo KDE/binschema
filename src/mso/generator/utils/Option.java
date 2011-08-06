@@ -1,9 +1,9 @@
-package mso.generator;
+package mso.generator.utils;
 
-class Option {
-	class Lim {
-		Limitation[] limitations;
-		Lim[] lims;
+public class Option {
+	public class Lim {
+		public Limitation[] limitations;
+		public Lim[] lims;
 
 		boolean containsCommonLimitation(Limitation l) {
 			if (limitations != null) {
@@ -32,11 +32,11 @@ class Option {
 		}
 	}
 
-	Struct type;
-	TypeRegistry.Type limitsType;
-	Lim lim = new Lim();
+	public Struct type;
+	public TypeRegistry.Type limitsType;
+	public Lim lim = new Lim();
 
-	Option(Struct s, TypeRegistry.Type suggestedType) {
+	public Option(Struct s, TypeRegistry.Type suggestedType) {
 		type = s;
 		setLimitations(s, suggestedType);
 	}

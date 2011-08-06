@@ -1,4 +1,4 @@
-package mso.generator;
+package mso.generator.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,17 +8,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-class Struct extends TypeRegistry.Type {
+public class Struct extends TypeRegistry.Type {
 
-	final List<Member> members = new ArrayList<Member>();
+	public final List<Member> members = new ArrayList<Member>();
 	final String sizeExpression;
-	final boolean containsArrayMember;
-	final boolean containsOptionalMember;
-	final boolean containsUnknownLengthArrayMember;
-	final boolean containsKnownLengthArrayMember;
+	public final boolean containsArrayMember;
+	public final boolean containsOptionalMember;
+	public final boolean containsUnknownLengthArrayMember;
+	public final boolean containsKnownLengthArrayMember;
 	final boolean containsUnsureChoice;
 	final boolean containsSureChoice;
-	final boolean containsChoice;
+	public final boolean containsChoice;
 
 	static int getSize(TypeRegistry registry, Element e) throws IOException {
 		int size = 0;
