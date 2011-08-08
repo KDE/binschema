@@ -28,7 +28,7 @@ public class ParserGeneratorRunner {
 
 		final Validator v = pgr.createValidator(xsdfilename);
 
-		//pgr.generate(v, "pdf.xml", "PDF", "cpp");
+		pgr.generate(v, "pdf.xml", "PDF", "cpp");
 		pgr.generate(v, "mso.xml", "MSO", "cpp");
 	}
 
