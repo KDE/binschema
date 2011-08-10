@@ -277,8 +277,7 @@ public class QtApiGenerator {
 					+ ") return;");
 		} else if (m.size != null) {
 			String size = fixForMemberName(m.size);
-			out.println(sp + "if (_maxsize - _position < " + size
-					+ ") return;");
+			out.println(sp + "if (_maxsize - _position < " + size + ") return;");
 			out.println(sp + "m_" + m.name + " = MSOArray<" + m.type().name
 					+ ">(_d + _position, " + size + ");");
 			out.println(sp + "if (m_" + m.name + "._size != " + size
@@ -392,22 +391,25 @@ public class QtApiGenerator {
 			if (m.isSimple) {
 				if ("quint8".equals(t))
 					t = "char";
-				//out.println("private:");
+				out.println("private:");
 				out.println("    MSOCastArray<" + t + "> m_" + m.name + ";");
 				out.println("public:");
-				out.println("    MSOCastArray<" + t + "> " + m.name + "() const { return m_" + m.name + "; }");
+				out.println("    MSOCastArray<" + t + "> " + m.name
+						+ "() const { return m_" + m.name + "; }");
 			}
 			if (m.isStruct || m.isChoice) {
 				if (m.type().size == -1) {
-					//out.println("private:");
+					out.println("private:");
 					out.println("    MSOArray<" + t + "> m_" + m.name + ";");
 					out.println("public:");
-					out.println("    MSOArray<" + t + "> " + m.name + "() const { return m_" + m.name + "; }");
+					out.println("    MSOArray<" + t + "> " + m.name
+							+ "() const { return m_" + m.name + "; }");
 				} else {
-					out.println("public:");
+					out.println("private:");
 					out.println("    MSOArray<" + t + "> m_" + m.name + ";");
-					//out.println("private:");
-					out.println("    MSOArray<" + t + "> " + m.name + "() const { return m_" + m.name + "; }");
+					out.println("public:");
+					out.println("    MSOArray<" + t + "> " + m.name
+							+ "() const { return m_" + m.name + "; }");
 				}
 			}
 		} else if (m.isChoice) {
@@ -423,14 +425,16 @@ public class QtApiGenerator {
 			out.println("        template <typename A> const A* get() const;");
 			out.println("        template <typename A> bool is() const;");
 			out.println("    };");
-			//out.println("private:");
+			out.println("private:");
 			out.println("    C_" + m.name + " m_" + m.name + ";");
 			out.println("public:");
-			out.println("    C_" + m.name + " " + m.name + "() const { return m_" + m.name + "; }");
+			out.println("    C_" + m.name + " " + m.name
+					+ "() const { return m_" + m.name + "; }");
 		} else {
 			out.println("public:");
-			out.println("    " + t + " " + m.name + "() const { return m_" + m.name + "; }");
-			//out.println("private:");
+			out.println("    " + t + " " + m.name + "() const { return m_"
+					+ m.name + "; }");
+			out.println("private:");
 			out.println("    " + t + " m_" + m.name + ";");
 		}
 	}
@@ -456,7 +460,7 @@ public class QtApiGenerator {
 				condition = QtParserGenerator.getExpression(mname, condition);
 			}
 			if (m.isStruct) {
-			    condition = fixForMemberName(condition);
+				condition = fixForMemberName(condition);
 			}
 			out.println(s + "if (!(" + condition + ")) {");
 			out.println(s + "     return;");
@@ -464,17 +468,43 @@ public class QtApiGenerator {
 		}
 	}
 
-	private String fixForMemberName(String condition) {
-		Pattern p = Pattern.compile("(\\W|^)([a-zA-Z])");
-		Matcher m = p.matcher(condition);
+	private boolean isNumber(String n) {
+		boolean isNumber = true;
+		try {
+			Integer.decode(n);
+		} catch (NumberFormatException e) {
+			isNumber = false;
+		}
+		return isNumber;
+	}
+
+	final private Pattern pattern1 = Pattern
+			.compile("(?<=\\W)([a-zA-Z]\\w*)(?=\\W|$)");
+	final private Pattern pattern2 = Pattern
+			.compile("(^[a-zA-Z]\\w*)(?=\\W|$)");
+
+	private String fix(String condition, Pattern regex) {
+		Matcher m = regex.matcher(condition);
 		StringBuffer sb = new StringBuffer();
 		while (m.find()) {
-			m.appendReplacement(sb, m.group(1) + "m_" + m.group(2));
+			String var = m.group(1);
+			if (!isNumber(var)) {
+				var = var + "()";
+			}
+			m.appendReplacement(sb, var);
 		}
 		m.appendTail(sb);
-		condition = sb.toString();
-		condition = condition.replaceAll("m_false", "false");
-		condition = condition.replaceAll("m_true", "true");
+		return sb.toString();
+	}
+
+	private String fixForMemberName(String condition) {
+		if (condition.startsWith("_has_")) {
+			return condition;
+		}
+		condition = fix(condition, pattern1);
+		condition = fix(condition, pattern2);
+		condition = condition.replaceAll("false\\(\\)", "false");
+		condition = condition.replaceAll("true\\(\\)", "true");
 		return condition;
 	}
 }
