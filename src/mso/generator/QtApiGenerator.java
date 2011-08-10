@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class QtApiGenerator {
 
@@ -130,10 +132,12 @@ public class QtApiGenerator {
 			int msize = getSize(m);
 			String condition = m.condition;
 			if (m.isSimple && condition != null) {
+				condition = fixForMemberName(condition);
 				out.println(sp + "_has_" + m.name + " = " + condition + ";");
 				condition = "_has_" + m.name;
 			}
 			if (condition != null) {
+				condition = fixForMemberName(condition);
 				out.println(sp + "if (" + condition + ") {");
 				sp = "        ";
 			}
@@ -194,7 +198,7 @@ public class QtApiGenerator {
 
 	private int printSimpleMemberParser(PrintWriter out, String sp, Struct s,
 			Member m, int bytepos) {
-		out.println(sp + m.name + " = read" + m.type().name
+		out.println(sp + "m_" + m.name + " = read" + m.type().name
 				+ ((bytepos > 0) ? "_" + String.valueOf(bytepos) : "")
 				+ "(_d + _position);");
 		int size = m.type().size / 8;
@@ -249,11 +253,12 @@ public class QtApiGenerator {
 								+ m.type().name + " and size " + size);
 			}
 		}
+		count = fixForMemberName(count);
 		String type = getTypeName(m.type());
 		if ("quint8".equals(type))
 			type = "char";
-		out.println(sp + m.name + " = MSOCastArray<" + type + ">((const "
-				+ type + "*)(_d + _position), " + count + ");");
+		out.println(sp + "m_" + m.name + " = MSOCastArray<" + type
+				+ ">((const " + type + "*)(_d + _position), " + count + ");");
 		out.println(sp + "_msize = (" + count + ")*" + (m.type().size / 8)
 				+ ";");
 	}
@@ -262,43 +267,45 @@ public class QtApiGenerator {
 			Struct s, Member m) {
 		if (m.count != null) {
 			String size = "_maxsize - _position, ";
+			String count = fixForMemberName(m.count);
 			if (m.type().size != -1) {
-				size = (m.type().size / 8) + " * " + m.count + ", ";
+				size = (m.type().size / 8) + " * " + count + ", ";
 			}
-			out.println(sp + m.name + " = MSOArray<" + m.type().name
-					+ ">(_d + _position, " + size + m.count + ");");
-			out.println(sp + "if (" + m.name + "._count != " + m.count
+			out.println(sp + "m_" + m.name + " = MSOArray<" + m.type().name
+					+ ">(_d + _position, " + size + count + ");");
+			out.println(sp + "if (m_" + m.name + "._count != " + count
 					+ ") return;");
 		} else if (m.size != null) {
-			out.println(sp + "if (_maxsize - _position < " + m.size
+			String size = fixForMemberName(m.size);
+			out.println(sp + "if (_maxsize - _position < " + size
 					+ ") return;");
-			out.println(sp + m.name + " = MSOArray<" + m.type().name
-					+ ">(_d + _position, " + m.size + ");");
-			out.println(sp + "if (" + m.name + "._size != " + m.size
+			out.println(sp + "m_" + m.name + " = MSOArray<" + m.type().name
+					+ ">(_d + _position, " + size + ");");
+			out.println(sp + "if (m_" + m.name + "._size != " + size
 					+ ") return;");
 		} else {
-			out.println(sp + m.name + " = MSOArray<" + m.type().name
+			out.println(sp + "m_" + m.name + " = MSOArray<" + m.type().name
 					+ ">(_d + _position, _maxsize - _position);");
-			out.println(sp + "if (" + m.name + "._data == 0) return;");
+			out.println(sp + "if (m_" + m.name + "._data == 0) return;");
 		}
-		out.println(sp + "    _msize = " + m.name + "._size;");
+		out.println(sp + "    _msize = m_" + m.name + "._size;");
 	}
 
 	private void printStructMemberParser(PrintWriter out, String sp, Struct s,
 			Member m) {
 		if (m.type().size == -1) {
-			out.println(sp + m.name + " = " + m.type().name
+			out.println(sp + "m_" + m.name + " = " + m.type().name
 					+ "(_d + _position, _maxsize - _position);");
 		} else {
-			out.println(sp + m.name + " = " + m.type().name
+			out.println(sp + "m_" + m.name + " = " + m.type().name
 					+ "(_d + _position);");
 		}
 		if (m.isOptional) {
-			out.println(sp + "_msize = (" + m.name + "._data) ?" + m.name
+			out.println(sp + "_msize = (m_" + m.name + "._data) ?m_" + m.name
 					+ "._size :0;");
 		} else {
-			out.println(sp + "if (" + m.name + "._data == 0) return;");
-			out.println(sp + "_msize = " + m.name + "._size;");
+			out.println(sp + "if (m_" + m.name + "._data == 0) return;");
+			out.println(sp + "_msize = m_" + m.name + "._size;");
 		}
 	}
 
@@ -314,7 +321,7 @@ public class QtApiGenerator {
 			if (!first) {
 				out.println(sp + "if (_msize == 0) {");
 			}
-			String name = m.name + "._" + t.name;
+			String name = "m_" + m.name + "._" + t.name;
 			if (t.size == -1) {
 				out.println(sp2 + name + " = " + t.name
 						+ "(_d + _position, _maxsize - _position);");
@@ -385,13 +392,22 @@ public class QtApiGenerator {
 			if (m.isSimple) {
 				if ("quint8".equals(t))
 					t = "char";
-				out.println("    MSOCastArray<" + t + "> " + m.name + ";");
+				//out.println("private:");
+				out.println("    MSOCastArray<" + t + "> m_" + m.name + ";");
+				out.println("public:");
+				out.println("    MSOCastArray<" + t + "> " + m.name + "() const { return m_" + m.name + "; }");
 			}
 			if (m.isStruct || m.isChoice) {
 				if (m.type().size == -1) {
-					out.println("    MSOArray<" + t + "> " + m.name + ";");
+					//out.println("private:");
+					out.println("    MSOArray<" + t + "> m_" + m.name + ";");
+					out.println("public:");
+					out.println("    MSOArray<" + t + "> " + m.name + "() const { return m_" + m.name + "; }");
 				} else {
-					out.println("    MSOArray<" + t + "> " + m.name + ";");
+					out.println("public:");
+					out.println("    MSOArray<" + t + "> m_" + m.name + ";");
+					//out.println("private:");
+					out.println("    MSOArray<" + t + "> " + m.name + "() const { return m_" + m.name + "; }");
 				}
 			}
 		} else if (m.isChoice) {
@@ -399,19 +415,23 @@ public class QtApiGenerator {
 			out.println("    class C_" + m.name + " {");
 			out.println("    friend class " + className + ";");
 			out.println("    private:");
-			// out.println("    union {");
 			for (Option o : c.options) {
 				TypeRegistry.Type ct = o.type;
 				out.println("        " + ct.name + " _" + ct.name + ";");
 			}
-			// out.println("    };");
 			out.println("    public:");
 			out.println("        template <typename A> const A* get() const;");
 			out.println("        template <typename A> bool is() const;");
 			out.println("    };");
-			out.println("    C_" + m.name + " " + m.name + ";");
+			//out.println("private:");
+			out.println("    C_" + m.name + " m_" + m.name + ";");
+			out.println("public:");
+			out.println("    C_" + m.name + " " + m.name + "() const { return m_" + m.name + "; }");
 		} else {
-			out.println("    " + t + " " + m.name + ";");
+			out.println("public:");
+			out.println("    " + t + " " + m.name + "() const { return m_" + m.name + "; }");
+			//out.println("private:");
+			out.println("    " + t + " m_" + m.name + ";");
 		}
 	}
 
@@ -427,7 +447,7 @@ public class QtApiGenerator {
 				mname = name;
 			}
 			if (!m.isStruct) {
-				mname = "((" + getTypeName(m.type()) + ")" + mname + ")";
+				mname = "((" + getTypeName(m.type()) + ")m_" + mname + ")";
 			}
 			String condition = l.expression;
 			if (condition == null) {
@@ -435,10 +455,26 @@ public class QtApiGenerator {
 			} else {
 				condition = QtParserGenerator.getExpression(mname, condition);
 			}
-
+			if (m.isStruct) {
+			    condition = fixForMemberName(condition);
+			}
 			out.println(s + "if (!(" + condition + ")) {");
 			out.println(s + "     return;");
 			out.println(s + "}");
 		}
+	}
+
+	private String fixForMemberName(String condition) {
+		Pattern p = Pattern.compile("(\\W|^)([a-zA-Z])");
+		Matcher m = p.matcher(condition);
+		StringBuffer sb = new StringBuffer();
+		while (m.find()) {
+			m.appendReplacement(sb, m.group(1) + "m_" + m.group(2));
+		}
+		m.appendTail(sb);
+		condition = sb.toString();
+		condition = condition.replaceAll("m_false", "false");
+		condition = condition.replaceAll("m_true", "true");
+		return condition;
 	}
 }
