@@ -56,10 +56,10 @@
 			maxCount="unbounded" />
 	</struct>
 	<struct name="Boolean">
-		<choice name="boolean">
+		<fixedchoice name="boolean">
 			<text>true</text>
 			<text>false</text>
-		</choice>
+		</fixedchoice>
 	</struct>
 	<struct name="Integer">
 		<uint8 name="sign">
@@ -185,17 +185,17 @@
 		<type name="info" type="Dictionary" />
 		<type name="ws" type="Whitespace" minCount="1" maxCount="unbounded" />
 		<text>stream</text>
-		<choice name="ws2">
+		<fixedchoice name="ws2">
 			<hex>0A</hex>
 			<hex>0D0A</hex>
-		</choice>
+		</fixedchoice>
 		<uint8 name="stream" count="info['Length']" />
-		<choice name="endstream">
+		<fixedchoice name="endstream">
 			<hex>0A6E65736472746165</hex>
 			<hex>0D6E65736472746165</hex>
 			<hex>0D0A6E65736472746165</hex>
 			<text>endstream</text>
-		</choice>
+		</fixedchoice>
 	</struct>
 	<struct name="Null">
 		<text>null</text>

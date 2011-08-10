@@ -37,18 +37,23 @@
 			</extension>
 		</complexContent>
 	</complexType>
+	<complexType name="fixedChoiceType">
+		<choice minOccurs="2" maxOccurs="unbounded">
+			<element name="text" type="string" />
+			<element name="hex" type="hexBinary" />
+		</choice>
+		<attribute name="name" type="NCName" use="required" />
+		<attribute name="optional" type="boolean" use="optional"
+			default="false" />
+	</complexType>
 	<complexType name="choiceType">
-		<choice>
+		<sequence>
 			<element name="type" minOccurs="2" maxOccurs="unbounded">
 				<complexType>
 					<attribute name="type" type="NCName" use="required" />
 				</complexType>
 			</element>
-			<choice minOccurs="2" maxOccurs="unbounded">
-				<element name="text" type="string" />
-				<element name="hex" type="hexBinary" />
-			</choice>
-		</choice>
+		</sequence>
 		<attribute name="name" type="NCName" use="required" />
 		<attribute name="optional" type="boolean" use="optional"
 			default="false" />
@@ -77,6 +82,7 @@
 				<element name="uint32" type="tns:intType" />
 				<element name="type" type="tns:typeType" />
 				<element name="choice" type="tns:choiceType" />
+				<element name="fixedchoice" type="tns:fixedChoiceType" />
 				<element name="text" type="string" />
 				<element name="hex" type="hexBinary" />
 			</choice>
