@@ -4,7 +4,6 @@
 	<complexType name="limitationType">
 		<attribute name="name" type="NCName" use="optional" />
 		<attribute name="value" type="string" use="optional" />
-		<attribute name="valueRef" type="string" use="optional" />
 		<attribute name="expression" type="string" use="optional" />
 	</complexType>
 	<complexType name="msoMemberType" abstract="true">
@@ -15,8 +14,8 @@
 		<attribute name="array" type="boolean" use="optional"
 			default="false" />
 		<attribute name="count" type="string" use="optional" />
-		<attribute name="minCount" type="string" use="optional" />
-		<attribute name="maxCount" type="string" use="optional" />
+		<attribute name="minOccurs" type="string" use="optional" />
+		<attribute name="maxOccurs" type="string" use="optional" />
 		<attribute name="condition" type="string" use="optional" />
 	</complexType>
 	<complexType name="intType">
