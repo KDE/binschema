@@ -18,7 +18,6 @@ public:
     bool operator!=(const QByteArray&);
     operator QByteArray() const;
 };
-
 template <typename T> class MSOArray;
 template <typename T>
 class MSOconst_iterator {
@@ -43,9 +42,11 @@ public:
 };
 template <typename T>
 class MSOArray {
+friend class MSOconst_iterator<T>;
+private:
+    const char* _data;
 public:
     typedef MSOconst_iterator<T> const_iterator;
-    const char* _data;
     quint32 _count;
     quint32 _size;
     MSOArray() :_data(0), _count(0), _size(0) {}
@@ -54,7 +55,7 @@ public:
         quint32 mcount = 0;
         while (msize < maxsize) {
             T v(d + msize, maxsize - msize);
-            if (v._data == 0) {
+            if (!v) {
                 break;
             }
             msize += v._size;
@@ -68,7 +69,7 @@ public:
         quint32 msize = 0;
         for (quint32 i = 0; i < mcount; ++i) {
             T v(d + msize, maxsize - msize);
-            if (v._data == 0) {
+            if (!v) {
                 return;
             }
             msize += v._size;
@@ -100,6 +101,7 @@ public:
         }
         return t;
     }
+    inline bool operator ! () const { return !_data; }
 };
 
 inline quint8 readuint8(const char* d) {

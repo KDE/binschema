@@ -69,8 +69,9 @@ public class QtApiGenerator {
 
 	private void printStructureClassDeclaration(PrintWriter out, Struct s) {
 		out.println("class " + s.name + " {");
-		out.println("public:");
+		out.println("private:");
 		out.println("    const char* _data;");
+		out.println("public:");
 		if (s.size == -1) {
 			out.println("    quint32 _size;");
 			out.println("    " + s.name + "() :_data(0), _size(0) {}");
@@ -88,11 +89,14 @@ public class QtApiGenerator {
 			hasData = hasData || m.name.equals("data");
 			printMemberDeclaration(out, m, s.name);
 		}
+		out.println("public:");
 		for (Member m : s.members) {
 			if (m.isSimple && m.condition != null) {
 				out.println("    bool _has_" + m.name + ";");
 			}
 		}
+		out.println("    inline operator bool () const { return _data; }");
+		out.println("    inline bool operator ! () const { return !_data; }");
 		out.println("    inline operator const void * () const { return _data; }");
 		out.println("    inline const " + s.name
 				+ "* operator->() const { return this; }");
@@ -285,7 +289,7 @@ public class QtApiGenerator {
 		} else {
 			out.println(sp + "m_" + m.name + " = MSOArray<" + m.type().name
 					+ ">(_d + _position, _maxsize - _position);");
-			out.println(sp + "if (m_" + m.name + "._data == 0) return;");
+			out.println(sp + "if (!m_" + m.name + ") return;");
 		}
 		out.println(sp + "    _msize = m_" + m.name + "._size;");
 	}
@@ -300,10 +304,10 @@ public class QtApiGenerator {
 					+ "(_d + _position);");
 		}
 		if (m.isOptional) {
-			out.println(sp + "_msize = (m_" + m.name + "._data) ?m_" + m.name
+			out.println(sp + "_msize = (m_" + m.name + ") ?m_" + m.name
 					+ "._size :0;");
 		} else {
-			out.println(sp + "if (m_" + m.name + "._data == 0) return;");
+			out.println(sp + "if (!m_" + m.name + ") return;");
 			out.println(sp + "_msize = m_" + m.name + "._size;");
 		}
 	}
@@ -327,7 +331,7 @@ public class QtApiGenerator {
 				out.println(sp2 + "_msize = " + name + "._size;");
 			} else {
 				out.println(sp2 + name + " = " + t.name + "(_d + _position);");
-				out.println(sp2 + "_msize = (" + name + "._data) ?" + t.name
+				out.println(sp2 + "_msize = (" + name + ") ?" + t.name
 						+ "::_size : 0;");
 			}
 			if (!first) {
@@ -377,7 +381,7 @@ public class QtApiGenerator {
 			out.println("    }");
 			out.println("    template <> bool " + s.name + "::C_" + m.name
 					+ "::is<" + t + ">() const {");
-			out.println("        return _" + t + "._data;");
+			out.println("        return _" + t + ";");
 
 			out.println("    }");
 		}
