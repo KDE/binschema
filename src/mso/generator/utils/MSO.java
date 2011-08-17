@@ -27,7 +27,6 @@ public class MSO {
 			if (t instanceof Struct) {
 				s = (Struct) t;
 			} else {
-				//System.out.println("HI " + e);
 				s = new Struct(typeRegistry, e);
 			}
 			structs.add(s);

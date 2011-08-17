@@ -27,9 +27,10 @@
 	</struct>
 	<struct name="Header">
 		<text>%PDF-1.3</text>
-		<type name="ws" type="Whitespace" minCount="1" maxCount="unbounded" />
+		<type name="ws" type="Whitespace" minOccurs="1" maxOccurs="unbounded" />
 	</struct>
 	<struct name="Body">
+		<type name="objects" type="Object" minOccurs="0" maxOccurs="unbounded" />
 	</struct>
 	<struct name="CrossReferenceLine">
 		<type name="offset" count="10" type="Digit" />
@@ -45,15 +46,15 @@
 		<type name="start" array="true" type="Digit" />
 		<hex>20</hex>
 		<type name="offset" array="true" type="Digit" />
-		<type name="ws" type="Whitespace" minCount="1" maxCount="unbounded" />
-		<type name="entries" type="CrossReferenceLine" minCount="1"
-			maxCount="unbounded" />
+		<type name="ws" type="Whitespace" minOccurs="1" maxOccurs="unbounded" />
+		<type name="entries" type="CrossReferenceLine" minOccurs="1"
+			maxOccurs="unbounded" />
 	</struct>
 	<struct name="CrossReferenceTable">
 		<text>xref</text>
-		<type name="ws" type="Whitespace" minCount="1" maxCount="unbounded" />
-		<type name="sections" type="CrossReferenceSection" minCount="1"
-			maxCount="unbounded" />
+		<type name="ws" type="Whitespace" minOccurs="1" maxOccurs="unbounded" />
+		<type name="sections" type="CrossReferenceSection" minOccurs="1"
+			maxOccurs="unbounded" />
 	</struct>
 	<struct name="Boolean">
 		<fixedchoice name="boolean">
@@ -65,15 +66,15 @@
 		<uint8 name="sign">
 			<limitation value="'+'|'-'" />
 		</uint8>
-		<type name="value" minCount="1" maxCount="unbounded" type="Digit" />
+		<type name="value" minOccurs="1" maxOccurs="unbounded" type="Digit" />
 	</struct>
 	<struct name="Real">
 		<uint8 name="sign">
 			<limitation value="'+'|'-'" />
 		</uint8>
-		<type name="integer" minCount="0" maxCount="unbounded" type="Digit" />
+		<type name="integer" minOccurs="0" maxOccurs="unbounded" type="Digit" />
 		<text>.</text>
-		<type name="fraction" minCount="0" maxCount="unbounded" type="Digit" />
+		<type name="fraction" minOccurs="0" maxOccurs="unbounded" type="Digit" />
 	</struct>
 	<struct name="Number">
 		<choice name="value">
@@ -86,11 +87,16 @@
 		<uint8 name="character" />
 	</struct>
 	<struct name="ParenthesisStringCharacters">
-		<uint8 name="literal" minCount="1" maxCount="unbounded">
+		<uint8 name="literal" minOccurs="1" maxOccurs="unbounded">
 			<limitation expression="!='\'" />
 			<limitation expression="!=')'" />
 			<limitation expression="!='('" />
 		</uint8>
+	</struct>
+	<struct name="ParenthesisString">
+		<text>(</text>
+		<type name="string" type="ParenthesisStringContent" array="true" />
+		<text>)</text>
 	</struct>
 	<struct name="ParenthesisStringContent">
 		<choice name="content">
@@ -98,11 +104,6 @@
 			<type type="ParenthesisStringCharacters" />
 			<type type="ParenthesisString" />
 		</choice>
-	</struct>
-	<struct name="ParenthesisString">
-		<text>(</text>
-		<type name="string" type="ParenthesisStringContent" array="true" />
-		<text>)</text>
 	</struct>
 	<struct name="Hexadecimal">
 		<uint8 name="character">
@@ -153,11 +154,11 @@
 			<type type="Dictionary" />
 			<type type="Array" />
 		</choice>
-		<type name="ws" type="Whitespace" minCount="1" maxCount="unbounded" />
+		<type name="ws" type="Whitespace" minOccurs="1" maxOccurs="unbounded" />
 	</struct>
 	<struct name="Array">
 		<text>[</text>
-		<type name="ws" type="Whitespace" minCount="1" maxCount="unbounded" />
+		<type name="ws" type="Whitespace" minOccurs="1" maxOccurs="unbounded" />
 		<type name="entries" type="ArrayEntry" array="true" />
 		<text>]</text>
 	</struct>
@@ -171,19 +172,19 @@
 	</struct>
 	<struct name="DictionaryEntry">
 		<type name="key" type="Name" />
-		<type name="ws" type="Whitespace" minCount="1" maxCount="unbounded" />
+		<type name="ws" type="Whitespace" minOccurs="1" maxOccurs="unbounded" />
 		<type name="value" type="Object" />
-		<type name="ws2" type="Whitespace" minCount="1" maxCount="unbounded" />
+		<type name="ws2" type="Whitespace" minOccurs="1" maxOccurs="unbounded" />
 	</struct>
 	<struct name="Dictionary">
 		<text>&lt;&lt;</text>
-		<type name="ws" type="Whitespace" minCount="1" maxCount="unbounded" />
+		<type name="ws" type="Whitespace" minOccurs="1" maxOccurs="unbounded" />
 		<type name="entries" type="DictionaryEntry" array="true" />
 		<text>&gt;&gt;</text>
 	</struct>
 	<struct name="Stream">
 		<type name="info" type="Dictionary" />
-		<type name="ws" type="Whitespace" minCount="1" maxCount="unbounded" />
+		<type name="ws" type="Whitespace" minOccurs="1" maxOccurs="unbounded" />
 		<text>stream</text>
 		<fixedchoice name="ws2">
 			<hex>0A</hex>
@@ -203,7 +204,7 @@
 	<struct name="Trailer">
 		<text>trailer</text>
 		<text>startxref</text>
-		<type name="ws" type="Whitespace" minCount="1" maxCount="unbounded" />
+		<type name="ws" type="Whitespace" minOccurs="1" maxOccurs="unbounded" />
 		<type name="startxref" array="true" type="Digit" />
 		<text>%%EOF</text>
 	</struct>
