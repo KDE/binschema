@@ -3,6 +3,31 @@
 
 #include <QtCore/QtEndian>
 
+class FixedSizeParsedObject {
+protected:
+    const char* _data;
+    explicit FixedSizeParsedObject() :_data(0) {}
+    inline void init(const char* data) {
+        _data = data;
+    }
+public:
+    inline const char* getData() const { return _data; }
+    inline bool isValid() const { return _data; }
+};
+
+class ParsedObject : public FixedSizeParsedObject {
+private:
+    quint32 _size;
+protected:
+    explicit ParsedObject() :FixedSizeParsedObject(), _size(0) {}
+    inline void init(const char* data, quint32 size) {
+        FixedSizeParsedObject::init(data);
+        _size = size;
+    }
+public:
+    inline quint32 getSize() const { return _size; }
+};
+
 template <typename T>
 class MSOCastArray {
 private:
@@ -41,16 +66,14 @@ public:
     }
 };
 template <typename T>
-class MSOArray {
+class MSOArray : public ParsedObject {
 friend class MSOconst_iterator<T>;
 private:
-    const char* _data;
+    quint32 _count;
 public:
     typedef MSOconst_iterator<T> const_iterator;
-    quint32 _count;
-    quint32 _size;
-    MSOArray() :_data(0), _count(0), _size(0) {}
-    MSOArray(const char* d, quint32 maxsize) :_data(0), _count(0), _size(0) {
+    MSOArray() :_count(0) {}
+    MSOArray(const char* d, quint32 maxsize) :_count(0) {
         quint32 msize = 0;
         quint32 mcount = 0;
         while (msize < maxsize) {
@@ -61,11 +84,10 @@ public:
             msize += v._size;
             mcount++;
         }
-        _data = d;
+        ParsedObject::init(d, msize);
         _count = mcount;
-        _size = msize;
     }
-    MSOArray(const char* d, quint32 maxsize, quint32 mcount) :_data(0), _count(0), _size(0) {
+    MSOArray(const char* d, quint32 maxsize, quint32 mcount) :_count(0) {
         quint32 msize = 0;
         for (quint32 i = 0; i < mcount; ++i) {
             T v(d + msize, maxsize - msize);
@@ -77,9 +99,8 @@ public:
                 return;
             }
         }
-        _data = d;
+        ParsedObject::init(d, msize);
         _count = mcount;
-        _size = msize;
     }
     inline int size() const {
         return _count;
@@ -91,17 +112,17 @@ public:
         return MSOconst_iterator<T>(*this, _size);
     }
     T operator[](quint32 pos) const {
-        T t(_data, _size);
+        T t(ParsedObject::getData(), ParsedObject::getSize());
         quint32 i = 0;
         quint32 offset = 0;
         while (i < pos) {
             offset += t._size;
-            t = T(_data + offset, _size - offset);
+            t = T(ParsedObject::getData() + offset,
+                  ParsedObject::getSize() - offset);
             ++i;
         }
         return t;
     }
-    inline bool operator ! () const { return !_data; }
 };
 
 inline quint8 readuint8(const char* d) {

@@ -76,25 +76,27 @@ public class QtApiGenerator {
 	}
 
 	private void printStructureClassDeclaration(PrintWriter out, Struct s) {
-		out.println("class " + s.name + " {");
-		out.println("private:");
-		out.println("    const char* _data;");
-		out.println("public:");
 		if (s.size == -1) {
-			out.println("    quint32 _size;");
-			out.println("    " + s.name + "() :_data(0), _size(0) {}");
+		    out.println("class " + s.name + " : public ParsedObject {");
+		} else {
+		    out.println("class " + s.name + " : public FixedSizeParsedObject {");			
+		}
+		out.println("private:");
+		if (s.size == -1) {
+			out.println("public:");
+			out.println("    " + s.name + "() {}");
 			out.println("    explicit " + s.name
 					+ "(const char* data, const quint32 maxsize);");
 		} else {
 			out.println("    static const quint32 _size;");
-			out.println("    " + s.name + "() :_data(0) {}");
+			out.println("public:");
+			out.println("    static inline quint32 getSize() { return _size; }");
+			out.println("    " + s.name + "() {}");
 			out.println("    " + s.name
 					+ "(const char* data, quint32/*ignored*/ = 0);// "
 					+ (s.size / 8) + " bytes");
 		}
-		boolean hasData = false;
 		for (Member m : s.members) {
-			hasData = hasData || m.name.equals("data");
 			printMemberDeclaration(out, m, s.name);
 		}
 		out.println("public:");
@@ -103,6 +105,7 @@ public class QtApiGenerator {
 				out.println("    bool _has_" + m.name + ";");
 			}
 		}
+		out.println("private:");
 		out.println("    inline operator bool () const { return _data; }");
 		out.println("    inline bool operator ! () const { return !_data; }");
 		out.println("    inline operator const void * () const { return _data; }");
@@ -110,10 +113,6 @@ public class QtApiGenerator {
 				+ "* operator->() const { return this; }");
 		out.println("    inline const " + s.name
 				+ "& operator*() const { return *this; }");
-		if (!hasData) {
-			out.println("    inline const " + s.name
-					+ "* data() const { return this; }");
-		}
 		out.println("};");
 	}
 
@@ -127,13 +126,11 @@ public class QtApiGenerator {
 		String c = definitionPrefix() + s.name + "::";
 		if (s.size == -1) {
 			out.println(c + s.name
-					+ "(const char* _d, quint32 _maxsize) :_data(0), _size(0)");
-			out.println("{");
+					+ "(const char* _d, quint32 _maxsize) {");
 		} else {
 			out.println("const quint32 " + c + "_size = " + (s.size / 8) + ";");
 			out.println(c + s.name
-					+ "(const char* _d, quint32/*ignored*/) :_data(0)");
-			out.println("{");
+					+ "(const char* _d, quint32/*ignored*/) {");
 		}
 		out.println("    quint32 _position = 0;");
 		out.println("    quint32 _msize;");
@@ -171,9 +168,10 @@ public class QtApiGenerator {
 			}
 		}
 		if (s.size == -1) {
-			out.println("    _size = _position;");
+			out.println("   ParsedObject::init(_d, _position);");
+		} else {
+			out.println("   FixedSizeParsedObject::init(_d);");
 		}
-		out.println("    _data = _d;");
 		out.println("}");
 		// access functions
 		for (Member m : s.members) {
@@ -292,14 +290,14 @@ public class QtApiGenerator {
 			out.println(sp + "if (_maxsize - _position < " + size + ") return;");
 			out.println(sp + "m_" + m.name + " = MSOArray<" + m.type().name
 					+ ">(_d + _position, " + size + ");");
-			out.println(sp + "if (m_" + m.name + "._size != " + size
+			out.println(sp + "if (m_" + m.name + ".getSize() != " + size
 					+ ") return;");
 		} else {
 			out.println(sp + "m_" + m.name + " = MSOArray<" + m.type().name
 					+ ">(_d + _position, _maxsize - _position);");
-			out.println(sp + "if (!m_" + m.name + ") return;");
+			out.println(sp + "if (!m_" + m.name + ".isValid()) return;");
 		}
-		out.println(sp + "    _msize = m_" + m.name + "._size;");
+		out.println(sp + "_msize = m_" + m.name + ".getSize();");
 	}
 
 	private void printStructMemberParser(PrintWriter out, String sp, Struct s,
@@ -312,11 +310,11 @@ public class QtApiGenerator {
 					+ "(_d + _position);");
 		}
 		if (m.isOptional) {
-			out.println(sp + "_msize = (m_" + m.name + ") ?m_" + m.name
-					+ "._size :0;");
+			out.println(sp + "_msize = (m_" + m.name + ".isPresent()) ?m_" + m.name
+					+ ".getSize() :0;");
 		} else {
-			out.println(sp + "if (!m_" + m.name + ") return;");
-			out.println(sp + "_msize = m_" + m.name + "._size;");
+			out.println(sp + "if (!m_" + m.name + ".isValid()) return;");
+			out.println(sp + "_msize = m_" + m.name + ".getSize();");
 		}
 	}
 
@@ -336,11 +334,11 @@ public class QtApiGenerator {
 			if (t.size == -1) {
 				out.println(sp2 + name + " = " + t.name
 						+ "(_d + _position, _maxsize - _position);");
-				out.println(sp2 + "_msize = " + name + "._size;");
+				out.println(sp2 + "_msize = " + name + ".getSize();");
 			} else {
 				out.println(sp2 + name + " = " + t.name + "(_d + _position);");
 				out.println(sp2 + "_msize = (" + name + ") ?" + t.name
-						+ "::_size : 0;");
+						+ "::getSize() : 0;");
 			}
 			if (!first) {
 				out.println(sp + "}");
