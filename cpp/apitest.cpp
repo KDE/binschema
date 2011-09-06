@@ -29,9 +29,9 @@ testFile(const char* path) {
         return;
     }
     MSO::PowerPointStructs s(array.data(), array.size());
-    qDebug() << "Parsed " << s._size << " of " << array.size() << ": "
-        << ((s._size == array.size())?"OK":"FAIL");
-    if (s._size != array.size()) {
+    qDebug() << "Parsed " << s.getSize() << " of " << array.size() << ": "
+        << ((s.getSize() == array.size())?"OK":"FAIL");
+    if (s.getSize() != array.size()) {
         qDebug() << path;
     }
 }
@@ -45,7 +45,7 @@ void testiterator() {
         qDebug() << b.b();
         total += b.b();
     }
-    for (int i = 0; i < t.anon().size(); ++i) {
+    for (int i = 0; i < t.anon().getCount(); ++i) {
         qDebug() << t.anon()[i].b();
         total += t.anon()[i].b();
     }

@@ -4,8 +4,9 @@
 #include <QtCore/QtEndian>
 
 class FixedSizeParsedObject {
-protected:
+private:
     const char* _data;
+protected:
     explicit FixedSizeParsedObject() :_data(0) {}
     inline void init(const char* data) {
         _data = data;
@@ -34,8 +35,8 @@ private:
     const T* _data;
     quint32 _count;
 public:
-    MSOCastArray() :_data(0), _count(0) {}
-    MSOCastArray(const T* data, qint32 count) :_data(data), _count(count) {}
+    explicit MSOCastArray() :_data(0), _count(0) {}
+    explicit MSOCastArray(const T* data, qint32 count) :_data(data), _count(count) {}
     const T* data() const;
     QByteArray mid(int pos, int len = -1) const;
     int size() const;
@@ -51,19 +52,41 @@ private:
     const MSOArray<T>& c;
     quint32 offset;
 public:
-    MSOconst_iterator(const MSOArray<T>& c_, int o) :c(c_), offset(o) {
-        currentItem = T(c._data, c._size);
+    explicit MSOconst_iterator(const MSOArray<T>& c_, int o) :c(c_), offset(o) {
+        currentItem = T(c.getData(), c.getSize());
     }
     inline bool operator!=(const MSOconst_iterator &o) const {
         return offset != o.offset;
     }
     inline void operator++() {
-        offset += currentItem._size;
-        currentItem = T(c._data + offset, c._size - offset);
+        offset += currentItem.getSize();
+        currentItem = T(c.getData() + offset, c.getSize() - offset);
     }
     inline const T& operator*() const {
         return currentItem;
     }
+};
+template <typename T>
+class MSONullable {
+private:
+    T t;
+public:
+    MSONullable() {}
+    MSONullable(const T& data) :t(data) {}
+    inline bool isPresent() const { return t.isValid(); }
+    inline quint32 getSize() const { return t.getSize(); }
+    inline T operator * () const { return t; }
+};
+template <typename T>
+class MSOBasicNullable {
+private:
+    T _value;
+    bool _set;
+public:
+    explicit MSOBasicNullable() :_value(0), _set(false) {}
+    MSOBasicNullable(T value) :_value(value), _set(true) {}
+    inline bool isPresent() const { return _set; }
+    inline T operator * () const { return _value; }
 };
 template <typename T>
 class MSOArray : public ParsedObject {
@@ -78,10 +101,10 @@ public:
         quint32 mcount = 0;
         while (msize < maxsize) {
             T v(d + msize, maxsize - msize);
-            if (!v) {
+            if (!v.isValid()) {
                 break;
             }
-            msize += v._size;
+            msize += v.getSize();
             mcount++;
         }
         ParsedObject::init(d, msize);
@@ -91,10 +114,10 @@ public:
         quint32 msize = 0;
         for (quint32 i = 0; i < mcount; ++i) {
             T v(d + msize, maxsize - msize);
-            if (!v) {
+            if (!v.isValid()) {
                 return;
             }
-            msize += v._size;
+            msize += v.getSize();
             if (msize > maxsize) {
                 return;
             }
@@ -102,21 +125,21 @@ public:
         ParsedObject::init(d, msize);
         _count = mcount;
     }
-    inline int size() const {
+    inline quint32 getCount() const {
         return _count;
     }
     inline MSOconst_iterator<T> begin() const {
         return MSOconst_iterator<T>(*this, 0);
     }
     inline MSOconst_iterator<T> end() const {
-        return MSOconst_iterator<T>(*this, _size);
+        return MSOconst_iterator<T>(*this, getSize());
     }
     T operator[](quint32 pos) const {
         T t(ParsedObject::getData(), ParsedObject::getSize());
         quint32 i = 0;
         quint32 offset = 0;
         while (i < pos) {
-            offset += t._size;
+            offset += t.getSize();
             t = T(ParsedObject::getData() + offset,
                   ParsedObject::getSize() - offset);
             ++i;

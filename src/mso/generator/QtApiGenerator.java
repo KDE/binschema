@@ -99,20 +99,6 @@ public class QtApiGenerator {
 		for (Member m : s.members) {
 			printMemberDeclaration(out, m, s.name);
 		}
-		out.println("public:");
-		for (Member m : s.members) {
-			if (m.isSimple && m.condition != null) {
-				out.println("    bool _has_" + m.name + ";");
-			}
-		}
-		out.println("private:");
-		out.println("    inline operator bool () const { return _data; }");
-		out.println("    inline bool operator ! () const { return !_data; }");
-		out.println("    inline operator const void * () const { return _data; }");
-		out.println("    inline const " + s.name
-				+ "* operator->() const { return this; }");
-		out.println("    inline const " + s.name
-				+ "& operator*() const { return *this; }");
 		out.println("};");
 	}
 
@@ -142,7 +128,7 @@ public class QtApiGenerator {
 			String condition = m.condition;
 			if (m.isSimple && condition != null) {
 				condition = fixForMemberName(condition);
-				out.println(sp + "_has_" + m.name + " = " + condition + ";");
+				out.println(sp + "bool _has_" + m.name + " = " + condition + ";");
 				condition = "_has_" + m.name;
 			}
 			if (condition != null) {
@@ -283,7 +269,7 @@ public class QtApiGenerator {
 			}
 			out.println(sp + "m_" + m.name + " = MSOArray<" + m.type().name
 					+ ">(_d + _position, " + size + count + ");");
-			out.println(sp + "if (m_" + m.name + "._count != " + count
+			out.println(sp + "if (m_" + m.name + ".getCount() != " + count
 					+ ") return;");
 		} else if (m.size != null) {
 			String size = fixForMemberName(m.size);
@@ -337,7 +323,7 @@ public class QtApiGenerator {
 				out.println(sp2 + "_msize = " + name + ".getSize();");
 			} else {
 				out.println(sp2 + name + " = " + t.name + "(_d + _position);");
-				out.println(sp2 + "_msize = (" + name + ") ?" + t.name
+				out.println(sp2 + "_msize = (" + name + ".isValid()) ?" + t.name
 						+ "::getSize() : 0;");
 			}
 			if (!first) {
@@ -380,14 +366,14 @@ public class QtApiGenerator {
 		out.println("namespace " + config.namespace + " {");
 		for (Option o : c.options) {
 			String t = o.type.name;
-			out.println("    template <> const " + t + "* " + s.name + "::C_"
+			out.println("    template <> " + t + " " + s.name + "::C_"
 					+ m.name + "::get<" + t + ">() const {");
-			out.println("        return &_" + t + ";");
+			out.println("        return _" + t + ";");
 
 			out.println("    }");
 			out.println("    template <> bool " + s.name + "::C_" + m.name
 					+ "::is<" + t + ">() const {");
-			out.println("        return _" + t + ";");
+			out.println("        return _" + t + ".isValid();");
 
 			out.println("    }");
 		}
@@ -424,6 +410,7 @@ public class QtApiGenerator {
 			}
 		} else if (m.isChoice) {
 			Choice c = (Choice) m.type();
+			out.println("public:");
 			out.println("    class C_" + m.name + " {");
 			out.println("    friend class " + className + ";");
 			out.println("    private:");
@@ -432,7 +419,7 @@ public class QtApiGenerator {
 				out.println("        " + ct.name + " _" + ct.name + ";");
 			}
 			out.println("    public:");
-			out.println("        template <typename A> const A* get() const;");
+			out.println("        template <typename A> A get() const;");
 			out.println("        template <typename A> bool is() const;");
 			out.println("    };");
 			out.println("private:");
@@ -441,6 +428,13 @@ public class QtApiGenerator {
 			out.println("    C_" + m.name + " " + m.name
 					+ "() const { return m_" + m.name + "; }");
 		} else {
+			if (m.isOptional) {
+				if (m.isSimple) {
+					t = "MSOBasicNullable<" + t + ">";
+				} else {
+					t = "MSONullable<" + t + ">";
+				}
+			}
 			out.println("public:");
 			out.println("    " + t + " " + m.name + "() const { return m_"
 					+ m.name + "; }");
