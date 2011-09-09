@@ -2,6 +2,13 @@
 #define LEINPUT_H
 
 #include <QtCore/QtEndian>
+#include <QtCore/QByteArray>
+
+template <typename T>
+const T*
+toPtr(const T& t) {
+    return (t.isValid()) ?&t :0;
+}
 
 class FixedSizeParsedObject {
 private:
@@ -14,6 +21,9 @@ protected:
 public:
     inline const char* getData() const { return _data; }
     inline bool isValid() const { return _data; }
+    inline bool operator==(const FixedSizeParsedObject& o) {
+        return _data && o._data && _data == o._data;
+    }
 };
 
 class ParsedObject : public FixedSizeParsedObject {
@@ -37,12 +47,20 @@ private:
 public:
     explicit MSOCastArray() :_data(0), _count(0) {}
     explicit MSOCastArray(const T* data, qint32 count) :_data(data), _count(count) {}
-    const T* data() const;
-    QByteArray mid(int pos, int len = -1) const;
-    int size() const;
-    T operator[](int pos) const { return _data[pos]; }
-    bool operator!=(const QByteArray&);
-    operator QByteArray() const;
+    inline const T* getData() const { return _data; }
+    QByteArray mid(int pos, int len = -1) const {
+        if (pos > _count) return QByteArray();
+        if (len < 0 || len > _count - pos) {
+            len = _count - pos;
+        }
+        return QByteArray(_data + pos, len);
+    }
+    inline int getCount() const { return _count; }
+    inline T operator[](int pos) const { return _data[pos]; }
+    inline bool operator!=(const QByteArray& b) {
+        return QByteArray::fromRawData(_data, _count) != b;
+    }
+    inline operator QByteArray() const { return QByteArray(_data, _count); }
 };
 template <typename T> class MSOArray;
 template <typename T>
@@ -69,13 +87,14 @@ public:
 template <typename T>
 class MSONullable {
 private:
-    T t;
+    const char* data;
+    quint32 size;
 public:
-    MSONullable() {}
-    MSONullable(const T& data) :t(data) {}
-    inline bool isPresent() const { return t.isValid(); }
-    inline quint32 getSize() const { return t.getSize(); }
-    inline T operator * () const { return t; }
+    MSONullable() :data(0), size(0) {}
+    MSONullable(const T& data) :data(data.getData()), size(data.getSize()) {}
+    inline bool isPresent() const { return data; }
+    inline quint32 getSize() const { return size; }
+    inline T operator * () const { return T(data, size); }
 };
 template <typename T>
 class MSOBasicNullable {
@@ -138,7 +157,7 @@ public:
         T t(ParsedObject::getData(), ParsedObject::getSize());
         quint32 i = 0;
         quint32 offset = 0;
-        while (i < pos) {
+        while (i < pos && t.isValid()) {
             offset += t.getSize();
             t = T(ParsedObject::getData() + offset,
                   ParsedObject::getSize() - offset);

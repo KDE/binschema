@@ -298,6 +298,9 @@ public class QtApiGenerator {
 		if (m.isOptional) {
 			out.println(sp + "_msize = (m_" + m.name + ".isPresent()) ?m_" + m.name
 					+ ".getSize() :0;");
+		} else if (m.condition != null) {
+			out.println(sp + "if (!m_" + m.name + ".isPresent()) return;");
+			out.println(sp + "_msize = m_" + m.name + ".getSize();");
 		} else {
 			out.println(sp + "if (!m_" + m.name + ".isValid()) return;");
 			out.println(sp + "_msize = m_" + m.name + ".getSize();");
@@ -428,7 +431,7 @@ public class QtApiGenerator {
 			out.println("    C_" + m.name + " " + m.name
 					+ "() const { return m_" + m.name + "; }");
 		} else {
-			if (m.isOptional) {
+			if (m.isOptional || m.condition != null) {
 				if (m.isSimple) {
 					t = "MSOBasicNullable<" + t + ">";
 				} else {
