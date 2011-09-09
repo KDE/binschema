@@ -136,7 +136,7 @@ public class QtApiGenerator {
 				out.println(sp + "if (" + condition + ") {");
 				sp = "        ";
 			}
-			if (msize != -1 && s.size == -1) {
+			if (msize != -1) {
 				out.print(sp + "if (_position + " + msize);
 				if (m.isOptional) {
 					sp += "    ";
