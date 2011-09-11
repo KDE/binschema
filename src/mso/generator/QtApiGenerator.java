@@ -392,7 +392,7 @@ public class QtApiGenerator {
 				out.println("private:");
 				out.println("    MSOCastArray<" + t + "> m_" + m.name + ";");
 				out.println("public:");
-				out.println("    MSOCastArray<" + t + "> " + m.name
+				out.println("    const MSOCastArray<" + t + ">& " + m.name
 						+ "() const { return m_" + m.name + "; }");
 			}
 			if (m.isStruct || m.isChoice) {
@@ -400,13 +400,13 @@ public class QtApiGenerator {
 					out.println("private:");
 					out.println("    MSOArray<" + t + "> m_" + m.name + ";");
 					out.println("public:");
-					out.println("    MSOArray<" + t + "> " + m.name
+					out.println("    inline const MSOArray<" + t + ">& " + m.name
 							+ "() const { return m_" + m.name + "; }");
 				} else {
 					out.println("private:");
 					out.println("    MSOArray<" + t + "> m_" + m.name + ";");
 					out.println("public:");
-					out.println("    MSOArray<" + t + "> " + m.name
+					out.println("    inline const MSOArray<" + t + ">& " + m.name
 							+ "() const { return m_" + m.name + "; }");
 				}
 			}
@@ -437,11 +437,14 @@ public class QtApiGenerator {
 					t = "MSONullable<" + t + ">";
 				}
 			}
-			out.println("public:");
-			out.println("    " + t + " " + m.name + "() const { return m_"
-					+ m.name + "; }");
 			out.println("private:");
 			out.println("    " + t + " m_" + m.name + ";");
+			out.println("public:");
+			if (!m.isSimple || (m.isOptional || m.condition != null)) {
+				t = "const " + t + "&";
+			}
+			out.println("    inline " + t + " " + m.name + "() const { return m_"
+					+ m.name + "; }");
 		}
 	}
 
