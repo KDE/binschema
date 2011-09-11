@@ -77,9 +77,9 @@ public class QtApiGenerator {
 
 	private void printStructureClassDeclaration(PrintWriter out, Struct s) {
 		if (s.size == -1) {
-		    out.println("class " + s.name + " : public ParsedObject {");
+			out.println("class " + s.name + " : public ParsedObject {");
 		} else {
-		    out.println("class " + s.name + " : public FixedSizeParsedObject {");			
+			out.println("class " + s.name + " : public FixedSizeParsedObject {");
 		}
 		out.println("private:");
 		if (s.size == -1) {
@@ -111,12 +111,10 @@ public class QtApiGenerator {
 		// constructor
 		String c = definitionPrefix() + s.name + "::";
 		if (s.size == -1) {
-			out.println(c + s.name
-					+ "(const char* _d, quint32 _maxsize) {");
+			out.println(c + s.name + "(const char* _d, quint32 _maxsize) {");
 		} else {
 			out.println("const quint32 " + c + "_size = " + (s.size / 8) + ";");
-			out.println(c + s.name
-					+ "(const char* _d, quint32/*ignored*/) {");
+			out.println(c + s.name + "(const char* _d, quint32/*ignored*/) {");
 		}
 		out.println("    quint32 _position = 0;");
 		out.println("    quint32 _msize;");
@@ -128,7 +126,8 @@ public class QtApiGenerator {
 			String condition = m.condition;
 			if (m.isSimple && condition != null) {
 				condition = fixForMemberName(condition);
-				out.println(sp + "bool _has_" + m.name + " = " + condition + ";");
+				out.println(sp + "bool _has_" + m.name + " = " + condition
+						+ ";");
 				condition = "_has_" + m.name;
 			}
 			if (condition != null) {
@@ -136,7 +135,7 @@ public class QtApiGenerator {
 				out.println(sp + "if (" + condition + ") {");
 				sp = "        ";
 			}
-			if (msize != -1) {
+			if (msize != -1 && s.size == -1) {
 				out.print(sp + "if (_position + " + msize);
 				if (m.isOptional) {
 					sp += "    ";
@@ -296,8 +295,8 @@ public class QtApiGenerator {
 					+ "(_d + _position);");
 		}
 		if (m.isOptional) {
-			out.println(sp + "_msize = (m_" + m.name + ".isPresent()) ?m_" + m.name
-					+ ".getSize() :0;");
+			out.println(sp + "_msize = (m_" + m.name + ".isPresent()) ?m_"
+					+ m.name + ".getSize() :0;");
 		} else if (m.condition != null) {
 			out.println(sp + "if (!m_" + m.name + ".isPresent()) return;");
 			out.println(sp + "_msize = m_" + m.name + ".getSize();");
@@ -326,8 +325,8 @@ public class QtApiGenerator {
 				out.println(sp2 + "_msize = " + name + ".getSize();");
 			} else {
 				out.println(sp2 + name + " = " + t.name + "(_d + _position);");
-				out.println(sp2 + "_msize = (" + name + ".isValid()) ?" + t.name
-						+ "::getSize() : 0;");
+				out.println(sp2 + "_msize = (" + name + ".isValid()) ?"
+						+ t.name + "::getSize() : 0;");
 			}
 			if (!first) {
 				out.println(sp + "}");
@@ -369,8 +368,8 @@ public class QtApiGenerator {
 		out.println("namespace " + config.namespace + " {");
 		for (Option o : c.options) {
 			String t = o.type.name;
-			out.println("    template <> " + t + " " + s.name + "::C_"
-					+ m.name + "::get<" + t + ">() const {");
+			out.println("    template <> " + t + " " + s.name + "::C_" + m.name
+					+ "::get<" + t + ">() const {");
 			out.println("        return _" + t + ";");
 
 			out.println("    }");
@@ -458,8 +457,13 @@ public class QtApiGenerator {
 				mname = name;
 			}
 			if (!m.isStruct) {
-				mname = "((" + getTypeName(m.type()) + ")m_" + mname + ")";
+				if (m.condition == null) {
+					mname = "((" + getTypeName(m.type()) + ")m_" + mname + ")";
+				} else {
+					mname = "((" + getTypeName(m.type()) + ")*m_" + mname + ")";
+				}
 			}
+
 			String condition = l.expression;
 			if (condition == null) {
 				condition = QtParserGenerator.getCondition(mname, l);

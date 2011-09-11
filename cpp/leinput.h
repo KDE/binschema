@@ -3,6 +3,7 @@
 
 #include <QtCore/QtEndian>
 #include <QtCore/QByteArray>
+#include <QtCore/QDebug>
 
 template <typename T>
 const T*
@@ -87,14 +88,13 @@ public:
 template <typename T>
 class MSONullable {
 private:
-    const char* data;
-    quint32 size;
+    T t;
 public:
-    MSONullable() :data(0), size(0) {}
-    MSONullable(const T& data) :data(data.getData()), size(data.getSize()) {}
-    inline bool isPresent() const { return data; }
-    inline quint32 getSize() const { return size; }
-    inline T operator * () const { return T(data, size); }
+    MSONullable() {}
+    MSONullable(const T& data) :t(data) {}
+    inline bool isPresent() const { return t.isValid(); }
+    inline quint32 getSize() const { return t.getSize(); }
+    inline const T& operator * () const { return t; }
 };
 template <typename T>
 class MSOBasicNullable {
