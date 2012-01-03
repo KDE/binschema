@@ -1460,6 +1460,7 @@
 			<type type="OutlineTextRefAtom" />
 			<type type="TextContainer" />
 			<type type="TextRulerAtom" />
+			<type type="MouseClickTextInfo" />
 		</choice>
 	</struct>
 	<!-- our own invention -->
@@ -3259,6 +3260,8 @@
 			Only exists if shapeTertiaryOptions1 does not. -->
 		<type name="shapeTertiaryOptions2" type="OfficeArtTertiaryFOPT"
 			optional="true" />
+
+		<type name="shapePrimaryOptions2" type="OfficeArtFOPT" optional="true" />
 
 		<!-- Does not occur in the spec. (MSOffice2003 specific).  It
                      has the same length as RTFDateTimeMCAtom. -->
