@@ -14,6 +14,7 @@
 			<arg value="--dirty"/>
 			<arg value="--always"/>
 			<arg value="--tags"/>
+			<arg value="--long"/>
 		</exec>
 		<mkdir dir="bin" />
 		<propertyfile file="bin/version.properties">
