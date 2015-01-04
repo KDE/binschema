@@ -251,12 +251,10 @@
 			optional="true" />
 		<type name="slideList" type="SlideListWithTextContainer"
 			optional="true" />
-		<!--
-			occurrence of a SlideHeadersFootersContainer after slideList is not
-			documented
-		-->
-		<type name="slideHF2" type="SlideHeadersFootersContainer"
-			optional="true" />
+		<!-- MS-PPT spec. violation - element contents MUST by strictly
+		     ordered.  The 2nd presence of SlideHeadersFootersContainer
+		     is not documented. -->
+		<type name="slideHF2" type="SlideHeadersFootersContainer" optional="true" />
 		<type name="notesList" type="NotesListWithTextContainer"
 			optional="true" />
 		<type name="slideShowDocInfoAtom" type="SlideShowDocInfoAtom"
@@ -633,7 +631,7 @@
 		<type name="rgBlipEntityAtom" type="BlipEntityAtom" array="true"
 			size="rh.recLen" />
 		<!--
-			ToDo gBlipEntityAtom (variable): An array of BlipEntityAtom record
+			TODO: gBlipEntityAtom (variable): An array of BlipEntityAtom record
 			that specifies picture bullets. It MUST NOT contain more than one
 			BlipEntityAtom record with the same value of rh.recInstance.
 		-->
@@ -1013,7 +1011,7 @@
 		</int32>
 		<int32 name="commentIndexSeed">
 			<limitation expression="&gt;=0" />
-			<!-- To Do limitation seems tough to do -->
+			<!-- TODO: limitation seems tough to do -->
 		</int32>
 	</struct>
 	<struct name="FontEmbedFlags10Atom">
@@ -1395,36 +1393,54 @@
 		<type name="slidePersistAtom" type="SlidePersistAtom" />
 		<type name="atoms" type="TextContainer" array="true" />
 	</struct>
-	<!-- Our own invention, to keep text related containers together. -->
+	<struct name="TextClientDataSubContainerOrAtom">
+		<choice name="anon">
+			<type type="OutlineAtom" />
+			<type type="TextContainer" />
+		</choice>
+	</struct>
+	<!--
+	    This is an interpretation of the OfficeArtClientTextBoxAtom as
+	    specified by the ABNF grammar in the MS-PPT, p.420.
+	  -->
+	<struct name="OutlineAtom">
+		<type name="outlineTextRefAtom" type="OutlineTextRefAtom" />
+		<type name="textRulerAtom" type="TextRulerAtom" optional="true" />
+	</struct>
+	<!--
+	    This is an interpretation of the OfficeArtClientTextBoxAtom as
+	    specified by the ABNF grammar in the MS-PPT, p.420.
+	  -->
 	<struct name="TextContainer">
-		<!--
-			this is an interpretation of the ABNF in the MS-PPT doc
-		-->
 		<type name="textHeaderAtom" type="TextHeaderAtom" />
 		<choice name="text" optional="true">
 			<type type="TextCharsAtom" />
 			<type type="TextBytesAtom" />
 		</choice>
+		<!--
+		     TODO: TextStylePropAtom = *1(RT_StyleTextPropAtom / RT_MasterTextPropAtom)
+		  -->
 		<type name="style" type="StyleTextPropAtom" optional="true" />
 		<type name="meta" type="TextContainerMeta" array="true" />
 
 		<!-- Perhaps this does not belong here.  Following containers
-		     are optional and their order might differ.  See
-		     TextClientDataSubContainerOrAtom. -->
+		     are optional and their order might differ. -->
 
 		<type name="master" type="MasterTextPropAtom" optional="true" />
 		<type name="bookmark" type="TextBookmarkAtom" array="true" />
 
-		<!-- NOTE: Do not parse TextRulerAtom here, we need to have it
-		     outside to provide additional info to the content of both
-		     OutlineTextRefAtom or TextContainer. -->
-
-		<!--  Does not occur in the spec. (MSOffice2003 specific) -->
+		<!--  MS-PPT spec. violation - Unknown container (MS Office2003 specific). -->
 		<type name="unknown" type="UnknownTextContainerChild" optional="true" />
 		<type name="specialinfo" type="TextSpecialInfoAtom" optional="true" />
 		<type name="interactive" type="TextContainerInteractiveInfo" array="true" />
-		<!--  this second occurance is not according to the specification -->
+		<!--  ABNF violation - element contents MUST by strictly ordered. -->
 		<type name="specialinfo2" type="TextSpecialInfoAtom" optional="true" />
+		<!--
+		     TODO: TextOrMaster = *(RT_TextRulerAtom / RT_MasterTextPropAtom)
+		  -->
+		<type name="textRulerAtom" type="TextRulerAtom" optional="true" />
+		<!--  ABNF violation - element contents MUST by strictly ordered. -->
+		<type name="interactive2" type="TextContainerInteractiveInfo" array="true" />
 	</struct>
 	<!-- our own invention -->
 	<struct name="TextContainerMeta">
@@ -1453,15 +1469,6 @@
 	<struct name="MouseOverTextInfo">
 		<type name="interactive" type="MouseOverInteractiveInfoContainer" />
 		<type name="text" type="MouseOverTextInteractiveInfoAtom" />
-	</struct>
-	<!-- our own invention -->
-	<struct name="TextClientDataSubContainerOrAtom">
-		<choice name="anon">
-			<type type="OutlineTextRefAtom" />
-			<type type="TextContainer" />
-			<type type="TextRulerAtom" />
-			<type type="MouseClickTextInfo" />
-		</choice>
 	</struct>
 	<!-- our own invention -->
 	<struct name="SlidePersistAtom">
@@ -2199,7 +2206,7 @@
 	<struct name="PersistIdRef">
 		<uint32 name="anon">
 			<!--
-				TODO A 4-byte unsigned integer that specifies a reference to a
+				TODO: A 4-byte unsigned integer that specifies a reference to a
 				persist object. It MUST be 0x00000000 or equal to a persist object
 				identifier specified by a PersistDirectoryAtom record. The value
 				0x00000000 specifies a null reference.
@@ -2219,30 +2226,22 @@
 			<limitation name="recType" value="0x03F8" />
 		</type>
 		<type name="slideAtom" type="SlideAtom" />
-		<!--
-			it is not documented that a SlideShowSlideInfoAtom may appear here
-		-->
+		<!-- MS-PPT spec. violation - SlideShowSlideInfoAtom presence NOT documented -->
 		<type name="unknown" type="SlideShowSlideInfoAtom" optional="true" />
 		<type name="rgSchemeListElementColorScheme" type="SchemeListElementColorSchemeAtom"
 			array="true" />
 		<type name="rgTextMasterStyle" type="TextMasterStyleAtom" array="true" />
-		<type name="roundTripOArtTextSTyles12Atom" type="RoundTripOArtTextStyles12Atom"
-			optional="true" />
-		<type name="slideShowInfoAtom" type="SlideShowSlideInfoAtom"
-			optional="true" />
+		<type name="roundTripOArtTextSTyles12Atom" type="RoundTripOArtTextStyles12Atom" optional="true" />
+		<type name="slideShowInfoAtom" type="SlideShowSlideInfoAtom" optional="true" />
 		<type name="perSlideHeadersFootersContainer" type="PerSlideHeadersFootersContainer"
 			optional="true" />
 		<type name="drawing" type="DrawingContainer" />
 		<type name="slideSchemeColorSchemeAtom" type="SlideSchemeColorSchemeAtom" />
 		<type name="slideNameAtom" type="SlideNameAtom" optional="true" />
-		<type name="slideProgTagsContainer" type="SlideProgTagsContainer"
-			optional="true" />
-		<type name="rgRoundTripMainMaster" type="RoundTripMainMasterRecord"
-			array="true" />
+		<type name="slideProgTagsContainer" type="SlideProgTagsContainer" optional="true" />
+		<type name="rgRoundTripMainMaster" type="RoundTripMainMasterRecord" array="true" />
 		<type name="templateNameAtom" type="TemplateNameAtom" optional="true" />
-		<!--
-			it is not documented that a SlideProgTagsContainer may appear here
-		-->
+		<!-- MS-PPT spec. violation - SlideProgTagsContainer presence NOT documented -->
 		<type name="unknown3" type="SlideProgTagsContainer" optional="true" />
 	</struct>
 	<struct name="SchemeListElementColorSchemeAtom">
@@ -2347,9 +2346,8 @@
 		<type name="rgLinkedShape10Atom" type="LinkedShape10Atom" array="true" />
 		<type name="slideFlagsAtom" type="SlideFlags10Atom" optional="true" />
 		<type name="slideTimeAtom" type="SlideTime10Atom" optional="true" />
-		<!--
-			Structures with a member with rectype 0x101d occur in strange places.
-		-->
+		<!-- MS-PPT spec. violation - Structures with a member with
+		     rectype 0x101d occur in strange places. -->
 		<type name="unknown" type="UnknownSlideContainerChild" optional="true" />
 		<type name="hashCodeAtom" type="HashCode10Atom" optional="true" />
 		<type name="extTimeNodeContainer" type="ExtTimeNodeContainer"
@@ -2558,23 +2556,15 @@
 			<limitation name="recType" value="0x03F0" />
 		</type>
 		<type name="notesAtom" type="NotesAtom" />
-		<!--
-			perSlideHFContainer is not in the documentation
-		-->
-		<type name="perSlideHFContainer" type="PerSlideHeadersFootersContainer"
-			optional="true" />
+		<!-- MS-PPT spec. violation - perSlideHFContainer presence NOT documented. -->
+		<type name="perSlideHFContainer" type="PerSlideHeadersFootersContainer" optional="true" />
 		<type name="drawing" type="DrawingContainer" />
 		<type name="slideSchemeColorSchemeAtom" type="SlideSchemeColorSchemeAtom" />
 		<type name="slideNameAtom" type="SlideNameAtom" optional="true" />
-		<type name="slideProgTagsContainer" type="SlideProgTagsContainer"
-			optional="true" />
-		<!--
-			perSlideHFContainer2 is not in the documentation
-		-->
-		<type name="perSlideHFContainer2" type="PerSlideHeadersFootersContainer"
-			optional="true" />
-		<type name="rgNotesRoundTripAtom" type="NotesRoundTripAtom"
-			array="true" />
+		<type name="slideProgTagsContainer" type="SlideProgTagsContainer" optional="true" />
+		<!-- MS-PPT spec. violation - perSlideHFContainer presence NOT documented. -->
+		<type name="perSlideHFContainer2" type="PerSlideHeadersFootersContainer" optional="true" />
+		<type name="rgNotesRoundTripAtom" type="NotesRoundTripAtom" array="true" />
 	</struct>
 	<struct name="NotesAtom">
 		<type name="rh" type="RecordHeader">
@@ -3104,6 +3094,10 @@
 		<int16 name="yExt" />
 		<uint8 name="data" count="rh.recLen-6" />
 	</struct>
+
+	<!-- NOTE: The OfficeArtDggContainer provides default values => all
+	     containers except the header should be optional, which violates
+	     the MS-ODRAW spec. -->
 	<struct name="OfficeArtDggContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0xF" />
@@ -3112,30 +3106,17 @@
 		</type>
 		<type name="drawingGroup" type="OfficeArtFDGGBlock" />
 		<type name="blipStore" type="OfficeArtBStoreContainer" optional="true" />
-		<!--  different from spec -->
-		<!--
-			MS docs do not list drawingPrimaryOptions as optional
-		-->
 		<type name="drawingPrimaryOptions" type="OfficeArtFOPT" optional="true" />
-		<type name="drawingTertiaryOptions" type="OfficeArtTertiaryFOPT"
-			optional="true" />
-		<!--
-			MS docs do not list colorMRU as optional
-		-->
+		<type name="drawingTertiaryOptions" type="OfficeArtTertiaryFOPT" optional="true" />
 		<type name="colorMRU" type="OfficeArtColorMRUContainer" optional="true" />
+		<type name="splitColors" type="OfficeArtSplitMenuColorContainer" optional="true" />
 		<!--
-			MS docs do not list splitColors as optional
-		-->
-		<type name="splitColors" type="OfficeArtSplitMenuColorContainer" />
-		<!--
-			sometimes the order is messed up in openoffice generated documents
-			This second blipSore takes that into account, but is not according to
-			the specification.
+		    Sometimes the order is messed up in openoffice generated documents
+		    This second blipSore takes that into account, but is NOT according to
+		    the specification.
 		-->
 		<type name="blipStore2" type="OfficeArtBStoreContainer" optional="true" />
-		<!--
-			MS docs do not mention this instance of OfficeArtTertiaryFOPT
-		-->
+		<!-- MS-ODRAW spec. violation. -->
 		<type name="unknown" type="OfficeArtTertiaryFOPT" optional="true" />
 	</struct>
 	<struct name="OfficeArtDgContainer">
@@ -3145,19 +3126,10 @@
 			<limitation name="recType" value="0xF002" />
 		</type>
 		<type name="drawingData" type="OfficeArtFDG" optional="true" />
-		<!-- MS documentation does not say regroupItems is optional -->
 		<type name="regroupItems" type="OfficeArtFRITContainer" optional="true" />
-		<!--
-			MS documentation does not say regroupItems is optional but it is at
-			least in Excel
-		-->
 		<type name="groupShape" type="OfficeArtSpgrContainer" optional="true" />
-		<!-- MS documentation does not say shape is optional -->
 		<type name="shape" type="OfficeArtSpContainer" optional="true" />
-		<!-- MS documentation does not say shape is optional -->
-		<type name="deletedShapes" type="OfficeArtSpgrContainerFileBlock"
-			array="true" />
-		<!--  according to ms spec, solvers is not optional -->
+		<type name="deletedShapes" type="OfficeArtSpgrContainerFileBlock" array="true" />
 		<type name="solvers" type="OfficeArtSolverContainer" optional="true" />
 	</struct>
 	<struct name="OfficeArtFDGGBlock">
@@ -3233,6 +3205,7 @@
 			<type type="OfficeArtClientData" />
 		</choice>
 	</struct>
+	<!-- MS-ODRAW spec. violation - child containers NOT documented as optional -->
 	<struct name="OfficeArtSpContainer">
 		<type name="rh" type="OfficeArtRecordHeader">
 			<limitation name="recVer" value="0xF" />
@@ -3243,28 +3216,20 @@
 		<type name="shapeProp" type="OfficeArtFSP" />
 		<type name="deletedshape" type="OfficeArtFPSPL" optional="true" />
 		<type name="shapePrimaryOptions" type="OfficeArtFOPT" optional="true" />
-		<type name="shapeSecondaryOptions1" type="OfficeArtSecondaryFOPT"
-			optional="true" />
-		<type name="shapeTertiaryOptions1" type="OfficeArtTertiaryFOPT"
-			optional="true" />
+		<type name="shapeSecondaryOptions1" type="OfficeArtSecondaryFOPT" optional="true" />
+		<type name="shapeTertiaryOptions1" type="OfficeArtTertiaryFOPT" optional="true" />
 		<type name="childAnchor" type="OfficeArtChildAnchor" optional="true" />
 		<type name="clientAnchor" type="OfficeArtClientAnchor" optional="true" />
 		<type name="clientData" type="OfficeArtClientData" optional="true" />
-		<type name="clientTextbox" type="OfficeArtClientTextBox"
-			optional="true" />
-		<!--
-			Only exists if shapeSecondaryOptions1 does not. -->
-		<type name="shapeSecondaryOptions2" type="OfficeArtSecondaryFOPT"
-			optional="true" />
-		<!--
-			Only exists if shapeTertiaryOptions1 does not. -->
-		<type name="shapeTertiaryOptions2" type="OfficeArtTertiaryFOPT"
-			optional="true" />
-
+		<type name="clientTextbox" type="OfficeArtClientTextBox" optional="true" />
+		<!-- MS-ODRAW spec. violation - (MS Office2003/GoogleDocs specific). -->
 		<type name="shapePrimaryOptions2" type="OfficeArtFOPT" optional="true" />
-
-		<!-- Does not occur in the spec. (MSOffice2003 specific).  It
-                     has the same length as RTFDateTimeMCAtom. -->
+		<!-- This field MUST NOT exist if shapeSecondaryOptions1 exists. -->
+		<type name="shapeSecondaryOptions2" type="OfficeArtSecondaryFOPT" optional="true" />
+		<!-- This field MUST NOT exist if shapeTertiaryOptions1 exists. -->
+		<type name="shapeTertiaryOptions2" type="OfficeArtTertiaryFOPT" optional="true" />
+		<!-- MS-ODRAW spec. violation - unknown container (MSOffice2003
+                     specific).  It has the same length as RTFDateTimeMCAtom. -->
 		<type name="unknown" type="UnknownTextContainerChild" optional="true" />
 	</struct>
 	<struct name="OfficeArtInlineSpContainer">
@@ -3466,6 +3431,7 @@
 			<type type="LineEndArrowWidth" />
 			<type type="LineEndArrowLength" />
 			<type type="LineJoinStyle" />
+			<type type="LineEndCapStyle" />
 			<type type="LineStyleBooleanProperties" />
 			<type type="ShadowType" />
 			<type type="ShadowColor" />
@@ -4377,6 +4343,16 @@
 			<limitation expression="&lt;=2" />
 		</uint32>
 	</struct>
+	<struct name="LineEndCapStyle">
+		<type name="opid" type="OfficeArtFOPTEOPID">
+			<limitation name="opid" value="0x01D7" />
+			<limitation name="fBid" value="false" />
+			<limitation name="fComplex" value="false" />
+		</type>
+		<uint32 name="lineEndCapStyle">
+			<limitation expression="&lt;=3" />
+		</uint32>
+	</struct>
 	<struct name="LineStyleBooleanProperties">
 		<type name="opid" type="OfficeArtFOPTEOPID">
 			<limitation name="opid" value="0x01FF" />
@@ -4931,7 +4907,7 @@
 			optional="true" />
 		<type name="mouseOverInteractiveInfo" type="MouseOverInteractiveInfoContainer"
 			optional="true" />
-		<!--  sometimes this array occurs here -->
+		<!--  MS-PPT spec. violation - sometimes this array occurs here -->
 		<type name="rgShapeClientRoundtripData0" type="ShapeClientRoundtripDataSubcontainerOrAtom"
 			array="true" />
 		<type name="placeholderAtom" type="PlaceholderAtom" optional="true" />
