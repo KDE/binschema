@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,6 +20,22 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 public class ParserGeneratorRunner {
+
+	static final String version = getVersion();
+
+	static private String getVersion() {
+		String version = "unknown";
+		Properties p = new Properties();
+		try {
+			InputStream in = open("version.properties");
+			p.load(in);
+			in.close();
+			version = p.getProperty("version");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return version;
+	}
 
 	public static void main(String[] args) throws Exception {
 		final String xsdfilename = "mso.xsd";
@@ -96,7 +113,7 @@ public class ParserGeneratorRunner {
 		g.generate(mso);
 	}
 
-	InputStream open(String name) throws Exception {
+	static InputStream open(String name) throws Exception {
 		File f = new File(name);
 		if (f.canRead()) {
 			System.out.println("Reading " + f.getAbsolutePath());
@@ -108,7 +125,7 @@ public class ParserGeneratorRunner {
 			return new FileInputStream(f.getAbsolutePath());
 		}
 		System.out.println("Reading " + name + " from jar file.");
-		return getClass().getResourceAsStream("/" + name);
+		return ParserGeneratorRunner.class.getResourceAsStream("/" + name);
 	}
 
 	Validator createValidator(String xsdfilename) throws Exception {

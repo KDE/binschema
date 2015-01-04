@@ -4,11 +4,23 @@
 	<!-- The latest version of the POI library can be found at
 		http://poi.apache.org
 		http://archive.apache.org/dist/poi/release/bin/
-	     Download it and adapt the path below to use it.
+		 Download it and adapt the path below to use it.
 	-->
 	<property name="classpath" location="bin;lib/poi-3.11-20141221.jar" />
-	<target name="compileGenerator">
+	<target name="gitVersion">
+		<exec executable="git" outputproperty="msoscheme-version" errorproperty="error">
+			<arg value="describe"/>
+			<arg value="--abbrev=40"/>
+			<arg value="--dirty"/>
+			<arg value="--always"/>
+			<arg value="--tags"/>
+		</exec>
 		<mkdir dir="bin" />
+		<propertyfile file="bin/version.properties">
+			<entry key="version" value="${msoscheme-version}"/>
+		</propertyfile>
+	</target>
+	<target name="compileGenerator" depends="gitVersion">
 		<copy file="src/mso.xml" todir="bin" />
 		<copy file="src/mso.xsd" todir="bin" />
 		<javac source="1.6" srcdir="src" destdir="bin" excludes="mso/javaparser/**" classpath="${classpath}" debug="on" debuglevel="source" />
@@ -27,7 +39,7 @@
 		<java classname="mso.javaparser.ParserTester" classpath="${classpath}" />
 	</target>
 	<target name="mso.jar" depends="testJavaParser" description="package the compiled code in a jar">
-		<jar destfile="mso.jar" basedir="bin" includes="mso/generator/**,mso.xml,mso.xsd" level="9">
+		<jar destfile="mso.jar" basedir="bin" includes="mso/generator/**,mso.xml,mso.xsd,version.properties" level="9">
 			<manifest>
 				<attribute name="Main-Class" value="mso.generator.ParserGeneratorRunner" />
 			</manifest>
