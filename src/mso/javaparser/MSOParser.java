@@ -41,6 +41,7 @@ public class MSOParser {
 				DocumentInputStream in = new DocumentInputStream(e);
 				byte datain[] = new byte[e.getSize()];
 				if (datain.length != in.read(datain, 0, datain.length)) {
+					in.close();
 					throw new IOException("could not read all data");
 				}
 				LEInputStream lei = new LEInputStream(datain);
@@ -48,6 +49,7 @@ public class MSOParser {
 				Object mso = parser.parse(name, lei);
 				if (lei.getPosition() != lei.getSize()) {
 					// try {
+					in.close();
 					throw new IOException("trailing data in stream "
 							+ e.getName() + ": "
 							+ (lei.getSize() - lei.getPosition()) + " bytes");

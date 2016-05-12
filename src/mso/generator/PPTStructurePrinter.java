@@ -61,6 +61,7 @@ public class PPTStructurePrinter {
 				DocumentInputStream in = new DocumentInputStream(e);
 				byte datain[] = new byte[e.getSize()];
 				if (datain.length != in.read(datain, 0, datain.length)) {
+					in.close();
 					throw new IOException("could not read all data");
 				}
 				in.close();
