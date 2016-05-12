@@ -6,8 +6,6 @@ import mso.generator.utils.Member.ByteArray;
 
 public class FixedChoice extends TypeRegistry.Type {
 
-	final private SortedSet<ByteArray> texts;
-
 	private static int getSize(SortedSet<ByteArray> texts) {
 		if (texts.size() == 0) {
 			return 0;
@@ -26,7 +24,6 @@ public class FixedChoice extends TypeRegistry.Type {
 	FixedChoice(TypeRegistry registry, String name, SortedSet<ByteArray> texts,
 			boolean optional) {
 		registry.super(registry, name, getSize(texts));
-		this.texts = texts;
 	}
 
 }
