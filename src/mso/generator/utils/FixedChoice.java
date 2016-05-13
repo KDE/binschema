@@ -26,7 +26,7 @@ public class FixedChoice extends Type {
 
 	FixedChoice(TypeRegistry registry, String name, SortedSet<ByteArray> texts,
 			boolean optional) {
-		super(registry, registry, name, getSize(texts));
+		super(registry, name, getSize(texts));
 	}
 
 }

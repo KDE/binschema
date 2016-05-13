@@ -24,7 +24,7 @@ public class Choice extends Type {
 
 	Choice(TypeRegistry registry, String name, List<Struct> choices,
 			boolean optional) {
-		super(registry, registry, name, getSize(choices));
+		super(registry, name, getSize(choices));
 		Type common = null;
 		for (Struct s : choices) {
 			Option o = new Option(s, common);
@@ -88,7 +88,7 @@ public class Choice extends Type {
 	 * Return true if not all of the limitations in a are sure to be present in
 	 * b. Err on the side of safety: if unsure return false;
 	 */
-	static private boolean noOverlap(Option.Lim a, Option.Lim b) {
+	static private boolean noOverlap(Lim a, Lim b) {
 		if (a.limitations == null && a.lims == null)
 			return false;
 		if (a.limitations != null) {
@@ -97,7 +97,7 @@ public class Choice extends Type {
 			}
 		}
 		if (a.lims != null) {
-			for (Option.Lim sa : a.lims) {
+			for (Lim sa : a.lims) {
 				if (!noOverlap(sa, b)) {
 					return false;
 				}
@@ -106,7 +106,7 @@ public class Choice extends Type {
 		return true;
 	}
 
-	static private boolean noOverlap(Limitation a[], Option.Lim b) {
+	static private boolean noOverlap(Limitation a[], Lim b) {
 		if (b.limitations == null && b.lims == null)
 			return false;
 		if (b.limitations != null) {
@@ -115,7 +115,7 @@ public class Choice extends Type {
 			}
 		}
 		if (b.lims != null) {
-			for (Option.Lim sb : b.lims) {
+			for (Lim sb : b.lims) {
 				if (!noOverlap(a, sb)) {
 					return false;
 				}
@@ -194,7 +194,7 @@ public class Choice extends Type {
 	}
 
 	private void removeNonDistinctiveLimitations() {
-		Option.Lim a = options.get(0).lim;
+		Lim a = options.get(0).lim;
 		if (a.limitations != null) {
 			for (int i = 0; i < a.limitations.length; ++i) {
 				Limitation l = a.limitations[i];

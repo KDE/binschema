@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.eclipse.jdt.annotation.Nullable;
 
 import mso.generator.utils.Choice;
+import mso.generator.utils.Lim;
 import mso.generator.utils.Limitation;
 import mso.generator.utils.MSO;
 import mso.generator.utils.Member;
@@ -840,7 +841,7 @@ public class QtParserGenerator {
 	}
 
 	private static String getClause(String name, Type t,
-			Option.Lim lim) {
+			Lim lim) {
 		String ls = "";
 		if (lim.limitations != null && lim.limitations.length > 0) {
 			for (int i = 0; i < lim.limitations.length; ++i) {
@@ -857,7 +858,7 @@ public class QtParserGenerator {
 			}
 		} else if (lim.lims != null && lim.lims.length > 0) {
 			for (int i = 0; i < lim.lims.length; ++i) {
-				Option.Lim l = lim.lims[i];
+				Lim l = lim.lims[i];
 				String condition = getClause(name, t, l);
 				if (ls.length() > 0) {
 					ls += "||";

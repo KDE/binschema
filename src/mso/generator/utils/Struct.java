@@ -74,7 +74,7 @@ public class Struct extends Type {
 	}
 
 	Struct(TypeRegistry registry, Element e) throws IOException {
-		super(registry, registry, e.getAttribute("name"), getSize(registry, e));
+		super(registry, e.getAttribute("name"), getSize(registry, e));
 		sizeExpression = e.getAttribute("size");
 
 		boolean _containsArrayMember = false;
