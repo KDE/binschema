@@ -840,8 +840,7 @@ public class QtParserGenerator {
 		}
 	}
 
-	private static String getClause(String name, Type t,
-			Lim lim) {
+	private static String getClause(String name, Type t, Lim lim) {
 		String ls = "";
 		if (lim.limitations != null && lim.limitations.length > 0) {
 			for (int i = 0; i < lim.limitations.length; ++i) {
@@ -983,7 +982,7 @@ public class QtParserGenerator {
 	private void printOptionalMemberParser(PrintWriter out, String s,
 			Member m) {
 		out.println(s + "_m = in.setMark();");
-		Option o = new Option((Struct) m.type(), null);
+		Option o = Option.parseOption((Struct) m.type(), null);
 		String type = getTypeName(o.limitsType);
 		out.println(s + "try {");
 		out.println(s + "    " + type + " _optionCheck(&_s);");

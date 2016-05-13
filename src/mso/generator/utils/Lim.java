@@ -2,7 +2,17 @@ package mso.generator.utils;
 
 public class Lim {
 	public Limitation[] limitations;
-	public Lim[] lims;
+	public final Lim[] lims;
+
+	Lim(Lim lims[]) {
+		this.lims = lims;
+		this.limitations = null;
+	}
+
+	Lim(Limitation lims[]) {
+		this.lims = null;
+		this.limitations = lims;
+	}
 
 	boolean containsCommonLimitation(Limitation l) {
 		if (limitations != null) {

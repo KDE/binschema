@@ -27,7 +27,7 @@ public class Choice extends Type {
 		super(registry, name, getSize(choices));
 		Type common = null;
 		for (Struct s : choices) {
-			Option o = new Option(s, common);
+			Option o = Option.parseOption(s, common);
 			if (common != null && o.limitsType != common
 					&& !compareTypes(common, o.limitsType)) {
 				throw new Error("Conflicting common type: " + common.name
