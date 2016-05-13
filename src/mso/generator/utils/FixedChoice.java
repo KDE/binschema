@@ -7,7 +7,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 import mso.generator.utils.Member.ByteArray;
 
 @NonNullByDefault
-public class FixedChoice extends TypeRegistry.Type {
+public class FixedChoice extends Type {
 
 	private static int getSize(SortedSet<ByteArray> texts) {
 		if (texts.size() == 0) {
@@ -26,7 +26,7 @@ public class FixedChoice extends TypeRegistry.Type {
 
 	FixedChoice(TypeRegistry registry, String name, SortedSet<ByteArray> texts,
 			boolean optional) {
-		registry.super(registry, name, getSize(texts));
+		super(registry, registry, name, getSize(texts));
 	}
 
 }

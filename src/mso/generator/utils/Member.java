@@ -101,7 +101,7 @@ public class Member {
 				String type = ((Element) l.item(i)).getAttribute("type");
 				Element ce = getStructElement(msoelement, type);
 				choiceName += type;
-				TypeRegistry.Type t = registry.getType(ce.getAttribute("name"));
+				Type t = registry.getType(ce.getAttribute("name"));
 				if (t instanceof Struct) {
 					choices.add((Struct) t);
 				} else {
@@ -163,7 +163,7 @@ public class Member {
 		limitations = _limitations.toArray(new Limitation[0]);
 	}
 
-	public TypeRegistry.Type type() {
+	public Type type() {
 		return registry.getType(typeName);
 	}
 

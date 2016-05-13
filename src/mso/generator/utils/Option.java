@@ -33,10 +33,10 @@ public class Option {
 	}
 
 	public Struct type;
-	public TypeRegistry.Type limitsType;
+	public Type limitsType;
 	public Lim lim = new Lim();
 
-	public Option(Struct s, TypeRegistry.Type suggestedType) {
+	public Option(Struct s, Type suggestedType) {
 		type = s;
 		setLimitations(s, suggestedType);
 	}
@@ -50,14 +50,14 @@ public class Option {
 		limitsType = c.commonType;
 	}
 
-	private void setLimitations(Struct s, TypeRegistry.Type suggestedType) {
+	private void setLimitations(Struct s, Type suggestedType) {
 		Member m = s.members.get(0);
 		System.out.println(
 				type.name + " " + s.name + " , " + m.name + " . " + m.type());
 		if (m.isOptional) {
 			throw new Error("choice member may not be optional");
 		}
-		TypeRegistry.Type t = m.type();
+		Type t = m.type();
 		if (t instanceof Choice) {
 			setLimitations((Choice) t);
 			return;

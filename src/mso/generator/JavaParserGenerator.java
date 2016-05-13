@@ -12,6 +12,7 @@ import mso.generator.utils.MSO;
 import mso.generator.utils.Member;
 import mso.generator.utils.Stream;
 import mso.generator.utils.Struct;
+import mso.generator.utils.Type;
 import mso.generator.utils.TypeRegistry;
 
 public class JavaParserGenerator {
@@ -164,7 +165,7 @@ public class JavaParserGenerator {
 	}
 
 	private static String getTypeName(Member m) {
-		final TypeRegistry.Type t = m.type();
+		final Type t = m.type();
 		final TypeRegistry r = m.registry;
 		if (t instanceof Struct) {
 			return m.type().name;

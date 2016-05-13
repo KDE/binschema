@@ -7,9 +7,9 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 
 @NonNullByDefault
-public class Choice extends TypeRegistry.Type {
+public class Choice extends Type {
 
-	public final TypeRegistry.@Nullable Type commonType;
+	public final @Nullable Type commonType;
 	public final List<Option> options = new ArrayList<Option>();
 
 	private static int getSize(List<Struct> choices) {
@@ -24,8 +24,8 @@ public class Choice extends TypeRegistry.Type {
 
 	Choice(TypeRegistry registry, String name, List<Struct> choices,
 			boolean optional) {
-		registry.super(registry, name, getSize(choices));
-		TypeRegistry.Type common = null;
+		super(registry, registry, name, getSize(choices));
+		Type common = null;
 		for (Struct s : choices) {
 			Option o = new Option(s, common);
 			if (common != null && o.limitsType != common
@@ -164,8 +164,7 @@ public class Choice extends TypeRegistry.Type {
 		return true;
 	}
 
-	static private boolean structsWithSameMembers(TypeRegistry.@Nullable Type a,
-			TypeRegistry.Type b) {
+	static private boolean structsWithSameMembers(@Nullable Type a, Type b) {
 		if (a instanceof Struct && b instanceof Struct) {
 			Struct as = (Struct) a;
 			Struct bs = (Struct) b;
@@ -182,8 +181,7 @@ public class Choice extends TypeRegistry.Type {
 		return false;
 	}
 
-	static private boolean compareTypes(TypeRegistry.@Nullable Type a,
-			TypeRegistry.Type b) {
+	static private boolean compareTypes(@Nullable Type a, Type b) {
 		return a == b || structsWithSameMembers(a, b);
 	}
 

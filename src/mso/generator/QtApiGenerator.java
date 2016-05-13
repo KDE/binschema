@@ -15,6 +15,7 @@ import mso.generator.utils.MSO;
 import mso.generator.utils.Member;
 import mso.generator.utils.Option;
 import mso.generator.utils.Struct;
+import mso.generator.utils.Type;
 import mso.generator.utils.TypeRegistry;
 
 public class QtApiGenerator {
@@ -334,7 +335,7 @@ public class QtApiGenerator {
 		boolean first = true;
 		String sp2 = sp;
 		for (Option o : c.options) {
-			TypeRegistry.Type t = o.type;
+			Type t = o.type;
 			if (!first) {
 				out.println(sp + "if (_msize == 0) {");
 			}
@@ -360,7 +361,7 @@ public class QtApiGenerator {
 		}
 	}
 
-	private static String getTypeName(TypeRegistry.Type t) {
+	private static String getTypeName(Type t) {
 		TypeRegistry r = t.registry;
 		if (t instanceof Choice) {
 			return t.name;
@@ -382,7 +383,7 @@ public class QtApiGenerator {
 		return t.name;
 	}
 
-	private void printChoiceAccessor(PrintWriter out, TypeRegistry.Type s,
+	private void printChoiceAccessor(PrintWriter out, Type s,
 			Member m) {
 		Choice c = (Choice) m.type();
 		out.println("namespace " + config.namespace + " {");
@@ -437,7 +438,7 @@ public class QtApiGenerator {
 			out.println("    friend class " + className + ";");
 			out.println("    private:");
 			for (Option o : c.options) {
-				TypeRegistry.Type ct = o.type;
+				Type ct = o.type;
 				out.println("        " + ct.name + " _" + ct.name + ";");
 			}
 			out.println("    public:");

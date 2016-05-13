@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 @NonNullByDefault
-public class Struct extends TypeRegistry.Type {
+public class Struct extends Type {
 
 	public final List<Member> members = new ArrayList<Member>();
 	final String sizeExpression;
@@ -74,7 +74,7 @@ public class Struct extends TypeRegistry.Type {
 	}
 
 	Struct(TypeRegistry registry, Element e) throws IOException {
-		registry.super(registry, e.getAttribute("name"), getSize(registry, e));
+		super(registry, registry, e.getAttribute("name"), getSize(registry, e));
 		sizeExpression = e.getAttribute("size");
 
 		boolean _containsArrayMember = false;

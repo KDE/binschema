@@ -24,7 +24,7 @@ public class MSO {
 				.getOrderedStructureList(dom);
 		for (Element e : orderedElements) {
 			String typeName = e.getAttribute("name");
-			TypeRegistry.Type t = typeRegistry.getType(typeName);
+			Type t = typeRegistry.getType(typeName);
 			Struct s = null;
 			if (t instanceof Struct) {
 				s = (Struct) t;

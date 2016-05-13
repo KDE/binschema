@@ -16,6 +16,7 @@ import mso.generator.utils.Member;
 import mso.generator.utils.Option;
 import mso.generator.utils.Stream;
 import mso.generator.utils.Struct;
+import mso.generator.utils.Type;
 import mso.generator.utils.TypeRegistry;
 
 public class QtParserGenerator {
@@ -519,7 +520,7 @@ public class QtParserGenerator {
 		}
 	}
 
-	private String getTypeName(TypeRegistry.Type t) {
+	private String getTypeName(Type t) {
 		TypeRegistry r = t.registry;
 		if (t instanceof Choice) {
 			return createChoiceClass(t.name, (Choice) t);
@@ -830,7 +831,7 @@ public class QtParserGenerator {
 	private void printChoiceParser(PrintWriter out, String s, String structure,
 			Member m) {
 		final Choice c = (Choice) m.type();
-		final TypeRegistry.Type commonType = c.commonType;
+		final Type commonType = c.commonType;
 		if (commonType == null) {
 			printUnsureChoiceParser(out, s, structure, m);
 		} else {
@@ -838,7 +839,7 @@ public class QtParserGenerator {
 		}
 	}
 
-	private static String getClause(String name, TypeRegistry.Type t,
+	private static String getClause(String name, Type t,
 			Option.Lim lim) {
 		String ls = "";
 		if (lim.limitations != null && lim.limitations.length > 0) {
@@ -868,7 +869,7 @@ public class QtParserGenerator {
 	}
 
 	private void printSureChoiceParser(PrintWriter out, String s,
-			String structure, Member m, TypeRegistry.Type commonType) {
+			String structure, Member m, Type commonType) {
 		out.println(s + "_m = in.setMark();");
 		Choice c = (Choice) m.type();
 		String type = getTypeName(commonType);
