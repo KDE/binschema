@@ -23,7 +23,7 @@ public class ParserGeneratorRunner {
 
 	static final String version = getVersion();
 
-	static private String getVersion() {
+	private static String getVersion() {
 		String version = "unknown";
 		Properties p = new Properties();
 		try {
@@ -40,17 +40,16 @@ public class ParserGeneratorRunner {
 	public static void main(String[] args) throws Exception {
 		final String xsdfilename = "mso.xsd";
 
-		ParserGeneratorRunner pgr = new ParserGeneratorRunner();
 		new File("src/mso/javaparser").mkdirs();
 
-		final Validator v = pgr.createValidator(xsdfilename);
+		final Validator v = createValidator(xsdfilename);
 
 		// pgr.generate(v, "pdf.xml", "PDF", "cpp");
-		pgr.generate(v, "mso.xml", "MSO", "cpp");
+		generate(v, "mso.xml", "MSO", "cpp");
 	}
 
-	void generate(Validator v, String xmlfilename, String namespace,
-			String cppdir) throws SAXException, IOException,
+	private static void generate(Validator v, String xmlfilename,
+			String namespace, String cppdir) throws SAXException, IOException,
 					ParserConfigurationException, Exception {
 		v.validate(new StreamSource(open(xmlfilename)));
 		final Document dom = DocumentBuilderFactory.newInstance()
@@ -63,15 +62,16 @@ public class ParserGeneratorRunner {
 		generateApi(mso, namespace, "api", cppdir);
 	}
 
-	void generateJavaParser(MSO mso, String namespace) throws IOException {
+	private static void generateJavaParser(MSO mso, String namespace)
+			throws IOException {
 		final JavaParserGenerator g = new JavaParserGenerator();
 		String l = namespace.toLowerCase();
 		String il = namespace.substring(0, 1) + l.substring(1);
 		g.generate(mso, "src", l + ".javaparser", "Generated" + il + "Parser");
 	}
 
-	void generateQtParser(MSO mso, String namespace, String basename,
-			String outputdir) throws IOException {
+	private static void generateQtParser(MSO mso, String namespace,
+			String basename, String outputdir) throws IOException {
 		// generate a parser with introspection
 		final QtParserGenerator g = new QtParserGenerator(namespace, basename,
 				outputdir);
@@ -84,8 +84,8 @@ public class ParserGeneratorRunner {
 		g.generate(mso);
 	}
 
-	void generateSimpleQtParser(MSO mso, String namespace, String basename,
-			String outputdir) throws IOException {
+	private static void generateSimpleQtParser(MSO mso, String namespace,
+			String basename, String outputdir) throws IOException {
 		// generate a parser with introspection
 		final QtParserGenerator g = new QtParserGenerator(namespace, basename,
 				outputdir);
@@ -98,7 +98,7 @@ public class ParserGeneratorRunner {
 		g.generate(mso);
 	}
 
-	void generateApi(MSO mso, String namespace, String basename,
+	private static void generateApi(MSO mso, String namespace, String basename,
 			String outputdir) throws IOException {
 		// generate a minimal parser but with a public header
 		final QtApiGenerator g = new QtApiGenerator(namespace, basename,
@@ -107,7 +107,7 @@ public class ParserGeneratorRunner {
 		g.generate(mso);
 	}
 
-	static InputStream open(String name) throws Exception {
+	private static InputStream open(String name) throws Exception {
 		File f = new File(name);
 		if (f.canRead()) {
 			System.out.println("Reading " + f.getAbsolutePath());
@@ -122,7 +122,8 @@ public class ParserGeneratorRunner {
 		return ParserGeneratorRunner.class.getResourceAsStream("/" + name);
 	}
 
-	Validator createValidator(String xsdfilename) throws Exception {
+	private static Validator createValidator(String xsdfilename)
+			throws Exception {
 		// define the type of schema - we use W3C:
 		String schemaLang = "http://www.w3.org/2001/XMLSchema";
 

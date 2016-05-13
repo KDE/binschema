@@ -80,7 +80,7 @@ public class JavaParserGenerator {
 		fout.close();
 	}
 
-	void printStructureParser(PrintWriter out, Struct s) {
+	private static void printStructureParser(PrintWriter out, Struct s) {
 		out.println("    " + s.name + " parse" + s.name
 				+ "(LEInputStream in) throws IOException  {");
 		out.println("        " + s.name + " _s = new " + s.name + "();");
@@ -109,7 +109,7 @@ public class JavaParserGenerator {
 		out.println("    }");
 	}
 
-	void printStructureWriter(PrintWriter out, Struct s) {
+	private static void printStructureWriter(PrintWriter out, Struct s) {
 		out.println("    void write(" + s.name
 				+ " _s, LEOutputStream out) throws IOException  {");
 		for (Member m : s.members) {
@@ -118,7 +118,7 @@ public class JavaParserGenerator {
 		out.println("    }");
 	}
 
-	void printStructureMemberWriter(PrintWriter out, Member m) {
+	private static void printStructureMemberWriter(PrintWriter out, Member m) {
 		String s = "        ";
 		if (m.condition != null) {
 			out.println(
@@ -163,7 +163,7 @@ public class JavaParserGenerator {
 		}
 	}
 
-	String getTypeName(Member m) {
+	private static String getTypeName(Member m) {
 		final TypeRegistry.Type t = m.type();
 		final TypeRegistry r = m.registry;
 		if (t instanceof Struct) {
@@ -185,7 +185,7 @@ public class JavaParserGenerator {
 		return t.name;
 	}
 
-	String getMemberDeclaration(Member m) {
+	private static String getMemberDeclaration(Member m) {
 		if (m.isArray) {
 			if (m.count == null) {
 				return "final java.util.List<" + m.type().name + "> " + m.name
@@ -198,7 +198,7 @@ public class JavaParserGenerator {
 		}
 	}
 
-	void printStructureClass(PrintWriter out, Struct s) {
+	private static void printStructureClass(PrintWriter out, Struct s) {
 		out.println("class " + s.name + " {");
 		for (Member m : s.members) {
 			String d = getMemberDeclaration(m);
@@ -223,7 +223,7 @@ public class JavaParserGenerator {
 
 	}
 
-	static String prependStructureToExpression(String expression,
+	private static String prependStructureToExpression(String expression,
 			String structureName) {
 		if (expression.length() > 0) {
 			Pattern p = Pattern.compile("([^.\\w])([.a-zA-Z])");
@@ -236,7 +236,7 @@ public class JavaParserGenerator {
 		return expression;
 	}
 
-	void printStructureMemberParser(PrintWriter out, Member m) {
+	private static void printStructureMemberParser(PrintWriter out, Member m) {
 		String s = "        ";
 		String condition = null;
 		if (m.condition != null) {
@@ -296,7 +296,7 @@ public class JavaParserGenerator {
 		}
 	}
 
-	void printChoiceParser(PrintWriter out, String s, Member m) {
+	private static void printChoiceParser(PrintWriter out, String s, Member m) {
 		String closing = "";
 		String exception = "_x";
 		out.println(s + "_m = in.setMark();");
@@ -329,7 +329,7 @@ public class JavaParserGenerator {
 		out.println(s + "}");
 	}
 
-	void printFixedSizeArrayParser(PrintWriter out, String s, Member m,
+	private static void printFixedSizeArrayParser(PrintWriter out, String s, Member m,
 			String msize) {
 		out.println(s + "int _startPos = in.getPosition();");
 		out.println(s + "while (in.getPosition() - _startPos < "
@@ -340,7 +340,7 @@ public class JavaParserGenerator {
 		out.println(s + "}");
 	}
 
-	void printVariableArrayParser(PrintWriter out, String s, Member m) {
+	private static void printVariableArrayParser(PrintWriter out, String s, Member m) {
 		out.println(s + "_atend = false;");
 		out.println(s + "while (!_atend) {");
 		// out
@@ -370,7 +370,7 @@ public class JavaParserGenerator {
 		out.println(s + "}");
 	}
 
-	void printOptionalMemberParser(PrintWriter out, String s, Member m) {
+	private static void printOptionalMemberParser(PrintWriter out, String s, Member m) {
 		out.println(s + "_m = in.setMark();");
 		out.println(s + "try {");
 		out.println(
@@ -386,7 +386,7 @@ public class JavaParserGenerator {
 		out.println(s + "}");
 	}
 
-	void printLimitationCheck(PrintWriter out, String s, String name,
+	private static void printLimitationCheck(PrintWriter out, String s, String name,
 			Member m) {
 		for (Limitation l : m.limitations) {
 			String mname = l.name;
@@ -413,14 +413,14 @@ public class JavaParserGenerator {
 		}
 	}
 
-	static String getExpression(String structure, String expression) {
+	private static String getExpression(String structure, String expression) {
 		if (Pattern.matches(".*[A-Za-z].*", expression)) {
 			return prependStructureToExpression(expression, structure);
 		}
 		return structure + expression;
 	}
 
-	static String getCondition(String mname, Limitation l) {
+	private static String getCondition(String mname, Limitation l) {
 		final String value = l.value;
 		final String expression = l.expression;
 		if (value != null) {
@@ -432,7 +432,7 @@ public class JavaParserGenerator {
 		}
 	}
 
-	static String getCondition(String name, String value) {
+	private static String getCondition(String name, String value) {
 		String cmp = " == ";
 		String cmb = " || ";
 		if (value.startsWith("!")) {

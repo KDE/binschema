@@ -28,7 +28,6 @@ public class PPTStructurePrinter {
 	public static void main(String[] args) throws Exception {
 		final String xmlfilename = "src/mso.xml";
 		String testfile = "/tmp/mp00_RomanBulletsnumber.ppt";
-		PPTStructurePrinter p = new PPTStructurePrinter();
 
 		final Document dom = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder().parse(xmlfilename);
@@ -36,11 +35,12 @@ public class PPTStructurePrinter {
 				.getRecordTypeNames(dom);
 		PrintStream out = System.out;
 		out = new PrintStream(new FileOutputStream("/tmp/out"));
-		p.parse(testfile, recordTypeNames, out);
+		parse(testfile, recordTypeNames, out);
 	}
 
-	public void parse(String filepath, Map<Integer, String> recordTypeNames,
-			PrintStream out) throws IOException {
+	public static void parse(String filepath,
+			Map<Integer, String> recordTypeNames, PrintStream out)
+					throws IOException {
 		POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(filepath));
 		DirectoryEntry root = fs.getRoot();
 		try {
@@ -50,8 +50,9 @@ public class PPTStructurePrinter {
 		parse(root, recordTypeNames, out);
 	}
 
-	void parse(DirectoryEntry dir, Map<Integer, String> recordTypeNames,
-			PrintStream out) throws IOException {
+	private static void parse(DirectoryEntry dir,
+			Map<Integer, String> recordTypeNames, PrintStream out)
+					throws IOException {
 		for (Iterator<Entry> iter = dir.getEntries(); iter.hasNext();) {
 			Entry entry = (Entry) iter.next();
 			if (entry instanceof DirectoryEntry) {
@@ -80,7 +81,7 @@ public class PPTStructurePrinter {
 		}
 	}
 
-	void printStructure(LEInputStream in, int depth,
+	private static void printStructure(LEInputStream in, int depth,
 			Map<Integer, String> recordTypeNames, PrintStream out)
 					throws IOException {
 		int recVer = in.readuint4();

@@ -319,7 +319,7 @@ public class QtParserGenerator {
 		out.println("}");
 	}
 
-	private void printStructureXmlParser(PrintWriter out, Struct s) {
+	private static void printStructureXmlParser(PrintWriter out, Struct s) {
 		out.println("void parse" + s.name + "(QXmlStreamReader& in, " + s.name
 				+ "& _s) {");
 		out.println("    in.readNext();");
@@ -340,7 +340,7 @@ public class QtParserGenerator {
 
 	}
 
-	static private String prependStructureToExpression(String expression,
+	private static String prependStructureToExpression(String expression,
 			String structureName) {
 		if (expression.length() > 0) {
 			Pattern p = Pattern.compile("([^.\\w])([.a-zA-Z])");
@@ -429,7 +429,8 @@ public class QtParserGenerator {
 		}
 	}
 
-	private void printStructureMemberXmlParser(PrintWriter out, Member m) {
+	private static void printStructureMemberXmlParser(PrintWriter out,
+			Member m) {
 		String s = "    ";
 
 		out.println(s + "if (!in.isStartElement()) {");
@@ -579,7 +580,7 @@ public class QtParserGenerator {
 		return t + " " + m.name;
 	}
 
-	private String memberToString(Member m, String prefix) {
+	private static String memberToString(Member m, String prefix) {
 		String s;
 		String mn = prefix + m.name;
 		if (m.isArray) {
@@ -601,13 +602,13 @@ public class QtParserGenerator {
 		return s;
 	}
 
-	private void styleTextPropAtomFix(PrintWriter out) {
+	private static void styleTextPropAtomFix(PrintWriter out) {
 		out.println("    RecordHeader rh;");
 		out.println("    QList<TextPFRun> rgTextPFRun;");
 		out.println("    QList<TextCFRun> rgTextCFRun;");
 	}
 
-	private void styleTextPropAtomFix2(PrintWriter out) {
+	private static void styleTextPropAtomFix2(PrintWriter out) {
 		out.println("    if (_s.style) {");
 		out.println("        quint32 count = 0;");
 		out.println("        if (_s.text.is<TextCharsAtom>()) {");
@@ -837,7 +838,8 @@ public class QtParserGenerator {
 		}
 	}
 
-	String getClause(String name, TypeRegistry.Type t, Option.Lim lim) {
+	private static String getClause(String name, TypeRegistry.Type t,
+			Option.Lim lim) {
 		String ls = "";
 		if (lim.limitations != null && lim.limitations.length > 0) {
 			for (int i = 0; i < lim.limitations.length; ++i) {
@@ -898,7 +900,7 @@ public class QtParserGenerator {
 		}
 	}
 
-	private void printUnsureChoiceParser(PrintWriter out, String s,
+	private static void printUnsureChoiceParser(PrintWriter out, String s,
 			String structure, Member m) {
 		String closing = "";
 		String exception = "_x";
@@ -931,8 +933,8 @@ public class QtParserGenerator {
 		out.println(s + closing);
 	}
 
-	private void printFixedSizeArrayParser(PrintWriter out, String s, Member m,
-			String msize) {
+	private static void printFixedSizeArrayParser(PrintWriter out, String s,
+			Member m, String msize) {
 		out.println(s + "qint64 _startPos = in.getPosition();");
 		/*
 		 * _totalSize should really be just getExpression("_s", m.size) The
@@ -955,7 +957,8 @@ public class QtParserGenerator {
 		out.println(s + "}");
 	}
 
-	private void printVariableArrayParser(PrintWriter out, String s, Member m) {
+	private static void printVariableArrayParser(PrintWriter out, String s,
+			Member m) {
 		out.println(s + "_atend = false;");
 		out.println(s + "while (!_atend) {");
 		out.println(s + "    _m = in.setMark();");
@@ -1047,14 +1050,14 @@ public class QtParserGenerator {
 		throw new Error("value and condition cannot both be null for " + mname);
 	}
 
-	static String getExpression(String structure, String expression) {
+	private static String getExpression(String structure, String expression) {
 		if (Pattern.matches(".*[A-Za-z].*", expression)) {
 			return prependStructureToExpression(expression, structure);
 		}
 		return structure + expression;
 	}
 
-	static String getCondition(String name, String value) {
+	private static String getCondition(String name, String value) {
 		String cmp = " == ";
 		String cmb = " || ";
 		if (value.startsWith("!")) {

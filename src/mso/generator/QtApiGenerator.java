@@ -90,7 +90,7 @@ public class QtApiGenerator {
 		fout.close();
 	}
 
-	private void printStructureClassDeclaration(PrintWriter out, Struct s) {
+	private static void printStructureClassDeclaration(PrintWriter out, Struct s) {
 		if (s.size == -1) {
 			out.println("class " + s.name + " : public ParsedObject {");
 		} else {
@@ -186,7 +186,7 @@ public class QtApiGenerator {
 		}
 	}
 
-	private int printMemberParser(PrintWriter out, String sp, Struct s,
+	private static int printMemberParser(PrintWriter out, String sp, Struct s,
 			Member m, int bytepos) {
 		if (m.isArray) {
 			if (m.isSimple) {
@@ -209,7 +209,7 @@ public class QtApiGenerator {
 		return 0;
 	}
 
-	private int printSimpleMemberParser(PrintWriter out, String sp, Struct s,
+	private static int printSimpleMemberParser(PrintWriter out, String sp, Struct s,
 			Member m, int bytepos) {
 		out.println(sp + "m_" + m.name + " = read" + m.type().name
 				+ ((bytepos > 0) ? "_" + String.valueOf(bytepos) : "")
@@ -224,7 +224,7 @@ public class QtApiGenerator {
 	}
 
 	/** return size in bytes **/
-	private int getSize(Member m) {
+	private static int getSize(Member m) {
 		int size = -1;
 		if (m.count != null && m.isArray && m.type().size != -1) {
 			try {
@@ -244,7 +244,7 @@ public class QtApiGenerator {
 		return size;
 	}
 
-	private void printSimpleArrayMemberParser(PrintWriter out, String sp,
+	private static void printSimpleArrayMemberParser(PrintWriter out, String sp,
 			Struct s, Member m) {
 		if (m.type().size % 8 != 0) {
 			throw new Error(
@@ -276,7 +276,7 @@ public class QtApiGenerator {
 				sp + "_msize = (" + count + ")*" + (m.type().size / 8) + ";");
 	}
 
-	private void printStructArrayMemberParser(PrintWriter out, String sp,
+	private static void printStructArrayMemberParser(PrintWriter out, String sp,
 			Struct s, Member m) {
 		final String mcount = m.count;
 		if (mcount != null) {
@@ -305,7 +305,7 @@ public class QtApiGenerator {
 		out.println(sp + "_msize = m_" + m.name + ".getSize();");
 	}
 
-	private void printStructMemberParser(PrintWriter out, String sp, Struct s,
+	private static void printStructMemberParser(PrintWriter out, String sp, Struct s,
 			Member m) {
 		if (m.type().size == -1) {
 			out.println(sp + "m_" + m.name + " = " + m.type().name
@@ -326,7 +326,7 @@ public class QtApiGenerator {
 		}
 	}
 
-	private void printChoiceMemberParser(PrintWriter out, String sp, Struct s,
+	private static void printChoiceMemberParser(PrintWriter out, String sp, Struct s,
 			Member m) {
 		Choice c = (Choice) m.type();
 		// try all options until one has non-zero size
@@ -360,7 +360,7 @@ public class QtApiGenerator {
 		}
 	}
 
-	private String getTypeName(TypeRegistry.Type t) {
+	private static String getTypeName(TypeRegistry.Type t) {
 		TypeRegistry r = t.registry;
 		if (t instanceof Choice) {
 			return t.name;
@@ -402,7 +402,7 @@ public class QtApiGenerator {
 		out.println("}");
 	}
 
-	private void printMemberDeclaration(PrintWriter out, Member m,
+	private static void printMemberDeclaration(PrintWriter out, Member m,
 			String className) {
 		String t = getTypeName(m.type());
 		if (m.isArray) {
@@ -468,7 +468,7 @@ public class QtApiGenerator {
 		}
 	}
 
-	private void printLimitationCheck(PrintWriter out, String s, String name,
+	private static void printLimitationCheck(PrintWriter out, String s, String name,
 			Member m) {
 		if (m.type() instanceof Choice)
 			return;
@@ -497,7 +497,7 @@ public class QtApiGenerator {
 		}
 	}
 
-	private boolean isNumber(String n) {
+	private static boolean isNumber(String n) {
 		boolean isNumber = true;
 		try {
 			Integer.decode(n);
@@ -507,12 +507,12 @@ public class QtApiGenerator {
 		return isNumber;
 	}
 
-	final private Pattern pattern1 = Pattern
+	private final static Pattern pattern1 = Pattern
 			.compile("(?<=\\W)([a-zA-Z]\\w*)(?=\\W|$)");
-	final private Pattern pattern2 = Pattern
+	private final static Pattern pattern2 = Pattern
 			.compile("(^[a-zA-Z]\\w*)(?=\\W|$)");
 
-	private String fix(String condition, Pattern regex) {
+	private static String fix(String condition, Pattern regex) {
 		Matcher m = regex.matcher(condition);
 		StringBuffer sb = new StringBuffer();
 		while (m.find()) {
@@ -526,7 +526,7 @@ public class QtApiGenerator {
 		return sb.toString();
 	}
 
-	private String fixForMemberName(String condition) {
+	private static String fixForMemberName(String condition) {
 		if (condition.startsWith("_has_")) {
 			return condition;
 		}
