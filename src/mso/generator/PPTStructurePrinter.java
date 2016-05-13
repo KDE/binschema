@@ -82,7 +82,7 @@ public class PPTStructurePrinter {
 
 	void printStructure(LEInputStream in, int depth,
 			Map<Integer, String> recordTypeNames, PrintStream out)
-			throws IOException {
+					throws IOException {
 		int recVer = in.readuint4();
 		int recInstance = in.readuint12();
 		int recType = in.readuint16();
@@ -92,8 +92,8 @@ public class PPTStructurePrinter {
 		String hextype = Integer.toHexString(recType).toUpperCase();
 
 		String t = "\t\t";
-		String name = recordTypeNames.containsKey(recType) ? recordTypeNames
-				.get(recType) : "";
+		String name = recordTypeNames.containsKey(recType)
+				? recordTypeNames.get(recType) : "";
 		out.println(depth + t + recVer + t + hexinstance + t + hextype + t
 				+ recLen + t + in.getPosition() + t + name);
 		if (recVer == 0xF && recType != 0x428) {

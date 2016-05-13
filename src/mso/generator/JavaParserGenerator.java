@@ -23,8 +23,8 @@ public class JavaParserGenerator {
 		out.println("package " + packagename + ";");
 		out.println("import java.io.IOException;");
 		out.println("public class " + classname + " {");
-		out
-				.println("    Object parse(String key, LEInputStream in) throws IOException {");
+		out.println(
+				"    Object parse(String key, LEInputStream in) throws IOException {");
 		boolean first = true;
 		for (Stream s : mso.streams) {
 			out.print("        ");
@@ -44,8 +44,8 @@ public class JavaParserGenerator {
 		out.println("        }");
 		out.println("    }");
 
-		out
-				.println("    void serialize(String key, Object o, LEOutputStream out) throws IOException {");
+		out.println(
+				"    void serialize(String key, Object o, LEOutputStream out) throws IOException {");
 		first = true;
 		for (Stream s : mso.streams) {
 			out.print("        ");
@@ -93,8 +93,7 @@ public class JavaParserGenerator {
 				variableArray = s.containsUnknownLengthArrayMember;
 			}
 		}
-		if (s.containsOptionalMember || variableArray
-				|| s.containsChoice) {
+		if (s.containsOptionalMember || variableArray || s.containsChoice) {
 			out.println("        Object _m;");
 		}
 		if (variableArray) {
@@ -122,8 +121,8 @@ public class JavaParserGenerator {
 	void printStructureMemberWriter(PrintWriter out, Member m) {
 		String s = "        ";
 		if (m.condition != null) {
-			out.println("        if (" + getExpression("_s", m.condition)
-					+ ") {");
+			out.println(
+					"        if (" + getExpression("_s", m.condition) + ") {");
 			s = s + "    ";
 		}
 		if (m.isChoice) {
@@ -136,9 +135,8 @@ public class JavaParserGenerator {
 				}
 				first = false;
 				out.println("if (_s." + m.name + " instanceof " + t + ") {");
-				out
-						.println(s + "    write((" + t + ")_s." + m.name
-								+ ", out);");
+				out.println(
+						s + "    write((" + t + ")_s." + m.name + ", out);");
 			}
 			out.println(s + "}");
 		} else if (m.isArray) {
@@ -157,8 +155,8 @@ public class JavaParserGenerator {
 			}
 			out.println("write(_s." + m.name + ", out);");
 		} else {
-			out.println(s + "out.write" + m.type().name + "(_s." + m.name
-					+ ");");
+			out.println(
+					s + "out.write" + m.type().name + "(_s." + m.name + ");");
 		}
 		if (m.condition != null) {
 			out.println("        }");
@@ -178,8 +176,7 @@ public class JavaParserGenerator {
 				|| t == r.uint6 || t == r.uint7 || t == r.uint8) {
 			return "byte";
 		} else if (t == r.uint9 || t == r.uint12 || t == r.uint13
-				|| t == r.uint14 || t == r.uint15
-				|| t == r.int16) {
+				|| t == r.uint14 || t == r.uint15 || t == r.int16) {
 			return "short";
 		} else if (t == r.uint16 || t == r.uint20 || t == r.uint30
 				|| t == r.uint32 || t == r.int32) {
@@ -212,8 +209,8 @@ public class JavaParserGenerator {
 		out.println("    public String toString() {");
 		out.println("        String _s = \"" + s.name + ":\";");
 		for (Member m : s.members) {
-			out.print("        _s = _s + \"" + m.name
-					+ ": \" + String.valueOf(" + m.name + ") + \"");
+			out.print("        _s = _s + \"" + m.name + ": \" + String.valueOf("
+					+ m.name + ") + \"");
 			if (m.isInteger && !m.isArray) {
 				out.print("(\" + Integer.toHexString(" + m.name
 						+ ").toUpperCase() + \")");
@@ -226,7 +223,8 @@ public class JavaParserGenerator {
 
 	}
 
-	String prependStructureToExpression(String expression, String structureName) {
+	String prependStructureToExpression(String expression,
+			String structureName) {
 		if (expression.length() > 0) {
 			Pattern p = Pattern.compile("([^.\\w])([.a-zA-Z])");
 			Matcher m = p.matcher(expression);
@@ -285,8 +283,8 @@ public class JavaParserGenerator {
 				out.println("new " + getTypeName(m) + "[_c];");
 				out.println(s + "for (int _j=0; _j<_c; ++_j) {");
 				out.println(s + "    _s." + m.name + "[_j] = " + parse);
-				printLimitationCheck(out, "            ", "_s." + m.name
-						+ "[_j]", m);
+				printLimitationCheck(out, "            ",
+						"_s." + m.name + "[_j]", m);
 				out.println(s + "}");
 			}
 		} else {
@@ -307,8 +305,8 @@ public class JavaParserGenerator {
 		int length = (m.isOptional) ? choices.length : choices.length - 1;
 		for (int i = 0; i < length; ++i) {
 			out.println(s + "try {");
-			out.println(s + "    _s." + m.name + " = parse" + choices[i]
-					+ "(in);");
+			out.println(
+					s + "    _s." + m.name + " = parse" + choices[i] + "(in);");
 			out.println(s + "} catch (IOException " + exception + ") {");
 			out.println(s + "    if (!(" + exception
 					+ " instanceof IncorrectValueException) && !(" + exception
@@ -316,7 +314,7 @@ public class JavaParserGenerator {
 					+ ";");
 			// out
 			// .println(s
-			// + "    if (in.distanceFromMark(_m) > 16) throw new IOException("
+			// + " if (in.distanceFromMark(_m) > 16) throw new IOException("
 			// + exception + ");//onlyfordebug");
 			out.println(s + "    in.rewind(_m);");
 			exception = exception + "x";
@@ -347,7 +345,8 @@ public class JavaParserGenerator {
 		// out
 		// .println(s
 		// +
-		// "    System.out.println(\"round \"+(_i++) + \" \" + in.getPosition());");
+		// " System.out.println(\"round \"+(_i++) + \" \" +
+		// in.getPosition());");
 		out.println(s + "    _m = in.setMark();");
 		out.println(s + "    try {");
 		out.println(s + "        " + m.type().name + " _t = parse"
@@ -357,7 +356,8 @@ public class JavaParserGenerator {
 		// out
 		// .println(s
 		// +
-		// "    if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug");
+		// " if (in.distanceFromMark(_m) > 16) throw new
+		// IOException(_e);//onlyfordebug");
 		out.println(s + "        _atend = true;");
 		out.println(s + "        in.rewind(_m);");
 		out.println(s + "    } catch(java.io.EOFException _e) {");
@@ -372,12 +372,11 @@ public class JavaParserGenerator {
 	void printOptionalMemberParser(PrintWriter out, String s, Member m) {
 		out.println(s + "_m = in.setMark();");
 		out.println(s + "try {");
-		out.println(s + "    _s." + m.name + " = parse" + m.type().name
-				+ "(in);");
+		out.println(
+				s + "    _s." + m.name + " = parse" + m.type().name + "(in);");
 		out.println(s + "} catch(IncorrectValueException _e) {");
-		out
-				.println(s
-						+ "    if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug");
+		out.println(s
+				+ "    if (in.distanceFromMark(_m) > 16) throw new IOException(_e);//onlyfordebug");
 		out.println(s + "    in.rewind(_m);");
 		out.println(s + "} catch(java.io.EOFException _e) {");
 		out.println(s + "    in.rewind(_m);");
@@ -386,7 +385,8 @@ public class JavaParserGenerator {
 		out.println(s + "}");
 	}
 
-	void printLimitationCheck(PrintWriter out, String s, String name, Member m) {
+	void printLimitationCheck(PrintWriter out, String s, String name,
+			Member m) {
 		for (Limitation l : m.limitations) {
 			String mname = l.name;
 			if (!"".equals(mname)) {

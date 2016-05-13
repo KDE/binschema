@@ -177,7 +177,8 @@ public class Choice extends TypeRegistry.Type {
 		return false;
 	}
 
-	static private boolean compareTypes(TypeRegistry.Type a, TypeRegistry.Type b) {
+	static private boolean compareTypes(TypeRegistry.Type a,
+			TypeRegistry.Type b) {
 		return a == b || structsWithSameMembers(a, b);
 	}
 

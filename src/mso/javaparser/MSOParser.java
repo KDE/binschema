@@ -36,8 +36,8 @@ public class MSOParser {
 			} else if (entry instanceof DocumentEntry) {
 				DocumentEntry e = (DocumentEntry) entry;
 				save("/tmp", e);
-				System.out.println("found entry: " + e.getName() + " "
-						+ e.getSize());
+				System.out.println(
+						"found entry: " + e.getName() + " " + e.getSize());
 				DocumentInputStream in = new DocumentInputStream(e);
 				byte datain[] = new byte[e.getSize()];
 				if (datain.length != in.read(datain, 0, datain.length)) {

@@ -31,8 +31,8 @@ public class QtApiGenerator {
 	void generate(MSO mso) throws IOException {
 		FileWriter fout;
 		if (config.createHeader) {
-			fout = new FileWriter(config.outputdir + File.separator
-					+ config.basename + ".h");
+			fout = new FileWriter(
+					config.outputdir + File.separator + config.basename + ".h");
 		} else {
 			fout = new FileWriter(config.outputdir + File.separator
 					+ config.basename + ".cpp");
@@ -79,7 +79,8 @@ public class QtApiGenerator {
 		if (s.size == -1) {
 			out.println("class " + s.name + " : public ParsedObject {");
 		} else {
-			out.println("class " + s.name + " : public FixedSizeParsedObject {");
+			out.println(
+					"class " + s.name + " : public FixedSizeParsedObject {");
 		}
 		out.println("private:");
 		if (s.size == -1) {
@@ -90,7 +91,8 @@ public class QtApiGenerator {
 		} else {
 			out.println("    static const quint32 _size;");
 			out.println("public:");
-			out.println("    static inline quint32 getSize() { return _size; }");
+			out.println(
+					"    static inline quint32 getSize() { return _size; }");
 			out.println("    " + s.name + "() {}");
 			out.println("    " + s.name
 					+ "(const char* data, quint32/*ignored*/ = 0);// "
@@ -126,8 +128,8 @@ public class QtApiGenerator {
 			String condition = m.condition;
 			if (m.isSimple && condition != null) {
 				condition = fixForMemberName(condition);
-				out.println(sp + "bool _has_" + m.name + " = " + condition
-						+ ";");
+				out.println(
+						sp + "bool _has_" + m.name + " = " + condition + ";");
 				condition = "_has_" + m.name;
 			}
 			if (condition != null) {
@@ -252,10 +254,10 @@ public class QtApiGenerator {
 		String type = getTypeName(m.type());
 		if ("quint8".equals(type))
 			type = "char";
-		out.println(sp + "m_" + m.name + " = MSOCastArray<" + type
-				+ ">((const " + type + "*)(_d + _position), " + count + ");");
-		out.println(sp + "_msize = (" + count + ")*" + (m.type().size / 8)
-				+ ";");
+		out.println(sp + "m_" + m.name + " = MSOCastArray<" + type + ">((const "
+				+ type + "*)(_d + _position), " + count + ");");
+		out.println(
+				sp + "_msize = (" + count + ")*" + (m.type().size / 8) + ";");
 	}
 
 	private void printStructArrayMemberParser(PrintWriter out, String sp,
@@ -272,7 +274,8 @@ public class QtApiGenerator {
 					+ ") return;");
 		} else if (m.size != null) {
 			String size = fixForMemberName(m.size);
-			out.println(sp + "if (_maxsize - _position < " + size + ") return;");
+			out.println(
+					sp + "if (_maxsize - _position < " + size + ") return;");
 			out.println(sp + "m_" + m.name + " = MSOArray<" + m.type().name
 					+ ">(_d + _position, " + size + ");");
 			out.println(sp + "if (m_" + m.name + ".getSize() != " + size
@@ -325,8 +328,8 @@ public class QtApiGenerator {
 				out.println(sp2 + "_msize = " + name + ".getSize();");
 			} else {
 				out.println(sp2 + name + " = " + t.name + "(_d + _position);");
-				out.println(sp2 + "_msize = (" + name + ".isValid()) ?"
-						+ t.name + "::getSize() : 0;");
+				out.println(sp2 + "_msize = (" + name + ".isValid()) ?" + t.name
+						+ "::getSize() : 0;");
 			}
 			if (!first) {
 				out.println(sp + "}");
@@ -400,14 +403,14 @@ public class QtApiGenerator {
 					out.println("private:");
 					out.println("    MSOArray<" + t + "> m_" + m.name + ";");
 					out.println("public:");
-					out.println("    inline const MSOArray<" + t + ">& " + m.name
-							+ "() const { return m_" + m.name + "; }");
+					out.println("    inline const MSOArray<" + t + ">& "
+							+ m.name + "() const { return m_" + m.name + "; }");
 				} else {
 					out.println("private:");
 					out.println("    MSOArray<" + t + "> m_" + m.name + ";");
 					out.println("public:");
-					out.println("    inline const MSOArray<" + t + ">& " + m.name
-							+ "() const { return m_" + m.name + "; }");
+					out.println("    inline const MSOArray<" + t + ">& "
+							+ m.name + "() const { return m_" + m.name + "; }");
 				}
 			}
 		} else if (m.isChoice) {
@@ -443,8 +446,8 @@ public class QtApiGenerator {
 			if (!m.isSimple || (m.isOptional || m.condition != null)) {
 				t = "const " + t + "&";
 			}
-			out.println("    inline " + t + " " + m.name + "() const { return m_"
-					+ m.name + "; }");
+			out.println("    inline " + t + " " + m.name
+					+ "() const { return m_" + m.name + "; }");
 		}
 	}
 
