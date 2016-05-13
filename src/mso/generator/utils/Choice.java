@@ -139,7 +139,7 @@ public class Choice extends TypeRegistry.Type {
 		return false;
 	}
 
-	static private boolean noOverlap(String a, String b) {
+	static private boolean noOverlap(@Nullable String a, @Nullable String b) {
 		if (a == null || b == null)
 			return false;
 		String[] avalues = a.split("\\|");

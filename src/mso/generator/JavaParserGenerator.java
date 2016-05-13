@@ -6,8 +6,6 @@ import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.jdt.annotation.NonNull;
-
 import mso.generator.utils.Choice;
 import mso.generator.utils.Limitation;
 import mso.generator.utils.MSO;
@@ -225,7 +223,7 @@ public class JavaParserGenerator {
 
 	}
 
-	String prependStructureToExpression(String expression,
+	static String prependStructureToExpression(String expression,
 			String structureName) {
 		if (expression.length() > 0) {
 			Pattern p = Pattern.compile("([^.\\w])([.a-zA-Z])");
@@ -397,12 +395,7 @@ public class JavaParserGenerator {
 			} else {
 				mname = name;
 			}
-			String condition;
-			if (l.expression == null) {
-				condition = getCondition(mname, l);
-			} else {
-				condition = getExpression(mname, l.expression);
-			}
+			final String condition = getCondition(mname, l);
 
 			out.println(s + "if (!(" + condition + ")) {");
 			String exceptionType = "IncorrectValueException";
@@ -420,15 +413,26 @@ public class JavaParserGenerator {
 		}
 	}
 
-	String getExpression(String structure, String expression) {
+	static String getExpression(String structure, String expression) {
 		if (Pattern.matches(".*[A-Za-z].*", expression)) {
 			return prependStructureToExpression(expression, structure);
 		}
 		return structure + expression;
 	}
 
-	String getCondition(String name, Limitation l) {
-		String value = l.value;
+	static String getCondition(String mname, Limitation l) {
+		final String value = l.value;
+		final String expression = l.expression;
+		if (value != null) {
+			return getCondition(mname, value);
+		} else if (expression != null) {
+			return getExpression(mname, expression);
+		} else {
+			throw new Error("Either expression or value should be set.");
+		}
+	}
+
+	static String getCondition(String name, String value) {
 		String cmp = " == ";
 		String cmb = " || ";
 		if (value.startsWith("!")) {
