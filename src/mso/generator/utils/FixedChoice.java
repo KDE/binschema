@@ -2,8 +2,11 @@ package mso.generator.utils;
 
 import java.util.SortedSet;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 import mso.generator.utils.Member.ByteArray;
 
+@NonNullByDefault
 public class FixedChoice extends TypeRegistry.Type {
 
 	private static int getSize(SortedSet<ByteArray> texts) {

@@ -7,15 +7,21 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.zip.CRC32;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+@NonNullByDefault
 public class Member {
 	public final TypeRegistry registry;
 	public final String name;
 	private final String typeName;
+	@Nullable
 	public final String count;
+	@Nullable
 	public final String size;
+	@Nullable
 	public final String condition;
 	public final boolean isArray;
 	public final boolean isOptional;
@@ -169,7 +175,8 @@ public class Member {
 				return e;
 			}
 		}
-		return null;
+		throw new NullPointerException(
+				"No struct type with name " + typename + " can be found.");
 	}
 
 }

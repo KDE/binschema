@@ -387,7 +387,7 @@ public class QtParserGenerator {
 		}
 		if (m.isArray && m.count == null) {
 			if (m.size != null) {
-				printFixedSizeArrayParser(out, s, m);
+				printFixedSizeArrayParser(out, s, m, m.size);
 			} else {
 				// array for which no size is given: parse items until one fails
 				printVariableArrayParser(out, s, m);
@@ -828,11 +828,12 @@ public class QtParserGenerator {
 
 	private void printChoiceParser(PrintWriter out, String s, String structure,
 			Member m) {
-		Choice c = (Choice) m.type();
-		if (c.commonType == null) {
+		final Choice c = (Choice) m.type();
+		final TypeRegistry.Type commonType = c.commonType;
+		if (commonType == null) {
 			printUnsureChoiceParser(out, s, structure, m);
 		} else {
-			printSureChoiceParser(out, s, structure, m);
+			printSureChoiceParser(out, s, structure, m, commonType);
 		}
 	}
 
@@ -841,16 +842,11 @@ public class QtParserGenerator {
 		if (lim.limitations != null && lim.limitations.length > 0) {
 			for (int i = 0; i < lim.limitations.length; ++i) {
 				Limitation l = lim.limitations[i];
-				String condition = l.expression;
 				String mname = name;
 				if (t instanceof Struct) {
 					mname += "." + l.name;
 				}
-				if (condition == null) {
-					condition = getCondition(mname, l);
-				} else {
-					condition = getExpression(mname, condition);
-				}
+				String condition = getLimit(mname, l);
 				if (ls.length() > 0) {
 					ls += "&&";
 				}
@@ -870,16 +866,16 @@ public class QtParserGenerator {
 	}
 
 	private void printSureChoiceParser(PrintWriter out, String s,
-			String structure, Member m) {
+			String structure, Member m, TypeRegistry.Type commonType) {
 		out.println(s + "_m = in.setMark();");
 		Choice c = (Choice) m.type();
-		String type = getTypeName(c.commonType);
+		String type = getTypeName(commonType);
 		if (c.commonType instanceof Struct) {
 			out.println(s + type + " _choice(&_s);");
 			out.println(s + "parse" + type + "(in, _choice);");
 		} else {
-			out.println(s + type + " _choice = in.read" + c.commonType.name
-					+ "();");
+			out.println(
+					s + type + " _choice = in.read" + commonType.name + "();");
 		}
 		out.println(s + "in.rewind(_m);");
 		out.println(s + "qint64 startPos = in.getPosition();");
@@ -935,8 +931,8 @@ public class QtParserGenerator {
 		out.println(s + closing);
 	}
 
-	private void printFixedSizeArrayParser(PrintWriter out, String s,
-			Member m) {
+	private void printFixedSizeArrayParser(PrintWriter out, String s, Member m,
+			String msize) {
 		out.println(s + "qint64 _startPos = in.getPosition();");
 		/*
 		 * _totalSize should really be just getExpression("_s", m.size) The
@@ -946,7 +942,7 @@ public class QtParserGenerator {
 		 * reassembles them later instead of assembling the raw data
 		 * transparantly in a stream.
 		 */
-		out.println(s + "int _totalSize = qMin(" + getExpression("_s", m.size)
+		out.println(s + "int _totalSize = qMin(" + getExpression("_s", msize)
 				+ ", quint32(in.getSize() - _startPos));");
 		out.println(s + "_atend = in.getPosition() - _startPos >= _totalSize;");
 		out.println(s + "while (!_atend) {");
@@ -1024,10 +1020,11 @@ public class QtParserGenerator {
 			if (!m.isStruct) {
 				mname = "((" + getTypeName(m.type()) + ")" + mname + ")";
 			}
+			String value = l.value;
 			String condition = l.expression;
-			if (condition == null) {
-				condition = getCondition(mname, l);
-			} else {
+			if (value != null) {
+				condition = getCondition(mname, value);
+			} else if (condition != null) {
 				condition = getExpression(mname, condition);
 			}
 
@@ -1039,6 +1036,17 @@ public class QtParserGenerator {
 		}
 	}
 
+	static String getLimit(String mname, Limitation l) {
+		final String value = l.value;
+		final String condition = l.expression;
+		if (value != null) {
+			return getCondition(mname, value);
+		} else if (condition != null) {
+			return getExpression(mname, condition);
+		}
+		throw new Error("value and condition cannot both be null for " + mname);
+	}
+
 	static String getExpression(String structure, String expression) {
 		if (Pattern.matches(".*[A-Za-z].*", expression)) {
 			return prependStructureToExpression(expression, structure);
@@ -1046,8 +1054,7 @@ public class QtParserGenerator {
 		return structure + expression;
 	}
 
-	static String getCondition(String name, Limitation l) {
-		String value = l.value;
+	static String getCondition(String name, String value) {
 		String cmp = " == ";
 		String cmb = " || ";
 		if (value.startsWith("!")) {
@@ -1066,6 +1073,6 @@ public class QtParserGenerator {
 		if (!"".equals(value)) {
 			return name + cmp + value;
 		}
-		return l.value;
+		return value;
 	}
 }

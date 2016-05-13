@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jdt.annotation.NonNull;
+
 import mso.generator.utils.Choice;
 import mso.generator.utils.Limitation;
 import mso.generator.utils.MSO;
@@ -261,7 +263,7 @@ public class JavaParserGenerator {
 		}
 		if (m.isArray && m.count == null) {
 			if (m.size != null) {
-				printFixedSizeArrayParser(out, s, m);
+				printFixedSizeArrayParser(out, s, m, m.size);
 			} else {
 				// array for which no size is given: parse items until one fails
 				printVariableArrayParser(out, s, m);
@@ -329,10 +331,11 @@ public class JavaParserGenerator {
 		out.println(s + "}");
 	}
 
-	void printFixedSizeArrayParser(PrintWriter out, String s, Member m) {
+	void printFixedSizeArrayParser(PrintWriter out, String s, Member m,
+			String msize) {
 		out.println(s + "int _startPos = in.getPosition();");
 		out.println(s + "while (in.getPosition() - _startPos < "
-				+ getExpression("_s", m.size) + ") {");
+				+ getExpression("_s", msize) + ") {");
 		out.println(s + "    " + m.type().name + " _t = parse" + m.type().name
 				+ "(in);");
 		out.println(s + "    _s." + m.name + ".add(_t);");

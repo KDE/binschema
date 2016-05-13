@@ -3,8 +3,13 @@ package mso.generator.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
+
+@NonNullByDefault
 public class Choice extends TypeRegistry.Type {
-	public final TypeRegistry.Type commonType;
+
+	public final TypeRegistry.@Nullable Type commonType;
 	public final List<Option> options = new ArrayList<Option>();
 
 	private static int getSize(List<Struct> choices) {
@@ -159,7 +164,7 @@ public class Choice extends TypeRegistry.Type {
 		return true;
 	}
 
-	static private boolean structsWithSameMembers(TypeRegistry.Type a,
+	static private boolean structsWithSameMembers(TypeRegistry.@Nullable Type a,
 			TypeRegistry.Type b) {
 		if (a instanceof Struct && b instanceof Struct) {
 			Struct as = (Struct) a;
@@ -177,7 +182,7 @@ public class Choice extends TypeRegistry.Type {
 		return false;
 	}
 
-	static private boolean compareTypes(TypeRegistry.Type a,
+	static private boolean compareTypes(TypeRegistry.@Nullable Type a,
 			TypeRegistry.Type b) {
 		return a == b || structsWithSameMembers(a, b);
 	}

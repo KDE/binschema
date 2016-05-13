@@ -1,10 +1,15 @@
 package mso.generator.utils;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.w3c.dom.Element;
 
+@NonNullByDefault
 public class Limitation {
 	public final String name;
+	@Nullable
 	public final String expression;
+	@Nullable
 	public final String value;
 
 	Limitation(Element e) {
@@ -18,18 +23,20 @@ public class Limitation {
 		}
 	}
 
-	public boolean equals(Object o) {
+	public boolean equals(@Nullable Object o) {
 		if (!(o instanceof Limitation))
 			return false;
 		Limitation l = (Limitation) o;
 		if (!l.name.equals(name))
 			return false;
+		final String lexpression = l.expression;
 		if (expression != null) {
-			if (l.expression == null || !expression.equals(l.expression))
+			if (lexpression == null || !lexpression.equals(expression))
 				return false;
 		}
 		// value is not null
-		if (l.value == null || !l.value.equals(value))
+		final String lvalue = l.value;
+		if (lvalue == null || !lvalue.equals(value))
 			return false;
 		return true;
 	}

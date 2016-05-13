@@ -278,9 +278,10 @@ public class QtApiGenerator {
 
 	private void printStructArrayMemberParser(PrintWriter out, String sp,
 			Struct s, Member m) {
-		if (m.count != null) {
+		final String mcount = m.count;
+		if (mcount != null) {
 			String size = "_maxsize - _position, ";
-			String count = fixForMemberName(m.count);
+			String count = fixForMemberName(mcount);
 			if (m.type().size != -1) {
 				size = (m.type().size / 8) + " * " + count + ", ";
 			}
@@ -486,12 +487,7 @@ public class QtApiGenerator {
 				}
 			}
 
-			String condition = l.expression;
-			if (condition == null) {
-				condition = QtParserGenerator.getCondition(mname, l);
-			} else {
-				condition = QtParserGenerator.getExpression(mname, condition);
-			}
+			String condition = QtParserGenerator.getLimit(mname, l);
 			if (m.isStruct) {
 				condition = fixForMemberName(condition);
 			}
