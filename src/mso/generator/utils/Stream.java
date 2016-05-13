@@ -1,9 +1,7 @@
 package mso.generator.utils;
 
-import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.w3c.dom.Element;
 
-@NonNullByDefault
 public class Stream {
 
 	public final String key;

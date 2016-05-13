@@ -1,8 +1,10 @@
 package mso.generator.utils;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 public class Lim {
-	public Limitation[] limitations;
-	public final Lim[] lims;
+	public Limitation @Nullable [] limitations;
+	public final Lim @Nullable [] lims;
 
 	Lim(Lim lims[]) {
 		this.lims = lims;
@@ -15,6 +17,7 @@ public class Lim {
 	}
 
 	boolean containsCommonLimitation(Limitation l) {
+		final Limitation limitations[] = this.limitations;
 		if (limitations != null) {
 			for (int i = 0; i < limitations.length; ++i) {
 				if (limitations[i].equals(l)) {
@@ -28,6 +31,7 @@ public class Lim {
 	void removeLimitation(Limitation l) {
 		if (!containsCommonLimitation(l))
 			return;
+		final Limitation limitations[] = this.limitations;
 		if (limitations != null) {
 			Limitation[] nl = new Limitation[limitations.length - 1];
 			int pos = 0;
@@ -36,7 +40,7 @@ public class Lim {
 					nl[pos++] = limitations[i];
 				}
 			}
-			limitations = nl;
+			this.limitations = nl;
 		}
 	}
 }

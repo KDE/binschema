@@ -842,9 +842,11 @@ public class QtParserGenerator {
 
 	private static String getClause(String name, Type t, Lim lim) {
 		String ls = "";
-		if (lim.limitations != null && lim.limitations.length > 0) {
-			for (int i = 0; i < lim.limitations.length; ++i) {
-				Limitation l = lim.limitations[i];
+		final Limitation limitations[] = lim.limitations;
+		final Lim lims[] = lim.lims;
+		if (limitations != null && limitations.length > 0) {
+			for (int i = 0; i < limitations.length; ++i) {
+				Limitation l = limitations[i];
 				String mname = name;
 				if (t instanceof Struct) {
 					mname += "." + l.name;
@@ -855,9 +857,9 @@ public class QtParserGenerator {
 				}
 				ls += "(" + condition + ")";
 			}
-		} else if (lim.lims != null && lim.lims.length > 0) {
-			for (int i = 0; i < lim.lims.length; ++i) {
-				Lim l = lim.lims[i];
+		} else if (lims != null && lims.length > 0) {
+			for (int i = 0; i < lims.length; ++i) {
+				Lim l = lims[i];
 				String condition = getClause(name, t, l);
 				if (ls.length() > 0) {
 					ls += "||";

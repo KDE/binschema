@@ -3,10 +3,8 @@ package mso.generator.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 
-@NonNullByDefault
 public class Choice extends Type {
 
 	public final @Nullable Type commonType;
@@ -194,10 +192,11 @@ public class Choice extends Type {
 	}
 
 	private void removeNonDistinctiveLimitations() {
-		Lim a = options.get(0).lim;
-		if (a.limitations != null) {
-			for (int i = 0; i < a.limitations.length; ++i) {
-				Limitation l = a.limitations[i];
+		final Lim a = options.get(0).lim;
+		final Limitation limitations[] = a.limitations;
+		if (limitations != null) {
+			for (int i = 0; i < limitations.length; ++i) {
+				Limitation l = limitations[i];
 				boolean common = true;
 				for (int j = 1; j < options.size(); ++j) {
 					common = common

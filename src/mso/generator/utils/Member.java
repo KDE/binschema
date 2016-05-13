@@ -7,12 +7,10 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.zip.CRC32;
 
-import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-@NonNullByDefault
 public class Member {
 	public final TypeRegistry registry;
 	public final String name;

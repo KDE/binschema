@@ -1,9 +1,7 @@
 package mso.generator.utils;
 
-import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 
-@NonNullByDefault
 public class Option {
 	public final Struct type;
 	public final Type limitsType;

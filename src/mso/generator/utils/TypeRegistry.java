@@ -3,9 +3,6 @@ package mso.generator.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.jdt.annotation.NonNullByDefault;
-
-@NonNullByDefault
 public class TypeRegistry {
 	final Map<String, Type> types = new HashMap<String, Type>();
 

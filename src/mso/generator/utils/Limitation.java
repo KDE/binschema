@@ -1,10 +1,8 @@
 package mso.generator.utils;
 
-import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.w3c.dom.Element;
 
-@NonNullByDefault
 public class Limitation {
 	public final String name;
 	@Nullable
