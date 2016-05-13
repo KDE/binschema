@@ -73,10 +73,8 @@ public class ParserGeneratorRunner {
 	void generateQtParser(MSO mso, String namespace, String basename,
 			String outputdir) throws IOException {
 		// generate a parser with introspection
-		final QtParserGenerator g = new QtParserGenerator();
-		g.config.namespace = namespace;
-		g.config.basename = basename;
-		g.config.outputdir = outputdir;
+		final QtParserGenerator g = new QtParserGenerator(namespace, basename,
+				outputdir);
 		g.config.createHeader = false;
 		g.config.enableIntrospection = true;
 		g.config.enableXml = true;
@@ -89,10 +87,8 @@ public class ParserGeneratorRunner {
 	void generateSimpleQtParser(MSO mso, String namespace, String basename,
 			String outputdir) throws IOException {
 		// generate a parser with introspection
-		final QtParserGenerator g = new QtParserGenerator();
-		g.config.namespace = namespace;
-		g.config.basename = basename;
-		g.config.outputdir = outputdir;
+		final QtParserGenerator g = new QtParserGenerator(namespace, basename,
+				outputdir);
 		g.config.createHeader = true;
 		g.config.enableIntrospection = false;
 		g.config.enableXml = false;
@@ -105,10 +101,8 @@ public class ParserGeneratorRunner {
 	void generateApi(MSO mso, String namespace, String basename,
 			String outputdir) throws IOException {
 		// generate a minimal parser but with a public header
-		final QtApiGenerator g = new QtApiGenerator();
-		g.config.namespace = namespace;
-		g.config.basename = basename;
-		g.config.outputdir = outputdir;
+		final QtApiGenerator g = new QtApiGenerator(namespace, basename,
+				outputdir);
 		g.config.createHeader = true;
 		g.generate(mso);
 	}
