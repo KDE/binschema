@@ -54,7 +54,7 @@ public class ParserGeneratorRunner {
 		v.validate(new StreamSource(open(xmlfilename)));
 		final Document dom = DocumentBuilderFactory.newInstance()
 				.newDocumentBuilder().parse(open(xmlfilename));
-		MSO mso = new MSO(dom);
+		MSO mso = MSO.parse(dom);
 		new File(cppdir).mkdirs();
 		generateJavaParser(mso, namespace);
 		generateQtParser(mso, "", "generatedclasses", cppdir);

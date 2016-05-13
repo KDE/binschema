@@ -11,12 +11,13 @@ import org.w3c.dom.NodeList;
 
 @NonNullByDefault
 public class MSO {
-	public final List<Struct> structs = new ArrayList<Struct>();
-	private final List<Choice> choices = new ArrayList<Choice>();
-	public final List<Stream> streams = new ArrayList<Stream>();
+	public final List<Struct> structs;
+	public final List<Stream> streams;
 
-	public MSO(Document dom) throws IOException {
-		TypeRegistry typeRegistry = new TypeRegistry();
+	public static MSO parse(Document dom) throws IOException {
+		final TypeRegistry typeRegistry = new TypeRegistry();
+		final List<Struct> structs = new ArrayList<Struct>();
+		final List<Stream> streams = new ArrayList<Stream>();
 
 		// retrieve all the structs
 		List<Element> orderedElements = ParserGeneratorUtils
@@ -41,15 +42,16 @@ public class MSO {
 				}
 			}
 		}
-		for (TypeRegistry.Type t : typeRegistry.types.values()) {
-			if (t instanceof Choice) {
-				choices.add((Choice) t);
-			}
-		}
 
 		NodeList l = dom.getElementsByTagName("stream");
 		for (int i = 0; i < l.getLength(); ++i) {
 			streams.add(new Stream((Element) l.item(i)));
 		}
+		return new MSO(structs, streams);
+	}
+
+	private MSO(List<Struct> structs, List<Stream> streams) {
+		this.structs = structs;
+		this.streams = streams;
 	}
 }
