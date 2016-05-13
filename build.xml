@@ -6,7 +6,7 @@
 		http://archive.apache.org/dist/poi/release/bin/
 		 Download it and adapt the path below to use it.
 	-->
-	<property name="classpath" location="bin;lib/poi-3.11-20141221.jar" />
+    <property name="classpath" location="bin;lib/poi-3.11-20141221.jar;lib/org.eclipse.jdt.annotation_2.0.100.v20150311-1658.jar" />
 	<target name="gitVersion">
 		<exec executable="git" outputproperty="msoscheme-version" errorproperty="error">
 			<arg value="describe"/>
@@ -24,7 +24,7 @@
 	<target name="compileGenerator" depends="gitVersion">
 		<copy file="src/mso.xml" todir="bin" />
 		<copy file="src/mso.xsd" todir="bin" />
-		<javac source="1.6" srcdir="src" destdir="bin" excludes="mso/javaparser/**" classpath="${classpath}" debug="on" debuglevel="source" />
+		<javac source="1.8" srcdir="src" destdir="bin" excludes="mso/javaparser/**" classpath="${classpath}" debug="on" debuglevel="source" />
 	</target>
 	<target name="generateParsers" depends="compileGenerator" description="compile the source ">
 		<dependset>
@@ -34,7 +34,7 @@
 		<java classname="mso.generator.ParserGeneratorRunner" classpath="${classpath}" />
 	</target>
 	<target name="compileJavaParser" depends="generateParsers" description="compile the source ">
-		<javac source="1.6" srcdir="src" destdir="bin" excludes="mso/javaparser" classpath="${classpath}" debug="on" debuglevel="source" />
+		<javac source="1.8" srcdir="src" destdir="bin" excludes="mso/javaparser" classpath="${classpath}" debug="on" debuglevel="source" />
 	</target>
 	<target name="testJavaParser" depends="compileJavaParser" description="compile the source ">
 		<java classname="mso.javaparser.ParserTester" classpath="${classpath}" />
