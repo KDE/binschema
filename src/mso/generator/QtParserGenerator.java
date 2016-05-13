@@ -886,8 +886,7 @@ public class QtParserGenerator {
 			Option o = c.options.get(i);
 			String clause = getClause("_choice", o.limitsType, o.lim);
 			out.print("if (startPos == in.getPosition()");
-			if (clause == null
-					|| (!m.isOptional && i == c.options.size() - 1)) {
+			if (!m.isOptional && i == c.options.size() - 1) {
 				out.println(") {");
 			} else {
 				out.println(" && (" + clause + ")) {");
