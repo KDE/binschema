@@ -4,9 +4,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * byte = int8 short = int16 char = uint16 int = int32 long = int64
  */
+@NonNullByDefault
 public class LEOutputStream {
 
 	final DataOutputStream output;

@@ -14,10 +14,11 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
+@NonNullByDefault
 public class ParserGeneratorUtils {
 
 	static Collection<String> getDependencies(Element e) {

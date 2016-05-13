@@ -2,6 +2,9 @@ package mso.javaparser;
 
 import java.io.IOException;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
+@NonNullByDefault
 public class ParserTester {
 
 	public static void main(String[] args) throws IOException {

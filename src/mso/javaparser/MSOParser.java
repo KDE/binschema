@@ -13,7 +13,9 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.Entry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 
+@NonNullByDefault
 public class MSOParser {
 	public void parse(String filepath) throws IOException {
 		GeneratedMsoParser parser = new GeneratedMsoParser();
