@@ -11,8 +11,6 @@
 			<element name="limitation" type="tns:limitationType" />
 		</choice>
 		<attribute name="name" type="NCName" use="required" />
-		<attribute name="array" type="boolean" use="optional"
-			default="false" />
 		<attribute name="count" type="string" use="optional" />
 		<attribute name="minOccurs" type="string" use="optional" />
 		<attribute name="maxOccurs" type="string" use="optional" />
@@ -33,6 +31,8 @@
 					default="false" />
 				<!-- if the size is know it can be specified here as an expression -->
 				<attribute name="size" type="string" use="optional" />
+				<attribute name="array" type="boolean" use="optional"
+					default="false" />
 			</extension>
 		</complexContent>
 	</complexType>
