@@ -569,12 +569,10 @@ public class QtParserGenerator {
 		if (m.isArray) {
 			if (m.isStruct) {
 				return "QList<" + m.type().name + "> " + m.name;
+			} else if ("quint8".equals(t)) {
+				return "QByteArray " + m.name;
 			} else {
-				if ("quint8".equals(t)) {
-					return "QByteArray " + m.name;
-				} else {
-					return "QVector<" + t + "> " + m.name;
-				}
+				return "QVector<" + t + "> " + m.name;
 			}
 		} else if (m.isStruct && (m.isOptional || m.condition != null)) {
 			return "QSharedPointer<" + t + "> " + m.name;
@@ -708,7 +706,6 @@ public class QtParserGenerator {
 					"    const Introspection* getIntrospection() const { return &_introspection; }");
 		}
 		out.println("};");
-
 	}
 
 	private void printStructureClassImplementation(PrintWriter out, Struct s) {

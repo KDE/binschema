@@ -16,15 +16,18 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ParserGeneratorUtils {
 
+	// get a list of all structures that this structure relies on
 	static Collection<String> getDependencies(Element e) {
 		Set<String> deps = new TreeSet<String>();
 		NodeList l = e.getElementsByTagName("type");
 		for (int i = 0; i < l.getLength(); ++i) {
 			Element se = (Element) l.item(i);
+			// leave out structures that are not required
 			if (!se.hasAttribute("count") && !se.hasAttribute("array")) {
 				deps.add(se.getAttribute("type"));
 			}
@@ -36,9 +39,12 @@ public class ParserGeneratorUtils {
 			throws IOException {
 
 		List<Element> unorderedList = new ArrayList<Element>();
-		NodeList l = dom.getElementsByTagName("struct");
-		for (int i = 0; i < l.getLength(); ++i) {
-			unorderedList.add((Element) l.item(i));
+		Node n = dom.getDocumentElement().getFirstChild();
+		while (n != null) {
+			if (n instanceof Element && "struct".equals(n.getNodeName())) {
+				unorderedList.add((Element)n);
+			}
+			n = n.getNextSibling();
 		}
 
 		List<String> done = new ArrayList<String>();

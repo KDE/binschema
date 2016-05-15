@@ -10,14 +10,12 @@ public class Choice extends Type {
 	public final @Nullable Type commonType;
 	public final List<Option> options = new ArrayList<Option>();
 
-	private static int getSize(List<Struct> choices) {
-		int size = choices.get(0).size;
-		for (Struct s : choices) {
-			if (s.size != size) {
-				return -1;
-			}
+	public String[] getChoiceNames() {
+		String n[] = new String[options.size()];
+		for (int i = 0; i < options.size(); ++i) {
+			n[i] = options.get(i).type.name;
 		}
-		return size;
+		return n;
 	}
 
 	Choice(TypeRegistry registry, String name, List<Struct> choices,
@@ -78,15 +76,29 @@ public class Choice extends Type {
 
 		if (!optional && common != null) {
 			// remove options that are present in all options
-			removeNonDistinctiveLimitations();
+			removeNonDistinctiveLimitations(options);
 		}
+	}
+
+	// if all choices have equal size, return that sizes, else return -1
+	private static int getSize(List<Struct> choices) {
+		int size = -1;
+		for (Struct s : choices) {
+			if (size == -1) {
+				size = s.size;
+			}
+			if (s.size != size) {
+				return -1;
+			}
+		}
+		return size;
 	}
 
 	/**
 	 * Return true if not all of the limitations in a are sure to be present in
 	 * b. Err on the side of safety: if unsure return false;
 	 */
-	static private boolean noOverlap(Lim a, Lim b) {
+	private static boolean noOverlap(Lim a, Lim b) {
 		if (a.limitations == null && a.lims == null)
 			return false;
 		if (a.limitations != null) {
@@ -104,7 +116,7 @@ public class Choice extends Type {
 		return true;
 	}
 
-	static private boolean noOverlap(Limitation a[], Lim b) {
+	private static boolean noOverlap(Limitation a[], Lim b) {
 		if (b.limitations == null && b.lims == null)
 			return false;
 		if (b.limitations != null) {
@@ -125,7 +137,7 @@ public class Choice extends Type {
 	/**
 	 * Return true if sure that a and b define value spaces with no overlap
 	 */
-	static private boolean noOverlap(Limitation a[], Limitation b[]) {
+	private static boolean noOverlap(Limitation a[], Limitation b[]) {
 		for (int i = 0; i < a.length; ++i) {
 			for (int j = 0; j < b.length; ++j) {
 				if (a[i].name.equals(b[j].name)
@@ -137,7 +149,7 @@ public class Choice extends Type {
 		return false;
 	}
 
-	static private boolean noOverlap(@Nullable String a, @Nullable String b) {
+	private static boolean noOverlap(@Nullable String a, @Nullable String b) {
 		if (a == null || b == null)
 			return false;
 		String[] avalues = a.split("\\|");
@@ -152,7 +164,7 @@ public class Choice extends Type {
 		return true;
 	}
 
-	static private boolean compareMembers(Member a, Member b) {
+	private static boolean compareMembers(Member a, Member b) {
 		if (a.isArray != b.isArray)
 			return false;
 		if (a.type() != b.type())
@@ -162,7 +174,7 @@ public class Choice extends Type {
 		return true;
 	}
 
-	static private boolean structsWithSameMembers(@Nullable Type a, Type b) {
+	private static boolean structsWithSameMembers(@Nullable Type a, Type b) {
 		if (a instanceof Struct && b instanceof Struct) {
 			Struct as = (Struct) a;
 			Struct bs = (Struct) b;
@@ -179,19 +191,11 @@ public class Choice extends Type {
 		return false;
 	}
 
-	static private boolean compareTypes(@Nullable Type a, Type b) {
+	private static boolean compareTypes(@Nullable Type a, Type b) {
 		return a == b || structsWithSameMembers(a, b);
 	}
 
-	public String[] getChoiceNames() {
-		String n[] = new String[options.size()];
-		for (int i = 0; i < options.size(); ++i) {
-			n[i] = options.get(i).type.name;
-		}
-		return n;
-	}
-
-	private void removeNonDistinctiveLimitations() {
+	private static void removeNonDistinctiveLimitations(List<Option> options) {
 		final Lim a = options.get(0).lim;
 		final Limitation limitations[] = a.limitations;
 		if (limitations != null) {
