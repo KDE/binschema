@@ -1570,8 +1570,6 @@
 			<limitation expression="&lt;=4" />
 		</uint16>
 		<type name="pf" type="TextPFException">
-			<limitation name="masks.leftMargin" value="false" />
-			<limitation name="masks.indent" value="false" />
 			<limitation name="masks.defaultTabSize" value="false" />
 			<limitation name="masks.tabStops" value="false" />
 		</type>
