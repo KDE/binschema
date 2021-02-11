@@ -6,7 +6,7 @@
 		http://archive.apache.org/dist/poi/release/bin/
 		 Download it and adapt the path below to use it.
 	-->
-    <property name="classpath" location="bin;lib/poi-3.11-20141221.jar;lib/org.eclipse.jdt.annotation_2.0.100.v20150311-1658.jar" />
+    <property name="classpath" location="bin;lib/poi-3.11-20141221.jar;lib/org.eclipse.jdt.annotation-2.2.600.jar" />
 	<target name="gitVersion">
 		<exec executable="git" outputproperty="msoscheme-version" errorproperty="error">
 			<arg value="describe"/>
