@@ -915,7 +915,7 @@ public class QtParserGenerator {
 					+ c.name + "(new " + choice + "(&_s));");
 			out.println(s + "    parse" + choice + "(in, *(" + choice + "*)_s."
 					+ m.name + ".data());");
-			out.println(s + "} catch (IncorrectValueException " + exception
+			out.println(s + "} catch (IncorrectValueException& " + exception
 					+ ") {");
 			out.println(s + "    _s." + m.name + ".clear();");
 			out.println(s + "    in.rewind(_m);");
@@ -966,11 +966,11 @@ public class QtParserGenerator {
 				+ "(&_s));");
 		out.println(s + "        parse" + m.type().name + "(in, _s." + m.name
 				+ ".last());");
-		out.println(s + "    } catch(IncorrectValueException _e) {");
+		out.println(s + "    } catch(IncorrectValueException& _e) {");
 		out.println(s + "        _s." + m.name + ".removeLast();");
 		out.println(s + "        _atend = true;");
 		out.println(s + "        in.rewind(_m);");
-		out.println(s + "    } catch(EOFException _e) {");
+		out.println(s + "    } catch(EOFException& _e) {");
 		out.println(s + "        _s." + m.name + ".removeLast();");
 		out.println(s + "        _atend = true;");
 		out.println(s + "        in.rewind(_m);");
@@ -988,7 +988,7 @@ public class QtParserGenerator {
 		out.println(s + "    parse" + type + "(in, _optionCheck);");
 		out.println(s + "    _possiblyPresent = "
 				+ getClause("_optionCheck", o.limitsType, o.lim) + ";");
-		out.println(s + "} catch(EOFException _e) {");
+		out.println(s + "} catch(EOFException& _e) {");
 		out.println(s + "    _possiblyPresent = false;");
 		out.println(s + "}");
 
@@ -1000,10 +1000,10 @@ public class QtParserGenerator {
 				+ m.type().name + ">(new " + m.type().name + "(&_s));");
 		out.println(s + "        parse" + m.type().name + "(in, *_s." + m.name
 				+ ".data());");
-		out.println(s + "    } catch(IncorrectValueException _e) {");
+		out.println(s + "    } catch(IncorrectValueException& _e) {");
 		out.println(s + "        _s." + m.name + ".clear();");
 		out.println(s + "        in.rewind(_m);");
-		out.println(s + "    } catch(EOFException _e) {");
+		out.println(s + "    } catch(EOFException& _e) {");
 		out.println(s + "        _s." + m.name + ".clear();");
 		out.println(s + "        in.rewind(_m);");
 		out.println(s + "    }");
